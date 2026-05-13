@@ -969,62 +969,153 @@ class Window3D:
     def _resolve_collision(self, a: GameObject, b: GameObject, manifold):
         from engine3d.physics import Collider
         from engine3d.physics.rigidbody import Rigidbody
-        # Minimal depen + velocity project (slide, no jitter/vibrate on wall)
+        from engine3d.types import Vector3
+
         depth = getattr(manifold, 'depth', 0.0)
         if depth <= 0:
             return
-        push = depth + 1e-5
-        normal = manifold.normal
-        a_static = a.get_component(Rigidbody) and a.get_component(Rigidbody).is_static
-        b_static = b.get_component(Rigidbody) and b.get_component(Rigidbody).is_static
-        
+
+        normal = np.asarray(manifold.normal, dtype=np.float64)
+        n_len = np.linalg.norm(normal)
+        if n_len < 1e-10:
+            return
+        normal = normal / n_len
+
+        rb_a = a.get_component(Rigidbody)
+        rb_b = b.get_component(Rigidbody)
+        a_static = rb_a is not None and (rb_a.is_static or rb_a.is_kinematic)
+        b_static = rb_b is not None and (rb_b.is_static or rb_b.is_kinematic)
+
         if a_static and b_static:
             return
-        elif a_static:
+
+        # --- Positional correction (push apart) ---
+        push = depth + 1e-5
+        if a_static:
             b.transform._local_position -= normal * push
-            # Project b vel: full stop if into, else slide
-            if b.get_component(Rigidbody):
-                from engine3d.types import Vector3
-                vel = b.get_component(Rigidbody).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:
-                    b.get_component(Rigidbody).velocity = vel - normal_vec * dot
-            b.transform._mark_dirty()
-            # Update colliders (moved from obj._update_cache)
-            for c in b.get_components(Collider):
-                c.update_bounds()
         elif b_static:
             a.transform._local_position += normal * push
-            # Project a vel: full stop if into, else slide
-            if a.get_component(Rigidbody):
-                from engine3d.types import Vector3
-                vel = a.get_component(Rigidbody).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:
-                    a.get_component(Rigidbody).velocity = vel - normal_vec * dot
-            a.transform._mark_dirty()
-            for c in a.get_components(Collider):
-                c.update_bounds()
         else:
             a.transform._local_position += normal * (push / 2)
             b.transform._local_position -= normal * (push / 2)
-            # Project vels: full stop if pushing into, else slide
+
+        # --- Impulse-based velocity resolution with angular velocity ---
+        contact = getattr(manifold, 'contact_point', None)
+        if contact is not None:
+            contact = np.asarray(contact, dtype=np.float64)
+
+        inv_mass_a = (1.0 / max(rb_a.mass, 1e-8)) if rb_a and not a_static else 0.0
+        inv_mass_b = (1.0 / max(rb_b.mass, 1e-8)) if rb_b and not b_static else 0.0
+
+        vel_a = rb_a.velocity.to_numpy().astype(np.float64) if rb_a and not a_static else np.zeros(3, dtype=np.float64)
+        vel_b = rb_b.velocity.to_numpy().astype(np.float64) if rb_b and not b_static else np.zeros(3, dtype=np.float64)
+        omega_a = rb_a.angular_velocity.to_numpy().astype(np.float64) if rb_a and not a_static else np.zeros(3, dtype=np.float64)
+        omega_b = rb_b.angular_velocity.to_numpy().astype(np.float64) if rb_b and not b_static else np.zeros(3, dtype=np.float64)
+        I_inv_a = rb_a.get_inertia_inv_array() if rb_a and not a_static else np.zeros(3, dtype=np.float64)
+        I_inv_b = rb_b.get_inertia_inv_array() if rb_b and not b_static else np.zeros(3, dtype=np.float64)
+
+        if contact is not None:
+            pos_a = a.transform._local_position
+            pos_b = b.transform._local_position
+            center_a = pos_a.to_numpy().astype(np.float64) if hasattr(pos_a, 'to_numpy') else np.asarray(pos_a, dtype=np.float64)
+            center_b = pos_b.to_numpy().astype(np.float64) if hasattr(pos_b, 'to_numpy') else np.asarray(pos_b, dtype=np.float64)
+            r_a = contact - center_a
+            r_b = contact - center_b
+        else:
+            r_a = np.zeros(3, dtype=np.float64)
+            r_b = np.zeros(3, dtype=np.float64)
+
+        # Velocity at contact point: v + omega x r
+        v_contact_a = vel_a + np.cross(omega_a, r_a)
+        v_contact_b = vel_b + np.cross(omega_b, r_b)
+        v_rel = v_contact_a - v_contact_b
+        v_rel_n = float(np.dot(v_rel, normal))
+
+        if v_rel_n > 0:
+            # Separating — just fix dirty state and return
             for obj in (a, b):
-                if not obj.get_component(Rigidbody):
-                    continue
-                from engine3d.types import Vector3
-                vel = obj.get_component(Rigidbody).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:  # trying to move into wall
-                    obj.get_component(Rigidbody).velocity = vel - normal_vec * dot  # allow slide
-            a.transform._mark_dirty()
-            b.transform._mark_dirty()
-            for c in a.get_components(Collider):
-                c.update_bounds()
-            for c in b.get_components(Collider):
+                obj.transform._mark_dirty()
+                for c in obj.get_components(Collider):
+                    c.update_bounds()
+            return
+
+        # Restitution: use minimum of the two bodies (static bodies still
+        # contribute their restitution – they just don't move)
+        e_a = rb_a.restitution if rb_a else 0.0
+        e_b = rb_b.restitution if rb_b else 0.0
+        e = min(e_a, e_b)
+
+        # Normal impulse denominator
+        raxn = np.cross(r_a, normal)
+        rbxn = np.cross(r_b, normal)
+        ang_a = np.cross(I_inv_a * raxn, r_a)
+        ang_b = np.cross(I_inv_b * rbxn, r_b)
+        denom = inv_mass_a + inv_mass_b + float(np.dot(ang_a + ang_b, normal))
+        if abs(denom) < 1e-12:
+            denom = inv_mass_a + inv_mass_b
+        if abs(denom) < 1e-12:
+            for obj in (a, b):
+                obj.transform._mark_dirty()
+                for c in obj.get_components(Collider):
+                    c.update_bounds()
+            return
+
+        j = -(1.0 + e) * v_rel_n / denom
+        impulse = j * normal
+
+        if rb_a and not a_static:
+            vel_a = vel_a + impulse * inv_mass_a
+            omega_a = omega_a + I_inv_a * np.cross(r_a, impulse)
+        if rb_b and not b_static:
+            vel_b = vel_b - impulse * inv_mass_b
+            omega_b = omega_b - I_inv_b * np.cross(r_b, impulse)
+
+        # --- Friction impulse ---
+        mu_a = rb_a.friction if rb_a else 0.5
+        mu_b = rb_b.friction if rb_b else 0.5
+        mu = (mu_a + mu_b) * 0.5
+
+        if mu > 0:
+            # Recompute relative velocity at contact after normal impulse
+            v_contact_a2 = vel_a + np.cross(omega_a, r_a)
+            v_contact_b2 = vel_b + np.cross(omega_b, r_b)
+            v_rel2 = v_contact_a2 - v_contact_b2
+            v_rel_t = v_rel2 - float(np.dot(v_rel2, normal)) * normal
+            t_mag = float(np.linalg.norm(v_rel_t))
+
+            if t_mag > 1e-8:
+                tangent = v_rel_t / t_mag
+
+                raxt = np.cross(r_a, tangent)
+                rbxt = np.cross(r_b, tangent)
+                ang_a_t = np.cross(I_inv_a * raxt, r_a)
+                ang_b_t = np.cross(I_inv_b * rbxt, r_b)
+                denom_t = inv_mass_a + inv_mass_b + float(np.dot(ang_a_t + ang_b_t, tangent))
+
+                if abs(denom_t) > 1e-12:
+                    jt = -float(np.dot(v_rel2, tangent)) / denom_t
+                    # Coulomb friction clamp
+                    jt = max(-mu * j, min(jt, mu * j))
+                    friction_impulse = jt * tangent
+
+                    if rb_a and not a_static:
+                        vel_a = vel_a + friction_impulse * inv_mass_a
+                        omega_a = omega_a + I_inv_a * np.cross(r_a, friction_impulse)
+                    if rb_b and not b_static:
+                        vel_b = vel_b - friction_impulse * inv_mass_b
+                        omega_b = omega_b - I_inv_b * np.cross(r_b, friction_impulse)
+
+        # Write back velocities
+        if rb_a and not a_static:
+            rb_a.velocity = Vector3(vel_a)
+            rb_a.angular_velocity = Vector3(omega_a)
+        if rb_b and not b_static:
+            rb_b.velocity = Vector3(vel_b)
+            rb_b.angular_velocity = Vector3(omega_b)
+
+        for obj in (a, b):
+            obj.transform._mark_dirty()
+            for c in obj.get_components(Collider):
                 c.update_bounds()
 
     def _process_collisions(self):

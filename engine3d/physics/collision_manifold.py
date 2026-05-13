@@ -11,6 +11,7 @@ from engine3d.physics.types import ColliderType
 class CollisionManifold:
     normal: np.ndarray  # Normal pointing from B to A
     depth: float        # Penetration depth
+    contact_point: Optional[np.ndarray] = None  # World-space contact point
 
 # =========================================================================
 # Manifold Generators (Expensive, Detailed)
@@ -28,14 +29,16 @@ def sphere_vs_sphere_manifold(a: Collider, b: Collider) -> Optional[CollisionMan
 
     dist = np.sqrt(dist_sq)
     if dist < 1e-6:
-        # Centers are coincident, choose arbitrary normal
         normal = np.array([0, 1, 0], dtype=np.float32)
         depth = radius_sum
+        contact = np.array(ca, dtype=np.float32)
     else:
         normal = diff / dist
         depth = radius_sum - dist
+        # Contact at midpoint of overlap region along normal
+        contact = ca - normal * (ra - depth / 2)
         
-    return CollisionManifold(normal, depth)
+    return CollisionManifold(normal, depth, contact)
 
 def _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb) -> Optional[CollisionManifold]:
     # Translation vector from B to A (in world space)
@@ -84,8 +87,19 @@ def _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb) -> Optional[CollisionManifold]:
     # Ensure normal points from B to A
     if np.dot(best_axis, t) < 0:
         best_axis = -best_axis
+
+    # Contact point: support vertex of A deepest into B.
+    # For face-on contacts the perpendicular axes cancel (no offset).
+    # For rotated/edge contacts the vertex is off-center → produces torque.
+    support = Ca.copy().astype(np.float64)
+    for i in range(3):
+        dot_val = np.dot(Aa[:, i], best_axis)
+        if abs(dot_val) > 1e-8:
+            support = support - np.sign(dot_val) * Ea[i] * Aa[:, i]
+    # Shift to the midpoint of the overlap region along the normal
+    contact = support + best_axis * (min_overlap / 2)
         
-    return CollisionManifold(best_axis, min_overlap)
+    return CollisionManifold(best_axis, min_overlap, contact.astype(np.float32))
 
 def obb_vs_obb_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
     Ca, Aa, Ea = a.get_world_obb()
@@ -111,18 +125,20 @@ def sphere_vs_obb_manifold(sphere_obj: Collider, obb_obj: Collider) -> Optional[
     dist = np.sqrt(dist_sq)
     
     if dist < 1e-6:
-        # Center inside OBB
         normal = (cs - Cb) 
         if np.dot(normal, normal) < 1e-6:
             normal = np.array([0, 1, 0], dtype=np.float32)
         else:
             normal /= np.linalg.norm(normal)
         depth = rs
+        contact = np.array(closest_world, dtype=np.float32)
     else:
         normal = diff / dist
         depth = rs - dist
+        # Contact at the closest point on OBB surface
+        contact = np.array(closest_world, dtype=np.float32)
         
-    return CollisionManifold(normal, depth)
+    return CollisionManifold(normal, depth, contact)
 
 def cylinder_vs_sphere_manifold(cyl: Collider, sph: Collider) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
@@ -147,8 +163,12 @@ def cylinder_vs_sphere_manifold(cyl: Collider, sph: Collider) -> Optional[Collis
             return None
         normal = d / d_len
         depth = (rc + rs) - d_len
+
+    # Contact at midpoint of overlap along the collision direction
+    out_normal = -normal
+    contact = cs + out_normal * (rs - depth / 2)
         
-    return CollisionManifold(-normal, depth)
+    return CollisionManifold(out_normal, depth, contact.astype(np.float32))
 
 def cylinder_vs_cylinder_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
     Ca, ra, ha = a.get_world_cylinder()
@@ -182,7 +202,8 @@ def cylinder_vs_cylinder_manifold(a: Collider, b: Collider) -> Optional[Collisio
             normal = np.array([dx, 0, dz], dtype=np.float32) / dist
         depth = horizontal_overlap
 
-    return CollisionManifold(normal, depth)
+    contact = ((Ca + Cb) / 2).astype(np.float32)
+    return CollisionManifold(normal, depth, contact)
 
 def cylinder_vs_obb_manifold(cyl: Collider, obb: Collider) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
@@ -223,8 +244,9 @@ def cylinder_vs_obb_manifold(cyl: Collider, obb: Collider) -> Optional[Collision
             
     if np.dot(best_axis, t) < 0:
         best_axis = -best_axis
-        
-    return CollisionManifold(best_axis, min_overlap)
+
+    contact = ((Cc + Cb) / 2).astype(np.float32)
+    return CollisionManifold(best_axis, min_overlap, contact)
 
 def sphere_vs_mesh_manifold(sph: Collider, mesh: Collider) -> Optional[CollisionManifold]:
     if mesh.mesh_data is None:
@@ -279,7 +301,7 @@ def sphere_vs_mesh_manifold(sph: Collider, mesh: Collider) -> Optional[Collision
         normal = diff_world / dist_world
         depth = rs_world - dist_world
         
-    return CollisionManifold(normal, depth)
+    return CollisionManifold(normal, depth, cp_world.astype(np.float32))
 
 def cylinder_vs_mesh_manifold(cyl: Collider, mesh: Collider) -> Optional[CollisionManifold]:
     return sphere_vs_mesh_manifold(cyl, mesh)
