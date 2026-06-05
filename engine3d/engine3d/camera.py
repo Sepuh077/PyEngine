@@ -13,7 +13,7 @@ from typing import Tuple, TYPE_CHECKING, Union, Optional
 from dataclasses import dataclass
 from enum import Flag, auto
 
-from engine3d.engine3d.component import Component, InspectorField
+from engine3d.component import Component, InspectorField
 from engine3d.types import Vector3, Color, ColorType
 
 if TYPE_CHECKING:

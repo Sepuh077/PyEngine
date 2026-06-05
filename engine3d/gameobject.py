@@ -6,12 +6,12 @@ from enum import Enum
 
 import numpy as np
 
-from engine3d.engine3d.component import Component, Script, WaitForSeconds, WaitEndOfFrame, WaitForFrames, Time, Tag
-from engine3d.engine3d.transform import Transform
+from engine3d.component import Component, Script, WaitForSeconds, WaitEndOfFrame, WaitForFrames, Time, Tag
+from engine3d.transform import Transform
 from engine3d.types import Vector3
 
 if TYPE_CHECKING:
-    from .scene import Scene3D
+    from engine3d.scene import Scene
 
 T = TypeVar('T', bound=Component)
 
@@ -360,7 +360,7 @@ class GameObject:
                 "_rng",
             })
 
-        is_transform = module_name in {"src.engine3d.transform", "engine3d.engine3d.transform"} and class_name == "Transform"
+        is_transform = module_name in {"src.engine3d.transform", "engine3d.engine3d.transform", "engine3d.transform"} and class_name == "Transform"
         if is_transform:
             skip_keys = set(skip_keys)
             skip_keys.update({
@@ -454,6 +454,13 @@ class GameObject:
                 "dtype": str(value.dtype),
                 "value": value.tolist(),
             }
+        # Quaternion serialization
+        from engine3d.types.quaternion import Quaternion
+        if isinstance(value, Quaternion):
+            return {
+                "__type__": "Quaternion",
+                "value": value.to_list(),
+            }
         if isinstance(value, Vector3):
             return {
                 "__type__": "Vector3",
@@ -462,7 +469,7 @@ class GameObject:
         if isinstance(value, (np.float32, np.float64, np.int32, np.int64)):
             return value.item()
         try:
-            from engine3d.physics.group import ColliderGroup
+            from engine3d.physics3d.group import ColliderGroup
         except ImportError:
             ColliderGroup = None
         if ColliderGroup is not None and isinstance(value, ColliderGroup):
@@ -486,7 +493,7 @@ class GameObject:
             }
 
         try:
-            from engine3d.engine3d.graphics.material import Material
+            from engine3d.graphics.material import Material
         except ImportError:
             Material = None
         if Material is not None and isinstance(value, Material):
@@ -502,7 +509,7 @@ class GameObject:
         
         # Handle ScriptableObject references
         try:
-            from engine3d.engine3d.scriptable_object import ScriptableObject
+            from engine3d.scriptable_object import ScriptableObject
         except ImportError:
             ScriptableObject = None
         if ScriptableObject is not None and isinstance(value, ScriptableObject):
@@ -638,6 +645,10 @@ class GameObject:
             
             if value.get("__type__") == "ndarray":
                 return np.array(value.get("value", []), dtype=value.get("dtype", None))
+            if value.get("__type__") == "Quaternion":
+                from engine3d.types.quaternion import Quaternion
+                v = value.get("value", [1, 0, 0, 0])
+                return Quaternion(v[0], v[1], v[2], v[3])
             if value.get("__type__") == "Vector3":
                 return Vector3(value.get("value", [0, 0, 0]))
             if value.get("__type__") == "tuple":
@@ -645,7 +656,7 @@ class GameObject:
             if value.get("__type__") == "set":
                 return set(GameObject._deserialize_value(val, go_registry) for val in value.get("value", []))
             if value.get("__type__") == "ColliderGroup":
-                from engine3d.physics.group import ColliderGroup
+                from engine3d.physics3d.group import ColliderGroup
                 name = value.get("name", "default")
                 return ColliderGroup._registry.get(name) or ColliderGroup(name)
             if value.get("__type__") == "Viewport":
@@ -657,7 +668,7 @@ class GameObject:
                     height=value.get("height", 1.0),
                 )
             if value.get("__type__") == "Material":
-                from engine3d.engine3d.graphics import material
+                from engine3d.graphics import material
                 class_name = value.get("class", "LitMaterial")
                 state = value.get("state", {})
                 mat_cls = getattr(material, class_name, material.LitMaterial)
@@ -668,7 +679,7 @@ class GameObject:
             
             # Handle ScriptableObject references
             if value.get("__type__") == "ScriptableObject":
-                from engine3d.engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
+                from engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
                 so_name = value.get("so_name")
                 so_path = value.get("so_path")
                 so_type = value.get("so_type")

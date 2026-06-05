@@ -173,7 +173,7 @@ class DeleteGameObjectCommand(Command):
     
     def undo(self) -> None:
         # Restore objects from snapshots
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         
@@ -198,7 +198,7 @@ class DeleteGameObjectCommand(Command):
     
     def _restore_from_snapshot(self, snapshot: Dict):
         """Restore a GameObject from a snapshot."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         import json

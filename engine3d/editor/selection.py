@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
-from engine3d.engine3d.gameobject import GameObject
+from engine3d.gameobject import GameObject
 
 @dataclass
 class EditorSelection:

@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
 
 from engine3d.engine3d import Window3D, Scene3D
 from engine3d.engine3d.object3d import create_cube, create_plane
-from engine3d.physics import BoxCollider, Rigidbody, Collider
+from engine3d.physics3d import BoxCollider3D, Rigidbody3D, Collider3D
 from engine3d.input import Keys
 from engine3d.types import Color
 
@@ -24,8 +24,8 @@ class FPSCameraScene(Scene3D):
         super().setup()
         # Create a floor
         floor = self.add_object(create_plane(50, 50, color=Color.DARK_GRAY))
-        floor.add_component(BoxCollider())
-        floor.add_component(Rigidbody(is_static=True))
+        floor.add_component(BoxCollider3D())
+        floor.add_component(Rigidbody3D(is_static=True))
         floor.transform.position = (0, 0, 0)
         
         # Load the stairs model
@@ -35,15 +35,15 @@ class FPSCameraScene(Scene3D):
             scale=2.0,
         )
         # stairs.get_component(Object3D).material = UnlitMaterial(color=Color.WHITE)
-        stairs.add_component(BoxCollider(center=(0, 0.41, 0), size=(1, 0.18, 1)))  # user adds
-        stairs.add_component(BoxCollider(center=(0.35, 0, 0), size=(0.03, 1, 1)))
-        stairs.add_component(BoxCollider(center=(-0.35, 0, 0), size=(0.03, 1, 1)))
-        stairs.add_component(Rigidbody(is_static=True))
+        stairs.add_component(BoxCollider3D(center=(0, 0.41, 0), size=(1, 0.18, 1)))  # user adds
+        stairs.add_component(BoxCollider3D(center=(0.35, 0, 0), size=(0.03, 1, 1)))
+        stairs.add_component(BoxCollider3D(center=(-0.35, 0, 0), size=(0.03, 1, 1)))
+        stairs.add_component(Rigidbody3D(is_static=True))
         
         # Camera setup - first person style
         self.camera_obj = self.add_object(create_cube(1, (0, 50, 0), color=Color.WHITE))
-        self.camera_obj.add_component(BoxCollider())
-        self.rb = self.camera_obj.add_component(Rigidbody(use_gravity=True, drag=10.0))
+        self.camera_obj.add_component(BoxCollider3D())
+        self.rb = self.camera_obj.add_component(Rigidbody3D(use_gravity=True, drag=10.0))
         self.camera.look_at(self.camera_obj.transform.position)
         self.update_camera_position()
         
@@ -110,7 +110,7 @@ class FPSCameraScene(Scene3D):
         if self.window.is_key_pressed(Keys.D):
             move_x += right_x
             move_z += right_z
-        velocity = self.camera_obj.get_component(Rigidbody).velocity
+        velocity = self.camera_obj.get_component(Rigidbody3D).velocity
         move_len = math.hypot(move_x, move_z)
         if move_len > 0:
             move_x = move_x / move_len * speed
@@ -130,8 +130,8 @@ class FPSCameraScene(Scene3D):
         for obj in self.objects:
             # Check via colliders
             if obj != self.camera_obj:
-                ocoll = obj.get_component(Collider)
-                ccoll = self.camera_obj.get_component(Collider)
+                ocoll = obj.get_component(Collider3D)
+                ccoll = self.camera_obj.get_component(Collider3D)
                 if ocoll and ccoll and ocoll.check_collision(ccoll):
                     print(True)
         

@@ -8,7 +8,7 @@ from pathlib import Path
 from engine3d.engine3d import (
     Resources, GameObject, ScriptableObject, InspectorField, Scene3D
 )
-from engine3d.engine3d.graphics import Material, LitMaterial
+from engine3d.graphics import Material, LitMaterial
 
 
 class TestResources:

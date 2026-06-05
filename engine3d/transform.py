@@ -1,8 +1,9 @@
 from typing import Optional, TYPE_CHECKING, List
 import numpy as np
 
-from engine3d.engine3d.component import Component
+from engine3d.component import Component
 from engine3d.types import Vector3, Vector3Like
+from engine3d.types.quaternion import Quaternion
 
 if TYPE_CHECKING:
     from .gameobject import GameObject
@@ -11,20 +12,28 @@ if TYPE_CHECKING:
 class Transform(Component):
     """Component storing position, rotation, and scale.
     
-    Supports parent-child relationships where children's transforms are relative to parent.
-    World position, rotation, and scale are computed from parent + local values.
+    Rotation is stored internally as a Quaternion to avoid gimbal lock.
+    Euler-angle getters/setters are kept for backward compatibility and
+    editor integration. The cached ``_local_rotation`` / ``_world_rotation``
+    numpy arrays (radians, XYZ intrinsic) are always kept in sync.
+    
+    Supports parent-child relationships where children's transforms are
+    relative to parent.  World position, rotation, and scale are computed
+    from parent + local values.
     """
 
     def __init__(self):
         super().__init__()
         # Local transform values (relative to parent)
         self._local_position = Vector3.zero()
-        self._local_rotation = np.zeros(3, dtype=np.float32)
+        self._local_quaternion = Quaternion.identity()
+        self._local_rotation = np.zeros(3, dtype=np.float32)   # cached euler (rad)
         self._local_scale = Vector3.one()
         
         # Cached world transform values
         self._world_position = Vector3.zero()
-        self._world_rotation = np.zeros(3, dtype=np.float32)
+        self._world_quaternion = Quaternion.identity()
+        self._world_rotation = np.zeros(3, dtype=np.float32)   # cached euler (rad)
         self._world_scale = Vector3.one()
 
         self._transform_dirty = True
@@ -44,9 +53,9 @@ class Transform(Component):
         for child in self._children:
             child._mark_dirty()
         if self.game_object:
-            from engine3d.physics import Collider
-            for comp in self.game_object.get_components(Collider):
-                comp._transform_dirty = True
+            for comp in self.game_object.components:
+                if hasattr(comp, '_transform_dirty') and comp is not self:
+                    comp._transform_dirty = True
 
     def _update_prev_position(self):
         self._prev_position = Vector3(self._local_position)
@@ -119,6 +128,7 @@ class Transform(Component):
     @local_rotation.setter
     def local_rotation(self, value):
         self._local_rotation = np.radians(value).astype(np.float32)
+        self._local_quaternion = Quaternion.from_euler(*self._local_rotation)
         self._mark_dirty()
     
     @property
@@ -141,32 +151,22 @@ class Transform(Component):
             return
         if self._parent is None:
             self._world_position = Vector3(self._local_position)
+            self._world_quaternion = Quaternion(self._local_quaternion)
             self._world_rotation = self._local_rotation.copy()
             self._world_scale = Vector3(self._local_scale)
         else:
-            # Get parent's world transform
             parent = self._parent
             parent._compute_world_transform()
             
             # World scale = parent scale * local scale
             self._world_scale = Vector3.scale(parent._world_scale, self._local_scale)
             
-            # World rotation = parent rotation + local rotation
-            self._world_rotation = parent._world_rotation + self._local_rotation
+            # World rotation = parent quaternion * local quaternion (proper composition)
+            self._world_quaternion = parent._world_quaternion * self._local_quaternion
+            self._world_rotation = self._world_quaternion.to_euler_array()
             
-            # World position = parent position + (parent rotation applied to local position * parent scale)
-            # First, rotate local position by parent's rotation
-            cx, cy, cz = np.cos(parent._world_rotation)
-            sx, sy, sz = np.sin(parent._world_rotation)
-            
-            # Build rotation matrix from Euler angles (XYZ order - intrinsic rotations)
-            # For intrinsic rotations, we apply rotations in XYZ order: Rx @ Ry @ Rz
-            Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]], dtype=np.float32)
-            Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], dtype=np.float32)
-            Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]], dtype=np.float32)
-            R = Rx @ Ry @ Rz  # XYZ intrinsic rotation order
-            
-            # Scale local position by parent scale, then rotate, then translate
+            # Rotate local position by parent's world quaternion, scaled by parent scale
+            R = parent._world_quaternion.to_rotation_matrix()
             scaled_local = self._local_position.to_numpy() * parent._world_scale.to_numpy()
             rotated_local = scaled_local @ R
             self._world_position = parent._world_position + rotated_local
@@ -186,19 +186,11 @@ class Transform(Component):
         if self._parent is None:
             self._local_position = world_pos
         else:
-            # Convert world position to local position
             parent = self._parent
             parent._compute_world_transform()
             
-            # Reverse the transformation: local = inv(rotate) * (world - parent) / scale
-            # Inverse of Rx @ Ry @ Rz is Rz^T @ Ry^T @ Rx^T = Rz(-z) @ Ry(-y) @ Rx(-x)
-            cx, cy, cz = np.cos(-parent._world_rotation)
-            sx, sy, sz = np.sin(-parent._world_rotation)
-            
-            Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]], dtype=np.float32)
-            Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], dtype=np.float32)
-            Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]], dtype=np.float32)
-            R_inv = Rz @ Ry @ Rx  # Inverse of XYZ is ZYX with negated angles
+            # Inverse rotation via quaternion conjugate
+            R_inv = parent._world_quaternion.conjugate.to_rotation_matrix()
             
             delta = (world_pos - parent._world_position).to_numpy()
             rotated_delta = delta @ R_inv
@@ -216,13 +208,17 @@ class Transform(Component):
     def world_rotation(self, value):
         """Set world rotation (converts to local based on parent)."""
         world_rot = np.radians(value).astype(np.float32)
+        world_q = Quaternion.from_euler(*world_rot)
         
         if self._parent is None:
+            self._local_quaternion = world_q
             self._local_rotation = world_rot
         else:
             parent = self._parent
             parent._compute_world_transform()
-            self._local_rotation = world_rot - parent._world_rotation
+            # local = parent_world^-1 * world
+            self._local_quaternion = parent._world_quaternion.conjugate * world_q
+            self._local_rotation = self._local_quaternion.to_euler_array()
         
         self._mark_dirty()
     
@@ -297,6 +293,7 @@ class Transform(Component):
     @rotation.setter
     def rotation(self, value):
         self._local_rotation = np.radians(value).astype(np.float32)
+        self._local_quaternion = Quaternion.from_euler(*self._local_rotation)
         self._mark_dirty()
 
     @property
@@ -306,6 +303,7 @@ class Transform(Component):
     @rotation_x.setter
     def rotation_x(self, value: float):
         self._local_rotation[0] = np.radians(value)
+        self._local_quaternion = Quaternion.from_euler(*self._local_rotation)
         self._mark_dirty()
 
     @property
@@ -315,6 +313,7 @@ class Transform(Component):
     @rotation_y.setter
     def rotation_y(self, value: float):
         self._local_rotation[1] = np.radians(value)
+        self._local_quaternion = Quaternion.from_euler(*self._local_rotation)
         self._mark_dirty()
 
     @property
@@ -324,10 +323,23 @@ class Transform(Component):
     @rotation_z.setter
     def rotation_z(self, value: float):
         self._local_rotation[2] = np.radians(value)
+        self._local_quaternion = Quaternion.from_euler(*self._local_rotation)
         self._mark_dirty()
 
     def rotate(self, dx: float = 0, dy: float = 0, dz: float = 0):
-        self._local_rotation += np.radians([dx, dy, dz]).astype(np.float32)
+        delta_q = Quaternion.from_euler(
+            float(np.radians(dx)),
+            float(np.radians(dy)),
+            float(np.radians(dz)),
+        )
+        self._local_quaternion = delta_q * self._local_quaternion
+        self._local_rotation = self._local_quaternion.to_euler_array()
+        self._mark_dirty()
+
+    def set_rotation_quaternion(self, q: Quaternion):
+        """Set rotation directly from a Quaternion (used by physics)."""
+        self._local_quaternion = q.normalized
+        self._local_rotation = self._local_quaternion.to_euler_array()
         self._mark_dirty()
 
     @property
@@ -355,14 +367,8 @@ class Transform(Component):
         # Compute world transform first
         self._compute_world_transform()
 
-        # Get rotation matrix (cached in _compute_world_transform or computed here if needed)
-        # Recomputing R here to be safe and consistent with previous code
-        cx, cy, cz = np.cos(self._world_rotation)
-        sx, sy, sz = np.sin(self._world_rotation)
-        Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]], dtype=np.float32)
-        Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], dtype=np.float32)
-        Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]], dtype=np.float32)
-        R = Rx @ Ry @ Rz
+        # Rotation matrix directly from quaternion (avoids Euler gimbal lock)
+        R = self._world_quaternion.to_rotation_matrix()
         self._cached_rotation = R
 
         s_x, s_y, s_z = self._world_scale.to_tuple()
@@ -418,77 +424,31 @@ class Transform(Component):
         target = Vector3(target)
         world_up = Vector3(world_up)
         
-        # Forward vector (from eye to target)
-        # Note: Camera looks down -Z, so forward is target - eye
         f = target - eye
         dist = f.magnitude
         if dist < 1e-6:
             return
         f = f.normalized
         
-        # Right vector
         r = Vector3.cross(f, world_up)
         if r.magnitude < 1e-6:
-            # Handle case where looking straight up/down
             r = Vector3.right()
         else:
             r = r.normalized
             
-        # Up vector
         u = Vector3.cross(r, f)
         
-        # Create rotation matrix [r, u, -f]
-        # This transforms local basis to world basis
+        # Rotation matrix [r, u, -f]  (rows = local basis in world space)
         R = np.vstack([r.to_numpy(), u.to_numpy(), (-f).to_numpy()])
         
-        # Extract Euler angles from rotation matrix
-        # Assuming XYZ order (Rx @ Ry @ Rz)
-        # R = [ [cy*cz,              -cy*sz,               sy    ],
-        #       [cx*sz + sx*sy*cz,   cx*cz - sx*sy*sz,    -sx*cy ],
-        #       [sx*sz - cx*sy*cz,   sx*cz + cx*sy*sz,     cx*cy ] ]
-        # Wait, my rotation matrix construction in _compute_world_transform might be different.
-        # Rx = [[1,0,0],[0,cx,-sx],[0,sx,cx]]
-        # Ry = [[cy,0,sy],[0,1,0],[-sy,0,cy]]
-        # Rz = [[cz,-sz,0],[sz,cz,0],[0,0,1]]
-        # R = Rx @ Ry @ Rz
+        # Convert to quaternion (robust, avoids gimbal lock)
+        q = Quaternion.from_rotation_matrix(R)
         
-        # Let's use scipy or a robust method if available, or just simple extraction
-        # Sy = R[0, 2]
-        # cy = sqrt(1 - sy^2)
-        # if cy > 1e-6:
-        #     sx = -R[1, 2] / cy
-        #     cx = R[2, 2] / cy
-        #     sz = -R[0, 1] / cy
-        #     cz = R[0, 0] / cy
-        # else:
-        #     # Gimbal lock
-        #     ...
-        
-        # Simplified extraction for YXZ order which is common? No, I used XYZ.
-        # Let's reverse engineer my R construction:
-        # R = Rx @ Ry @ Rz
-        # = [ [cy*cz,              -cy*sz,               sy    ],
-        #     [cx*sz + sx*sy*cz,   cx*cz - sx*sy*sz,    -sx*cy ],
-        #     [sx*sz - cx*sy*cz,   sx*cz + cx*sy*sz,     cx*cy ] ]
-        # Note: This matches standard XYZ intrinsic if row/col vectors are correct.
-        
-        # sy = R[0, 2]
-        sy = R[0, 2]
-        if sy < 1.0:
-            if sy > -1.0:
-                cy = np.sqrt(1 - sy*sy)
-                rotation_y = np.arcsin(sy)
-                rotation_x = np.arctan2(-R[1, 2], R[2, 2])
-                rotation_z = np.arctan2(-R[0, 1], R[0, 0])
-            else:
-                # sy = -1
-                rotation_y = -np.pi / 2
-                rotation_x = -np.arctan2(R[1, 0], R[1, 1])
-                rotation_z = 0
+        if self._parent is None:
+            self._local_quaternion = q
         else:
-            # sy = 1
-            rotation_y = np.pi / 2
-            rotation_x = np.arctan2(R[1, 0], R[1, 1])
-            rotation_z = 0
-            
-        self.world_rotation = (np.degrees(rotation_x), np.degrees(rotation_y), np.degrees(rotation_z))
+            self._parent._compute_world_transform()
+            self._local_quaternion = self._parent._world_quaternion.conjugate * q
+        
+        self._local_rotation = self._local_quaternion.to_euler_array()
+        self._mark_dirty()

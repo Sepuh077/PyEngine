@@ -1,26 +1,23 @@
 """
-Scene3D - A scene that can be shown in a Window3D.
-Similar to arcade.View, but renamed for clarity.
+Scene3D - A 3D scene that extends the shared Scene base.
 """
 from typing import Dict, List, Optional, Tuple, Union, TYPE_CHECKING, Callable
 import json
 import pygame
-import threading
-import time
 
-from engine3d.engine3d.gameobject import GameObject
+from engine3d.scene import Scene, SceneManager  # noqa: F401 – re-export SceneManager
+from engine3d.gameobject import GameObject
 from engine3d.engine3d.object3d import Object3D
 from engine3d.engine3d.camera import Camera3D
 from engine3d.engine3d.light import DirectionalLight3D, PointLight3D, Light3D
-from engine3d.engine3d.audio import AudioListener
+from engine3d.audio import AudioListener
 from engine3d.types import Color, ColorType
-from engine3d.engine3d.ui.manager import UIManager
 
 if TYPE_CHECKING:
     from .window import Window3D
 
 
-class Scene3D:
+class Scene3D(Scene):
     """
     A 3D scene that can be displayed in a Window3D.
     
@@ -44,9 +41,8 @@ class Scene3D:
     """
     
     def __init__(self):
-        """Initialize the scene."""
-        self.window: Optional['Window3D'] = None
-        self.objects: List[GameObject] = []
+        """Initialize the 3D scene."""
+        super().__init__()
         
         # Camera setup
         self._cameras: List[Camera3D] = []
@@ -54,16 +50,13 @@ class Scene3D:
         
         # Create default main camera
         cam_obj = GameObject("Main Camera")
-        camera = Camera3D(is_main=True)  # Mark as main camera
+        camera = Camera3D(is_main=True)
         cam_obj.add_component(camera)
         cam_obj.add_component(AudioListener())
         cam_obj.transform.position = (0, 5, 10)
         cam_obj.transform.look_at((0, 0, 0))
         self.add_object(cam_obj)
         self._main_camera = camera
-        
-        self._setup_done = False
-        self.canvas = UIManager(self)  # UI canvas for this scene
     
     @property
     def main_camera(self) -> Camera3D:
@@ -268,7 +261,7 @@ class Scene3D:
         Returns:
             List of Light3D objects with cast_shadows=True
         """
-        from engine3d.engine3d.graphics.shadow import MAX_SHADOW_LIGHTS
+        from engine3d.graphics.shadow import MAX_SHADOW_LIGHTS
         
         lights = []
         
@@ -308,19 +301,8 @@ class Scene3D:
                 lights.append(pl)
         return lights
     
-    def _attach_window(self, window: 'Window3D'):
-        """Called when scene is attached to a window."""
-        self.window = window
-        if not self._setup_done:
-            self.setup()
-            self._setup_done = True
-    
-    def _detach_window(self):
-        """Called when scene is detached from window."""
-        self.on_hide()
-    
     # =========================================================================
-    # Object management
+    # Object management (3D override)
     # =========================================================================
     
     def add_object(self, obj_or_filename, **kwargs) -> GameObject:
@@ -439,14 +421,6 @@ class Scene3D:
         self._cameras.clear()
         self._main_camera = None
     
-    def get_objects_by_name(self, name: str) -> List[GameObject]:
-        """Get all objects with a specific name."""
-        return [obj for obj in self.objects if obj.name == name]
-    
-    def get_objects_by_tag(self, tag: str) -> List[GameObject]:
-        """Get all objects with a specific tag."""
-        return [obj for obj in self.objects if obj.tag == tag]
-    
     def load_object(self, filename: str, **kwargs) -> GameObject:
         """
         Load and add a 3D object from file.
@@ -455,107 +429,13 @@ class Scene3D:
         """
         return self.add_object(filename, **kwargs)
 
-    # =========================================================================
-    # Lifecycle methods (override these in subclass)
-    # =========================================================================
-    
     def setup(self):
-        """
-        Called once when the scene is first shown.
-        Override to set up your scene.
-        """
-        # Add default directional light if none exists
+        """Set up the 3D scene with default light if none exists."""
         if self.light is None:
             light_obj = GameObject("Directional Light")
             light_obj.add_component(DirectionalLight3D())
             light_obj.transform.rotation = (-45, 30, 0)
             self.add_object(light_obj)
-    
-    def on_show(self):
-        """
-        Called each time the scene becomes active.
-        """
-        pass
-    
-    def on_hide(self):
-        """
-        Called when switching to a different scene.
-        """
-        pass
-    
-    def on_update(self):
-        """
-        Called every frame to update the scene.
-        """
-        pass
-    
-    def on_draw(self):
-        """
-        Called after the scene is rendered.
-        Override to add custom drawing (UI, etc.)
-        """
-        pass
-    
-    # =========================================================================
-    # Input methods (override these in subclass)
-    # =========================================================================
-    
-    def on_key_press(self, key: int, modifiers: int):
-        """
-        Called when a key is pressed.
-        
-        Args:
-            key: Key code (use Keys constants)
-            modifiers: Modifier flags (shift, ctrl, alt)
-        """
-        pass
-    
-    def on_key_release(self, key: int, modifiers: int):
-        """
-        Called when a key is released.
-        """
-        pass
-    
-    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        """
-        Called when a mouse button is pressed.
-        
-        Args:
-            x, y: Mouse position
-            button: Button number (1=left, 2=middle, 3=right)
-            modifiers: Modifier flags
-        """
-        pass
-    
-    def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
-        """
-        Called when a mouse button is released.
-        """
-        pass
-    
-    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
-        """
-        Called when the mouse moves.
-        
-        Args:
-            x, y: Current mouse position
-            dx, dy: Change in position since last call
-        """
-        pass
-    
-    def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        """
-        Called when the mouse wheel is scrolled.
-        
-        Args:
-            x, y: Mouse position
-            scroll_x, scroll_y: Scroll amounts
-        """
-        pass
-
-    def on_resize(self, width: int, height: int):
-        """Called when the window is resized."""
-        pass
 
     # =========================================================================
     # Serialization
@@ -708,258 +588,5 @@ class Scene3D:
                 # Clean up the temporary attribute
                 delattr(component, '_serialized_state')
 
-    # 2D drawing methods (forward to window if attached)
-    # Allows drawing shapes and text in Scene3D.on_draw()
-    def draw_text(self, text: str, x: int, y: int, color: ColorType = Color.WHITE,
-                  font_size: int = 24, font_name: Optional[str] = None,
-                  anchor_x: str = 'left', anchor_y: str = 'top',
-                  baseline_adjust: bool = True) -> None:
-        """Draw text (y=top of bounding box; delegates to window)."""
-        if self.window:
-            self.window.draw_text(text, x, y, color, font_size, font_name, anchor_x, anchor_y, baseline_adjust)
-    
-    def draw_rectangle(self, x: int, y: int, width: int, height: int,
-                       color: ColorType, border_width: int = 0) -> None:
-        """Draw rectangle (delegates to window)."""
-        if self.window:
-            self.window.draw_rectangle(x, y, width, height, color, border_width)
-    
-    def draw_circle(self, x: int, y: int, radius: int, color: ColorType,
-                    border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw circle (delegates to window)."""
-        if self.window:
-            self.window.draw_circle(x, y, radius, color, border_width, aa)
-    
-    def draw_ellipse(self, x: int, y: int, width: int, height: int,
-                     color: ColorType, border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw ellipse (delegates to window)."""
-        if self.window:
-            self.window.draw_ellipse(x, y, width, height, color, border_width, aa)
-    
-    def draw_polygon(self, points: List[Tuple[int, int]], color: ColorType,
-                     border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw polygon (delegates to window)."""
-        if self.window:
-            self.window.draw_polygon(points, color, border_width, aa)
-    
-    def draw_line(self, start: Tuple[int, int], end: Tuple[int, int],
-                  color: ColorType, width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw line (delegates to window)."""
-        if self.window:
-            self.window.draw_line(start, end, color, width, aa)
-    
-    def draw_image(self, image: Union[str, 'pygame.Surface'], x: int, y: int,
-                   scale: float = 1.0, alpha: float = 1.0) -> None:
-        """Draw image (path or Surface; delegates to window)."""
-        if self.window:
-            self.window.draw_image(image, x, y, scale, alpha)
 
-
-class SceneManager:
-    """
-    Manages scene loading with both synchronous and asynchronous options.
-    
-    Similar to Unity's SceneManager, providing progress callbacks for async loading.
-    
-    Create an instance to manage loading state per-manager rather than globally:
-        manager = SceneManager()
-        manager.load_scene_async("level1.scene", on_complete=window.show_scene)
-    """
-    
-    # Callback type: progress (0.0 to 1.0)
-    ProgressCallback = Callable[[float], None]
-    
-    def __init__(self):
-        self._current_load: Optional[threading.Thread] = None
-        self._loading_progress: float = 0.0
-        self._loaded_scene: Optional[Scene3D] = None
-        self._loading_error: Optional[Exception] = None
-        self._pending_callbacks: list = []
-        self._lock = threading.Lock()
-    
-    def poll(self) -> None:
-        """Call from the main thread (e.g. in on_update) to dispatch queued callbacks."""
-        with self._lock:
-            callbacks = list(self._pending_callbacks)
-            self._pending_callbacks.clear()
-        for cb in callbacks:
-            cb()
-    
-    @staticmethod
-    def load_scene(path: str) -> Scene3D:
-        """
-        Synchronously load a scene from file.
-        
-        This will block until the scene is fully loaded. For large scenes,
-        this may cause frame drops. Use load_scene_async for non-blocking loads.
-        
-        Args:
-            path: Path to the .scene file
-            
-        Returns:
-            The loaded Scene3D instance
-            
-        Example:
-            scene = SceneManager.load_scene("Scenes/level1.scene")
-            window.show_scene(scene)
-        """
-        return Scene3D.load(path)
-    
-    def load_scene_async(self, path: str, 
-                         on_progress: Optional[ProgressCallback] = None,
-                         on_complete: Optional[Callable[[Scene3D], None]] = None,
-                         on_error: Optional[Callable[[Exception], None]] = None) -> None:
-        """
-        Asynchronously load a scene from file with progress callbacks.
-        
-        The scene loads in a background thread. on_complete and on_error are
-        queued and dispatched on the main thread when you call poll().
-        on_progress is called from the background thread (safe for simple
-        assignments like updating a progress float).
-        
-        Args:
-            path: Path to the .scene file
-            on_progress: Callback(progress: float) called during loading (0.0 to 1.0)
-            on_complete: Callback(scene: Scene3D) called when loading completes (via poll)
-            on_error: Callback(error: Exception) called if loading fails (via poll)
-            
-        Example:
-            manager = SceneManager()
-            
-            def on_complete(scene):
-                window.show_scene(scene)
-            
-            manager.load_scene_async("Scenes/level1.scene", on_complete=on_complete)
-            # In your update loop: manager.poll()
-        """
-        # Reset state
-        self._loading_progress = 0.0
-        self._loaded_scene = None
-        self._loading_error = None
-        
-        def load_in_background():
-            try:
-                # Step 1: Read file (10%)
-                self._loading_progress = 0.1
-                if on_progress:
-                    on_progress(self._loading_progress)
-                
-                with open(path, "r", encoding="utf-8") as handle:
-                    data = json.load(handle)
-                
-                # Step 2: Create scene object (30%)
-                self._loading_progress = 0.3
-                if on_progress:
-                    on_progress(self._loading_progress)
-                time.sleep(0.01)  # Small delay to allow UI update
-                
-                scene = Scene3D.__new__(Scene3D)
-                scene.window = None
-                scene.objects = []
-                scene._cameras = []
-                scene._main_camera = None
-                scene._setup_done = False
-                scene.canvas = UIManager(scene)
-                
-                # Step 3: Setup camera (50%)
-                self._loading_progress = 0.5
-                if on_progress:
-                    on_progress(self._loading_progress)
-                time.sleep(0.01)
-                
-                camera_data = data.get("camera", {})
-                if camera_data:
-                    cam_obj = GameObject("Main Camera")
-                    camera = Camera3D()
-                    cam_obj.add_component(camera)
-                    cam_obj.transform.position = camera_data.get("position", (0, 5, 10))
-                    cam_obj.transform.look_at(camera_data.get("target", (0, 0, 0)))
-                    camera.fov = camera_data.get("fov", 60)
-                    camera.near = camera_data.get("near", 0.1)
-                    camera.far = camera_data.get("far", 1000)
-                    scene.add_object(cam_obj)
-                    scene._main_camera = camera
-                
-                # Step 4: Load objects (70%)
-                self._loading_progress = 0.7
-                if on_progress:
-                    on_progress(self._loading_progress)
-                time.sleep(0.01)
-                
-                objects_data = data.get("objects", [])
-                total_objects = len(objects_data)
-                
-                for i, obj_data in enumerate(objects_data):
-                    obj = GameObject._from_prefab_dict(obj_data)
-                    scene.objects.append(obj)
-                    
-                    # Update progress within object loading (70% to 90%)
-                    obj_progress = 0.7 + (0.2 * (i + 1) / total_objects) if total_objects > 0 else 0.9
-                    self._loading_progress = obj_progress
-                    if on_progress:
-                        on_progress(self._loading_progress)
-                
-                # Step 5: Resolve references and finalize (100%)
-                self._loading_progress = 0.95
-                if on_progress:
-                    on_progress(self._loading_progress)
-                
-                # Build registry and resolve references
-                go_registry = {obj._id: obj for obj in scene.objects}
-                for obj in scene.objects:
-                    Scene3D._resolve_component_references(obj, go_registry)
-                
-                # Register cameras
-                for obj in scene.objects:
-                    for cam in obj.get_components(Camera3D):
-                        if cam not in scene._cameras:
-                            scene._cameras.append(cam)
-                            if scene._main_camera is None:
-                                scene._main_camera = cam
-                
-                self._loading_progress = 1.0
-                self._loaded_scene = scene
-                
-                if on_progress:
-                    on_progress(1.0)
-                
-                # Queue on_complete for main thread dispatch via poll()
-                if on_complete:
-                    with self._lock:
-                        self._pending_callbacks.append(lambda: on_complete(scene))
-                    
-            except Exception as e:
-                self._loading_error = e
-                # Queue on_error for main thread dispatch via poll()
-                if on_error:
-                    with self._lock:
-                        self._pending_callbacks.append(lambda: on_error(e))
-        
-        # Start loading in background thread
-        self._current_load = threading.Thread(target=load_in_background, daemon=True)
-        self._current_load.start()
-    
-    def get_loading_progress(self) -> float:
-        """
-        Get the current loading progress (0.0 to 1.0).
-        
-        Returns 1.0 if no loading is in progress.
-        """
-        if self._current_load is None or not self._current_load.is_alive():
-            return 1.0 if self._loaded_scene is not None else 0.0
-        return self._loading_progress
-    
-    def is_loading(self) -> bool:
-        """Check if a scene is currently being loaded."""
-        return self._current_load is not None and self._current_load.is_alive()
-    
-    def get_loaded_scene(self) -> Optional[Scene3D]:
-        """
-        Get the scene that was loaded by the most recent async operation.
-        Returns None if no scene has been loaded.
-        """
-        return self._loaded_scene
-    
-    def get_loading_error(self) -> Optional[Exception]:
-        """Get any error that occurred during the last async load operation."""
-        return self._loading_error
+# SceneManager is re-exported from engine3d.scene at the top of this file.

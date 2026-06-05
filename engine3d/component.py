@@ -6,7 +6,7 @@ from engine3d.types import Color as ColorType
 from engine3d.types import Vector3
 
 if TYPE_CHECKING:
-    from .gameobject import GameObject
+    from engine3d.gameobject import GameObject
 
 
 T = TypeVar('T', bound="Component")
@@ -360,7 +360,7 @@ class InspectorField(Generic[_T]):
                     # Check if it's a ScriptableObject subclass
                     # Use string comparison to avoid circular import
                     try:
-                        from .scriptable_object import ScriptableObject
+                        from engine3d.scriptable_object import ScriptableObject
                         if issubclass(field_type, ScriptableObject):
                             self.field_type = InspectorFieldType.SCRIPTABLE_OBJECT_REF
                             self._original_field_type = field_type

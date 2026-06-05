@@ -16,7 +16,7 @@ sys.path.insert(0, project_root)
 
 from engine3d.engine3d import Window3D, Scene3D, Time
 from engine3d.engine3d.object3d import create_cube, create_plane
-from engine3d.physics import BoxCollider, SphereCollider, Collider, Rigidbody
+from engine3d.physics3d import BoxCollider3D, SphereCollider3D, Collider3D, Rigidbody3D
 from engine3d.input import Keys
 from engine3d.types import Color
 
@@ -31,8 +31,8 @@ class CollisionScene(Scene3D):
         # Create some static obstacles
         floor = self.add_object(create_plane(50, 50, color=Color.DARK_GRAY))
         floor.transform.position = (0, 0, 0)
-        floor.add_component(Rigidbody(is_static=True))
-        floor.add_component(BoxCollider())  # user adds
+        floor.add_component(Rigidbody3D(is_static=True))
+        floor.add_component(BoxCollider3D())  # user adds
 
         self.obstacles = []
         # 2 cube obstacles, 2 sphere obstacles
@@ -42,7 +42,7 @@ class CollisionScene(Scene3D):
             (0, 1, -5),
             (0, 1, 5)
         ]
-        colliders = [BoxCollider, BoxCollider, SphereCollider, SphereCollider]
+        colliders = [BoxCollider3D, BoxCollider3D, SphereCollider3D, SphereCollider3D]
         for i in range(4):
             obs = self.add_object(create_cube(2.0, color=Color.GREEN))
             obs.transform.position = positions[i]
@@ -52,7 +52,7 @@ class CollisionScene(Scene3D):
         # Create a moving player object (sphere collider for testing sphere-sphere)
         self.player = self.add_object(create_cube(1.0, color=Color.BLUE))
         self.player.transform.position = (0, 0.5, 0)
-        self.player.add_component(SphereCollider())  # user adds
+        self.player.add_component(SphereCollider3D())  # user adds
 
         # Create some moving enemies (use stairs OBJ for reliability; GLTF needs .bin)
         self.enemies = []
@@ -96,8 +96,8 @@ class CollisionScene(Scene3D):
             enemy.y = 0.75
 
             # Check collision with player (via colliders)
-            pcoll = self.player.get_component(Collider)
-            ecoll = enemy.get_component(Collider)
+            pcoll = self.player.get_component(Collider3D)
+            ecoll = enemy.get_component(Collider3D)
             if pcoll and ecoll and pcoll.check_collision(ecoll):
                 # Collision detected - change color or something
                 enemy._color = np.array(Color.YELLOW, dtype=np.float32)

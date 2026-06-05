@@ -73,21 +73,21 @@ class Resources:
         
         # Import types locally to avoid circular imports
         try:
-            from engine3d.engine3d.gameobject import GameObject
+            from engine3d.gameobject import GameObject
             if resource_type == GameObject or (isinstance(resource_type, type) and issubclass(resource_type, GameObject)):
                 extension = ".prefab"
         except ImportError:
             pass
         
         try:
-            from engine3d.engine3d.scriptable_object import ScriptableObject
+            from engine3d.scriptable_object import ScriptableObject
             if extension is None and isinstance(resource_type, type) and issubclass(resource_type, ScriptableObject):
                 extension = ".asset"
         except ImportError:
             pass
         
         try:
-            from engine3d.engine3d.graphics.material import Material
+            from engine3d.graphics.material import Material
             if extension is None and isinstance(resource_type, type) and issubclass(resource_type, Material):
                 extension = ".mat3d"
         except ImportError:
@@ -256,7 +256,7 @@ class Resources:
         
         # GameObject / Prefab
         try:
-            from engine3d.engine3d.gameobject import GameObject
+            from engine3d.gameobject import GameObject
             if resource_type == GameObject or (isinstance(resource_type, type) and issubclass(resource_type, GameObject)):
                 return GameObject.load(str_path, **kwargs)
         except ImportError:
@@ -264,7 +264,7 @@ class Resources:
         
         # ScriptableObject - need to check actual type after loading
         try:
-            from engine3d.engine3d.scriptable_object import ScriptableObject
+            from engine3d.scriptable_object import ScriptableObject
             if isinstance(resource_type, type) and issubclass(resource_type, ScriptableObject):
                 # Load using the base ScriptableObject.load which resolves the actual type
                 resource = ScriptableObject.load(str_path)
@@ -279,7 +279,7 @@ class Resources:
         
         # Material
         try:
-            from engine3d.engine3d.graphics.material import Material
+            from engine3d.graphics.material import Material
             if isinstance(resource_type, type) and issubclass(resource_type, Material):
                 return Material.load(str_path)
         except ImportError:

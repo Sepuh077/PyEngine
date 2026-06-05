@@ -86,7 +86,7 @@ class Material:
         
         # Import the correct class
         if class_name == "SkyboxMaterial":
-            from engine3d.engine3d.graphics.material import SkyboxMaterial
+            from engine3d.graphics.material import SkyboxMaterial
             mat = SkyboxMaterial()
         elif class_name == "LitMaterial":
             mat = LitMaterial()

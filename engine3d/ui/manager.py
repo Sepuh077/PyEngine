@@ -17,7 +17,7 @@ class UIManager:
     
     def __init__(self, scene):
         self.scene = scene
-        from engine3d.engine3d.gameobject import GameObject
+        from engine3d.gameobject import GameObject
         self.root_go = GameObject("Canvas")
         self._focused_element: Optional[UIElement] = None
         self._mouse_pos = (0, 0)
@@ -44,7 +44,7 @@ class UIManager:
 
     def add(self, element: UIElement) -> UIElement:
         """Add a UI element to the root canvas."""
-        from engine3d.engine3d.gameobject import GameObject
+        from engine3d.gameobject import GameObject
         if not element.game_object:
             go = GameObject(element.name or "UIElement")
             go.add_component(element)

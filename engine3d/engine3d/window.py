@@ -1,39 +1,26 @@
 """
 Window3D - Main application window for 3D rendering.
-Similar to arcade.Window but for GPU-accelerated 3D.
+Extends WindowBase for shared windowing/input/overlay/timing logic.
 """
 import time
 import pygame
-# Optional gfxdraw for anti-aliased 2D outlines (fallback to draw)
-try:
-    from pygame import gfxdraw
-    HAS_GFXDRAW = True
-except ImportError:
-    HAS_GFXDRAW = False
 import numpy as np
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Union, TYPE_CHECKING
 from pathlib import Path
 
-from engine3d.engine3d.gameobject import GameObject
+import moderngl
+
+from engine3d.window_base import WindowBase
+from engine3d.gameobject import GameObject
 from engine3d.engine3d.object3d import Object3D
-from engine3d.engine3d.graphics import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
+from engine3d.graphics import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
 from engine3d.engine3d.camera import Camera3D
 from engine3d.engine3d.light import DirectionalLight3D, PointLight3D
 from engine3d.types import Color, ColorType
 from engine3d.input import Input
-from engine3d.engine3d.component import Script, Time
-
-# Import physics types with TYPE_CHECKING to avoid circular imports at module level
-# These are imported locally in methods that need them
-
-try:
-    import moderngl
-    HAS_MODERNGL = True
-except ImportError:
-    HAS_MODERNGL = False
-    print("Warning: ModernGL not installed. Install with: pip install moderngl")
+from engine3d.component import Script, Time
 
 if TYPE_CHECKING:
     from .scene import Scene3D
@@ -62,25 +49,27 @@ class StaticBatch:
     radius: float
 
 
-class Window3D:
+class Window3D(WindowBase):
     """
     Main application window for 3D rendering.
-    
-    Similar to arcade.Window - subclass this to create your application.
-    
+
+    Extends WindowBase (shared ModernGL/Pygame init, event loop, overlay
+    drawing, timing).  Only 3-D-specific rendering, shadows, mesh
+    management, and editor overlays live here.
+
     Example:
         class MyGame(Window3D):
             def setup(self):
                 self.cube = self.load_object("cube.obj")
                 self.cube.position = (0, 0, 0)
-                
+
             def on_update(self):
                 self.cube.rotation_y += Time.delta_time * 30
-                
+
             def on_key_press(self, key, modifiers):
                 if key == Keys.ESCAPE:
                     self.close()
-        
+
         MyGame(800, 600, "My 3D Game").run()
     """
     
@@ -590,28 +579,6 @@ class Window3D:
     }
     '''
 
-    # 2D overlay shaders for UI/shapes/text
-    OVERLAY_VERTEX_SHADER = '''
-    #version 330 core
-    in vec2 in_pos;
-    in vec2 in_tex;
-    out vec2 frag_tex;
-    void main() {
-        gl_Position = vec4(in_pos, 0.0, 1.0);
-        frag_tex = in_tex;
-    }
-    '''
-
-    OVERLAY_FRAGMENT_SHADER = '''
-    #version 330 core
-    in vec2 frag_tex;
-    uniform sampler2D tex;
-    out vec4 frag_color;
-    void main() {
-        frag_color = texture(tex, frag_tex);
-    }
-    '''
-
     # Shadow pass shaders (depth-only rendering from light's perspective)
     SHADOW_VERTEX_SHADER = '''
     #version 330 core
@@ -666,9 +633,9 @@ class Window3D:
     }
     '''
 
-    def __init__(self, 
-                 width: int = 800, 
-                 height: int = 600, 
+    def __init__(self,
+                 width: int = 800,
+                 height: int = 600,
                  title: str = "3D Engine",
                  resizable: bool = False,
                  project_root: Union[str, Path] = "..",
@@ -676,90 +643,17 @@ class Window3D:
                  background_color: ColorType = (0.1, 0.1, 0.15),
                  use_pygame_window: bool = True,
                  use_pygame_events: bool = True):
-        """
-        Initialize the window.
-        
-        Args:
-            width: Window width in pixels
-            height: Window height in pixels
-            title: Window title
-            resizable: Allow window resizing
-            vsync: Enable vertical sync
-            background_color: Background color (RGB 0-1)
-        """
-        if not HAS_MODERNGL:
-            raise ImportError("ModernGL is required. Install with: pip install moderngl")
-        
-        self.width = width
-        self.height = height
-        self.title = title
         self.project_root = project_root if isinstance(project_root, Path) else Path(project_root).resolve()
-        self.background_color = background_color
-        
-        # Initialize pygame
-        # When embedded, SDL_WINDOWID is set by the host.
-        
-        self._use_pygame_window = use_pygame_window
-        self._use_pygame_events = use_pygame_events and use_pygame_window
 
-        pygame.init()
+        # WindowBase handles: pygame, moderngl context, overlay shader,
+        # 2D HUD surface, timing, input, drawing helpers, main loop.
+        # It also calls self._init_gpu() at the end.
+        super().__init__(width, height, title, resizable, background_color,
+                         use_pygame_window, use_pygame_events)
 
-        if self._use_pygame_window:
-            flags = pygame.OPENGL | pygame.DOUBLEBUF
-            if resizable:
-                flags |= pygame.RESIZABLE
+        # -- 3D-specific state (shaders compiled in _init_gpu via super) ------
 
-            pygame.display.set_mode((width, height), flags)
-            pygame.display.set_caption(title)
-            pygame.event.set_allowed([
-                pygame.QUIT,
-                pygame.KEYDOWN,
-                pygame.KEYUP,
-                pygame.MOUSEBUTTONDOWN,
-                pygame.MOUSEBUTTONUP,
-                pygame.MOUSEMOTION,
-                pygame.VIDEORESIZE,
-            ])
-
-        # Create ModernGL context
-        try:
-            self._ctx = moderngl.create_context(require=330)
-        except Exception:
-            self._ctx = moderngl.create_context()
-        self._ctx.enable(moderngl.DEPTH_TEST | moderngl.BLEND)
-        self._ctx.blend_func = moderngl.SRC_ALPHA, moderngl.ONE_MINUS_SRC_ALPHA
-        
-        # Compile shaders
-        self._program = self._ctx.program(
-            vertex_shader=self.VERTEX_SHADER,
-            fragment_shader=self.FRAGMENT_SHADER,
-        )
-        self._instanced_program = self._ctx.program(
-            vertex_shader=self.VERTEX_SHADER_INSTANCED,
-            fragment_shader=self.FRAGMENT_SHADER,
-        )
-        self._collider_program = self._ctx.program(
-            vertex_shader=self.COLLIDER_VERTEX_SHADER,
-            fragment_shader=self.COLLIDER_FRAGMENT_SHADER,
-        )
-
-        # 2D overlay program for shapes and text
-        self._overlay_program = self._ctx.program(
-            vertex_shader=self.OVERLAY_VERTEX_SHADER,
-            fragment_shader=self.OVERLAY_FRAGMENT_SHADER,
-        )
-
-        # Shadow pass program for shadow mapping
-        self._shadow_program = self._ctx.program(
-            vertex_shader=self.SHADOW_VERTEX_SHADER,
-            fragment_shader=self.SHADOW_FRAGMENT_SHADER,
-        )
-        self._shadow_program_instanced = self._ctx.program(
-            vertex_shader=self.SHADOW_VERTEX_SHADER_INSTANCED,
-            fragment_shader=self.SHADOW_FRAGMENT_SHADER,
-        )
-
-        # GPU caches/batches
+        # GPU caches / batches
         self._mesh_cache = {}
         self._static_batches: List[StaticBatch] = []
         self._static_batches_active = False
@@ -772,32 +666,22 @@ class Window3D:
         self.enable_culling = True
         self.culling_auto = True
         self.culling_auto_min_objects = 64
-        
-        # Shadow system
-        self.shadows_enabled = True  # Global shadow toggle
-        self._shadow_maps = {}  # light_id -> ShadowMap for directional lights
-        self._point_shadow_maps = {}  # light_id -> OmnidirectionalShadowMap for point lights
-        self._light_space_matrices = {}  # light_id -> light space matrix
-        self._shadow_map_resolutions = {}  # light_id -> resolution (for recreation)
-        self._point_shadow_params = {}  # light_id -> (resolution, near, far) for recreation
-        self._dummy_shadow_texture = None  # Dummy texture for when shadows are disabled
-        self._dummy_shadow_cubemap = None  # Dummy cubemap for point lights without shadows
 
-        # Simple uniform state cache
+        # Shadow system
+        self.shadows_enabled = True
+        self._shadow_maps = {}
+        self._point_shadow_maps = {}
+        self._light_space_matrices = {}
+        self._shadow_map_resolutions = {}
+        self._point_shadow_params = {}
+        self._dummy_shadow_texture = None
+        self._dummy_shadow_cubemap = None
+
+        # Uniform state cache
         self._last_base_color = None
         self._last_instanced_base_color = None
 
-        # Simple profiler (caption-based)
-        self.show_profiler = False
-        self.profiler_interval = 0.25
-        self._profiler_text = ""
-        self._last_profiler_time = 0.0
-        self._caption_base = title
-        
-        # Scene elements
-        self.objects: List[GameObject] = []
-        
-        # Default camera for window-only mode
+        # Default 3D camera
         self._camera_go = GameObject("Default Camera")
         self.camera = Camera3D()
         self._camera_go.add_component(self.camera)
@@ -811,57 +695,67 @@ class Window3D:
         self.editor_show_camera = True
         self.editor_show_axis = True
         self.editor_show_gizmo = True
-        self._editor_gizmo = None   # set by EditorWindow to a TranslateGizmo
+        self._editor_gizmo = None
         self.active_camera_override: Optional[Camera3D] = None
 
-        # Scene system
-        self._current_scene: Optional['Scene3D'] = None
-        
-        # Timing
-        self._clock = pygame.time.Clock()
-        self._running = False
-        self._fps = 60
-        self._delta_time = 0.0
-        Time.delta_time = 0.0
-        
-        # Input state
-        # (Input state is now managed globally by the Input class)
-        
-        # Setup done flag
-        self._setup_done = False
+        # Load ScriptableObject assets
+        self._load_scriptable_objects()
+
+    # =========================================================================
+    # GPU init / cleanup  (called by WindowBase)
+    # =========================================================================
+
+    def _init_gpu(self):
+        """Compile 3-D shaders and build debug wireframe VAOs."""
+        self._program = self._ctx.program(
+            vertex_shader=self.VERTEX_SHADER,
+            fragment_shader=self.FRAGMENT_SHADER,
+        )
+        self._instanced_program = self._ctx.program(
+            vertex_shader=self.VERTEX_SHADER_INSTANCED,
+            fragment_shader=self.FRAGMENT_SHADER,
+        )
+        self._collider_program = self._ctx.program(
+            vertex_shader=self.COLLIDER_VERTEX_SHADER,
+            fragment_shader=self.COLLIDER_FRAGMENT_SHADER,
+        )
+        self._shadow_program = self._ctx.program(
+            vertex_shader=self.SHADOW_VERTEX_SHADER,
+            fragment_shader=self.SHADOW_FRAGMENT_SHADER,
+        )
+        self._shadow_program_instanced = self._ctx.program(
+            vertex_shader=self.SHADOW_VERTEX_SHADER_INSTANCED,
+            fragment_shader=self.SHADOW_FRAGMENT_SHADER,
+        )
 
         self._cube_vao = self._create_unit_cube_wire()
         self._sphere_vao = self._create_unit_sphere_wire(24)
         self._cylinder_vao = self._create_unit_cylinder_wire(24)
 
-        # 2D drawing setup: offscreen surface + OpenGL texture overlay
-        # Supports shapes, text with fonts, drawn in on_draw()
-        self._2d_surface = pygame.Surface((width, height), pygame.SRCALPHA)
-        self._fonts = {}
-        self._image_cache = {}  # path -> loaded surface
-        
-        # Create full-screen quad for 2D overlay
-        quad = np.array([
-            -1.0, -1.0, 0.0, 1.0,  # bottom-left
-             1.0, -1.0, 1.0, 1.0,  # bottom-right
-             1.0,  1.0, 1.0, 0.0,  # top-right
-            -1.0, -1.0, 0.0, 1.0,
-             1.0,  1.0, 1.0, 0.0,
-            -1.0,  1.0, 0.0, 0.0,  # top-left
-        ], dtype=np.float32)
-        self._2d_vbo = self._ctx.buffer(quad.tobytes())
-        self._2d_vao = self._ctx.vertex_array(
-            self._overlay_program,
-            [(self._2d_vbo, '2f 2f', 'in_pos', 'in_tex')]
-        )
-        self._2d_texture = self._ctx.texture((width, height), 4)  # RGBA
-
-        # Register as active window for global draw funcs (Arcade-style)
-        from . import drawing
-        drawing.set_window(self)
-        
-        # Load all ScriptableObject assets from the project directory
-        self._load_scriptable_objects()
+    def _cleanup_gpu(self):
+        """Release 3-D GPU resources (called by WindowBase._cleanup)."""
+        for obj in self.objects:
+            obj3d = obj.get_component(Object3D)
+            if obj3d:
+                obj3d._release_gpu()
+        if self._current_scene:
+            for obj in self._current_scene.objects:
+                obj3d = obj.get_component(Object3D)
+                if obj3d:
+                    obj3d._release_gpu()
+        for sm in getattr(self, '_shadow_maps', {}).values():
+            sm.release()
+        for sm in getattr(self, '_point_shadow_maps', {}).values():
+            sm.release()
+        if getattr(self, '_dummy_shadow_texture', None):
+            self._dummy_shadow_texture.release()
+            self._dummy_shadow_texture = None
+        self._dummy_shadow_cubemap = None
+        self._program.release()
+        self._instanced_program.release()
+        self._collider_program.release()
+        self._shadow_program.release()
+        self._shadow_program_instanced.release()
 
     def _load_scriptable_objects(self) -> None:
         """
@@ -959,92 +853,92 @@ class Window3D:
         """
         Move an object by delta.
         """
-        from engine3d.physics import Collider, CollisionMode
+        from engine3d.physics3d import Collider3D, CollisionMode
         # Check first collider's mode (IGNORE skips collision)
-        coll = obj.get_component(Collider)
+        coll = obj.get_component(Collider3D)
         if coll and coll.collision_mode == CollisionMode.IGNORE:
             return obj.transform.move(*delta)
         return obj.transform.move(*delta)
 
     def _resolve_collision(self, a: GameObject, b: GameObject, manifold):
-        from engine3d.physics import Collider
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d import Collider3D
+        from engine3d.physics3d.rigidbody import Rigidbody3D
         # Minimal depen + velocity project (slide, no jitter/vibrate on wall)
         depth = getattr(manifold, 'depth', 0.0)
         if depth <= 0:
             return
         push = depth + 1e-5
         normal = manifold.normal
-        a_static = a.get_component(Rigidbody) and a.get_component(Rigidbody).is_static
-        b_static = b.get_component(Rigidbody) and b.get_component(Rigidbody).is_static
+        a_static = a.get_component(Rigidbody3D) and a.get_component(Rigidbody3D).is_static
+        b_static = b.get_component(Rigidbody3D) and b.get_component(Rigidbody3D).is_static
         
         if a_static and b_static:
             return
         elif a_static:
             b.transform._local_position -= normal * push
             # Project b vel: full stop if into, else slide
-            if b.get_component(Rigidbody):
+            if b.get_component(Rigidbody3D):
                 from engine3d.types import Vector3
-                vel = b.get_component(Rigidbody).velocity
+                vel = b.get_component(Rigidbody3D).velocity
                 normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
                 dot = Vector3.dot(vel, normal_vec)
                 if dot < 0:
-                    b.get_component(Rigidbody).velocity = vel - normal_vec * dot
+                    b.get_component(Rigidbody3D).velocity = vel - normal_vec * dot
             b.transform._mark_dirty()
             # Update colliders (moved from obj._update_cache)
-            for c in b.get_components(Collider):
+            for c in b.get_components(Collider3D):
                 c.update_bounds()
         elif b_static:
             a.transform._local_position += normal * push
             # Project a vel: full stop if into, else slide
-            if a.get_component(Rigidbody):
+            if a.get_component(Rigidbody3D):
                 from engine3d.types import Vector3
-                vel = a.get_component(Rigidbody).velocity
+                vel = a.get_component(Rigidbody3D).velocity
                 normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
                 dot = Vector3.dot(vel, normal_vec)
                 if dot < 0:
-                    a.get_component(Rigidbody).velocity = vel - normal_vec * dot
+                    a.get_component(Rigidbody3D).velocity = vel - normal_vec * dot
             a.transform._mark_dirty()
-            for c in a.get_components(Collider):
+            for c in a.get_components(Collider3D):
                 c.update_bounds()
         else:
             a.transform._local_position += normal * (push / 2)
             b.transform._local_position -= normal * (push / 2)
             # Project vels: full stop if pushing into, else slide
             for obj in (a, b):
-                if not obj.get_component(Rigidbody):
+                if not obj.get_component(Rigidbody3D):
                     continue
                 from engine3d.types import Vector3
-                vel = obj.get_component(Rigidbody).velocity
+                vel = obj.get_component(Rigidbody3D).velocity
                 normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
                 dot = Vector3.dot(vel, normal_vec)
                 if dot < 0:  # trying to move into wall
-                    obj.get_component(Rigidbody).velocity = vel - normal_vec * dot  # allow slide
+                    obj.get_component(Rigidbody3D).velocity = vel - normal_vec * dot  # allow slide
             a.transform._mark_dirty()
             b.transform._mark_dirty()
-            for c in a.get_components(Collider):
+            for c in a.get_components(Collider3D):
                 c.update_bounds()
-            for c in b.get_components(Collider):
+            for c in b.get_components(Collider3D):
                 c.update_bounds()
 
     def _process_collisions(self):
-        from engine3d.physics import Collider, CollisionMode, CollisionRelation
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d import Collider3D, CollisionMode, CollisionRelation
+        from engine3d.physics3d.rigidbody import Rigidbody3D
         # Loop over *all colliders* (multi-collider support; no obj level)
         all_cols = []
         for o in self._active_objects():
-            all_cols.extend(o.get_components(Collider))
+            all_cols.extend(o.get_components(Collider3D))
         if not all_cols:
             return
 
         from collections import defaultdict
         # Track collider pairs (per-collider _current_collisions for events)
         current_collisions = defaultdict(set)  # key: collider, value: set of other colliders
-        from engine3d.physics.collision import get_collision_manifold, objects_collide
+        from engine3d.physics3d.collision import get_collision_manifold, objects_collide
 
         # Check non-statics vs all (use ColliderGroup for relations; *all* pairs)
         for ca in all_cols:
-            if (ca.game_object.get_component(Rigidbody) and ca.game_object.get_component(Rigidbody).is_static) or ca.collision_mode == CollisionMode.IGNORE:
+            if (ca.game_object.get_component(Rigidbody3D) and ca.game_object.get_component(Rigidbody3D).is_static) or ca.collision_mode == CollisionMode.IGNORE:
                 continue
             
             perform_final_check = True
@@ -1093,9 +987,9 @@ class Window3D:
                                         # Fallback if no manifold could be generated
                                         a.transform._local_position = np.copy(last_safe)
                                         a.transform._mark_dirty()
-                                        if a.get_component(Rigidbody):
+                                        if a.get_component(Rigidbody3D):
                                             from engine3d.types import Vector3
-                                            a.get_component(Rigidbody).velocity = Vector3.zero()
+                                            a.get_component(Rigidbody3D).velocity = Vector3.zero()
                                     hit_solid = True
                                     break
                         if hit_solid:
@@ -1172,9 +1066,6 @@ class Window3D:
             f"{stats['cpu_ms']:.1f}ms"
         )
         self._apply_caption()
-
-    def _active_objects(self) -> List[GameObject]:
-        return self._current_scene.objects if self._current_scene else self.objects
 
     def _get_or_create_mesh(self, obj: Object3D) -> Optional[MeshGPU]:
         key = obj.get_mesh_key()
@@ -1262,12 +1153,12 @@ class Window3D:
         Build GPU batches for static objects in the active scene.
         Call this after creating/moving static objects.
         """
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d.rigidbody import Rigidbody3D
         self.clear_static_batches()
 
         groups = defaultdict(list)
         for obj in self._active_objects():
-            if not obj.get_component(Object3D) or not obj.get_component(Object3D)._visible or not (obj.get_component(Rigidbody) and obj.get_component(Rigidbody).is_static):
+            if not obj.get_component(Object3D) or not obj.get_component(Object3D)._visible or not (obj.get_component(Rigidbody3D) and obj.get_component(Rigidbody3D).is_static):
                 continue
             key = (obj.get_component(Object3D).get_mesh_key(), tuple(obj.get_component(Object3D)._color))
             groups[key].append(obj)
@@ -1391,47 +1282,6 @@ class Window3D:
         scene.on_show()
         self.start(start_scripts=start_scripts)
     
-    @property
-    def current_scene(self) -> Optional['Scene3D']:
-        """Get the current scene."""
-        return self._current_scene
-    
-    # =========================================================================
-    # Properties
-    # =========================================================================
-    
-    @property
-    def fps(self) -> float:
-        """Current frames per second."""
-        return self._clock.get_fps()
-    
-    @property
-    def delta_time(self) -> float:
-        """Unscaled time since last frame in seconds."""
-        return self._delta_time
-    
-    @property
-    def size(self) -> Tuple[int, int]:
-        """Window size as (width, height)."""
-        return (self.width, self.height)
-    
-    @property
-    def aspect(self) -> float:
-        """Aspect ratio (width / height)."""
-        return self.width / self.height
-    
-    def set_caption(self, title: str):
-        """Set window title."""
-        self.title = title
-        self._caption_base = title
-        self._apply_caption()
-
-    def _apply_caption(self):
-        title = self._caption_base
-        if self.show_profiler and self._profiler_text:
-            title = f"{title} | {self._profiler_text}"
-        pygame.display.set_caption(title)
-
     def project_point(self, world_pos: Tuple[float, float, float]) -> Optional[Tuple[int, int, float]]:
         """
         Project a 3D world position to screen space.
@@ -1452,41 +1302,9 @@ class Window3D:
         return (x, y, ndc[2])
     
     # =========================================================================
-    # Input state
+    # Lifecycle overrides
     # =========================================================================
 
-    def is_key_pressed(self, key: int) -> bool:
-        """Check if a key is currently pressed."""
-        return Input.get_key(key)
-
-    def is_key_down(self, key: int) -> bool:
-        """Check if a key was pressed down this frame."""
-        return Input.get_key_down(key)
-
-    def is_key_up(self, key: int) -> bool:
-        """Check if a key was released this frame."""
-        return Input.get_key_up(key)
-
-    def is_mouse_button_pressed(self, button: int) -> bool:
-        """Check if a mouse button is currently pressed."""
-        return Input.get_mouse_button(button)
-
-    def is_mouse_button_down(self, button: int) -> bool:
-        """Check if a mouse button was pressed down this frame."""
-        return Input.get_mouse_button_down(button)
-
-    def is_mouse_button_up(self, button: int) -> bool:
-        """Check if a mouse button was released this frame."""
-        return Input.get_mouse_button_up(button)
-
-    @property
-    def mouse_position(self) -> Tuple[int, int]:
-        """Current mouse position."""
-        return Input.mouse_position    
-    # =========================================================================
-    # Lifecycle methods (override in subclass)
-    # =========================================================================
-    
     def setup(self):
         """
         Called once when the application starts.
@@ -1497,213 +1315,6 @@ class Window3D:
         light_obj.add_component(DirectionalLight3D())
         light_obj.transform.rotation = (-45, 30, 0)
         self.add_object(light_obj)
-    
-    def on_update(self):
-        """
-        Called every frame to update the scene.
-        """
-        pass
-    
-    def on_draw(self):
-        """
-        Called after the scene is rendered.
-        Override to add custom drawing (UI, etc.)
-        """
-        pass
-    
-    # =========================================================================
-    # Input methods (override in subclass)
-    # =========================================================================
-    
-    def on_key_press(self, key: int, modifiers: int):
-        """Called when a key is pressed."""
-        pass
-    
-    def on_key_release(self, key: int, modifiers: int):
-        """Called when a key is released."""
-        pass
-    
-    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        """Called when a mouse button is pressed."""
-        pass
-    
-    def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
-        """Called when a mouse button is released."""
-        pass
-    
-    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
-        """Called when the mouse moves."""
-        pass
-    
-    def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        """Called when the mouse wheel is scrolled."""
-        pass
-    
-    def on_resize(self, width: int, height: int):
-        """Called when the window is resized. Recreates 2D overlay."""
-        self.width = max(1, width)
-        self.height = max(1, height)
-        # Recreate 2D surface and texture
-        self._2d_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        if hasattr(self, '_2d_texture'):
-            self._2d_texture.release()
-            self._2d_texture = self._ctx.texture((self.width, self.height), 4)
-        if hasattr(self, '_ctx'):
-            self._ctx.viewport = (0, 0, self.width, self.height)
-
-    def bind_context(self):
-        """Ensure this window's GL context is active before rendering."""
-        if self._use_pygame_window:
-            return
-        try:
-            self._ctx.use()
-        except Exception:
-            pass
-    
-    # =========================================================================
-    # 2D drawing (shapes, text, UI overlay)
-    # =========================================================================
-    
-    def _get_font(self, font_name: Optional[str] = None, font_size: int = 24):
-        """Get or create cached font."""
-        key = (font_name or 'default', font_size)
-        if key not in self._fonts:
-            if font_name and (font_name.lower().endswith(('.ttf', '.otf')) or '/' in font_name or '\\' in font_name):
-                # Load from file path
-                self._fonts[key] = pygame.font.Font(font_name, font_size)
-            else:
-                # System font or default
-                self._fonts[key] = pygame.font.SysFont(font_name, font_size)
-        return self._fonts[key]
-    
-    def draw_text(self, text: str, x: int, y: int, color: ColorType = Color.WHITE,
-                  font_size: int = 24, font_name: Optional[str] = None,
-                  anchor_x: str = 'left', anchor_y: str = 'top',
-                  baseline_adjust: bool = True) -> None:
-        """Draw text at screen position (x,y top of text bounding box by default)."""
-        font = self._get_font(font_name, font_size)
-        # Convert color 0-1 to 0-255
-        if len(color) == 3:
-            rgb = tuple(int(c * 255) for c in color)
-            alpha = 255
-        else:
-            rgb = tuple(int(c * 255) for c in color[:3])
-            alpha = int(color[3] * 255)
-        text_surf = font.render(text, True, rgb)  # antialias=True for quality
-        # Handle alpha by creating alpha surface
-        if alpha < 255:
-            text_surf = text_surf.convert_alpha()
-            # Simple alpha: multiply alpha channel (for uniform alpha)
-            arr = pygame.surfarray.pixels_alpha(text_surf)
-            arr[:] = (arr[:] * (alpha / 255)).astype(np.uint8)
-            del arr  # release
-        # Apply anchors (precise via bounding height)
-        w, h = text_surf.get_size()
-        if anchor_x == 'center':
-            x -= w // 2
-        elif anchor_x == 'right':
-            x -= w
-        if anchor_y == 'center':
-            y -= h // 2
-        elif anchor_y == 'bottom':
-            y -= h
-        # Optional baseline adjust to fix y-shifts across fonts/sizes
-        if baseline_adjust:
-            y -= font.get_ascent() // 6  # empirical top-align consistency
-        self._2d_surface.blit(text_surf, (x, y))
-    
-    def draw_rectangle(self, x: int, y: int, width: int, height: int,
-                       color: ColorType, border_width: int = 0) -> None:
-        """Draw filled or bordered rectangle. border_width=0 for fill."""
-        if len(color) == 3:
-            col = tuple(int(c * 255) for c in color) + (255,)
-        else:
-            col = tuple(int(c * 255) for c in color)
-        rect = pygame.Rect(x, y, width, height)
-        pygame.draw.rect(self._2d_surface, col, rect, border_width)
-    
-    def draw_circle(self, x: int, y: int, radius: int, color: ColorType,
-                    border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw filled (0) or bordered circle (AA if gfxdraw avail)."""
-        if len(color) == 3:
-            col = tuple(int(c * 255) for c in color) + (255,)
-        else:
-            col = tuple(int(c * 255) for c in color)
-        x, y, radius = int(x), int(y), int(radius)
-        if border_width > 0 and HAS_GFXDRAW and aa:
-            # gfxdraw uses signed shorts; fall back for out-of-range values
-            if -32768 <= x <= 32767 and -32768 <= y <= 32767 and 0 < radius <= 32767:
-                gfxdraw.aacircle(self._2d_surface, x, y, radius, col[:3])
-                if border_width > 1:
-                    gfxdraw.aacircle(self._2d_surface, x, y, radius - 1, col[:3])  # thicker sim
-            else:
-                pygame.draw.circle(self._2d_surface, col, (x, y), max(1, abs(radius)), border_width)
-        else:
-            pygame.draw.circle(self._2d_surface, col, (x, y), max(1, abs(radius)), border_width)
-    
-    def draw_ellipse(self, x: int, y: int, width: int, height: int,
-                     color: ColorType, border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw filled (0) or bordered ellipse/oval (AA if gfxdraw avail)."""
-        if len(color) == 3:
-            col = tuple(int(c * 255) for c in color) + (255,)
-        else:
-            col = tuple(int(c * 255) for c in color)
-        rect = pygame.Rect(x, y, width, height)
-        if border_width > 0 and HAS_GFXDRAW and aa:
-            # gfxdraw uses signed shorts; fall back for out-of-range values
-            cx, cy, rx, ry = x + width//2, y + height//2, width//2, height//2
-            if (-32768 <= cx <= 32767 and -32768 <= cy <= 32767 and
-                    0 < rx <= 32767 and 0 < ry <= 32767):
-                gfxdraw.aaellipse(self._2d_surface, cx, cy, rx, ry, col[:3])
-            else:
-                pygame.draw.ellipse(self._2d_surface, col, rect, border_width)
-        else:
-            pygame.draw.ellipse(self._2d_surface, col, rect, border_width)
-    
-    def draw_polygon(self, points: List[Tuple[int, int]], color: ColorType,
-                     border_width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw filled (0) or outlined polygon (AA if gfxdraw avail)."""
-        if len(points) < 3:
-            return  # invalid for polygon
-        if len(color) == 3:
-            col = tuple(int(c * 255) for c in color) + (255,)
-        else:
-            col = tuple(int(c * 255) for c in color)
-        if border_width > 0 and HAS_GFXDRAW and aa:
-            gfxdraw.aapolygon(self._2d_surface, points, col[:3])
-        else:
-            pygame.draw.polygon(self._2d_surface, col, points, border_width)
-    
-    def draw_line(self, start: Tuple[int, int], end: Tuple[int, int],
-                  color: ColorType, width: int = 2, aa: bool = True) -> None:  # thicker + AA default
-        """Draw a line (AA via aaline if requested)."""
-        if len(color) == 3:
-            col = tuple(int(c * 255) for c in color) + (255,)
-        else:
-            col = tuple(int(c * 255) for c in color)
-        if aa:
-            # Use built-in AA line (thin; gfxdraw.aaline may vary by pygame version)
-            pygame.draw.aaline(self._2d_surface, col[:3], start, end)
-        else:
-            pygame.draw.line(self._2d_surface, col, start, end, width)
-    
-    def draw_image(self, image: Union[str, pygame.Surface], x: int, y: int,
-                   scale: float = 1.0, alpha: float = 1.0) -> None:
-        """Draw image (path str or Surface). Cached for paths; scale/alpha ok."""
-        if isinstance(image, str):
-            if image not in self._image_cache:
-                surf = pygame.image.load(image).convert_alpha()
-                self._image_cache[image] = surf
-            surf = self._image_cache[image]
-        else:
-            surf = image
-        if scale != 1.0:
-            new_size = (int(surf.get_width() * scale), int(surf.get_height() * scale))
-            surf = pygame.transform.scale(surf, new_size)
-        if alpha < 1.0:
-            surf = surf.copy()
-            surf.set_alpha(int(alpha * 255))
-        self._2d_surface.blit(surf, (x, y))
     
     def _render_skybox(self, camera, view, projection):
         """Render skybox background using camera's skybox material."""
@@ -1858,22 +1469,6 @@ class Window3D:
         except Exception:
             self._ctx.clear(0.5, 0.6, 1.0)
 
-    def _render_2d_overlay(self):
-        """Render 2D surface as textured quad on top of 3D scene."""
-        # Draw UI elements from current scene's canvas
-        if self._current_scene:
-            self._current_scene.canvas.draw(self._2d_surface)
-        
-        # Upload surface to GPU texture (Pygame RGBA -> OpenGL)
-        data = pygame.image.tostring(self._2d_surface, "RGBA", False)
-        self._2d_texture.write(data)
-        # Draw full-screen quad with blending, no depth
-        self._ctx.disable(moderngl.DEPTH_TEST)
-        self._2d_texture.use(location=0)
-        self._overlay_program['tex'].value = 0
-        self._2d_vao.render(moderngl.TRIANGLES)
-        self._ctx.enable(moderngl.DEPTH_TEST)
-    
     # =========================================================================
     # Collider debug drawing
     # =========================================================================
@@ -1956,7 +1551,7 @@ class Window3D:
         )
 
     def draw_collider(self, obj: GameObject, color=(0, 1, 0), line_width=1.0):
-        from engine3d.physics import Collider, ColliderType
+        from engine3d.physics3d import Collider3D, ColliderType
         camera = self.active_camera_override or (self._current_scene.camera if self._current_scene else self.camera)
         if not camera:
             return
@@ -1966,7 +1561,7 @@ class Window3D:
         self._ctx.line_width = line_width
         self._collider_program['color'].value = tuple(color)
 
-        for coll in obj.get_components(Collider):
+        for coll in obj.get_components(Collider3D):
             if not coll:
                 continue
             t = coll.type
@@ -2066,7 +1661,7 @@ class Window3D:
     
     def _ensure_shadow_map(self, light: 'DirectionalLight3D'):
         """Create or resize the shadow map for a directional light if needed."""
-        from engine3d.engine3d.graphics.shadow import ShadowMap
+        from engine3d.graphics.shadow import ShadowMap
         
         light_id = id(light)
         resolution = light.shadow_resolution
@@ -2084,7 +1679,7 @@ class Window3D:
     
     def _ensure_point_shadow_map(self, light: 'PointLight3D'):
         """Create or resize the omnidirectional shadow map for a point light if needed."""
-        from engine3d.engine3d.graphics.shadow import OmnidirectionalShadowMap
+        from engine3d.graphics.shadow import OmnidirectionalShadowMap
         
         light_id = id(light)
         resolution = light.shadow_resolution
@@ -3001,9 +2596,9 @@ class Window3D:
         return
 
     def _draw_editor_colliders(self):
-        from engine3d.physics import Collider
+        from engine3d.physics3d import Collider3D
         for obj in self._active_objects():
-            if obj.get_components(Collider):
+            if obj.get_components(Collider3D):
                 self.draw_collider(obj, color=(1.0, 0.0, 0.0), line_width=1.5)
 
     def _draw_editor_gizmo(self, obj: GameObject):
@@ -3056,209 +2651,4 @@ class Window3D:
             self.draw_line(tuple(origin_px), tuple(end_px), colors[axis], width=2, aa=True)
             self.draw_text(axis, int(end_px[0] + 4), int(end_px[1] - 4), colors[axis], font_size=12)
 
-    # =========================================================================
-    # Event handling
-    # =========================================================================
-    
-    def _handle_events(self):
-        """Process pygame events."""
-        if not self._use_pygame_events:
-            return
-        
-        Input._update_frame_start()
-        
-        for event in pygame.event.get():
-            # Pass to scene's canvas UI first
-            if self._current_scene and self._current_scene.canvas.process_pygame_event(event):
-                continue  # UI handled this event
-            
-            if event.type == pygame.QUIT:
-                self._running = False
-                
-            elif event.type == pygame.KEYDOWN:
-                Input._keys_pressed.add(event.key)
-                Input._keys_down_this_frame.add(event.key)
-                mods = pygame.key.get_mods()
-                if self._current_scene:
-                    self._current_scene.on_key_press(event.key, mods)
-                self.on_key_press(event.key, mods)
-                
-            elif event.type == pygame.KEYUP:
-                Input._keys_pressed.discard(event.key)
-                Input._keys_up_this_frame.add(event.key)
-                mods = pygame.key.get_mods()
-                if self._current_scene:
-                    self._current_scene.on_key_release(event.key, mods)
-                self.on_key_release(event.key, mods)
-                
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                Input._mouse_buttons.add(event.button)
-                Input._mouse_down_this_frame.add(event.button)
-                x, y = event.pos
-                mods = pygame.key.get_mods()
-                
-                # Handle scroll wheel
-                if event.button == 4:  # Scroll up
-                    Input._mouse_scroll = (0, 1)
-                    if self._current_scene:
-                        self._current_scene.on_mouse_scroll(x, y, 0, 1)
-                    self.on_mouse_scroll(x, y, 0, 1)
-                elif event.button == 5:  # Scroll down
-                    Input._mouse_scroll = (0, -1)
-                    if self._current_scene:
-                        self._current_scene.on_mouse_scroll(x, y, 0, -1)
-                    self.on_mouse_scroll(x, y, 0, -1)
-                else:
-                    if self._current_scene:
-                        self._current_scene.on_mouse_press(x, y, event.button, mods)
-                    self.on_mouse_press(x, y, event.button, mods)
-                    
-            elif event.type == pygame.MOUSEBUTTONUP:
-                Input._mouse_buttons.discard(event.button)
-                Input._mouse_up_this_frame.add(event.button)
-                x, y = event.pos
-                mods = pygame.key.get_mods()
-                if self._current_scene:
-                    self._current_scene.on_mouse_release(x, y, event.button, mods)
-                self.on_mouse_release(x, y, event.button, mods)
-                
-            elif event.type == pygame.MOUSEMOTION:
-                x, y = event.pos
-                dx, dy = event.rel
-                Input._mouse_position = (x, y)
-                Input._mouse_delta = (dx, dy)
-                if self._current_scene:
-                    self._current_scene.on_mouse_motion(x, y, dx, dy)
-                self.on_mouse_motion(x, y, dx, dy)
-                
-            elif event.type == pygame.VIDEORESIZE:
-                self.width = event.w
-                self.height = event.h
-                self._ctx.viewport = (0, 0, event.w, event.h)
-                if self._current_scene:
-                    self._current_scene.on_resize(event.w, event.h)
-                self.on_resize(event.w, event.h)
-    
-    # =========================================================================
-    # Main loop
-    # =========================================================================
 
-    def start(self, start_scripts: bool = True):
-        """
-        Initialize the window for manual ticking or run().
-        
-        Args:
-            fps: Target frames per second
-            start_scripts: If True, call start_scripts() on all objects.
-                          Set to False when the editor wants to control script lifecycle.
-        """
-        if not self._setup_done:
-            self.setup()
-            self._setup_done = True
-
-        if start_scripts:
-            for obj in self._active_objects():
-                obj.start_scripts()
-
-        self._running = True
-
-    def tick(self, fps: Optional[int] = None, simulate: bool = True) -> bool:
-        """Advance one frame. Returns False when closed.
-        
-        Args:
-            fps: Target frames per second
-            simulate: If True, run physics and update logic
-            
-        Note:
-            When tick() is called before start(), it will call start() automatically
-            but with start_scripts=False. This allows the editor to control when
-            scripts are started (only when Play is clicked).
-        """
-        if fps is not None:
-            self._fps = fps
-        if not self._running:
-            self.start(self._fps, start_scripts=False)  # Don't start scripts on auto-start
-
-        raw_dt = self._clock.tick(self._fps) / 1000.0
-        self._delta_time = raw_dt
-        Time.delta_time = raw_dt * Time.scale
-        Time.time += Time.delta_time  # Accumulate elapsed time
-
-        self._handle_events()
-
-        if simulate:
-            if self._current_scene:
-                self._current_scene.on_update()
-            self.on_update()
-
-            for obj in self._active_objects():
-                obj.update()
-
-            if self._current_scene:
-                self._current_scene.canvas.update(self._delta_time)
-
-            self._process_collisions()
-
-            for obj in self._active_objects():
-                obj.update_end_of_frame()
-
-        self._render()
-
-        return self._running
-
-    def run(self, fps: int = 60):
-        """
-        Start the main loop.
-        
-        Args:
-            fps: Target frames per second (default 60)
-        """
-        self._fps = fps
-
-        while self._running:
-            self.tick(fps)
-
-        self._cleanup()
-
-    def close(self):
-        """Close the window and exit."""
-        self._running = False
-    
-    def _cleanup(self):
-        """Release all resources."""
-        # Release GPU resources for objects
-        for obj in self.objects:
-            obj3d = obj.get_component(Object3D)
-            if obj3d:
-                obj3d._release_gpu()
-        
-        if self._current_scene:
-            for obj in self._current_scene.objects:
-                obj3d = obj.get_component(Object3D)
-                if obj3d:
-                    obj3d._release_gpu()
-        
-        # Release shadow maps
-        for sm in getattr(self, '_shadow_maps', {}).values():
-            sm.release()
-        for sm in getattr(self, '_point_shadow_maps', {}).values():
-            sm.release()
-        if getattr(self, '_dummy_shadow_texture', None):
-            self._dummy_shadow_texture.release()
-            self._dummy_shadow_texture = None
-        # _dummy_shadow_cubemap shares the texture with _dummy_shadow_texture
-        self._dummy_shadow_cubemap = None
-        
-        # Release 2D overlay resources
-        if hasattr(self, '_2d_texture'):
-            self._2d_texture.release()
-        if hasattr(self, '_2d_vao'):
-            self._2d_vao.release()
-        if hasattr(self, '_2d_vbo'):
-            self._2d_vbo.release()
-        if hasattr(self, '_overlay_program'):
-            self._overlay_program.release()
-        
-        self._program.release()
-        self._ctx.release()
-        pygame.quit()

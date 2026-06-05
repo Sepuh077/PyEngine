@@ -1,10 +1,12 @@
+import math
 import numpy as np
 
-from engine3d.engine3d.component import Component, Time, InspectorField
+from engine3d.component import Component, Time, InspectorField
 from engine3d.types import Vector3
+from engine3d.types.quaternion import Quaternion
 
 
-class Rigidbody(Component):
+class Rigidbody3D(Component):
     """Physics body for velocity, forces etc. Similar to Unity Rigidbody."""
     
     # Inspector fields

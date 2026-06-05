@@ -6,11 +6,11 @@ import os
 # Ensure src is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.engine3d.component import Time
+from engine3d.component import Time
 from engine3d.engine3d.object3d import create_cube, create_plane
 from engine3d.engine3d.window import Window3D
-from engine3d.physics.rigidbody import Rigidbody
-from engine3d.physics.collider import BoxCollider, CollisionMode
+from engine3d.physics3d.rigidbody import Rigidbody3D
+from engine3d.physics3d.collider import BoxCollider3D, CollisionMode
 from engine3d.types import Vector3
 
 class HeadlessWindow(Window3D):
@@ -33,11 +33,11 @@ def test_physics_movement_and_collision_using_window_logic():
     
     # 1. Setup a dynamic object (A) that will move
     obj_a = create_cube(size=1.0, position=(0.0, 0.0, 0.0))
-    rb_a = Rigidbody(use_gravity=False, is_kinematic=False, is_static=False)
+    rb_a = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=False)
     # Give it velocity to the right (positive X)
     rb_a.velocity = Vector3(2.0, 0.0, 0.0)
     # Use CONTINUOUS to test that path too if desired, but default is fine
-    col_a = BoxCollider()
+    col_a = BoxCollider3D()
     
     obj_a.add_component(rb_a)
     obj_a.add_component(col_a)
@@ -46,8 +46,8 @@ def test_physics_movement_and_collision_using_window_logic():
     # 2. Setup a static object (B) that will be hit
     # Positioned at X=2.0.
     obj_b = create_cube(size=1.0, position=(2.0, 0.0, 0.0))
-    rb_b = Rigidbody(use_gravity=False, is_kinematic=False, is_static=True)
-    col_b = BoxCollider()
+    rb_b = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
+    col_b = BoxCollider3D()
     
     obj_b.add_component(rb_b)
     obj_b.add_component(col_b)
@@ -56,7 +56,7 @@ def test_physics_movement_and_collision_using_window_logic():
     # Compute initial transforms and bounds
     for obj in window.objects:
         obj.transform._compute_world_transform()
-        for col in obj.get_components(BoxCollider):
+        for col in obj.get_components(BoxCollider3D):
             col.update_bounds()
     
     # 3. Simulate movement over time
@@ -64,14 +64,14 @@ def test_physics_movement_and_collision_using_window_logic():
     
     # We want to see it collide and stop.
     # In Window3D.run_one_frame (assumed), it would:
-    # 1. Update Rigidbody (moves objects)
+    # 1. Update Rigidbody3D (moves objects)
     # 2. Process collisions (resolves overlaps and adjusts velocity)
     
     max_steps = 20
     collided = False
     
     for step in range(max_steps):
-        # Update Rigidbody (applies velocity)
+        # Update Rigidbody3D (applies velocity)
         rb_a.update()
         
         # In the engine, Window3D calls _process_collisions which:
@@ -99,9 +99,9 @@ def test_continuous_collision_using_window_logic():
     
     # Object A: moving VERY fast, might tunnel if not for continuous
     obj_a = create_cube(size=1.0, position=(0.0, 0.0, 0.0))
-    rb_a = Rigidbody(use_gravity=True, is_kinematic=False, is_static=False)
+    rb_a = Rigidbody3D(use_gravity=True, is_kinematic=False, is_static=False)
     rb_a.velocity = Vector3(100, 0, 0)
-    col_a = BoxCollider()
+    col_a = BoxCollider3D()
     col_a.collision_mode = CollisionMode.CONTINUOUS
     
     obj_a.add_component(rb_a)
@@ -110,16 +110,16 @@ def test_continuous_collision_using_window_logic():
     
     # Thin wall at X=2.0
     obj_b = create_cube(size=2, position=(3.0, 1.0, 0.0))
-    rb_b = Rigidbody(use_gravity=False, is_kinematic=False, is_static=True)
-    col_b = BoxCollider()
+    rb_b = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
+    col_b = BoxCollider3D()
     
     obj_b.add_component(rb_b)
     obj_b.add_component(col_b)
     window.objects.append(obj_b)
 
     obj_plane = create_plane(position=(0.0, -0.5, 0.0))
-    rb_plane = Rigidbody(use_gravity=False, is_kinematic=False, is_static=True)
-    col_plane = BoxCollider()
+    rb_plane = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
+    col_plane = BoxCollider3D()
     
     obj_plane.add_component(rb_plane)
     obj_plane.add_component(col_plane)
@@ -129,7 +129,7 @@ def test_continuous_collision_using_window_logic():
     for obj in window.objects:
         obj.transform._compute_world_transform()
         obj.transform._update_prev_position()
-        for col in obj.get_components(BoxCollider):
+        for col in obj.get_components(BoxCollider3D):
             col.update_bounds()
 
     Time.delta_time = 1 / 60 # Move 5.0 units in one step! Jump from 0 to 5. Wall is at 2.

@@ -17,10 +17,10 @@ from engine3d.engine3d import (
     draw_text, draw_rectangle, create_cube, create_plane,
     draw_image, PointLight3D, GameObject
 )
-from engine3d.engine3d.ui import (
+from engine3d.ui import (
     UILayer, Button, CheckBox, Slider, ProgressBar, Panel, Label
 )
-from engine3d.physics import Rigidbody
+from engine3d.physics3d import Rigidbody3D
 from engine3d.input import Keys
 from engine3d.types import Color
 
@@ -35,7 +35,7 @@ class UIScene(Scene3D):
         # Floor
         floor = self.add_object(create_plane(20, 20, color=Color.DARK_GRAY))
         floor.transform.position = (0, 0, 0)
-        floor.add_component(Rigidbody(is_static=True))
+        floor.add_component(Rigidbody3D(is_static=True))
 
         # Some cubes
         for i in range(8):

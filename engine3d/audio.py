@@ -10,11 +10,11 @@ from typing import Optional, Dict, TYPE_CHECKING
 import pygame
 import pygame.mixer
 
-from engine3d.engine3d.component import Component, InspectorField
+from engine3d.component import Component, InspectorField
 from engine3d.types import Vector3
 
 if TYPE_CHECKING:
-    from engine3d.engine3d.gameobject import GameObject
+    from engine3d.gameobject import GameObject
 
 
 _mixer_available: bool = False

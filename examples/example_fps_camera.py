@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 
 from engine3d.engine3d import Window3D, Scene3D, Time
 from engine3d.engine3d.object3d import create_cube, create_plane
-from engine3d.physics import BoxCollider, SphereCollider, CapsuleCollider, Collider, Rigidbody
+from engine3d.physics3d import BoxCollider3D, SphereCollider3D, CapsuleCollider3D, Collider3D, Rigidbody3D
 from engine3d.input import Keys
 from engine3d.types import Color
 
@@ -26,8 +26,8 @@ class FPSCameraScene(Scene3D):
         # Create a floor
         floor = self.add_object(create_plane(50, 50, color=Color.DARK_GRAY))
         floor.transform.position = (0, 0, 0)
-        floor.add_component(Rigidbody(is_static=True))
-        collider_classes = [BoxCollider, SphereCollider, CapsuleCollider]
+        floor.add_component(Rigidbody3D(is_static=True))
+        collider_classes = [BoxCollider3D, SphereCollider3D, CapsuleCollider3D]
         self.dc = True
         
         # Create some objects to look at (user adds collider)
@@ -37,7 +37,7 @@ class FPSCameraScene(Scene3D):
                     continue
                 cube = self.add_object(create_cube(1.0, color=Color.random_bright()))
                 if random.random() < 0.5:
-                    cube.add_component(Rigidbody(is_static=True))
+                    cube.add_component(Rigidbody3D(is_static=True))
                 cube.transform.position = (x, 0.5, z)
                 cube.add_component(random.choice(collider_classes)())
         
@@ -60,13 +60,13 @@ class FPSCameraScene(Scene3D):
             scale=2.0,
             color=Color.ORANGE
         )
-        stairs.add_component(BoxCollider())  # user adds
+        stairs.add_component(BoxCollider3D())  # user adds
         
         # Camera setup - first person style
         self.camera.position = (0, 2, 10)
         self.camera.look_at((0, 2, 0))
         self.camera_obj = create_cube(1, self.camera.position)
-        self.camera_obj.add_component(SphereCollider())
+        self.camera_obj.add_component(SphereCollider3D())
         
         # Mouse look settings
         self.mouse_sensitivity = 0.002
@@ -102,13 +102,13 @@ class FPSCameraScene(Scene3D):
         
         # Rotate all cubes
         for obj in self.objects:
-            if not obj.get_component(Rigidbody) or not obj.get_component(Rigidbody).is_static:
+            if not obj.get_component(Rigidbody3D) or not obj.get_component(Rigidbody3D).is_static:
                 obj.transform.rotation_y += delta_time * 20
                 obj.transform.rotation_x += delta_time * 10
                 obj.transform.rotation_z += delta_time * 5
             # Check via colliders
-            ocoll = obj.get_component(Collider)
-            ccoll = self.camera_obj.get_component(Collider)
+            ocoll = obj.get_component(Collider3D)
+            ccoll = self.camera_obj.get_component(Collider3D)
             if ocoll and ccoll and ocoll.check_collision(ccoll):
                 print(obj)
         

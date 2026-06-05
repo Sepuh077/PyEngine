@@ -123,7 +123,7 @@ class Button(UIElement):
         return self
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle, draw_text
+        from engine3d.drawing import draw_rectangle, draw_text
         
         # Determine current color
         if self._disabled:
@@ -216,7 +216,7 @@ class CheckBox(UIElement):
         self.font_size = font_size
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle, draw_text, draw_line
+        from engine3d.drawing import draw_rectangle, draw_text, draw_line
         
         # Draw box background - darker when checked for better visibility
         if self.checked:
@@ -332,7 +332,7 @@ class Slider(UIElement):
         return self.min_value + ratio * (self.max_value - self.min_value)
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle, draw_text
+        from engine3d.drawing import draw_rectangle, draw_text
         
         track_y = self.absolute_y + self.height // 2 - 3
         thumb_x = self._value_to_x(self._value)
@@ -430,7 +430,7 @@ class ProgressBar(UIElement):
         return (self._value / self.max_value) * 100.0
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle, draw_text
+        from engine3d.drawing import draw_rectangle, draw_text
         
         # Draw background
         draw_rectangle(self.absolute_x, self.absolute_y, self.width, self.height,
@@ -475,7 +475,7 @@ class Panel(UIElement):
         self.title_height = 30 if title else 0
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle, draw_text
+        from engine3d.drawing import draw_rectangle, draw_text
         
         # Draw background
         draw_rectangle(self.absolute_x, self.absolute_y, self.width, self.height, self.bg_color)

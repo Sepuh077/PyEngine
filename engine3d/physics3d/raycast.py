@@ -2,9 +2,9 @@ import numpy as np
 from typing import Optional, Tuple, List
 from dataclasses import dataclass
 
-from engine3d.physics.collider import Collider
-from engine3d.physics.types import ColliderType
-from engine3d.engine3d.drawing import get_window
+from engine3d.physics3d.collider import Collider3D
+from engine3d.physics3d.types import ColliderType
+from engine3d.drawing import get_window
 
 @dataclass
 class Ray:
@@ -21,7 +21,7 @@ class Ray:
 
 @dataclass
 class RaycastHit:
-    collider: Collider
+    collider: Collider3D
     point: np.ndarray
     normal: np.ndarray
     distance: float
@@ -94,7 +94,7 @@ def ray_triangle_intersection(ray: Ray, v0: np.ndarray, v1: np.ndarray, v2: np.n
 # Collider Raycasts
 # =========================================================================
 
-def raycast_sphere(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
+def raycast_sphere(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     center, radius = collider.get_world_sphere()
     hits = ray_sphere_intersection(ray, center, radius)
     
@@ -108,7 +108,7 @@ def raycast_sphere(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
     normal = (point - center) / radius
     return RaycastHit(collider, point, normal, t)
 
-def raycast_obb(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
+def raycast_obb(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     center, axes, extents = collider.get_world_obb()
     
     # Transform ray to OBB local space
@@ -155,7 +155,7 @@ def raycast_obb(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
     
     return RaycastHit(collider, point_world, normal_world, t_min)
 
-def raycast_cylinder(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
+def raycast_cylinder(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     # Approximating cylinder raycast is complex.
     # Simplified: transform to local cylinder space (aligned with Y), raycast infinite cylinder + caps
     
@@ -220,7 +220,7 @@ def raycast_cylinder(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
     
     return RaycastHit(collider, pt_world, n_world, t)
 
-def raycast_mesh(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
+def raycast_mesh(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     if collider.mesh_data is None:
         return None
         
@@ -303,7 +303,7 @@ def raycast_mesh(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
     
     return RaycastHit(collider, pt_world, n_world, dist)
 
-def raycast(ray: Ray, collider: Collider) -> Optional[RaycastHit]:
+def raycast(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     """
     Dispatch raycast to specific collider type.
     """

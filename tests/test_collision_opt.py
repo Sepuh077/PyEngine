@@ -6,13 +6,13 @@ import os
 # Ensure src is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.physics.collider import Collider, BoxCollider, SphereCollider
-from engine3d.physics.collision import objects_collide, get_collision_manifold, CollisionManifold
+from engine3d.physics3d.collider import Collider3D, BoxCollider3D, SphereCollider3D
+from engine3d.physics3d.collision import objects_collide, get_collision_manifold, CollisionManifold
 
 def test_sphere_sphere():
     print("Testing Sphere-Sphere...")
-    a = SphereCollider()
-    b = SphereCollider()
+    a = SphereCollider3D()
+    b = SphereCollider3D()
     
     # Setup world bounds manually since we don't have Object3D updating them
     # Center, Radius
@@ -36,8 +36,8 @@ def test_sphere_sphere():
 
 def test_obb_obb():
     print("Testing OBB-OBB...")
-    a = BoxCollider()
-    b = BoxCollider()
+    a = BoxCollider3D()
+    b = BoxCollider3D()
     
     # Identity rotation
     R = np.eye(3, dtype=np.float32)

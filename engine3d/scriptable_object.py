@@ -32,7 +32,7 @@ import uuid
 from pathlib import Path
 from dataclasses import dataclass
 
-from engine3d.engine3d.component import InspectorField, InspectorFieldInfo
+from engine3d.component import InspectorField, InspectorFieldInfo
 
 T = TypeVar('T', bound='ScriptableObject')
 

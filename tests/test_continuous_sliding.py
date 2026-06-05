@@ -6,11 +6,11 @@ import os
 # Ensure src is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.engine3d.component import Time
+from engine3d.component import Time
 from engine3d.engine3d.object3d import create_cube
 from engine3d.engine3d.window import Window3D
-from engine3d.physics.rigidbody import Rigidbody
-from engine3d.physics.collider import BoxCollider, CollisionMode
+from engine3d.physics3d.rigidbody import Rigidbody3D
+from engine3d.physics3d.collider import BoxCollider3D, CollisionMode
 from engine3d.types import Vector3
 
 class HeadlessWindow(Window3D):
@@ -32,10 +32,10 @@ def test_continuous_collision_sliding():
     
     # Object A: moving diagonally down and right
     obj_a = create_cube(size=1.0, position=(0.0, 1.0, 0.0))
-    rb_a = Rigidbody(use_gravity=False, is_kinematic=False, is_static=False)
+    rb_a = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=False)
     # Fast velocity: right and down
     rb_a.velocity = Vector3(10.0, -10.0, 0.0)
-    col_a = BoxCollider()
+    col_a = BoxCollider3D()
     col_a.collision_mode = CollisionMode.CONTINUOUS
     
     obj_a.add_component(rb_a)
@@ -47,8 +47,8 @@ def test_continuous_collision_sliding():
     # So obj_a rests exactly on top of floor when obj_a.Y = 1.0.
     obj_b = create_cube(size=1.0, position=(0.0, 0.0, 0.0))
     obj_b.transform.scale_xyz = (100.0, 1.0, 100.0) # wide floor
-    rb_b = Rigidbody(use_gravity=False, is_kinematic=False, is_static=True)
-    col_b = BoxCollider()
+    rb_b = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
+    col_b = BoxCollider3D()
     
     obj_b.add_component(rb_b)
     obj_b.add_component(col_b)
@@ -58,12 +58,12 @@ def test_continuous_collision_sliding():
     for obj in window.objects:
         obj.transform._compute_world_transform()
         obj.transform._update_prev_position()
-        for col in obj.get_components(BoxCollider):
+        for col in obj.get_components(BoxCollider3D):
             col.update_bounds()
 
     Time.delta_time = 0.1 # 10 * 0.1 = 1.0 movement
     
-    # Update Rigidbody (moves A to X=1.0, Y=0.0)
+    # Update Rigidbody3D (moves A to X=1.0, Y=0.0)
     rb_a.update()
     assert obj_a.transform.position[0] == 1.0
     assert obj_a.transform.position[1] == 0.0

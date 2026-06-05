@@ -6,9 +6,9 @@ Tests for new GameObject features:
 """
 import pytest
 from engine3d.engine3d import GameObject, Scene3D, Tag, Camera3D
-from engine3d.engine3d.graphics.material import SkyboxMaterial
-from engine3d.physics.collider import BoxCollider, SphereCollider
-from engine3d.engine3d.component import Script
+from engine3d.graphics.material import SkyboxMaterial
+from engine3d.physics3d.collider import BoxCollider3D, SphereCollider3D
+from engine3d.component import Script
 
 
 class TestTag:
@@ -138,18 +138,18 @@ class TestGetByType:
         scene.clear_objects()
         
         obj1 = GameObject("Obj1")
-        obj1.add_component(BoxCollider())
+        obj1.add_component(BoxCollider3D())
         
         obj2 = GameObject("Obj2")
-        obj2.add_component(SphereCollider())
-        obj2.add_component(BoxCollider())
+        obj2.add_component(SphereCollider3D())
+        obj2.add_component(BoxCollider3D())
         
         scene.add_object(obj1)
         scene.add_object(obj2)
         
-        result = GameObject.get_by_type(scene, BoxCollider)
+        result = GameObject.get_by_type(scene, BoxCollider3D)
         assert result is not None
-        assert result.get_component(BoxCollider) is not None
+        assert result.get_component(BoxCollider3D) is not None
     
     def test_get_by_type_returns_none_if_not_found(self):
         """Test get_by_type returns None when no match."""
@@ -159,7 +159,7 @@ class TestGetByType:
         obj = GameObject("Obj")
         scene.add_object(obj)
         
-        result = GameObject.get_by_type(scene, BoxCollider)
+        result = GameObject.get_by_type(scene, BoxCollider3D)
         assert result is None
     
     def test_get_all_by_type_returns_all(self):
@@ -168,10 +168,10 @@ class TestGetByType:
         scene.clear_objects()
         
         obj1 = GameObject("Obj1")
-        obj1.add_component(BoxCollider())
+        obj1.add_component(BoxCollider3D())
         
         obj2 = GameObject("Obj2")
-        obj2.add_component(BoxCollider())
+        obj2.add_component(BoxCollider3D())
         
         obj3 = GameObject("Obj3")  # No collider
         
@@ -179,7 +179,7 @@ class TestGetByType:
         scene.add_object(obj2)
         scene.add_object(obj3)
         
-        results = GameObject.get_all_by_type(scene, BoxCollider)
+        results = GameObject.get_all_by_type(scene, BoxCollider3D)
         assert len(results) == 2
     
     def test_get_by_type_finds_camera(self):

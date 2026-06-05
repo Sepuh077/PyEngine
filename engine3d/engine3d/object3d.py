@@ -4,11 +4,11 @@ import numpy as np
 import trimesh
 from typing import Tuple, Optional, TYPE_CHECKING
 
-from engine3d.engine3d.component import Component
-from engine3d.engine3d.gameobject import GameObject
+from engine3d.component import Component
+from engine3d.gameobject import GameObject
 from trimesh.visual.texture import TextureVisuals
 from engine3d.types import ColorType
-from engine3d.engine3d.graphics.material import Material, LitMaterial
+from engine3d.graphics.material import Material, LitMaterial
 
 if TYPE_CHECKING:
     import moderngl
@@ -420,13 +420,7 @@ class Object3D(Component):
         self._gpu_initialized = False
 
     def _rotation_matrix(self):
-        cx, cy, cz = np.cos(self.game_object.transform._local_rotation)
-        sx, sy, sz = np.sin(self.game_object.transform._local_rotation)
-
-        Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]], dtype=np.float32)
-        Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], dtype=np.float32)
-        Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]], dtype=np.float32)
-        return Rx @ Ry @ Rz
+        return self.game_object.transform._local_quaternion.to_rotation_matrix()
 
     def __repr__(self):
         return f"Object3D(mesh={self._mesh_key})"

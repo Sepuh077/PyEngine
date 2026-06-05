@@ -38,14 +38,16 @@ def run_editor(path: str = "."):
     except ImportError:
         print("Editor requires PySide6. Install with: pip install PySide6")
         raise
-from engine3d.engine3d.scene import Scene3D, SceneManager
-from engine3d.engine3d.gameobject import GameObject, Prefab
-from engine3d.engine3d.component import Component, Script, WaitForSeconds, WaitEndOfFrame, Time, InspectorField, InspectorFieldType, Tag, serializable
-from engine3d.engine3d.transform import Transform
+from engine3d.engine3d.scene import Scene3D
+from engine3d.scene import Scene, SceneManager
+from engine3d.gameobject import GameObject, Prefab
+from engine3d.component import Component, Script, WaitForSeconds, WaitEndOfFrame, Time, InspectorField, InspectorFieldType, Tag, serializable
+from engine3d.transform import Transform
 from engine3d.engine3d.object3d import Object3D, create_cube, create_sphere, create_plane
+from engine3d.scene import Scene  # noqa: F811 – base class re-export
 from engine3d.engine3d.camera import Camera3D, Viewport, ClearFlags, RenderLayer
 from engine3d.engine3d.light import Light3D, DirectionalLight3D, PointLight3D
-from engine3d.engine3d.graphics.material import (
+from engine3d.graphics.material import (
     Material,
     UnlitMaterial,
     LitMaterial,
@@ -55,7 +57,7 @@ from engine3d.engine3d.graphics.material import (
     SkyboxMaterial,
     MATERIAL_FILE_EXT,
 )
-from engine3d.engine3d.particle import (
+from engine3d.engine3d.particle import (  # particle stays in engine3d (3D-specific)
     ParticleSystem,
     ParticleBurst,
     linear_size_over_lifetime,
@@ -67,22 +69,26 @@ from engine3d.engine3d.particle import (
 )
 
 # Scriptable Objects
-from engine3d.engine3d.scriptable_object import (
+from engine3d.scriptable_object import (
     ScriptableObject,
     ScriptableObjectTypeInfo,
     ScriptableObjectMeta,
     SCRIPTABLE_OBJECT_EXT,
 )
 
-# Lazy import Rigidbody to avoid circular dependency
+# Lazy import Rigidbody3D to avoid circular dependency
 def __getattr__(name):
+    if name == "Rigidbody3D":
+        from engine3d.physics3d.rigidbody import Rigidbody3D
+        return Rigidbody3D
+    # Backward compat alias
     if name == "Rigidbody":
-        from engine3d.physics.rigidbody import Rigidbody
-        return Rigidbody
+        from engine3d.physics3d.rigidbody import Rigidbody3D
+        return Rigidbody3D
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 # UI System
-from engine3d.engine3d.ui import (
+from engine3d.ui import (
     UILayer,
     UIElement,
     UIContainer,
@@ -97,7 +103,7 @@ from engine3d.engine3d.ui import (
 )
 
 # Arcade-style global 2D drawing (separate module)
-from engine3d.engine3d.drawing import (
+from engine3d.drawing import (
     get_window,
     draw_text,
     draw_rectangle,
@@ -109,14 +115,15 @@ from engine3d.engine3d.drawing import (
 )
 
 # Resources
-from engine3d.engine3d.resources import Resources
+from engine3d.resources import Resources
 
 # Audio
-from engine3d.engine3d.audio import AudioClip, AudioListener, AudioSource
+from engine3d.audio import AudioClip, AudioListener, AudioSource
 
 
 __all__ = [
     'Window3D',
+    'Scene',
     'Scene3D',
     'SceneManager',
     'GameObject',
@@ -132,7 +139,7 @@ __all__ = [
     'Tag',
     'serializable',
     'Transform',
-    'Rigidbody',
+    'Rigidbody3D',
     'Object3D',
     'create_cube',
     'create_sphere',

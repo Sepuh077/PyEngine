@@ -1,6 +1,6 @@
 from typing import List
 
-from engine3d.physics.types import CollisionRelation
+from engine3d.physics3d.types import CollisionRelation
 
 
 class ColliderGroup:

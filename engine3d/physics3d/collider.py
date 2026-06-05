@@ -1,15 +1,15 @@
 import numpy as np
 from typing import TYPE_CHECKING
-from engine3d.physics.types import CollisionMode, CollisionRelation
-from engine3d.engine3d.component import Component, InspectorField
+from engine3d.physics3d.types import CollisionMode, CollisionRelation
+from engine3d.component import Component, InspectorField
 from engine3d.types import Vector3
-from engine3d.physics.group import ColliderGroup
+from engine3d.physics3d.group import ColliderGroup
 
 if TYPE_CHECKING:
-    from engine3d.engine3d.gameobject import GameObject
+    from engine3d.gameobject import GameObject
 
 
-class Collider(Component):
+class Collider3D(Component):
     """Base collider. Subclasses for types (Box, Sphere, Capsule). Contains Object3D ref."""
     
     # Inspector fields
@@ -57,17 +57,10 @@ class Collider(Component):
 
         obj.transform._compute_world_transform()
 
-        # Shared rotation/extents/center
-        rotation = obj.transform._world_rotation
+        # Rotation matrix directly from quaternion (avoids gimbal-lock artifacts)
+        R = obj.transform._world_quaternion.to_rotation_matrix()
         scale = obj.transform._world_scale.to_numpy()
         position = obj.transform._world_position.to_numpy()
-
-        cx, cy, cz = np.cos(rotation)
-        sx, sy, sz = np.sin(rotation)
-        Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]], dtype=np.float32)
-        Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]], dtype=np.float32)
-        Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]], dtype=np.float32)
-        R = Rx @ Ry @ Rz
 
         local_extents = (obj3d._local_max - obj3d._local_min) * 0.5
         extents = local_extents * scale
@@ -126,7 +119,7 @@ class Collider(Component):
         return self.mesh_data
 
     # Collision helpers (moved here; collider-centric)
-    def check_collision(self, other: 'Collider') -> bool:
+    def check_collision(self, other: 'Collider3D') -> bool:
         if other is None or not self.game_object or not other.game_object:
             return False
         # Use ColliderGroup: IGNORE skips (Trigger=detect/pass, Normal=block)
@@ -134,14 +127,14 @@ class Collider(Component):
             return False
         self.update_bounds()
         other.update_bounds()
-        from engine3d.physics.collision import objects_collide
+        from engine3d.physics3d.collision import objects_collide
         return objects_collide(self, other)
 
     def contains_point(self, point, radius=1.0):
         if not self.game_object:
             return False
         self.update_bounds()
-        from engine3d.physics.collision import collide_point_with_radius
+        from engine3d.physics3d.collision import collide_point_with_radius
         return collide_point_with_radius(np.array(point, dtype=np.float32), self, radius)
 
     def OnCollisionEnter(self, other):
@@ -154,7 +147,7 @@ class Collider(Component):
         pass
 
 
-class BoxCollider(Collider):
+class BoxCollider3D(Collider3D):
     """Box/OBB collider (replaces old CUBE). Only size/center."""
     
     # Inspector fields
@@ -184,7 +177,7 @@ class BoxCollider(Collider):
         # (no sphere/cylinder)
 
 
-class SphereCollider(Collider):
+class SphereCollider3D(Collider3D):
     """Sphere collider. Only radius/center."""
     
     # Inspector fields
@@ -216,7 +209,7 @@ class SphereCollider(Collider):
         # (no obb/cylinder)
 
 
-class CapsuleCollider(Collider):
+class CapsuleCollider3D(Collider3D):
     """Capsule/cylinder collider. Only radius/height/center."""
     
     # Inspector fields

@@ -21,7 +21,7 @@ from engine3d.engine3d import (
     ConeShape,
     BoxShape,
 )
-from engine3d.physics import BoxCollider, SphereCollider, CollisionMode, Rigidbody
+from engine3d.physics3d import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
 from engine3d.types import Color
 
 
@@ -34,8 +34,8 @@ class ParticleScene(Scene3D):
         
         # Ground
         self.ground = create_plane(width=30, height=30, position=(0, -2, 0), color=Color.SAND)
-        self.ground.add_component(Rigidbody(is_static=True))
-        ground_collider = self.ground.add_component(BoxCollider())
+        self.ground.add_component(Rigidbody3D(is_static=True))
+        ground_collider = self.ground.add_component(BoxCollider3D())
         ground_collider.size = [30, 1, 30]
         self.add_object(self.ground)
 
@@ -45,7 +45,7 @@ class ParticleScene(Scene3D):
         self.color_curve = linear_color_over_lifetime(Color.CYAN, Color.PURPLE)
         self.velocity_curve = linear_velocity_over_lifetime(6.0, 1.0)
 
-        self.collider_template = SphereCollider(radius=0.4)
+        self.collider_template = SphereCollider3D(radius=0.4)
         self.collider_template.collision_mode = CollisionMode.IGNORE
         
         self.shape = SphereShape()

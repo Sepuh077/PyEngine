@@ -8,9 +8,9 @@ from unittest.mock import MagicMock, patch
 # Ensure project root is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.physics.raycast import Ray, debug_raycast
+from engine3d.physics3d.raycast import Ray, debug_raycast
 
-@patch('engine3d.physics.raycast.get_window')
+@patch('engine3d.physics3d.raycast.get_window')
 def test_debug_raycast_mock(mock_get_window):
     print("Testing debug_raycast with Mock Window...")
     

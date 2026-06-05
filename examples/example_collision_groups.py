@@ -15,28 +15,28 @@ sys.path.insert(0, project_root)
 
 from engine3d.engine3d import Window3D, Scene3D, GameObject, Time
 from engine3d.engine3d.object3d import create_cube, create_plane, Object3D
-from engine3d.physics import CollisionMode, CollisionRelation, BoxCollider, SphereCollider, Rigidbody, Collider, ColliderGroup
+from engine3d.physics3d import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
 from engine3d.input import Keys
 from engine3d.types import Color
 
 
-# Player uses custom OnCollision* (now on collider; other is Collider, main obj via .game_object)
+# Player uses custom OnCollision* (now on collider; other is Collider3D, main obj via .game_object)
 def make_player_callbacks(player: GameObject):
-    player_coll = player.get_component(Collider)
-    def on_enter(other: Collider):
-        # other is other Collider; get main object
+    player_coll = player.get_component(Collider3D)
+    def on_enter(other: Collider3D):
+        # other is other Collider3D; get main object
         other_obj = other.game_object
         obj3d = other_obj.get_component(Object3D)
         if obj3d and hasattr(obj3d, 'color_on_trigger'):
             obj3d.color = obj3d.color_on_trigger
         print(f"Player entered collision with {other_obj.name or 'obj'}")
-    def on_exit(other: Collider):
+    def on_exit(other: Collider3D):
         other_obj = other.game_object
         obj3d = other_obj.get_component(Object3D)
         if obj3d and hasattr(obj3d, 'color_normal'):
             obj3d.color = obj3d.color_normal
         print(f"Player exited collision with {other_obj.name or 'obj'}")
-    def on_stay(other: Collider):
+    def on_stay(other: Collider3D):
         other_obj = other.game_object
         # Stay only for walls/floor (by name)
         if getattr(other_obj, 'name', '') == "Wall" or getattr(other_obj, 'name', '') == "Floor":
@@ -55,9 +55,9 @@ class CollisionGroupsScene(Scene3D):
         # Floor (solid with player; add collider separately)
         floor = self.add_object(create_plane(30, 30, color=Color.DARK_GRAY))
         floor.transform.position = (0, -0.5, 0)
-        floor.add_component(Rigidbody(is_static=True))
+        floor.add_component(Rigidbody3D(is_static=True))
         floor.name = "Floor"
-        fcoll = floor.add_component(BoxCollider())
+        fcoll = floor.add_component(BoxCollider3D())
         fcoll.collision_mode = CollisionMode.NORMAL
 
         # Define groups + relations (Trigger=detect/pass, Normal=block, Ignore=skip)
@@ -78,9 +78,9 @@ class CollisionGroupsScene(Scene3D):
         for pos in wall_positions:
             wall = self.add_object(create_cube(2.0, color=Color.GRAY))
             wall.transform.position = pos
-            wall.add_component(Rigidbody(is_static=True))
+            wall.add_component(Rigidbody3D(is_static=True))
             wall.name = "Wall"
-            wcoll = wall.add_component(BoxCollider())
+            wcoll = wall.add_component(BoxCollider3D())
             wcoll.collision_mode = CollisionMode.NORMAL
             wcoll.group = wall_group
             self.walls.append(wall)
@@ -94,7 +94,7 @@ class CollisionGroupsScene(Scene3D):
             trig.name = f"Trigger{i}"
             trig.get_component(Object3D).color_normal = Color.YELLOW
             trig.get_component(Object3D).color_on_trigger = Color.PURPLE
-            tcoll = trig.add_component(SphereCollider())
+            tcoll = trig.add_component(SphereCollider3D())
             tcoll.collision_mode = CollisionMode.TRIGGER  # detect but pass
             tcoll.group = trigger_group
             self.triggers.append(trig)
@@ -106,7 +106,7 @@ class CollisionGroupsScene(Scene3D):
             ign = self.add_object(create_cube(1.5, color=Color.ORANGE))
             ign.transform.position = pos
             ign.name = f"Ignore{i}"
-            icoll = ign.add_component(BoxCollider())
+            icoll = ign.add_component(BoxCollider3D())
             icoll.collision_mode = CollisionMode.IGNORE
             icoll.group = ignore_group
             self.ignores.append(ign)
@@ -118,9 +118,9 @@ class CollisionGroupsScene(Scene3D):
         self.player.transform.position = (0, 0.5, 0)
         self.player.name = "Player"
         self.player.move_speed = 100.0
-        self.player.add_component(Rigidbody())
+        self.player.add_component(Rigidbody3D())
         # Add collider (mode kept; group sets relations)
-        pcoll = self.player.add_component(BoxCollider())
+        pcoll = self.player.add_component(BoxCollider3D())
         pcoll.collision_mode = CollisionMode.CONTINUOUS
         pcoll.group = player_group
         self.player.collision_modes = [CollisionMode.NORMAL, CollisionMode.CONTINUOUS, CollisionMode.IGNORE]
@@ -155,16 +155,16 @@ class CollisionGroupsScene(Scene3D):
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             dz += speed
         
-        self.player.get_component(Rigidbody).velocity[0] = dx
-        self.player.get_component(Rigidbody).velocity[2] = dz
+        self.player.get_component(Rigidbody3D).velocity[0] = dx
+        self.player.get_component(Rigidbody3D).velocity[2] = dz
         
         # Count active collisions for display (from collider)
-        pcoll = self.player.get_component(Collider)
+        pcoll = self.player.get_component(Collider3D)
         self.collision_count = len(pcoll._current_collisions) if pcoll else 0
         
         # Update caption (mode from collider)
         pos = self.player.transform.position
-        pcoll = self.player.get_component(Collider)
+        pcoll = self.player.get_component(Collider3D)
         mode_str = str(pcoll.collision_mode).split('.')[-1] if pcoll else "N/A"
         self.window.set_caption(
             f"Groups Demo - Player: ({pos[0]:.1f}, {pos[1]:.1f}, {pos[2]:.1f}) | "
@@ -180,7 +180,7 @@ class CollisionGroupsScene(Scene3D):
             self.show_colliders = not self.show_colliders
         elif key == pygame.K_c:
             # Cycle collision mode (on collider)
-            pcoll = self.player.get_component(Collider)
+            pcoll = self.player.get_component(Collider3D)
             if pcoll:
                 self.player.mode_idx = (self.player.mode_idx + 1) % len(self.player.collision_modes)
                 pcoll.collision_mode = self.player.collision_modes[self.player.mode_idx]
@@ -206,7 +206,7 @@ class CollisionGroupsScene(Scene3D):
                     col = Color.PURPLE
                 self.window.draw_collider(obj, col)
         # Show mode/speed info
-        pcoll = self.player.get_component(Collider)
+        pcoll = self.player.get_component(Collider3D)
         mode_str = str(pcoll.collision_mode).split('.')[-1] if pcoll else "N/A"
         self.draw_text(f"Mode: {mode_str} | Speed: {self.player.move_speed}", 10, 10, Color.WHITE, 20)
         # Note: on_draw can add 2D UI if needed

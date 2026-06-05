@@ -14,7 +14,7 @@ import numpy as np
 
 if TYPE_CHECKING:
     from engine3d.engine3d.camera import Camera3D
-    from engine3d.engine3d.gameobject import GameObject
+    from engine3d.gameobject import GameObject
 
 # ── Axis identifiers ────────────────────────────────────────────────
 AXIS_NONE = 0

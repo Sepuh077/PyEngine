@@ -1,14 +1,14 @@
 import numpy as np
-from engine3d.physics.collider import Collider, SphereCollider
-from engine3d.physics.geometry import closest_point_on_triangle
-from engine3d.physics.types import ColliderType
+from engine3d.physics3d.collider import Collider3D, SphereCollider3D
+from engine3d.physics3d.geometry import closest_point_on_triangle
+from engine3d.physics3d.types import ColliderType
 
 
 # =========================================================================
 # Boolean Checkers (Fast, Optimized)
 # =========================================================================
 
-def sphere_vs_sphere_bool(a: Collider, b: Collider) -> bool:
+def sphere_vs_sphere_bool(a: Collider3D, b: Collider3D) -> bool:
     ca, ra = a.get_world_sphere()
     cb, rb = b.get_world_sphere()
     diff = ca - cb
@@ -53,12 +53,12 @@ def _obb_bool(Ca, Aa, Ea, Cb, Ab, Eb) -> bool:
             
     return True
 
-def obb_vs_obb_bool(a: Collider, b: Collider) -> bool:
+def obb_vs_obb_bool(a: Collider3D, b: Collider3D) -> bool:
     Ca, Aa, Ea = a.get_world_obb()
     Cb, Ab, Eb = b.get_world_obb()
     return _obb_bool(Ca, Aa, Ea, Cb, Ab, Eb)
 
-def sphere_vs_obb_bool(sphere_obj: Collider, obb_obj: Collider) -> bool:
+def sphere_vs_obb_bool(sphere_obj: Collider3D, obb_obj: Collider3D) -> bool:
     cs, rs = sphere_obj.get_world_sphere()
     Cb, Ab, Eb = obb_obj.get_world_obb()
 
@@ -73,7 +73,7 @@ def sphere_vs_obb_bool(sphere_obj: Collider, obb_obj: Collider) -> bool:
     
     return dist_sq <= rs ** 2
 
-def cylinder_vs_sphere_bool(cyl: Collider, sph: Collider) -> bool:
+def cylinder_vs_sphere_bool(cyl: Collider3D, sph: Collider3D) -> bool:
     Cc, rc, hc = cyl.get_world_cylinder()
     cs, rs = sph.get_world_sphere()
 
@@ -86,7 +86,7 @@ def cylinder_vs_sphere_bool(cyl: Collider, sph: Collider) -> bool:
     
     return d_len_sq < (rc + rs)**2
 
-def cylinder_vs_cylinder_bool(a: Collider, b: Collider) -> bool:
+def cylinder_vs_cylinder_bool(a: Collider3D, b: Collider3D) -> bool:
     Ca, ra, ha = a.get_world_cylinder()
     Cb, rb, hb = b.get_world_cylinder()
     
@@ -104,7 +104,7 @@ def cylinder_vs_cylinder_bool(a: Collider, b: Collider) -> bool:
     
     return dist_sq < r_sum * r_sum
 
-def cylinder_vs_obb_bool(cyl: Collider, obb: Collider) -> bool:
+def cylinder_vs_obb_bool(cyl: Collider3D, obb: Collider3D) -> bool:
     # SAT with early exit
     Cc, rc, hc = cyl.get_world_cylinder()
     Cb, Ab, Eb = obb.get_world_obb()
@@ -153,7 +153,7 @@ def cylinder_vs_obb_bool(cyl: Collider, obb: Collider) -> bool:
         
     return True
 
-def sphere_vs_mesh_bool(sph: Collider, mesh: Collider) -> bool:
+def sphere_vs_mesh_bool(sph: Collider3D, mesh: Collider3D) -> bool:
     if mesh.mesh_data is None:
         return False
     vertices, faces, model_mat = mesh.mesh_data
@@ -187,10 +187,10 @@ def sphere_vs_mesh_bool(sph: Collider, mesh: Collider) -> bool:
             
     return False
 
-def cylinder_vs_mesh_bool(cyl: Collider, mesh: Collider) -> bool:
+def cylinder_vs_mesh_bool(cyl: Collider3D, mesh: Collider3D) -> bool:
     return sphere_vs_mesh_bool(cyl, mesh)
 
-def aabb_overlap(a: Collider, b: Collider) -> bool:
+def aabb_overlap(a: Collider3D, b: Collider3D) -> bool:
     # Fast AABB broadphase
     aabb_a = a.get_world_aabb()
     aabb_b = b.get_world_aabb()
@@ -202,7 +202,7 @@ def aabb_overlap(a: Collider, b: Collider) -> bool:
                 amin[0] > bmax[0] or amin[1] > bmax[1] or amin[2] > bmax[2])
 
 
-def objects_collide(a: Collider, b: Collider) -> bool:
+def objects_collide(a: Collider3D, b: Collider3D) -> bool:
     """
     Optimized boolean collision check.
     Does NOT calculate manifold, just returns True/False.
@@ -257,11 +257,11 @@ def objects_collide(a: Collider, b: Collider) -> bool:
     # Fallback
     return obb_vs_obb_bool(a, b)
 
-def collide_point_with_radius(point: np.ndarray, collider: Collider, radius: float = 1.0) -> bool:
+def collide_point_with_radius(point: np.ndarray, collider: Collider3D, radius: float = 1.0) -> bool:
     """
     Check collision treating the point as a sphere with a given radius.
     """
-    point_proxy = SphereCollider()
+    point_proxy = SphereCollider3D()
     point_proxy.sphere = (point, radius)
     # Ensure proxy has AABB for broadphase
     point_proxy.aabb = (point - radius, point + radius)

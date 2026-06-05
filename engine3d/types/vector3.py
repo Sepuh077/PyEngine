@@ -7,7 +7,7 @@ from typing import Union, Tuple, Optional, TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    pass
+    from engine3d.types.vector2 import Vector2
 
 
 class Vector3:
@@ -37,7 +37,7 @@ class Vector3:
     
     def __init__(
         self,
-        x: Union[float, int, Tuple, list, np.ndarray] = 0.0,
+        x: Union[float, int, Tuple, list, np.ndarray, 'Vector2'] = 0.0,
         y: Optional[float] = None,
         z: Optional[float] = None
     ):
@@ -45,22 +45,39 @@ class Vector3:
         Initialize a Vector3.
         
         Args:
-            x: X component, or a tuple/list/array of 3 values
+            x: X component, or a tuple/list/array of 3 values, or a Vector2 (z defaults to 0)
             y: Y component (if x is a scalar)
             z: Z component (if x is a scalar)
         """
-        if isinstance(x, (tuple, list)):
-            if len(x) != 3:
-                raise ValueError(f"Expected 3 elements, got {len(x)}")
-            self._x = float(x[0])
-            self._y = float(x[1])
-            self._z = float(x[2])
+        # Check for Vector2 first (before tuple/list since Vector2 is iterable)
+        from engine3d.types.vector2 import Vector2 as _Vec2
+        if isinstance(x, _Vec2):
+            self._x = float(x.x)
+            self._y = float(x.y)
+            self._z = float(z) if z is not None else 0.0
+        elif isinstance(x, (tuple, list)):
+            if len(x) == 2:
+                self._x = float(x[0])
+                self._y = float(x[1])
+                self._z = float(z) if z is not None else 0.0
+            elif len(x) == 3:
+                self._x = float(x[0])
+                self._y = float(x[1])
+                self._z = float(x[2])
+            else:
+                raise ValueError(f"Expected 2 or 3 elements, got {len(x)}")
         elif isinstance(x, np.ndarray):
-            if x.shape != (3,):
-                raise ValueError(f"Expected shape (3,), got {x.shape}")
-            self._x = float(x[0])
-            self._y = float(x[1])
-            self._z = float(x[2])
+            flat = x.flatten()
+            if flat.shape[0] == 2:
+                self._x = float(flat[0])
+                self._y = float(flat[1])
+                self._z = float(z) if z is not None else 0.0
+            elif flat.shape[0] == 3:
+                self._x = float(flat[0])
+                self._y = float(flat[1])
+                self._z = float(flat[2])
+            else:
+                raise ValueError(f"Expected 2 or 3 elements, got {flat.shape[0]}")
         elif isinstance(x, Vector3):
             self._x = x._x
             self._y = x._y
@@ -454,14 +471,14 @@ class Vector3:
         """Convert other to Vector3 if needed."""
         if isinstance(other, Vector3):
             return other
-        elif isinstance(other, (tuple, list)):
-            if len(other) != 3:
-                raise ValueError(f"Expected 3 elements, got {len(other)}")
+        from engine3d.types.vector2 import Vector2 as _Vec2
+        if isinstance(other, _Vec2):
             return Vector3(other)
-        elif isinstance(other, np.ndarray):
+        if isinstance(other, (tuple, list)):
             return Vector3(other)
-        else:
-            raise TypeError(f"Unsupported type for Vector3 operation: {type(other)}")
+        if isinstance(other, np.ndarray):
+            return Vector3(other)
+        raise TypeError(f"Unsupported type for Vector3 operation: {type(other)}")
     
     def __add__(self, other: 'Vector3Like') -> 'Vector3':
         """Add two vectors or vector and scalar."""
@@ -583,5 +600,6 @@ class Vector3:
         return hash((self._x, self._y, self._z))
 
 
-# Type alias for type hints
+# Type alias for type hints (includes Vector2 for auto-conversion)
 Vector3Like = Union[Vector3, Tuple[float, float, float], list, np.ndarray]
+# Note: Vector2 is also accepted at runtime via the constructor

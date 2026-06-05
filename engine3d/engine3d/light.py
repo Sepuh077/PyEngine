@@ -4,7 +4,7 @@ Light3D - Lighting for 3D scenes.
 import numpy as np
 from typing import Tuple, Union
 from engine3d.types import ColorType, Vector3, Color
-from engine3d.engine3d.component import Component, InspectorField
+from engine3d.component import Component, InspectorField
 
 
 class Light3D(Component):

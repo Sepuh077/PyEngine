@@ -18,7 +18,12 @@ from engine3d.engine3d import (
     InspectorFieldType
 )
 
-from engine3d.physics import Rigidbody, BoxCollider, CapsuleCollider, SphereCollider
+from engine3d.physics3d import Rigidbody3D, BoxCollider3D, CapsuleCollider3D, SphereCollider3D
+# Backward compat aliases for internal use
+Rigidbody = Rigidbody3D
+BoxCollider = BoxCollider3D
+CapsuleCollider = CapsuleCollider3D
+SphereCollider = SphereCollider3D
 
 from engine3d.input import Input
 
@@ -416,7 +421,7 @@ class FileIconView(QtWidgets.QListView):
     def _create_prefab_from_gameobject(self, game_object: GameObject) -> None:
         """Create a prefab from a GameObject and save it to the project."""
         from PySide6 import QtWidgets
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         # Use current directory
         directory = str(self._current_path)
@@ -913,7 +918,7 @@ class {type_name}(ScriptableObject):
     
     def _add_scriptable_object_types_to_menu(self, menu: QtWidgets.QMenu, directory: str) -> None:
         """Add all discovered ScriptableObject types to the menu."""
-        from engine3d.engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
+        from engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
         
         types = ScriptableObjectMeta.get_all_types()
         
@@ -1007,7 +1012,7 @@ class {type_name}(ScriptableObject):
     
     def _create_scriptable_object_instance(self, so_class, directory: str) -> None:
         """Create a new ScriptableObject instance of the given class."""
-        from engine3d.engine3d.scriptable_object import SCRIPTABLE_OBJECT_EXT
+        from engine3d.scriptable_object import SCRIPTABLE_OBJECT_EXT
         
         default_name = f"New{so_class.__name__}"
         name, ok = QtWidgets.QInputDialog.getText(
@@ -1188,7 +1193,7 @@ class HierarchyTreeWidget(QtWidgets.QTreeWidget):
     
     def _instantiate_prefab(self, prefab_path: str, event: QtGui.QDropEvent) -> None:
         """Instantiate a prefab at the drop location."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         try:
             # Load the prefab
@@ -1750,8 +1755,8 @@ class EditorWindow(QtWidgets.QMainWindow):
 
         menu = QtWidgets.QMenu(self)
         from engine3d.engine3d.light import PointLight3D, DirectionalLight3D
-        from engine3d.physics.rigidbody import Rigidbody
-        from engine3d.physics.collider import BoxCollider, SphereCollider, CapsuleCollider
+        from engine3d.physics3d.rigidbody import Rigidbody3D as Rigidbody
+        from engine3d.physics3d.collider import BoxCollider3D as BoxCollider, SphereCollider3D as SphereCollider, CapsuleCollider3D as CapsuleCollider
         from engine3d.engine3d.particle import ParticleSystem
 
         actions = {
@@ -2011,7 +2016,7 @@ class {class_name}(Script):
             return
         
         from .undo import AddComponentCommand, CompositeCommand
-        from engine3d.engine3d.component import Script
+        from engine3d.component import Script
         
         commands = []
         
@@ -2085,7 +2090,7 @@ class {class_name}(Script):
             return
         
         # Don't allow removing Transform
-        from engine3d.engine3d.transform import Transform
+        from engine3d.transform import Transform
         if isinstance(component, Transform):
             QtWidgets.QMessageBox.warning(self, "Cannot Remove", "Cannot remove Transform component.")
             return
@@ -2128,7 +2133,7 @@ class {class_name}(Script):
 
     def _watch_script_component(self, component) -> None:
         """Add a script component's source file to the file watcher."""
-        from engine3d.engine3d.component import Script
+        from engine3d.component import Script
         
         if not isinstance(component, Script):
             return
@@ -2197,7 +2202,7 @@ class {class_name}(Script):
         
         for obj in self._scene.objects:
             for comp in obj.components:
-                from engine3d.engine3d.component import Script
+                from engine3d.component import Script
                 if isinstance(comp, Script):
                     try:
                         source_file = inspect.getfile(type(comp))
@@ -2562,7 +2567,7 @@ class {class_name}(Script):
     
     def _instantiate_prefab_from_file(self, path: str, norm_x: float = 0.5, norm_y: float = 0.5) -> None:
         """Instantiate a prefab from a file path at the drop position."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         try:
             self._viewport.makeCurrent()
@@ -2705,7 +2710,7 @@ class {class_name}(Script):
 
     def _show_prefab_inspector(self, path: str) -> None:
         """Show the prefab inspector for a .prefab file."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         try:
             # Load the prefab
@@ -2756,7 +2761,7 @@ class {class_name}(Script):
         
         # Set tag
         self._inspector_tag.setEnabled(True)
-        from engine3d.engine3d.component import Tag
+        from engine3d.component import Tag
         if self._inspector_tag.count() == 0:
             existing_tags = Tag.all_tags()
             self._inspector_tag.addItems(existing_tags)
@@ -2786,7 +2791,7 @@ class {class_name}(Script):
         self._clear_component_fields()
         
         # Build a temporary GameObject from prefab data for inspector rendering
-        from engine3d.engine3d.gameobject import GameObject
+        from engine3d.gameobject import GameObject
         
         temp_obj = GameObject._from_prefab_dict(data)
         temp_obj._prefab_edit_target = data
@@ -2805,8 +2810,8 @@ class {class_name}(Script):
         # Use existing add component menu logic but target temp object
         menu = QtWidgets.QMenu(self)
         from engine3d.engine3d.light import PointLight3D, DirectionalLight3D
-        from engine3d.physics.rigidbody import Rigidbody
-        from engine3d.physics.collider import BoxCollider, SphereCollider, CapsuleCollider
+        from engine3d.physics3d.rigidbody import Rigidbody3D as Rigidbody
+        from engine3d.physics3d.collider import BoxCollider3D as BoxCollider, SphereCollider3D as SphereCollider, CapsuleCollider3D as CapsuleCollider
         from engine3d.engine3d.particle import ParticleSystem
         
         actions = {
@@ -2969,7 +2974,7 @@ class {class_name}(Script):
             return
         
         # Don't allow removing Transform
-        from engine3d.engine3d.transform import Transform
+        from engine3d.transform import Transform
         if isinstance(component, Transform):
             return
         
@@ -3022,7 +3027,7 @@ class {class_name}(Script):
     
     def _show_scriptable_object_inspector(self, path: str) -> None:
         """Show the inspector for a ScriptableObject asset file."""
-        from engine3d.engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
+        from engine3d.scriptable_object import ScriptableObject, ScriptableObjectMeta
         
         try:
             # Load the asset file
@@ -3157,7 +3162,7 @@ class {class_name}(Script):
     
     def _create_scriptable_object_field_widget(self, field_name: str, field_info) -> Optional[QtWidgets.QWidget]:
         """Create an editor widget for a ScriptableObject field."""
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         from engine3d.types import Color as ColorType
         
         so = self._current_scriptable_object
@@ -3303,7 +3308,7 @@ class {class_name}(Script):
                 pass
         
         # Also update the registry so references use the updated instance
-        from engine3d.engine3d.scriptable_object import ScriptableObject
+        from engine3d.scriptable_object import ScriptableObject
         ScriptableObject.register_instance(self._current_scriptable_object)
         
         # Refresh component inspectors so any components referencing this SO
@@ -3321,7 +3326,7 @@ class {class_name}(Script):
     
     def _edit_scriptable_object_list_field(self, field_name: str, current_value: list, item_type) -> None:
         """Open a dialog to edit a list field."""
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         
         dialog = QtWidgets.QDialog(self)
         dialog.setWindowTitle(f"Edit {field_name}")
@@ -3419,7 +3424,7 @@ class {class_name}(Script):
                         pass
             
             # Reload ScriptableObject assets to ensure fresh state
-            from engine3d.engine3d.scriptable_object import ScriptableObject
+            from engine3d.scriptable_object import ScriptableObject
             ScriptableObject.load_all_assets(str(self.project_root))
             
             # Switch to game camera
@@ -3737,7 +3742,7 @@ class {class_name}(Script):
     
     def _init_scriptable_objects(self) -> None:
         """Load all ScriptableObject assets from the project directory."""
-        from engine3d.engine3d.scriptable_object import ScriptableObject
+        from engine3d.scriptable_object import ScriptableObject
         
         try:
             loaded = ScriptableObject.load_all_assets(str(self.project_root))
@@ -3834,7 +3839,7 @@ class {class_name}(Script):
 
     def _restore_prefab_connections(self) -> None:
         """Restore prefab connections for all objects in the scene."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         for obj in self._scene.objects:
             # Check if object has a stored prefab path
@@ -4352,7 +4357,7 @@ class {class_name}(Script):
         # Create a dummy GameObject for the editor camera if it doesn't have one
         # so that look_at works correctly (it needs a transform)
         if not self._editor_camera.game_object:
-            from engine3d.engine3d.gameobject import GameObject
+            from engine3d.gameobject import GameObject
             cam_go = GameObject("Editor Camera")
             cam_go.add_component(self._editor_camera)
             
@@ -4562,7 +4567,7 @@ class {class_name}(Script):
 
     def _snapshot_gameobject(self, obj: GameObject) -> dict:
         """Create a snapshot (serialized data) of a GameObject and all its children."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         
@@ -4720,7 +4725,7 @@ class {class_name}(Script):
 
     def _reconstruct_from_snapshot(self, snapshot: dict) -> GameObject:
         """Reconstruct a GameObject from a snapshot (serialized data)."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         
@@ -4775,7 +4780,7 @@ class {class_name}(Script):
         If not, the clone is a standalone GameObject.
         Tags are copied. All children are recursively cloned.
         """
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         
@@ -4841,7 +4846,7 @@ class {class_name}(Script):
 
     def _clone_children_recursive(self, source_obj: GameObject, target_obj: GameObject) -> None:
         """Recursively clone all children of source_obj and attach them to target_obj."""
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         import tempfile
         import os
         
@@ -5150,7 +5155,7 @@ class {class_name}(Script):
         tag_value = tag_text if tag_text else None
         
         # Register new tags without re-populating (just add to registry)
-        from engine3d.engine3d.component import Tag
+        from engine3d.component import Tag
         if tag_text:
             Tag.create(tag_text)  # Auto-registers if new
         
@@ -5404,7 +5409,7 @@ class {class_name}(Script):
         
         self._inspector_tag.setEnabled(True)
         if not self._inspector_tag.hasFocus():
-            from engine3d.engine3d.component import Tag
+            from engine3d.component import Tag
             if self._inspector_tag.count() == 0:
                 self._inspector_tag.blockSignals(True)
                 existing_tags = Tag.all_tags()
@@ -5475,7 +5480,7 @@ class {class_name}(Script):
         tags = [obj.tag for obj in objects]
         self._inspector_tag.setEnabled(True)
         if not self._inspector_tag.hasFocus():
-            from engine3d.engine3d.component import Tag
+            from engine3d.component import Tag
             if self._inspector_tag.count() == 0:
                 self._inspector_tag.blockSignals(True)
                 existing_tags = Tag.all_tags()
@@ -5554,9 +5559,9 @@ class {class_name}(Script):
     def _build_component_fields_multi(self, objects: List[GameObject]) -> None:
         """Build component fields for multiple selected objects. Shows only common components."""
         from engine3d.engine3d.light import Light3D, DirectionalLight3D, PointLight3D
-        from engine3d.physics.collider import Collider, BoxCollider, SphereCollider, CapsuleCollider
+        from engine3d.physics3d.collider import Collider3D as Collider, BoxCollider3D as BoxCollider, SphereCollider3D as SphereCollider, CapsuleCollider3D as CapsuleCollider
         from engine3d.engine3d.object3d import Object3D
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d.rigidbody import Rigidbody3D as Rigidbody
         
         self._clear_component_fields()
         
@@ -5629,7 +5634,7 @@ class {class_name}(Script):
         
         inspector_fields is a list of (field_name, InspectorFieldInfo) tuples.
         """
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         
         box = QtWidgets.QGroupBox(comp.__class__.__name__, self._components_container)
         form = QtWidgets.QFormLayout(box)
@@ -5824,7 +5829,7 @@ class {class_name}(Script):
                             setattr(comp, field_name, new_value)
                         
                         # Special handling for collider components - mark as dirty for visual update
-                        from engine3d.physics.collider import Collider
+                        from engine3d.physics3d.collider import Collider3D as Collider
                         if isinstance(comp, Collider):
                             comp._transform_dirty = True
                         
@@ -6039,7 +6044,7 @@ class {class_name}(Script):
     
     def _create_light_fields_multi_base(self, comp, objects, is_directional=False, is_point=False):
         """Create light fields for multi-selection."""
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         box = QtWidgets.QGroupBox(comp.__class__.__name__, self._components_container)
         main_layout = QtWidgets.QVBoxLayout(box)
         main_layout.setContentsMargins(6, 6, 6, 6)
@@ -6133,7 +6138,7 @@ class {class_name}(Script):
     
     def _create_collider_fields_multi_base(self, comp, objects, is_box=False, is_sphere=False, is_capsule=False):
         """Create collider fields for multi-selection."""
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         box = QtWidgets.QGroupBox(comp.__class__.__name__, self._components_container)
         main_layout = QtWidgets.QVBoxLayout(box)
         main_layout.setContentsMargins(6, 6, 6, 6)
@@ -6148,7 +6153,7 @@ class {class_name}(Script):
                 if type(c).__name__ == type(comp).__name__:
                     centers.append(getattr(c, 'center', (0.0, 0.0, 0.0)))
                     break
-        from engine3d.engine3d.component import InspectorField
+        from engine3d.component import InspectorField
         # Create a minimal field_info for center
         center_field_info = type('FieldInfo', (), {
             'min_value': None,
@@ -6160,7 +6165,7 @@ class {class_name}(Script):
         layout.addRow("Center", center_widget)
         
         # Collision mode - multi-selection
-        from engine3d.physics.types import CollisionMode
+        from engine3d.physics3d.types import CollisionMode
         modes = []
         for obj in objects:
             for c in obj.components:
@@ -6260,7 +6265,7 @@ class {class_name}(Script):
     
     def _create_rigidbody_fields_multi(self, comp, objects):
         """Create rigidbody fields for multi-selection."""
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         box = QtWidgets.QGroupBox(comp.__class__.__name__, self._components_container)
         main_layout = QtWidgets.QVBoxLayout(box)
         main_layout.setContentsMargins(6, 6, 6, 6)
@@ -6371,9 +6376,9 @@ class {class_name}(Script):
 
     def _build_component_fields(self, obj: GameObject) -> None:
         from engine3d.engine3d.light import Light3D, DirectionalLight3D, PointLight3D
-        from engine3d.physics.collider import Collider, BoxCollider, SphereCollider, CapsuleCollider
+        from engine3d.physics3d.collider import Collider3D as Collider, BoxCollider3D as BoxCollider, SphereCollider3D as SphereCollider, CapsuleCollider3D as CapsuleCollider
         from engine3d.engine3d.object3d import Object3D
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d.rigidbody import Rigidbody3D as Rigidbody
         self._clear_component_fields()
 
         for comp in obj.components:
@@ -6538,7 +6543,7 @@ class {class_name}(Script):
         form_layout.setContentsMargins(0, 0, 0, 0)
         
         # Build fields similar to _create_inspector_fields_for_component_multi
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         
         for field_name, field_info in inspector_fields:
             field_type = field_info.field_type
@@ -7207,7 +7212,7 @@ class {class_name}(Script):
         
         def on_browse():
             from PySide6 import QtWidgets
-            from engine3d.engine3d.graphics.material import MATERIAL_FILE_EXT
+            from engine3d.graphics.material import MATERIAL_FILE_EXT
             path, _ = QtWidgets.QFileDialog.getOpenFileName(
                 self,
                 "Select Skybox Texture or Material",
@@ -7216,7 +7221,7 @@ class {class_name}(Script):
             )
             if path:
                 # Load .mat3d file or create SkyboxMaterial with texture path
-                from engine3d.engine3d.graphics.material import SkyboxMaterial, MATERIAL_FILE_EXT
+                from engine3d.graphics.material import SkyboxMaterial, MATERIAL_FILE_EXT
                 if path.endswith(MATERIAL_FILE_EXT):
                     try:
                         mat = SkyboxMaterial.load(path)
@@ -7261,7 +7266,7 @@ class {class_name}(Script):
         Shows all saved instances of the specified ScriptableObject type that are
         available in the project directory.
         """
-        from engine3d.engine3d.scriptable_object import ScriptableObject, SCRIPTABLE_OBJECT_EXT
+        from engine3d.scriptable_object import ScriptableObject, SCRIPTABLE_OBJECT_EXT
         
         container = QtWidgets.QWidget()
         layout = QtWidgets.QHBoxLayout(container)
@@ -7390,7 +7395,7 @@ class {class_name}(Script):
         Returns:
             A widget containing all the nested fields
         """
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         
         # Get the serializable type
         descriptor = getattr(type(comp), field_name, None)
@@ -7482,7 +7487,7 @@ class {class_name}(Script):
         Returns:
             A widget for editing this field
         """
-        from engine3d.engine3d.component import InspectorFieldType
+        from engine3d.component import InspectorFieldType
         
         field_type = field_info.field_type
         
@@ -7708,7 +7713,7 @@ class {class_name}(Script):
         2. Instance editing (via _prefab): save the instance data back to the prefab
            file and update all other instances.
         """
-        from engine3d.engine3d.gameobject import Prefab
+        from engine3d.gameobject import Prefab
         
         go = getattr(comp, 'game_object', None)
         if go is None:
@@ -7838,7 +7843,7 @@ class {class_name}(Script):
         comp.set_inspector_field_value(field_name, new_value)
         
         # Special handling for collider center changes
-        from engine3d.physics.collider import Collider
+        from engine3d.physics3d.collider import Collider3D as Collider
         if isinstance(comp, Collider):
             comp._transform_dirty = True
         
@@ -7860,9 +7865,9 @@ class {class_name}(Script):
 
     def _refresh_component_fields(self, obj: GameObject) -> None:
         from engine3d.engine3d.light import Light3D
-        from engine3d.physics.collider import Collider
+        from engine3d.physics3d.collider import Collider3D as Collider
         from engine3d.engine3d.object3d import Object3D
-        from engine3d.physics.rigidbody import Rigidbody
+        from engine3d.physics3d.rigidbody import Rigidbody3D as Rigidbody
 
         component_boxes = [
             box for box in self._component_fields
@@ -8197,7 +8202,7 @@ class {class_name}(Script):
         box._center_row = center_row
         
         # Collision mode dropdown
-        from engine3d.physics.types import CollisionMode
+        from engine3d.physics3d.types import CollisionMode
         mode_combo = QtWidgets.QComboBox()
         for mode in CollisionMode:
             mode_combo.addItem(mode.name, mode.value)
@@ -8317,7 +8322,7 @@ class {class_name}(Script):
         if hasattr(box, "_height_field") and hasattr(collider, "height"):
             self._apply_spinbox(box._height_field, float(collider.height))
         if hasattr(box, "_collision_mode_combo") and hasattr(collider, "collision_mode"):
-            from engine3d.physics.types import CollisionMode
+            from engine3d.physics3d.types import CollisionMode
             mode = collider.collision_mode
             if isinstance(mode, CollisionMode):
                 box._collision_mode_combo.setCurrentIndex(mode.value)
@@ -8386,7 +8391,7 @@ class {class_name}(Script):
 
     def _on_collider_mode_changed(self, collider, combo: QtWidgets.QComboBox) -> None:
         """Handle collision mode dropdown change."""
-        from engine3d.physics.types import CollisionMode
+        from engine3d.physics3d.types import CollisionMode
         mode_value = combo.currentData()
         # Convert int value to CollisionMode enum
         if isinstance(mode_value, int):

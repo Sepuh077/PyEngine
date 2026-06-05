@@ -26,7 +26,7 @@ from engine3d.engine3d import (
     create_cube, create_sphere, create_plane
 )
 from engine3d.engine3d.camera import ClearFlags as CF
-from engine3d.physics import BoxCollider, Rigidbody
+from engine3d.physics3d import BoxCollider3D, Rigidbody3D
 from engine3d.input import Keys
 from engine3d.types import Color
 
@@ -40,7 +40,7 @@ class MultiCameraScene(Scene3D):
         # Create a floor
         floor = self.add_object(create_plane(50, 50, color=Color.DARK_GRAY))
         floor.transform.position = (0, 0, 0)
-        floor.add_component(Rigidbody(is_static=True))
+        floor.add_component(Rigidbody3D(is_static=True))
         
         # Create some objects scattered around
         for x in range(-20, 21, 5):
@@ -49,7 +49,7 @@ class MultiCameraScene(Scene3D):
                     continue
                 cube = self.add_object(create_cube(1.0, color=Color.random_bright()))
                 cube.transform.position = (x, 0.5, z)
-                cube.add_component(Rigidbody(is_static=True))
+                cube.add_component(Rigidbody3D(is_static=True))
         
         # Create a "player" object (a red cube that we control)
         self.player = self.add_object(create_cube(1.0, color=Color.RED))

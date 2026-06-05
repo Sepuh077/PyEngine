@@ -1,5 +1,5 @@
-from engine3d.physics.geometry import closest_point_on_triangle
-from engine3d.physics.collision_manifold import (
+from engine3d.physics3d.geometry import closest_point_on_triangle
+from engine3d.physics3d.collision_manifold import (
     CollisionManifold,
     get_collision_manifold,
     sphere_vs_sphere_manifold,
@@ -11,7 +11,7 @@ from engine3d.physics.collision_manifold import (
     sphere_vs_mesh_manifold,
     cylinder_vs_mesh_manifold,
 )
-from engine3d.physics.collision_bool import (
+from engine3d.physics3d.collision_bool import (
     objects_collide,
     collide_point_with_radius,
     aabb_overlap,

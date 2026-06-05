@@ -20,7 +20,7 @@ sys.path.insert(0, project_root)
 
 from engine3d.engine3d import Window3D, Scene3D, Script, WaitForSeconds, WaitEndOfFrame, Time
 from engine3d.engine3d.object3d import create_cube, create_sphere, create_plane, Object3D
-from engine3d.physics import Rigidbody, BoxCollider, SphereCollider
+from engine3d.physics3d import Rigidbody3D, BoxCollider3D, SphereCollider3D
 from engine3d.types import Color
 from engine3d.input import Keys
 from time import time
@@ -353,16 +353,16 @@ class ScriptScene(Scene3D):
         # Create floor
         floor = self.add_object(create_plane(20, 20, color=Color.DARK_GRAY))
         floor.transform.position = (0, -0.5, 0)
-        floor.add_component(Rigidbody(is_static=True))
-        floor.add_component(BoxCollider())
+        floor.add_component(Rigidbody3D(is_static=True))
+        floor.add_component(BoxCollider3D())
         floor.name = "Floor"
         
         # Create a rotating cube with collision detection
         self.rotating_cube = self.add_object(create_cube(1.5, color=Color.BLUE))
         self.rotating_cube.transform.position = (-3, 1, 0)
         self.rotating_cube.name = "RotatingCube"
-        self.rotating_cube.add_component(Rigidbody(is_static=True))
-        self.rotating_cube.add_component(BoxCollider())
+        self.rotating_cube.add_component(Rigidbody3D(is_static=True))
+        self.rotating_cube.add_component(BoxCollider3D())
         # Add scripts: rotation + collision logging
         self.rotating_cube.add_component(Rotator(rotation_speed=(0, 45, 0)))
         self.rotating_cube.add_component(CollisionLogger(
@@ -374,8 +374,8 @@ class ScriptScene(Scene3D):
         self.bouncing_sphere = self.add_object(create_sphere(0.8, color=Color.GREEN))
         self.bouncing_sphere.transform.position = (0, 2, -3)
         self.bouncing_sphere.name = "BouncingSphere"
-        self.bouncing_sphere.add_component(Rigidbody(is_static=True))
-        self.bouncing_sphere.add_component(SphereCollider())
+        self.bouncing_sphere.add_component(Rigidbody3D(is_static=True))
+        self.bouncing_sphere.add_component(SphereCollider3D())
         # Add scripts: bouncing + color changing
         self.bouncing_sphere.add_component(Bouncer(height=0.5, speed=3.0))
         self.bouncing_sphere.add_component(ColorChanger())
@@ -384,8 +384,8 @@ class ScriptScene(Scene3D):
         self.player = self.add_object(create_cube(1.0, color=Color.YELLOW))
         self.player.transform.position = (3, 1, 0)
         self.player.name = "Player"
-        self.player.add_component(Rigidbody())
-        self.player.add_component(BoxCollider())
+        self.player.add_component(Rigidbody3D())
+        self.player.add_component(BoxCollider3D())
         # Add player controller script
         self.player.add_component(PlayerController(speed=5.0))
         # Add collision logging to player too
@@ -399,8 +399,8 @@ class ScriptScene(Scene3D):
             obstacle = self.add_object(create_cube(1.0, color=Color.GRAY))
             obstacle.transform.position = (0, 0.5, 3 + i * 2)
             obstacle.name = f"Obstacle{i}"
-            obstacle.add_component(Rigidbody(is_static=True))
-            obstacle.add_component(BoxCollider())
+            obstacle.add_component(Rigidbody3D(is_static=True))
+            obstacle.add_component(BoxCollider3D())
 
         # Create coroutine demo object
         self.coro_obj = self.add_object(create_cube(0.5, color=Color.CYAN))
@@ -412,8 +412,8 @@ class ScriptScene(Scene3D):
         self.enum_demo_obj = self.add_object(create_cube(0.8, color=Color.PURPLE))
         self.enum_demo_obj.transform.position = (5, 1, 0)
         self.enum_demo_obj.name = "EnumDemo"
-        self.enum_demo_obj.add_component(Rigidbody(is_static=True))
-        self.enum_demo_obj.add_component(BoxCollider())
+        self.enum_demo_obj.add_component(Rigidbody3D(is_static=True))
+        self.enum_demo_obj.add_component(BoxCollider3D())
         self.enum_demo_obj.add_component(EnumDemoScript())
         
         # Camera setup

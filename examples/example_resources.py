@@ -26,7 +26,7 @@ sys.path.insert(0, project_root)
 from engine3d.engine3d import (
     Resources, GameObject, ScriptableObject, InspectorField, Scene3D
 )
-from engine3d.engine3d.graphics import Material, LitMaterial
+from engine3d.graphics import Material, LitMaterial
 import tempfile
 
 

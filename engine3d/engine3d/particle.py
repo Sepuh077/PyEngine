@@ -10,9 +10,9 @@ import random
 import numpy as np
 
 from engine3d.types import Color, ColorType, Vector3
-from engine3d.engine3d.gameobject import GameObject
+from engine3d.gameobject import GameObject
 from engine3d.engine3d.object3d import create_cube, Object3D
-from engine3d.engine3d.component import Component, Time, InspectorField
+from engine3d.component import Component, Time, InspectorField
 
 
 ParticleObject = Union[str, GameObject, Callable[[], GameObject]]
@@ -371,17 +371,17 @@ class ParticleSystem(Component):
         return obj
 
     def _attach_collider(self, obj: GameObject):
-        from engine3d.physics import BoxCollider, SphereCollider, Collider
+        from engine3d.physics3d import BoxCollider3D, SphereCollider3D, Collider3D
         template = self.collider
         if template is None:
             raise RuntimeError("ParticleSystem collider template is missing.")
 
-        if isinstance(template, SphereCollider):
-            collider = SphereCollider(center=Vector3(template.center), radius=template.radius)
-        elif isinstance(template, BoxCollider):
-            collider = BoxCollider(center=Vector3(template.center), size=Vector3(template.size))
+        if isinstance(template, SphereCollider3D):
+            collider = SphereCollider3D(center=Vector3(template.center), radius=template.radius)
+        elif isinstance(template, BoxCollider3D):
+            collider = BoxCollider3D(center=Vector3(template.center), size=Vector3(template.size))
         else:
-            collider = SphereCollider()
+            collider = SphereCollider3D()
 
         collider.collision_mode = template.collision_mode
         collider.group = template.group
@@ -540,9 +540,9 @@ class ParticleSystem(Component):
         return velocity / norm
 
     def _move_with_collisions(self, particle: Particle, target_pos: Vector3) -> None:
-        from engine3d.physics import Collider, CollisionMode
+        from engine3d.physics3d import Collider3D, CollisionMode
         obj = particle.obj
-        colliders = obj.get_components(Collider)
+        colliders = obj.get_components(Collider3D)
         if not colliders:
             obj.transform.world_position = target_pos
             return

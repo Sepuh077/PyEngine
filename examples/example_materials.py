@@ -7,7 +7,7 @@ if str(ROOT) not in sys.path:
 
 from engine3d.engine3d.window import Window3D
 from engine3d.engine3d import create_cube, create_sphere, create_plane, Object3D, PointLight3D, GameObject
-from engine3d.engine3d.graphics.material import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
+from engine3d.graphics.material import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
 from engine3d.types import Color
 from engine3d.input import Keys
 

@@ -8,11 +8,11 @@ from enum import Enum, auto
 import pygame
 import numpy as np
 
-from engine3d.engine3d.component import Component
+from engine3d.component import Component
 
 if TYPE_CHECKING:
-    from engine3d.engine3d.gameobject import GameObject
-    from engine3d.engine3d.transform import Transform
+    from engine3d.gameobject import GameObject
+    from engine3d.transform import Transform
 
 
 class UILayer(Enum):
@@ -163,7 +163,7 @@ class UIElement(Component):
     
     def add_child(self, child: UIElement) -> UIElement:
         """Add a child UI element by creating/linking GameObjects."""
-        from engine3d.engine3d.gameobject import GameObject
+        from engine3d.gameobject import GameObject
         if not child.game_object:
             child_go = GameObject(child.name or "UIChild")
             child_go.add_component(child)
@@ -288,7 +288,7 @@ class UIContainer(UIElement):
         self.border_width = border_width
     
     def _draw_internal(self, surface: pygame.Surface):
-        from engine3d.engine3d.drawing import draw_rectangle
+        from engine3d.drawing import draw_rectangle
         
         # Draw background
         if self.background_color:

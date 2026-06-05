@@ -2,9 +2,9 @@ import numpy as np
 from typing import Optional
 from dataclasses import dataclass
 
-from engine3d.physics.collider import Collider
-from engine3d.physics.geometry import closest_point_on_triangle
-from engine3d.physics.types import ColliderType
+from engine3d.physics3d.collider import Collider3D
+from engine3d.physics3d.geometry import closest_point_on_triangle
+from engine3d.physics3d.types import ColliderType
 
 
 @dataclass
@@ -16,7 +16,7 @@ class CollisionManifold:
 # Manifold Generators (Expensive, Detailed)
 # =========================================================================
 
-def sphere_vs_sphere_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
+def sphere_vs_sphere_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     ca, ra = a.get_world_sphere()
     cb, rb = b.get_world_sphere()
     diff = ca - cb
@@ -87,12 +87,12 @@ def _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb) -> Optional[CollisionManifold]:
         
     return CollisionManifold(best_axis, min_overlap)
 
-def obb_vs_obb_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
+def obb_vs_obb_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     Ca, Aa, Ea = a.get_world_obb()
     Cb, Ab, Eb = b.get_world_obb()
     return _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb)
 
-def sphere_vs_obb_manifold(sphere_obj: Collider, obb_obj: Collider) -> Optional[CollisionManifold]:
+def sphere_vs_obb_manifold(sphere_obj: Collider3D, obb_obj: Collider3D) -> Optional[CollisionManifold]:
     cs, rs = sphere_obj.get_world_sphere()
     Cb, Ab, Eb = obb_obj.get_world_obb()
 
@@ -124,7 +124,7 @@ def sphere_vs_obb_manifold(sphere_obj: Collider, obb_obj: Collider) -> Optional[
         
     return CollisionManifold(normal, depth)
 
-def cylinder_vs_sphere_manifold(cyl: Collider, sph: Collider) -> Optional[CollisionManifold]:
+def cylinder_vs_sphere_manifold(cyl: Collider3D, sph: Collider3D) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
     cs, rs = sph.get_world_sphere()
 
@@ -150,7 +150,7 @@ def cylinder_vs_sphere_manifold(cyl: Collider, sph: Collider) -> Optional[Collis
         
     return CollisionManifold(-normal, depth)
 
-def cylinder_vs_cylinder_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
+def cylinder_vs_cylinder_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     Ca, ra, ha = a.get_world_cylinder()
     Cb, rb, hb = b.get_world_cylinder()
     
@@ -184,7 +184,7 @@ def cylinder_vs_cylinder_manifold(a: Collider, b: Collider) -> Optional[Collisio
 
     return CollisionManifold(normal, depth)
 
-def cylinder_vs_obb_manifold(cyl: Collider, obb: Collider) -> Optional[CollisionManifold]:
+def cylinder_vs_obb_manifold(cyl: Collider3D, obb: Collider3D) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
     Cb, Ab, Eb = obb.get_world_obb()
     
@@ -226,7 +226,7 @@ def cylinder_vs_obb_manifold(cyl: Collider, obb: Collider) -> Optional[Collision
         
     return CollisionManifold(best_axis, min_overlap)
 
-def sphere_vs_mesh_manifold(sph: Collider, mesh: Collider) -> Optional[CollisionManifold]:
+def sphere_vs_mesh_manifold(sph: Collider3D, mesh: Collider3D) -> Optional[CollisionManifold]:
     if mesh.mesh_data is None:
         return None
     vertices, faces, model_mat = mesh.mesh_data
@@ -281,17 +281,17 @@ def sphere_vs_mesh_manifold(sph: Collider, mesh: Collider) -> Optional[Collision
         
     return CollisionManifold(normal, depth)
 
-def cylinder_vs_mesh_manifold(cyl: Collider, mesh: Collider) -> Optional[CollisionManifold]:
+def cylinder_vs_mesh_manifold(cyl: Collider3D, mesh: Collider3D) -> Optional[CollisionManifold]:
     return sphere_vs_mesh_manifold(cyl, mesh)
 
-def aabb_overlap(a: Collider, b: Collider) -> bool:
+def aabb_overlap(a: Collider3D, b: Collider3D) -> bool:
     # Fast AABB broadphase (cheaper reject than sphere for boxes)
     amin, amax = a.get_world_aabb()
     bmin, bmax = b.get_world_aabb()
     return not (amax[0] < bmin[0] or amax[1] < bmin[1] or amax[2] < bmin[2] or
                 amin[0] > bmax[0] or amin[1] > bmax[1] or amin[2] > bmax[2])
 
-def get_collision_manifold(a: Collider, b: Collider) -> Optional[CollisionManifold]:
+def get_collision_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     # Broad phase: AABB then sphere (faster rejects)
     if not aabb_overlap(a, b):
         return None

@@ -4,7 +4,7 @@ Demonstrates saving/loading GameObject prefabs and complete scenes.
 
 Controls:
     WASD/Arrows - Move player
-    SPACE - Jump (if Rigidbody added)
+    SPACE - Jump (if Rigidbody3D added)
     
     F1 - Save current player as prefab (player.prefab)
     F2 - Load player prefab at random position
@@ -27,7 +27,7 @@ from engine3d.input import Keys
 from engine3d.types import Color
 from engine3d.engine3d import Window3D, GameObject, Time, Script
 from engine3d.engine3d.scene import Scene3D
-from engine3d.physics import Rigidbody, BoxCollider
+from engine3d.physics3d import Rigidbody3D, BoxCollider3D
 
 
 PREFAB_PATH = "player.prefab"
@@ -43,13 +43,13 @@ class PlayerMovement(Script):
 
     def start(self):
         super().start()
-        self.rb = self.game_object.get_component(Rigidbody)
+        self.rb = self.game_object.get_component(Rigidbody3D)
 
     def update(self):
         if not self.game_object:
             return
 
-        from engine3d.engine3d.drawing import get_window
+        from engine3d.drawing import get_window
         window = get_window()
         if not window:
             return
@@ -106,8 +106,8 @@ class SerializationScene(Scene3D):
         self.player = self.load_object("example/stairs_modular_right.obj", color=Color.BLUE)
         self.player.transform.position = (0, 2, 0)
         self.player.name = "Player"
-        self.player.add_component(Rigidbody(use_gravity=False))
-        self.player.add_component(BoxCollider())
+        self.player.add_component(Rigidbody3D(use_gravity=False))
+        self.player.add_component(BoxCollider3D())
         self.player.add_component(PlayerMovement(speed=5.0))
         
     def _create_environment(self):
@@ -116,8 +116,8 @@ class SerializationScene(Scene3D):
         from engine3d.engine3d.object3d import create_plane
         floor = self.add_object(create_plane(30, 30, color=Color.DARK_GRAY))
         floor.transform.position = (0, -0.5, 0)
-        floor.add_component(Rigidbody(is_static=True))
-        floor.add_component(BoxCollider())
+        floor.add_component(Rigidbody3D(is_static=True))
+        floor.add_component(BoxCollider3D())
         floor.name = "Floor"
         
         # Some random cubes
