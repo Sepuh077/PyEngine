@@ -296,7 +296,7 @@ class WindowBase:
     # =======================================================================
 
     def draw_text(
-        self, text: str, x: int, y: int,
+        self, text: str, x: float, y: float,
         color: ColorType = Color.WHITE,
         font_size: int = 24,
         font_name: Optional[str] = None,
@@ -318,6 +318,9 @@ class WindowBase:
             arr[:] = (arr[:] * (alpha / 255)).astype(np.uint8)
             del arr
         w, h = text_surf.get_size()
+        # Accept floats (from project_point etc.) and cast after adjustments
+        x = float(x)
+        y = float(y)
         if anchor_x == 'center':
             x -= w // 2
         elif anchor_x == 'right':
@@ -328,6 +331,9 @@ class WindowBase:
             y -= h
         if baseline_adjust:
             y -= font.get_ascent() // 6
+        # Final cast to int for blit (Pygame can be picky with float32/ float in some versions/platforms)
+        x = int(x)
+        y = int(y)
         self._2d_surface.blit(text_surf, (x, y))
 
     def draw_rectangle(

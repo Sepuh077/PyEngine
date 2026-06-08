@@ -9,6 +9,7 @@ from engine.types.vector2 import Vector2
 from engine.types.color import Color, ColorType
 
 if TYPE_CHECKING:
+    from engine import GameObject
     import pygame
 
 
