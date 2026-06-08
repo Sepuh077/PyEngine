@@ -371,7 +371,7 @@ class ParticleSystem(Component):
         return obj
 
     def _attach_collider(self, obj: GameObject):
-        from engine.physics3d import BoxCollider3D, SphereCollider3D, Collider3D
+        from engine.d3.physics import BoxCollider3D, SphereCollider3D, Collider3D
         template = self.collider
         if template is None:
             raise RuntimeError("ParticleSystem collider template is missing.")
@@ -540,7 +540,7 @@ class ParticleSystem(Component):
         return velocity / norm
 
     def _move_with_collisions(self, particle: Particle, target_pos: Vector3) -> None:
-        from engine.physics3d import Collider3D, CollisionMode
+        from engine.d3.physics import Collider3D, CollisionMode
         obj = particle.obj
         colliders = obj.get_components(Collider3D)
         if not colliders:

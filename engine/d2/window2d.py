@@ -6,7 +6,7 @@ with an orthographic projection and 2D sprite/shape rendering.
 
 Example::
 
-    from engine.engine2d import Window2D
+    from engine.d2 import Window2D
     from engine.d2.object2d import create_rect
 
     class MyGame(Window2D):
@@ -448,7 +448,7 @@ class Window2D(WindowBase):
     # =====================================================================
 
     def _process_collisions(self):
-        from engine.physics2d import (
+        from engine.d2.physics import (
             Collider2D, CollisionMode, CollisionRelation,
             objects_collide_2d, get_collision_manifold_2d,
         )

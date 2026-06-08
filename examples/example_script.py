@@ -20,7 +20,7 @@ sys.path.insert(0, project_root)
 
 from engine.d3 import Window3D, Scene3D, Script, WaitForSeconds, WaitEndOfFrame, Time
 from engine.d3.object3d import create_cube, create_sphere, create_plane, Object3D
-from engine.physics3d import Rigidbody3D, BoxCollider3D, SphereCollider3D
+from engine.d3.physics import Rigidbody3D, BoxCollider3D, SphereCollider3D
 from engine.types import Color
 from engine.input import Keys
 from time import time

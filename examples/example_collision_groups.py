@@ -15,7 +15,7 @@ sys.path.insert(0, project_root)
 
 from engine.d3 import Window3D, Scene3D, GameObject, Time
 from engine.d3.object3d import create_cube, create_plane, Object3D
-from engine.physics3d import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
+from engine.d3.physics import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
 from engine.input import Keys
 from engine.types import Color
 

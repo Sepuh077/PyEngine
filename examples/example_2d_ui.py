@@ -20,7 +20,7 @@ from engine.d3 import (
 from engine.ui import (
     UILayer, Button, CheckBox, Slider, ProgressBar, Panel, Label
 )
-from engine.physics3d import Rigidbody3D
+from engine.d3.physics import Rigidbody3D
 from engine.input import Keys
 from engine.types import Color
 

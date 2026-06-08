@@ -18,7 +18,7 @@ from engine.d3 import (
     InspectorFieldType
 )
 
-from engine.physics3d import Rigidbody3D, BoxCollider3D, CapsuleCollider3D, SphereCollider3D
+from engine.d3.physics import Rigidbody3D, BoxCollider3D, CapsuleCollider3D, SphereCollider3D
 # Backward compat aliases for internal use
 Rigidbody = Rigidbody3D
 BoxCollider = BoxCollider3D
@@ -29,7 +29,7 @@ SphereCollider = SphereCollider3D
 from engine.d2.window2d import Window2D
 from engine.d2.object2d import Object2D, create_rect, create_circle, SortingLayer
 from engine.d2.camera2d import Camera2D
-from engine.physics2d import Rigidbody2D, BoxCollider2D, CircleCollider2D
+from engine.d2.physics import Rigidbody2D, BoxCollider2D, CircleCollider2D
 
 from engine.input import Input
 

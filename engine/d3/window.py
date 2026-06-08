@@ -853,7 +853,7 @@ class Window3D(WindowBase):
         """
         Move an object by delta.
         """
-        from engine.physics3d import Collider3D, CollisionMode
+        from engine.d3.physics import Collider3D, CollisionMode
         # Check first collider's mode (IGNORE skips collision)
         coll = obj.get_component(Collider3D)
         if coll and coll.collision_mode == CollisionMode.IGNORE:
@@ -861,7 +861,7 @@ class Window3D(WindowBase):
         return obj.transform.move(*delta)
 
     def _resolve_collision(self, a: GameObject, b: GameObject, manifold):
-        from engine.physics3d import Collider3D
+        from engine.d3.physics import Collider3D
         from engine.d3.physics.rigidbody import Rigidbody3D
         # Minimal depen + velocity project (slide, no jitter/vibrate on wall)
         depth = getattr(manifold, 'depth', 0.0)
@@ -922,7 +922,7 @@ class Window3D(WindowBase):
                 c.update_bounds()
 
     def _process_collisions(self):
-        from engine.physics3d import Collider3D, CollisionMode, CollisionRelation
+        from engine.d3.physics import Collider3D, CollisionMode, CollisionRelation
         from engine.d3.physics.rigidbody import Rigidbody3D
         # Loop over *all colliders* (multi-collider support; no obj level)
         all_cols = []
@@ -1551,7 +1551,7 @@ class Window3D(WindowBase):
         )
 
     def draw_collider(self, obj: GameObject, color=(0, 1, 0), line_width=1.0):
-        from engine.physics3d import Collider3D, ColliderType
+        from engine.d3.physics import Collider3D, ColliderType
         camera = self.active_camera_override or (self._current_scene.camera if self._current_scene else self.camera)
         if not camera:
             return
@@ -2596,7 +2596,7 @@ class Window3D(WindowBase):
         return
 
     def _draw_editor_colliders(self):
-        from engine.physics3d import Collider3D
+        from engine.d3.physics import Collider3D
         for obj in self._active_objects():
             if obj.get_components(Collider3D):
                 self.draw_collider(obj, color=(1.0, 0.0, 0.0), line_width=1.5)

@@ -25,13 +25,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine.engine2d import Window2D, Scene2D, Object2D, create_rect, create_circle
+from engine.d2 import Window2D, Scene2D, Object2D, create_rect, create_circle
 from engine.gameobject import GameObject
 from engine.component import Script, Time
 from engine.input import Keys, MouseButtons
 from engine.types import Color, Vector3
 from engine.types.vector2 import Vector2
-from engine.physics2d import (
+from engine.d2.physics import (
     CircleCollider2D,
     BoxCollider2D,
     Rigidbody2D,

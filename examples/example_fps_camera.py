@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 
 from engine.d3 import Window3D, Scene3D, Time
 from engine.d3.object3d import create_cube, create_plane
-from engine.physics3d import BoxCollider3D, SphereCollider3D, CapsuleCollider3D, Collider3D, Rigidbody3D
+from engine.d3.physics import BoxCollider3D, SphereCollider3D, CapsuleCollider3D, Collider3D, Rigidbody3D
 from engine.input import Keys
 from engine.types import Color
 

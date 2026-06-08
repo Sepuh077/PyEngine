@@ -27,7 +27,7 @@ from engine.input import Keys
 from engine.types import Color
 from engine.d3 import Window3D, GameObject, Time, Script
 from engine.d3.scene import Scene3D
-from engine.physics3d import Rigidbody3D, BoxCollider3D
+from engine.d3.physics import Rigidbody3D, BoxCollider3D
 
 
 PREFAB_PATH = "player.prefab"

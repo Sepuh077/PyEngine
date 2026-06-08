@@ -21,7 +21,7 @@ from engine.d3 import (
     ConeShape,
     BoxShape,
 )
-from engine.physics3d import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
+from engine.d3.physics import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
 from engine.types import Color
 
 

@@ -26,7 +26,7 @@ from engine.d3 import (
     create_cube, create_sphere, create_plane
 )
 from engine.d3.camera import ClearFlags as CF
-from engine.physics3d import BoxCollider3D, Rigidbody3D
+from engine.d3.physics import BoxCollider3D, Rigidbody3D
 from engine.input import Keys
 from engine.types import Color
 
