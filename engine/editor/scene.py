@@ -36,9 +36,13 @@ class EditorScene2D(Scene2D):
     def _to_scene_dict(self) -> dict:
         cam = self.main_camera
         cam_pos = cam.position
+        # Exclude particle system particles and the main camera object
+        # (camera is saved separately in the "camera" key)
+        cam_go = cam.game_object if cam else None
         visible_objects = [
             obj for obj in self.objects
             if not getattr(obj, '_is_particle_system_particle', False)
+            and obj is not cam_go
         ]
         return {
             "_mode": "2d",
@@ -57,7 +61,6 @@ class EditorScene2D(Scene2D):
 
         cam_data = data.get("camera", {})
         if cam_data:
-            # Create camera object
             cam_obj = GameObject("Main Camera")
             cam = Camera2D(zoom=cam_data.get("zoom", 1.0), is_main=True)
             cam_obj.add_component(cam)
@@ -71,11 +74,14 @@ class EditorScene2D(Scene2D):
         go_registry: Dict[str, GameObject] = {}
         for obj_data in data.get("objects", []):
             obj = GameObject._from_prefab_dict(obj_data)
+            # Skip camera-only objects (avoid duplicates from old saves)
+            if obj.get_component(Camera2D) and len(obj.components) <= 2:
+                continue
             obj._scene = scene
             scene.objects.append(obj)
             go_registry[obj._id] = obj
 
-        # Register cameras
+        # Register any additional cameras from loaded objects
         for obj in scene.objects:
             for cam in obj.get_components(Camera2D):
                 if cam not in scene._cameras:

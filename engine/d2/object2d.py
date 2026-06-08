@@ -107,6 +107,7 @@ class Object2D(Component):
         size: Optional[Tuple[float, float]] = None,
         sorting_order: int = 0,
         layer: str = "Default",
+        shape: str = "rect",
     ):
         super().__init__()
         self._sprite_path: Optional[str] = sprite_path
@@ -114,6 +115,7 @@ class Object2D(Component):
         self._visible = True
         self.sorting_order = sorting_order
         self._layer_name: str = layer
+        self._shape: str = shape  # 'rect' or 'circle'
         self.flip_x = False
         self.flip_y = False
 
@@ -284,7 +286,6 @@ def create_circle(
     from engine.gameobject import GameObject
     go = GameObject()
     go.transform.position = position
-    obj = Object2D(color=color, size=(radius * 2, radius * 2), sorting_order=sorting_order, layer=layer)
-    obj._shape = 'circle'
+    obj = Object2D(color=color, size=(radius * 2, radius * 2), sorting_order=sorting_order, layer=layer, shape='circle')
     go.add_component(obj)
     return go

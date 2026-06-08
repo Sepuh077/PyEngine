@@ -74,8 +74,14 @@ class Window2D(WindowBase):
     uniform vec4 base_color;
     uniform sampler2D tex;
     uniform bool use_texture;
+    uniform bool is_circle;
     out vec4 frag_color;
     void main() {
+        if (is_circle) {
+            vec2 center = v_texcoord - vec2(0.5);
+            float dist = dot(center, center);
+            if (dist > 0.25) discard;
+        }
         vec4 color = base_color;
         if (use_texture) {
             color *= texture(tex, v_texcoord);
@@ -332,6 +338,10 @@ class Window2D(WindowBase):
         if self.editor_show_gizmo and self._editor_gizmo and self.editor_selected_objects:
             self._editor_gizmo.draw(self, self.editor_selected_objects)
 
+        # -- Camera frustum visualisation ---------------------------------
+        if self.editor_show_camera and self._current_scene:
+            self._draw_camera_frustums(view4, proj)
+
         # -- HUD overlay (screen-space draw helpers + UI canvas) ----------
         self._2d_surface.fill((0, 0, 0, 0))
         if self._current_scene:
@@ -409,6 +419,7 @@ class Window2D(WindowBase):
             self._sprite_program['tex'].value = 0
 
         self._sprite_program['use_texture'].value = has_texture
+        self._sprite_program['is_circle'].value = getattr(obj2d, '_shape', None) == 'circle'
 
         # Color (tint + alpha)
         col = obj2d._color
@@ -442,6 +453,74 @@ class Window2D(WindowBase):
         self._sprite_textures[key] = tex
         obj2d._texture_dirty = False
         return tex
+
+    # =====================================================================
+    # Camera frustum drawing (editor)
+    # =====================================================================
+
+    def _draw_camera_frustums(self, view4: np.ndarray, proj: np.ndarray):
+        """Draw a wireframe rectangle for each scene Camera2D showing its view bounds."""
+        scene = self._current_scene
+        if not scene or not hasattr(scene, '_cameras'):
+            return
+
+        mvp = (proj @ view4).astype(np.float32)
+
+        for cam in scene._cameras:
+            # Skip the editor override camera — only draw game cameras
+            if cam is self.active_camera_override:
+                continue
+
+            pos = cam.position
+            cx, cy = float(pos.x), float(pos.y)
+            z = cam.zoom if cam.zoom > 0 else 1.0
+
+            # Half-extents of the camera view in world units
+            hw = cam._screen_width / (2.0 * z)
+            hh = cam._screen_height / (2.0 * z)
+
+            # Corners (CCW)
+            corners = [
+                (cx - hw, cy - hh),
+                (cx + hw, cy - hh),
+                (cx + hw, cy + hh),
+                (cx - hw, cy + hh),
+            ]
+
+            # Build line-loop vertices (4 edges = 8 vertices)
+            verts = []
+            for i in range(4):
+                x0, y0 = corners[i]
+                x1, y1 = corners[(i + 1) % 4]
+                verts.extend([x0, y0, 0.0, x1, y1, 0.0])
+
+            vbo = self._ctx.buffer(np.array(verts, dtype=np.float32).tobytes())
+            vao = self._ctx.vertex_array(
+                self._collider_program,
+                [(vbo, '3f', 'in_position')],
+            )
+
+            self._collider_program['mvp'].write(mvp.tobytes())
+            self._collider_program['color'].value = (0.9, 0.9, 0.2)  # yellow
+            vao.render(moderngl.LINES)
+
+            # Draw small cross at camera position
+            cross_size = max(hw, hh) * 0.03
+            cross_verts = [
+                cx - cross_size, cy, 0.0,  cx + cross_size, cy, 0.0,
+                cx, cy - cross_size, 0.0,  cx, cy + cross_size, 0.0,
+            ]
+            vbo2 = self._ctx.buffer(np.array(cross_verts, dtype=np.float32).tobytes())
+            vao2 = self._ctx.vertex_array(
+                self._collider_program,
+                [(vbo2, '3f', 'in_position')],
+            )
+            vao2.render(moderngl.LINES)
+
+            vao.release()
+            vbo.release()
+            vao2.release()
+            vbo2.release()
 
     # =====================================================================
     # 2D Physics collision processing

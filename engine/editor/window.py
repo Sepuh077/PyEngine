@@ -3812,7 +3812,7 @@ class {class_name}(Script):
                 use_pygame_events=False,
             )
             self._window.show_editor_overlays = False
-            self._window.editor_show_camera = False
+            self._window.editor_show_camera = True
             self._window.editor_show_axis = False
             self._window.active_camera_override = self._editor_camera
             self._window._editor_gizmo = self._translate_gizmo
