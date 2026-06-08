@@ -1,5 +1,5 @@
 """
-Example: Basic usage of Engine3D
+Example: Basic usage of PyEngine
 Demonstrates loading objects, camera control, and input handling.
 """
 import sys
@@ -99,7 +99,7 @@ class BasicScene(Scene3D):
         # Update window title with position info
         pos = self.stairs.transform.position
         self.window.set_caption(
-            f"Engine3D - Pos: ({pos[0]:.1f}, {pos[1]:.1f}, {pos[2]:.1f}) - {self.window.fps:.0f} FPS"
+            f"PyEngine - Pos: ({pos[0]:.1f}, {pos[1]:.1f}, {pos[2]:.1f}) - {self.window.fps:.0f} FPS"
         )
     
     def on_key_press(self, key, modifiers):
@@ -129,7 +129,7 @@ class BasicScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Basic Example ===")
+    print("=== PyEngine Basic Example ===")
     print("Controls:")
     print("  Arrow Keys - Move object (Left/Right = X, Up/Down = Z)")
     print("  A/D - Orbit camera")
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     print()
     
     # Create and run the application
-    window = Window3D(800, 600, "Engine3D - Basic Example")
+    window = Window3D(800, 600, "PyEngine - Basic Example")
     scene = BasicScene()
     window.show_scene(scene)
     window.run()

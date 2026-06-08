@@ -1,5 +1,5 @@
 """
-Core UI system for Engine3D.
+Core UI system for PyEngine.
 Provides base classes for UI elements, layer management, and event handling.
 """
 from __future__ import annotations

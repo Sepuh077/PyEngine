@@ -394,7 +394,7 @@ class UIScene(Scene3D):
 
         # Update window title
         self.window.set_caption(
-            f"Engine3D UI Demo - Score: {self.score} - Health: {int(self.health)} - "
+            f"PyEngine UI Demo - Score: {self.score} - Health: {int(self.health)} - "
             f"{self.window.fps:.0f} FPS"
         )
 
@@ -446,7 +446,7 @@ class UIScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D UI System Demo ===")
+    print("=== PyEngine UI System Demo ===")
     print("Controls:")
     print("  Arrow Keys - Move player")
     print("  ESC - Pause / Resume")
@@ -460,7 +460,7 @@ if __name__ == "__main__":
     print("  - Modal Layer: Game Over screen")
     print()
 
-    window = Window3D(800, 600, "Engine3D - UI System Demo")
+    window = Window3D(800, 600, "PyEngine - UI System Demo")
     scene = UIScene()
     window.show_scene(scene)
     window.run()

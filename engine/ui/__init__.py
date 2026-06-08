@@ -1,5 +1,5 @@
 """
-UI System for Engine3D.
+UI System for PyEngine.
 Provides interactive UI elements like buttons, checkboxes, sliders, and more.
 """
 from .core import UIElement, UIContainer, UIEvent, UILayer

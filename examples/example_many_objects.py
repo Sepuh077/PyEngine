@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine.d3 import Window3D, Scene3D, Time
+from engine.d3 import Window3D, Scene3D, Time, create_cube
 from engine.input import Keys
 from engine.types import Color
 
@@ -38,12 +38,13 @@ class ManyObjectsScene(Scene3D):
             y = 0
             
             # Create object with random color
-            obj = self.load_object(
-                "example/stairs_modular_right.obj",
-                position=(x, y, z),
-                scale=0.5,
-                color=Color.random_bright()
-            )
+            # obj = self.load_object(
+            #     "example/stairs_modular_right.obj",
+            #     position=(x, y, z),
+            #     scale=0.5,
+            #     color=Color.random_bright()
+            # )
+            obj = create_cube(position=(x, y, z), color=Color.random_bright())
             
             # Store original position for reset
             obj.tag = f"{x},{y},{z}"
@@ -113,7 +114,7 @@ class ManyObjectsScene(Scene3D):
         
         # Update window title with FPS and offset
         self.window.set_caption(
-            f"Engine3D - {self.num_objects} objects - "
+            f"PyEngine - {self.num_objects} objects - "
             f"Offset: ({self.offset_x:.1f}, {self.offset_z:.1f}) - "
             f"{self.window.fps:.1f} FPS"
         )
@@ -136,7 +137,7 @@ class ManyObjectsScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Many Objects Example ===")
+    print("=== PyEngine Many Objects Example ===")
     print("Tests position update speed with 100 objects")
     print()
     print("Controls:")
@@ -148,7 +149,7 @@ if __name__ == "__main__":
     print("  ESC - Exit")
     print()
     
-    window = Window3D(800, 600, "Engine3D - Many Objects")
+    window = Window3D(800, 600, "PyEngine - Many Objects")
     scene = ManyObjectsScene()
     window.show_scene(scene)
     window.run()

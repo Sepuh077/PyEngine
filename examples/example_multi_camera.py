@@ -179,7 +179,7 @@ class MultiCameraScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Multiple Cameras Example ===")
+    print("=== PyEngine Multiple Cameras Example ===")
     print()
     print("This example demonstrates multiple camera viewports:")
     print("  - Main camera: Full screen view (controlled by player)")
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     print("  ESC - Exit")
     print()
     
-    window = Window3D(1024, 768, "Engine3D - Multiple Cameras Demo")
+    window = Window3D(1024, 768, "PyEngine - Multiple Cameras Demo")
     scene = MultiCameraScene()
     window.show_scene(scene)
     window.run()

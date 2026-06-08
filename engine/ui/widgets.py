@@ -1,5 +1,5 @@
 """
-UI Widgets for Engine3D.
+UI Widgets for PyEngine.
 Provides Button, CheckBox, Slider, ProgressBar, Label, and Panel components.
 """
 from typing import Callable, Optional, Tuple, Union

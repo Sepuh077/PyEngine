@@ -165,14 +165,14 @@ class FPSCameraScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D FPS Camera Example ===")
+    print("=== PyEngine FPS Camera Example ===")
     print("Controls:")
     print("  WASD - Move cube on the ground")
     print("  Mouse - Rotate view around cube")
     print("  ESC - Exit")
     print()
     
-    window = Window3D(800, 600, "Engine3D - FPS Camera")
+    window = Window3D(800, 600, "PyEngine - FPS Camera")
     scene = FPSCameraScene()
     window.show_scene(scene)
     window.run(200)

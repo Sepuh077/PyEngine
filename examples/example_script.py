@@ -453,7 +453,7 @@ class ScriptScene(Scene3D):
 
 
 if __name__ == "__main__":
-    window = Window3D(900, 600, "Engine3D - Script System Demo")
+    window = Window3D(900, 600, "PyEngine - Script System Demo")
     scene = ScriptScene()
     window.show_scene(scene)
     window.run()

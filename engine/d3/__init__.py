@@ -1,5 +1,5 @@
 """
-Engine3D - A simple, GPU-accelerated 3D engine for Python.
+PyEngine - A simple, GPU-accelerated 3D engine for Python.
 
 Similar to arcade's API, but for 3D graphics.
 
@@ -25,7 +25,7 @@ from engine.d3.window import Window3D
 
 
 def run_editor(path: str = "."):
-    """Launch the Engine3D editor."""
+    """Launch the PyEngine editor."""
     try:
         from engine.editor.window import EditorWindow
         import sys

@@ -1,5 +1,5 @@
 """
-Example: Audio system in Engine3D
+Example: Audio system in PyEngine
 Demonstrates AudioClip, AudioSource, AudioListener, and 3D spatial audio.
 """
 import sys
@@ -169,7 +169,7 @@ class AudioScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Audio Example ===")
+    print("=== PyEngine Audio Example ===")
     print("Controls:")
     print("  M     - Toggle background music (2D)")
     print("  SPACE - Play one-shot SFX on sphere (half-3D)")
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     print("  ESC   - Exit")
     print()
 
-    window = Window3D(800, 600, "Engine3D - Audio Example")
+    window = Window3D(800, 600, "PyEngine - Audio Example")
     scene = AudioScene()
     window.show_scene(scene)
     window.run()

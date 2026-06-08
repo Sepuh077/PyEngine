@@ -1,5 +1,5 @@
 """
-UI Manager for Engine3D.
+UI Manager for PyEngine.
 Manages all UI elements, handles input events, and coordinates rendering.
 """
 from typing import List, Optional, Dict, Callable

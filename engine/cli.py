@@ -182,10 +182,10 @@ INITIAL_SCENE = "main:MainScene"
 
 
 # Template for requirements.txt
-REQUIREMENTS_TXT_TEMPLATE = """# Engine3D Game Dependencies
+REQUIREMENTS_TXT_TEMPLATE = """# PyEngine Game Dependencies
 # Install with: pip install -r requirements.txt
 
-# Core Engine3D Dependencies
+# Core PyEngine Dependencies
 pygame>=2.6.0
 numpy>=1.20.0
 pyglet>=2.1.0
@@ -214,7 +214,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "{project_name}"
 version = "0.1.0"
-description = "A game built with Engine3D"
+description = "A game built with PyEngine"
 requires-python = ">=3.8"
 
 dependencies = [
@@ -248,7 +248,7 @@ enable_plugin = "pygame"
 # Template for README.md
 README_MD_TEMPLATE = """# {project_name}
 
-A 3D game built with Engine3D.
+A 3D game built with PyEngine.
 
 ## Getting Started
 
@@ -268,7 +268,7 @@ A 3D game built with Engine3D.
 ### Running the Game
 
 ```bash
-# Using Engine3D CLI
+# Using PyEngine CLI
 pyengine run
 
 # Or directly
@@ -478,7 +478,7 @@ env/
 *.app
 *.dmg
 
-# Engine3D specific
+# PyEngine specific
 *.log
 .cache/
 """
@@ -491,7 +491,7 @@ env/
 
 def create_project(project_name: str, target_dir: Optional[Path] = None) -> Path:
     """
-    Create a new Engine3D project with the given name.
+    Create a new PyEngine project with the given name.
 
     Args:
         project_name: Name of the project
@@ -563,7 +563,7 @@ def create_project(project_name: str, target_dir: Optional[Path] = None) -> Path
 
 
 class BuildSystem:
-    """Build system for Engine3D projects."""
+    """Build system for PyEngine projects."""
 
     def __init__(self, project_path: Path, backend: str = "pyinstaller"):
         self.project_path = Path(project_path).resolve()
@@ -765,7 +765,7 @@ def cmd_build(args) -> None:
 
     if not (project_path / "main.py").exists():
         print(f"Error: No main.py found in {project_path}")
-        print("Make sure you're in a valid Engine3D project directory.")
+        print("Make sure you're in a valid PyEngine project directory.")
         sys.exit(1)
 
     if args.clean:
@@ -790,7 +790,7 @@ def cmd_run(args) -> None:
 
     if not main_file.exists():
         print(f"Error: No main.py found in {project_path}")
-        print("Make sure you're in a valid Engine3D project directory.")
+        print("Make sure you're in a valid PyEngine project directory.")
         sys.exit(1)
 
     print(f"Running project: {project_path.name}")
@@ -834,7 +834,7 @@ def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
         prog="pyengine",
-        description="Engine3D CLI - Create and manage 3D game projects",
+        description="PyEngine CLI - Create and manage 3D game projects",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -855,8 +855,8 @@ Examples:
     # startproject command
     startproject_parser = subparsers.add_parser(
         "startproject",
-        help="Create a new Engine3D project",
-        description="Create a new Engine3D project with the given name.",
+        help="Create a new PyEngine project",
+        description="Create a new PyEngine project with the given name.",
     )
     startproject_parser.add_argument("name", help="Name of the project to create")
     startproject_parser.add_argument(
@@ -912,7 +912,7 @@ Examples:
     # editor command
     editor_parser = subparsers.add_parser(
         "editor",
-        help="Launch the Engine3D editor",
+        help="Launch the PyEngine editor",
         description="Launch the visual editor for the project.",
     )
     editor_parser.add_argument(

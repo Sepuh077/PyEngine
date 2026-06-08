@@ -267,7 +267,7 @@ if __name__ == "__main__":
     print("  - Loading complete scenes")
     print()
     
-    window = Window3D(900, 600, "Engine3D - Serialization Demo")
+    window = Window3D(900, 600, "PyEngine - Serialization Demo")
     scene = SerializationScene()
     window.show_scene(scene)
     window.run()

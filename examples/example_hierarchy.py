@@ -137,7 +137,7 @@ class HierarchyScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Hierarchy Example ===")
+    print("=== PyEngine Hierarchy Example ===")
     print("This example demonstrates parent-child transform relationships.")
     print()
     print("Scene:")
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     print("  ESC - Exit")
     print()
     
-    window = Window3D(1024, 768, "Engine3D - Hierarchy Example")
+    window = Window3D(1024, 768, "PyEngine - Hierarchy Example")
     scene = HierarchyScene()
     window.show_scene(scene)
     window.run()

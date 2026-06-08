@@ -145,7 +145,7 @@ class ShadowScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Shadow Example ===")
+    print("=== PyEngine Shadow Example ===")
     print("Controls:")
     print("  A/D - Orbit camera horizontally")
     print("  W/S - Orbit camera vertically")
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     print()
     
     # Create and run the application
-    window = Window3D(1024, 768, "Engine3D - Shadow Example")
+    window = Window3D(1024, 768, "PyEngine - Shadow Example")
     scene = ShadowScene()
     window.show_scene(scene)
     window.run()

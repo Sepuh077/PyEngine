@@ -151,7 +151,7 @@ class CollisionScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D Collision Detection Example ===")
+    print("=== PyEngine Collision Detection Example ===")
     print("Controls:")
     print("  WASD - Move blue cube (player)")
     print("  SPACE - Toggle bounding boxes")
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     print("White lines: Bounding boxes (toggle with SPACE)")
     print()
 
-    window = Window3D(800, 600, "Engine3D - Collision Demo")
+    window = Window3D(800, 600, "PyEngine - Collision Demo")
     scene = CollisionScene()
     window.show_scene(scene)
     window.run()

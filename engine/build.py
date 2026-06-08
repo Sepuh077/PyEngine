@@ -1,7 +1,7 @@
 """
-Engine3D Build System
+PyEngine Build System
 
-This module provides the BuildSystem class for building Engine3D projects
+This module provides the BuildSystem class for building PyEngine projects
 into standalone executables.
 
 Supported backends:
@@ -26,9 +26,9 @@ from typing import Dict, Any, Optional
 
 
 class BuildSystem:
-    """Build system for Engine3D projects.
+    """Build system for PyEngine projects.
     
-    This class handles building Engine3D games into standalone executables
+    This class handles building PyEngine games into standalone executables
     using either PyInstaller or Nuitka as the backend.
     
     Attributes:
@@ -267,7 +267,7 @@ class BuildSystem:
 def main():
     """Command-line interface for the build system."""
     parser = argparse.ArgumentParser(
-        description="Engine3D Build System"
+        description="PyEngine Build System"
     )
     parser.add_argument(
         "--backend",
@@ -306,7 +306,7 @@ def main():
     
     if not (project_path / "main.py").exists():
         print(f"Error: No main.py found in {project_path}")
-        print("Make sure you're in a valid Engine3D project directory.")
+        print("Make sure you're in a valid PyEngine project directory.")
         sys.exit(1)
     
     builder = BuildSystem(project_path, backend=args.backend)

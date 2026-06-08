@@ -1,5 +1,5 @@
 """
-Audio system for Engine3D.
+Audio system for PyEngine.
 
 Provides AudioClip, AudioListener, and AudioSource components for
 2D and 3D positional audio using pygame.mixer.

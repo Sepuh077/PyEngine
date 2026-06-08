@@ -229,7 +229,7 @@ if __name__ == "__main__":
     print()
     print("Watch console for prints/color changes.")
     print()
-    window = Window3D(900, 600, "Engine3D - ColliderGroup Demo")
+    window = Window3D(900, 600, "PyEngine - ColliderGroup Demo")
     scene = CollisionGroupsScene()
     window.show_scene(scene)
     window.run()

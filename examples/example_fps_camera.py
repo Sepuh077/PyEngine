@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine.d3 import Window3D, Scene3D, Time
+from engine.d3 import Window3D, Scene3D, Time, Camera3D
 from engine.d3.object3d import create_cube, create_plane
 from engine.d3.physics import BoxCollider3D, SphereCollider3D, CapsuleCollider3D, Collider3D, Rigidbody3D
 from engine.input import Keys
@@ -31,8 +31,8 @@ class FPSCameraScene(Scene3D):
         self.dc = True
         
         # Create some objects to look at (user adds collider)
-        for x in range(-40, 41, 4):
-            for z in range(-40, 41, 4):
+        for x in range(-40, 41, 10):
+            for z in range(-40, 41, 10):
                 if x == 0 and z == 0:
                     continue
                 cube = self.add_object(create_cube(1.0, color=Color.random_bright()))
@@ -102,6 +102,8 @@ class FPSCameraScene(Scene3D):
         
         # Rotate all cubes
         for obj in self.objects:
+            if obj.get_component(Camera3D):
+                continue
             if not obj.get_component(Rigidbody3D) or not obj.get_component(Rigidbody3D).is_static:
                 obj.transform.rotation_y += delta_time * 20
                 obj.transform.rotation_x += delta_time * 10
@@ -158,7 +160,7 @@ class FPSCameraScene(Scene3D):
 
 
 if __name__ == "__main__":
-    print("=== Engine3D FPS Camera Example ===")
+    print("=== PyEngine FPS Camera Example ===")
     print("Controls:")
     print("  WASD - Move")
     print("  SPACE - Move up")
@@ -167,7 +169,7 @@ if __name__ == "__main__":
     print("  ESC - Exit")
     print()
     
-    window = Window3D(800, 600, "Engine3D - FPS Camera")
+    window = Window3D(800, 600, "PyEngine - FPS Camera")
     scene = FPSCameraScene()
     window.show_scene(scene)
     window.run(200)

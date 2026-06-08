@@ -1344,7 +1344,7 @@ class EditorWindow(QtWidgets.QMainWindow):
         super().__init__(parent)
         self.project_root = Path(project_root).resolve()
         self._mode = mode  # "2d" or "3d"
-        self.setWindowTitle("Engine2D Editor" if mode == "2d" else "Engine3D Editor")
+        self.setWindowTitle("PyEngine 2D Editor" if mode == "2d" else "PyEngine Editor")
         self.resize(1280, 768)
 
         self._selection = EditorSelection()
@@ -3806,7 +3806,7 @@ class {class_name}(Script):
         if self._mode == "2d":
             self._window = Window2D(
                 width=w, height=h,
-                title="Engine2D Editor Viewport",
+                title="PyEngine 2D Editor Viewport",
                 resizable=True,
                 use_pygame_window=False,
                 use_pygame_events=False,
@@ -3821,7 +3821,7 @@ class {class_name}(Script):
         else:
             self._window = Window3D(
                 width=w, height=h,
-                title="Engine3D Editor Viewport",
+                title="PyEngine Editor Viewport",
                 project_root=self.project_root,
                 resizable=True,
                 use_pygame_window=False,
