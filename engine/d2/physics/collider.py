@@ -12,8 +12,9 @@ from engine.d2.physics.types import ColliderType2D
 class Collider2D(Component):
     """Base 2D collider. Subclasses: BoxCollider2D, CircleCollider2D, CapsuleCollider2D, PolygonCollider2D."""
 
-    # Inspector fields
-    center = InspectorField(float, default=0.0, tooltip="Center X offset of the collider")
+    # Inspector fields (center exposed as two floats for inspector editing; code still uses Vector2 .center)
+    center_x = InspectorField(float, default=0.0, tooltip="Center X offset of the collider")
+    center_y = InspectorField(float, default=0.0, tooltip="Center Y offset of the collider")
     collision_mode = InspectorField(
         CollisionMode,
         default=CollisionMode.NORMAL,
@@ -23,6 +24,8 @@ class Collider2D(Component):
     def __init__(self):
         super().__init__()
         self.center = Vector2.zero()
+        self.center_x = 0.0
+        self.center_y = 0.0
         self.collision_mode = CollisionMode.NORMAL
         self.group = ColliderGroup._registry.get("default") or ColliderGroup("default")
         self._current_collisions: set = set()
@@ -55,7 +58,12 @@ class Collider2D(Component):
         return np.array([abs(s.x), abs(s.y)], dtype=np.float64)
 
     def _get_center_offset(self) -> np.ndarray:
-        """Center offset as 2D numpy array."""
+        """Center offset as 2D numpy array. Supports both .center (Vector2) and inspector split fields center_x/center_y."""
+        if hasattr(self, 'center_x') and hasattr(self, 'center_y'):
+            cx = getattr(self, 'center_x', 0.0)
+            cy = getattr(self, 'center_y', 0.0)
+            self.center = Vector2(float(cx), float(cy))  # keep .center in sync
+            return np.array([float(cx), float(cy)], dtype=np.float64)
         c = self.center if isinstance(self.center, Vector2) else Vector2(self.center if isinstance(self.center, (tuple, list)) else (0, 0))
         return np.array([c.x, c.y], dtype=np.float64)
 
@@ -107,13 +115,21 @@ class Collider2D(Component):
 class BoxCollider2D(Collider2D):
     """Oriented-box collider in 2D (OBB projected on XY plane)."""
 
-    size = InspectorField(float, default=1.0, tooltip="Half-extent size multiplier")
+    size_x = InspectorField(float, default=1.0, tooltip="Half-extent size X (width)")
+    size_y = InspectorField(float, default=1.0, tooltip="Half-extent size Y (height)")
 
     def __init__(self, center=None, size=None):
         super().__init__()
         if center is not None:
             self.center = Vector2(center) if not isinstance(center, Vector2) else center
+        else:
+            self.center = Vector2.zero()
         self.size = Vector2(size) if size else Vector2.one()
+        # keep inspector split fields in sync (so center/size Vector2 don't leak into float InspectorFields)
+        self.center_x = float(self.center.x)
+        self.center_y = float(self.center.y)
+        self.size_x = float(self.size.x)
+        self.size_y = float(self.size.y)
         self.type = ColliderType2D.BOX
         # OBB: (center_2d_np, angle_float, half_extents_2d_np)
         self.obb: Optional[Tuple[np.ndarray, float, np.ndarray]] = None
@@ -128,7 +144,14 @@ class BoxCollider2D(Collider2D):
         scale = self._get_scale_2d()
         offset = self._get_center_offset()
 
-        size_vec = self.size if isinstance(self.size, Vector2) else Vector2(self.size if isinstance(self.size, (tuple, list)) else (1, 1))
+        # Support both legacy .size (Vector2/float) and new inspector split size_x / size_y
+        if hasattr(self, 'size_x') and hasattr(self, 'size_y'):
+            sx = getattr(self, 'size_x', 1.0)
+            sy = getattr(self, 'size_y', 1.0)
+            self.size = Vector2(float(sx), float(sy))
+            size_vec = self.size
+        else:
+            size_vec = self.size if isinstance(self.size, Vector2) else Vector2(self.size if isinstance(self.size, (tuple, list)) else (1, 1))
         half_ext = np.array([size_vec.x, size_vec.y], dtype=np.float64) * scale * 0.5
 
         # Rotate the center offset into world space
@@ -169,7 +192,11 @@ class CircleCollider2D(Collider2D):
         super().__init__()
         if center is not None:
             self.center = Vector2(center) if not isinstance(center, Vector2) else center
+        else:
+            self.center = Vector2.zero()
         self.radius = radius
+        self.center_x = float(self.center.x)
+        self.center_y = float(self.center.y)
         self.type = ColliderType2D.CIRCLE
         # circle: (center_2d_np, radius_float)
         self.circle: Optional[Tuple[np.ndarray, float]] = None
@@ -221,9 +248,13 @@ class CapsuleCollider2D(Collider2D):
         super().__init__()
         if center is not None:
             self.center = Vector2(center) if not isinstance(center, Vector2) else center
+        else:
+            self.center = Vector2.zero()
         self.radius = radius
         self.height = height
         self.direction = direction  # 0 = vertical (Y), 1 = horizontal (X)
+        self.center_x = float(self.center.x)
+        self.center_y = float(self.center.y)
         self.type = ColliderType2D.CAPSULE
         # capsule: (center_np, scaled_radius, scaled_half_height, direction)
         self.capsule: Optional[Tuple[np.ndarray, float, float, int]] = None
@@ -284,10 +315,14 @@ class PolygonCollider2D(Collider2D):
         super().__init__()
         if center is not None:
             self.center = Vector2(center) if not isinstance(center, Vector2) else center
+        else:
+            self.center = Vector2.zero()
         # points: list of (x, y) tuples in local space (CCW winding preferred)
         self.points: List[Tuple[float, float]] = points if points else [
             (-0.5, -0.5), (0.5, -0.5), (0.5, 0.5), (-0.5, 0.5)
         ]
+        self.center_x = float(self.center.x)
+        self.center_y = float(self.center.y)
         self.type = ColliderType2D.POLYGON
         # Transformed world-space vertices as np.ndarray of shape (N, 2)
         self.world_points: Optional[np.ndarray] = None
@@ -324,3 +359,15 @@ class PolygonCollider2D(Collider2D):
         mins = np.min(world, axis=0)
         maxs = np.max(world, axis=0)
         self.aabb = (mins, maxs)
+
+
+# --- Safety cleanup ---------------------------------------------------------
+# Make absolutely sure the internal Vector2 attributes 'center' and 'size' are never
+# exposed to the inspector as scalar (float) InspectorFields. This prevents
+# "float() argument must be ... not 'Vector2'" crashes when a 2D collider is added
+# or the inspector rebuilds.
+for _cls in (Collider2D, BoxCollider2D):
+    for _bad in ('center', 'size'):
+        _d = vars(_cls).get(_bad)
+        if isinstance(_d, InspectorField):
+            delattr(_cls, _bad)

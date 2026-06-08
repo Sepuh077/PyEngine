@@ -18,12 +18,31 @@ class Camera2D(Component):
     """
 
     zoom = InspectorField(float, default=1.0, min_value=0.01, max_value=100.0,
-                          step=0.1, decimals=2, tooltip="Camera zoom (1 = default)")
+                          step=0.1, decimals=2, tooltip="Legacy zoom (prefer orthographic_size)")
 
-    def __init__(self, zoom: float = 1.0, is_main: bool = True):
+    orthographic_size = InspectorField(float, default=5.0, min_value=0.1, max_value=1000.0,
+                                       step=0.1, decimals=2, tooltip="Orthographic size (Unity-style: half the vertical world units visible)")
+
+    viewport_x = InspectorField(float, default=0.0, min_value=0.0, max_value=1.0,
+                                step=0.01, tooltip="Viewport X (normalized 0-1, like Unity Camera.rect)")
+    viewport_y = InspectorField(float, default=0.0, min_value=0.0, max_value=1.0,
+                                step=0.01, tooltip="Viewport Y (normalized 0-1)")
+    viewport_width = InspectorField(float, default=1.0, min_value=0.0, max_value=1.0,
+                                    step=0.01, tooltip="Viewport width (normalized 0-1)")
+    viewport_height = InspectorField(float, default=1.0, min_value=0.0, max_value=1.0,
+                                     step=0.01, tooltip="Viewport height (normalized 0-1)")
+
+    def __init__(self, zoom: float = 1.0, orthographic_size: float = 5.0, is_main: bool = True,
+                 viewport_x: float = 0.0, viewport_y: float = 0.0,
+                 viewport_width: float = 1.0, viewport_height: float = 1.0):
         super().__init__()
         self.zoom = zoom
+        self.orthographic_size = orthographic_size
         self._is_main = is_main
+        self.viewport_x = viewport_x
+        self.viewport_y = viewport_y
+        self.viewport_width = viewport_width
+        self.viewport_height = viewport_height
         self._screen_width = 800
         self._screen_height = 600
 
@@ -65,11 +84,22 @@ class Camera2D(Component):
         self._screen_width = width
         self._screen_height = height
 
+    def _get_view_scale(self) -> float:
+        """Effective scale factor for the view matrix.
+        Uses orthographic_size (Unity-style) for resolution-independent viewport size.
+        Falls back to legacy zoom.
+        """
+        size = getattr(self, 'orthographic_size', 5.0)
+        if size > 0 and self._screen_height > 0:
+            return self._screen_height / (2.0 * size)
+        z = getattr(self, 'zoom', 1.0)
+        return z if z > 0 else 1.0
+
     def get_view_matrix(self) -> np.ndarray:
         """Return the 3x3 view matrix (inverse of camera transform)."""
         pos = self.position
         angle = math.radians(self.rotation) if self.game_object else 0.0
-        z = self.zoom if self.zoom > 0 else 1.0
+        z = self._get_view_scale()
 
         c, s = math.cos(-angle), math.sin(-angle)
         tx, ty = -pos.x, -pos.y
@@ -83,11 +113,13 @@ class Camera2D(Component):
 
     def get_projection_matrix(self) -> np.ndarray:
         """Return a 4x4 orthographic projection for use with OpenGL (NDC)."""
-        hw = self._screen_width / 2.0
-        hh = self._screen_height / 2.0
-        z = self.zoom if self.zoom > 0 else 1.0
+        # Support Unity-like viewport rect by using effective screen size for this camera's output area.
+        eff_w = self._screen_width * max(0.0001, getattr(self, 'viewport_width', 1.0))
+        eff_h = self._screen_height * max(0.0001, getattr(self, 'viewport_height', 1.0))
+        hw = eff_w / 2.0
+        hh = eff_h / 2.0
 
-        # The view matrix already handles zoom, so projection just maps pixels to NDC.
+        # Projection maps the (effective) screen rect to NDC. Zoom/size handled in view matrix.
         return np.array([
             [1.0 / hw, 0,        0, 0],
             [0,        1.0 / hh, 0, 0],
@@ -105,7 +137,7 @@ class Camera2D(Component):
         cx = screen_x - self._screen_width / 2.0
         cy = -(screen_y - self._screen_height / 2.0)  # flip Y
 
-        z = self.zoom if self.zoom > 0 else 1.0
+        z = self._get_view_scale()
         cx /= z
         cy /= z
 
@@ -129,7 +161,7 @@ class Camera2D(Component):
         cx = c * dx + s * dy
         cy = -s * dx + c * dy
 
-        z = self.zoom if self.zoom > 0 else 1.0
+        z = self._get_view_scale()
         cx *= z
         cy *= z
 

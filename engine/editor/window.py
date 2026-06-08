@@ -28,6 +28,7 @@ SphereCollider = SphereCollider3D
 # 2D engine imports
 from engine.d2.window2d import Window2D
 from engine.d2.object2d import Object2D, create_rect, create_circle, SortingLayer
+from engine.types.color import Color as EngineColor
 from engine.d2.camera2d import Camera2D
 from engine.d2.physics import Rigidbody2D, BoxCollider2D, CircleCollider2D
 
@@ -1220,7 +1221,7 @@ class HierarchyTreeWidget(QtWidgets.QTreeWidget):
             
             # Instantiate the prefab
             self.editor_window._viewport.makeCurrent()
-            if self.editor_window._mode == "2d":
+            if self.editor_window._is_using_2d_navigation():
                 spawn_pos = (
                     self.editor_window._camera_control['cam_x'],
                     self.editor_window._camera_control['cam_y'],
@@ -1375,10 +1376,13 @@ class EditorWindow(QtWidgets.QMainWindow):
 
         # Editor camera (separate from game camera)
         if self._mode == "2d":
-            self._editor_camera = Camera2D(zoom=1.0)
+            self._editor_camera = Camera2D(zoom=80.0)
         else:
             from engine.d3.camera import Camera3D
             self._editor_camera = Camera3D()
+
+        # Force 2D nav (pan not orbit) when started as 2D or after loading 2D scene
+        self._force_2d_nav = (self._mode == "2d")
 
         # Play mode state
         self._playing = False
@@ -1392,7 +1396,7 @@ class EditorWindow(QtWidgets.QMainWindow):
                 'last_mouse_pos': None,
                 'cam_x': 0.0,
                 'cam_y': 0.0,
-                'zoom': 1.0,
+                'zoom': 80.0,
             }
         else:
             self._camera_control = {
@@ -2565,7 +2569,7 @@ class {class_name}(Script):
         """Convert normalized screen coordinates to world position."""
         import numpy as np
         
-        if self._mode == "2d":
+        if self._is_using_2d_navigation():
             # Use Camera2D.screen_to_world
             cam = self._editor_camera
             sx = norm_x * self._window.width
@@ -3527,6 +3531,11 @@ class {class_name}(Script):
                 if self._mode == "3d":
                     self._window.editor_show_axis = False
                     self._window.show_editor_overlays = False
+                else:
+                    self._window.show_editor_overlays = False
+                    # Leave editor_show_colliders (and editor_show_gizmo) as-is so debug collider edges
+                    # and gizmos can remain visible in Play mode if they were enabled (for debugging).
+                    # The translate gizmo itself won't draw because we clear selected objects below.
             
             # Initialize all scripts
             for obj in self._scene.objects:
@@ -3592,6 +3601,9 @@ class {class_name}(Script):
                 if self._mode == "3d":
                     self._window.editor_show_axis = True
                     self._window.show_editor_overlays = True
+                else:
+                    self._window.show_editor_overlays = True
+                    self._window.editor_show_colliders = True
             
             # Restore scene state
             if self._original_scene_data:
@@ -3811,9 +3823,10 @@ class {class_name}(Script):
                 use_pygame_window=False,
                 use_pygame_events=False,
             )
-            self._window.show_editor_overlays = False
+            self._window.show_editor_overlays = True
             self._window.editor_show_camera = True
             self._window.editor_show_axis = False
+            self._window.editor_show_colliders = True
             self._window.active_camera_override = self._editor_camera
             self._window._editor_gizmo = self._translate_gizmo
             # Ensure editor camera has screen size
@@ -3904,7 +3917,16 @@ class {class_name}(Script):
             
             # Load the scene (auto-detect mode from file or use current mode)
             from engine.editor.scene import EditorScene, EditorScene2D
-            if self._mode == "2d":
+            scene_is_2d = self._mode == "2d"
+            try:
+                import json
+                with open(str(path), "r", encoding="utf-8") as f:
+                    header = json.load(f)
+                    if header.get("_mode") == "2d":
+                        scene_is_2d = True
+            except Exception:
+                pass
+            if scene_is_2d:
                 self._scene = EditorScene2D.load(str(path))
             else:
                 self._scene = EditorScene.load(str(path))
@@ -3915,6 +3937,10 @@ class {class_name}(Script):
             
             # Restore prefab connections for all objects
             self._restore_prefab_connections()
+            
+            # Adapt editor navigation/gizmo/camera if loaded scene is 2D (RMB/MMB should pan, not rotate)
+            if scene_is_2d:
+                self._adapt_to_2d_scene_if_needed()
             
             # Show the loaded scene
             if self._window:
@@ -4221,7 +4247,7 @@ class {class_name}(Script):
         self._viewport.makeCurrent()
         try:
             self._window.on_resize(width, height)
-            if self._mode == "2d":
+            if self._is_using_2d_navigation() and hasattr(self._editor_camera, "set_screen_size"):
                 self._editor_camera.set_screen_size(width, height)
         finally:
             self._viewport.doneCurrent()
@@ -4266,11 +4292,22 @@ class {class_name}(Script):
                     self._viewport.setCursor(QtCore.Qt.CursorShape.ClosedHandCursor)
                     return
 
-        if self._mode == "2d":
-            # 2D: right-click or middle-click = pan
+        # Use 2D pan navigation for 2D editor / 2D scenes (RMB/MMB = pan, never rotate)
+        if self._is_using_2d_navigation():
+            # 2D: right-click or middle-click = pan (no rotation)
             if event.button() in (QtCore.Qt.MouseButton.RightButton, QtCore.Qt.MouseButton.MiddleButton):
+                # Force top-down orientation so it never feels like 3D orbit/rotate
+                if not isinstance(self._editor_camera, Camera2D):
+                    try:
+                        go = self._editor_camera.game_object
+                        if go:
+                            go.transform.rotation = (0.0, 0.0, 0.0)
+                    except Exception:
+                        pass
                 self._camera_control['panning'] = True
                 self._camera_control['last_mouse_pos'] = (event.pos().x(), event.pos().y())
+                if 'orbiting' in self._camera_control:
+                    self._camera_control['orbiting'] = False
                 self._viewport.setCursor(QtCore.Qt.CursorShape.SizeAllCursor)
         else:
             if event.button() == QtCore.Qt.MouseButton.RightButton:
@@ -4306,7 +4343,7 @@ class {class_name}(Script):
             self._mark_scene_dirty()
             return
 
-        if self._mode == "2d":
+        if self._is_using_2d_navigation():
             if event.button() in (QtCore.Qt.MouseButton.RightButton, QtCore.Qt.MouseButton.MiddleButton):
                 self._camera_control['panning'] = False
                 self._viewport.setCursor(QtCore.Qt.CursorShape.ArrowCursor)
@@ -4359,13 +4396,44 @@ class {class_name}(Script):
         dx = current_pos[0] - last_pos[0]
         dy = current_pos[1] - last_pos[1]
 
-        if self._mode == "2d":
-            # 2D camera: pan only
+        if self._is_using_2d_navigation():
+            # 2D camera: pan only (use physical pixels so movement matches 2D ortho pixel mapping)
+            # Always translate purely in world X/Y (respecting current 2D camera rotation if any),
+            # so right-click drag only ever moves the scene in X and Y directions.
             if self._camera_control['panning']:
+                dpr = self._viewport.devicePixelRatio()
+                phys_dx = dx * dpr
+                phys_dy = dy * dpr
                 zoom = self._camera_control.get('zoom', 1.0)
                 sensitivity = 1.0 / max(zoom, 0.01)
-                self._camera_control['cam_x'] -= dx * sensitivity
-                self._camera_control['cam_y'] += dy * sensitivity
+
+                # Screen delta in camera-local space (at current zoom)
+                dcx = phys_dx * sensitivity
+                dcy = -phys_dy * sensitivity
+
+                # Rotate the local delta into world space using the current editor camera's 2D rotation
+                rot = 0.0
+                try:
+                    if isinstance(self._editor_camera, Camera2D):
+                        rot = getattr(self._editor_camera, 'rotation', 0.0)
+                    else:
+                        # Mixed case (2D nav on 3D cam): we force flat rotation in press/update
+                        if self._editor_camera and self._editor_camera.game_object:
+                            r = self._editor_camera.game_object.transform.rotation
+                            if hasattr(r, '__getitem__') and len(r) > 2:
+                                rot = float(r[2])
+                            else:
+                                rot = float(r)
+                except Exception:
+                    rot = 0.0
+
+                angle = np.radians(rot)
+                c, s = np.cos(angle), np.sin(angle)
+                world_dx = c * dcx - s * dcy
+                world_dy = s * dcx + c * dcy
+
+                self._camera_control['cam_x'] -= world_dx
+                self._camera_control['cam_y'] -= world_dy
                 self._update_camera_position()
         else:
             if self._camera_control['orbiting']:
@@ -4468,7 +4536,7 @@ class {class_name}(Script):
         delta = event.angleDelta().y()
         zoom_factor = 1.1 if delta > 0 else 0.9
 
-        if self._mode == "2d":
+        if self._is_using_2d_navigation():
             self._camera_control['zoom'] *= zoom_factor
             self._camera_control['zoom'] = float(np.clip(self._camera_control['zoom'], 0.01, 100.0))
             self._update_camera_position()
@@ -4483,19 +4551,34 @@ class {class_name}(Script):
         if not self._window:
             return
 
-        if self._mode == "2d":
+        if self._is_using_2d_navigation():
             # 2D: set camera position and zoom directly
             if not self._editor_camera.game_object:
                 cam_go = GameObject("Editor Camera")
                 cam_go.add_component(self._editor_camera)
 
-            self._editor_camera.zoom = self._camera_control['zoom']
+            if hasattr(self._editor_camera, "zoom"):
+                self._editor_camera.zoom = self._camera_control['zoom']
+            if hasattr(self._editor_camera, "orthographic_size"):
+                sh = getattr(self._editor_camera, "_screen_height", 600) or 600
+                if sh > 0:
+                    # Map the editor 'zoom' control value to orthographic_size for consistent viewport sizing
+                    self._editor_camera.orthographic_size = sh / (2.0 * max(self._camera_control.get('zoom', 1.0), 0.01))
             self._editor_camera.game_object.transform.position = (
                 self._camera_control['cam_x'],
                 self._camera_control['cam_y'],
                 0.0,
             )
-            self._editor_camera.set_screen_size(self._window.width, self._window.height)
+            # When forcing 2D nav on a 3D camera (e.g. 2D scene loaded in 3D editor), keep it top-down
+            if not isinstance(self._editor_camera, Camera2D):
+                try:
+                    go = self._editor_camera.game_object
+                    if go:
+                        go.transform.rotation = (0.0, 0.0, 0.0)
+                except Exception:
+                    pass
+            if hasattr(self._editor_camera, "set_screen_size"):
+                self._editor_camera.set_screen_size(self._window.width, self._window.height)
             self._viewport.update()
         else:
             azimuth_rad = np.radians(self._camera_control['azimuth'])
@@ -4522,6 +4605,92 @@ class {class_name}(Script):
                 self._update_inspector_fields()
 
             self._viewport.update()
+
+    def _is_using_2d_navigation(self) -> bool:
+        """True when view camera should use 2D pan (x/y translate + zoom) not 3D orbit."""
+        if isinstance(self._editor_camera, Camera2D):
+            return True
+        if getattr(self, "_force_2d_nav", False):
+            return True
+        if self._mode == "2d":
+            return True
+        # If the rendering window is a 2D window, or the scene contains 2D cameras, treat as 2D
+        if isinstance(getattr(self, '_window', None), Window2D):
+            return True
+        if self._scene:
+            main_cam = getattr(self._scene, 'main_camera', None)
+            if isinstance(main_cam, Camera2D):
+                return True
+            for o in getattr(self._scene, 'objects', []) or []:
+                if o.get_component(Camera2D):
+                    return True
+        return False
+
+    def _adapt_to_2d_scene_if_needed(self) -> None:
+        """Switch editor camera, gizmo and control state to 2D pan/zoom when a 2D scene is loaded.
+        This ensures RMB/MMB move the view in 2D (top/bottom/left/right) instead of 3D orbiting.
+        """
+        from engine.d2.camera2d import Camera2D as _Cam2D
+        from engine.editor.gizmo import TranslateGizmo2D as _Gizmo2D
+
+        needs_2d = False
+        # Check scene's main camera or any Camera2D
+        main_cam = getattr(self._scene, "main_camera", None)
+        if isinstance(main_cam, _Cam2D):
+            needs_2d = True
+        else:
+            for obj in getattr(self._scene, "objects", []):
+                if obj.get_component(_Cam2D):
+                    needs_2d = True
+                    break
+
+        if not needs_2d:
+            return
+
+        win = getattr(self, "_window", None)
+        safe_to_use_2d_cam = (win is None) or isinstance(win, Window2D)
+
+        if safe_to_use_2d_cam:
+            # Ensure we have a 2D editor camera
+            if not isinstance(self._editor_camera, _Cam2D):
+                self._editor_camera = _Cam2D(orthographic_size=5.0)
+
+            # Ensure 2D gizmo (only X/Y axes)
+            if not isinstance(self._translate_gizmo, _Gizmo2D):
+                self._translate_gizmo = _Gizmo2D()
+
+        # Ensure camera control state has 2D keys (cam_x/cam_y/zoom)
+        if "cam_x" not in self._camera_control:
+            self._camera_control = {
+                "panning": False,
+                "last_mouse_pos": None,
+                "cam_x": 0.0,
+                "cam_y": 0.0,
+                "zoom": 80.0,
+            }
+
+        # Flag so that mouse handlers use 2D pan (translate) even if editor cam is still 3D (mixed load)
+        self._force_2d_nav = True
+
+        # Wire to current window (for project_point, gizmo drawing, override) -- only override cam/gizmo if safe
+        if self._window:
+            if safe_to_use_2d_cam:
+                self._window.active_camera_override = self._editor_camera
+                self._window._editor_gizmo = self._translate_gizmo
+            try:
+                if hasattr(self._editor_camera, "set_screen_size"):
+                    self._editor_camera.set_screen_size(self._window.width, self._window.height)
+            except Exception:
+                pass
+
+        # Initialize position from any cam data if present on the scene cam
+        if main_cam and isinstance(main_cam, _Cam2D):
+            pos = main_cam.position
+            self._camera_control["cam_x"] = float(pos.x)
+            self._camera_control["cam_y"] = float(pos.y)
+            self._camera_control["zoom"] = float(getattr(main_cam, "zoom", 1.0))
+
+        self._update_camera_position()
 
     def _refresh_hierarchy(self) -> None:
         self._hierarchy_tree.clear()
@@ -5141,10 +5310,10 @@ class {class_name}(Script):
                 new_obj = GameObject()
                 name = "GameObject"
             elif obj_type == "Rect":
-                new_obj = create_rect(100, 100, color=(1, 1, 1))
+                new_obj = create_rect(1, 1, color=(1, 1, 1))
                 name = "Rect"
             elif obj_type == "Circle":
-                new_obj = create_circle(50, color=(1, 1, 1))
+                new_obj = create_circle(0.5, color=(1, 1, 1))
                 name = "Circle"
             elif obj_type == "Sprite":
                 path, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -5157,7 +5326,17 @@ class {class_name}(Script):
                     name = Path(path).stem
             elif obj_type == "Camera":
                 new_obj = GameObject("Camera")
-                new_obj.add_component(Camera2D())
+                cam = Camera2D(orthographic_size=5.0)
+                new_obj.add_component(cam)
+                # Position the new camera at current editor view center
+                try:
+                    new_obj.transform.position = (
+                        self._camera_control.get('cam_x', 0.0),
+                        self._camera_control.get('cam_y', 0.0),
+                        0.0,
+                    )
+                except Exception:
+                    pass
                 name = "Camera"
         else:
             # ── 3D primitives ──
@@ -5221,7 +5400,7 @@ class {class_name}(Script):
             return
         
         target = obj.transform.world_position
-        if self._mode == "2d":
+        if self._is_using_2d_navigation():
             self._camera_control['cam_x'] = float(target[0]) if hasattr(target, '__getitem__') else float(target.x)
             self._camera_control['cam_y'] = float(target[1]) if hasattr(target, '__getitem__') else float(target.y)
         else:
@@ -5794,6 +5973,8 @@ class {class_name}(Script):
                 box = self._create_object3d_fields_multi(comp, objects)
             elif isinstance(comp, Rigidbody):
                 box = self._create_rigidbody_fields_multi(comp, objects)
+            elif isinstance(comp, Object2D):
+                box = self._create_object2d_fields(comp)  # reuse single for multi (simple case)
             else:
                 box = self._create_component_summary_multi(comp, objects)
             
@@ -6009,9 +6190,11 @@ class {class_name}(Script):
                             setattr(comp, field_name, new_value)
                         
                         # Special handling for collider components - mark as dirty for visual update
-                        from engine.d3.physics.collider import Collider3D as Collider
-                        if isinstance(comp, Collider):
-                            comp._transform_dirty = True
+                        from engine.d3.physics.collider import Collider3D as Collider3
+                        from engine.d2.physics.collider import Collider2D as Collider2
+                        if isinstance(comp, (Collider3, Collider2)):
+                            if hasattr(comp, '_transform_dirty'):
+                                comp._transform_dirty = True
                         
                         # Track for undo - record for all objects that changed
                         if hasattr(self, '_undo_manager') and self._undo_manager:
@@ -6596,6 +6779,8 @@ class {class_name}(Script):
                 box = self._create_object3d_fields(comp)
             elif isinstance(comp, Rigidbody):
                 box = self._create_rigidbody_fields(comp)
+            elif isinstance(comp, Object2D):
+                box = self._create_object2d_fields(comp)
             else:
                 box = self._create_component_summary(comp)
             box._component_ref = comp
@@ -6949,7 +7134,12 @@ class {class_name}(Script):
         spinbox.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
         spinbox.setMinimumWidth(40)
         spinbox.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
-        spinbox.setValue(float(current_value) if current_value is not None else field_info.default_value)
+        val = current_value if current_value is not None else field_info.default_value
+        if isinstance(val, (list, tuple)):
+            val = val[0] if val else 0.0
+        elif hasattr(val, 'x'):  # Vector2 / Vector3 / similar (legacy or 2D collider center/size)
+            val = getattr(val, 'x', 0.0)
+        spinbox.setValue(float(val) if val is not None else field_info.default_value)
         
         if field_info.tooltip:
             spinbox.setToolTip(field_info.tooltip)
@@ -7699,7 +7889,12 @@ class {class_name}(Script):
             spinbox.setSingleStep(step)
             spinbox.setDecimals(decimals)
             spinbox.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-            spinbox.setValue(float(current_value) if current_value is not None else field_info.default_value)
+            val = current_value if current_value is not None else field_info.default_value
+            if isinstance(val, (list, tuple)):
+                val = val[0] if val else 0.0
+            elif hasattr(val, 'x'):  # Vector2 / Vector3 / similar (legacy or 2D collider center/size)
+                val = getattr(val, 'x', 0.0)
+            spinbox.setValue(float(val) if val is not None else field_info.default_value)
             spinbox.valueChanged.connect(on_nested_change)
             return spinbox
         
@@ -8023,9 +8218,11 @@ class {class_name}(Script):
         comp.set_inspector_field_value(field_name, new_value)
         
         # Special handling for collider center changes
-        from engine.d3.physics.collider import Collider3D as Collider
-        if isinstance(comp, Collider):
-            comp._transform_dirty = True
+        from engine.d3.physics.collider import Collider3D as Collider3
+        from engine.d2.physics.collider import Collider2D as Collider2
+        if isinstance(comp, (Collider3, Collider2)):
+            if hasattr(comp, '_transform_dirty'):
+                comp._transform_dirty = True
         
         # Force viewport refresh to apply visual changes immediately
         self._viewport.makeCurrent()
@@ -8086,6 +8283,9 @@ class {class_name}(Script):
                 self._refresh_object3d_fields(box, comp)
             elif isinstance(comp, Rigidbody):
                 self._refresh_rigidbody_fields(box, comp)
+            elif isinstance(comp, Object2D):
+                # Our custom Object2D widget mixes custom controls + generic inspector fields
+                self._refresh_inspector_field_widgets(box, comp)
 
         if comp_index + 1 != len(component_boxes):
             self._components_dirty = True
@@ -8100,7 +8300,12 @@ class {class_name}(Script):
             
             if isinstance(widget, QtWidgets.QDoubleSpinBox):
                 if not widget.hasFocus():
-                    widget.setValue(float(current_value) if current_value is not None else 0.0)
+                    val = current_value if current_value is not None else 0.0
+                    if isinstance(val, (list, tuple)):
+                        val = val[0] if val else 0.0
+                    elif hasattr(val, 'x'):
+                        val = getattr(val, 'x', 0.0)
+                    widget.setValue(float(val) if val is not None else 0.0)
             elif isinstance(widget, QtWidgets.QSpinBox):
                 if not widget.hasFocus():
                     widget.setValue(int(current_value) if current_value is not None else 0)
@@ -8367,6 +8572,126 @@ class {class_name}(Script):
 
         widget._color_btn = color_btn
         return widget
+
+    def _create_object2d_fields(self, obj2d: Object2D) -> QtWidgets.QGroupBox:
+        """Custom inspector for Object2D: sprite picker + color + size + generic flip/sorting."""
+        box = QtWidgets.QGroupBox("Object2D")
+        main_layout = QtWidgets.QVBoxLayout(box)
+        main_layout.setContentsMargins(6, 6, 6, 6)
+
+        form = QtWidgets.QFormLayout()
+        form.setContentsMargins(0, 0, 0, 0)
+
+        # --- Sprite selection (the important one the user asked for) ---
+        sprite_widget = QtWidgets.QWidget()
+        sprite_layout = QtWidgets.QHBoxLayout(sprite_widget)
+        sprite_layout.setContentsMargins(0, 0, 0, 0)
+        sprite_layout.setSpacing(4)
+
+        current_path = getattr(obj2d, 'sprite', None) or ""
+        display = Path(current_path).name if current_path else "(none)"
+        path_label = QtWidgets.QLabel(display)
+        path_label.setMinimumWidth(120)
+        path_label.setToolTip(current_path or "No sprite")
+
+        browse_btn = QtWidgets.QPushButton("Select Image...")
+        browse_btn.setFixedWidth(100)
+
+        def pick_sprite():
+            path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                self, "Select Sprite Image", str(self.project_root),
+                "Images (*.png *.jpg *.jpeg *.bmp *.gif)"
+            )
+            if path:
+                try:
+                    # Make path relative to project if possible
+                    try:
+                        rel = Path(path).relative_to(self.project_root)
+                        path = str(rel)
+                    except ValueError:
+                        pass  # keep absolute
+                    obj2d.sprite = path
+                    if path:
+                        obj2d._load_sprite(path)  # ensure surface is loaded (works in editor)
+                    path_label.setText(Path(path).name)
+                    path_label.setToolTip(path)
+                    obj2d._texture_dirty = True
+                    self._viewport.update()
+                    self._mark_scene_dirty()
+                except Exception as e:
+                    QtWidgets.QMessageBox.warning(self, "Error", f"Failed to set sprite:\n{e}")
+
+        browse_btn.clicked.connect(pick_sprite)
+
+        clear_btn = QtWidgets.QPushButton("Clear")
+        clear_btn.setFixedWidth(50)
+        def clear_sprite():
+            obj2d.sprite = None
+            obj2d._sprite_surface = None
+            path_label.setText("(none)")
+            path_label.setToolTip("")
+            self._viewport.update()
+            self._mark_scene_dirty()
+        clear_btn.clicked.connect(clear_sprite)
+
+        sprite_layout.addWidget(path_label, 1)
+        sprite_layout.addWidget(browse_btn)
+        sprite_layout.addWidget(clear_btn)
+
+        form.addRow("Sprite", sprite_widget)
+
+        # --- Color (reuse color button logic if possible, simple version here) ---
+        # We use a simple color button that opens QColorDialog
+        color_btn = QtWidgets.QPushButton()
+        color_btn.setFixedHeight(22)
+        color_btn.setMinimumWidth(60)
+
+        def update_color_btn(c):
+            r, g, b = int(c[0]*255), int(c[1]*255), int(c[2]*255)
+            color_btn.setStyleSheet(f"background-color: rgb({r},{g},{b}); border: 1px solid #555;")
+
+        current_color = getattr(obj2d, 'color', (1.0, 1.0, 1.0)) or (1.0, 1.0, 1.0)
+        if len(current_color) == 3:
+            current_color = (*current_color, 1.0)
+        update_color_btn(current_color)
+
+        def pick_color():
+            init = QtGui.QColor.fromRgbF(*current_color[:3])
+            new_col = QtWidgets.QColorDialog.getColor(init, self, "Choose Object2D Color")
+            if new_col.isValid():
+                new_val = (new_col.redF(), new_col.greenF(), new_col.blueF(), current_color[3])
+                obj2d.color = new_val
+                update_color_btn(new_val)
+                self._viewport.update()
+                self._mark_scene_dirty()
+
+        color_btn.clicked.connect(pick_color)
+        form.addRow("Color", color_btn)
+
+        # --- Size (two spinboxes) ---
+        size_row = self._make_vector_row(getattr(obj2d, 'size', (1.0, 1.0)), 
+                                         lambda v, c=obj2d: setattr(c, 'size', v))
+        form.addRow("Size", size_row)
+
+        main_layout.addLayout(form)
+
+        # Add the remaining generic fields (sorting_order, flip_x, flip_y, alpha etc.)
+        try:
+            inspector_fields = obj2d.get_inspector_fields()
+            # Filter out the ones we already provided custom widgets for
+            remaining = [(n, f) for n, f in inspector_fields if n not in ('sprite', 'color', 'size')]
+            if remaining:
+                extra_form = QtWidgets.QFormLayout()
+                for fname, finfo in remaining:
+                    w = self._create_widget_for_field(obj2d, fname, finfo)
+                    if w:
+                        extra_form.addRow(self._format_field_label(fname), w)
+                if extra_form.count() > 0:
+                    main_layout.addLayout(extra_form)
+        except Exception:
+            pass
+
+        return box
 
     def _create_collider_fields(self, collider) -> QtWidgets.QGroupBox:
         box = QtWidgets.QGroupBox(collider.__class__.__name__)

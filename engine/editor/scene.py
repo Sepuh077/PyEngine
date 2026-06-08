@@ -50,6 +50,7 @@ class EditorScene2D(Scene2D):
                 "x": float(cam_pos.x),
                 "y": float(cam_pos.y),
                 "zoom": float(cam.zoom),
+                "orthographic_size": float(getattr(cam, 'orthographic_size', 5.0)),
             },
             "objects": [obj._to_prefab_dict() for obj in visible_objects],
         }
@@ -62,7 +63,9 @@ class EditorScene2D(Scene2D):
         cam_data = data.get("camera", {})
         if cam_data:
             cam_obj = GameObject("Main Camera")
-            cam = Camera2D(zoom=cam_data.get("zoom", 1.0), is_main=True)
+            zoom_val = cam_data.get("zoom", 1.0)
+            size_val = cam_data.get("orthographic_size", 5.0)
+            cam = Camera2D(zoom=zoom_val, orthographic_size=size_val, is_main=True)
             cam_obj.add_component(cam)
             cam_obj.transform.position = (
                 cam_data.get("x", 0.0),

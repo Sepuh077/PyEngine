@@ -196,7 +196,7 @@ class TranslateGizmo:
         sp1 = window.project_point(tuple(right))
         if sp1 is None:
             return 1.0
-        pixels_per_unit = max(math.hypot(sp1[0] - sp0[0], sp1[1] - sp0[1]), 1.0)
+        pixels_per_unit = max(math.hypot(sp1[0] - sp0[0], sp1[1] - sp0[1]), 0.0001)
         return self.SCREEN_SIZE_PX / pixels_per_unit
 
     # ── Hit testing ─────────────────────────────────────────────────
@@ -278,7 +278,7 @@ class TranslateGizmo:
 
         axis_scr = np.array([sp1[0] - sp0[0], sp1[1] - sp0[1]], dtype=np.float64)
         axis_len_sq = float(np.dot(axis_scr, axis_scr))
-        if axis_len_sq < 1.0:
+        if axis_len_sq < 1e-9:
             return
 
         # Mouse delta projected onto the screen-space axis direction
@@ -409,7 +409,7 @@ class TranslateGizmo2D:
         sp1 = window.project_point(tuple(right))
         if sp1 is None:
             return 1.0
-        pixels_per_unit = max(math.hypot(sp1[0] - sp0[0], sp1[1] - sp0[1]), 1.0)
+        pixels_per_unit = max(math.hypot(sp1[0] - sp0[0], sp1[1] - sp0[1]), 0.0001)
         return self.SCREEN_SIZE_PX / pixels_per_unit
 
     def hit_test(self, mx: int, my: int, window,
@@ -478,7 +478,7 @@ class TranslateGizmo2D:
 
         axis_scr = np.array([sp1[0] - sp0[0], sp1[1] - sp0[1]], dtype=np.float64)
         axis_len_sq = float(np.dot(axis_scr, axis_scr))
-        if axis_len_sq < 1.0:
+        if axis_len_sq < 1e-9:
             return
 
         mouse_delta = np.array(

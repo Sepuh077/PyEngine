@@ -1282,7 +1282,7 @@ class Window3D(WindowBase):
         scene.on_show()
         self.start(start_scripts=start_scripts)
     
-    def project_point(self, world_pos: Tuple[float, float, float]) -> Optional[Tuple[int, int, float]]:
+    def project_point(self, world_pos: Tuple[float, float, float]) -> Optional[Tuple[float, float, float]]:
         """
         Project a 3D world position to screen space.
 
@@ -1297,8 +1297,8 @@ class Window3D(WindowBase):
         if w <= 0.0:
             return None
         ndc = clip[:3] / w
-        x = int((ndc[0] + 1.0) * 0.5 * self.width)
-        y = int((1.0 - ndc[1]) * 0.5 * self.height)
+        x = (ndc[0] + 1.0) * 0.5 * self.width
+        y = (1.0 - ndc[1]) * 0.5 * self.height
         return (x, y, ndc[2])
     
     # =========================================================================

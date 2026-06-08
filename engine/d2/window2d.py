@@ -107,9 +107,9 @@ class Window2D(WindowBase):
         super().__init__(width, height, title, resizable, background_color,
                          use_pygame_window, use_pygame_events)
 
-        # Default 2D camera
+        # Default 2D camera (orthographic_size controls viewport/world size like Unity)
         self._camera_go = GameObject("Default Camera")
-        self.camera = Camera2D(zoom=1.0)
+        self.camera = Camera2D(orthographic_size=5.0)
         self._camera_go.add_component(self.camera)
         self.camera.set_screen_size(width, height)
 
@@ -124,6 +124,7 @@ class Window2D(WindowBase):
         self.editor_show_camera = False
         self.editor_show_axis = False
         self.editor_show_gizmo = True
+        self.editor_show_colliders = True
         self._editor_gizmo = None
 
     # =====================================================================
@@ -277,7 +278,7 @@ class Window2D(WindowBase):
             tex.release()
         self._sprite_textures.clear()
 
-    def project_point(self, world_pos) -> Optional[Tuple[int, int, float]]:
+    def project_point(self, world_pos) -> Optional[Tuple[float, float, float]]:
         """Project a world-space point to screen-pixel coordinates.
 
         Returns ``(px, py, 0.0)`` or *None* if the camera is unavailable.
@@ -289,8 +290,7 @@ class Window2D(WindowBase):
         wx = float(world_pos[0]) if hasattr(world_pos, '__getitem__') else float(world_pos)
         wy = float(world_pos[1]) if hasattr(world_pos, '__getitem__') and len(world_pos) > 1 else 0.0
         sx, sy = cam.world_to_screen(wx, wy)
-        # Scale by device pixel ratio to match physical pixels
-        return (int(sx), int(sy), 0.0)
+        return (sx, sy, 0.0)
 
     # =====================================================================
     # ModernGL 2-D rendering
@@ -305,6 +305,19 @@ class Window2D(WindowBase):
 
         cam = self._get_active_camera()
         cam.set_screen_size(self.width, self.height)
+
+        # Set camera viewport rect (Unity Camera.rect style) before drawing this camera's content.
+        # This allows changing the rendered area/size on screen (sub-viewports, split-screen, etc.).
+        orig_viewport = getattr(self._ctx, 'viewport', (0, 0, self.width, self.height))
+        try:
+            vpw = max(1, int(self.width * getattr(cam, 'viewport_width', 1.0)))
+            vph = max(1, int(self.height * getattr(cam, 'viewport_height', 1.0)))
+            vpx = int(self.width * getattr(cam, 'viewport_x', 0.0))
+            # y from top (2D convention) to GL bottom
+            vpy = int(self.height * (1.0 - getattr(cam, 'viewport_y', 0.0) - getattr(cam, 'viewport_height', 1.0)))
+            self._ctx.viewport = (vpx, vpy, vpw, vph)
+        except Exception:
+            pass
 
         # Build 4×4 view matrix from Camera2D's 3×3
         view3 = cam.get_view_matrix()          # 3×3
@@ -342,6 +355,19 @@ class Window2D(WindowBase):
         if self.editor_show_camera and self._current_scene:
             self._draw_camera_frustums(view4, proj)
 
+        # -- Editor collider outlines (2D) ---------------------------------
+        # Draw whenever editor overlays/gizmos/colliders are enabled (so they appear like 3D editor colliders)
+        if (getattr(self, 'show_editor_overlays', False) or
+                getattr(self, 'editor_show_colliders', True) or
+                getattr(self, 'editor_show_gizmo', False)):
+            self._draw_editor_colliders()
+
+        # Restore full viewport after camera-specific content (for HUD etc.)
+        try:
+            self._ctx.viewport = orig_viewport
+        except Exception:
+            self._ctx.viewport = (0, 0, self.width, self.height)
+
         # -- HUD overlay (screen-space draw helpers + UI canvas) ----------
         self._2d_surface.fill((0, 0, 0, 0))
         if self._current_scene:
@@ -376,7 +402,9 @@ class Window2D(WindowBase):
         wx, wy = float(pos.x), float(pos.y)
 
         # Scale
-        t_scale = go.transform.scale
+        # Use scale_xyz so that non-uniform (x != y) scaling works for 2D objects.
+        # The .scale property always returns a uniform float (x).
+        t_scale = go.transform.scale_xyz
         if hasattr(t_scale, 'x'):
             sx_f, sy_f = float(t_scale.x), float(t_scale.y)
         elif isinstance(t_scale, (tuple, list)):
@@ -399,24 +427,36 @@ class Window2D(WindowBase):
         rad = math.radians(rot_z)
         c_r, s_r = math.cos(rad), math.sin(rad)
 
+        # Apply flip_x / flip_y by negating the corresponding effective scale.
+        # This flips the geometry (which inverts the texture mapping for that axis).
+        # We also apply a base Y sign correction (* -1 when not flip_y) so that
+        # flip_y=False + positive scale produces the expected upright orientation
+        # (addresses "sprites with positive scale are scaled negatively in y").
+        flip_x = getattr(obj2d, 'flip_x', False)
+        flip_y = getattr(obj2d, 'flip_y', False)
+
+        sx = w * (-1 if flip_x else 1)
+        sy = h * (-1 if flip_y else 1) * (-1)  # extra -1 corrects default Y for this engine's quad/UV/projection convention
+
         # Build 4×4 model matrix  (T * R * S)
         model = np.array([
-            [w * c_r,  -h * s_r, 0, 0],
-            [w * s_r,   h * c_r, 0, 0],
+            [sx * c_r,  -sy * s_r, 0, 0],
+            [sx * s_r,   sy * c_r, 0, 0],
             [0,         0,       1, 0],
             [wx,        wy,      0, 1],
         ], dtype=np.float32)
 
         self._sprite_program['model'].write(model.tobytes())
 
-        # Flip UV via negative scale (already baked into w/h sign)
-
         # Texture
-        has_texture = obj2d._sprite_surface is not None
+        has_texture = obj2d._sprite_surface is not None and not isinstance(obj2d._sprite_surface, (str, bytes))
         if has_texture:
             tex = self._ensure_sprite_texture(obj2d)
-            tex.use(location=0)
-            self._sprite_program['tex'].value = 0
+            if tex is not None:
+                tex.use(location=0)
+                self._sprite_program['tex'].value = 0
+            else:
+                has_texture = False
 
         self._sprite_program['use_texture'].value = has_texture
         self._sprite_program['is_circle'].value = getattr(obj2d, '_shape', None) == 'circle'
@@ -436,8 +476,23 @@ class Window2D(WindowBase):
             return self._sprite_textures[key]
 
         surf = obj2d._sprite_surface
-        w, h = surf.get_size()
-        data = pygame.image.tostring(surf, "RGBA", True)
+
+        # Defensive guard: after scene load / deserialization / editor state changes,
+        # _sprite_surface can end up as a str (path) or other junk if the Surface
+        # was serialized as repr and blindly restored into __dict__.
+        # We treat any non-Surface as "no texture" and clear the bad state.
+        if surf is None or not hasattr(surf, "get_size") or isinstance(surf, (str, bytes)):
+            obj2d._sprite_surface = None
+            obj2d._texture_dirty = True
+            return None
+
+        try:
+            w, h = surf.get_size()
+            data = pygame.image.tostring(surf, "RGBA", True)
+        except Exception:
+            obj2d._sprite_surface = None
+            obj2d._texture_dirty = True
+            return None
 
         if key in self._sprite_textures:
             old = self._sprite_textures[key]
@@ -473,11 +528,12 @@ class Window2D(WindowBase):
 
             pos = cam.position
             cx, cy = float(pos.x), float(pos.y)
-            z = cam.zoom if cam.zoom > 0 else 1.0
 
-            # Half-extents of the camera view in world units
-            hw = cam._screen_width / (2.0 * z)
-            hh = cam._screen_height / (2.0 * z)
+            # With orthographic_size, the vertical half-extent is the size (Unity convention).
+            # Horizontal follows aspect from the camera's (effective) screen size.
+            hh = getattr(cam, 'orthographic_size', 5.0)
+            aspect = cam._screen_width / max(1.0, cam._screen_height)
+            hw = hh * aspect
 
             # Corners (CCW)
             corners = [
@@ -521,6 +577,138 @@ class Window2D(WindowBase):
             vbo.release()
             vao2.release()
             vbo2.release()
+
+    # =====================================================================
+    # Editor collider debug drawing (for 2D colliders in editor)
+    # =====================================================================
+
+    def _draw_editor_colliders(self):
+        """Draw red wireframe outlines for Collider2D components (editor visualization)."""
+        scene = self._current_scene
+        if not scene:
+            return
+        objs = getattr(scene, "objects", []) or []
+        if not objs:
+            return
+
+        cam = self._get_active_camera()
+        if cam is None:
+            return
+
+        # Reuse the same view/proj construction as main render + frustum drawing
+        view3 = cam.get_view_matrix()
+        view4 = np.eye(4, dtype=np.float32)
+        view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
+        view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+        proj = cam.get_projection_matrix()
+        mvp = (proj @ view4).astype(np.float32)
+
+        import moderngl
+        import math as _math  # local to avoid shadowing
+
+        from engine.d2.physics.collider import (
+            Collider2D, BoxCollider2D, CircleCollider2D, CapsuleCollider2D, PolygonCollider2D
+        )
+
+        color = (1.0, 0.0, 0.0)  # red, matching 3D editor collider color
+        self._ctx.line_width = 1.5
+        self._collider_program['color'].value = color
+
+        # Draw on top (disable depth like gizmos do in editor)
+        self._ctx.disable(moderngl.DEPTH_TEST)
+
+        for obj in objs:
+            for coll in obj.get_components(Collider2D):
+                if not coll or not getattr(coll, 'game_object', None):
+                    continue
+                try:
+                    coll.update_bounds()
+                except Exception:
+                    continue
+
+                verts = []  # flat list of x,y,0 , x,y,0 ...
+
+                if isinstance(coll, BoxCollider2D) and getattr(coll, 'obb', None):
+                    c, angle, he = coll.obb
+                    cx, cy = float(c[0]), float(c[1])
+                    hx, hy = float(he[0]), float(he[1])
+                    ca, sa = _math.cos(angle), _math.sin(angle)
+                    def _rot(x, y):
+                        return (cx + x * ca - y * sa, cy + x * sa + y * ca)
+                    p0 = _rot(-hx, -hy)
+                    p1 = _rot( hx, -hy)
+                    p2 = _rot( hx,  hy)
+                    p3 = _rot(-hx,  hy)
+                    for a, b in [(p0, p1), (p1, p2), (p2, p3), (p3, p0)]:
+                        verts.extend([a[0], a[1], 0.0, b[0], b[1], 0.0])
+
+                elif isinstance(coll, CircleCollider2D) and getattr(coll, 'circle', None):
+                    c, r = coll.circle
+                    cx, cy, rr = float(c[0]), float(c[1]), float(r)
+                    segs = 24
+                    for i in range(segs):
+                        a0 = 2 * _math.pi * i / segs
+                        a1 = 2 * _math.pi * (i + 1) / segs
+                        verts.extend([
+                            cx + rr * _math.cos(a0), cy + rr * _math.sin(a0), 0.0,
+                            cx + rr * _math.cos(a1), cy + rr * _math.sin(a1), 0.0,
+                        ])
+
+                elif isinstance(coll, CapsuleCollider2D) and getattr(coll, 'capsule', None):
+                    c, rad, hh, direc = coll.capsule
+                    cx, cy = float(c[0]), float(c[1])
+                    r, h = float(rad), float(hh)
+                    segs = 16
+                    # Connecting rect sides
+                    if direc == 0:  # vertical
+                        verts.extend([cx - r, cy - h, 0, cx - r, cy + h, 0])
+                        verts.extend([cx + r, cy - h, 0, cx + r, cy + h, 0])
+                        # two end circles
+                        for sign in (-1, 1):
+                            cy2 = cy + sign * h
+                            for i in range(segs):
+                                a0 = 2 * _math.pi * i / segs
+                                a1 = 2 * _math.pi * (i + 1) / segs
+                                verts.extend([
+                                    cx + r * _math.cos(a0), cy2 + r * _math.sin(a0), 0,
+                                    cx + r * _math.cos(a1), cy2 + r * _math.sin(a1), 0,
+                                ])
+                    else:  # horizontal
+                        verts.extend([cx - h, cy - r, 0, cx + h, cy - r, 0])
+                        verts.extend([cx - h, cy + r, 0, cx + h, cy + r, 0])
+                        for sign in (-1, 1):
+                            cx2 = cx + sign * h
+                            for i in range(segs):
+                                a0 = 2 * _math.pi * i / segs
+                                a1 = 2 * _math.pi * (i + 1) / segs
+                                verts.extend([
+                                    cx2 + r * _math.cos(a0), cy + r * _math.sin(a0), 0,
+                                    cx2 + r * _math.cos(a1), cy + r * _math.sin(a1), 0,
+                                ])
+
+                elif isinstance(coll, PolygonCollider2D) and getattr(coll, 'world_points', None):
+                    pts = coll.world_points
+                    n = len(pts)
+                    for i in range(n):
+                        x0, y0 = float(pts[i][0]), float(pts[i][1])
+                        x1, y1 = float(pts[(i + 1) % n][0]), float(pts[(i + 1) % n][1])
+                        verts.extend([x0, y0, 0.0, x1, y1, 0.0])
+
+                if len(verts) < 6:
+                    continue
+
+                vbo = self._ctx.buffer(np.array(verts, dtype=np.float32).tobytes())
+                vao = self._ctx.vertex_array(
+                    self._collider_program,
+                    [(vbo, '3f', 'in_position')],
+                )
+                self._collider_program['mvp'].write(mvp.tobytes())
+                vao.render(moderngl.LINES)
+                vao.release()
+                vbo.release()
+
+        self._ctx.enable(moderngl.DEPTH_TEST)
+        self._ctx.line_width = 1.0
 
     # =====================================================================
     # 2D Physics collision processing

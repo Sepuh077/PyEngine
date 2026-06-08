@@ -39,9 +39,9 @@ class Scene2D(Scene):
         self._cameras: List[Camera2D] = []
         self._main_camera: Optional[Camera2D] = None
 
-        # Create default orthographic camera at the origin
+        # Create default orthographic camera at the origin (Unity-like orthographic_size for viewport)
         cam_obj = GameObject("Main Camera")
-        camera = Camera2D(zoom=1.0, is_main=True)
+        camera = Camera2D(orthographic_size=5.0, is_main=True)
         cam_obj.add_component(camera)
         self.add_object(cam_obj)
         self._main_camera = camera

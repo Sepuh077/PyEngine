@@ -11,7 +11,7 @@ from engine.transform import Transform
 from engine.types import Vector3, Vector2
 
 if TYPE_CHECKING:
-    from engine.scene import Scene
+    from engine.d3 import Scene3D
 
 T = TypeVar('T', bound=Component)
 
@@ -367,6 +367,14 @@ class GameObject:
                 "_children",  # Rebuilt automatically when _parent is set on children
             })
 
+        is_object2d = module_name in {"src.engine.d2.object2d", "engine.d2.object2d"} and class_name == "Object2D"
+        if is_object2d:
+            skip_keys = set(skip_keys)
+            skip_keys.update({
+                "_sprite_surface",  # live pygame Surface, not serializable; path is saved via 'sprite' InspectorField
+                "_texture_dirty",
+            })
+
         # Get the game object ID for component references
         game_object_id = component.game_object._id if component.game_object else None
 
@@ -408,6 +416,9 @@ class GameObject:
 
         if module_name in {"src.engine.object3d", "engine.d3.object3d"} and class_name == "Object3D":
             GameObject._restore_object3d_geometry(component)
+
+        if module_name in {"src.engine.d2.object2d", "engine.d2.object2d"} and class_name == "Object2D":
+            GameObject._restore_object2d_sprite(component)
 
         return component
 
@@ -826,6 +837,36 @@ class GameObject:
                 if temp_obj:
                     component.mesh = temp_obj.mesh
                     component._post_process_geometry(f"primitive_plane_{width}_{height}")
+
+    @staticmethod
+    def _restore_object2d_sprite(component: Component) -> None:
+        """After deserialization, reload the pygame Surface for an Object2D if it has a sprite path.
+        The surface itself is not serialized (runtime resource); the path comes from the 'sprite' InspectorField
+        or the descriptor's private storage. This prevents 'str' object in _sprite_surface after load.
+        """
+        try:
+            from engine.d2.object2d import Object2D
+        except ImportError:
+            return
+        if not isinstance(component, Object2D):
+            return
+
+        path = None
+        try:
+            if hasattr(component, "get_inspector_field_value"):
+                path = component.get_inspector_field_value("sprite")
+        except Exception:
+            path = None
+
+        if not path:
+            path = getattr(component, "_inspector_sprite", None)
+
+        if path:
+            try:
+                component._load_sprite(str(path))
+            except Exception:
+                # Missing image or load error: leave without surface (will use color only)
+                pass
 
     # =========================================================================
     # Static Query Methods (Unity-like Find functions)
