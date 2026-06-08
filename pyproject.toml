@@ -3,16 +3,16 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "engine3d"
+name = "pyengine"
 version = "0.1.0"
-description = "A simple, GPU-accelerated 3D game engine for Python"
+description = "A simple, GPU-accelerated 2D/3D game engine for Python"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Engine3D Contributors"}
+    {name = "PyEngine Contributors"}
 ]
-keywords = ["3d", "game", "engine", "graphics", "pygame", "moderngl"]
+keywords = ["2d", "3d", "game", "engine", "graphics", "pygame", "moderngl"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -43,7 +43,7 @@ dev = ["pytest>=9.0.0"]
 all = ["moderngl>=5.6.0", "moderngl-window>=2.4.0", "PySide6>=6.6.0", "pytest>=9.0.0"]
 
 [project.scripts]
-engine3d = "engine3d.cli:main"
+pyengine = "engine.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/Sepuh077/3D-engine"
@@ -53,5 +53,5 @@ Issues = "https://github.com/Sepuh077/3D-engine/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["engine3d*", "editor*", "physics*", "types*", "input*"]
+include = ["engine*"]
 exclude = ["tests*", "examples*", "example*"]

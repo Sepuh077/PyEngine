@@ -19,13 +19,13 @@ if not SOUNDS_DIR.exists():
         check=True,
     )
 
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, GameObject, Time,
     AudioClip, AudioSource, AudioListener,
     create_cube, create_sphere,
 )
-from engine3d.input import Keys
-from engine3d.types import Color
+from engine.input import Keys
+from engine.types import Color
 
 
 class AudioScene(Scene3D):

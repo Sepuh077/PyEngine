@@ -9,12 +9,12 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, GameObject, DirectionalLight3D,
     create_cube, create_sphere, create_plane, Time
 )
-from engine3d.input import Keys
-from engine3d.types import Color
+from engine.input import Keys
+from engine.types import Color
 
 
 class ShadowScene(Scene3D):

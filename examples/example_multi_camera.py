@@ -20,15 +20,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, Time, Camera3D,
     Viewport, ClearFlags, RenderLayer,
     create_cube, create_sphere, create_plane
 )
-from engine3d.engine3d.camera import ClearFlags as CF
-from engine3d.physics3d import BoxCollider3D, Rigidbody3D
-from engine3d.input import Keys
-from engine3d.types import Color
+from engine.d3.camera import ClearFlags as CF
+from engine.physics3d import BoxCollider3D, Rigidbody3D
+from engine.input import Keys
+from engine.types import Color
 
 
 class MultiCameraScene(Scene3D):

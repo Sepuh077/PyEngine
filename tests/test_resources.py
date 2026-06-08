@@ -5,10 +5,10 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from engine3d.engine3d import (
+from engine.d3 import (
     Resources, GameObject, ScriptableObject, InspectorField, Scene3D
 )
-from engine3d.graphics import Material, LitMaterial
+from engine.graphics import Material, LitMaterial
 
 
 class TestResources:

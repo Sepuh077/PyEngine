@@ -13,11 +13,11 @@ current_file_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_file_dir)
 sys.path.insert(0, project_root)
 
-from engine3d.engine3d import Window3D, Scene3D, GameObject, Time
-from engine3d.engine3d.object3d import create_cube, create_plane, Object3D
-from engine3d.physics3d import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
-from engine3d.input import Keys
-from engine3d.types import Color
+from engine.d3 import Window3D, Scene3D, GameObject, Time
+from engine.d3.object3d import create_cube, create_plane, Object3D
+from engine.physics3d import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
+from engine.input import Keys
+from engine.types import Color
 
 
 # Player uses custom OnCollision* (now on collider; other is Collider3D, main obj via .game_object)

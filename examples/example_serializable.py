@@ -20,10 +20,10 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine3d.engine3d import (
+from engine.d3 import (
     serializable, InspectorField, Script, GameObject, Scene3D
 )
-from engine3d.types import Vector3, Color
+from engine.types import Vector3, Color
 
 
 # ============================================================================

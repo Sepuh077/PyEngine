@@ -1,6 +1,6 @@
-# Engine3D - Open Source 3D Game Engine for Python
+# PyEngine - Open Source 2D/3D Game Engine for Python
 
-Engine3D is an open-source, beginner-friendly 3D game engine for Python inspired by [Arcade](https://arcade.academy/). It provides a simple, batteries-included API built on a component-entity architecture with GPU acceleration via ModernGL and an included PySide6 editor.
+PyEngine is an open-source, beginner-friendly 2D/3D game engine for Python inspired by [Arcade](https://arcade.academy/). It provides a simple, batteries-included API built on a component-entity architecture with GPU acceleration via ModernGL and an included PySide6 editor.
 
 ## Features
 
@@ -57,12 +57,12 @@ pip install -e .[all]      # everything
 
 ## CLI - Create and Manage Projects
 
-After installing (`pip install -e .[all]`), the `engine3d` command is available globally.
+After installing (`pip install -e .[all]`), the `pyengine` command is available globally.
 
 ### Create a new project
 
 ```bash
-engine3d startproject mygame
+pyengine startproject mygame
 cd mygame
 ```
 
@@ -73,7 +73,7 @@ mygame/
   main.py              # Entry point (MainScene + window setup)
   settings.py          # Game config (title, resolution, FPS, initial scene)
   requirements.txt     # Dependencies
-  pyproject.toml       # Build config ([tool.engine3d.build])
+  pyproject.toml       # Build config ([tool.pyengine.build])
   build.py             # Standalone build script
   assets/              # 3D models, textures, sounds
   scenes/              # Scene files (.scene)
@@ -84,38 +84,38 @@ mygame/
 ### Run the project
 
 ```bash
-engine3d run
+pyengine run
 # or: python main.py
 ```
 
 ### Build an executable
 
 ```bash
-engine3d build                     # default (PyInstaller, directory)
-engine3d build --onefile           # single .exe / binary
-engine3d build --backend nuitka    # use Nuitka instead
-engine3d build --debug             # keep console window open
-engine3d build --clean             # remove build artifacts
+pyengine build                     # default (PyInstaller, directory)
+pyengine build --onefile           # single .exe / binary
+pyengine build --backend nuitka    # use Nuitka instead
+pyengine build --debug             # keep console window open
+pyengine build --clean             # remove build artifacts
 ```
 
 ### Launch the editor
 
 ```bash
-engine3d editor
+pyengine editor
 ```
 
 ### Other
 
 ```bash
-engine3d --version        # print version
-engine3d --help           # list all commands
-engine3d <command> --help # help for a specific command
+pyengine --version        # print version
+pyengine --help           # list all commands
+pyengine <command> --help # help for a specific command
 ```
 
 ## Quick Start
 
 ```python
-from engine3d.engine3d import Window3D, Scene3D, Keys, Color, Time
+from engine.d3 import Window3D, Scene3D, Keys, Color, Time
 
 class MyGame(Scene3D):
     def setup(self):
@@ -141,10 +141,10 @@ window.run()
 
 ## Editor
 
-Engine3D includes a PySide6-based editor for inspecting and building scenes.
+PyEngine includes a PySide6-based editor for inspecting and building scenes.
 
 ```bash
-python -c "from engine3d.engine3d import run_editor; run_editor('.')"
+python -c "from engine.d3 import run_editor; run_editor('.')"
 ```
 
 Editor layout:
@@ -157,8 +157,8 @@ Editor layout:
 
 ### Basic Example
 ```python
-from engine3d.engine3d import Window3D, Scene3D, Keys, Time
-from engine3d.input import Input
+from engine.d3 import Window3D, Scene3D, Keys, Time
+from pyengine.input import Input
 
 class BasicGame(Scene3D):
     def setup(self):
@@ -183,8 +183,8 @@ window.run()
 
 ### Scene Switching
 ```python
-from engine3d.engine3d import Window3D, Scene3D, Keys, Time
-from engine3d.input import Input
+from engine.d3 import Window3D, Scene3D, Keys, Time
+from pyengine.input import Input
 
 class MenuScene(Scene3D):
     def setup(self):
@@ -216,7 +216,7 @@ window.run()
 
 ### Shadows
 ```python
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, GameObject, Object3D,
     DirectionalLight3D, create_cube, create_plane,
 )
@@ -255,7 +255,7 @@ window.run()
 
 ### Multi-Camera (Minimap)
 ```python
-from engine3d.engine3d import Window3D, Scene3D
+from engine.d3 import Window3D, Scene3D
 
 class GameScene(Scene3D):
     def setup(self):
@@ -277,7 +277,7 @@ window.run()
 
 ### Particle System
 ```python
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, GameObject, ParticleSystem, ParticleBurst,
     ConeShape, linear_size_over_lifetime, Color,
 )
@@ -312,9 +312,9 @@ window.run()
 
 ### Physics
 ```python
-from engine3d.engine3d import Window3D, Scene3D, create_cube, Script, Time
-from engine3d.physics import BoxCollider, SphereCollider, Rigidbody
-from engine3d.input import Input, Keys
+from engine.d3 import Window3D, Scene3D, create_cube, Script, Time
+from pyengine.physics import BoxCollider, SphereCollider, Rigidbody
+from pyengine.input import Input, Keys
 
 class PlayerController(Script):
     def start(self):
@@ -351,7 +351,7 @@ window.run()
 
 ### 2D UI Overlay
 ```python
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, Label, Button, Slider, ProgressBar,
 )
 
@@ -372,7 +372,7 @@ window.run()
 
 ### Scriptable Objects
 ```python
-from engine3d.engine3d import ScriptableObject, InspectorField
+from engine.d3 import ScriptableObject, InspectorField
 
 class WeaponData(ScriptableObject):
     damage = InspectorField(float, default=10.0, min_value=0.0)
@@ -391,7 +391,7 @@ print(sword.damage)  # 25.0
 
 ### Async Scene Loading
 ```python
-from engine3d.engine3d import SceneManager
+from engine.d3 import SceneManager
 
 manager = SceneManager()
 
@@ -512,7 +512,7 @@ Key parameters: `speed`, `particle_life`, `size`, `color`, `gravity_scale`, `max
 ### Input
 
 ```python
-from engine3d.input import Input, Keys
+from pyengine.input import Input, Keys
 
 if Input.get_key(Keys.W):        # held down
     ...
@@ -525,7 +525,7 @@ delta = Input.mouse_delta          # (dx, dy)
 ### Primitives
 
 ```python
-from engine3d.engine3d import create_cube, create_sphere, create_plane
+from engine.d3 import create_cube, create_sphere, create_plane
 
 cube = create_cube(size=2.0, position=(0, 1, 0), color=Color.RED)
 sphere = create_sphere(radius=1.0, position=(3, 1, 0))
@@ -535,7 +535,7 @@ plane = create_plane(size=10.0)
 ### Color
 
 ```python
-from engine3d.types import Color
+from pyengine.types import Color
 
 Color.WHITE, Color.RED, Color.ORANGE, Color.SKY_BLUE  # predefined
 Color.from_rgb(255, 128, 0)   # from 0-255 values
@@ -565,8 +565,8 @@ For large scenes, mark objects as `static = True` and call
 ## Project Structure
 
 ```
-engine3d/
-  engine3d/               # Core engine
+pyengine/
+  pyengine/               # Core engine
     __init__.py            # Public API exports
     window.py              # Window3D (main loop, rendering, shaders)
     scene.py               # Scene3D, SceneManager
@@ -618,7 +618,7 @@ tests/                     # Test suite
 | Configuration | FPS with 100 Objects |
 |---------------|----------------------|
 | Software (pygame) | ~0.3 FPS |
-| Engine3D (GPU) | 200+ FPS |
+| PyEngine (GPU) | 200+ FPS |
 
 ## License
 

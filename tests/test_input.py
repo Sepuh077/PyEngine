@@ -4,10 +4,10 @@ import os
 # Ensure src is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.component import Script
-from engine3d.gameobject import GameObject
-from engine3d.input import Input, Keys, MouseButtons
-from engine3d.engine3d.window import Window3D
+from engine.component import Script
+from engine.gameobject import GameObject
+from engine.input import Input, Keys, MouseButtons
+from engine.d3.window import Window3D
 
 class PlayerController(Script):
     """

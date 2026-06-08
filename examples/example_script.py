@@ -18,11 +18,11 @@ current_file_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_file_dir)
 sys.path.insert(0, project_root)
 
-from engine3d.engine3d import Window3D, Scene3D, Script, WaitForSeconds, WaitEndOfFrame, Time
-from engine3d.engine3d.object3d import create_cube, create_sphere, create_plane, Object3D
-from engine3d.physics3d import Rigidbody3D, BoxCollider3D, SphereCollider3D
-from engine3d.types import Color
-from engine3d.input import Keys
+from engine.d3 import Window3D, Scene3D, Script, WaitForSeconds, WaitEndOfFrame, Time
+from engine.d3.object3d import create_cube, create_sphere, create_plane, Object3D
+from engine.physics3d import Rigidbody3D, BoxCollider3D, SphereCollider3D
+from engine.types import Color
+from engine.input import Keys
 from time import time
 
 
@@ -260,7 +260,7 @@ class ColorChanger(Script):
 # ============================================================================
 
 from enum import Enum
-from engine3d.engine3d import InspectorField
+from engine.d3 import InspectorField
 
 
 class GameState(Enum):

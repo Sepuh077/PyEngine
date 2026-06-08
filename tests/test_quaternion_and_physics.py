@@ -11,16 +11,16 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from engine3d.types.quaternion import Quaternion
-from engine3d.types import Vector3
-from engine3d.component import Time
-from engine3d.gameobject import GameObject
-from engine3d.transform import Transform
-from engine3d.engine3d.object3d import create_cube, create_plane
-from engine3d.engine3d.window import Window3D
-from engine3d.physics3d.rigidbody import Rigidbody3D
-from engine3d.physics3d.collider import BoxCollider3D, SphereCollider3D, CapsuleCollider3D
-from engine3d.physics3d.collision_manifold import CollisionManifold
+from engine.types.quaternion import Quaternion
+from engine.types import Vector3
+from engine.component import Time
+from engine.gameobject import GameObject
+from engine.transform import Transform
+from engine.d3.object3d import create_cube, create_plane
+from engine.d3.window import Window3D
+from engine.d3.physics.rigidbody import Rigidbody3D
+from engine.d3.physics.collider import BoxCollider3D, SphereCollider3D, CapsuleCollider3D
+from engine.d3.physics.collision_manifold import CollisionManifold
 
 
 # ---------------------------------------------------------------------------

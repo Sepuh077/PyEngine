@@ -5,10 +5,10 @@ Tests for new GameObject features:
 - Skybox material
 """
 import pytest
-from engine3d.engine3d import GameObject, Scene3D, Tag, Camera3D
-from engine3d.graphics.material import SkyboxMaterial
-from engine3d.physics3d.collider import BoxCollider3D, SphereCollider3D
-from engine3d.component import Script
+from engine.d3 import GameObject, Scene3D, Tag, Camera3D
+from engine.graphics.material import SkyboxMaterial
+from engine.d3.physics.collider import BoxCollider3D, SphereCollider3D
+from engine.component import Script
 
 
 class TestTag:

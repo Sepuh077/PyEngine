@@ -18,13 +18,13 @@ import sys
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from engine3d.engine3d import (
+from engine.d3 import (
     Window3D, Scene3D, SceneManager,
     GameObject, create_cube, create_sphere, create_plane,
     DirectionalLight3D, Camera3D,
 )
-from engine3d.types import Color
-from engine3d.input import Keys
+from engine.types import Color
+from engine.input import Keys
 
 
 # =============================================================================

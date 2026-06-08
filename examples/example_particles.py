@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine3d.engine3d import (
+from engine.d3 import (
     GameObject,
     Window3D, 
     Scene3D,
@@ -21,8 +21,8 @@ from engine3d.engine3d import (
     ConeShape,
     BoxShape,
 )
-from engine3d.physics3d import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
-from engine3d.types import Color
+from engine.physics3d import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
+from engine.types import Color
 
 
 class ParticleScene(Scene3D):

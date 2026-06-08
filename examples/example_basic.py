@@ -9,9 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine3d.engine3d import Window3D, Scene3D, GameObject, ParticleSystem, ParticleBurst, Time
-from engine3d.input import Keys
-from engine3d.types import Color
+from engine.d3 import Window3D, Scene3D, GameObject, ParticleSystem, ParticleBurst, Time
+from engine.input import Keys
+from engine.types import Color
 
 
 class BasicScene(Scene3D):
