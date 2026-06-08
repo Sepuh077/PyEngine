@@ -57,6 +57,16 @@ class Collider2D(Component):
         s = self.game_object.transform.scale_xyz
         return np.array([abs(s.x), abs(s.y)], dtype=np.float64)
 
+    def _get_sprite_size(self) -> np.ndarray:
+        """Return the Object2D size on this GameObject, or (1, 1) if none."""
+        if self.game_object:
+            from engine.d2.object2d import Object2D
+            obj2d = self.game_object.get_component(Object2D)
+            if obj2d:
+                s = obj2d.size
+                return np.array([s.x, s.y], dtype=np.float64)
+        return np.ones(2, dtype=np.float64)
+
     def _get_center_offset(self) -> np.ndarray:
         """Center offset as 2D numpy array. Supports both .center (Vector2) and inspector split fields center_x/center_y."""
         if hasattr(self, 'center_x') and hasattr(self, 'center_y'):
@@ -143,6 +153,7 @@ class BoxCollider2D(Collider2D):
         angle = self._get_rotation_rad()
         scale = self._get_scale_2d()
         offset = self._get_center_offset()
+        sprite_size = self._get_sprite_size()
 
         # Support both legacy .size (Vector2/float) and new inspector split size_x / size_y
         if hasattr(self, 'size_x') and hasattr(self, 'size_y'):
@@ -152,7 +163,8 @@ class BoxCollider2D(Collider2D):
             size_vec = self.size
         else:
             size_vec = self.size if isinstance(self.size, Vector2) else Vector2(self.size if isinstance(self.size, (tuple, list)) else (1, 1))
-        half_ext = np.array([size_vec.x, size_vec.y], dtype=np.float64) * scale * 0.5
+        # Collider size is relative to sprite: size (1,1) matches the sprite exactly
+        half_ext = np.array([size_vec.x * sprite_size[0], size_vec.y * sprite_size[1]], dtype=np.float64) * scale * 0.5
 
         # Rotate the center offset into world space
         cos_a = math.cos(angle)
@@ -210,6 +222,7 @@ class CircleCollider2D(Collider2D):
         scale = self._get_scale_2d()
         offset = self._get_center_offset()
         angle = self._get_rotation_rad()
+        sprite_size = self._get_sprite_size()
 
         cos_a = math.cos(angle)
         sin_a = math.sin(angle)
@@ -219,7 +232,9 @@ class CircleCollider2D(Collider2D):
         ], dtype=np.float64)
         world_center = pos + rotated_offset
 
-        world_radius = float(np.max(scale)) * self.radius
+        # radius is relative to sprite: radius=1 → half the larger sprite dimension
+        sprite_half = float(np.max(sprite_size)) * 0.5
+        world_radius = float(np.max(scale)) * self.radius * sprite_half
 
         self.circle = (world_center, world_radius)
         self.aabb = (
@@ -268,6 +283,7 @@ class CapsuleCollider2D(Collider2D):
         scale = self._get_scale_2d()
         offset = self._get_center_offset()
         angle = self._get_rotation_rad()
+        sprite_size = self._get_sprite_size()
 
         cos_a = math.cos(angle)
         sin_a = math.sin(angle)
@@ -278,13 +294,13 @@ class CapsuleCollider2D(Collider2D):
         world_center = pos + rotated_offset
 
         if self.direction == 0:
-            # Vertical capsule: radius scales with X, half_height with Y
-            scaled_radius = self.radius * scale[0]
-            total_h = self.height * scale[1]
+            # Vertical capsule: radius relative to sprite width, height to sprite height
+            scaled_radius = self.radius * sprite_size[0] * scale[0]
+            total_h = self.height * sprite_size[1] * scale[1]
         else:
-            # Horizontal capsule: radius scales with Y, half_height with X
-            scaled_radius = self.radius * scale[1]
-            total_h = self.height * scale[0]
+            # Horizontal capsule: radius relative to sprite height, height to sprite width
+            scaled_radius = self.radius * sprite_size[1] * scale[1]
+            total_h = self.height * sprite_size[0] * scale[0]
 
         # half_height is the distance from center to the center of each cap hemisphere
         scaled_half_height = max(0.0, total_h * 0.5 - scaled_radius)
@@ -336,6 +352,7 @@ class PolygonCollider2D(Collider2D):
         angle = self._get_rotation_rad()
         scale = self._get_scale_2d()
         offset = self._get_center_offset()
+        sprite_size = self._get_sprite_size()
 
         cos_a = math.cos(angle)
         sin_a = math.sin(angle)
@@ -348,8 +365,8 @@ class PolygonCollider2D(Collider2D):
         # Add center offset
         local_pts = local_pts + offset
 
-        # Scale then rotate then translate
-        scaled = local_pts * scale  # element-wise
+        # Points are relative to sprite size, then scaled by transform
+        scaled = local_pts * sprite_size * scale  # element-wise
         rotated = (rot @ scaled.T).T  # (N, 2)
         world = rotated + pos
 

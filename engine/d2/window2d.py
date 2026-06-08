@@ -124,7 +124,7 @@ class Window2D(WindowBase):
         self.editor_show_camera = False
         self.editor_show_axis = False
         self.editor_show_gizmo = True
-        self.editor_show_colliders = True
+        self.editor_show_colliders = False
         self._editor_gizmo = None
 
     # =====================================================================
@@ -356,10 +356,8 @@ class Window2D(WindowBase):
             self._draw_camera_frustums(view4, proj)
 
         # -- Editor collider outlines (2D) ---------------------------------
-        # Draw whenever editor overlays/gizmos/colliders are enabled (so they appear like 3D editor colliders)
-        if (getattr(self, 'show_editor_overlays', False) or
-                getattr(self, 'editor_show_colliders', True) or
-                getattr(self, 'editor_show_gizmo', False)):
+        # Only draw collider wireframes when in editor mode with colliders enabled
+        if self.show_editor_overlays and self.editor_show_colliders:
             self._draw_editor_colliders()
 
         # Restore full viewport after camera-specific content (for HUD etc.)
@@ -711,6 +709,152 @@ class Window2D(WindowBase):
         self._ctx.line_width = 1.0
 
     # =====================================================================
+    # Public collider debug drawing
+    # =====================================================================
+
+    def draw_collider(self, obj, color=(0, 1, 0), line_width=1.0):
+        """Draw wireframe outlines for all Collider2D components on a GameObject.
+
+        Matches the Window3D ``draw_collider`` API.  Call from ``on_draw()``
+        to visualise colliders at runtime.
+
+        Args:
+            obj:        A :class:`GameObject` whose Collider2D components will be drawn.
+            color:      RGB tuple in 0-1 range.  Default is green.
+            line_width: GL line width.  Default is 1.0.
+
+        Example::
+
+            def on_draw(self):
+                self.window.draw_collider(self.player)
+                self.window.draw_collider(self.enemy, color=(1, 0, 0), line_width=2.0)
+        """
+        import math as _math
+
+        from engine.d2.physics.collider import (
+            Collider2D, BoxCollider2D, CircleCollider2D,
+            CapsuleCollider2D, PolygonCollider2D,
+        )
+
+        if not obj:
+            return
+
+        # Accept a bare Collider2D for convenience
+        if isinstance(obj, Collider2D):
+            colliders = [obj]
+        else:
+            colliders = obj.get_components(Collider2D)
+
+        if not colliders:
+            return
+
+        cam = self._get_active_camera()
+        if cam is None:
+            return
+
+        # Compute MVP once for all colliders on this object
+        view3 = cam.get_view_matrix()
+        view4 = np.eye(4, dtype=np.float32)
+        view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
+        view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+        proj = cam.get_projection_matrix()
+        mvp = (proj @ view4).astype(np.float32)
+
+        self._ctx.disable(moderngl.DEPTH_TEST)
+        self._ctx.line_width = line_width
+        self._collider_program['color'].value = tuple(float(c) for c in color[:3])
+        self._collider_program['mvp'].write(mvp.tobytes())
+
+        for collider in colliders:
+            if not getattr(collider, 'game_object', None):
+                continue
+            try:
+                collider.update_bounds()
+            except Exception:
+                continue
+
+            verts = []
+
+            if isinstance(collider, BoxCollider2D) and getattr(collider, 'obb', None):
+                c, angle, he = collider.obb
+                cx, cy = float(c[0]), float(c[1])
+                hx, hy = float(he[0]), float(he[1])
+                ca, sa = _math.cos(angle), _math.sin(angle)
+                def _rot(x, y, _cx=cx, _cy=cy, _ca=ca, _sa=sa):
+                    return (_cx + x * _ca - y * _sa, _cy + x * _sa + y * _ca)
+                p0 = _rot(-hx, -hy)
+                p1 = _rot( hx, -hy)
+                p2 = _rot( hx,  hy)
+                p3 = _rot(-hx,  hy)
+                for a, b in [(p0, p1), (p1, p2), (p2, p3), (p3, p0)]:
+                    verts.extend([a[0], a[1], 0.0, b[0], b[1], 0.0])
+
+            elif isinstance(collider, CircleCollider2D) and getattr(collider, 'circle', None):
+                c, r = collider.circle
+                cx, cy, rr = float(c[0]), float(c[1]), float(r)
+                segs = 24
+                for i in range(segs):
+                    a0 = 2 * _math.pi * i / segs
+                    a1 = 2 * _math.pi * (i + 1) / segs
+                    verts.extend([
+                        cx + rr * _math.cos(a0), cy + rr * _math.sin(a0), 0.0,
+                        cx + rr * _math.cos(a1), cy + rr * _math.sin(a1), 0.0,
+                    ])
+
+            elif isinstance(collider, CapsuleCollider2D) and getattr(collider, 'capsule', None):
+                c, rad, hh, direc = collider.capsule
+                cx, cy = float(c[0]), float(c[1])
+                r, h = float(rad), float(hh)
+                segs = 16
+                if direc == 0:
+                    verts.extend([cx - r, cy - h, 0, cx - r, cy + h, 0])
+                    verts.extend([cx + r, cy - h, 0, cx + r, cy + h, 0])
+                    for sign in (-1, 1):
+                        cy2 = cy + sign * h
+                        for i in range(segs):
+                            a0 = 2 * _math.pi * i / segs
+                            a1 = 2 * _math.pi * (i + 1) / segs
+                            verts.extend([
+                                cx + r * _math.cos(a0), cy2 + r * _math.sin(a0), 0,
+                                cx + r * _math.cos(a1), cy2 + r * _math.sin(a1), 0,
+                            ])
+                else:
+                    verts.extend([cx - h, cy - r, 0, cx + h, cy - r, 0])
+                    verts.extend([cx - h, cy + r, 0, cx + h, cy + r, 0])
+                    for sign in (-1, 1):
+                        cx2 = cx + sign * h
+                        for i in range(segs):
+                            a0 = 2 * _math.pi * i / segs
+                            a1 = 2 * _math.pi * (i + 1) / segs
+                            verts.extend([
+                                cx2 + r * _math.cos(a0), cy + r * _math.sin(a0), 0,
+                                cx2 + r * _math.cos(a1), cy + r * _math.sin(a1), 0,
+                            ])
+
+            elif isinstance(collider, PolygonCollider2D) and getattr(collider, 'world_points', None) is not None:
+                pts = collider.world_points
+                n = len(pts)
+                for i in range(n):
+                    x0, y0 = float(pts[i][0]), float(pts[i][1])
+                    x1, y1 = float(pts[(i + 1) % n][0]), float(pts[(i + 1) % n][1])
+                    verts.extend([x0, y0, 0.0, x1, y1, 0.0])
+
+            if len(verts) < 6:
+                continue
+
+            vbo = self._ctx.buffer(np.array(verts, dtype=np.float32).tobytes())
+            vao = self._ctx.vertex_array(
+                self._collider_program,
+                [(vbo, '3f', 'in_position')],
+            )
+            vao.render(moderngl.LINES)
+            vao.release()
+            vbo.release()
+
+        self._ctx.enable(moderngl.DEPTH_TEST)
+        self._ctx.line_width = 1.0
+
+    # =====================================================================
     # 2D Physics collision processing
     # =====================================================================
 
@@ -792,25 +936,25 @@ class Window2D(WindowBase):
 
         if a_static:
             b.transform.position = Vector3(
-                b.transform.position.x + normal[0] * depth,
-                b.transform.position.y + normal[1] * depth,
+                b.transform.position.x - normal[0] * depth,
+                b.transform.position.y - normal[1] * depth,
                 b.transform.position.z,
             )
         elif b_static:
             a.transform.position = Vector3(
-                a.transform.position.x - normal[0] * depth,
-                a.transform.position.y - normal[1] * depth,
+                a.transform.position.x + normal[0] * depth,
+                a.transform.position.y + normal[1] * depth,
                 a.transform.position.z,
             )
         else:
             half = depth * 0.5
             a.transform.position = Vector3(
-                a.transform.position.x - normal[0] * half,
-                a.transform.position.y - normal[1] * half,
+                a.transform.position.x + normal[0] * half,
+                a.transform.position.y + normal[1] * half,
                 a.transform.position.z,
             )
             b.transform.position = Vector3(
-                b.transform.position.x + normal[0] * half,
-                b.transform.position.y + normal[1] * half,
+                b.transform.position.x - normal[0] * half,
+                b.transform.position.y - normal[1] * half,
                 b.transform.position.z,
             )

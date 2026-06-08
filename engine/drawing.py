@@ -88,3 +88,21 @@ def draw_image(image: Union[str, pygame.Surface], x: int, y: int,
     window = get_window()
     if window:
         window.draw_image(image, x, y, scale, alpha)
+
+
+def draw_collider(obj, color: Tuple[float, float, float] = (0, 1, 0),
+                  line_width: float = 1.0) -> None:
+    """Draw collider wireframes on a GameObject for debugging.
+
+    Works with both 2D and 3D windows.  Call from ``on_draw()``::
+
+        from engine.drawing import draw_collider
+        # or: from engine.d2 import draw_collider
+
+        def on_draw(self):
+            draw_collider(self.player)                           # green
+            draw_collider(self.enemy, (1, 0, 0), line_width=2)  # red, thick
+    """
+    window = get_window()
+    if window and hasattr(window, 'draw_collider'):
+        window.draw_collider(obj, color, line_width)
