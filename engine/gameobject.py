@@ -8,7 +8,7 @@ import numpy as np
 
 from engine.component import Component, Script, WaitForSeconds, WaitEndOfFrame, WaitForFrames, Time, Tag
 from engine.transform import Transform
-from engine.types import Vector3
+from engine.types import Vector3, Vector2
 
 if TYPE_CHECKING:
     from engine.scene import Scene
@@ -466,6 +466,11 @@ class GameObject:
                 "__type__": "Vector3",
                 "value": value.to_list(),
             }
+        if isinstance(value, Vector2):
+            return {
+                "__type__": "Vector2",
+                "value": [value.x, value.y],
+            }
         if isinstance(value, (np.float32, np.float64, np.int32, np.int64)):
             return value.item()
         try:
@@ -651,6 +656,9 @@ class GameObject:
                 return Quaternion(v[0], v[1], v[2], v[3])
             if value.get("__type__") == "Vector3":
                 return Vector3(value.get("value", [0, 0, 0]))
+            if value.get("__type__") == "Vector2":
+                v = value.get("value", [0, 0])
+                return Vector2(v[0], v[1])
             if value.get("__type__") == "tuple":
                 return tuple(GameObject._deserialize_value(val, go_registry) for val in value.get("value", []))
             if value.get("__type__") == "set":
