@@ -196,23 +196,22 @@ class GameObject:
         """Called by Window3D to process end-of-frame coroutines."""
         self._update_end_of_frame_coroutines(Time.delta_time)
 
-    def start_scripts(self):
-        """Call awake() and start() on all Script components that haven't been started yet."""
+    def start_components(self):
+        """Call awake() and start() on all components that haven't been started yet."""
         for comp in self.components:
-            if isinstance(comp, Script):
-                # Call awake() first if not already awoken
-                if not comp._awoken:
-                    comp.awake()
-                    comp._awoken = True
-                # Then call start() if not already started
-                if not comp._started:
-                    comp.start()
-                    comp._started = True
+            # Call awake() first if not already awoken
+            if not comp._awoken:
+                comp.awake()
+                comp._awoken = True
+            # Then call start() if not already started
+            if not comp._started:
+                comp.start()
+                comp._started = True
 
-    def awake_scripts(self):
-        """Call awake() on all Script components that haven't been awoken yet."""
+    def awake_components(self):
+        """Call awake() on all components that haven't been awoken yet."""
         for comp in self.components:
-            if isinstance(comp, Script) and not comp._awoken:
+            if not comp._awoken:
                 comp.awake()
                 comp._awoken = True
 

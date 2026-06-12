@@ -548,8 +548,15 @@ class Time:
     Global time utility similar to Unity's Time class.
     """
     delta_time: float = 0.0
+    unscaled_delta_time: float = 0.0
     scale: float = 1.0
     time: float = 0.0  # Total elapsed time since game start
+
+    @staticmethod
+    def set(raw_dt: float):
+        Time.unscaled_delta_time = raw_dt
+        Time.delta_time = raw_dt * Time.scale
+        Time.time += Time.delta_time
 
 
 class Component:
@@ -557,6 +564,23 @@ class Component:
 
     def __init__(self):
         self.game_object: Optional['GameObject'] = None
+        self._started = False
+        self._awoken = False
+    
+    def awake(self):
+        """
+        Called once when the script is first created, before start().
+        Use this for initialization that doesn't depend on other objects.
+        Override to set up initial state.
+        """
+        pass
+    
+    def start(self):
+        """
+        Called once when play mode begins.
+        Override to set up initial state that may depend on other objects.
+        """
+        pass
 
     def on_attach(self):
         pass
@@ -732,23 +756,6 @@ class Script(Component):
     
     def __init__(self):
         super().__init__()
-        self._started = False
-        self._awoken = False
-    
-    def awake(self):
-        """
-        Called once when the script is first created, before start().
-        Use this for initialization that doesn't depend on other objects.
-        Override to set up initial state.
-        """
-        pass
-    
-    def start(self):
-        """
-        Called once when play mode begins.
-        Override to set up initial state that may depend on other objects.
-        """
-        pass
     
     def update(self):
         """

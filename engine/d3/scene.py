@@ -476,6 +476,7 @@ class Scene3D(Scene):
                            if not getattr(obj, '_is_particle_system_particle', False)]
         
         return {
+            "_mode": "3d",
             "camera": {
                 "position": cam_pos,
                 "target": cam_target,

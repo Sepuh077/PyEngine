@@ -111,11 +111,11 @@ class Scene:
 
     def start_scripts(self):
         for obj in self.objects:
-            obj.start_scripts()
+            obj.start_components()
 
     def awake_scripts(self):
         for obj in self.objects:
-            obj.awake_scripts()
+            obj.awake_components()
 
     # -- Lifecycle (override) -----------------------------------------------
 

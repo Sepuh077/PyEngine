@@ -3902,8 +3902,34 @@ class {class_name}(Script):
         
         self._update_scene_label()
 
+    @staticmethod
+    def _detect_scene_mode(path: Path) -> str:
+        """Read a scene file and return '2d' or '3d'.
+
+        Checks the explicit ``_mode`` key first.  For legacy files saved
+        before the key existed, falls back to heuristics on the camera
+        block (2D scenes store ``x``/``y``/``zoom``; 3D scenes store
+        ``position``/``target``/``fov``).
+        """
+        try:
+            import json
+            with open(str(path), "r", encoding="utf-8") as f:
+                data = json.load(f)
+            # Explicit tag
+            mode = data.get("_mode")
+            if mode in ("2d", "3d"):
+                return mode
+            # Heuristic: 2D camera has x/y/zoom, 3D camera has position/target
+            cam = data.get("camera", {})
+            if "zoom" in cam or "orthographic_size" in cam:
+                return "2d"
+        except Exception:
+            pass
+        # Default to 3D for unknown / unreadable files
+        return "3d"
+
     def _load_scene(self, path: Path) -> None:
-        """Load a scene from a file."""
+        """Load a scene from a file, switching 2D/3D editor mode if needed."""
         try:
             self._viewport.makeCurrent()
             
@@ -3915,17 +3941,13 @@ class {class_name}(Script):
             if hasattr(self, '_undo_manager') and self._undo_manager:
                 self._undo_manager.clear()
             
-            # Load the scene (auto-detect mode from file or use current mode)
-            from engine.editor.scene import EditorScene, EditorScene2D
+            # Detect mode from the scene file and switch editor if needed
+            file_mode = self._detect_scene_mode(path)
+            if file_mode != self._mode:
+                self._switch_editor_mode(file_mode)
+
+            # Load the scene with the matching class
             scene_is_2d = self._mode == "2d"
-            try:
-                import json
-                with open(str(path), "r", encoding="utf-8") as f:
-                    header = json.load(f)
-                    if header.get("_mode") == "2d":
-                        scene_is_2d = True
-            except Exception:
-                pass
             if scene_is_2d:
                 self._scene = EditorScene2D.load(str(path))
             else:
@@ -3938,7 +3960,7 @@ class {class_name}(Script):
             # Restore prefab connections for all objects
             self._restore_prefab_connections()
             
-            # Adapt editor navigation/gizmo/camera if loaded scene is 2D (RMB/MMB should pan, not rotate)
+            # Adapt editor navigation/gizmo/camera if loaded scene is 2D
             if scene_is_2d:
                 self._adapt_to_2d_scene_if_needed()
             
@@ -3956,7 +3978,7 @@ class {class_name}(Script):
             
             # Log scene load to console
             if hasattr(self, '_console_widget') and self._console_widget:
-                self._console_widget.log(f"Loaded scene: {path.stem}", 'INFO')
+                self._console_widget.log(f"Loaded scene: {path.stem} ({self._mode.upper()})", 'INFO')
             
         except Exception as e:
             import traceback
@@ -4691,6 +4713,79 @@ class {class_name}(Script):
             self._camera_control["zoom"] = float(getattr(main_cam, "zoom", 1.0))
 
         self._update_camera_position()
+
+    def _switch_editor_mode(self, new_mode: str) -> None:
+        """Fully switch the editor between '2d' and '3d' modes.
+
+        Rebuilds the rendering window, editor camera, gizmo, camera controls,
+        and window title so the editor matches the scene type.
+        """
+        if new_mode == self._mode:
+            return
+
+        self._mode = new_mode
+        self.setWindowTitle("PyEngine 2D Editor" if new_mode == "2d" else "PyEngine Editor")
+
+        # --- Editor camera ---------------------------------------------------
+        if new_mode == "2d":
+            self._editor_camera = Camera2D(zoom=80.0)
+            self._translate_gizmo = TranslateGizmo2D()
+            self._force_2d_nav = True
+            self._camera_control = {
+                'panning': False,
+                'last_mouse_pos': None,
+                'cam_x': 0.0,
+                'cam_y': 0.0,
+                'zoom': 80.0,
+            }
+        else:
+            from engine.d3.camera import Camera3D
+            self._editor_camera = Camera3D()
+            self._translate_gizmo = TranslateGizmo()
+            self._force_2d_nav = False
+            self._camera_control = {
+                'orbiting': False,
+                'panning': False,
+                'last_mouse_pos': None,
+                'azimuth': 45.0,
+                'elevation': 45.0,
+                'distance': 10.0,
+                'target': np.array([0.0, 0.0, 0.0], dtype=np.float32),
+            }
+
+        # --- Rebuild the rendering window ------------------------------------
+        self._viewport.makeCurrent()
+        dpr = self._viewport.devicePixelRatio()
+        w = int(max(1, self._viewport.width() * dpr))
+        h = int(max(1, self._viewport.height() * dpr))
+
+        if new_mode == "2d":
+            self._window = Window2D(
+                width=w, height=h,
+                title="PyEngine 2D Editor Viewport",
+                resizable=True,
+                use_pygame_window=False,
+                use_pygame_events=False,
+            )
+            self._window.show_editor_overlays = True
+            self._window.editor_show_camera = True
+            self._window.editor_show_axis = False
+            self._window.editor_show_colliders = True
+            self._editor_camera.set_screen_size(w, h)
+        else:
+            self._window = Window3D(
+                width=w, height=h,
+                title="PyEngine Editor Viewport",
+                project_root=self.project_root,
+                resizable=True,
+                use_pygame_window=False,
+                use_pygame_events=False,
+            )
+            self._window.show_editor_overlays = True
+            self._window.editor_show_camera = True
+
+        self._window.active_camera_override = self._editor_camera
+        self._window._editor_gizmo = self._translate_gizmo
 
     def _refresh_hierarchy(self) -> None:
         self._hierarchy_tree.clear()

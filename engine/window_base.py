@@ -573,8 +573,7 @@ class WindowBase:
 
         raw_dt = self._clock.tick(self._fps) / 1000.0
         self._delta_time = raw_dt
-        Time.delta_time = raw_dt * Time.scale
-        Time.time += Time.delta_time
+        Time.set(raw_dt)
 
         self._handle_events()
 
