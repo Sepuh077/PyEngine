@@ -135,6 +135,17 @@ class Scene2D(Scene):
         self._cameras.clear()
         self._main_camera = None
 
+    # -- Light compatibility (for 3D render path) ----------------------------
+
+    @property
+    def light(self):
+        """Return None — 2D scenes have no directional light by default."""
+        return None
+
+    def get_shadow_casting_lights(self):
+        """Return empty list — 2D scenes have no shadow-casting lights."""
+        return []
+
     # -- Render helpers -----------------------------------------------------
 
     def get_sorted_renderables(self) -> List[Object2D]:
