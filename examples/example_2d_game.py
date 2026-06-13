@@ -35,18 +35,24 @@ from engine.d2.physics import (
     CircleCollider2D,
     BoxCollider2D,
     Rigidbody2D,
+    CollisionMode
 )
 
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 SCREEN_W, SCREEN_H = 900, 700
-PLAYER_SIZE = 24
-PLAYER_SPEED = 220       # pixels/sec
-BULLET_SPEED = 500
-BULLET_SIZE = 6
-ENEMY_BASE_SPEED = 80
-SPAWN_MARGIN = 60        # spawn enemies just outside the viewport
+ORTHO_SIZE = 5.0                        # camera half-height in world units
+ASPECT = SCREEN_W / SCREEN_H            # ~1.286
+WORLD_HW = ORTHO_SIZE * ASPECT          # half-width in world units (~6.43)
+WORLD_HH = ORTHO_SIZE                   # half-height in world units (5.0)
+
+PLAYER_SIZE = 0.6
+PLAYER_SPEED = 5                        # world units/sec
+BULLET_SPEED = 15
+BULLET_SIZE = 0.15
+ENEMY_BASE_SPEED = 3
+SPAWN_MARGIN = 1                        # spawn enemies just outside the viewport
 MAX_ENEMIES = 40
 STAR_COUNT = 80
 
@@ -102,8 +108,8 @@ class PlayerScript(Script):
         # Clamp to world bounds
         pos = self.transform.position
         half = PLAYER_SIZE / 2
-        bound_x = SCREEN_W / 2 - half
-        bound_y = SCREEN_H / 2 - half
+        bound_x = WORLD_HW - half
+        bound_y = WORLD_HH - half
         cx = max(-bound_x, min(bound_x, pos.x))
         cy = max(-bound_y, min(bound_y, pos.y))
         self.transform.position = (cx, cy, 0)
@@ -137,20 +143,21 @@ class PlayerScript(Script):
         dir_x = world.x - pos.x
         dir_y = world.y - pos.y
         mag = math.hypot(dir_x, dir_y)
-        if mag < 1:
+        if mag < 0.1:
             return
         dir_x /= mag
         dir_y /= mag
 
         bullet_go = create_rect(BULLET_SIZE, BULLET_SIZE, color=Color.YELLOW)
-        bullet_go.transform.position = (pos.x + dir_x * PLAYER_SIZE,
-                                        pos.y + dir_y * PLAYER_SIZE, 0)
+        bullet_go.transform.position = (pos.x + dir_x * (PLAYER_SIZE * 0.8),
+                                        pos.y + dir_y * (PLAYER_SIZE * 0.8), 0)
 
         rb = Rigidbody2D(use_gravity=False, drag=0.0)
         rb.velocity = Vector2(dir_x * BULLET_SPEED, dir_y * BULLET_SPEED)
         bullet_go.add_component(rb)
 
-        col = CircleCollider2D(radius=BULLET_SIZE / 2)
+        col = CircleCollider2D()
+        col.collision_mode = CollisionMode.CONTINUOUS
         bullet_go.add_component(col)
 
         bullet_script = BulletScript()
@@ -189,7 +196,7 @@ class BulletScript(Script):
 
         # Remove if far outside bounds
         pos = self.transform.position
-        if abs(pos.x) > SCREEN_W or abs(pos.y) > SCREEN_H:
+        if abs(pos.x) > WORLD_HW * 2 or abs(pos.y) > WORLD_HH * 2:
             self._destroy()
 
     def on_collision_enter(self, other):
@@ -206,7 +213,7 @@ class EnemyScript(Script):
     """Enemy that drifts toward the player and is destroyed by bullets."""
 
     def start(self):
-        self.speed = ENEMY_BASE_SPEED + random.uniform(-20, 40)
+        self.speed = ENEMY_BASE_SPEED + random.uniform(-1, 1)
         self.health = 1
         self.score_value = 10
 
@@ -225,7 +232,7 @@ class EnemyScript(Script):
         dx = target.x - pos.x
         dy = target.y - pos.y
         mag = math.hypot(dx, dy)
-        if mag < 1:
+        if mag < 0.1:
             return
         dx /= mag
         dy /= mag
@@ -262,10 +269,10 @@ class GameScene(Scene2D):
         self.stars = []
         self.star_pulse = []   # (base_brightness, speed, phase) per star
         for _ in range(STAR_COUNT):
-            sx = random.uniform(-SCREEN_W / 2, SCREEN_W / 2)
-            sy = random.uniform(-SCREEN_H / 2, SCREEN_H / 2)
+            sx = random.uniform(-WORLD_HW, WORLD_HW)
+            sy = random.uniform(-WORLD_HH, WORLD_HH)
             brightness = random.uniform(0.3, 0.9)
-            size = random.uniform(1, 3)
+            size = random.uniform(0.03, 0.08)
             star = create_rect(size, size, color=(brightness, brightness, min(1.0, brightness * 1.1)))
             star.transform.position = (sx, sy, 0)
             star.get_component(Object2D).sorting_order = -10
@@ -278,12 +285,12 @@ class GameScene(Scene2D):
             ))
 
         # -- Player --
-        player_go = create_rect(PLAYER_SIZE, PLAYER_SIZE, color=(0.2, 0.8, 1.0))
+        player_go = create_rect(PLAYER_SIZE, PLAYER_SIZE * 1.2, color=(0.2, 0.8, 1.0))
         player_go.tag = "Player"
         player_go.transform.position = (0, 0, 0)
         player_go.get_component(Object2D).sorting_order = 5
 
-        player_go.add_component(CircleCollider2D(radius=PLAYER_SIZE / 2))
+        player_go.add_component(CircleCollider2D())
 
         self.player_script = PlayerScript()
         player_go.add_component(self.player_script)
@@ -334,7 +341,7 @@ class GameScene(Scene2D):
     def _spawn_enemy(self):
         """Spawn an enemy at a random edge position."""
         side = random.randint(0, 3)
-        hw, hh = SCREEN_W / 2, SCREEN_H / 2
+        hw, hh = WORLD_HW, WORLD_HH
 
         if side == 0:    # top
             x = random.uniform(-hw, hw)
@@ -350,7 +357,7 @@ class GameScene(Scene2D):
             y = random.uniform(-hh, hh)
 
         # Vary enemy appearance
-        size = random.uniform(14, 26)
+        size = random.uniform(0.3, 0.7)
         r = random.uniform(0.7, 1.0)
         g = random.uniform(0.1, 0.4)
         enemy_go = create_rect(size, size, color=(r, g, 0.1))
@@ -358,12 +365,12 @@ class GameScene(Scene2D):
         enemy_go.transform.position = (x, y, 0)
         enemy_go.get_component(Object2D).sorting_order = 3
 
-        enemy_go.add_component(CircleCollider2D(radius=size / 2))
+        enemy_go.add_component(CircleCollider2D())
 
         es = EnemyScript()
         enemy_go.add_component(es)
         # Bigger enemies are tougher and worth more
-        if size > 22:
+        if size > 0.55:
             es.health = 2
             es.score_value = 25
             es.speed = ENEMY_BASE_SPEED * 0.7
@@ -374,7 +381,6 @@ class GameScene(Scene2D):
     def on_draw(self):
         """Draw HUD elements on the screen overlay."""
         ps = self.player_script
-        hw, hh = SCREEN_W // 2, SCREEN_H // 2
 
         # -- Health bar --
         bar_w, bar_h = 200, 16
@@ -422,6 +428,8 @@ class GameScene(Scene2D):
             self.draw_text("Press R to Restart | ESC to Quit",
                            SCREEN_W // 2, SCREEN_H // 2 + 60,
                            Color.LIGHT_GRAY, font_size=18, anchor_x='center', anchor_y='center')
+        for obj in self.objects:
+            self.window.draw_collider(obj, Color.BLACK, 3)
 
     def on_key_press(self, key, modifiers):
         if key == Keys.ESCAPE:
@@ -472,4 +480,4 @@ if __name__ == "__main__":
     window = Window2D(SCREEN_W, SCREEN_H, "Space Survivor", background_color=(0.02, 0.02, 0.06))
     scene = GameScene()
     window.show_scene(scene)
-    window.run(200)
+    window.run(60)
