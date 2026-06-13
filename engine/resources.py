@@ -113,14 +113,22 @@ class Resources:
         Set the root path for assets.
         
         Args:
-            path: Path to the Assets folder or project root.
-                  If path ends with 'Assets', uses it directly.
-                  Otherwise, appends 'Assets' to the path.
+            path: Path to the assets folder or project root.
+                  If the path contains an ``assets`` or ``Assets``
+                  subdirectory, that subdirectory is used.  If the path
+                  name itself is ``assets`` / ``Assets`` (i.e. the caller
+                  already points to the assets folder), it is used
+                  directly.  Otherwise the path is stored as-is.
         """
         path = Path(path).resolve()
-        if path.name != "Assets":
-            path = path / "Assets"
-        cls._assets_path = path
+        # If the path contains an assets subdirectory, use it
+        if (path / "Assets").is_dir():
+            cls._assets_path = path / "Assets"
+        elif (path / "assets").is_dir():
+            cls._assets_path = path / "assets"
+        else:
+            # Path is the assets dir itself, or doesn't exist yet
+            cls._assets_path = path
     
     @classmethod
     def get_assets_path(cls) -> Path:
@@ -317,6 +325,29 @@ class Resources:
         
         return resource_path.exists()
     
+    @classmethod
+    def resolve_path(cls, path: Union[str, Path]) -> Path:
+        """
+        Resolve a relative asset path to an absolute path.
+
+        If *path* is already absolute and exists, it is returned as-is.
+        Otherwise the path is resolved relative to the configured assets
+        directory (see ``set_assets_path``).
+
+        This is the recommended way to turn user-facing paths like
+        ``"sprites/hero.png"`` into filesystem paths.
+
+        Args:
+            path: Relative or absolute path to a file.
+
+        Returns:
+            Absolute ``Path`` to the file (may not yet exist on disk).
+        """
+        p = Path(path)
+        if p.is_absolute():
+            return p
+        return cls.get_assets_path() / p
+
     @classmethod
     def get_full_path(cls, path: str, resource_type: Optional[type] = None) -> Path:
         """

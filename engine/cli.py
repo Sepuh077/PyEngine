@@ -30,7 +30,6 @@ if _project_root not in sys.path:
 
 import argparse
 import subprocess
-import json
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 
@@ -54,9 +53,16 @@ from engine.d3 import Window3D, Scene3D, GameObject, Time
 from engine.d3 import create_cube, create_sphere, create_plane
 from engine.input import Keys
 from engine.types import Color
+from engine import Resources
 
 # Import settings
-from settings import GAME_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FPS, INITIAL_SCENE
+from settings import GAME_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FPS, INITIAL_SCENE, ASSETS_PATH
+
+# Configure the assets path — use the bundled data directory in frozen builds
+if getattr(sys, 'frozen', False):
+    Resources.set_assets_path(str(Path(sys._MEIPASS) / "assets"))
+else:
+    Resources.set_assets_path(str(ASSETS_PATH))
 
 
 def _resolve_initial_scene(value):
@@ -65,7 +71,13 @@ def _resolve_initial_scene(value):
 
     if isinstance(value, str) and ":" in value:
         mod_name, cls_name = value.split(":", 1)
-        module = __import__(mod_name, fromlist=[cls_name])
+        try:
+            module = __import__(mod_name, fromlist=[cls_name])
+        except ModuleNotFoundError:
+            if mod_name == "main":
+                module = sys.modules["__main__"]
+            else:
+                raise
         cls = getattr(module, cls_name)
         return cls()
 
@@ -152,6 +164,10 @@ SETTINGS_PY_TEMPLATE = '''"""
 
 Configure your game settings here.
 """
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / "subdir"
+BASE_DIR = Path(__file__).resolve().parent
 
 # Game Window Settings
 GAME_TITLE = "{project_name}"
@@ -172,6 +188,9 @@ GRAVITY = (0, -9.81, 0)
 SHOW_FPS = True
 SHOW_DEBUG_INFO = False
 DEBUG_MODE = False
+
+# Asset Settings
+ASSETS_PATH = BASE_DIR / "assets"
 
 # Scene Settings
 # Can be:
@@ -358,9 +377,16 @@ from engine.d2 import Window2D, Scene2D, Object2D, create_rect, create_circle
 from engine.input import Keys
 from engine.types import Color
 from engine.component import Time
+from engine import Resources
 
 # Import settings
-from settings import GAME_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FPS, INITIAL_SCENE
+from settings import GAME_TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, FPS, INITIAL_SCENE, ASSETS_PATH
+
+# Configure the assets path — use the bundled data directory in frozen builds
+if getattr(sys, 'frozen', False):
+    Resources.set_assets_path(str(Path(sys._MEIPASS) / "assets"))
+else:
+    Resources.set_assets_path(str(ASSETS_PATH))
 
 
 def _resolve_initial_scene(value):
@@ -373,7 +399,13 @@ def _resolve_initial_scene(value):
 
     if isinstance(value, str) and ":" in value:
         mod_name, cls_name = value.split(":", 1)
-        module = __import__(mod_name, fromlist=[cls_name])
+        try:
+            module = __import__(mod_name, fromlist=[cls_name])
+        except ModuleNotFoundError:
+            if mod_name == "main":
+                module = sys.modules["__main__"]
+            else:
+                raise
         cls = getattr(module, cls_name)
         return cls()
 
@@ -469,6 +501,10 @@ SETTINGS_PY_2D_TEMPLATE = '''"""
 
 Configure your 2D game settings here.
 """
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / "subdir"
+BASE_DIR = Path(__file__).resolve().parent
 
 # Game Window Settings
 GAME_TITLE = "{project_name}"
@@ -483,6 +519,9 @@ ENABLE_VSYNC = True
 SHOW_FPS = True
 SHOW_DEBUG_INFO = False
 DEBUG_MODE = False
+
+# Asset Settings
+ASSETS_PATH = BASE_DIR / "assets"
 
 # Scene Settings
 # Can be:
@@ -824,210 +863,10 @@ def create_project(project_name: str, target_dir: Optional[Path] = None, use_2d:
     return project_path
 
 
-# ============================================================================
-# BUILD SYSTEM (for use in cli.py)
-# ============================================================================
-
-
-class BuildSystem:
-    """Build system for PyEngine projects."""
-
-    def __init__(self, project_path: Path, backend: str = "pyinstaller"):
-        self.project_path = Path(project_path).resolve()
-        self.backend = backend
-        self.config = self._load_config()
-
-    def _load_config(self) -> Dict[str, Any]:
-        """Load build configuration from pyproject.toml."""
-        config_file = self.project_path / "pyproject.toml"
-        if not config_file.exists():
-            # Use defaults
-            return {
-                "entry_point": "main.py",
-                "output_name": self.project_path.name,
-                "icon": "",
-                "include_assets": ["assets/", "scenes/", "scripts/"],
-                "exclude_modules": ["pytest", "PySide6"],
-            }
-
-        # Parse pyproject.toml manually (no external dependency)
-        import re
-
-        content = config_file.read_text()
-
-        config = {}
-        # Extract tool.engine.build section
-        match = re.search(r"\[tool\.pyengine\.build\](.*?)(?=\[|$)", content, re.DOTALL)
-        if match:
-            section = match.group(1)
-            # Parse key = value pairs
-            for line in section.strip().split("\n"):
-                line = line.strip()
-                if "=" in line and not line.startswith("#"):
-                    key, value = line.split("=", 1)
-                    key = key.strip()
-                    value = value.strip().strip('"').strip("'")
-                    config[key] = value
-
-        return config
-
-    def build(self, onefile: bool = False, debug: bool = False) -> bool:
-        """Build the project executable."""
-        print(
-            f"Building '{self.config.get('output_name', 'game')}' with {self.backend}..."
-        )
-
-        if self.backend == "pyinstaller":
-            return self._build_pyinstaller(onefile, debug)
-        elif self.backend == "nuitka":
-            return self._build_nuitka(onefile, debug)
-        else:
-            print(f"Error: Unknown backend '{self.backend}'")
-            return False
-
-    def _build_pyinstaller(self, onefile: bool, debug: bool) -> bool:
-        """Build using PyInstaller."""
-        try:
-            import PyInstaller.__main__
-        except ImportError:
-            print("PyInstaller not found. Installing...")
-            subprocess.run(
-                [sys.executable, "-m", "pip", "install", "pyinstaller"], check=True
-            )
-            import PyInstaller.__main__
-
-        entry_point = self.config.get("entry_point", "main.py")
-        output_name = self.config.get("output_name", "game")
-        icon = self.config.get("icon", "")
-
-        args = [
-            entry_point,
-            "--name",
-            output_name,
-            "--distpath",
-            "dist",
-            "--workpath",
-            "build",
-            "--specpath",
-            ".",
-        ]
-
-        if onefile:
-            args.append("--onefile")
-        else:
-            args.append("--onedir")
-
-        if not debug:
-            args.append("--windowed")
-        else:
-            args.append("--console")
-
-        if icon:
-            args.extend(["--icon", icon])
-
-        # Add assets
-        for asset in self.config.get("include_assets", []):
-            asset_path = self.project_path / asset
-            if asset_path.exists():
-                args.extend(["--add-data", f"{asset}{os.pathsep}{asset}"])
-
-        # Exclude modules
-        for module in self.config.get("exclude_modules", []):
-            args.extend(["--exclude-module", module])
-
-        print(f"Running: pyinstaller {' '.join(args)}")
-
-        try:
-            PyInstaller.__main__.run(args)
-            print(f"\n✓ Build successful!")
-            print(f"  Output: {self.project_path / 'dist' / output_name}")
-            return True
-        except Exception as e:
-            print(f"\n✗ Build failed: {e}")
-            return False
-
-    def _build_nuitka(self, onefile: bool, debug: bool) -> bool:
-        """Build using Nuitka."""
-        # Check if nuitka is installed
-        try:
-            subprocess.run(
-                [sys.executable, "-m", "nuitka", "--version"],
-                capture_output=True,
-                check=True,
-            )
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            print("Nuitka not found. Installing...")
-            subprocess.run(
-                [sys.executable, "-m", "pip", "install", "nuitka"], check=True
-            )
-
-        entry_point = self.config.get("entry_point", "main.py")
-        output_name = self.config.get("output_name", "game")
-
-        args = [
-            sys.executable,
-            "-m",
-            "nuitka",
-            entry_point,
-            "--output-dir=dist",
-            "--output-filename=" + output_name,
-            "--enable-plugin=pygame",
-            "--include-package=engine",
-        ]
-
-        if onefile:
-            args.append("--onefile")
-        else:
-            args.append("--standalone")
-
-        if not debug:
-            args.append("--windows-disable-console")
-
-        # Add assets
-        for asset in self.config.get("include_assets", []):
-            asset_path = self.project_path / asset
-            if asset_path.exists():
-                args.extend(["--include-data-dir", f"{asset}={asset}"])
-
-        print(f"Running: {' '.join(args)}")
-
-        try:
-            subprocess.run(args, cwd=self.project_path, check=True)
-            print(f"\n✓ Build successful!")
-            print(f"  Output: {self.project_path / 'dist' / output_name}")
-            return True
-        except subprocess.CalledProcessError as e:
-            print(f"\n✗ Build failed: {e}")
-            return False
-
-    @staticmethod
-    def clean(project_path: Path) -> None:
-        """Clean build files."""
-        print("Cleaning build files...")
-
-        dirs_to_remove = ["build", "dist", "__pycache__"]
-        files_to_remove = ["*.spec", "*.pyc", "*.pyo"]
-
-        for dir_name in dirs_to_remove:
-            path = project_path / dir_name
-            if path.exists():
-                import shutil
-
-                shutil.rmtree(path)
-                print(f"  Removed {dir_name}/")
-
-        import glob
-
-        for pattern in files_to_remove:
-            for file in glob.glob(str(project_path / pattern)):
-                Path(file).unlink()
-                print(f"  Removed {Path(file).name}")
-
-        print("✓ Clean complete")
-
-
 def cmd_build(args) -> None:
     """Handle build command."""
+    from engine.build import BuildSystem
+
     project_path = Path(args.project_path or ".").resolve()
 
     if not (project_path / "main.py").exists():

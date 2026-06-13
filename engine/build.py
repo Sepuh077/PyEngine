@@ -17,7 +17,7 @@ Usage:
 import os
 import sys
 import subprocess
-import re
+import tomllib
 import glob
 import shutil
 import argparse
@@ -59,42 +59,24 @@ class BuildSystem:
             Dictionary containing build configuration
         """
         config_file = self.project_path / "pyproject.toml"
+        defaults = {
+            "entry_point": "main.py",
+            "output_name": self.project_path.name,
+            "icon": "",
+            "include_assets": ["assets/", "scenes/", "scripts/", "settings.py"],
+            "exclude_modules": ["pytest", "PySide6"],
+        }
         if not config_file.exists():
-            # Use defaults
-            return {
-                "entry_point": "main.py",
-                "output_name": self.project_path.name,
-                "icon": "",
-                "include_assets": ["assets/", "scenes/", "scripts/"],
-                "exclude_modules": ["pytest", "PySide6"],
-            }
-        
-        # Parse pyproject.toml manually (no external dependency)
-        content = config_file.read_text()
-        
-        config = {}
-        # Extract tool.engine.build section
-        match = re.search(r'\[tool\.pyengine\.build\](.*?)(?=\[|$)', content, re.DOTALL)
-        if match:
-            section = match.group(1)
-            # Parse key = value pairs
-            for line in section.strip().split('\n'):
-                line = line.strip()
-                if '=' in line and not line.startswith('#'):
-                    key, value = line.split('=', 1)
-                    key = key.strip()
-                    value = value.strip()
-                    # Parse TOML lists: ["a", "b", "c"]
-                    if value.startswith('[') and value.endswith(']'):
-                        inner = value[1:-1]
-                        config[key] = [
-                            item.strip().strip('"').strip("'")
-                            for item in inner.split(',')
-                            if item.strip()
-                        ]
-                    else:
-                        config[key] = value.strip('"').strip("'")
-        
+            return defaults
+
+        with open(config_file, "rb") as f:
+            data = tomllib.load(f)
+
+        config = data.get("tool", {}).get("pyengine", {}).get("build", {})
+        # Merge with defaults so missing keys fall back gracefully
+        for key, value in defaults.items():
+            config.setdefault(key, value)
+
         return config
     
     def build(self, onefile: bool = False, debug: bool = False) -> bool:
@@ -159,11 +141,13 @@ class BuildSystem:
         if icon:
             args.extend(["--icon", icon])
         
-        # Add assets
+        # Add assets (files and directories)
         for asset in self.config.get("include_assets", []):
             asset_path = self.project_path / asset
-            if asset_path.exists():
+            if asset_path.is_dir():
                 args.extend(["--add-data", f"{asset}{os.pathsep}{asset}"])
+            elif asset_path.is_file():
+                args.extend(["--add-data", f"{asset}{os.pathsep}."])
         
         # Exclude modules
         for module in self.config.get("exclude_modules", []):
@@ -219,11 +203,13 @@ class BuildSystem:
             if os.name == 'nt':  # Windows
                 args.append("--windows-disable-console")
         
-        # Add assets
+        # Add assets (files and directories)
         for asset in self.config.get("include_assets", []):
             asset_path = self.project_path / asset
-            if asset_path.exists():
+            if asset_path.is_dir():
                 args.extend(["--include-data-dir", f"{asset}={asset}"])
+            elif asset_path.is_file():
+                args.extend(["--include-data-files", f"{asset}={asset}"])
         
         print(f"Running: {' '.join(args)}")
         
