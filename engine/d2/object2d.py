@@ -2,7 +2,7 @@
 Object2D - A 2D visual object (sprite) that can be positioned, rotated, and scaled.
 """
 import numpy as np
-from typing import Dict, List, Optional, Tuple, TYPE_CHECKING
+from typing import Dict, List, Optional, Tuple, TYPE_CHECKING, Union
 
 from engine.component import Component, InspectorField
 from engine.types.vector2 import Vector2
@@ -10,6 +10,7 @@ from engine.types.color import Color, ColorType
 
 if TYPE_CHECKING:
     from engine import GameObject
+    from .sprite import Sprite
     import pygame
 
 
@@ -149,11 +150,23 @@ class Object2D(Component):
     def _load_sprite(self, path: str):
         """Load a sprite image from file.
         
+        If *path* does not exist as given, it is resolved relative to
+        the configured ``Resources`` assets directory so that paths
+        like ``"sprites/hero.png"`` work automatically.
+        
         Works both with a real pygame display (game) and without (editor with
         use_pygame_window=False). convert_alpha() requires a video mode, so we
         fall back to creating an explicit SRCALPHA surface when no display is set.
         """
+        import os
         import pygame
+
+        if not os.path.isfile(path):
+            from engine.resources import Resources
+            resolved = Resources.resolve_path(path)
+            if resolved.is_file():
+                path = str(resolved)
+
         loaded = pygame.image.load(path)
         try:
             if pygame.display.get_surface() is not None:
@@ -199,19 +212,9 @@ class Object2D(Component):
         return getattr(self, "_sprite_path", None) or getattr(self, "_inspector_sprite", None)
 
     @sprite.setter
-    def sprite(self, path: Optional[str]):
-        if path:
-            # Store via the descriptor (so inspector / serialization sees it)
-            # then ensure the surface is loaded.
-            try:
-                descriptor = getattr(type(self), "sprite", None)
-                if isinstance(descriptor, InspectorField):
-                    descriptor.__set__(self, str(path))
-            except Exception:
-                # last resort direct
-                self._inspector_sprite = str(path)
-            self._load_sprite(str(path))
-        else:
+    def sprite(self, path_or_sprite: Union[str, "Sprite", None]):
+        from .sprite import Sprite
+        if not path_or_sprite:
             self._sprite_surface = None
             try:
                 descriptor = getattr(type(self), "sprite", None)
@@ -220,6 +223,19 @@ class Object2D(Component):
             except Exception:
                 self._inspector_sprite = None
             self._texture_dirty = True
+        elif isinstance(path_or_sprite, Sprite):
+            self.set_sprite(path_or_sprite)
+        else:
+            # Store via the descriptor (so inspector / serialization sees it)
+            # then ensure the surface is loaded.
+            try:
+                descriptor = getattr(type(self), "sprite", None)
+                if isinstance(descriptor, InspectorField):
+                    descriptor.__set__(self, str(path_or_sprite))
+            except Exception:
+                # last resort direct
+                self._inspector_sprite = str(path_or_sprite)
+            self._load_sprite(str(path_or_sprite))
 
     @property
     def size(self) -> Vector2:
@@ -299,6 +315,34 @@ class Object2D(Component):
     def sort_key(self) -> Tuple[int, int]:
         """Composite key used by the renderer: ``(layer_id, sorting_order)``."""
         return (self.layer_id, self.sorting_order)
+
+    def set_sprite(self, sprite, auto_size: bool = True):
+        """Assign a ``Sprite`` (or raw ``pygame.Surface``) as this object's image.
+
+        This is the recommended way to display a sprite-sheet slice or
+        any programmatically-created surface.
+
+        Args:
+            sprite: A :class:`~engine.d2.sprite.Sprite` instance or a
+                raw ``pygame.Surface``.
+            auto_size: If ``True`` (default) and no explicit size has
+                been set, resize the object to match the sprite
+                dimensions (in world units, at 100 px/unit).
+        """
+        from engine.d2.sprite import Sprite as _Sprite
+
+        if isinstance(sprite, _Sprite):
+            surface = sprite.surface
+        else:
+            # Assume raw pygame.Surface
+            surface = sprite
+
+        self._sprite_surface = surface
+        self._texture_dirty = True
+
+        if auto_size:
+            w, h = surface.get_size()
+            self.size = Vector2(w / 100.0, h / 100.0)
 
     def get_model_matrix(self) -> np.ndarray:
         return self.game_object.transform.get_model_matrix()
