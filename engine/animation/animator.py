@@ -27,7 +27,8 @@ Typical usage::
 
     idle_state.add_transition(
         walk_state,
-        lambda: animator._parameters["is_walking"].value is True,
+        "is_walking",
+        lambda p: p.value is True,
     )
 
     # at runtime:
@@ -56,20 +57,28 @@ class AnimatorUpdateMode(IntEnum):
 class AnimationStateTransition:
     """A conditional edge from one animator state to another.
 
-    The transition fires when *condition* returns ``True``.
+    The transition fires when *condition* returns ``True``.  Parameter
+    values are resolved through the source state's ``Animator`` and
+    passed positionally to *condition*.
 
     Args:
+        from_s: The source ``AnimatorState`` this transition originates from.
         to: Target ``AnimatorState`` to transition into.
-        condition: Zero-argument callable returning ``bool``.
+        parameters: Names of animator parameters whose values are passed
+            to *condition*.
+        condition: Callable receiving one ``AnimatorParameter`` per entry
+            in *parameters* and returning ``bool``.
     """
 
-    def __init__(self, to: "AnimatorState", condition: Callable[[], bool]):
+    def __init__(self, from_s: "AnimatorState", to: "AnimatorState", parameters: List[str], condition: Callable[..., bool]):
+        self.from_s = from_s
         self.to = to
+        self.parameters = parameters
         self.condition = condition
 
     def check(self):
         """Return ``True`` if the transition condition is met."""
-        return self.condition()
+        return self.condition(*[self.from_s.animator.get_parameter_value(p) for p in self.parameters])
 
 
 class AnimatorState:
@@ -87,20 +96,39 @@ class AnimatorState:
         self.name = name
         self.clip = clip
         self._transitions: List[AnimationStateTransition] = []
+        self._animator: Animator = None
 
-    def add_transition(self, to: "AnimatorState", condition: Callable[[], bool]):
+    @property
+    def animator(self):
+        return self._animator
+
+    def set_animator(self, animator: "Animator"):
+        self._animator = animator
+
+    @overload
+    def add_transition(self, to: "AnimatorState", parameters: str, condition: Callable[[str], bool]) -> None: ...
+
+    @overload
+    def add_transition(self, to: "AnimatorState", parameters: List[str], condition: Callable[..., bool]) -> None: ...
+
+    def add_transition(self, to: "AnimatorState", parameters: Union[str, List[str]], condition: Callable[..., bool]) -> None:
         """Register a conditional transition to another state.
 
-        Non-callable *condition* values are silently ignored.
+        Non-callable *condition* values are silently ignored.  A single
+        string *parameters* value is automatically wrapped in a list.
 
         Args:
             to: The destination state.
-            condition: Zero-argument callable returning ``bool``.
+            parameters: Parameter name(s) to resolve and pass to *condition*.
+            condition: Callable receiving ``AnimatorParameter`` objects
+                and returning ``bool``.
         """
         if not callable(condition):
             return
+        if isinstance(parameters, str):
+            parameters = [parameters]
         self._transitions.append(
-            AnimationStateTransition(to, condition)
+            AnimationStateTransition(self, to, parameters, condition)
         )
 
     def check(self) -> Union["AnimatorState", None]:
@@ -206,6 +234,7 @@ class Animator(Component):
         self._states[state.name] = state
         if is_initial:
             self._initial_state = state
+        state.set_animator(self)
 
     def _set_state(self, state: AnimatorState):
         """Switch to *state* and restart its clip."""
@@ -227,14 +256,26 @@ class Animator(Component):
             AttributeError: If the transition targets a state that was
                 never registered.
         """
-        if name not in self._parameters:
+        if name not in self._parameters or self._parameters[name].value == value:
             return
         self._parameters[name].value = value
-        new_state = self._current_state.check()
-        if new_state:
+        new_state = self._current_state
+        while new_state:
+            state = new_state.check()
+            if not state:
+                break
+            new_state = state
+
+        if new_state and new_state is not self._current_state:
             if new_state.name not in self._states:
                 raise AttributeError(f"The state {new_state.name} is not registered in the Animator")
             self._set_state(new_state)
+
+    def get_parameter_value(self, name: str):
+        try:
+            return self._parameters[name].value
+        except KeyError:
+            raise KeyError(f"Parameter with name {name} is not registered.")
 
     def update(self):
         """Advance the current state's clip by the appropriate delta time."""
