@@ -3539,7 +3539,7 @@ class {class_name}(Script):
             
             # Initialize all scripts
             for obj in self._scene.objects:
-                obj.start_scripts()
+                obj.start_components()
             
             # Restart all particle systems from scratch for play mode (3D only)
             if self._mode == "3d":
@@ -3624,7 +3624,7 @@ class {class_name}(Script):
                 # Restore prefab connections
                 self._restore_prefab_connections()
                 
-                self._window.show_scene(self._scene, start_scripts=False)
+                self._window.show_scene(self._scene, start_components=False)
                 if self._mode == "3d":
                     self._stop_all_particle_systems()
                 
@@ -3851,7 +3851,7 @@ class {class_name}(Script):
         # Initialize ScriptableObject assets
         self._init_scriptable_objects()
         
-        self._window.show_scene(self._scene, start_scripts=False)  # Don't start scripts in edit mode
+        self._window.show_scene(self._scene, start_components=False)  # Don't start scripts in edit mode
         if self._mode == "3d":
             self._stop_all_particle_systems()
 
@@ -3966,7 +3966,7 @@ class {class_name}(Script):
             
             # Show the loaded scene
             if self._window:
-                self._window.show_scene(self._scene, start_scripts=False)  # Don't start scripts in edit mode
+                self._window.show_scene(self._scene, start_components=False)  # Don't start scripts in edit mode
             self._stop_all_particle_systems()
             
             self._refresh_hierarchy()

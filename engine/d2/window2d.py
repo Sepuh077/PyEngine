@@ -188,7 +188,7 @@ class Window2D(WindowBase):
     # Scene management
     # =====================================================================
 
-    def show_scene(self, scene: 'Scene2D', start_scripts: bool = True):
+    def show_scene(self, scene: 'Scene2D', start_components: bool = True):
         """Switch to a different Scene2D."""
         if self._current_scene:
             self._current_scene._detach_window()
@@ -202,7 +202,7 @@ class Window2D(WindowBase):
                 cam.set_screen_size(self.width, self.height)
 
         scene.on_show()
-        self.start(start_scripts=start_scripts)
+        self.start(start_components=start_components)
 
     # =====================================================================
     # Object management

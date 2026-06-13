@@ -1251,13 +1251,13 @@ class Window3D(WindowBase):
     # Scene management
     # =========================================================================
     
-    def show_scene(self, scene: 'Scene3D', start_scripts: bool = True):
+    def show_scene(self, scene: 'Scene3D', start_components: bool = True):
         """
         Switch to a different scene.
         
         Args:
             scene: The Scene3D to switch to
-            start_scripts: If True, call start_scripts() on all objects.
+            start_components: If True, call start_components() on all objects.
                           Set to False when the editor wants to control script lifecycle.
         """
         
@@ -1280,7 +1280,7 @@ class Window3D(WindowBase):
                 self._ensure_mesh(obj3d)
         
         scene.on_show()
-        self.start(start_scripts=start_scripts)
+        self.start(start_components=start_components)
     
     def project_point(self, world_pos: Tuple[float, float, float]) -> Optional[Tuple[float, float, float]]:
         """

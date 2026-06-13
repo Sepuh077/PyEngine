@@ -24,14 +24,20 @@ class TestResources:
     def test_set_and_get_assets_path(self):
         """Test setting and getting the assets path."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            Resources.set_assets_path(tmpdir)
-            assert Resources.get_assets_path() == Path(tmpdir) / "Assets"
-            
-            # Test with Assets folder already in path
+            # When Assets/ subdirectory exists, set_assets_path should find it
             assets_path = Path(tmpdir) / "Assets"
             assets_path.mkdir(exist_ok=True)
+            Resources.set_assets_path(tmpdir)
+            assert Resources.get_assets_path() == assets_path
+            
+            # When pointing directly to the Assets folder
             Resources.set_assets_path(assets_path)
             assert Resources.get_assets_path() == assets_path
+
+            # When no Assets/ subdirectory exists, store path as-is
+            with tempfile.TemporaryDirectory() as tmpdir2:
+                Resources.set_assets_path(tmpdir2)
+                assert Resources.get_assets_path() == Path(tmpdir2).resolve()
     
     def test_load_gameobject(self):
         """Test loading a GameObject prefab."""
@@ -153,10 +159,12 @@ class TestResources:
     def test_get_full_path(self):
         """Test getting the full path for a resource."""
         with tempfile.TemporaryDirectory() as tmpdir:
+            assets_path = Path(tmpdir) / "Assets"
+            assets_path.mkdir()
             Resources.set_assets_path(tmpdir)
             
             path = Resources.get_full_path("prefabs/player", GameObject)
-            assert path == Path(tmpdir) / "Assets" / "prefabs" / "player.prefab"
+            assert path == assets_path / "prefabs" / "player.prefab"
     
     def test_load_nonexistent_returns_none(self):
         """Test that loading a nonexistent resource returns None."""

@@ -210,8 +210,15 @@ class TestAnimatorState:
         clip = AnimationClip()
         s1 = AnimatorState("a", clip)
         s2 = AnimatorState("b", clip)
-        s1.add_transition(s2, "not_a_callable")
+        s1.add_transition(s2, "param", "not_a_callable")
         assert len(s1._transitions) == 0
+
+    def test_add_transition_normalizes_string_parameter(self):
+        clip = AnimationClip()
+        s1 = AnimatorState("a", clip)
+        s2 = AnimatorState("b", clip)
+        s1.add_transition(s2, "speed", lambda p: p.value > 0)
+        assert s1._transitions[0].parameters == ["speed"]
 
     def test_check_returns_first_match(self):
         clip = AnimationClip()
@@ -219,15 +226,15 @@ class TestAnimatorState:
         s2 = AnimatorState("b", clip)
         s3 = AnimatorState("c", clip)
 
-        s1.add_transition(s2, lambda: False)
-        s1.add_transition(s3, lambda: True)
+        s1.add_transition(s2, [], lambda: False)
+        s1.add_transition(s3, [], lambda: True)
 
         assert s1.check() is s3
 
     def test_check_returns_none_when_no_match(self):
         clip = AnimationClip()
         s = AnimatorState("a", clip)
-        s.add_transition(AnimatorState("b", clip), lambda: False)
+        s.add_transition(AnimatorState("b", clip), [], lambda: False)
         assert s.check() is None
 
 
@@ -236,14 +243,32 @@ class TestAnimatorState:
 class TestAnimationStateTransition:
 
     def test_check_true(self):
+        src = AnimatorState("a", AnimationClip())
         dest = AnimatorState("x", AnimationClip())
-        t = AnimationStateTransition(dest, lambda: True)
+        t = AnimationStateTransition(src, dest, [], lambda: True)
         assert t.check() is True
 
     def test_check_false(self):
+        src = AnimatorState("a", AnimationClip())
         dest = AnimatorState("x", AnimationClip())
-        t = AnimationStateTransition(dest, lambda: False)
+        t = AnimationStateTransition(src, dest, [], lambda: False)
         assert t.check() is False
+
+    def test_check_with_parameters(self):
+        src = AnimatorState("a", AnimationClip())
+        dest = AnimatorState("b", AnimationClip())
+        anim = Animator()
+        anim.register_state(src, is_initial=True)
+        anim.register_state(dest)
+        anim.register_parameter("speed", is_trigger=False, value=5)
+        t = AnimationStateTransition(src, dest, ["speed"], lambda p: p.value > 3)
+        assert t.check() is True
+
+    def test_stores_from_state(self):
+        src = AnimatorState("a", AnimationClip())
+        dest = AnimatorState("b", AnimationClip())
+        t = AnimationStateTransition(src, dest, [], lambda: True)
+        assert t.from_s is src
 
 
 # ── AnimatorParameter ────────────────────────────────────────────────
@@ -276,11 +301,13 @@ class TestAnimator:
 
         idle_state.add_transition(
             walk_state,
-            lambda: anim._parameters["is_walking"].value is True,
+            "is_walking",
+            lambda p: p.value is True,
         )
         walk_state.add_transition(
             idle_state,
-            lambda: anim._parameters["is_walking"].value is False,
+            "is_walking",
+            lambda p: p.value is False,
         )
         return anim
 
@@ -335,15 +362,67 @@ class TestAnimator:
         clip = AnimationClip(keyframes=[KeyFrame(step=0)])
         rogue = AnimatorState("rogue", clip)
         state = AnimatorState("a", clip)
-        state.add_transition(rogue, lambda: True)
 
         anim = Animator()
         anim.register_state(state, is_initial=True)
         anim.register_parameter("go", is_trigger=False, value=False)
+
+        state.add_transition(rogue, "go", lambda p: p.value is True)
         anim.start()
 
         with pytest.raises(AttributeError):
             anim.set_parameter("go", True)
+
+    # -- get_parameter_value --
+
+    def test_get_parameter_value_returns_parameter_object(self):
+        anim = Animator()
+        anim.register_parameter("hp", is_trigger=False, value=100)
+        result = anim.get_parameter_value("hp")
+        assert isinstance(result, AnimatorParameter)
+        assert result.value == 100
+
+    def test_get_parameter_value_unregistered_raises(self):
+        anim = Animator()
+        with pytest.raises(KeyError):
+            anim.get_parameter_value("nonexistent")
+
+    # -- register_state / animator back-reference --
+
+    def test_register_state_sets_animator_reference(self):
+        clip = AnimationClip(keyframes=[KeyFrame(step=0)])
+        state = AnimatorState("idle", clip)
+        anim = Animator()
+        anim.register_state(state, is_initial=True)
+        assert state.animator is anim
+
+    # -- multi-parameter transitions --
+
+    def test_transition_with_multiple_parameters(self):
+        idle_clip = AnimationClip(keyframes=[KeyFrame(step=0)], frame_update_time=0.05)
+        run_clip = AnimationClip(keyframes=[KeyFrame(step=0)], frame_update_time=0.05)
+
+        idle_state = AnimatorState("idle", idle_clip)
+        run_state = AnimatorState("run", run_clip)
+
+        anim = Animator()
+        anim.register_state(idle_state, is_initial=True)
+        anim.register_state(run_state)
+        anim.register_parameter("is_moving", is_trigger=False, value=False)
+        anim.register_parameter("speed", is_trigger=False, value=0)
+
+        idle_state.add_transition(
+            run_state,
+            ["is_moving", "speed"],
+            lambda moving, speed: moving.value is True and speed.value > 5,
+        )
+        anim.start()
+
+        anim.set_parameter("is_moving", True)
+        assert anim.current_state.name == "idle"  # speed still 0
+
+        anim.set_parameter("speed", 10)
+        assert anim.current_state.name == "run"
 
     # -- update --
 

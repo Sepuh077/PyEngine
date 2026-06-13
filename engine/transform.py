@@ -138,7 +138,10 @@ class Transform(Component):
     
     @local_scale.setter
     def local_scale(self, value):
-        self._local_scale = Vector3(value)
+        if isinstance(value, (int, float)):
+            self._local_scale = Vector3(value, value, value)
+        else:
+            self._local_scale = Vector3(value)
         self._mark_dirty()
     
     # =========================================================================
@@ -231,7 +234,10 @@ class Transform(Component):
     @world_scale.setter
     def world_scale(self, value):
         """Set world scale (converts to local based on parent)."""
-        world_scale = Vector3(value)
+        if isinstance(value, (int, float)):
+            world_scale = Vector3(value, value, value)
+        else:
+            world_scale = Vector3(value)
 
         if self._parent is None:
             self._local_scale = world_scale
@@ -357,7 +363,10 @@ class Transform(Component):
 
     @scale_xyz.setter
     def scale_xyz(self, value):
-        self._local_scale = Vector3(value)
+        if isinstance(value, (int, float)):
+            self._local_scale = Vector3(value, value, value)
+        else:
+            self._local_scale = Vector3(value)
         self._mark_dirty()
 
     def get_model_matrix(self) -> np.ndarray:

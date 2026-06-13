@@ -159,7 +159,7 @@ class PlayerScript(Script):
 
         scene = self.game_object._scene
         scene.add_object(bullet_go)
-        bullet_go.start_scripts()
+        bullet_go.start_components()
 
     def take_damage(self, amount):
         if self.invincible_timer > 0 or self.game_over:
@@ -369,7 +369,7 @@ class GameScene(Scene2D):
             es.speed = ENEMY_BASE_SPEED * 0.7
 
         self.add_object(enemy_go)
-        enemy_go.start_scripts()
+        enemy_go.start_components()
 
     def on_draw(self):
         """Draw HUD elements on the screen overlay."""

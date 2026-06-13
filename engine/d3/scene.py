@@ -338,7 +338,7 @@ class Scene3D(Scene):
             if obj3d_comp:
                 self.window._ensure_mesh(obj3d_comp)
         
-        # Note: awake_scripts() and start_scripts() should NOT be called here
+        # Note: awake_components() and start_components() should NOT be called here
         # They should only be called when play mode begins
         
         # Register cameras
@@ -565,7 +565,7 @@ class Scene3D(Scene):
                     if scene._main_camera is None:
                         scene._main_camera = cam
 
-        # Note: awake_scripts() and start_scripts() should NOT be called here
+        # Note: awake_components() and start_components() should NOT be called here
         # They should only be called when play mode begins
 
         return scene

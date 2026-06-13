@@ -109,11 +109,11 @@ class Scene:
 
     # -- Script lifecycle ---------------------------------------------------
 
-    def start_scripts(self):
+    def start_components(self):
         for obj in self.objects:
             obj.start_components()
 
-    def awake_scripts(self):
+    def awake_components(self):
         for obj in self.objects:
             obj.awake_components()
 

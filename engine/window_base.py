@@ -556,19 +556,19 @@ class WindowBase:
     # Main loop
     # =======================================================================
 
-    def start(self, start_scripts: bool = True):
+    def start(self, start_components: bool = True):
         if not self._setup_done:
             self.setup()
             self._setup_done = True
-        if start_scripts:
+        if start_components:
             for obj in self._active_objects():
-                obj.start_scripts()
+                obj.start_components()
 
     def tick(self, fps: Optional[int] = None, simulate: bool = True) -> bool:
         if fps is not None:
             self._fps = fps
         if not self._running:
-            self.start(start_scripts=False)
+            self.start(start_components=False)
             self._running = True
 
         raw_dt = self._clock.tick(self._fps) / 1000.0
