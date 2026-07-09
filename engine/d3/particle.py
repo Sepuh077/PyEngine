@@ -17,7 +17,6 @@ try:
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
-print(_USE_CYTHON, ">>>>>>")
 from engine.types import Color, ColorType, Vector3
 from engine.gameobject import GameObject
 from engine.d3.object3d import create_cube, Object3D

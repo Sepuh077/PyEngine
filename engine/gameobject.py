@@ -34,6 +34,11 @@ class GameObject:
         self.transform = Transform()
         self.add_component(self.transform)
 
+        # Fast-path list: only Script subclasses (components with real update logic).
+        # Populated automatically by add_component(); used by the Cython game loop
+        # to skip objects whose components are all no-op (Transform, Object2D, …).
+        self._scripts: List[Script] = []
+
         # Coroutines state
         self._active_coroutines: List[Dict[str, Any]] = []
         self._end_of_frame_coroutines: List[Dict[str, Any]] = []
@@ -89,6 +94,8 @@ class GameObject:
     def add_component(self, component: Component) -> Component:
         component.game_object = self
         self.components.append(component)
+        if isinstance(component, Script):
+            self._scripts.append(component)
         component.on_attach()
         return component
 

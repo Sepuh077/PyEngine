@@ -56,7 +56,7 @@ BULLET_SIZE = 0.15
 ENEMY_BASE_SPEED = 3
 SPAWN_MARGIN = 1                        # spawn enemies just outside the viewport
 MAX_ENEMIES = 40
-STAR_COUNT = 1
+STAR_COUNT = 1000
 
 # ---------------------------------------------------------------------------
 # Scripts
@@ -343,7 +343,7 @@ class GameScene(Scene2D):
             self.spawn_timer = 0.0
             enemy_count = len([o for o in self.objects if o.tag == "Enemy"])
             if enemy_count < self.wave_enemy_count:
-                for _ in range(300):
+                for _ in range(10):
                     self._spawn_enemy()
 
     def _spawn_enemy(self):

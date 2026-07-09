@@ -2,53 +2,30 @@
 """
 Benchmark script to measure Cython vs pure Python performance.
 
+Runs every benchmark **twice** -- first with Cython acceleration, then with
+pure-Python fallbacks -- and prints a side-by-side comparison table at the end.
+
 Usage:
-    # With Cython acceleration (default)
     python bench_cython.py
-
-    # Force pure Python implementations
-    PYENGINE_PURE_PYTHON=1 python bench_cython.py
-
-The script reports wall time and speedup for the most performance-critical paths.
 """
 import os
 import sys
+import subprocess
+import json
 from time import perf_counter
+
 import numpy as np
 
 # Ensure we can import the engine
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-# These imports must happen AFTER we may have set the env var (done by caller)
-from engine.types import Vector3, Vector2, Quaternion
-from engine.transform import Transform
-from engine.d3.physics.collision_bool import (
-    sphere_vs_sphere_bool, aabb_overlap, obb_vs_obb_bool,
-    objects_collide as objects_collide_3d
-)
-from engine.d3.physics.collision_manifold import (
-    get_collision_manifold, sphere_vs_sphere_manifold
-)
-from engine.d3.physics.raycast import Ray, raycast
-from engine.d3.physics.collider import SphereCollider3D, BoxCollider3D
-from engine.d3.physics.geometry import closest_point_on_triangle
-from engine.d3.particle import ParticleSystem
-from engine.d3.object3d import create_cube
-from engine.gameobject import GameObject
-from engine.component import Time
-from engine.cython import CYTHON_ENABLED
-
-# Also pull some internal _USE flags if available for reporting
-try:
-    from engine.types.vector3 import _USE_CYTHON as V3_CYTHON
-except Exception:
-    V3_CYTHON = CYTHON_ENABLED
-
-N_MATH = 200_000          # reduced so full benchmark doesn't take too long
+N_MATH = 200_000
 N_COLLISION = 100_000
 N_RAY = 50_000
 N_TRANSFORM = 50_000
-N_PARTICLE_FRAMES = 300   # keep particle bench cheap
+N_PARTICLE_FRAMES = 300
+N_GAMELOOP_OBJECTS = 5_000
+N_GAMELOOP_FRAMES = 2_000
 
 
 def timeit(fn, iterations, *args, **kwargs):
@@ -63,10 +40,10 @@ def timeit(fn, iterations, *args, **kwargs):
 # =============================================================================
 
 def bench_vector3_math(n):
+    from engine.types import Vector3
     v1 = Vector3(1.0, 2.0, 3.0)
     v2 = Vector3(4.0, 5.0, 6.0)
     for _ in range(n):
-        # Heavy mix of operations that are accelerated (Vector3 wrapper overhead dominates)
         _ = v1 + v2
         _ = v1 - v2
         _ = v1 * 2.5
@@ -80,6 +57,7 @@ def bench_vector3_math(n):
 
 
 def bench_quaternion(n):
+    from engine.types import Vector3, Quaternion
     q1 = Quaternion.from_euler(10, 20, 30)
     q2 = Quaternion.from_euler(40, 50, 60)
     v = Vector3(1, 0, 0)
@@ -92,21 +70,18 @@ def bench_quaternion(n):
 
 
 def bench_transform_world(n):
-    """Exercise world transform computation (the main user of cy_transform)."""
+    from engine.types import Vector3
+    from engine.transform import Transform
     parent = Transform()
     parent.position = Vector3(10, 20, 30)
-    parent.local_rotation = (5, 10, 15)   # degrees
+    parent.local_rotation = (5, 10, 15)
     parent.scale = Vector3(1.1, 1.1, 1.1)
-
     child = Transform()
     child.position = Vector3(1, 2, 3)
     child.local_rotation = (1, 2, 3)
-
     for i in range(n):
-        # Force recompute
         parent._mark_dirty()
         child._mark_dirty()
-        # These go through the accelerated path when Cython is available
         _ = parent.world_position
         _ = parent.world_rotation
         _ = child.world_position
@@ -114,41 +89,40 @@ def bench_transform_world(n):
 
 
 def bench_collision_bool(n):
-    # Setup some colliders once
+    from engine.d3.physics.collision_bool import (
+        sphere_vs_sphere_bool, aabb_overlap,
+        objects_collide as objects_collide_3d,
+    )
+    from engine.d3.physics.collider import SphereCollider3D, BoxCollider3D
     s1 = SphereCollider3D()
     s1.sphere = (np.array([0., 0., 0.], dtype=np.float32), 1.0)
     s1.aabb = (np.array([-1., -1., -1.], dtype=np.float32), np.array([1., 1., 1.], dtype=np.float32))
-
     s2 = SphereCollider3D()
     s2.sphere = (np.array([0.5, 0., 0.], dtype=np.float32), 1.0)
     s2.aabb = (np.array([-0.5, -1., -1.], dtype=np.float32), np.array([1.5, 1., 1.], dtype=np.float32))
-
     b1 = BoxCollider3D()
     b1.obb = (np.array([0.,0.,0.], dtype=np.float32), np.eye(3, dtype=np.float32), np.array([1.,1.,1.], dtype=np.float32))
     b1.aabb = (np.array([-1.,-1.,-1.], dtype=np.float32), np.array([1.,1.,1.], dtype=np.float32))
-
     b2 = BoxCollider3D()
     b2.obb = (np.array([0.8, 0., 0.], dtype=np.float32), np.eye(3, dtype=np.float32), np.array([1.,1.,1.], dtype=np.float32))
     b2.aabb = (np.array([-0.2,-1.,-1.], dtype=np.float32), np.array([1.8,1.,1.], dtype=np.float32))
-
     for i in range(n):
         _ = sphere_vs_sphere_bool(s1, s2)
         _ = aabb_overlap(s1, s2)
         _ = objects_collide_3d(b1, b2)
-        # Slightly perturb positions so compiler can't trivially optimize
         if i % 100 == 0:
             s2.sphere = (np.array([0.5 + (i % 7) * 0.001, 0., 0.], dtype=np.float32), 1.0)
 
 
 def bench_collision_manifold(n):
+    from engine.d3.physics.collision_manifold import get_collision_manifold
+    from engine.d3.physics.collider import SphereCollider3D
     s1 = SphereCollider3D()
     s1.sphere = (np.array([0., 0., 0.], dtype=np.float32), 1.0)
     s1.aabb = (np.array([-1., -1., -1.], dtype=np.float32), np.array([1., 1., 1.], dtype=np.float32))
-
     s2 = SphereCollider3D()
     s2.sphere = (np.array([1.2, 0., 0.], dtype=np.float32), 1.0)
     s2.aabb = (np.array([0.2, -1., -1.], dtype=np.float32), np.array([2.2, 1., 1.], dtype=np.float32))
-
     for i in range(n):
         _ = get_collision_manifold(s1, s2)
         if i % 50 == 0:
@@ -156,23 +130,17 @@ def bench_collision_manifold(n):
 
 
 def bench_raycast_triangle(n):
-    # Ray vs many triangles (common in mesh raycasting)
-    ray = Ray(np.array([0., 0., 0.], dtype=np.float64),
-              np.array([0., 0., 1.], dtype=np.float64))
-
-    # A few triangles in front of the ray
+    from engine.d3.physics.geometry import closest_point_on_triangle
     tri_a = (np.array([0.1, 0.1, 5.0], dtype=np.float64),
              np.array([-0.1, 0.1, 5.0], dtype=np.float64),
              np.array([0.0, -0.2, 5.0], dtype=np.float64))
-
     for _ in range(n):
         _ = closest_point_on_triangle(np.array([0., 0., 4.9]), *tri_a)
-        # Also exercise ray-triangle if the function is exposed
-        # (raycast on a dummy collider would go through more layers)
 
 
 def bench_full_physics_like(n_pairs):
-    """Simulate a cheap N-body collision broadphase + narrowphase round."""
+    from engine.d3.physics.collision_bool import objects_collide as objects_collide_3d
+    from engine.d3.physics.collider import SphereCollider3D
     spheres = []
     for i in range(40):
         c = SphereCollider3D()
@@ -180,7 +148,6 @@ def bench_full_physics_like(n_pairs):
         c.sphere = (pos, 0.6)
         c.aabb = (pos - 0.6, pos + 0.6)
         spheres.append(c)
-
     for _ in range(n_pairs):
         for i in range(len(spheres)):
             for j in range(i + 1, len(spheres)):
@@ -188,7 +155,6 @@ def bench_full_physics_like(n_pairs):
 
 
 class _DummyScene:
-    """Minimal container so ParticleSystem can build its pool for benchmarking."""
     def __init__(self):
         self.objects = []
     def add_object(self, obj):
@@ -198,97 +164,220 @@ class _DummyScene:
 
 
 def bench_particles(n_frames=300):
-    """ParticleSystem update (age, velocity, curves off, collisions off)."""
+    from engine.d3.particle import ParticleSystem
+    from engine.gameobject import GameObject
+    from engine.component import Time
     dummy = _DummyScene()
     ps = ParticleSystem(
-        max_particles=600,
-        particle_life=10.0,   # long so most stay active
-        speed=5.0,
-        gravity_scale=1.0,
-        size_over_lifetime=None,
-        color_over_lifetime=None,
-        velocity_over_lifetime=None,
-        collider=None,
-        is_local=False,
+        max_particles=600, particle_life=10.0, speed=5.0,
+        gravity_scale=1.0, size_over_lifetime=None,
+        color_over_lifetime=None, velocity_over_lifetime=None,
+        collider=None, is_local=False,
     )
     container_go = GameObject()
     container_go.add_component(ps)
     container_go._scene = dummy
     ps._container = dummy
     ps._build_pool()
-
-    # Activate most particles
     for _ in range(450):
         p = ps._get_inactive_particle()
         if p:
             ps._activate(p)
-
     Time.delta_time = 0.016
-
     for _ in range(n_frames):
         ps.update()
 
 
-def main():
-    mode = "CYTHON (accelerated)" if CYTHON_ENABLED else "PURE PYTHON (fallback)"
-    print("=" * 70)
-    print(f"PyEngine Cython Performance Benchmark")
-    print(f"Mode: {mode}")
-    print(f"Vector3 accelerated: {V3_CYTHON}")
-    print("=" * 70)
-    print()
+def bench_gameloop(n_objects, n_frames):
+    """Simulate the per-frame game loop with many objects (most passive).
 
+    Creates *n_objects* GameObjects:
+      - 95% are passive (Transform only) -- like background stars.
+      - 5% carry a lightweight Script -- like enemies / bullets.
+
+    Then runs the update loop for *n_frames* frames using the same code
+    path as the real engine (cy_update_objects when Cython is available,
+    plain Python loop otherwise).
+    """
+    from engine.gameobject import GameObject
+    from engine.component import Script, Time
+
+    class TinyScript(Script):
+        """Minimal script that does a bit of work each frame."""
+        def update(self):
+            pos = self.transform.position
+            self.transform.position = (pos.x + 0.001, pos.y, pos.z)
+
+    objects = []
+    n_with_script = max(1, n_objects // 20)  # 5% have scripts
+    for i in range(n_objects):
+        go = GameObject(f"obj_{i}")
+        if i < n_with_script:
+            go.add_component(TinyScript())
+        objects.append(go)
+
+    # Detect whether the Cython game loop is available
+    try:
+        from engine.cython import CYTHON_ENABLED
+        if not CYTHON_ENABLED:
+            raise ImportError
+        from engine.cython.cy_gameloop import cy_update_objects, cy_update_end_of_frame
+        use_cy = True
+    except (ImportError, ModuleNotFoundError):
+        use_cy = False
+
+    Time.delta_time = 0.016
+    dt = 0.016
+
+    start = perf_counter()
+    for _ in range(n_frames):
+        if use_cy:
+            cy_update_objects(objects, dt)
+            cy_update_end_of_frame(objects, dt)
+        else:
+            for obj in objects:
+                obj.update()
+            for obj in objects:
+                obj.update_end_of_frame()
+    return perf_counter() - start
+
+
+# =============================================================================
+# Runner: executes all benchmarks and returns a dict of results
+# =============================================================================
+
+BENCHMARKS = [
+    ("Vector3 math",        lambda: timeit(bench_vector3_math, N_MATH),
+     f"{N_MATH:,} iterations"),
+    ("Quaternion ops",      lambda: timeit(bench_quaternion, N_MATH // 2),
+     f"{N_MATH // 2:,} iterations"),
+    ("Transform world",     lambda: timeit(bench_transform_world, N_TRANSFORM),
+     f"{N_TRANSFORM:,} iterations"),
+    ("Collision (bool)",    lambda: timeit(bench_collision_bool, N_COLLISION),
+     f"{N_COLLISION:,} iterations"),
+    ("Collision (manifold)", lambda: timeit(bench_collision_manifold, N_COLLISION // 2),
+     f"{N_COLLISION // 2:,} iterations"),
+    ("Ray / triangle geom", lambda: timeit(bench_raycast_triangle, N_RAY),
+     f"{N_RAY:,} iterations"),
+    ("Mini physics N-body", lambda: timeit(bench_full_physics_like, 500),
+     "40 spheres x 500 frames"),
+    ("Particles (~450)",    lambda: timeit(bench_particles, N_PARTICLE_FRAMES),
+     f"{N_PARTICLE_FRAMES} frames"),
+    ("Game loop (many objs)", lambda: bench_gameloop(N_GAMELOOP_OBJECTS, N_GAMELOOP_FRAMES),
+     f"{N_GAMELOOP_OBJECTS:,} objs x {N_GAMELOOP_FRAMES:,} frames"),
+]
+
+
+def run_benchmarks():
+    """Run all benchmarks and return {name: seconds}."""
     results = {}
+    for name, fn, _ in BENCHMARKS:
+        results[name] = fn()
+    return results
 
-    print("Running benchmarks (this may take a few seconds)...\n")
 
-    # 1. Vector math
-    t = timeit(bench_vector3_math, N_MATH)
-    results["Vector3 (1M ops mix)"] = t
-    print(f"Vector3 math          : {t:8.3f}s  ({N_MATH:,} iterations)   [mostly Python wrapper cost]")
+# =============================================================================
+# Subprocess helper: re-run this script in a child process with a given env
+# =============================================================================
 
-    # 2. Quaternion
-    t = timeit(bench_quaternion, N_MATH // 2)
-    results["Quaternion (500k ops)"] = t
-    print(f"Quaternion ops        : {t:8.3f}s  ({N_MATH//2:,} iterations)")
+def _run_in_subprocess(pure_python: bool) -> dict:
+    """Spawn a child process that runs benchmarks and returns JSON results."""
+    env = os.environ.copy()
+    env["PYENGINE_PURE_PYTHON"] = "1" if pure_python else "0"
+    env["_BENCH_CHILD"] = "1"  # signal that we are a child
+    env["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"  # suppress pygame welcome banner
+    result = subprocess.run(
+        [sys.executable, __file__],
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(f"Child process ({'pure' if pure_python else 'cython'}) failed:")
+        print(result.stderr)
+        sys.exit(1)
+    # The last line of stdout is the JSON; earlier lines may be library banners
+    stdout_lines = result.stdout.strip().splitlines()
+    json_line = stdout_lines[-1] if stdout_lines else "{}"
+    return json.loads(json_line)
 
-    # 3. Transform hierarchy
-    t = timeit(bench_transform_world, N_TRANSFORM)
-    results["Transform world"] = t
-    print(f"Transform world calc  : {t:8.3f}s  ({N_TRANSFORM:,} iterations)")
 
-    # 4. Collision boolean
-    t = timeit(bench_collision_bool, N_COLLISION)
-    results["Collision bool"] = t
-    print(f"Collision (bool)      : {t:8.3f}s  ({N_COLLISION:,} iterations)")
+# =============================================================================
+# Pretty-print comparison table
+# =============================================================================
 
-    # 5. Collision manifold
-    t = timeit(bench_collision_manifold, N_COLLISION // 2)
-    results["Collision manifold"] = t
-    print(f"Collision (manifold)  : {t:8.3f}s  ({N_COLLISION//2:,} iterations)")
+def print_comparison(cy_results: dict, py_results: dict):
+    """Print a side-by-side table of Cython vs pure-Python timings."""
+    name_width = max(len(name) for name, _, _ in BENCHMARKS) + 2
+    detail_width = max(len(detail) for _, _, detail in BENCHMARKS) + 2
 
-    # 6. Ray / geometry
-    t = timeit(bench_raycast_triangle, N_RAY)
-    results["Ray / closest_point"] = t
-    print(f"Ray / triangle geom   : {t:8.3f}s  ({N_RAY:,} iterations)")
+    header = (f"{'Benchmark':<{name_width}}"
+              f"{'Detail':<{detail_width}}"
+              f"{'Cython':>10}"
+              f"{'Pure Py':>10}"
+              f"{'Speedup':>10}")
+    sep = "=" * len(header)
 
-    # 7. More realistic mini physics (N-body broadphase + narrow)
-    t = timeit(bench_full_physics_like, 500)   # more iters now that it is fast
-    results["Mini physics (pairs)"] = t
-    print(f"Mini physics N-body   : {t:8.3f}s  (40 spheres × 500 frames)")
-
-    # 8. Particles (unified path; old partial Cython accel was slower due to call+double-iteration overhead)
-    t = timeit(bench_particles, N_PARTICLE_FRAMES)
-    results["Particles"] = t
-    print(f"Particles (~450 active): {t:8.3f}s  ({N_PARTICLE_FRAMES} frames)")
-
+    print(sep)
+    print("PyEngine Cython Performance Benchmark -- Side-by-Side Comparison")
+    print(sep)
     print()
-    print("-" * 70)
-    print("To compare against the other mode, run:")
-    print("    PYENGINE_PURE_PYTHON=1 python bench_cython.py")
+    print(header)
+    print("-" * len(header))
+
+    for name, _, detail in BENCHMARKS:
+        cy_t = cy_results.get(name, 0.0)
+        py_t = py_results.get(name, 0.0)
+        speedup = py_t / cy_t if cy_t > 0 else float("inf")
+        print(f"{name:<{name_width}}"
+              f"{detail:<{detail_width}}"
+              f"{cy_t:>9.3f}s"
+              f"{py_t:>9.3f}s"
+              f"{speedup:>9.2f}x")
+
+    print("-" * len(header))
+
+    # Overall summary
+    cy_total = sum(cy_results.values())
+    py_total = sum(py_results.values())
+    overall = py_total / cy_total if cy_total > 0 else float("inf")
+    print(f"{'TOTAL':<{name_width}}"
+          f"{'':<{detail_width}}"
+          f"{cy_total:>9.3f}s"
+          f"{py_total:>9.3f}s"
+          f"{overall:>9.2f}x")
+    print(sep)
     print()
-    print("Tip: Higher numbers in 'pure python' run = Cython is helping.")
+    print("  Speedup = Pure Python time / Cython time  (higher = Cython helps more)")
+    print(sep)
+
+
+# =============================================================================
+# Entry point
+# =============================================================================
+
+def main():
+    # If we are a child process, just run benchmarks and print JSON
+    if os.environ.get("_BENCH_CHILD") == "1":
+        results = run_benchmarks()
+        print(json.dumps(results))
+        return
+
+    # Parent process: run both modes via subprocesses, then compare
     print("=" * 70)
+    print("PyEngine Cython Performance Benchmark")
+    print("=" * 70)
+    print()
+    print("Running Cython-accelerated benchmarks ...")
+    cy_results = _run_in_subprocess(pure_python=False)
+    print("  done.")
+    print()
+    print("Running pure-Python benchmarks ...")
+    py_results = _run_in_subprocess(pure_python=True)
+    print("  done.")
+    print()
+
+    print_comparison(cy_results, py_results)
 
 
 if __name__ == "__main__":

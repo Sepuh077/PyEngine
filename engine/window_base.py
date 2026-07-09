@@ -27,6 +27,19 @@ from engine.types import Color, ColorType
 from engine.input import Input
 from engine.component import Script, Time
 
+# Cython-accelerated game loop (falls back to pure-Python iteration)
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_gameloop import (
+        cy_update_objects as _cy_update_objects,
+        cy_update_end_of_frame as _cy_update_end_of_frame,
+    )
+    _USE_CYTHON_GAMELOOP = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON_GAMELOOP = False
+
 try:
     import moderngl
     HAS_MODERNGL = True
@@ -582,16 +595,23 @@ class WindowBase:
                 self._current_scene.on_update()
             self.on_update()
 
-            for obj in self._active_objects():
-                obj.update()
+            active = self._active_objects()
+            if _USE_CYTHON_GAMELOOP:
+                _cy_update_objects(active, raw_dt)
+            else:
+                for obj in active:
+                    obj.update()
 
             if self._current_scene:
                 self._current_scene.canvas.update(self._delta_time)
 
             self._process_collisions()
 
-            for obj in self._active_objects():
-                obj.update_end_of_frame()
+            if _USE_CYTHON_GAMELOOP:
+                _cy_update_end_of_frame(active, raw_dt)
+            else:
+                for obj in active:
+                    obj.update_end_of_frame()
 
         self._render()
         return self._running
