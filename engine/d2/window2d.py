@@ -36,6 +36,7 @@ from engine.d2.object2d import Object2D
 from engine.d2.camera2d import Camera2D
 from engine.types import Color, ColorType
 from engine.component import Script, Time
+from engine.graphics.shader_material import ShaderMaterial
 
 if TYPE_CHECKING:
     from engine.d2.scene2d import Scene2D
@@ -172,6 +173,9 @@ class Window2D(WindowBase):
         # GPU texture cache for Object2D sprites  {id(obj2d) -> moderngl.Texture}
         self._sprite_textures: dict = {}
 
+        # ShaderMaterial program/VAO cache for 2D
+        self._shader_2d_vao_cache: dict = {}
+
         # ── Editor compatibility attributes ──────────────────────────────
         self.active_camera_override: Optional[Camera2D] = None
         self.show_editor_overlays = False
@@ -257,6 +261,13 @@ class Window2D(WindowBase):
         for tex in self._sprite_textures.values():
             tex.release()
         self._sprite_textures.clear()
+        # Release cached ShaderMaterial VAOs
+        for vao in getattr(self, '_shader_2d_vao_cache', {}).values():
+            try:
+                vao.release()
+            except Exception:
+                pass
+        self._shader_2d_vao_cache = {}
         self._inst_vao.release()
         self._inst_vbo.release()
         self._quad_vao.release()
@@ -264,6 +275,32 @@ class Window2D(WindowBase):
         self._sprite_program_instanced.release()
         self._sprite_program.release()
         self._collider_program.release()
+
+    def _get_shader_2d_vao(self, program) -> 'moderngl.VertexArray':
+        """Get or create a quad VAO bound to a custom shader *program*."""
+        key = id(program)
+        vao = self._shader_2d_vao_cache.get(key)
+        if vao is not None:
+            return vao
+
+        # Build attribute list matching the quad VBO layout: 2f(pos) 2f(uv)
+        fmt_parts = []
+        attr_names = []
+        for fmt, name in [('2f', 'in_position'), ('2f', 'in_texcoord')]:
+            if name in program:
+                fmt_parts.append(fmt)
+                attr_names.append(name)
+            else:
+                n_floats = int(fmt[0])
+                fmt_parts.append(f'{n_floats}x4')
+
+        format_str = ' '.join(fmt_parts)
+        vao = self._ctx.vertex_array(
+            program,
+            [(self._quad_vbo, format_str, *attr_names)],
+        )
+        self._shader_2d_vao_cache[key] = vao
+        return vao
 
     # =====================================================================
     # Scene management
@@ -476,7 +513,29 @@ class Window2D(WindowBase):
     # -- Batched instanced rendering ---------------------------------------
 
     def _render_batched(self, renderables: List[Object2D]):
-        """Draw all visible Object2D sprites using highly optimized instanced rendering."""
+        """Draw all visible Object2D sprites using highly optimized instanced rendering.
+
+        Objects with a :class:`ShaderMaterial` are rendered individually
+        via the per-object path so their custom shader programs are used.
+        """
+        if not renderables:
+            return
+
+        # Separate objects that need custom shader rendering
+        standard = []
+        custom_shader = []
+        for obj2d in renderables:
+            shader_mat = getattr(obj2d, 'material', None)
+            if isinstance(shader_mat, ShaderMaterial) and shader_mat.shader is not None:
+                custom_shader.append(obj2d)
+            else:
+                standard.append(obj2d)
+
+        # Render custom-shader objects individually
+        for obj2d in custom_shader:
+            self._render_object2d_gl(obj2d)
+
+        renderables = standard
         if not renderables:
             return
 
@@ -615,7 +674,13 @@ class Window2D(WindowBase):
     # -- Per-object GL rendering (kept for editor / debug) -----------------
 
     def _render_object2d_gl(self, obj2d: Object2D):
-        """Render one Object2D as a textured/colored quad via ModernGL."""
+        """Render one Object2D as a textured/colored quad via ModernGL.
+
+        If the Object2D's ``game_object`` has a :class:`ShaderMaterial`
+        attached (stored on the Object2D as ``material``), we compile the
+        custom shader, upload its uniforms, and render through it instead
+        of the standard sprite program.
+        """
         go = obj2d.game_object
         if not go:
             return
@@ -624,8 +689,6 @@ class Window2D(WindowBase):
         wx, wy = float(pos.x), float(pos.y)
 
         # Scale
-        # Use scale_xyz so that non-uniform (x != y) scaling works for 2D objects.
-        # The .scale property always returns a uniform float (x).
         t_scale = go.transform.scale_xyz
         if hasattr(t_scale, 'x'):
             sx_f, sy_f = float(t_scale.x), float(t_scale.y)
@@ -635,12 +698,10 @@ class Window2D(WindowBase):
         else:
             sx_f = sy_f = float(t_scale)
 
-        # Object size in world units
         size = obj2d.size
         w = size.x * sx_f
         h = size.y * sy_f
 
-        # Z rotation (degrees → radians)
         rot = go.transform.rotation
         if hasattr(rot, '__getitem__'):
             rot_z = float(rot[2]) if len(rot) > 2 else 0.0
@@ -649,18 +710,12 @@ class Window2D(WindowBase):
         rad = math.radians(rot_z)
         c_r, s_r = math.cos(rad), math.sin(rad)
 
-        # Apply flip_x / flip_y by negating the corresponding effective scale.
-        # This flips the geometry (which inverts the texture mapping for that axis).
-        # We also apply a base Y sign correction (* -1 when not flip_y) so that
-        # flip_y=False + positive scale produces the expected upright orientation
-        # (addresses "sprites with positive scale are scaled negatively in y").
         flip_x = getattr(obj2d, 'flip_x', False)
         flip_y = getattr(obj2d, 'flip_y', False)
 
         sx = w * (-1 if flip_x else 1)
-        sy = h * (-1 if flip_y else 1) * (-1)  # extra -1 corrects default Y for this engine's quad/UV/projection convention
+        sy = h * (-1 if flip_y else 1) * (-1)
 
-        # Build 4×4 model matrix  (T * R * S)
         model = np.array([
             [sx * c_r,  -sy * s_r, 0, 0],
             [sx * s_r,   sy * c_r, 0, 0],
@@ -668,9 +723,63 @@ class Window2D(WindowBase):
             [wx,        wy,      0, 1],
         ], dtype=np.float32)
 
+        # ── Check for ShaderMaterial ────────────────────────────────
+        shader_mat = getattr(obj2d, 'material', None)
+        if isinstance(shader_mat, ShaderMaterial) and shader_mat.shader is not None:
+            try:
+                custom_prog = shader_mat.shader.compile(self._ctx)
+            except Exception:
+                custom_prog = None
+
+            if custom_prog is not None:
+                custom_vao = self._get_shader_2d_vao(custom_prog)
+
+                # Camera matrices (already uploaded to standard prog above)
+                cam = self._get_active_camera()
+                view3 = cam.get_view_matrix()
+                view4 = np.eye(4, dtype=np.float32)
+                view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
+                view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+                proj = cam.get_projection_matrix()
+
+                if 'projection' in custom_prog:
+                    custom_prog['projection'].write(proj.astype(np.float32).tobytes())
+                if 'view' in custom_prog:
+                    custom_prog['view'].write(view4.tobytes())
+                if 'model' in custom_prog:
+                    custom_prog['model'].write(model.tobytes())
+
+                # Base colour
+                col = obj2d._color
+                if 'base_color' in custom_prog:
+                    custom_prog['base_color'].value = (
+                        float(col[0]), float(col[1]), float(col[2]), float(col[3]),
+                    )
+
+                # Texture
+                has_texture = obj2d._sprite_surface is not None and not isinstance(obj2d._sprite_surface, (str, bytes))
+                if has_texture:
+                    tex = self._ensure_sprite_texture(obj2d)
+                    if tex is not None:
+                        tex.use(location=0)
+                        if 'tex' in custom_prog:
+                            custom_prog['tex'].value = 0
+                    else:
+                        has_texture = False
+                if 'use_texture' in custom_prog:
+                    custom_prog['use_texture'].value = has_texture
+                if 'is_circle' in custom_prog:
+                    custom_prog['is_circle'].value = getattr(obj2d, '_shape', None) == 'circle'
+
+                # Upload shader-specific properties
+                shader_mat.upload_uniforms(custom_prog)
+
+                custom_vao.render(moderngl.TRIANGLES)
+                return
+
+        # ── Standard sprite path ───────────────────────────────────
         self._sprite_program['model'].write(model.tobytes())
 
-        # Texture
         has_texture = obj2d._sprite_surface is not None and not isinstance(obj2d._sprite_surface, (str, bytes))
         if has_texture:
             tex = self._ensure_sprite_texture(obj2d)
@@ -683,7 +792,6 @@ class Window2D(WindowBase):
         self._sprite_program['use_texture'].value = has_texture
         self._sprite_program['is_circle'].value = getattr(obj2d, '_shape', None) == 'circle'
 
-        # Color (tint + alpha)
         col = obj2d._color
         self._sprite_program['base_color'].value = (
             float(col[0]), float(col[1]), float(col[2]), float(col[3]),

@@ -16,6 +16,7 @@ from engine.window_base import WindowBase
 from engine.gameobject import GameObject
 from engine.d3.object3d import Object3D
 from engine.graphics import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
+from engine.graphics.shader_material import ShaderMaterial
 from engine.d3.camera import Camera3D
 from engine.d3.light import DirectionalLight3D, PointLight3D
 from engine.types import Color, ColorType
@@ -681,6 +682,9 @@ class Window3D(WindowBase):
         self._last_base_color = None
         self._last_instanced_base_color = None
 
+        # ShaderMaterial VAO cache: (shader_id, mesh_key) → moderngl.VertexArray
+        self._shader_vao_cache: dict = {}
+
         # Default 3D camera
         self._camera_go = GameObject("Default Camera")
         self.camera = Camera3D()
@@ -751,11 +755,79 @@ class Window3D(WindowBase):
             self._dummy_shadow_texture.release()
             self._dummy_shadow_texture = None
         self._dummy_shadow_cubemap = None
+        # Release cached ShaderMaterial VAOs and compiled programs
+        for vao in getattr(self, '_shader_vao_cache', {}).values():
+            try:
+                vao.release()
+            except Exception:
+                pass
+        self._shader_vao_cache = {}
         self._program.release()
         self._instanced_program.release()
         self._collider_program.release()
         self._shadow_program.release()
         self._shadow_program_instanced.release()
+
+    # =====================================================================
+    # ShaderMaterial helpers
+    # =====================================================================
+
+    def _get_shader_material_program(self, mat: 'ShaderMaterial', obj3d: Object3D):
+        """Compile (or return cached) moderngl.Program for a ShaderMaterial."""
+        try:
+            return mat.shader.compile(self._ctx)
+        except Exception as e:
+            # Shader compilation failed — fall back to standard pipeline
+            import traceback
+            traceback.print_exc()
+            return None
+
+    def _get_shader_material_vao(self, obj3d: Object3D, mesh, program):
+        """Get or create a VAO that binds the mesh VBO to *program*.
+
+        Custom shader programs have different attribute locations than the
+        standard program, so each (shader, mesh) pair needs its own VAO.
+        """
+        shader_id = id(program)
+        if mesh is not None:
+            mesh_key = mesh.key
+            vbo = mesh.vbo
+        else:
+            mesh_key = id(obj3d)
+            vbo = obj3d._vbo
+
+        cache_key = (shader_id, mesh_key)
+        vao = self._shader_vao_cache.get(cache_key)
+        if vao is not None:
+            return vao
+
+        # Build attribute list from what the program actually declares
+        fmt_parts = []
+        attr_names = []
+
+        # The VBO layout is always: 3f(pos) 3f(normal) 4f(color) 2f(uv)
+        member_specs = [
+            ('3f', 'in_position'),
+            ('3f', 'in_normal'),
+            ('4f', 'in_color'),
+            ('2f', 'in_uv'),
+        ]
+
+        for fmt, name in member_specs:
+            if name in program:
+                fmt_parts.append(fmt)
+                attr_names.append(name)
+            else:
+                # Pad — attribute not used by the shader but data is still in the VBO
+                n_floats = int(fmt[0])
+                fmt_parts.append(f'{n_floats}x4')  # skip bytes (x4 = 4 bytes per float)
+
+        format_str = ' '.join(fmt_parts)
+        content = [(vbo, format_str, *attr_names)]
+
+        vao = self._ctx.vertex_array(program, content)
+        self._shader_vao_cache[cache_key] = vao
+        return vao
 
     def _load_scriptable_objects(self) -> None:
         """
@@ -2369,11 +2441,64 @@ class Window3D(WindowBase):
         # Draw Helper
         # ------------------------------------------------------------
         def draw_objects(obj_list):
+            # Track whether a custom shader program is active so we can
+            # restore the standard program when switching back.
+            active_custom_program = None
+
             for go, obj3d in obj_list:
                 mesh = obj3d._mesh
                 model = go.transform.get_model_matrix()
                 mvp = model @ view @ projection
 
+                mat = obj3d.material
+
+                # ── Custom ShaderMaterial path ──────────────────────
+                if isinstance(mat, ShaderMaterial) and mat.shader is not None:
+                    custom_prog = self._get_shader_material_program(mat, obj3d)
+                    if custom_prog is not None:
+                        # Build a VAO for this mesh+program if needed
+                        custom_vao = self._get_shader_material_vao(
+                            obj3d, mesh, custom_prog
+                        )
+
+                        # Upload standard engine uniforms the shader may use
+                        if 'mvp' in custom_prog:
+                            custom_prog['mvp'].write(mvp.astype(np.float32).tobytes())
+                        if 'model' in custom_prog:
+                            custom_prog['model'].write(model.astype(np.float32).tobytes())
+                        if 'view_pos' in custom_prog:
+                            custom_prog['view_pos'].value = tuple(camera.position)
+
+                        # Texture
+                        use_texture = False
+                        if getattr(obj3d, "_uses_texture", False):
+                            if not hasattr(obj3d, "_gl_texture"):
+                                tex_img = (obj3d._texture_image * 255).astype(np.uint8)
+                                h, w = tex_img.shape[:2]
+                                tex = self._ctx.texture((w, h), 4, tex_img.tobytes())
+                                tex.build_mipmaps()
+                                obj3d._gl_texture = tex
+                            obj3d._gl_texture.use(location=0)
+                            if 'tex' in custom_prog:
+                                custom_prog['tex'].value = 0
+                            use_texture = True
+                        if 'use_texture' in custom_prog:
+                            custom_prog['use_texture'].value = use_texture
+
+                        # Upload material property uniforms
+                        mat.upload_uniforms(custom_prog)
+
+                        vertex_count = mesh.vertex_count if mesh else None
+                        if vertex_count:
+                            custom_vao.render(moderngl.TRIANGLES, vertices=vertex_count)
+                        else:
+                            custom_vao.render(moderngl.TRIANGLES)
+
+                        active_custom_program = custom_prog
+                        continue
+                    # If compilation failed, fall through to standard path
+
+                # ── Standard material path ─────────────────────────
                 self._program['mvp'].write(mvp.astype(np.float32).tobytes())
                 self._program['model'].write(model.astype(np.float32).tobytes())
 
@@ -2393,7 +2518,6 @@ class Window3D(WindowBase):
                 self._program['use_texture'].value = use_texture
 
                 # Material uniforms
-                mat = obj3d.material
                 if isinstance(mat, UnlitMaterial):
                     self._program['material_type'].value = 0
                 elif isinstance(mat, LitMaterial):

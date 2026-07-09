@@ -85,7 +85,10 @@ class Material:
         state = data.get("state", {})
         
         # Import the correct class
-        if class_name == "SkyboxMaterial":
+        if class_name == "ShaderMaterial":
+            from engine.graphics.shader_material import ShaderMaterial
+            return ShaderMaterial._from_material_dict(dict(state))
+        elif class_name == "SkyboxMaterial":
             from engine.graphics.material import SkyboxMaterial
             mat = SkyboxMaterial()
         elif class_name == "LitMaterial":
