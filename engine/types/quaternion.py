@@ -6,6 +6,21 @@ import math
 from typing import Union, Tuple, Optional
 import numpy as np
 
+try:
+    from engine.cython.cy_math import (
+        quat_mul as _cy_qmul, quat_magnitude as _cy_qmag,
+        quat_normalized as _cy_qnorm, quat_conjugate as _cy_qconj,
+        quat_inverse as _cy_qinv, quat_from_euler as _cy_qfrom_euler,
+        quat_from_axis_angle as _cy_qfrom_aa,
+        quat_to_rotation_matrix_flat as _cy_qrot_mat,
+        quat_to_euler as _cy_qto_euler,
+        quat_slerp as _cy_qslerp, quat_dot as _cy_qdot,
+        quat_rotate_vector as _cy_qrot_vec,
+    )
+    _USE_CYTHON = True
+except ImportError:
+    _USE_CYTHON = False
+
 
 class Quaternion:
     """
@@ -88,6 +103,8 @@ class Quaternion:
 
     @property
     def magnitude(self) -> float:
+        if _USE_CYTHON:
+            return _cy_qmag(self._w, self._x, self._y, self._z)
         return math.sqrt(
             self._w ** 2 + self._x ** 2 + self._y ** 2 + self._z ** 2
         )
@@ -98,6 +115,9 @@ class Quaternion:
 
     @property
     def normalized(self) -> 'Quaternion':
+        if _USE_CYTHON:
+            w, x, y, z = _cy_qnorm(self._w, self._x, self._y, self._z)
+            return Quaternion(w, x, y, z)
         m = self.magnitude
         if m < 1e-10:
             return Quaternion.identity()
@@ -106,10 +126,16 @@ class Quaternion:
 
     @property
     def conjugate(self) -> 'Quaternion':
+        if _USE_CYTHON:
+            w, x, y, z = _cy_qconj(self._w, self._x, self._y, self._z)
+            return Quaternion(w, x, y, z)
         return Quaternion(self._w, -self._x, -self._y, -self._z)
 
     @property
     def inverse(self) -> 'Quaternion':
+        if _USE_CYTHON:
+            w, x, y, z = _cy_qinv(self._w, self._x, self._y, self._z)
+            return Quaternion(w, x, y, z)
         m_sq = self.squared_magnitude
         if m_sq < 1e-10:
             return Quaternion.identity()
@@ -134,6 +160,10 @@ class Quaternion:
         else:
             ax, ay, az = float(axis[0]), float(axis[1]), float(axis[2])
 
+        if _USE_CYTHON:
+            w, x, y, z = _cy_qfrom_aa(ax, ay, az, angle)
+            return Quaternion(w, x, y, z)
+
         mag = math.sqrt(ax * ax + ay * ay + az * az)
         if mag < 1e-10:
             return Quaternion.identity()
@@ -151,6 +181,10 @@ class Quaternion:
         Equivalent to q = q_x * q_y * q_z, which matches the engine's
         matrix convention  R = Rx @ Ry @ Rz.
         """
+        if _USE_CYTHON:
+            w, qx, qy, qz = _cy_qfrom_euler(x, y, z)
+            return Quaternion(w, qx, qy, qz)
+
         hx, hy, hz = x * 0.5, y * 0.5, z * 0.5
         cx, sx = math.cos(hx), math.sin(hx)
         cy, sy = math.cos(hy), math.sin(hy)
@@ -207,6 +241,9 @@ class Quaternion:
 
     def to_euler(self) -> Tuple[float, float, float]:
         """Convert to Euler angles in radians (XYZ intrinsic order)."""
+        if _USE_CYTHON:
+            return _cy_qto_euler(self._w, self._x, self._y, self._z)
+
         R = self.to_rotation_matrix()
         sy = float(R[0, 2])
         sy = max(-1.0, min(1.0, sy))
@@ -233,6 +270,14 @@ class Quaternion:
 
     def to_rotation_matrix(self) -> np.ndarray:
         """3x3 rotation matrix matching the engine's Rx @ Ry @ Rz convention."""
+        if _USE_CYTHON:
+            flat = _cy_qrot_mat(self._w, self._x, self._y, self._z)
+            return np.array([
+                [flat[0], flat[1], flat[2]],
+                [flat[3], flat[4], flat[5]],
+                [flat[6], flat[7], flat[8]],
+            ], dtype=np.float32)
+
         w, x, y, z = self._w, self._x, self._y, self._z
 
         x2 = x + x;  y2 = y + y;  z2 = z + z
@@ -255,6 +300,10 @@ class Quaternion:
         else:
             vx, vy, vz = float(v[0]), float(v[1]), float(v[2])
 
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_qrot_vec(self._w, self._x, self._y, self._z, vx, vy, vz)
+            return np.array([rx, ry, rz], dtype=np.float32)
+
         qv = self * Quaternion(0, vx, vy, vz) * self.conjugate
         return np.array([qv._x, qv._y, qv._z], dtype=np.float32)
 
@@ -270,6 +319,12 @@ class Quaternion:
 
     def __mul__(self, other):
         if isinstance(other, Quaternion):
+            if _USE_CYTHON:
+                w, x, y, z = _cy_qmul(
+                    self._w, self._x, self._y, self._z,
+                    other._w, other._x, other._y, other._z,
+                )
+                return Quaternion(w, x, y, z)
             w1, x1, y1, z1 = self._w, self._x, self._y, self._z
             w2, x2, y2, z2 = other._w, other._x, other._y, other._z
             return Quaternion(
@@ -319,6 +374,13 @@ class Quaternion:
     @staticmethod
     def slerp(a: 'Quaternion', b: 'Quaternion', t: float) -> 'Quaternion':
         """Spherical linear interpolation (t clamped to [0, 1])."""
+        if _USE_CYTHON:
+            w, x, y, z = _cy_qslerp(
+                a._w, a._x, a._y, a._z,
+                b._w, b._x, b._y, b._z, t,
+            )
+            return Quaternion(w, x, y, z)
+
         t = max(0.0, min(1.0, t))
         dot = a._w * b._w + a._x * b._x + a._y * b._y + a._z * b._z
 
@@ -353,6 +415,8 @@ class Quaternion:
 
     @staticmethod
     def dot(a: 'Quaternion', b: 'Quaternion') -> float:
+        if _USE_CYTHON:
+            return _cy_qdot(a._w, a._x, a._y, a._z, b._w, b._x, b._y, b._z)
         return a._w * b._w + a._x * b._x + a._y * b._y + a._z * b._z
 
     # =========================================================================

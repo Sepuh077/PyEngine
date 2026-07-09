@@ -234,7 +234,7 @@ class ParticleScene(Scene3D):
                 break
 
 if __name__ == "__main__":
-    window = Window3D(1000, 800, "Particle Test")
+    window = Window3D(1000, 800, "Particle Test", project_root=".")
     scene = ParticleScene()
     window.show_scene(scene)
     window.run()

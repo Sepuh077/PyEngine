@@ -5,6 +5,22 @@ from typing import Optional
 from engine.d2.physics.types import ColliderType2D
 from engine.d2.physics.geometry import closest_point_on_segment, project_polygon_onto_axis, polygon_axes
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_collision_2d import (
+        aabb_overlap_2d_fast as _cy_aabb_2d,
+        circle_vs_circle_fast as _cy_cc,
+        obb_vs_obb_2d_fast as _cy_obb2d,
+        circle_vs_obb_2d_fast as _cy_co2d,
+        closest_point_on_segment_fast as _cy_seg,
+        segment_segment_dist_sq_fast as _cy_seg_seg,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 # =========================================================================
 # AABB broadphase
@@ -16,6 +32,13 @@ def aabb_overlap_2d(a_aabb, b_aabb) -> bool:
         return False
     a_min, a_max = a_aabb
     b_min, b_max = b_aabb
+    if _USE_CYTHON:
+        return _cy_aabb_2d(
+            np.ascontiguousarray(a_min, dtype=np.float64),
+            np.ascontiguousarray(a_max, dtype=np.float64),
+            np.ascontiguousarray(b_min, dtype=np.float64),
+            np.ascontiguousarray(b_max, dtype=np.float64),
+        )
     return not (
         a_max[0] < b_min[0] or a_max[1] < b_min[1] or
         a_min[0] > b_max[0] or a_min[1] > b_max[1]
@@ -30,6 +53,8 @@ def circle_vs_circle(a, b) -> bool:
     """a, b each = (center_np_2d, radius)."""
     ca, ra = a
     cb, rb = b
+    if _USE_CYTHON:
+        return _cy_cc(float(ca[0]), float(ca[1]), ra, float(cb[0]), float(cb[1]), rb)
     diff = ca - cb
     dist_sq = float(np.dot(diff, diff))
     radius_sum = ra + rb
@@ -82,6 +107,12 @@ def obb_vs_obb_2d(a, b) -> bool:
     ca, aa, ea = a
     cb, ab, eb = b
 
+    if _USE_CYTHON:
+        return _cy_obb2d(
+            float(ca[0]), float(ca[1]), float(aa), float(ea[0]), float(ea[1]),
+            float(cb[0]), float(cb[1]), float(ab), float(eb[0]), float(eb[1]),
+        )
+
     axes = _obb_axes(aa) + _obb_axes(ab)
     for axis in axes:
         a_min, a_max = _project_obb(ca, aa, ea, axis)
@@ -100,14 +131,18 @@ def circle_vs_obb_2d(circle, obb) -> bool:
     cs, rs = circle
     cb, angle, eb = obb
 
+    if _USE_CYTHON:
+        return _cy_co2d(
+            float(cs[0]), float(cs[1]), float(rs),
+            float(cb[0]), float(cb[1]), float(angle), float(eb[0]), float(eb[1]),
+        )
+
     cos_a = math.cos(angle)
     sin_a = math.sin(angle)
-    # Rotate circle center into OBB local space
     d = cs - cb
     local_x = d[0] * cos_a + d[1] * sin_a
     local_y = -d[0] * sin_a + d[1] * cos_a
 
-    # Clamp to OBB extents (closest point in local space)
     cx = np.clip(local_x, -eb[0], eb[0])
     cy = np.clip(local_y, -eb[1], eb[1])
 

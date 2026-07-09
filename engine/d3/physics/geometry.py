@@ -1,9 +1,25 @@
 import numpy as np
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_raycast_3d import closest_point_on_triangle_fast as _cy_closest_tri
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 def closest_point_on_triangle(p: np.ndarray, a: np.ndarray, b: np.ndarray, c: np.ndarray) -> np.ndarray:
     """
     Find the closest point on triangle ABC to point P.
     """
+    if _USE_CYTHON:
+        return _cy_closest_tri(
+            np.ascontiguousarray(p, dtype=np.float64),
+            np.ascontiguousarray(a, dtype=np.float64),
+            np.ascontiguousarray(b, dtype=np.float64),
+            np.ascontiguousarray(c, dtype=np.float64),
+        )
     # Check if P in vertex region outside A
     ab = b - a
     ac = c - a

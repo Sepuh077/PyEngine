@@ -6,6 +6,18 @@ from dataclasses import dataclass
 from engine.d2.physics.collider import Collider2D
 from engine.d2.physics.types import ColliderType2D
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_collision_2d import (
+        ray_circle_intersection_fast as _cy_ray_circ,
+        ray_aabb_intersection_2d_fast as _cy_ray_aabb2d,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 # =========================================================================
 # Data classes
@@ -49,6 +61,12 @@ def ray_circle_intersection(
     Quadratic-formula ray-circle intersection.
     Returns (t_near, t_far) or None.
     """
+    if _USE_CYTHON:
+        return _cy_ray_circ(
+            float(ray.origin[0]), float(ray.origin[1]),
+            float(ray.direction[0]), float(ray.direction[1]),
+            float(center[0]), float(center[1]), float(radius),
+        )
     oc = ray.origin - center
     b = float(np.dot(oc, ray.direction))
     c = float(np.dot(oc, oc)) - radius * radius
@@ -70,13 +88,19 @@ def ray_aabb_intersection_2d(
     Slab method AABB intersection in 2D.
     Returns (t_min, t_max) or None.
     """
+    if _USE_CYTHON:
+        return _cy_ray_aabb2d(
+            float(ray.origin[0]), float(ray.origin[1]),
+            float(ray.direction[0]), float(ray.direction[1]),
+            float(min_pt[0]), float(min_pt[1]),
+            float(max_pt[0]), float(max_pt[1]),
+        )
     t_min = 0.0
     t_max = float('inf')
 
     for i in range(2):
         d = ray.direction[i]
         if abs(d) < 1e-12:
-            # Ray parallel to this slab
             if ray.origin[i] < min_pt[i] or ray.origin[i] > max_pt[i]:
                 return None
         else:

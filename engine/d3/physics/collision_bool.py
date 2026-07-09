@@ -3,6 +3,21 @@ from engine.d3.physics.collider import Collider3D, SphereCollider3D
 from engine.d3.physics.geometry import closest_point_on_triangle
 from engine.d3.physics.types import ColliderType
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_collision_bool_3d import (
+        sphere_vs_sphere_bool_fast as _cy_sph_sph,
+        cylinder_vs_cylinder_bool_fast as _cy_cyl_cyl,
+        cylinder_vs_sphere_bool_fast as _cy_cyl_sph,
+        obb_vs_obb_bool_fast as _cy_obb_obb,
+        sphere_vs_obb_bool_fast as _cy_sph_obb,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 # =========================================================================
 # Boolean Checkers (Fast, Optimized)
@@ -11,6 +26,11 @@ from engine.d3.physics.types import ColliderType
 def sphere_vs_sphere_bool(a: Collider3D, b: Collider3D) -> bool:
     ca, ra = a.get_world_sphere()
     cb, rb = b.get_world_sphere()
+    if _USE_CYTHON:
+        return _cy_sph_sph(
+            np.ascontiguousarray(ca, dtype=np.float64), ra,
+            np.ascontiguousarray(cb, dtype=np.float64), rb,
+        )
     diff = ca - cb
     dist_sq = diff.dot(diff)
     radius_sum = ra + rb
@@ -56,11 +76,28 @@ def _obb_bool(Ca, Aa, Ea, Cb, Ab, Eb) -> bool:
 def obb_vs_obb_bool(a: Collider3D, b: Collider3D) -> bool:
     Ca, Aa, Ea = a.get_world_obb()
     Cb, Ab, Eb = b.get_world_obb()
+    if _USE_CYTHON:
+        return _cy_obb_obb(
+            np.ascontiguousarray(Ca, dtype=np.float64),
+            np.ascontiguousarray(Aa, dtype=np.float64),
+            np.ascontiguousarray(Ea, dtype=np.float64),
+            np.ascontiguousarray(Cb, dtype=np.float64),
+            np.ascontiguousarray(Ab, dtype=np.float64),
+            np.ascontiguousarray(Eb, dtype=np.float64),
+        )
     return _obb_bool(Ca, Aa, Ea, Cb, Ab, Eb)
 
 def sphere_vs_obb_bool(sphere_obj: Collider3D, obb_obj: Collider3D) -> bool:
     cs, rs = sphere_obj.get_world_sphere()
     Cb, Ab, Eb = obb_obj.get_world_obb()
+
+    if _USE_CYTHON:
+        return _cy_sph_obb(
+            np.ascontiguousarray(cs, dtype=np.float64), rs,
+            np.ascontiguousarray(Cb, dtype=np.float64),
+            np.ascontiguousarray(Ab, dtype=np.float64),
+            np.ascontiguousarray(Eb, dtype=np.float64),
+        )
 
     # Find closest point on OBB to sphere center
     d = cs - Cb
@@ -77,6 +114,12 @@ def cylinder_vs_sphere_bool(cyl: Collider3D, sph: Collider3D) -> bool:
     Cc, rc, hc = cyl.get_world_cylinder()
     cs, rs = sph.get_world_sphere()
 
+    if _USE_CYTHON:
+        return _cy_cyl_sph(
+            np.ascontiguousarray(Cc, dtype=np.float64), rc, hc,
+            np.ascontiguousarray(cs, dtype=np.float64), rs,
+        )
+
     dy = cs[1] - Cc[1]
     clamped_y = np.clip(dy, -hc, hc)
     closest_point_on_axis = np.array([Cc[0], Cc[1] + clamped_y, Cc[2]], dtype=np.float32)
@@ -90,6 +133,12 @@ def cylinder_vs_cylinder_bool(a: Collider3D, b: Collider3D) -> bool:
     Ca, ra, ha = a.get_world_cylinder()
     Cb, rb, hb = b.get_world_cylinder()
     
+    if _USE_CYTHON:
+        return _cy_cyl_cyl(
+            np.ascontiguousarray(Ca, dtype=np.float64), ra, ha,
+            np.ascontiguousarray(Cb, dtype=np.float64), rb, hb,
+        )
+
     # 1. Vertical Check
     dy = Ca[1] - Cb[1]
     y_overlap = (ha + hb) - abs(dy)
@@ -191,7 +240,15 @@ def cylinder_vs_mesh_bool(cyl: Collider3D, mesh: Collider3D) -> bool:
     return sphere_vs_mesh_bool(cyl, mesh)
 
 def aabb_overlap(a: Collider3D, b: Collider3D) -> bool:
-    # Fast AABB broadphase
+    # Fast AABB broadphase.
+    #
+    # We intentionally use the pure-Python version here (even with Cython enabled).
+    # Calling the C version requires 4x np.ascontiguousarray(..., dtype=float64)
+    # per test. For 6 cheap comparisons this FFI + allocation overhead makes the
+    # accelerated path *slower* for the common broadphase reject case (N-body etc.).
+    #
+    # The real wins from Cython are in heavier narrow-phase work (OBB SAT, cylinder,
+    # ray-triangle, manifolds, quaternion math, etc.).
     aabb_a = a.get_world_aabb()
     aabb_b = b.get_world_aabb()
     if aabb_a is None or aabb_b is None:

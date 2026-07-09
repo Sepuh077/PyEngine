@@ -6,6 +6,20 @@ from engine.d3.physics.collider import Collider3D
 from engine.d3.physics.geometry import closest_point_on_triangle
 from engine.d3.physics.types import ColliderType
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_collision_manifold_3d import (
+        sphere_vs_sphere_manifold_fast as _cy_sph_sph_m,
+        sphere_vs_obb_manifold_fast as _cy_sph_obb_m,
+        cylinder_vs_cylinder_manifold_fast as _cy_cyl_cyl_m,
+        cylinder_vs_sphere_manifold_fast as _cy_cyl_sph_m,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 @dataclass
 class CollisionManifold:
@@ -20,6 +34,16 @@ class CollisionManifold:
 def sphere_vs_sphere_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     ca, ra = a.get_world_sphere()
     cb, rb = b.get_world_sphere()
+
+    if _USE_CYTHON:
+        result = _cy_sph_sph_m(
+            np.ascontiguousarray(ca, dtype=np.float64), ra,
+            np.ascontiguousarray(cb, dtype=np.float64), rb,
+        )
+        if result is None:
+            return None
+        return CollisionManifold(result[0], result[1])
+
     diff = ca - cb
     dist_sq = diff.dot(diff)
     radius_sum = ra + rb
@@ -29,7 +53,6 @@ def sphere_vs_sphere_manifold(a: Collider3D, b: Collider3D) -> Optional[Collisio
 
     dist = np.sqrt(dist_sq)
     if dist < 1e-6:
-        # Centers are coincident, choose arbitrary normal
         normal = np.array([0, 1, 0], dtype=np.float32)
         depth = radius_sum
     else:
@@ -97,6 +120,17 @@ def sphere_vs_obb_manifold(sphere_obj: Collider3D, obb_obj: Collider3D) -> Optio
     cs, rs = sphere_obj.get_world_sphere()
     Cb, Ab, Eb = obb_obj.get_world_obb()
 
+    if _USE_CYTHON:
+        result = _cy_sph_obb_m(
+            np.ascontiguousarray(cs, dtype=np.float64), rs,
+            np.ascontiguousarray(Cb, dtype=np.float64),
+            np.ascontiguousarray(Ab, dtype=np.float64),
+            np.ascontiguousarray(Eb, dtype=np.float64),
+        )
+        if result is None:
+            return None
+        return CollisionManifold(result[0], result[1])
+
     # Find closest point on OBB to sphere center
     d = cs - Cb
     local = Ab.T @ d
@@ -112,7 +146,6 @@ def sphere_vs_obb_manifold(sphere_obj: Collider3D, obb_obj: Collider3D) -> Optio
     dist = np.sqrt(dist_sq)
     
     if dist < 1e-6:
-        # Center inside OBB
         normal = (cs - Cb) 
         if np.dot(normal, normal) < 1e-6:
             normal = np.array([0, 1, 0], dtype=np.float32)
@@ -128,6 +161,15 @@ def sphere_vs_obb_manifold(sphere_obj: Collider3D, obb_obj: Collider3D) -> Optio
 def cylinder_vs_sphere_manifold(cyl: Collider3D, sph: Collider3D) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
     cs, rs = sph.get_world_sphere()
+
+    if _USE_CYTHON:
+        result = _cy_cyl_sph_m(
+            np.ascontiguousarray(Cc, dtype=np.float64), rc, hc,
+            np.ascontiguousarray(cs, dtype=np.float64), rs,
+        )
+        if result is None:
+            return None
+        return CollisionManifold(result[0], result[1])
 
     dy = cs[1] - Cc[1]
     clamped_y = np.clip(dy, -hc, hc)
@@ -155,6 +197,15 @@ def cylinder_vs_cylinder_manifold(a: Collider3D, b: Collider3D) -> Optional[Coll
     Ca, ra, ha = a.get_world_cylinder()
     Cb, rb, hb = b.get_world_cylinder()
     
+    if _USE_CYTHON:
+        result = _cy_cyl_cyl_m(
+            np.ascontiguousarray(Ca, dtype=np.float64), ra, ha,
+            np.ascontiguousarray(Cb, dtype=np.float64), rb, hb,
+        )
+        if result is None:
+            return None
+        return CollisionManifold(result[0], result[1])
+
     # 1. Vertical Check (Y-axis SAT)
     dy = Ca[1] - Cb[1]
     y_overlap = (ha + hb) - abs(dy)

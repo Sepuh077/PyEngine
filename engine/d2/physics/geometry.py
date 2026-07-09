@@ -1,8 +1,17 @@
 import numpy as np
 
+try:
+    from engine.cython.cy_collision_2d import closest_point_on_segment_fast as _cy_seg
+    _USE_CYTHON = True
+except ImportError:
+    _USE_CYTHON = False
+
 
 def closest_point_on_segment(p, a, b):
     """Find closest point on line segment AB to point P (all 2D numpy arrays)."""
+    if _USE_CYTHON:
+        cx, cy = _cy_seg(float(p[0]), float(p[1]), float(a[0]), float(a[1]), float(b[0]), float(b[1]))
+        return np.array([cx, cy], dtype=a.dtype)
     ab = b - a
     dot_ab = np.dot(ab, ab)
     if dot_ab < 1e-10:

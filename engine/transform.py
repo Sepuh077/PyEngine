@@ -5,6 +5,15 @@ from engine.component import Component
 from engine.types import Vector3, Vector3Like
 from engine.types.quaternion import Quaternion
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_transform import compute_world_transform_fast as _cy_compute_world
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 if TYPE_CHECKING:
     from .gameobject import GameObject
 
@@ -160,19 +169,40 @@ class Transform(Component):
         else:
             parent = self._parent
             parent._compute_world_transform()
-            
-            # World scale = parent scale * local scale
-            self._world_scale = Vector3.scale(parent._world_scale, self._local_scale)
-            
-            # World rotation = parent quaternion * local quaternion (proper composition)
-            self._world_quaternion = parent._world_quaternion * self._local_quaternion
-            self._world_rotation = self._world_quaternion.to_euler_array()
-            
-            # Rotate local position by parent's world quaternion, scaled by parent scale
-            R = parent._world_quaternion.to_rotation_matrix()
-            scaled_local = self._local_position.to_numpy() * parent._world_scale.to_numpy()
-            rotated_local = scaled_local @ R
-            self._world_position = parent._world_position + rotated_local
+
+            if _USE_CYTHON:
+                lp = self._local_position
+                lq = self._local_quaternion
+                ls = self._local_scale
+                pp = parent._world_position
+                pq = parent._world_quaternion
+                ps = parent._world_scale
+
+                wp_t, wq_t, ws_t, euler = _cy_compute_world(
+                    lp._x, lp._y, lp._z,
+                    lq._w, lq._x, lq._y, lq._z,
+                    ls._x, ls._y, ls._z,
+                    pp._x, pp._y, pp._z,
+                    pq._w, pq._x, pq._y, pq._z,
+                    ps._x, ps._y, ps._z,
+                )
+                self._world_position = Vector3(wp_t[0], wp_t[1], wp_t[2])
+                self._world_quaternion = Quaternion(wq_t[0], wq_t[1], wq_t[2], wq_t[3])
+                self._world_scale = Vector3(ws_t[0], ws_t[1], ws_t[2])
+                self._world_rotation = euler
+            else:
+                # World scale = parent scale * local scale
+                self._world_scale = Vector3.scale(parent._world_scale, self._local_scale)
+
+                # World rotation = parent quaternion * local quaternion (proper composition)
+                self._world_quaternion = parent._world_quaternion * self._local_quaternion
+                self._world_rotation = self._world_quaternion.to_euler_array()
+
+                # Rotate local position by parent's world quaternion, scaled by parent scale
+                R = parent._world_quaternion.to_rotation_matrix()
+                scaled_local = self._local_position.to_numpy() * parent._world_scale.to_numpy()
+                rotated_local = scaled_local @ R
+                self._world_position = parent._world_position + rotated_local
         self._world_dirty = False
     
     @property

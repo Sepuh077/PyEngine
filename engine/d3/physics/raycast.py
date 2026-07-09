@@ -6,6 +6,20 @@ from engine.d3.physics.collider import Collider3D
 from engine.d3.physics.types import ColliderType
 from engine.drawing import get_window
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_raycast_3d import (
+        ray_sphere_intersection_fast as _cy_ray_sph,
+        ray_aabb_intersection_fast as _cy_ray_aabb,
+        ray_triangle_intersection_fast as _cy_ray_tri,
+        closest_point_on_triangle_fast as _cy_closest_tri,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 @dataclass
 class Ray:
     origin: np.ndarray
@@ -31,6 +45,13 @@ class RaycastHit:
 # =========================================================================
 
 def ray_sphere_intersection(ray: Ray, center: np.ndarray, radius: float) -> Optional[Tuple[float, float]]:
+    if _USE_CYTHON:
+        return _cy_ray_sph(
+            np.ascontiguousarray(ray.origin, dtype=np.float64),
+            np.ascontiguousarray(ray.direction, dtype=np.float64),
+            np.ascontiguousarray(center, dtype=np.float64),
+            radius,
+        )
     oc = ray.origin - center
     b = np.dot(oc, ray.direction)
     c = np.dot(oc, oc) - radius * radius
@@ -40,6 +61,13 @@ def ray_sphere_intersection(ray: Ray, center: np.ndarray, radius: float) -> Opti
     return -b - h, -b + h
 
 def ray_aabb_intersection(ray: Ray, min_pt: np.ndarray, max_pt: np.ndarray) -> Optional[Tuple[float, float]]:
+    if _USE_CYTHON:
+        return _cy_ray_aabb(
+            np.ascontiguousarray(ray.origin, dtype=np.float64),
+            np.ascontiguousarray(ray.direction, dtype=np.float64),
+            np.ascontiguousarray(min_pt, dtype=np.float64),
+            np.ascontiguousarray(max_pt, dtype=np.float64),
+        )
     t_min = 0.0
     t_max = float('inf')
     
@@ -60,6 +88,14 @@ def ray_aabb_intersection(ray: Ray, min_pt: np.ndarray, max_pt: np.ndarray) -> O
     return t_min, t_max
 
 def ray_triangle_intersection(ray: Ray, v0: np.ndarray, v1: np.ndarray, v2: np.ndarray) -> Optional[Tuple[float, float, float]]:
+    if _USE_CYTHON:
+        return _cy_ray_tri(
+            np.ascontiguousarray(ray.origin, dtype=np.float64),
+            np.ascontiguousarray(ray.direction, dtype=np.float64),
+            np.ascontiguousarray(v0, dtype=np.float64),
+            np.ascontiguousarray(v1, dtype=np.float64),
+            np.ascontiguousarray(v2, dtype=np.float64),
+        )
     # Möller–Trumbore intersection algorithm
     epsilon = 1e-6
     edge1 = v1 - v0

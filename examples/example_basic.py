@@ -142,7 +142,7 @@ if __name__ == "__main__":
     print()
     
     # Create and run the application
-    window = Window3D(800, 600, "PyEngine - Basic Example")
+    window = Window3D(800, 600, "PyEngine - Basic Example", project_root=".")
     scene = BasicScene()
     window.show_scene(scene)
     window.run()

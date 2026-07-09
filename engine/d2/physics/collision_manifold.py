@@ -6,6 +6,19 @@ from dataclasses import dataclass
 from engine.d2.physics.types import ColliderType2D
 from engine.d2.physics.collision_bool import aabb_overlap_2d
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_collision_2d import (
+        circle_vs_circle_manifold_fast as _cy_cc_m,
+        obb_vs_obb_2d_manifold_fast as _cy_obb_m,
+        circle_vs_obb_2d_manifold_fast as _cy_co_m,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 @dataclass
 class CollisionManifold2D:
@@ -22,6 +35,13 @@ def circle_vs_circle_manifold(a, b) -> Optional[CollisionManifold2D]:
     """a, b = (center_np_2d, radius)."""
     ca, ra = a
     cb, rb = b
+
+    if _USE_CYTHON:
+        result = _cy_cc_m(float(ca[0]), float(ca[1]), ra, float(cb[0]), float(cb[1]), rb)
+        if result is None:
+            return None
+        return CollisionManifold2D(result[0], result[1])
+
     diff = ca - cb
     dist_sq = float(np.dot(diff, diff))
     radius_sum = ra + rb
@@ -31,7 +51,6 @@ def circle_vs_circle_manifold(a, b) -> Optional[CollisionManifold2D]:
 
     dist = math.sqrt(dist_sq)
     if dist < 1e-10:
-        # Coincident centres — pick arbitrary normal
         normal = np.array([0.0, 1.0], dtype=np.float64)
         depth = radius_sum
     else:
@@ -49,6 +68,15 @@ def obb_vs_obb_manifold(a, b) -> Optional[CollisionManifold2D]:
     """a, b = (center_np, angle, half_ext_np).  Returns MTV (Minimum Translation Vector)."""
     ca, aa, ea = a
     cb, ab_, eb = b
+
+    if _USE_CYTHON:
+        result = _cy_obb_m(
+            float(ca[0]), float(ca[1]), float(aa), float(ea[0]), float(ea[1]),
+            float(cb[0]), float(cb[1]), float(ab_), float(eb[0]), float(eb[1]),
+        )
+        if result is None:
+            return None
+        return CollisionManifold2D(result[0], result[1])
 
     t = ca - cb
     min_overlap = float('inf')
@@ -82,7 +110,6 @@ def obb_vs_obb_manifold(a, b) -> Optional[CollisionManifold2D]:
             min_overlap = overlap
             best_axis = axis.copy()
 
-    # Ensure normal points from B to A
     if float(np.dot(best_axis, t)) < 0:
         best_axis = -best_axis
 
@@ -97,6 +124,15 @@ def circle_vs_obb_manifold(circle, obb) -> Optional[CollisionManifold2D]:
     """circle = (center_np, radius), obb = (center_np, angle, half_ext_np)."""
     cs, rs = circle
     cb, angle, eb = obb
+
+    if _USE_CYTHON:
+        result = _cy_co_m(
+            float(cs[0]), float(cs[1]), float(rs),
+            float(cb[0]), float(cb[1]), float(angle), float(eb[0]), float(eb[1]),
+        )
+        if result is None:
+            return None
+        return CollisionManifold2D(result[0], result[1])
 
     cos_a = math.cos(angle)
     sin_a = math.sin(angle)

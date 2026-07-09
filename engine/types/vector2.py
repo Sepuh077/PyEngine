@@ -6,6 +6,20 @@ import math
 from typing import Union, Tuple, Optional
 import numpy as np
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_math import (
+        vec2_magnitude as _cy_mag, vec2_sqr_magnitude as _cy_sqr_mag,
+        vec2_normalized as _cy_norm, vec2_dot as _cy_dot, vec2_cross as _cy_cross,
+        vec2_distance as _cy_dist, vec2_lerp as _cy_lerp,
+        vec2_lerp_unclamped as _cy_lerp_unc,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 class Vector2:
     """
@@ -68,14 +82,21 @@ class Vector2:
 
     @property
     def magnitude(self) -> float:
+        if _USE_CYTHON:
+            return _cy_mag(self._x, self._y)
         return math.sqrt(self._x * self._x + self._y * self._y)
 
     @property
     def squared_magnitude(self) -> float:
+        if _USE_CYTHON:
+            return _cy_sqr_mag(self._x, self._y)
         return self._x * self._x + self._y * self._y
 
     @property
     def normalized(self) -> 'Vector2':
+        if _USE_CYTHON:
+            nx, ny = _cy_norm(self._x, self._y)
+            return Vector2(nx, ny)
         mag = self.magnitude
         if mag < 1e-10:
             return Vector2.zero()
@@ -117,6 +138,8 @@ class Vector2:
     def distance(a: 'Vector2Like', b: 'Vector2Like') -> float:
         a = Vector2(a)
         b = Vector2(b)
+        if _USE_CYTHON:
+            return _cy_dist(a._x, a._y, b._x, b._y)
         dx = b._x - a._x
         dy = b._y - a._y
         return math.sqrt(dx * dx + dy * dy)
@@ -125,6 +148,8 @@ class Vector2:
     def dot(a: 'Vector2Like', b: 'Vector2Like') -> float:
         a = Vector2(a)
         b = Vector2(b)
+        if _USE_CYTHON:
+            return _cy_dot(a._x, a._y, b._x, b._y)
         return a._x * b._x + a._y * b._y
 
     @staticmethod
@@ -132,12 +157,17 @@ class Vector2:
         """2D cross product returns a scalar (the z-component of the 3D cross)."""
         a = Vector2(a)
         b = Vector2(b)
+        if _USE_CYTHON:
+            return _cy_cross(a._x, a._y, b._x, b._y)
         return a._x * b._y - a._y * b._x
 
     @staticmethod
     def lerp(a: 'Vector2Like', b: 'Vector2Like', t: float) -> 'Vector2':
         a = Vector2(a)
         b = Vector2(b)
+        if _USE_CYTHON:
+            rx, ry = _cy_lerp(a._x, a._y, b._x, b._y, t)
+            return Vector2(rx, ry)
         t = max(0.0, min(1.0, t))
         return Vector2(a._x + (b._x - a._x) * t, a._y + (b._y - a._y) * t)
 
@@ -145,6 +175,9 @@ class Vector2:
     def lerp_unclamped(a: 'Vector2Like', b: 'Vector2Like', t: float) -> 'Vector2':
         a = Vector2(a)
         b = Vector2(b)
+        if _USE_CYTHON:
+            rx, ry = _cy_lerp_unc(a._x, a._y, b._x, b._y, t)
+            return Vector2(rx, ry)
         return Vector2(a._x + (b._x - a._x) * t, a._y + (b._y - a._y) * t)
 
     @staticmethod

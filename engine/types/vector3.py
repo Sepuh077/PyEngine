@@ -6,6 +6,20 @@ import math
 from typing import Union, Tuple, Optional, TYPE_CHECKING
 import numpy as np
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_math import (
+        vec3_magnitude as _cy_mag, vec3_sqr_magnitude as _cy_sqr_mag,
+        vec3_normalized as _cy_norm, vec3_dot as _cy_dot, vec3_cross as _cy_cross,
+        vec3_distance as _cy_dist, vec3_lerp as _cy_lerp,
+        vec3_lerp_unclamped as _cy_lerp_unc,
+    )
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 if TYPE_CHECKING:
     from engine.types.vector2 import Vector2
 
@@ -124,16 +138,23 @@ class Vector3:
     @property
     def magnitude(self) -> float:
         """Get the length of this vector."""
+        if _USE_CYTHON:
+            return _cy_mag(self._x, self._y, self._z)
         return math.sqrt(self._x * self._x + self._y * self._y + self._z * self._z)
     
     @property
     def squared_magnitude(self) -> float:
         """Get the squared length of this vector (faster than magnitude)."""
+        if _USE_CYTHON:
+            return _cy_sqr_mag(self._x, self._y, self._z)
         return self._x * self._x + self._y * self._y + self._z * self._z
     
     @property
     def normalized(self) -> 'Vector3':
         """Get this vector with magnitude 1."""
+        if _USE_CYTHON:
+            nx, ny, nz = _cy_norm(self._x, self._y, self._z)
+            return Vector3(nx, ny, nz)
         mag = self.magnitude
         if mag < 1e-10:
             return Vector3.zero()
@@ -201,6 +222,8 @@ class Vector3:
         """
         a = Vector3(a)
         b = Vector3(b)
+        if _USE_CYTHON:
+            return _cy_dist(a._x, a._y, a._z, b._x, b._y, b._z)
         dx = b._x - a._x
         dy = b._y - a._y
         dz = b._z - a._z
@@ -220,6 +243,8 @@ class Vector3:
         """
         a = Vector3(a)
         b = Vector3(b)
+        if _USE_CYTHON:
+            return _cy_dot(a._x, a._y, a._z, b._x, b._y, b._z)
         return a._x * b._x + a._y * b._y + a._z * b._z
     
     @staticmethod
@@ -236,6 +261,9 @@ class Vector3:
         """
         a = Vector3(a)
         b = Vector3(b)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_cross(a._x, a._y, a._z, b._x, b._y, b._z)
+            return Vector3(rx, ry, rz)
         return Vector3(
             a._y * b._z - a._z * b._y,
             a._z * b._x - a._x * b._z,
@@ -257,6 +285,9 @@ class Vector3:
         """
         a = Vector3(a)
         b = Vector3(b)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_lerp(a._x, a._y, a._z, b._x, b._y, b._z, t)
+            return Vector3(rx, ry, rz)
         t = max(0.0, min(1.0, t))
         return Vector3(
             a._x + (b._x - a._x) * t,
@@ -279,6 +310,9 @@ class Vector3:
         """
         a = Vector3(a)
         b = Vector3(b)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_lerp_unc(a._x, a._y, a._z, b._x, b._y, b._z, t)
+            return Vector3(rx, ry, rz)
         return Vector3(
             a._x + (b._x - a._x) * t,
             a._y + (b._y - a._y) * t,
