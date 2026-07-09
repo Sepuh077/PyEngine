@@ -42,6 +42,33 @@ def sphere_vs_sphere_manifold_fast(
     return (normal, depth)
 
 
+def sphere_vs_sphere_manifold_fast_scalars(
+    double cax, double cay, double caz, double ra,
+    double cbx, double cby, double cbz, double rb,
+):
+    """Returns (normal_list, depth) or None. Uses list for simplicity (small overhead)."""
+    cdef double dx = cax - cbx
+    cdef double dy = cay - cby
+    cdef double dz = caz - cbz
+    cdef double dist_sq = dx * dx + dy * dy + dz * dz
+    cdef double rs = ra + rb
+    cdef double dist, depth, inv
+
+    if dist_sq > rs * rs:
+        return None
+
+    dist = sqrt(dist_sq)
+    if dist < 1e-6:
+        normal = [0.0, 1.0, 0.0]
+        depth = rs
+    else:
+        inv = 1.0 / dist
+        normal = [dx * inv, dy * inv, dz * inv]
+        depth = rs - dist
+
+    return (normal, depth)
+
+
 def sphere_vs_obb_manifold_fast(
     double[::1] cs, double rs,
     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,

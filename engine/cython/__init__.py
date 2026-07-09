@@ -7,5 +7,5 @@ You can force pure-Python fallbacks (for benchmarking or debugging) with:
 """
 import os
 
-CYTHON_ENABLED = True#os.environ.get("PYENGINE_PURE_PYTHON", "0").lower() not in ("1", "true", "yes")
+CYTHON_ENABLED = os.environ.get("PYENGINE_PURE_PYTHON", "0").lower() not in ("1", "true", "yes")
 

@@ -3445,9 +3445,10 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_sphere_vs_sphere_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_ca, double __pyx_v_ra, __Pyx_memviewslice __pyx_v_cb, double __pyx_v_rb); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_obb_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs, __Pyx_memviewslice __pyx_v_Cb, __Pyx_memviewslice __pyx_v_Ab, __Pyx_memviewslice __pyx_v_Eb); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_vs_cylinder_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Ca, double __pyx_v_ra, double __pyx_v_ha, __Pyx_memviewslice __pyx_v_Cb, double __pyx_v_rb, double __pyx_v_hb); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_sphere_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Cc, double __pyx_v_rc, double __pyx_v_hc, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_sphere_manifold_fast_scalars(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cax, double __pyx_v_cay, double __pyx_v_caz, double __pyx_v_ra, double __pyx_v_cbx, double __pyx_v_cby, double __pyx_v_cbz, double __pyx_v_rb); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4sphere_vs_obb_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs, __Pyx_memviewslice __pyx_v_Cb, __Pyx_memviewslice __pyx_v_Ab, __Pyx_memviewslice __pyx_v_Eb); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_cylinder_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Ca, double __pyx_v_ra, double __pyx_v_ha, __Pyx_memviewslice __pyx_v_Cb, double __pyx_v_rb, double __pyx_v_hb); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_8cylinder_vs_sphere_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Cc, double __pyx_v_rc, double __pyx_v_hc, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3501,9 +3502,9 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_slice[1];
   PyObject *__pyx_tuple[1];
-  PyObject *__pyx_codeobj_tab[4];
-  PyObject *__pyx_string_tab[176];
-  PyObject *__pyx_number_tab[5];
+  PyObject *__pyx_codeobj_tab[5];
+  PyObject *__pyx_string_tab[184];
+  PyObject *__pyx_number_tab[7];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
 PyTypeObject *__pyx_CommonTypesMetaclassType;
@@ -3605,126 +3606,136 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_base __pyx_string_tab[58]
 #define __pyx_n_u_c __pyx_string_tab[59]
 #define __pyx_n_u_ca __pyx_string_tab[60]
-#define __pyx_n_u_cb __pyx_string_tab[61]
-#define __pyx_n_u_clamped_y __pyx_string_tab[62]
-#define __pyx_n_u_class __pyx_string_tab[63]
-#define __pyx_n_u_class_getitem __pyx_string_tab[64]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[65]
-#define __pyx_n_u_clx __pyx_string_tab[66]
-#define __pyx_n_u_cly __pyx_string_tab[67]
-#define __pyx_n_u_clz __pyx_string_tab[68]
-#define __pyx_n_u_count __pyx_string_tab[69]
-#define __pyx_n_u_cpx __pyx_string_tab[70]
-#define __pyx_n_u_cpy __pyx_string_tab[71]
-#define __pyx_n_u_cpz __pyx_string_tab[72]
-#define __pyx_n_u_cs __pyx_string_tab[73]
-#define __pyx_n_u_cwx __pyx_string_tab[74]
-#define __pyx_n_u_cwy __pyx_string_tab[75]
-#define __pyx_n_u_cwz __pyx_string_tab[76]
-#define __pyx_n_u_cylinder_vs_cylinder_manifold_fa __pyx_string_tab[77]
-#define __pyx_n_u_cylinder_vs_sphere_manifold_fast __pyx_string_tab[78]
-#define __pyx_n_u_d_len __pyx_string_tab[79]
-#define __pyx_n_u_d_len_sq __pyx_string_tab[80]
-#define __pyx_n_u_d_y __pyx_string_tab[81]
-#define __pyx_n_u_depth __pyx_string_tab[82]
-#define __pyx_n_u_dict __pyx_string_tab[83]
-#define __pyx_n_u_diffx __pyx_string_tab[84]
-#define __pyx_n_u_diffy __pyx_string_tab[85]
-#define __pyx_n_u_diffz __pyx_string_tab[86]
-#define __pyx_n_u_dist __pyx_string_tab[87]
-#define __pyx_n_u_dist_sq __pyx_string_tab[88]
-#define __pyx_n_u_dtype __pyx_string_tab[89]
-#define __pyx_n_u_dtype_is_object __pyx_string_tab[90]
-#define __pyx_n_u_dx __pyx_string_tab[91]
-#define __pyx_n_u_dy __pyx_string_tab[92]
-#define __pyx_n_u_dz __pyx_string_tab[93]
-#define __pyx_n_u_empty __pyx_string_tab[94]
-#define __pyx_n_u_encode __pyx_string_tab[95]
-#define __pyx_n_u_engine_cython_cy_collision_manif __pyx_string_tab[96]
-#define __pyx_n_u_enumerate __pyx_string_tab[97]
-#define __pyx_n_u_error __pyx_string_tab[98]
-#define __pyx_n_u_flags __pyx_string_tab[99]
-#define __pyx_n_u_float32 __pyx_string_tab[100]
-#define __pyx_n_u_format __pyx_string_tab[101]
-#define __pyx_n_u_fortran __pyx_string_tab[102]
-#define __pyx_n_u_func __pyx_string_tab[103]
-#define __pyx_n_u_getstate __pyx_string_tab[104]
-#define __pyx_n_u_ha __pyx_string_tab[105]
-#define __pyx_n_u_hb __pyx_string_tab[106]
-#define __pyx_n_u_hc __pyx_string_tab[107]
-#define __pyx_n_u_horizontal_overlap __pyx_string_tab[108]
-#define __pyx_n_u_id __pyx_string_tab[109]
-#define __pyx_n_u_import __pyx_string_tab[110]
-#define __pyx_n_u_index __pyx_string_tab[111]
-#define __pyx_n_u_inv __pyx_string_tab[112]
-#define __pyx_n_u_inv2 __pyx_string_tab[113]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[114]
-#define __pyx_n_u_items __pyx_string_tab[115]
-#define __pyx_n_u_itemsize __pyx_string_tab[116]
-#define __pyx_n_u_lx __pyx_string_tab[117]
-#define __pyx_n_u_ly __pyx_string_tab[118]
-#define __pyx_n_u_lz __pyx_string_tab[119]
-#define __pyx_n_u_main __pyx_string_tab[120]
-#define __pyx_n_u_memview __pyx_string_tab[121]
-#define __pyx_n_u_mode __pyx_string_tab[122]
-#define __pyx_n_u_module __pyx_string_tab[123]
-#define __pyx_n_u_name __pyx_string_tab[124]
-#define __pyx_n_u_name_2 __pyx_string_tab[125]
-#define __pyx_n_u_ndim __pyx_string_tab[126]
-#define __pyx_n_u_new __pyx_string_tab[127]
-#define __pyx_n_u_nl __pyx_string_tab[128]
-#define __pyx_n_u_normal __pyx_string_tab[129]
-#define __pyx_n_u_np __pyx_string_tab[130]
-#define __pyx_n_u_numpy __pyx_string_tab[131]
-#define __pyx_n_u_nx __pyx_string_tab[132]
-#define __pyx_n_u_ny __pyx_string_tab[133]
-#define __pyx_n_u_nz __pyx_string_tab[134]
-#define __pyx_n_u_obj __pyx_string_tab[135]
-#define __pyx_n_u_pack __pyx_string_tab[136]
-#define __pyx_n_u_pop __pyx_string_tab[137]
-#define __pyx_n_u_pyx_checksum __pyx_string_tab[138]
-#define __pyx_n_u_pyx_state __pyx_string_tab[139]
-#define __pyx_n_u_pyx_type __pyx_string_tab[140]
-#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[141]
-#define __pyx_n_u_pyx_vtable __pyx_string_tab[142]
-#define __pyx_n_u_qualname __pyx_string_tab[143]
-#define __pyx_n_u_r_sum __pyx_string_tab[144]
-#define __pyx_n_u_ra __pyx_string_tab[145]
-#define __pyx_n_u_rb __pyx_string_tab[146]
-#define __pyx_n_u_rc __pyx_string_tab[147]
-#define __pyx_n_u_reduce __pyx_string_tab[148]
-#define __pyx_n_u_reduce_cython __pyx_string_tab[149]
-#define __pyx_n_u_reduce_ex __pyx_string_tab[150]
-#define __pyx_n_u_register __pyx_string_tab[151]
-#define __pyx_n_u_rs __pyx_string_tab[152]
-#define __pyx_n_u_set_name __pyx_string_tab[153]
-#define __pyx_n_u_setdefault __pyx_string_tab[154]
-#define __pyx_n_u_setstate __pyx_string_tab[155]
-#define __pyx_n_u_setstate_cython __pyx_string_tab[156]
-#define __pyx_n_u_shape __pyx_string_tab[157]
-#define __pyx_n_u_size __pyx_string_tab[158]
-#define __pyx_n_u_sphere_vs_obb_manifold_fast __pyx_string_tab[159]
-#define __pyx_n_u_sphere_vs_sphere_manifold_fast __pyx_string_tab[160]
-#define __pyx_n_u_start __pyx_string_tab[161]
-#define __pyx_n_u_step __pyx_string_tab[162]
-#define __pyx_n_u_stop __pyx_string_tab[163]
-#define __pyx_n_u_struct __pyx_string_tab[164]
-#define __pyx_n_u_test __pyx_string_tab[165]
-#define __pyx_n_u_unpack __pyx_string_tab[166]
-#define __pyx_n_u_update __pyx_string_tab[167]
-#define __pyx_n_u_values __pyx_string_tab[168]
-#define __pyx_n_u_x __pyx_string_tab[169]
-#define __pyx_n_u_y_overlap __pyx_string_tab[170]
-#define __pyx_kp_b_iso88591_Rq_2Rq_A_z_1A_AQ_2Q_A_AQ_AS_AQ __pyx_string_tab[171]
-#define __pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rq_3b_2Rq __pyx_string_tab[172]
-#define __pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rs_Cr_Bc_1 __pyx_string_tab[173]
-#define __pyx_kp_b_iso88591_Rq_2Rq_S_b_AQ_z_1_q_1Cr_1A_1Cr __pyx_string_tab[174]
-#define __pyx_n_b_O __pyx_string_tab[175]
-#define __pyx_int_0 __pyx_number_tab[0]
-#define __pyx_int_neg_1 __pyx_number_tab[1]
-#define __pyx_int_1 __pyx_number_tab[2]
-#define __pyx_int_3 __pyx_number_tab[3]
-#define __pyx_int_136983863 __pyx_number_tab[4]
+#define __pyx_n_u_cax __pyx_string_tab[61]
+#define __pyx_n_u_cay __pyx_string_tab[62]
+#define __pyx_n_u_caz __pyx_string_tab[63]
+#define __pyx_n_u_cb __pyx_string_tab[64]
+#define __pyx_n_u_cbx __pyx_string_tab[65]
+#define __pyx_n_u_cby __pyx_string_tab[66]
+#define __pyx_n_u_cbz __pyx_string_tab[67]
+#define __pyx_n_u_clamped_y __pyx_string_tab[68]
+#define __pyx_n_u_class __pyx_string_tab[69]
+#define __pyx_n_u_class_getitem __pyx_string_tab[70]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[71]
+#define __pyx_n_u_clx __pyx_string_tab[72]
+#define __pyx_n_u_cly __pyx_string_tab[73]
+#define __pyx_n_u_clz __pyx_string_tab[74]
+#define __pyx_n_u_count __pyx_string_tab[75]
+#define __pyx_n_u_cpx __pyx_string_tab[76]
+#define __pyx_n_u_cpy __pyx_string_tab[77]
+#define __pyx_n_u_cpz __pyx_string_tab[78]
+#define __pyx_n_u_cs __pyx_string_tab[79]
+#define __pyx_n_u_cwx __pyx_string_tab[80]
+#define __pyx_n_u_cwy __pyx_string_tab[81]
+#define __pyx_n_u_cwz __pyx_string_tab[82]
+#define __pyx_n_u_cylinder_vs_cylinder_manifold_fa __pyx_string_tab[83]
+#define __pyx_n_u_cylinder_vs_sphere_manifold_fast __pyx_string_tab[84]
+#define __pyx_n_u_d_len __pyx_string_tab[85]
+#define __pyx_n_u_d_len_sq __pyx_string_tab[86]
+#define __pyx_n_u_d_y __pyx_string_tab[87]
+#define __pyx_n_u_depth __pyx_string_tab[88]
+#define __pyx_n_u_dict __pyx_string_tab[89]
+#define __pyx_n_u_diffx __pyx_string_tab[90]
+#define __pyx_n_u_diffy __pyx_string_tab[91]
+#define __pyx_n_u_diffz __pyx_string_tab[92]
+#define __pyx_n_u_dist __pyx_string_tab[93]
+#define __pyx_n_u_dist_sq __pyx_string_tab[94]
+#define __pyx_n_u_dtype __pyx_string_tab[95]
+#define __pyx_n_u_dtype_is_object __pyx_string_tab[96]
+#define __pyx_n_u_dx __pyx_string_tab[97]
+#define __pyx_n_u_dy __pyx_string_tab[98]
+#define __pyx_n_u_dz __pyx_string_tab[99]
+#define __pyx_n_u_empty __pyx_string_tab[100]
+#define __pyx_n_u_encode __pyx_string_tab[101]
+#define __pyx_n_u_engine_cython_cy_collision_manif __pyx_string_tab[102]
+#define __pyx_n_u_enumerate __pyx_string_tab[103]
+#define __pyx_n_u_error __pyx_string_tab[104]
+#define __pyx_n_u_flags __pyx_string_tab[105]
+#define __pyx_n_u_float32 __pyx_string_tab[106]
+#define __pyx_n_u_format __pyx_string_tab[107]
+#define __pyx_n_u_fortran __pyx_string_tab[108]
+#define __pyx_n_u_func __pyx_string_tab[109]
+#define __pyx_n_u_getstate __pyx_string_tab[110]
+#define __pyx_n_u_ha __pyx_string_tab[111]
+#define __pyx_n_u_hb __pyx_string_tab[112]
+#define __pyx_n_u_hc __pyx_string_tab[113]
+#define __pyx_n_u_horizontal_overlap __pyx_string_tab[114]
+#define __pyx_n_u_id __pyx_string_tab[115]
+#define __pyx_n_u_import __pyx_string_tab[116]
+#define __pyx_n_u_index __pyx_string_tab[117]
+#define __pyx_n_u_inv __pyx_string_tab[118]
+#define __pyx_n_u_inv2 __pyx_string_tab[119]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[120]
+#define __pyx_n_u_items __pyx_string_tab[121]
+#define __pyx_n_u_itemsize __pyx_string_tab[122]
+#define __pyx_n_u_lx __pyx_string_tab[123]
+#define __pyx_n_u_ly __pyx_string_tab[124]
+#define __pyx_n_u_lz __pyx_string_tab[125]
+#define __pyx_n_u_main __pyx_string_tab[126]
+#define __pyx_n_u_memview __pyx_string_tab[127]
+#define __pyx_n_u_mode __pyx_string_tab[128]
+#define __pyx_n_u_module __pyx_string_tab[129]
+#define __pyx_n_u_name __pyx_string_tab[130]
+#define __pyx_n_u_name_2 __pyx_string_tab[131]
+#define __pyx_n_u_ndim __pyx_string_tab[132]
+#define __pyx_n_u_new __pyx_string_tab[133]
+#define __pyx_n_u_nl __pyx_string_tab[134]
+#define __pyx_n_u_normal __pyx_string_tab[135]
+#define __pyx_n_u_np __pyx_string_tab[136]
+#define __pyx_n_u_numpy __pyx_string_tab[137]
+#define __pyx_n_u_nx __pyx_string_tab[138]
+#define __pyx_n_u_ny __pyx_string_tab[139]
+#define __pyx_n_u_nz __pyx_string_tab[140]
+#define __pyx_n_u_obj __pyx_string_tab[141]
+#define __pyx_n_u_pack __pyx_string_tab[142]
+#define __pyx_n_u_pop __pyx_string_tab[143]
+#define __pyx_n_u_pyx_checksum __pyx_string_tab[144]
+#define __pyx_n_u_pyx_state __pyx_string_tab[145]
+#define __pyx_n_u_pyx_type __pyx_string_tab[146]
+#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[147]
+#define __pyx_n_u_pyx_vtable __pyx_string_tab[148]
+#define __pyx_n_u_qualname __pyx_string_tab[149]
+#define __pyx_n_u_r_sum __pyx_string_tab[150]
+#define __pyx_n_u_ra __pyx_string_tab[151]
+#define __pyx_n_u_rb __pyx_string_tab[152]
+#define __pyx_n_u_rc __pyx_string_tab[153]
+#define __pyx_n_u_reduce __pyx_string_tab[154]
+#define __pyx_n_u_reduce_cython __pyx_string_tab[155]
+#define __pyx_n_u_reduce_ex __pyx_string_tab[156]
+#define __pyx_n_u_register __pyx_string_tab[157]
+#define __pyx_n_u_rs __pyx_string_tab[158]
+#define __pyx_n_u_set_name __pyx_string_tab[159]
+#define __pyx_n_u_setdefault __pyx_string_tab[160]
+#define __pyx_n_u_setstate __pyx_string_tab[161]
+#define __pyx_n_u_setstate_cython __pyx_string_tab[162]
+#define __pyx_n_u_shape __pyx_string_tab[163]
+#define __pyx_n_u_size __pyx_string_tab[164]
+#define __pyx_n_u_sphere_vs_obb_manifold_fast __pyx_string_tab[165]
+#define __pyx_n_u_sphere_vs_sphere_manifold_fast __pyx_string_tab[166]
+#define __pyx_n_u_sphere_vs_sphere_manifold_fast_s __pyx_string_tab[167]
+#define __pyx_n_u_start __pyx_string_tab[168]
+#define __pyx_n_u_step __pyx_string_tab[169]
+#define __pyx_n_u_stop __pyx_string_tab[170]
+#define __pyx_n_u_struct __pyx_string_tab[171]
+#define __pyx_n_u_test __pyx_string_tab[172]
+#define __pyx_n_u_unpack __pyx_string_tab[173]
+#define __pyx_n_u_update __pyx_string_tab[174]
+#define __pyx_n_u_values __pyx_string_tab[175]
+#define __pyx_n_u_x __pyx_string_tab[176]
+#define __pyx_n_u_y_overlap __pyx_string_tab[177]
+#define __pyx_kp_b_iso88591_Rq_2Rq_A_z_1A_AQ_2Q_A_AQ_AS_AQ __pyx_string_tab[178]
+#define __pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rq_3b_2Rq __pyx_string_tab[179]
+#define __pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rs_Cr_Bc_1 __pyx_string_tab[180]
+#define __pyx_kp_b_iso88591_Rq_2Rq_S_b_AQ_z_1_q_1Cr_1A_1Cr __pyx_string_tab[181]
+#define __pyx_kp_b_iso88591_T_1_T_1_T_1_Rs_Cr_Bc_1_S_xr_Ba __pyx_string_tab[182]
+#define __pyx_n_b_O __pyx_string_tab[183]
+#define __pyx_float_0_0 __pyx_number_tab[0]
+#define __pyx_float_1_0 __pyx_number_tab[1]
+#define __pyx_int_0 __pyx_number_tab[2]
+#define __pyx_int_neg_1 __pyx_number_tab[3]
+#define __pyx_int_1 __pyx_number_tab[4]
+#define __pyx_int_3 __pyx_number_tab[5]
+#define __pyx_int_136983863 __pyx_number_tab[6]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -3765,9 +3776,9 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_slice[i]); }
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<4; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<176; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
-  for (int i=0; i<5; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
+  for (int i=0; i<5; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<184; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<7; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
 Py_CLEAR(clear_module_state->__pyx_CommonTypesMetaclassType);
@@ -3816,9 +3827,9 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   Py_VISIT(traverse_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_slice[i]); }
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<4; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<176; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
-  for (int i=0; i<5; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
+  for (int i=0; i<5; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<184; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<7; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
 Py_VISIT(traverse_module_state->__pyx_CommonTypesMetaclassType);
@@ -19047,22 +19058,421 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_sphere_vs_s
 /* "engine/cython/cy_collision_manifold_3d.pyx":45
  * 
  * 
- * def sphere_vs_obb_manifold_fast(             # <<<<<<<<<<<<<<
- *     double[::1] cs, double rs,
- *     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,
+ * def sphere_vs_sphere_manifold_fast_scalars(             # <<<<<<<<<<<<<<
+ *     double cax, double cay, double caz, double ra,
+ *     double cbx, double cby, double cbz, double rb,
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_obb_manifold_fast(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_sphere_manifold_fast_scalars(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_obb_manifold_fast, "Returns (normal_ndarray, depth) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_obb_manifold_fast = {"sphere_vs_obb_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_obb_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_obb_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_obb_manifold_fast(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_sphere_manifold_fast_scalars, "Returns (normal_list, depth) or None. Uses list for simplicity (small overhead).");
+static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_sphere_manifold_fast_scalars = {"sphere_vs_sphere_manifold_fast_scalars", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_sphere_manifold_fast_scalars, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_sphere_manifold_fast_scalars};
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_sphere_manifold_fast_scalars(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  double __pyx_v_cax;
+  double __pyx_v_cay;
+  double __pyx_v_caz;
+  double __pyx_v_ra;
+  double __pyx_v_cbx;
+  double __pyx_v_cby;
+  double __pyx_v_cbz;
+  double __pyx_v_rb;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[8] = {0,0,0,0,0,0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("sphere_vs_sphere_manifold_fast_scalars (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_SIZE
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cax,&__pyx_mstate_global->__pyx_n_u_cay,&__pyx_mstate_global->__pyx_n_u_caz,&__pyx_mstate_global->__pyx_n_u_ra,&__pyx_mstate_global->__pyx_n_u_cbx,&__pyx_mstate_global->__pyx_n_u_cby,&__pyx_mstate_global->__pyx_n_u_cbz,&__pyx_mstate_global->__pyx_n_u_rb,0};
+    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 45, __pyx_L3_error)
+    if (__pyx_kwds_len > 0) {
+      switch (__pyx_nargs) {
+        case  8:
+        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  7:
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  6:
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  5:
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  4:
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  3:
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  2:
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  1:
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 45, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      const Py_ssize_t kwd_pos_args = __pyx_nargs;
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "sphere_vs_sphere_manifold_fast_scalars", 0) < (0)) __PYX_ERR(0, 45, __pyx_L3_error)
+      for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("sphere_vs_sphere_manifold_fast_scalars", 1, 8, 8, i); __PYX_ERR(0, 45, __pyx_L3_error) }
+      }
+    } else if (unlikely(__pyx_nargs != 8)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 45, __pyx_L3_error)
+      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 45, __pyx_L3_error)
+    }
+    __pyx_v_cax = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cax == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_cay = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cay == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_caz = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_caz == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_ra = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_ra == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_cbx = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cbx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_cby = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_cby == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_cbz = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_cbz == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_rb = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_rb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L3_error)
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("sphere_vs_sphere_manifold_fast_scalars", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 45, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __Pyx_AddTraceback("engine.cython.cy_collision_manifold_3d.sphere_vs_sphere_manifold_fast_scalars", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_sphere_manifold_fast_scalars(__pyx_self, __pyx_v_cax, __pyx_v_cay, __pyx_v_caz, __pyx_v_ra, __pyx_v_cbx, __pyx_v_cby, __pyx_v_cbz, __pyx_v_rb);
+
+  /* function exit code */
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_sphere_manifold_fast_scalars(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cax, double __pyx_v_cay, double __pyx_v_caz, double __pyx_v_ra, double __pyx_v_cbx, double __pyx_v_cby, double __pyx_v_cbz, double __pyx_v_rb) {
+  double __pyx_v_dx;
+  double __pyx_v_dy;
+  double __pyx_v_dz;
+  double __pyx_v_dist_sq;
+  double __pyx_v_rs;
+  double __pyx_v_dist;
+  double __pyx_v_depth;
+  double __pyx_v_inv;
+  PyObject *__pyx_v_normal = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("sphere_vs_sphere_manifold_fast_scalars", 0);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":50
+ * ):
+ *     """Returns (normal_list, depth) or None. Uses list for simplicity (small overhead)."""
+ *     cdef double dx = cax - cbx             # <<<<<<<<<<<<<<
+ *     cdef double dy = cay - cby
+ *     cdef double dz = caz - cbz
+*/
+  __pyx_v_dx = (__pyx_v_cax - __pyx_v_cbx);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":51
+ *     """Returns (normal_list, depth) or None. Uses list for simplicity (small overhead)."""
+ *     cdef double dx = cax - cbx
+ *     cdef double dy = cay - cby             # <<<<<<<<<<<<<<
+ *     cdef double dz = caz - cbz
+ *     cdef double dist_sq = dx * dx + dy * dy + dz * dz
+*/
+  __pyx_v_dy = (__pyx_v_cay - __pyx_v_cby);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":52
+ *     cdef double dx = cax - cbx
+ *     cdef double dy = cay - cby
+ *     cdef double dz = caz - cbz             # <<<<<<<<<<<<<<
+ *     cdef double dist_sq = dx * dx + dy * dy + dz * dz
+ *     cdef double rs = ra + rb
+*/
+  __pyx_v_dz = (__pyx_v_caz - __pyx_v_cbz);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":53
+ *     cdef double dy = cay - cby
+ *     cdef double dz = caz - cbz
+ *     cdef double dist_sq = dx * dx + dy * dy + dz * dz             # <<<<<<<<<<<<<<
+ *     cdef double rs = ra + rb
+ *     cdef double dist, depth, inv
+*/
+  __pyx_v_dist_sq = (((__pyx_v_dx * __pyx_v_dx) + (__pyx_v_dy * __pyx_v_dy)) + (__pyx_v_dz * __pyx_v_dz));
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":54
+ *     cdef double dz = caz - cbz
+ *     cdef double dist_sq = dx * dx + dy * dy + dz * dz
+ *     cdef double rs = ra + rb             # <<<<<<<<<<<<<<
+ *     cdef double dist, depth, inv
+ * 
+*/
+  __pyx_v_rs = (__pyx_v_ra + __pyx_v_rb);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":57
+ *     cdef double dist, depth, inv
+ * 
+ *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
+ *         return None
+ * 
+*/
+  __pyx_t_1 = (__pyx_v_dist_sq > (__pyx_v_rs * __pyx_v_rs));
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":58
+ * 
+ *     if dist_sq > rs * rs:
+ *         return None             # <<<<<<<<<<<<<<
+ * 
+ *     dist = sqrt(dist_sq)
+*/
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":57
+ *     cdef double dist, depth, inv
+ * 
+ *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
+ *         return None
+ * 
+*/
+  }
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":60
+ *         return None
+ * 
+ *     dist = sqrt(dist_sq)             # <<<<<<<<<<<<<<
+ *     if dist < 1e-6:
+ *         normal = [0.0, 1.0, 0.0]
+*/
+  __pyx_v_dist = sqrt(__pyx_v_dist_sq);
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":61
+ * 
+ *     dist = sqrt(dist_sq)
+ *     if dist < 1e-6:             # <<<<<<<<<<<<<<
+ *         normal = [0.0, 1.0, 0.0]
+ *         depth = rs
+*/
+  __pyx_t_1 = (__pyx_v_dist < 1e-6);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":62
+ *     dist = sqrt(dist_sq)
+ *     if dist < 1e-6:
+ *         normal = [0.0, 1.0, 0.0]             # <<<<<<<<<<<<<<
+ *         depth = rs
+ *     else:
+*/
+    __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_INCREF(__pyx_mstate_global->__pyx_float_0_0);
+    __Pyx_GIVEREF(__pyx_mstate_global->__pyx_float_0_0);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_2, 0, __pyx_mstate_global->__pyx_float_0_0) != (0)) __PYX_ERR(0, 62, __pyx_L1_error);
+    __Pyx_INCREF(__pyx_mstate_global->__pyx_float_1_0);
+    __Pyx_GIVEREF(__pyx_mstate_global->__pyx_float_1_0);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_2, 1, __pyx_mstate_global->__pyx_float_1_0) != (0)) __PYX_ERR(0, 62, __pyx_L1_error);
+    __Pyx_INCREF(__pyx_mstate_global->__pyx_float_0_0);
+    __Pyx_GIVEREF(__pyx_mstate_global->__pyx_float_0_0);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_2, 2, __pyx_mstate_global->__pyx_float_0_0) != (0)) __PYX_ERR(0, 62, __pyx_L1_error);
+    __pyx_v_normal = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":63
+ *     if dist < 1e-6:
+ *         normal = [0.0, 1.0, 0.0]
+ *         depth = rs             # <<<<<<<<<<<<<<
+ *     else:
+ *         inv = 1.0 / dist
+*/
+    __pyx_v_depth = __pyx_v_rs;
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":61
+ * 
+ *     dist = sqrt(dist_sq)
+ *     if dist < 1e-6:             # <<<<<<<<<<<<<<
+ *         normal = [0.0, 1.0, 0.0]
+ *         depth = rs
+*/
+    goto __pyx_L4;
+  }
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":65
+ *         depth = rs
+ *     else:
+ *         inv = 1.0 / dist             # <<<<<<<<<<<<<<
+ *         normal = [dx * inv, dy * inv, dz * inv]
+ *         depth = rs - dist
+*/
+  /*else*/ {
+    __pyx_v_inv = (1.0 / __pyx_v_dist);
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":66
+ *     else:
+ *         inv = 1.0 / dist
+ *         normal = [dx * inv, dy * inv, dz * inv]             # <<<<<<<<<<<<<<
+ *         depth = rs - dist
+ * 
+*/
+    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_dx * __pyx_v_inv)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_dy * __pyx_v_inv)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_dz * __pyx_v_inv)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_2);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_5, 0, __pyx_t_2) != (0)) __PYX_ERR(0, 66, __pyx_L1_error);
+    __Pyx_GIVEREF(__pyx_t_3);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 66, __pyx_L1_error);
+    __Pyx_GIVEREF(__pyx_t_4);
+    if (__Pyx_PyList_SET_ITEM(__pyx_t_5, 2, __pyx_t_4) != (0)) __PYX_ERR(0, 66, __pyx_L1_error);
+    __pyx_t_2 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_4 = 0;
+    __pyx_v_normal = ((PyObject*)__pyx_t_5);
+    __pyx_t_5 = 0;
+
+    /* "engine/cython/cy_collision_manifold_3d.pyx":67
+ *         inv = 1.0 / dist
+ *         normal = [dx * inv, dy * inv, dz * inv]
+ *         depth = rs - dist             # <<<<<<<<<<<<<<
+ * 
+ *     return (normal, depth)
+*/
+    __pyx_v_depth = (__pyx_v_rs - __pyx_v_dist);
+  }
+  __pyx_L4:;
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":69
+ *         depth = rs - dist
+ * 
+ *     return (normal, depth)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_INCREF(__pyx_v_normal);
+  __Pyx_GIVEREF(__pyx_v_normal);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_normal) != (0)) __PYX_ERR(0, 69, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_5);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5) != (0)) __PYX_ERR(0, 69, __pyx_L1_error);
+  __pyx_t_5 = 0;
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":45
+ * 
+ * 
+ * def sphere_vs_sphere_manifold_fast_scalars(             # <<<<<<<<<<<<<<
+ *     double cax, double cay, double caz, double ra,
+ *     double cbx, double cby, double cbz, double rb,
+*/
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("engine.cython.cy_collision_manifold_3d.sphere_vs_sphere_manifold_fast_scalars", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_normal);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_collision_manifold_3d.pyx":72
+ * 
+ * 
+ * def sphere_vs_obb_manifold_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] cs, double rs,
+ *     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5sphere_vs_obb_manifold_fast(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_4sphere_vs_obb_manifold_fast, "Returns (normal_ndarray, depth) or None.");
+static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_5sphere_vs_obb_manifold_fast = {"sphere_vs_obb_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5sphere_vs_obb_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_4sphere_vs_obb_manifold_fast};
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5sphere_vs_obb_manifold_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -19096,60 +19506,60 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cs,&__pyx_mstate_global->__pyx_n_u_rs,&__pyx_mstate_global->__pyx_n_u_Cb,&__pyx_mstate_global->__pyx_n_u_Ab,&__pyx_mstate_global->__pyx_n_u_Eb,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 45, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 72, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 72, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "sphere_vs_obb_manifold_fast", 0) < (0)) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "sphere_vs_obb_manifold_fast", 0) < (0)) __PYX_ERR(0, 72, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 5; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("sphere_vs_obb_manifold_fast", 1, 5, 5, i); __PYX_ERR(0, 45, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("sphere_vs_obb_manifold_fast", 1, 5, 5, i); __PYX_ERR(0, 72, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 5)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 72, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 45, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 72, __pyx_L3_error)
     }
-    __pyx_v_cs = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_cs.memview)) __PYX_ERR(0, 46, __pyx_L3_error)
-    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
-    __pyx_v_Cb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cb.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
-    __pyx_v_Ab = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Ab.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
-    __pyx_v_Eb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[4], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Eb.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_cs = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_cs.memview)) __PYX_ERR(0, 73, __pyx_L3_error)
+    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
+    __pyx_v_Cb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cb.memview)) __PYX_ERR(0, 74, __pyx_L3_error)
+    __pyx_v_Ab = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Ab.memview)) __PYX_ERR(0, 74, __pyx_L3_error)
+    __pyx_v_Eb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[4], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Eb.memview)) __PYX_ERR(0, 74, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sphere_vs_obb_manifold_fast", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 45, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("sphere_vs_obb_manifold_fast", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 72, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19164,7 +19574,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_obb_manifold_fast(__pyx_self, __pyx_v_cs, __pyx_v_rs, __pyx_v_Cb, __pyx_v_Ab, __pyx_v_Eb);
+  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4sphere_vs_obb_manifold_fast(__pyx_self, __pyx_v_cs, __pyx_v_rs, __pyx_v_Cb, __pyx_v_Ab, __pyx_v_Eb);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -19178,7 +19588,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_obb_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs, __Pyx_memviewslice __pyx_v_Cb, __Pyx_memviewslice __pyx_v_Ab, __Pyx_memviewslice __pyx_v_Eb) {
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4sphere_vs_obb_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs, __Pyx_memviewslice __pyx_v_Cb, __Pyx_memviewslice __pyx_v_Ab, __Pyx_memviewslice __pyx_v_Eb) {
   double __pyx_v_dx;
   double __pyx_v_dy;
   double __pyx_v_dz;
@@ -19235,7 +19645,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_pybuffernd_normal.data = NULL;
   __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":50
+  /* "engine/cython/cy_collision_manifold_3d.pyx":77
  * ):
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dx = cs[0] - Cb[0]             # <<<<<<<<<<<<<<
@@ -19246,7 +19656,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_2 = 0;
   __pyx_v_dx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_1)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":51
+  /* "engine/cython/cy_collision_manifold_3d.pyx":78
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dx = cs[0] - Cb[0]
  *     cdef double dy = cs[1] - Cb[1]             # <<<<<<<<<<<<<<
@@ -19257,7 +19667,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_1 = 1;
   __pyx_v_dy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_2)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_1)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":52
+  /* "engine/cython/cy_collision_manifold_3d.pyx":79
  *     cdef double dx = cs[0] - Cb[0]
  *     cdef double dy = cs[1] - Cb[1]
  *     cdef double dz = cs[2] - Cb[2]             # <<<<<<<<<<<<<<
@@ -19268,7 +19678,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_2 = 2;
   __pyx_v_dz = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_1)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":53
+  /* "engine/cython/cy_collision_manifold_3d.pyx":80
  *     cdef double dy = cs[1] - Cb[1]
  *     cdef double dz = cs[2] - Cb[2]
  *     cdef double lx = Ab[0, 0] * dx + Ab[1, 0] * dy + Ab[2, 0] * dz             # <<<<<<<<<<<<<<
@@ -19283,7 +19693,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_6 = 0;
   __pyx_v_lx = ((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_2 * __pyx_v_Ab.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_dx) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_3 * __pyx_v_Ab.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_dy)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_5 * __pyx_v_Ab.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_dz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":54
+  /* "engine/cython/cy_collision_manifold_3d.pyx":81
  *     cdef double dz = cs[2] - Cb[2]
  *     cdef double lx = Ab[0, 0] * dx + Ab[1, 0] * dy + Ab[2, 0] * dz
  *     cdef double ly = Ab[0, 1] * dx + Ab[1, 1] * dy + Ab[2, 1] * dz             # <<<<<<<<<<<<<<
@@ -19298,7 +19708,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_2 = 1;
   __pyx_v_ly = ((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_6 * __pyx_v_Ab.strides[0]) )) + __pyx_t_5)) ))) * __pyx_v_dx) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_4 * __pyx_v_Ab.strides[0]) )) + __pyx_t_3)) ))) * __pyx_v_dy)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_1 * __pyx_v_Ab.strides[0]) )) + __pyx_t_2)) ))) * __pyx_v_dz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":55
+  /* "engine/cython/cy_collision_manifold_3d.pyx":82
  *     cdef double lx = Ab[0, 0] * dx + Ab[1, 0] * dy + Ab[2, 0] * dz
  *     cdef double ly = Ab[0, 1] * dx + Ab[1, 1] * dy + Ab[2, 1] * dz
  *     cdef double lz = Ab[0, 2] * dx + Ab[1, 2] * dy + Ab[2, 2] * dz             # <<<<<<<<<<<<<<
@@ -19313,7 +19723,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_6 = 2;
   __pyx_v_lz = ((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_2 * __pyx_v_Ab.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_dx) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_3 * __pyx_v_Ab.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_dy)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_5 * __pyx_v_Ab.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_dz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":56
+  /* "engine/cython/cy_collision_manifold_3d.pyx":83
  *     cdef double ly = Ab[0, 1] * dx + Ab[1, 1] * dy + Ab[2, 1] * dz
  *     cdef double lz = Ab[0, 2] * dx + Ab[1, 2] * dy + Ab[2, 2] * dz
  *     cdef double clx = lx, cly = ly, clz = lz             # <<<<<<<<<<<<<<
@@ -19324,7 +19734,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_v_cly = __pyx_v_ly;
   __pyx_v_clz = __pyx_v_lz;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":61
+  /* "engine/cython/cy_collision_manifold_3d.pyx":88
  *     cdef cnp.ndarray[cnp.float32_t, ndim=1] normal
  * 
  *     if clx < -Eb[0]: clx = -Eb[0]             # <<<<<<<<<<<<<<
@@ -19339,7 +19749,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     goto __pyx_L3;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":62
+  /* "engine/cython/cy_collision_manifold_3d.pyx":89
  * 
  *     if clx < -Eb[0]: clx = -Eb[0]
  *     elif clx > Eb[0]: clx = Eb[0]             # <<<<<<<<<<<<<<
@@ -19354,7 +19764,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   }
   __pyx_L3:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":63
+  /* "engine/cython/cy_collision_manifold_3d.pyx":90
  *     if clx < -Eb[0]: clx = -Eb[0]
  *     elif clx > Eb[0]: clx = Eb[0]
  *     if cly < -Eb[1]: cly = -Eb[1]             # <<<<<<<<<<<<<<
@@ -19369,7 +19779,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     goto __pyx_L4;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":64
+  /* "engine/cython/cy_collision_manifold_3d.pyx":91
  *     elif clx > Eb[0]: clx = Eb[0]
  *     if cly < -Eb[1]: cly = -Eb[1]
  *     elif cly > Eb[1]: cly = Eb[1]             # <<<<<<<<<<<<<<
@@ -19384,7 +19794,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   }
   __pyx_L4:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":65
+  /* "engine/cython/cy_collision_manifold_3d.pyx":92
  *     if cly < -Eb[1]: cly = -Eb[1]
  *     elif cly > Eb[1]: cly = Eb[1]
  *     if clz < -Eb[2]: clz = -Eb[2]             # <<<<<<<<<<<<<<
@@ -19399,7 +19809,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     goto __pyx_L5;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":66
+  /* "engine/cython/cy_collision_manifold_3d.pyx":93
  *     elif cly > Eb[1]: cly = Eb[1]
  *     if clz < -Eb[2]: clz = -Eb[2]
  *     elif clz > Eb[2]: clz = Eb[2]             # <<<<<<<<<<<<<<
@@ -19414,7 +19824,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   }
   __pyx_L5:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":68
+  /* "engine/cython/cy_collision_manifold_3d.pyx":95
  *     elif clz > Eb[2]: clz = Eb[2]
  * 
  *     cwx = Cb[0] + Ab[0, 0] * clx + Ab[0, 1] * cly + Ab[0, 2] * clz             # <<<<<<<<<<<<<<
@@ -19430,7 +19840,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_8 = 2;
   __pyx_v_cwx = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_6)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_5 * __pyx_v_Ab.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_clx)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_3 * __pyx_v_Ab.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_cly)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_2 * __pyx_v_Ab.strides[0]) )) + __pyx_t_8)) ))) * __pyx_v_clz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":69
+  /* "engine/cython/cy_collision_manifold_3d.pyx":96
  * 
  *     cwx = Cb[0] + Ab[0, 0] * clx + Ab[0, 1] * cly + Ab[0, 2] * clz
  *     cwy = Cb[1] + Ab[1, 0] * clx + Ab[1, 1] * cly + Ab[1, 2] * clz             # <<<<<<<<<<<<<<
@@ -19446,7 +19856,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_6 = 2;
   __pyx_v_cwy = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_8)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_2 * __pyx_v_Ab.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_clx)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_3 * __pyx_v_Ab.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_cly)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_5 * __pyx_v_Ab.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_clz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":70
+  /* "engine/cython/cy_collision_manifold_3d.pyx":97
  *     cwx = Cb[0] + Ab[0, 0] * clx + Ab[0, 1] * cly + Ab[0, 2] * clz
  *     cwy = Cb[1] + Ab[1, 0] * clx + Ab[1, 1] * cly + Ab[1, 2] * clz
  *     cwz = Cb[2] + Ab[2, 0] * clx + Ab[2, 1] * cly + Ab[2, 2] * clz             # <<<<<<<<<<<<<<
@@ -19462,7 +19872,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_8 = 2;
   __pyx_v_cwz = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_6)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_5 * __pyx_v_Ab.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_clx)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_3 * __pyx_v_Ab.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_cly)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Ab.data + __pyx_t_2 * __pyx_v_Ab.strides[0]) )) + __pyx_t_8)) ))) * __pyx_v_clz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":72
+  /* "engine/cython/cy_collision_manifold_3d.pyx":99
  *     cwz = Cb[2] + Ab[2, 0] * clx + Ab[2, 1] * cly + Ab[2, 2] * clz
  * 
  *     diffx = cs[0] - cwx             # <<<<<<<<<<<<<<
@@ -19472,7 +19882,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_8 = 0;
   __pyx_v_diffx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_8)) ))) - __pyx_v_cwx);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":73
+  /* "engine/cython/cy_collision_manifold_3d.pyx":100
  * 
  *     diffx = cs[0] - cwx
  *     diffy = cs[1] - cwy             # <<<<<<<<<<<<<<
@@ -19482,7 +19892,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_8 = 1;
   __pyx_v_diffy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_8)) ))) - __pyx_v_cwy);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":74
+  /* "engine/cython/cy_collision_manifold_3d.pyx":101
  *     diffx = cs[0] - cwx
  *     diffy = cs[1] - cwy
  *     diffz = cs[2] - cwz             # <<<<<<<<<<<<<<
@@ -19492,7 +19902,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_8 = 2;
   __pyx_v_diffz = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_8)) ))) - __pyx_v_cwz);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":75
+  /* "engine/cython/cy_collision_manifold_3d.pyx":102
  *     diffy = cs[1] - cwy
  *     diffz = cs[2] - cwz
  *     dist_sq = diffx * diffx + diffy * diffy + diffz * diffz             # <<<<<<<<<<<<<<
@@ -19501,7 +19911,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
   __pyx_v_dist_sq = (((__pyx_v_diffx * __pyx_v_diffx) + (__pyx_v_diffy * __pyx_v_diffy)) + (__pyx_v_diffz * __pyx_v_diffz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":77
+  /* "engine/cython/cy_collision_manifold_3d.pyx":104
  *     dist_sq = diffx * diffx + diffy * diffy + diffz * diffz
  * 
  *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
@@ -19511,7 +19921,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_7 = (__pyx_v_dist_sq > (__pyx_v_rs * __pyx_v_rs));
   if (__pyx_t_7) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":78
+    /* "engine/cython/cy_collision_manifold_3d.pyx":105
  * 
  *     if dist_sq > rs * rs:
  *         return None             # <<<<<<<<<<<<<<
@@ -19522,7 +19932,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":77
+    /* "engine/cython/cy_collision_manifold_3d.pyx":104
  *     dist_sq = diffx * diffx + diffy * diffy + diffz * diffz
  * 
  *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
@@ -19531,7 +19941,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":80
+  /* "engine/cython/cy_collision_manifold_3d.pyx":107
  *         return None
  * 
  *     dist = sqrt(dist_sq)             # <<<<<<<<<<<<<<
@@ -19540,7 +19950,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
   __pyx_v_dist = sqrt(__pyx_v_dist_sq);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":81
+  /* "engine/cython/cy_collision_manifold_3d.pyx":108
  * 
  *     dist = sqrt(dist_sq)
  *     normal = np.empty(3, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -19548,14 +19958,14 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
  *     if dist < 1e-6:
 */
   __pyx_t_10 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __pyx_t_14 = 1;
@@ -19572,18 +19982,18 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_10, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_11 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_13, __pyx_t_11, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_13, __pyx_t_11, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 108, __pyx_L1_error)
     __pyx_t_9 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_12, __pyx_callargs+__pyx_t_14, (2-__pyx_t_14) | (__pyx_t_14*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_11);
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
   }
-  if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 108, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
@@ -19599,12 +20009,12 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
       __pyx_t_16 = __pyx_t_17 = __pyx_t_18 = 0;
     }
     __pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_15 < 0))) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (unlikely((__pyx_t_15 < 0))) __PYX_ERR(0, 108, __pyx_L1_error)
   }
   __pyx_v_normal = ((PyArrayObject *)__pyx_t_9);
   __pyx_t_9 = 0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":83
+  /* "engine/cython/cy_collision_manifold_3d.pyx":110
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if dist < 1e-6:             # <<<<<<<<<<<<<<
@@ -19614,7 +20024,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   __pyx_t_7 = (__pyx_v_dist < 1e-6);
   if (__pyx_t_7) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":84
+    /* "engine/cython/cy_collision_manifold_3d.pyx":111
  * 
  *     if dist < 1e-6:
  *         nx = cs[0] - Cb[0]             # <<<<<<<<<<<<<<
@@ -19625,7 +20035,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_2 = 0;
     __pyx_v_nx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_8)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":85
+    /* "engine/cython/cy_collision_manifold_3d.pyx":112
  *     if dist < 1e-6:
  *         nx = cs[0] - Cb[0]
  *         ny = cs[1] - Cb[1]             # <<<<<<<<<<<<<<
@@ -19636,7 +20046,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_8 = 1;
     __pyx_v_ny = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_2)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_8)) ))));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":86
+    /* "engine/cython/cy_collision_manifold_3d.pyx":113
  *         nx = cs[0] - Cb[0]
  *         ny = cs[1] - Cb[1]
  *         nz = cs[2] - Cb[2]             # <<<<<<<<<<<<<<
@@ -19647,7 +20057,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_2 = 2;
     __pyx_v_nz = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_8)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":87
+    /* "engine/cython/cy_collision_manifold_3d.pyx":114
  *         ny = cs[1] - Cb[1]
  *         nz = cs[2] - Cb[2]
  *         nl = sqrt(nx * nx + ny * ny + nz * nz)             # <<<<<<<<<<<<<<
@@ -19656,7 +20066,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
     __pyx_v_nl = sqrt((((__pyx_v_nx * __pyx_v_nx) + (__pyx_v_ny * __pyx_v_ny)) + (__pyx_v_nz * __pyx_v_nz)));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":88
+    /* "engine/cython/cy_collision_manifold_3d.pyx":115
  *         nz = cs[2] - Cb[2]
  *         nl = sqrt(nx * nx + ny * ny + nz * nz)
  *         if nl < 1e-6:             # <<<<<<<<<<<<<<
@@ -19666,7 +20076,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_7 = (__pyx_v_nl < 1e-6);
     if (__pyx_t_7) {
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":89
+      /* "engine/cython/cy_collision_manifold_3d.pyx":116
  *         nl = sqrt(nx * nx + ny * ny + nz * nz)
  *         if nl < 1e-6:
  *             normal[0] = 0.0; normal[1] = 1.0; normal[2] = 0.0             # <<<<<<<<<<<<<<
@@ -19680,7 +20090,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
       __pyx_t_2 = 2;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":88
+      /* "engine/cython/cy_collision_manifold_3d.pyx":115
  *         nz = cs[2] - Cb[2]
  *         nl = sqrt(nx * nx + ny * ny + nz * nz)
  *         if nl < 1e-6:             # <<<<<<<<<<<<<<
@@ -19690,7 +20100,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
       goto __pyx_L8;
     }
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":91
+    /* "engine/cython/cy_collision_manifold_3d.pyx":118
  *             normal[0] = 0.0; normal[1] = 1.0; normal[2] = 0.0
  *         else:
  *             inv2 = 1.0 / nl             # <<<<<<<<<<<<<<
@@ -19700,7 +20110,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     /*else*/ {
       __pyx_v_inv2 = (1.0 / __pyx_v_nl);
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":92
+      /* "engine/cython/cy_collision_manifold_3d.pyx":119
  *         else:
  *             inv2 = 1.0 / nl
  *             normal[0] = <float>(nx * inv2)             # <<<<<<<<<<<<<<
@@ -19710,7 +20120,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
       __pyx_t_2 = 0;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_nx * __pyx_v_inv2));
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":93
+      /* "engine/cython/cy_collision_manifold_3d.pyx":120
  *             inv2 = 1.0 / nl
  *             normal[0] = <float>(nx * inv2)
  *             normal[1] = <float>(ny * inv2)             # <<<<<<<<<<<<<<
@@ -19720,7 +20130,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
       __pyx_t_2 = 1;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_ny * __pyx_v_inv2));
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":94
+      /* "engine/cython/cy_collision_manifold_3d.pyx":121
  *             normal[0] = <float>(nx * inv2)
  *             normal[1] = <float>(ny * inv2)
  *             normal[2] = <float>(nz * inv2)             # <<<<<<<<<<<<<<
@@ -19732,7 +20142,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     }
     __pyx_L8:;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":95
+    /* "engine/cython/cy_collision_manifold_3d.pyx":122
  *             normal[1] = <float>(ny * inv2)
  *             normal[2] = <float>(nz * inv2)
  *         depth = rs             # <<<<<<<<<<<<<<
@@ -19741,7 +20151,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
     __pyx_v_depth = __pyx_v_rs;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":83
+    /* "engine/cython/cy_collision_manifold_3d.pyx":110
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if dist < 1e-6:             # <<<<<<<<<<<<<<
@@ -19751,7 +20161,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     goto __pyx_L7;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":97
+  /* "engine/cython/cy_collision_manifold_3d.pyx":124
  *         depth = rs
  *     else:
  *         inv = 1.0 / dist             # <<<<<<<<<<<<<<
@@ -19761,7 +20171,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   /*else*/ {
     __pyx_v_inv = (1.0 / __pyx_v_dist);
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":98
+    /* "engine/cython/cy_collision_manifold_3d.pyx":125
  *     else:
  *         inv = 1.0 / dist
  *         normal[0] = <float>(diffx * inv)             # <<<<<<<<<<<<<<
@@ -19771,7 +20181,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_2 = 0;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_diffx * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":99
+    /* "engine/cython/cy_collision_manifold_3d.pyx":126
  *         inv = 1.0 / dist
  *         normal[0] = <float>(diffx * inv)
  *         normal[1] = <float>(diffy * inv)             # <<<<<<<<<<<<<<
@@ -19781,7 +20191,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_2 = 1;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_diffy * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":100
+    /* "engine/cython/cy_collision_manifold_3d.pyx":127
  *         normal[0] = <float>(diffx * inv)
  *         normal[1] = <float>(diffy * inv)
  *         normal[2] = <float>(diffz * inv)             # <<<<<<<<<<<<<<
@@ -19791,7 +20201,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
     __pyx_t_2 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_diffz * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":101
+    /* "engine/cython/cy_collision_manifold_3d.pyx":128
  *         normal[1] = <float>(diffy * inv)
  *         normal[2] = <float>(diffz * inv)
  *         depth = rs - dist             # <<<<<<<<<<<<<<
@@ -19802,7 +20212,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   }
   __pyx_L7:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":103
+  /* "engine/cython/cy_collision_manifold_3d.pyx":130
  *         depth = rs - dist
  * 
  *     return (normal, depth)             # <<<<<<<<<<<<<<
@@ -19810,21 +20220,21 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
  * 
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF((PyObject *)__pyx_v_normal);
   __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_12, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_12, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 130, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_9);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_9) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_9) != (0)) __PYX_ERR(0, 130, __pyx_L1_error);
   __pyx_t_9 = 0;
   __pyx_r = __pyx_t_12;
   __pyx_t_12 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":45
+  /* "engine/cython/cy_collision_manifold_3d.pyx":72
  * 
  * 
  * def sphere_vs_obb_manifold_fast(             # <<<<<<<<<<<<<<
@@ -19857,7 +20267,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
   return __pyx_r;
 }
 
-/* "engine/cython/cy_collision_manifold_3d.pyx":106
+/* "engine/cython/cy_collision_manifold_3d.pyx":133
  * 
  * 
  * def cylinder_vs_cylinder_manifold_fast(             # <<<<<<<<<<<<<<
@@ -19866,16 +20276,16 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_2sphere_vs_
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5cylinder_vs_cylinder_manifold_fast(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_cylinder_manifold_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_4cylinder_vs_cylinder_manifold_fast, "Returns (normal_ndarray, depth) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_5cylinder_vs_cylinder_manifold_fast = {"cylinder_vs_cylinder_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5cylinder_vs_cylinder_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_4cylinder_vs_cylinder_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_5cylinder_vs_cylinder_manifold_fast(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_cylinder_manifold_fast, "Returns (normal_ndarray, depth) or None.");
+static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_cylinder_manifold_fast = {"cylinder_vs_cylinder_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_cylinder_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_cylinder_manifold_fast};
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_cylinder_manifold_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -19910,67 +20320,67 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_Ca,&__pyx_mstate_global->__pyx_n_u_ra,&__pyx_mstate_global->__pyx_n_u_ha,&__pyx_mstate_global->__pyx_n_u_Cb,&__pyx_mstate_global->__pyx_n_u_rb,&__pyx_mstate_global->__pyx_n_u_hb,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 106, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 133, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 106, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 133, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cylinder_vs_cylinder_manifold_fast", 0) < (0)) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cylinder_vs_cylinder_manifold_fast", 0) < (0)) __PYX_ERR(0, 133, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 6; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cylinder_vs_cylinder_manifold_fast", 1, 6, 6, i); __PYX_ERR(0, 106, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cylinder_vs_cylinder_manifold_fast", 1, 6, 6, i); __PYX_ERR(0, 133, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 6)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 133, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 133, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 133, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 133, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 133, __pyx_L3_error)
       values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 106, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 133, __pyx_L3_error)
     }
-    __pyx_v_Ca = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Ca.memview)) __PYX_ERR(0, 107, __pyx_L3_error)
-    __pyx_v_ra = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_ra == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L3_error)
-    __pyx_v_ha = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_ha == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L3_error)
-    __pyx_v_Cb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cb.memview)) __PYX_ERR(0, 108, __pyx_L3_error)
-    __pyx_v_rb = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_rb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L3_error)
-    __pyx_v_hb = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_hb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L3_error)
+    __pyx_v_Ca = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Ca.memview)) __PYX_ERR(0, 134, __pyx_L3_error)
+    __pyx_v_ra = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_ra == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 134, __pyx_L3_error)
+    __pyx_v_ha = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_ha == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 134, __pyx_L3_error)
+    __pyx_v_Cb = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cb.memview)) __PYX_ERR(0, 135, __pyx_L3_error)
+    __pyx_v_rb = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_rb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
+    __pyx_v_hb = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_hb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cylinder_vs_cylinder_manifold_fast", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 106, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cylinder_vs_cylinder_manifold_fast", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 133, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19983,7 +20393,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_vs_cylinder_manifold_fast(__pyx_self, __pyx_v_Ca, __pyx_v_ra, __pyx_v_ha, __pyx_v_Cb, __pyx_v_rb, __pyx_v_hb);
+  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_cylinder_manifold_fast(__pyx_self, __pyx_v_Ca, __pyx_v_ra, __pyx_v_ha, __pyx_v_Cb, __pyx_v_rb, __pyx_v_hb);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -19995,7 +20405,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_vs_cylinder_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Ca, double __pyx_v_ra, double __pyx_v_ha, __Pyx_memviewslice __pyx_v_Cb, double __pyx_v_rb, double __pyx_v_hb) {
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_cylinder_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Ca, double __pyx_v_ra, double __pyx_v_ha, __Pyx_memviewslice __pyx_v_Cb, double __pyx_v_rb, double __pyx_v_hb) {
   double __pyx_v_dy;
   double __pyx_v_y_overlap;
   double __pyx_v_dx;
@@ -20034,7 +20444,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_pybuffernd_normal.data = NULL;
   __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":111
+  /* "engine/cython/cy_collision_manifold_3d.pyx":138
  * ):
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dy = Ca[1] - Cb[1]             # <<<<<<<<<<<<<<
@@ -20045,7 +20455,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_2 = 1;
   __pyx_v_dy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Ca.data) + __pyx_t_1)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":112
+  /* "engine/cython/cy_collision_manifold_3d.pyx":139
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dy = Ca[1] - Cb[1]
  *     cdef double y_overlap = (ha + hb) - fabs(dy)             # <<<<<<<<<<<<<<
@@ -20054,7 +20464,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   __pyx_v_y_overlap = ((__pyx_v_ha + __pyx_v_hb) - fabs(__pyx_v_dy));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":116
+  /* "engine/cython/cy_collision_manifold_3d.pyx":143
  *     cdef cnp.ndarray[cnp.float32_t, ndim=1] normal
  * 
  *     if y_overlap < 0:             # <<<<<<<<<<<<<<
@@ -20064,7 +20474,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_3 = (__pyx_v_y_overlap < 0.0);
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":117
+    /* "engine/cython/cy_collision_manifold_3d.pyx":144
  * 
  *     if y_overlap < 0:
  *         return None             # <<<<<<<<<<<<<<
@@ -20075,7 +20485,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":116
+    /* "engine/cython/cy_collision_manifold_3d.pyx":143
  *     cdef cnp.ndarray[cnp.float32_t, ndim=1] normal
  * 
  *     if y_overlap < 0:             # <<<<<<<<<<<<<<
@@ -20084,7 +20494,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":119
+  /* "engine/cython/cy_collision_manifold_3d.pyx":146
  *         return None
  * 
  *     dx = Ca[0] - Cb[0]             # <<<<<<<<<<<<<<
@@ -20095,7 +20505,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_1 = 0;
   __pyx_v_dx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Ca.data) + __pyx_t_2)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_1)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":120
+  /* "engine/cython/cy_collision_manifold_3d.pyx":147
  * 
  *     dx = Ca[0] - Cb[0]
  *     dz = Ca[2] - Cb[2]             # <<<<<<<<<<<<<<
@@ -20106,7 +20516,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_2 = 2;
   __pyx_v_dz = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Ca.data) + __pyx_t_1)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cb.data) + __pyx_t_2)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":121
+  /* "engine/cython/cy_collision_manifold_3d.pyx":148
  *     dx = Ca[0] - Cb[0]
  *     dz = Ca[2] - Cb[2]
  *     dist_sq = dx * dx + dz * dz             # <<<<<<<<<<<<<<
@@ -20115,7 +20525,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   __pyx_v_dist_sq = ((__pyx_v_dx * __pyx_v_dx) + (__pyx_v_dz * __pyx_v_dz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":122
+  /* "engine/cython/cy_collision_manifold_3d.pyx":149
  *     dz = Ca[2] - Cb[2]
  *     dist_sq = dx * dx + dz * dz
  *     r_sum = ra + rb             # <<<<<<<<<<<<<<
@@ -20124,7 +20534,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   __pyx_v_r_sum = (__pyx_v_ra + __pyx_v_rb);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":124
+  /* "engine/cython/cy_collision_manifold_3d.pyx":151
  *     r_sum = ra + rb
  * 
  *     if dist_sq >= r_sum * r_sum:             # <<<<<<<<<<<<<<
@@ -20134,7 +20544,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_3 = (__pyx_v_dist_sq >= (__pyx_v_r_sum * __pyx_v_r_sum));
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":125
+    /* "engine/cython/cy_collision_manifold_3d.pyx":152
  * 
  *     if dist_sq >= r_sum * r_sum:
  *         return None             # <<<<<<<<<<<<<<
@@ -20145,7 +20555,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":124
+    /* "engine/cython/cy_collision_manifold_3d.pyx":151
  *     r_sum = ra + rb
  * 
  *     if dist_sq >= r_sum * r_sum:             # <<<<<<<<<<<<<<
@@ -20154,7 +20564,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":127
+  /* "engine/cython/cy_collision_manifold_3d.pyx":154
  *         return None
  * 
  *     dist = sqrt(dist_sq)             # <<<<<<<<<<<<<<
@@ -20163,7 +20573,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   __pyx_v_dist = sqrt(__pyx_v_dist_sq);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":128
+  /* "engine/cython/cy_collision_manifold_3d.pyx":155
  * 
  *     dist = sqrt(dist_sq)
  *     horizontal_overlap = r_sum - dist             # <<<<<<<<<<<<<<
@@ -20172,7 +20582,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
   __pyx_v_horizontal_overlap = (__pyx_v_r_sum - __pyx_v_dist);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":129
+  /* "engine/cython/cy_collision_manifold_3d.pyx":156
  *     dist = sqrt(dist_sq)
  *     horizontal_overlap = r_sum - dist
  *     normal = np.empty(3, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -20180,14 +20590,14 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
  *     if y_overlap < horizontal_overlap:
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_9 = 1;
@@ -20204,18 +20614,18 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 129, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 156, __pyx_L1_error)
     __pyx_t_4 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_7, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 129, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
   }
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 156, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
@@ -20231,12 +20641,12 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
       __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
     }
     __pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 129, __pyx_L1_error)
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 156, __pyx_L1_error)
   }
   __pyx_v_normal = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":131
+  /* "engine/cython/cy_collision_manifold_3d.pyx":158
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if y_overlap < horizontal_overlap:             # <<<<<<<<<<<<<<
@@ -20246,7 +20656,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   __pyx_t_3 = (__pyx_v_y_overlap < __pyx_v_horizontal_overlap);
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":132
+    /* "engine/cython/cy_collision_manifold_3d.pyx":159
  * 
  *     if y_overlap < horizontal_overlap:
  *         normal[0] = 0.0             # <<<<<<<<<<<<<<
@@ -20256,7 +20666,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_t_2 = 0;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":133
+    /* "engine/cython/cy_collision_manifold_3d.pyx":160
  *     if y_overlap < horizontal_overlap:
  *         normal[0] = 0.0
  *         normal[1] = 1.0 if dy >= 0.0 else -1.0             # <<<<<<<<<<<<<<
@@ -20272,7 +20682,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_t_2 = 1;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_t_14;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":134
+    /* "engine/cython/cy_collision_manifold_3d.pyx":161
  *         normal[0] = 0.0
  *         normal[1] = 1.0 if dy >= 0.0 else -1.0
  *         normal[2] = 0.0             # <<<<<<<<<<<<<<
@@ -20282,7 +20692,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_t_2 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":135
+    /* "engine/cython/cy_collision_manifold_3d.pyx":162
  *         normal[1] = 1.0 if dy >= 0.0 else -1.0
  *         normal[2] = 0.0
  *         depth = y_overlap             # <<<<<<<<<<<<<<
@@ -20291,7 +20701,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
     __pyx_v_depth = __pyx_v_y_overlap;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":131
+    /* "engine/cython/cy_collision_manifold_3d.pyx":158
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if y_overlap < horizontal_overlap:             # <<<<<<<<<<<<<<
@@ -20301,7 +20711,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     goto __pyx_L5;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":137
+  /* "engine/cython/cy_collision_manifold_3d.pyx":164
  *         depth = y_overlap
  *     else:
  *         if dist < 1e-6:             # <<<<<<<<<<<<<<
@@ -20312,7 +20722,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     __pyx_t_3 = (__pyx_v_dist < 1e-6);
     if (__pyx_t_3) {
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":138
+      /* "engine/cython/cy_collision_manifold_3d.pyx":165
  *     else:
  *         if dist < 1e-6:
  *             normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0             # <<<<<<<<<<<<<<
@@ -20326,7 +20736,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
       __pyx_t_2 = 2;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":137
+      /* "engine/cython/cy_collision_manifold_3d.pyx":164
  *         depth = y_overlap
  *     else:
  *         if dist < 1e-6:             # <<<<<<<<<<<<<<
@@ -20336,7 +20746,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
       goto __pyx_L6;
     }
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":140
+    /* "engine/cython/cy_collision_manifold_3d.pyx":167
  *             normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0
  *         else:
  *             inv = 1.0 / dist             # <<<<<<<<<<<<<<
@@ -20346,7 +20756,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     /*else*/ {
       __pyx_v_inv = (1.0 / __pyx_v_dist);
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":141
+      /* "engine/cython/cy_collision_manifold_3d.pyx":168
  *         else:
  *             inv = 1.0 / dist
  *             normal[0] = <float>(dx * inv)             # <<<<<<<<<<<<<<
@@ -20356,7 +20766,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
       __pyx_t_2 = 0;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_dx * __pyx_v_inv));
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":142
+      /* "engine/cython/cy_collision_manifold_3d.pyx":169
  *             inv = 1.0 / dist
  *             normal[0] = <float>(dx * inv)
  *             normal[1] = 0.0             # <<<<<<<<<<<<<<
@@ -20366,7 +20776,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
       __pyx_t_2 = 1;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":143
+      /* "engine/cython/cy_collision_manifold_3d.pyx":170
  *             normal[0] = <float>(dx * inv)
  *             normal[1] = 0.0
  *             normal[2] = <float>(dz * inv)             # <<<<<<<<<<<<<<
@@ -20378,7 +20788,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
     }
     __pyx_L6:;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":144
+    /* "engine/cython/cy_collision_manifold_3d.pyx":171
  *             normal[1] = 0.0
  *             normal[2] = <float>(dz * inv)
  *         depth = horizontal_overlap             # <<<<<<<<<<<<<<
@@ -20389,7 +20799,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   }
   __pyx_L5:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":146
+  /* "engine/cython/cy_collision_manifold_3d.pyx":173
  *         depth = horizontal_overlap
  * 
  *     return (normal, depth)             # <<<<<<<<<<<<<<
@@ -20397,21 +20807,21 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
  * 
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF((PyObject *)__pyx_v_normal);
   __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 146, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 173, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 146, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 173, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_r = __pyx_t_7;
   __pyx_t_7 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":106
+  /* "engine/cython/cy_collision_manifold_3d.pyx":133
  * 
  * 
  * def cylinder_vs_cylinder_manifold_fast(             # <<<<<<<<<<<<<<
@@ -20444,7 +20854,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
   return __pyx_r;
 }
 
-/* "engine/cython/cy_collision_manifold_3d.pyx":149
+/* "engine/cython/cy_collision_manifold_3d.pyx":176
  * 
  * 
  * def cylinder_vs_sphere_manifold_fast(             # <<<<<<<<<<<<<<
@@ -20453,16 +20863,16 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_4cylinder_v
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_sphere_manifold_fast(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_9cylinder_vs_sphere_manifold_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_sphere_manifold_fast, "Returns (normal_ndarray, depth) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_sphere_manifold_fast = {"cylinder_vs_sphere_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_sphere_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_sphere_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_sphere_manifold_fast(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_24cy_collision_manifold_3d_8cylinder_vs_sphere_manifold_fast, "Returns (normal_ndarray, depth) or None.");
+static PyMethodDef __pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_9cylinder_vs_sphere_manifold_fast = {"cylinder_vs_sphere_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_9cylinder_vs_sphere_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_24cy_collision_manifold_3d_8cylinder_vs_sphere_manifold_fast};
+static PyObject *__pyx_pw_6engine_6cython_24cy_collision_manifold_3d_9cylinder_vs_sphere_manifold_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -20496,60 +20906,60 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_Cc,&__pyx_mstate_global->__pyx_n_u_rc,&__pyx_mstate_global->__pyx_n_u_hc,&__pyx_mstate_global->__pyx_n_u_cs,&__pyx_mstate_global->__pyx_n_u_rs,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 149, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 176, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 176, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 176, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 176, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 176, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 176, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cylinder_vs_sphere_manifold_fast", 0) < (0)) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cylinder_vs_sphere_manifold_fast", 0) < (0)) __PYX_ERR(0, 176, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 5; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cylinder_vs_sphere_manifold_fast", 1, 5, 5, i); __PYX_ERR(0, 149, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cylinder_vs_sphere_manifold_fast", 1, 5, 5, i); __PYX_ERR(0, 176, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 5)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 176, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 176, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 176, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 176, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 149, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 176, __pyx_L3_error)
     }
-    __pyx_v_Cc = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cc.memview)) __PYX_ERR(0, 150, __pyx_L3_error)
-    __pyx_v_rc = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_rc == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L3_error)
-    __pyx_v_hc = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_hc == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 150, __pyx_L3_error)
-    __pyx_v_cs = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_cs.memview)) __PYX_ERR(0, 151, __pyx_L3_error)
-    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L3_error)
+    __pyx_v_Cc = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Cc.memview)) __PYX_ERR(0, 177, __pyx_L3_error)
+    __pyx_v_rc = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_rc == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
+    __pyx_v_hc = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_hc == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
+    __pyx_v_cs = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_cs.memview)) __PYX_ERR(0, 178, __pyx_L3_error)
+    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cylinder_vs_sphere_manifold_fast", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 149, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cylinder_vs_sphere_manifold_fast", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 176, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -20562,7 +20972,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_sphere_manifold_fast(__pyx_self, __pyx_v_Cc, __pyx_v_rc, __pyx_v_hc, __pyx_v_cs, __pyx_v_rs);
+  __pyx_r = __pyx_pf_6engine_6cython_24cy_collision_manifold_3d_8cylinder_vs_sphere_manifold_fast(__pyx_self, __pyx_v_Cc, __pyx_v_rc, __pyx_v_hc, __pyx_v_cs, __pyx_v_rs);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -20574,7 +20984,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_vs_sphere_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Cc, double __pyx_v_rc, double __pyx_v_hc, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs) {
+static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_8cylinder_vs_sphere_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_Cc, double __pyx_v_rc, double __pyx_v_hc, __Pyx_memviewslice __pyx_v_cs, double __pyx_v_rs) {
   double __pyx_v_dy;
   double __pyx_v_clamped_y;
   double __pyx_v_cpx;
@@ -20615,7 +21025,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_pybuffernd_normal.data = NULL;
   __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":154
+  /* "engine/cython/cy_collision_manifold_3d.pyx":181
  * ):
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dy = cs[1] - Cc[1]             # <<<<<<<<<<<<<<
@@ -20626,7 +21036,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 1;
   __pyx_v_dy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_1)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cc.data) + __pyx_t_2)) ))));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":155
+  /* "engine/cython/cy_collision_manifold_3d.pyx":182
  *     """Returns (normal_ndarray, depth) or None."""
  *     cdef double dy = cs[1] - Cc[1]
  *     cdef double clamped_y = dy             # <<<<<<<<<<<<<<
@@ -20635,7 +21045,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
   __pyx_v_clamped_y = __pyx_v_dy;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":159
+  /* "engine/cython/cy_collision_manifold_3d.pyx":186
  *     cdef cnp.ndarray[cnp.float32_t, ndim=1] normal
  * 
  *     if clamped_y < -hc:             # <<<<<<<<<<<<<<
@@ -20645,7 +21055,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_3 = (__pyx_v_clamped_y < (-__pyx_v_hc));
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":160
+    /* "engine/cython/cy_collision_manifold_3d.pyx":187
  * 
  *     if clamped_y < -hc:
  *         clamped_y = -hc             # <<<<<<<<<<<<<<
@@ -20654,7 +21064,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     __pyx_v_clamped_y = (-__pyx_v_hc);
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":159
+    /* "engine/cython/cy_collision_manifold_3d.pyx":186
  *     cdef cnp.ndarray[cnp.float32_t, ndim=1] normal
  * 
  *     if clamped_y < -hc:             # <<<<<<<<<<<<<<
@@ -20664,7 +21074,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     goto __pyx_L3;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":161
+  /* "engine/cython/cy_collision_manifold_3d.pyx":188
  *     if clamped_y < -hc:
  *         clamped_y = -hc
  *     elif clamped_y > hc:             # <<<<<<<<<<<<<<
@@ -20674,7 +21084,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_3 = (__pyx_v_clamped_y > __pyx_v_hc);
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":162
+    /* "engine/cython/cy_collision_manifold_3d.pyx":189
  *         clamped_y = -hc
  *     elif clamped_y > hc:
  *         clamped_y = hc             # <<<<<<<<<<<<<<
@@ -20683,7 +21093,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     __pyx_v_clamped_y = __pyx_v_hc;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":161
+    /* "engine/cython/cy_collision_manifold_3d.pyx":188
  *     if clamped_y < -hc:
  *         clamped_y = -hc
  *     elif clamped_y > hc:             # <<<<<<<<<<<<<<
@@ -20693,7 +21103,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   }
   __pyx_L3:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":164
+  /* "engine/cython/cy_collision_manifold_3d.pyx":191
  *         clamped_y = hc
  * 
  *     cpx = Cc[0]             # <<<<<<<<<<<<<<
@@ -20703,7 +21113,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 0;
   __pyx_v_cpx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cc.data) + __pyx_t_2)) )));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":165
+  /* "engine/cython/cy_collision_manifold_3d.pyx":192
  * 
  *     cpx = Cc[0]
  *     cpy = Cc[1] + clamped_y             # <<<<<<<<<<<<<<
@@ -20713,7 +21123,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 1;
   __pyx_v_cpy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cc.data) + __pyx_t_2)) ))) + __pyx_v_clamped_y);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":166
+  /* "engine/cython/cy_collision_manifold_3d.pyx":193
  *     cpx = Cc[0]
  *     cpy = Cc[1] + clamped_y
  *     cpz = Cc[2]             # <<<<<<<<<<<<<<
@@ -20723,7 +21133,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 2;
   __pyx_v_cpz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Cc.data) + __pyx_t_2)) )));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":168
+  /* "engine/cython/cy_collision_manifold_3d.pyx":195
  *     cpz = Cc[2]
  * 
  *     dx = cs[0] - cpx             # <<<<<<<<<<<<<<
@@ -20733,7 +21143,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 0;
   __pyx_v_dx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_2)) ))) - __pyx_v_cpx);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":169
+  /* "engine/cython/cy_collision_manifold_3d.pyx":196
  * 
  *     dx = cs[0] - cpx
  *     d_y = cs[1] - cpy             # <<<<<<<<<<<<<<
@@ -20743,7 +21153,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 1;
   __pyx_v_d_y = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_2)) ))) - __pyx_v_cpy);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":170
+  /* "engine/cython/cy_collision_manifold_3d.pyx":197
  *     dx = cs[0] - cpx
  *     d_y = cs[1] - cpy
  *     dz = cs[2] - cpz             # <<<<<<<<<<<<<<
@@ -20753,7 +21163,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_2 = 2;
   __pyx_v_dz = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_cs.data) + __pyx_t_2)) ))) - __pyx_v_cpz);
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":171
+  /* "engine/cython/cy_collision_manifold_3d.pyx":198
  *     d_y = cs[1] - cpy
  *     dz = cs[2] - cpz
  *     d_len_sq = dx * dx + d_y * d_y + dz * dz             # <<<<<<<<<<<<<<
@@ -20762,7 +21172,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
   __pyx_v_d_len_sq = (((__pyx_v_dx * __pyx_v_dx) + (__pyx_v_d_y * __pyx_v_d_y)) + (__pyx_v_dz * __pyx_v_dz));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":173
+  /* "engine/cython/cy_collision_manifold_3d.pyx":200
  *     d_len_sq = dx * dx + d_y * d_y + dz * dz
  * 
  *     normal = np.empty(3, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -20770,14 +21180,14 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
  *     if d_len_sq < 1e-6:
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_9 = 1;
@@ -20794,18 +21204,18 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 173, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 200, __pyx_L1_error)
     __pyx_t_4 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_7, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
   }
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 200, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
@@ -20821,12 +21231,12 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
       __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
     }
     __pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 173, __pyx_L1_error)
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 200, __pyx_L1_error)
   }
   __pyx_v_normal = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":175
+  /* "engine/cython/cy_collision_manifold_3d.pyx":202
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if d_len_sq < 1e-6:             # <<<<<<<<<<<<<<
@@ -20836,7 +21246,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_3 = (__pyx_v_d_len_sq < 1e-6);
   if (__pyx_t_3) {
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":176
+    /* "engine/cython/cy_collision_manifold_3d.pyx":203
  * 
  *     if d_len_sq < 1e-6:
  *         normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0             # <<<<<<<<<<<<<<
@@ -20850,7 +21260,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_2 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":177
+    /* "engine/cython/cy_collision_manifold_3d.pyx":204
  *     if d_len_sq < 1e-6:
  *         normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0
  *         depth = rs + rc             # <<<<<<<<<<<<<<
@@ -20859,7 +21269,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     __pyx_v_depth = (__pyx_v_rs + __pyx_v_rc);
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":178
+    /* "engine/cython/cy_collision_manifold_3d.pyx":205
  *         normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0
  *         depth = rs + rc
  *         if hc - fabs(dy) < rc:             # <<<<<<<<<<<<<<
@@ -20869,7 +21279,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_3 = ((__pyx_v_hc - fabs(__pyx_v_dy)) < __pyx_v_rc);
     if (__pyx_t_3) {
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":179
+      /* "engine/cython/cy_collision_manifold_3d.pyx":206
  *         depth = rs + rc
  *         if hc - fabs(dy) < rc:
  *             normal[0] = 0.0             # <<<<<<<<<<<<<<
@@ -20879,7 +21289,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
       __pyx_t_2 = 0;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":180
+      /* "engine/cython/cy_collision_manifold_3d.pyx":207
  *         if hc - fabs(dy) < rc:
  *             normal[0] = 0.0
  *             normal[1] = 1.0 if dy >= 0.0 else -1.0             # <<<<<<<<<<<<<<
@@ -20895,7 +21305,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
       __pyx_t_2 = 1;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_t_14;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":181
+      /* "engine/cython/cy_collision_manifold_3d.pyx":208
  *             normal[0] = 0.0
  *             normal[1] = 1.0 if dy >= 0.0 else -1.0
  *             normal[2] = 0.0             # <<<<<<<<<<<<<<
@@ -20905,7 +21315,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
       __pyx_t_2 = 2;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":182
+      /* "engine/cython/cy_collision_manifold_3d.pyx":209
  *             normal[1] = 1.0 if dy >= 0.0 else -1.0
  *             normal[2] = 0.0
  *             depth = (hc + rs) - fabs(dy)             # <<<<<<<<<<<<<<
@@ -20914,7 +21324,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
       __pyx_v_depth = ((__pyx_v_hc + __pyx_v_rs) - fabs(__pyx_v_dy));
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":178
+      /* "engine/cython/cy_collision_manifold_3d.pyx":205
  *         normal[0] = 1.0; normal[1] = 0.0; normal[2] = 0.0
  *         depth = rs + rc
  *         if hc - fabs(dy) < rc:             # <<<<<<<<<<<<<<
@@ -20923,7 +21333,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     }
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":175
+    /* "engine/cython/cy_collision_manifold_3d.pyx":202
  *     normal = np.empty(3, dtype=np.float32)
  * 
  *     if d_len_sq < 1e-6:             # <<<<<<<<<<<<<<
@@ -20933,7 +21343,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     goto __pyx_L4;
   }
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":184
+  /* "engine/cython/cy_collision_manifold_3d.pyx":211
  *             depth = (hc + rs) - fabs(dy)
  *     else:
  *         d_len = sqrt(d_len_sq)             # <<<<<<<<<<<<<<
@@ -20943,7 +21353,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   /*else*/ {
     __pyx_v_d_len = sqrt(__pyx_v_d_len_sq);
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":185
+    /* "engine/cython/cy_collision_manifold_3d.pyx":212
  *     else:
  *         d_len = sqrt(d_len_sq)
  *         if d_len >= rc + rs:             # <<<<<<<<<<<<<<
@@ -20953,7 +21363,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_3 = (__pyx_v_d_len >= (__pyx_v_rc + __pyx_v_rs));
     if (__pyx_t_3) {
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":186
+      /* "engine/cython/cy_collision_manifold_3d.pyx":213
  *         d_len = sqrt(d_len_sq)
  *         if d_len >= rc + rs:
  *             return None             # <<<<<<<<<<<<<<
@@ -20964,7 +21374,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
       __pyx_r = Py_None; __Pyx_INCREF(Py_None);
       goto __pyx_L0;
 
-      /* "engine/cython/cy_collision_manifold_3d.pyx":185
+      /* "engine/cython/cy_collision_manifold_3d.pyx":212
  *     else:
  *         d_len = sqrt(d_len_sq)
  *         if d_len >= rc + rs:             # <<<<<<<<<<<<<<
@@ -20973,7 +21383,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     }
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":187
+    /* "engine/cython/cy_collision_manifold_3d.pyx":214
  *         if d_len >= rc + rs:
  *             return None
  *         inv = 1.0 / d_len             # <<<<<<<<<<<<<<
@@ -20982,7 +21392,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
 */
     __pyx_v_inv = (1.0 / __pyx_v_d_len);
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":188
+    /* "engine/cython/cy_collision_manifold_3d.pyx":215
  *             return None
  *         inv = 1.0 / d_len
  *         normal[0] = <float>(dx * inv)             # <<<<<<<<<<<<<<
@@ -20992,7 +21402,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_2 = 0;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_dx * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":189
+    /* "engine/cython/cy_collision_manifold_3d.pyx":216
  *         inv = 1.0 / d_len
  *         normal[0] = <float>(dx * inv)
  *         normal[1] = <float>(d_y * inv)             # <<<<<<<<<<<<<<
@@ -21002,7 +21412,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_2 = 1;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_d_y * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":190
+    /* "engine/cython/cy_collision_manifold_3d.pyx":217
  *         normal[0] = <float>(dx * inv)
  *         normal[1] = <float>(d_y * inv)
  *         normal[2] = <float>(dz * inv)             # <<<<<<<<<<<<<<
@@ -21012,7 +21422,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
     __pyx_t_2 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides) = ((float)(__pyx_v_dz * __pyx_v_inv));
 
-    /* "engine/cython/cy_collision_manifold_3d.pyx":191
+    /* "engine/cython/cy_collision_manifold_3d.pyx":218
  *         normal[1] = <float>(d_y * inv)
  *         normal[2] = <float>(dz * inv)
  *         depth = (rc + rs) - d_len             # <<<<<<<<<<<<<<
@@ -21023,7 +21433,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   }
   __pyx_L4:;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":194
+  /* "engine/cython/cy_collision_manifold_3d.pyx":221
  * 
  *     # Negate normal (original code returns -normal)
  *     normal[0] = -normal[0]             # <<<<<<<<<<<<<<
@@ -21034,7 +21444,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_1 = 0;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_normal.diminfo[0].strides) = (-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides)));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":195
+  /* "engine/cython/cy_collision_manifold_3d.pyx":222
  *     # Negate normal (original code returns -normal)
  *     normal[0] = -normal[0]
  *     normal[1] = -normal[1]             # <<<<<<<<<<<<<<
@@ -21045,7 +21455,7 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_1 = 1;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_normal.diminfo[0].strides) = (-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides)));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":196
+  /* "engine/cython/cy_collision_manifold_3d.pyx":223
  *     normal[0] = -normal[0]
  *     normal[1] = -normal[1]
  *     normal[2] = -normal[2]             # <<<<<<<<<<<<<<
@@ -21056,27 +21466,27 @@ static PyObject *__pyx_pf_6engine_6cython_24cy_collision_manifold_3d_6cylinder_v
   __pyx_t_1 = 2;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_normal.diminfo[0].strides) = (-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_normal.diminfo[0].strides)));
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":198
+  /* "engine/cython/cy_collision_manifold_3d.pyx":225
  *     normal[2] = -normal[2]
  * 
  *     return (normal, depth)             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF((PyObject *)__pyx_v_normal);
   __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 198, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 225, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 198, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 225, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_r = __pyx_t_7;
   __pyx_t_7 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":149
+  /* "engine/cython/cy_collision_manifold_3d.pyx":176
  * 
  * 
  * def cylinder_vs_sphere_manifold_fast(             # <<<<<<<<<<<<<<
@@ -23140,46 +23550,61 @@ __Pyx_RefNannySetupContext("PyInit_cy_collision_manifold_3d", 0);
   /* "engine/cython/cy_collision_manifold_3d.pyx":45
  * 
  * 
- * def sphere_vs_obb_manifold_fast(             # <<<<<<<<<<<<<<
- *     double[::1] cs, double rs,
- *     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,
+ * def sphere_vs_sphere_manifold_fast_scalars(             # <<<<<<<<<<<<<<
+ *     double cax, double cay, double caz, double ra,
+ *     double cbx, double cby, double cbz, double rb,
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_obb_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_sphere_vs_obb_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_3sphere_vs_sphere_manifold_fast_scalars, 0, __pyx_mstate_global->__pyx_n_u_sphere_vs_sphere_manifold_fast_s, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_sphere_vs_obb_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_sphere_vs_sphere_manifold_fast_s, __pyx_t_4) < (0)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":106
+  /* "engine/cython/cy_collision_manifold_3d.pyx":72
+ * 
+ * 
+ * def sphere_vs_obb_manifold_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] cs, double rs,
+ *     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,
+*/
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_5sphere_vs_obb_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_sphere_vs_obb_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
+  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
+  #endif
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_sphere_vs_obb_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "engine/cython/cy_collision_manifold_3d.pyx":133
  * 
  * 
  * def cylinder_vs_cylinder_manifold_fast(             # <<<<<<<<<<<<<<
  *     double[::1] Ca, double ra, double ha,
  *     double[::1] Cb, double rb, double hb,
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_5cylinder_vs_cylinder_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_cylinder_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, __pyx_t_4) < (0)) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, __pyx_t_4) < (0)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_manifold_3d.pyx":149
+  /* "engine/cython/cy_collision_manifold_3d.pyx":176
  * 
  * 
  * def cylinder_vs_sphere_manifold_fast(             # <<<<<<<<<<<<<<
  *     double[::1] Cc, double rc, double hc,
  *     double[::1] cs, double rs,
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_7cylinder_vs_sphere_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_cylinder_vs_sphere_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_24cy_collision_manifold_3d_9cylinder_vs_sphere_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_cylinder_vs_sphere_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_manif, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cylinder_vs_sphere_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 149, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cylinder_vs_sphere_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "engine/cython/cy_collision_manifold_3d.pyx":1
@@ -23333,31 +23758,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{42},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{5},{2},{2},{2},{2},{2},{8},{20},{8},{15},{3},{15},{12},{18},{4},{1},{2},{2},{9},{9},{17},{18},{3},{3},{3},{5},{3},{3},{3},{2},{3},{3},{3},{34},{32},{5},{8},{3},{5},{8},{5},{5},{5},{4},{7},{5},{15},{2},{2},{2},{5},{6},{38},{9},{5},{5},{7},{6},{7},{8},{12},{2},{2},{2},{18},{2},{10},{5},{3},{4},{13},{5},{8},{2},{2},{2},{8},{7},{4},{10},{4},{8},{4},{7},{2},{6},{2},{5},{2},{2},{2},{3},{4},{3},{14},{11},{10},{19},{14},{12},{5},{2},{2},{2},{10},{17},{13},{8},{2},{12},{10},{12},{19},{5},{4},{27},{30},{5},{4},{4},{6},{8},{6},{6},{6},{1},{9},{430},{840},{244},{310},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (1953 bytes) */
-const char* const cstring = "BZh91AY&SYKPF\241\000\001\207\377\377\377\377\3776\177\347\377W\277\343\377 \277\377\377\360@@@@@@@@@\000\000@@\000@\000`\007\274>\346[k-\2735\313t::mf\253\212\016\004\222D\223\324=OI\345=Fz$\3664\022=S\312<\240\003 \000\000\001\241\351\032i\240h\362\201\242\000\247\246\223\321\242L\247\246\247\247\2522hh\320h\320\032h\r\000\000\000i\241\243M\006\203\200\000\006\201\241\241\241\246@\006\200\0004\003C@\000\014\200\000\022\"\t2\232j\236\332T\364\365M\007\352O(h4\032\r4\032\000\000\000\003@\000\364jz\016\000\000\032\006\206\206\206\231\000\032\000\000\320\r\r\000\0002\000\000H\240 \nd\r\004\364Q\247\201@h1\006\200\000\006\215\000\000\032\001\223\035\013\010\017\200_\340\273\007\374A\310\216U\020\245C\006\332\344\006\224);2)IH\022\254\271W\376s$\333M\246\306\r0ch\013\226\266\372\014\t;Y\2010\256`\322\006\333Hml\n\"\002\241T4\026\257\001)\225H\273n@\225\302\240!$\332l\033A\222.\332-\031\006w\303x\024E),s\235\256\2019\205\204Um\002\223,(\001L&\021!\306^\357\267\300#s\363\362\330\335b\266\023\271\324F\324\031\370S\240\340\212\030f{\t\014\325}\343\332C\237\274\330\004%Ji\210\021\353\377t;\n\333\373\302]\3075\261\013\210K\251\210M(42\036E9thN\37190\3255;\030W\030\304q\201|\245\304\310Pw\213\326\233\323|2\346\266\277\005nB\342{\272\021>)1T\250\"J\207\032\231\233)\t\236\356nb\273\317S\001a\244\366\260\005\341\314;mr\002V1\032\203O~\224@Z\005E2\230\266\305\022\273\335\272\251% U\005U\243\214\241J\005\253R\356|TT`\322\037W\363\314\340\340\017\263\243\250_>3\372\302\311&,\373\214\311A#l\326i\262$%*\026E\200\333\335\311\014\242\354\213\214HDD\024s\240\233\255|\361\274<A\304\230\000d\004\376+\215\310\347g\224\365\347\364\232\031,\203J\2152H\306\246\010\333\252\202(\222\250\212\255\253r\303\226\250\252+X\306*\371\026\033\035WEBx\245\240\246<\322J:\240'\273\023\221\363\274\261\351\351\276\264\302=\371H)\307>\364d7v\031\345*\332\314\310\316\013#|\2512C\337\010\226K\353\305\t\320pSs\240d\325\236\007O)B\223E\267\261\255%\304K\314\320\361Kr\323Zo\021\234\016M\205\372\304F\315V\343\026""\377)\323\024\010\362\231\365\\\200\204,\250\270\013\005\020\335\347\235\002\244+\226\341\236\326\325B\232B\370\\u\265nm\216\360\203\310\206\321\007\000\337\345\320\007\240$\023\323\207\216(i\364\351\343Z\217\211Qr2\366\225`\254\002u\230\302u\220\254L\016\025\205\242Z\231gntf\251\024\2556X\002\031\\\315j\260\332o_U\001\033\332<7\241CHb\010-\r.\003\034\300\250\221\nEH\0102\310\326\354\336\203\341\000\245\254\327\2545\353\rzs\006\217\277D\033\212\335;\020\347&\302{\034\363\357\351\351\273\210\2719X\341\202\004\300bk<\305\251D`\310\310\3071\330iR\321I\200\232\030\367\340,\026\025Yb\341/d>|\267\322\225\336V\234\353k\342\037\026\r\273+OH\234 \212\267j\\\t\303zWi\215\203\256\211\2341T;\231\264\273\0063g^\314\225\253\215UZNA\251\224\212\037\032/\330\244\206\000\333\306z\274\224\231$\225\243\000\025`sQ\212\"w\205h\225\256\251\245\244\333\217\022V2\336'\324?\267\212\353\354D\240@\320\214B\320\336\306\002\251\327\361\263\215\326\251$\r]W\253\204\325\361@[\321\260s5\240Z!]\255\203\020\306\353\315\307\006I\327\334\370\177\235{\362%\004P\3576\306\346\032\005\205\253\003\206w\265\2436\024\244qR\203\016231\313<\266\341\220Q\267\\\004L\271J\362Q\231\002\374\360\235\273T\267\262J\221OeQ\357\344\215\007\014(0\343\026\315C\254\3674\352\"\266\214p9\225\365W\371l\230m\274\346\241\202\302\026]T\341\273|.\221[\0146\030\234.\r\304Ja(\355\312\251R\213T\334\032\351\274mhlq;fh'\020\251\021c\232\206\203\201\322u<\000v\"|\220\n5\223$\311\224\024#r\210\254\245\272H\r\265KIUZ\026BMG'M\355\3341+\014v\235\003\026)cnC\346\212\3507\037\r\026\241Ij\266]\020\302\002\202\217\242A_P\323\225.\034\213\255\272r*\0200J\006\251\215\215\205\305\2535\330J\002b\3357\337c\367\304c2\372\002s\200j\022\304\345`\250\332\346`\307\023`\221\215\346\215q\312\343\222\275\002\360P\035\002:\027e@\354\rM\265\014\252\323F,\326\031\300\336\014\267\352H7\215\006\310\213\215\003\225/\025ya\030\214\327\204\014\002D\271\024\326\022\324#5\300\221\236\315G\010\314\"1\347\276*\332U\033\254\351\216\214\264\0305\331H\317\222\332'a[rI*""\210`1\223\021E\200\344\264\204\300\021\265d\243Q0\357\243\250\231\025 \335x\302\233Q\267i\336\252\031\346\326\301\204\360\233iL\\U\245\304\312h\262;v:\317V\334\213\232p\201GZ\315\215\245\013`X\213\2517\242jf\316\224q\245\226)\346V\354\2366\010\303\010\221\210\271\035\324\201UJ`;8\010C\300VW\251x4\007\232ep\375\030UC#\252\3170\021\315O\0062\007qe\271\312-s\026\013\204\260Z\272\223#\rGQh\226H\260,AA\276\005\n\266\215\337[\207\227kU+\250\262)\002u\222\226\014Xy\242\201\256\264\212\344.kd\271J\016&\306\017\277[At\334\n\222\316\242\330\274\206yn\031\274]Wh\253\367;\210lm\373\301\363v\320}\201\262\242\217\3251\272\227\235a?C\230`\354.\021\360\020\310l+\342$\306e\337 G\225x\026Pe*)'P\271\302P\207-o.jw\314<F*\316P*\311\253g\326\003\266\271\0166\377\277AJ\221\266\226E\2056\204,\234\340\334m\3072\034\352\0223\206\326\356\004\352\\7\314\323\204\252\274\2279\202\365\303\237\235\266\216\351\335\0065\3762Ar\351?\336\237\014 \2015uBfH\252\241\323\242\222vvl\0040\000\344\312\020&)oY\275\200((\237\371\006\312\242\224\226ysNP\230\300\210X&A4\271\340_\262AL\236\316\214\007\231\004\317C\003A\256\322\001\225\373\010\234!6f\021:g\307\366O\035)*\224\r\214q\254r\271\345\36010F>H\361&\324W\365.\253\332q2\250\252.\256\321v\352\212 \213K\375J\270\031\006\306[V\271\3465f\312\260F\232\372\262pU\201\256\252\224Ka\306\262[\226j\353Z\271\347ok#\251\320\251R*RG\tq\264:\033\362\246\362\354Y\270p\250P\245\2510\342\243\233\247g[]Kw!\224jmv\212\222Z\024AF\342$;b\356H\247\n\022\tj\010\324 ";
-    PyObject *data = __Pyx_DecompressString(cstring, 1953, 2);
+    const struct { const unsigned int length: 10; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{42},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{5},{2},{2},{2},{2},{2},{8},{20},{8},{15},{3},{15},{12},{18},{4},{1},{2},{3},{3},{3},{2},{3},{3},{3},{9},{9},{17},{18},{3},{3},{3},{5},{3},{3},{3},{2},{3},{3},{3},{34},{32},{5},{8},{3},{5},{8},{5},{5},{5},{4},{7},{5},{15},{2},{2},{2},{5},{6},{38},{9},{5},{5},{7},{6},{7},{8},{12},{2},{2},{2},{18},{2},{10},{5},{3},{4},{13},{5},{8},{2},{2},{2},{8},{7},{4},{10},{4},{8},{4},{7},{2},{6},{2},{5},{2},{2},{2},{3},{4},{3},{14},{11},{10},{19},{14},{12},{5},{2},{2},{2},{10},{17},{13},{8},{2},{12},{10},{12},{19},{5},{4},{27},{30},{38},{5},{4},{4},{6},{8},{6},{6},{6},{1},{9},{430},{840},{244},{310},{167},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2018 bytes) */
+const char* const cstring = "BZh91AY&SY\254\177\341\364\000\001\246\377\377\377\377\3776\177\347\377W\277\343\377 \277\377\377\360@@@@@@@@@\000\000@@\000@\000`\007\374\r\037\033i\267f\271;;\262\230M\223rA\330$\221\025\031\032mM\242i\247\224\365?'\243SJz\236Q\275P\032\006\200\000\000\007\244\323M\0004y \311\004\3014\2312h\223\023\010\332C@\032h\0004\000\000\0004\000\003A\300\000\003@\320\320\320\323 \003@\000\032\001\241\240\000\006@\000\t\021\004 T\375F\324z\211\246\365&L'\251\240\320\000h\006\200\000\001\246\21510\023\322\034\000\0004\r\r\r\r2\0004\000\001\240\032\032\000\000d\000\000\222 Ry4\323\nh\321Oz\215M\023\302M\r\003\322\031\000\000\030\200h\0004\003\031_\024\341\0378\273b\357\217\2723\274\217\n\210R\241\241\243\274\206\224\004\236\tJRR\004\253/\n\377\216\001\2646\323i\261\241\246\2066\204\\\265\264\244`I\3428h&\025\314\032@\333\030\223h\336E\021\001P\250\232\013WY \312\244]\267(%q\024\004$\233\006\320\332\026d\256\3321\031\014\361\007\030\024\212\201E\240\324W\027dV\250\300\225|PY\226\261\201\235\024\272\272Qf\037\277g\252Gs\273\326\352w\255N\244\367:q\327\315G\331\217\223\302\251\241\021:\313\024lB)\360S\341\266\351\005-\214r\t\024\350\177u6Y\364\372\312\276\303\357}\005t\023\206\235\004\351\207\026\207\230\247\207\034S\276g&\032\246\247\177\n\345\031\0160/\232\\L\205\007x\275i\236o\206n\013p\271\253r\027-\356\345D\357\222ER\242D\225G1I$\331HL\370\362\\\343y?\206\273\013n\227\327\342\025\333\305{6a\004\324\343:\024l\240\365\233ar\301`m\216\261\212g\360w(\244\004AP\025\025\334D\311\3146\226\352\371\376Y\204\330\031!\270\377KM\375\360\372y-\027r\250~N\025\244\302\303N\004\020@k\335\323\226LPD\022\2111L?\177\357\202\276\023g\004\254\261\026\026%1\243%\351b\205\271\260\020\022y\\\210B\005\276\326\317IX\355\222\375\213\332[\004\214\200\231T\344\221\215L(\333\252\202(\001T\212\255\253r\317\316\272.+\336d%f\211\230\323\306\323S%bW\023\263\222)Cu\304\333\220:\215\312\332,\347\347\256\223\317\017\014b\026\345W\202h7\226}Zi|Y\250\232\302\322q\313\225(=(\211d\276\254P\234I\326\315\324\014\315Y""\340t\263J\n\260\242\306s\345ZK\210\234\206\343\023M\367i\302\270\224I%n\226\014\"cj\314Y\243\027\362\252x\"a\\J>M\254\tJ\353\004@\017%a\271\313)\205\007\246\215Dm\307\030\004\357EoQ\327\335\325\2665`\355\240\215\304*%\233\263\275Of\202\002qA8\202p\350\272\235K\332z\023h\3408\023\026\370r\204\240h\331a\221\036l#\010\264\014\267\035S\306\320\267\026\215T\334\333\r\232\231w\215Z\36269\000To\306\215fDrI\275\032B\266\3478\251\203Xf\205\034\261\323\241\364\006L\221P\261AHms\266\243(J\2622\221\226A\226H\310\276\320d~\027;4\026\341\320\374\244\231\022\323\313/\r\374\365p\221(\307\244\257\221\240 \265\251\215\254a@\205\n\rw\344\251\215UH\002\351\242\020\274\013\367\226\275\3320%\357C\343\313}\031\\\212\323\213n\027,|\274\033vV\236\2118A\025n\324\270\211\303<\257\023\033\007\\fp\311P\3316\227`\312l\353\340\222\265q\252\253A\371\010V\262\252a:p\\\305\212\000tQ68kB\262\315Y\002\313\203\334\254\311\213b0\252\274O\261\307Y\021\027\240K\320CA3\307\351&v+X\240\205\013\010\230\020\0032j%\307?\223a\373\354\325<\341~\374\026\221Ff'\226lg\034\316;\325\200\314k \304\223:\333\\\023%\034\230\345\323\273\311\343\320\244\"\307\003ln\241\255,\370\254\347\"\271\232\327\251\205\255:\025!\207(\232\2324\352\323\2624\205\233w\316\"\246J\231\212MH3j\317\\w\255\217`\214\340\233\0056\336\320\213\217\031\346A\303\211,(\035v\325~\351\005\211eG\"\256\212Z\350\032\006$\300\322\252M*|\\QX\344\250\2609\342\232\320\224T@\274\2064\006N\312]+Yj\233\203]'\225\255\r\216'l\315\004\342\025\",pP\304\326\351:\236\000<\021^l\005\232\322\3122\245\222\211\311H\260\266<\"\006\332\264\003\034`\003\324\304+\251(\314\307L\303\225;\222\200&\200\262p\250&\252\316\364^\231\324\035\251Qm\306\236\\g\201B\236\231\0135\303\205\246\331\016\206X\345Z\027\0103\245\006\332\215\215\213\177_#\r\2531\3036y\330\352\266<t\316.\250'\224+\304\332wX\326\357\205\265o\330\3234\260\315j2\206\212\216\2459\222\351 9\204s.\302s\240e&`}\024d\310\261\214\202\3275\206\215\352\021\026\262\343\001\025\027\r\031\326*x\357\010\014e\235\314\341\022""\016\360\023\311\322\265#\005p,\014m5\014fw\253y\272R\234\024Y\245\013\037\222\014\354\232W\343i\323\272y\214h\266\366AB6\023\030\340\326\254\232m$\244\234\302\361\2420\306\345\235\nC\307/U2*A\272\361\2156\243n\325\344*\033\333\315l\030N\263m)\223\212\264\2672\332\360\236\036\014\275v\354\241\223N \263\275\352\306\204\252\n\017\"45,ih\267\t\032$\3252\230\003\243RM\340\212iXZ\301\324j\246\345\024\347\234l\333\343\277\304\261\277\315\250\240m44\354?\306#q\301\232\356\233\003\371\360\343\263H\333\027\016\314\321^\253\030\255\202[\013\026\274\246A\365\231+\343h\266\2032\t\214\331\305ND\"\353\362l\347\345\307\270| \037R\300\305p\014hAzg\212GA\253\026\3304\331\205\357\261\326YLK\252\214+\265\300\363^\016\003[\201\262Q\255L\257\0061Z`H\036pr\016\317\342\206\333\033\177@~_r\017\3406)\027e3\264\227\332\274\325\335!\215\036\372\320c\020\310lK`I\226E\337\036/(x\026\312\031P\212\225\325#\234% ][\213\234\016\332G\210\305+\223\302T\322\345\333\300\231\221\334X\\\237\376\371\212\352F\332U\256\210;\024a\020\035\207\330\206(\216jG\002:\335\256z\216t\r\363\332n)p\364]*\013\343\016\207A\266.\331\333\0065\340\032\242\230#%\276\274;\376`L\247u\024\314\221\203\000\355\206\212*\"\316\311}H\360\034\231H\005%@\336\303r\370^W\243\375\037\215^\n\222Yn\303$K\311\213\350\222W\004PD\243+\327\360\200\242\251gN\005',MJ\030\030y\325k\240|\250\327DBC\035\"\"\230\242\177\262\241:\004\024\000\327\256u\\\034Pq\200\3450LBy\265uS\256)\213\226\327\027\210Z\031a0\332\353m\026\313j\325\244Z\324\335\251i#Lj\313+@\350\025\254\363=g\023&\311h+Y\306\336\\\353Z\304\343U\256\025\202\242\275P\273\320\261\307\350\342\221!\344F\003B\\\300ci\320\323*o.\305\233\207\n\205\025-I\210\212E\\\304R\351\325\326\327R\335\310e\032\233]\212*\307f\021\n\215\304J?\361w$S\205\t\n\307\376\037@";
+    PyObject *data = __Pyx_DecompressString(cstring, 2018, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1784 bytes) */
-const char* const cstring = "x\332\275UKo\033G\0226-j#?\326YK\266\201,\262@K\366F\t\0203\221\344\004\301\302\361\202\242\225\215\016\233\230\222m`O\215\236\236\036r\342a\317p\272\207\342\360\344\343\034\3738\3079\362\310\243\216\3733x\344O\310O\330\252\236!E=\354\030\273\310\002d\263\037\325\325U\337\367U\361od?\361<\021\223\201/N\210\033\nEd\250\211\030F\241\022D\351\330w\205j1IB\031\244\204\307\202iA\030q\312K\272\3134\361\025\341\241\324~'\t\023E|Iz\242\027\306i\003n\241+\246\224\337\221D\207\004.\273\217\255\237\322\002\237\254\214*\307'\261\257\231\023\210\312\240\014\312\213\303\336\373\356\372\322\025Cr\342\353.\321i$\310v\265\257c&\225M\343\354Ji\0067\374XpM\\\277'\244\362C\251\236\317g\344\257.f\204\016J\243\203^\244S\242\272\014\\\353$\202\340\2740&<\325\335P6X\034\263\364\360\262;{_%Q\024\306Z\270\207r\300\002\337%\275\320\025_\"\266`,\\\262\315\267\t\270\332\006\177\030\353\366\227\244\003\267\346\306\345\213\000'\033B<O\377isx\2159\204\036\371)\004\264,\372-\033\010\206\354\212\300wD\0148\002J\310\034<b)\222\344\305\301\213\307O\276{B\230t\001\311_\340y\005\3219<\000r\200qp\350$~\240\3411DP5\310\241G\3220!R@\230\300\\\004v\313\027tWH\242\204\306\t\331\266p3\ryS\270\356\313\316v\005\235?\020x\373\007\026(\321\3709\321\366\2410\221.<)\347\032b\234\013\360\376\271M\363\225\264\364\303%\220\324@\304\300\256\026=\\\207\016\206\335x\266\375\305\337\231\353R\211\000`:\0040\370z\310\303 \300\007\001\372\006s\370\323%A\242Q\031\316\263\213\333s\035<s}\205\357\nY\216\035_\212\257J\206\341\207\242s\037i\245=&}/\014\\\272\3476\242t\330\341\344s\244\254c\305\202\331@\362\300\257\026R\333JX\010\002\370)\235\273\230\217\362G\202<\375\236|}IJ2\004\032=\226\004\232P\032\0137\341\202R\342&\026\022\031\312\307@\353\300g\001\234r_\372\232R\231\364\242\264\0011\306\242\321\203{\276\365C<\346\007%w~\017E\270l\226\364\030\024\301E\213\n\341gO\313\242w\317\001wy\017\225\273\300\357\334\371b7Y\220\311\202 \344\266s\330\340\\\246Y\343\212\323R\362\350\243j<\215\346q\353\360\260\351\264X\313i\361\003\347""\000\210\210\224\257(}\221\016\341\373\0344N\177\002\300\217\204w,\372\211\220\\`\2114\316\252\005\3240\367OK\305QZ\t\026\240e*\225\334\017\033\200K\230\200\376\205r\230\022\2343\216Z\357E\302\245)@\215\262\247t>\351\010\215,\342\022nP\037d\0373.\034\306\337\360`\310\203\224\007#\0162\327<\032\362(\345\321\210+~2\344')?\031\3614\300\206\025\323\201\242\213\371BW\036Sz\331BE]\021\213\363\347.\r\204\264\003U}\210\317\025\221\356R\352\"\026\024e8\304!\305a\004\302\326\370EK,m;P\000\260$\333\035\272\251;\022\330\341\000:\350N\245\366\033\225$\337\245}\001j\262\215F\304q\030{\001\353(/\010\231\336\333\005=\203\270\252\206F\251\227H\216\270\001b\252\004\274\313\272N\227w\303\330\037A-\262\200\206P\345\001\213|\227\322R\207\360\213\r\335\227\003\370\354b\254\013r\312\332\251\n(\030\006i0\242\020\027\020@\241\305c\177\307\016\013\213\320M\002\370\225\254w6B-\302(N`\010$\206\031\310\310V\205\034\312T\216\000\220\010\010\214\302\210R(m\312\273\202\277QI\257\\U\321\343\324\"hg\211\214|\376\006\036:\220s\273\201\375\373\302\224\373\t<`_\216)\270\211Y\354\304\374\254\246\027\263\022\352\245\r1\304i\007H\003tAu\320f\253\024`V5\007;\257bZ\232\317}\331:B\214*\371\014\220o\347\274\212\316\216\256\322\030\370\213a\020\221\322!|\343\004\265\245\005\010\t\263\006\234\222\010\212X\300?U\"\3240\235\263\370\266\366\353\315k\253\017\314\221\351\347+\371n~\224\367\213\332\264\376i\336\374u\355\332\352\332\333\221Y7;\2469]\273g\232\246=\275\261av\341\007W\263\372\315l+kf\355i596\327\315\346|\321\236\325od\353\331N\326\312bs\367\202\311\271\223\2173e\266L\313\304\371=x]\027\273\305\361\370\372xsV\377cv\224\rL\333\360\374A\036\027wg\365\217\336\246\366\376\332\235\214e\2119\200\375~\261Z\274\032\1776\251M\356O\330t\355Of\245\214\357V\266\2279\246\0161\277\314\327\363\235\351\355u\263i\276\311k\363\311G\271*\036\026\377\032\263\245\223\373\3468\277\236?\312\235\242^4\213\366\014\274\325m\322\340\355[\263aC\274;\275\275av0\002\027\202n\316C\3711oa\210g\313\347\305\365b\363\322\351]\360\262o\334|""\013\320\375\303\265\325[\331f\366\215\251\231\007\200}\r!z\367rV\277\235\375h\232\357`\353\376\007o\354Av+\000\361Q\321\037\257\214\367\306\316de\262;9\232\364OWN\367N\235\177\377n\246\017\314/\305\315\361&\206\277\366Vg\273Y\033\370\251\231{\346u\276\223\357\347,\357Oo \341 \t\363\310x\325\026P\376{\330\316\226\344\010,\002\357\010\325\313b\035rh\027|\2741\336\037\273\223\255\311\376\204M\324\351\303\323\243\323\376\364\377r\005i\336\007\315(+\256\367,\356d\036(\t\323\361\212\375\302\003O\036\372\301\032\031B\256(3(\207\2173\360x+{\222\365\rPpE=%\350s\272\206'}[:GV{\037\264\361\022\020}\010K\005rF}o@ |\274>\336\231W\337\242\330V\363\327\305Nq0\276\017A6'\257N7gPDO\312j*-\326\254|\332\277\261\204\202\254\315.\227\336\017\305V\361\233\313\2523\374\257u\364\347\374!L\025\370l\025\261e\220O\326';h\211\315c\263l\232\377\005\005\357iiW\345|\241\335\\\275\374\240\234\377\222\037C\257zT8\343\372\2709n/u\375*\370\263f]\376\023\\\336\270\223q\230\356\031\307\372m\243Tmo/\325\250\314g\210\314E(>)!\270\022\223\352\3712\235E\326\377\200>\303\213O\306\233K'\026\235[\320'\361\177\341\335r[\207\332w\316\272\377\005}\325\256\024Z\211\332\317\377\001qB\000\341";
-    PyObject *data = __Pyx_DecompressString(cstring, 1784, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1843 bytes) */
+const char* const cstring = "x\332\275U\315o\333F\026\217c\271u>6]\333q\200.\272\300\330I\353\026h\324\332N\213b\221f!+\356\326\207m#;\t\260\247\301p8\224\330PC\2123\224E\235r\344q\216<\362\250\243\216>\356\237\241\243\377\204\376\t\373\336\220\222\345\2178\301.\272\200D\316\307\2337\357\375~\277\367\3707\262\227x\236\210I\337\027\307\304\r\205\"2\324D\014\242P\t\242t\354\273B5\231$\241\014R\302c\301\264 \2148\345!\335a\232\370\212\360Pj\277\235\204\211\"\276$]\321\r\343\264\016\247\320\025S\312oK\242C\002\207\335\307\326Oi\201WVF\225\343\343\330\327\314\tDeP\006\345\305a\367\272\263\276t\305\200\034\373\272Ct\032\t\262U\255\353\230Ie\3238;R\232\301\t?\026\\\023\327\357\n\251\374P\252\347\323\021\371\334\305\214\320Ai\264\337\215tJT\207\201k\235D\020\234\027\306\204\247\272\023\312:\213c\226\036\\vg\317\253$\212\302X\013\367@\366Y\340\273\244\033\272\342k\304\026\214\205K\266\370\026\001W[\340\017c\335\372\232\264\341\324\324\270\274\021\340d\003\210\347\351?m\016\2571\207\320#\277\204\200\226E\277i\003\301\220]\021\370\216\210\001G@\t\231\203K,E\222\274\330\177\361\370\311\017O\010\223. \371\033\\\257 :\207\007@\0160\016\016\235\304\0174\\\206\010\252:9\360H\032&D\n\010\023\230\213\300n\376\200\356\010I\224\3208 [\026n\246!o\n\307}\331\336\252\240\363\373\002O\377\304\002%\352\277&\332^\024&\322\205+\345TC\214s\001\336\277\264i\276\222\226~8\004\222\352\213\030\330\325\242\213\363\320\301\260\353\317\266\276\372;s]*\021\000L\207\000\006\337\016x\030\004x!@_g\016\177:'H4*\303yvqy\252\203g\256\257\360^!\313g\333\227\342\233\222axQt\356#\255\264\313\244\357\205\201Kw\335z\224\016\332\234|\211\224\265\255X0\033H\036\370\325Bj[\t3A\000?\245s\027\363Q\376P\220\247?\222o/II\206@\243\307\222@\023Jc\341&\\PJ\334\304B\"C\371\030h\355\373,\200]\356K_S*\223n\224\326!\306X\324\273p\316\267~\210\307\374\240\344\316\357\242\010\347\315\222.\203\"\270hQ!\374\354iY\364\3569\340.\257\241rg\370\235\333\237\255&32Y\020\204\334v\016\033\234\3134\253_\261[J\036}T\215\247\3368j\036\0344\234&k:M\276\357\354\003\021""\221\362\025\245/\322\001\374\237\203\306\351/\000\370\241\360\216D/\021\222\013,\221\372Y\265\200\032\246\376i\2518J+\301\002\264L\245\222\373a\035p\t\023\320\277P\016S\202s\306\331\200\263\224\263!w\2703\340N\312\235!\250\277\033\t\227\246\000>\026\002\245\323A[h\344\025\247\340\203\372P\0101\343\302a\374\r\017\006<Hy0\344 |\315\243\001\217R\036\r\271\342\307\003~\234\362\343!O\003la1\355+:\033\317\224\3461\245\347-T\324\021\2618\277\357\322@H\373\240\252\007\361\271\"\322\035J]D\207\2420\007\370H\3611\004\251k\374\243%\026\273}P\200\264\244\337\035\270\251;\024\330\363\000L\350We5\324+\221\276\253\032\004\350\313\266\036\021\307a\354\005\254\255\274 dzw\007\024\016r\253Z\034\245^\"9\342\006\210\251\222\202\016\3538\035\336\tc\177\010\325\311\002\032B\335\007,\362]JKe\302\033[\274/\373\360\333\301Xgt\225\325T\225T0\010\322`H!. \200B\323\307\216\217=\027&\241\233\004\360\226\254{\366\204\352\204\2478\206G 1\314@F\266N\344@\246r\010\200D@`\024F\224B\261S\336\021\374\215J\272\345\254\212\036\207\026A;Jd\344\3637p\321\276\234\332\365\355\007\rS\356%p\201\2759\246\340&f\261\023\363\263*\237\215J\250\347\026\304\000\207m \r\320\005\325A\343\255R\200Q\325.\354\270\212in<\365e+\0131\252\344\323G\276\235\363*:\333\272Jc\327\357R\005U\306b\005\267\306p\265\210\224\016\341\037'\250@-\300\000\261\0014\223\010\212_\300\027.\021j\220N\271~\273\360\373\355\033K\017\314\241\351\345\213\371N~\230\367\212\205I\355\263\274\361\373\362\215\245\345\267C\263j\266Mc\262|\3374Lkrk\315\354\300\013g\247\265\333\331f\326\310Z\223jpdn\232\215\351\244uZ\273\225\255f\333Y3\213\315\312\005\223s;\237d\312l\232\246\211\363\373p\273.v\212\243\321\315\321\306i\355O\331a\3267-\303\363\007y\\\254\234\326>~\233\332\363\313\3672\226%f\037\326{\305R\361j\364\305xa\274>f\223\345?\233\3052\276;\331n\346\230\032\304\3742_\315\267'wW\315\206\371._\230\016>\316U\361\260\370\327\210\315\355\254\233\243\374f\376(w\212Z\321(Z\247\340\255f\223\006o\337\2335\033\342\312\344\356\232\331\306\010\\\010\2721\r\345""\347\274\211!\236M\237\0277\213\215K\273+\340e\317\270\371&\240\373\321\215\245;\331F\366\235Y0\017\000\373\005\204\350\335\323\323\332\335\354g\323x\007[\353\037\274\260\013\331-\002\304\207Eo\2648\332\0359\343\305\361\316\370p\334;Y<\331=q\376\375\207\231>0\277\025\267G\033\030\376\362[\235\355d-\340g\301\3347\257\363\355|/gyor\013\t\007I\230G\306\253\226\200\362?\302\366tN\216\300\"\360\216P\275,V!\207V\301Gk\243\275\221;\336\034\357\215\331X\235<<9<\351M\376/G\220\346=\320\214\262\342\272fr/\363@I\230\216W\354\025\036x\362\320\017\326\310\000rE\231A9|\222\201\307;\331\223\254g\200\202+\352)A\237\223e\334\351\331\3229\264\332\373\240\205\227\200\350C\230*\2203\352{\r\002\341\243\325\321\366\264\372f\305\266\224\277.\266\213\375\321:\004\331\030\277:\3318\205\"zRVSi\261l\345\323z\317\024\nr\341\364r\351\375Tl\026\357\235V\235\341\177\255\243\277\344\017a\250\300g\263\210-\203|\274:\336FKl\036\033e\323\374/(\270\246\245]\225\363\205vs\365\364\203r\376k~\004\275\352Q\341\214j\243\306\2505\327\365\253\340\317\232u\371%\270\274p/\3430\3345\216\365\333B\251\332\336^\252Q\231/\020\231\213P|ZBp%&\325\365e:\263\254\377\001}\206\027\237\2166\346v,:w\240O\342w\341\335r[\205\332w\316\272\377\005}-\\)\264\363\250\225\237\021\240\371\342\340\275\212\370\350ZE\314\004\260\002\345\364\271I\362\306E\312W\252:K,\255\353\323\032;O\356\257\377\001\203\271Vz";
+    PyObject *data = __Pyx_DecompressString(cstring, 1843, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (3951 bytes) */
-const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_collision_manifold_3d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIAbCaCbCcEbEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryViewabcallocate_buffer__annotate__asyncio.coroutinesbaseccacbclamped_y__class____class_getitem__cline_in_tracebackclxclyclzcountcpxcpycpzcscwxcwycwzcylinder_vs_cylinder_manifold_fastcylinder_vs_sphere_manifold_fastd_lend_len_sqd_ydepth__dict__diffxdiffydiffzdistdist_sqdtypedtype_is_objectdxdydzemptyencodeengine.cython.cy_collision_manifold_3denumerateerrorflagsfloat32formatfortran__func____getstate__hahbhchorizontal_overlapid__import__indexinvinv2_is_coroutineitemsitemsizelxlylz__main__memviewmode__module__name__name__ndim__new__nlnormalnpnumpynxnynzobjpackpop__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname__r_sumrarbrc__reduce____reduce_cython____reduce_ex__registerrs__set_name__setdefault__setstate____setstate_cyt""hon__shapesizesphere_vs_obb_manifold_fastsphere_vs_sphere_manifold_faststartstepstopstruct__test__unpackupdatevaluesxy_overlap\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\034\230A\360\010\000\005\010\200z\220\022\2201\220A\330\010\024\220A\220Q\330\t\023\2202\220Q\330\010\024\220A\340\004\n\210\"\210A\210Q\330\004\n\210\"\210A\210S\220\002\220!\330\004\n\210\"\210A\210Q\340\004\t\210\022\2101\210C\210r\220\021\330\004\n\210\"\210A\210S\220\002\220!\330\004\t\210\022\2101\210C\210r\220\021\330\004\017\210s\220\"\220C\220r\230\024\230R\230t\2402\240S\250\002\250!\340\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200y\220\002\220!\330\010\016\210a\210u\220E\230\026\230q\240\005\240U\250&\260\001\260\025\260a\330\010\020\220\003\2202\220Q\330\010\013\2103\210b\220\004\220A\220T\230\022\2301\330\014\022\220!\2205\230\001\330\014\022\220!\2205\230\007\230s\240#\240Y\250a\330\014\022\220!\2205\230\001\330\014\025\220S\230\002\230$\230b\240\004\240A\240Q\340\010\020\220\004\220A\220Q\330\010\013\2106\220\023\220C\220r\230\021\330\014\023\2201\330\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230D\240\002\240!\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\021\220\023\220B\220d\230\"\230A\360\006\000\005\013\210!\2105\220\001\220\026\220q\230\001\330\004\n\210!\2105\220\001\220\026\220q\230\001\330\004\n\210!\2105\220\001\220\026\220q\230\001\340\004\014\210H\220A\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003\2602\260R\260q\270\003\2703\270b\300\001\330\004\025\220R\220q\230\003\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003\2602\260R\260q\270\003\2703\270b\300\001\330\004\025\220R\220q\230\003\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003""\2602\260R\260q\270\003\2703\270b\300\001\330\004\026\220j\240\n\250!\360\n\000\005\010\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\330\004\007\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\330\004\007\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\340\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\330\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\330\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\340\004\014\210B\210a\210s\220\"\220A\330\004\014\210B\210a\210s\220\"\220A\330\004\014\210B\210a\210s\220\"\220A\330\004\016\210f\220B\220f\230B\230f\240B\240f\250B\250f\260B\260a\340\004\007\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200u\210B\210a\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210T\220\021\220#\220R\220s\230\"\230C\230r\240\023\240B\240c\250\022\2501\330\010\013\2103\210b\220\001\330\014\022\220!\2205\230\005\230V\2401\240E\250\025\250f\260A\260U\270!\340\014\023\2204\220r\230\021\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\010\020\220\001\340\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\020\220\003\2202\220Q\340\004\014\210H\220A\200\001\360\n\000\005\026""\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\032\230#\230R\230s\240\"\240C\240r\250\023\250B\250c\260\022\2601\330\004\025\220S\230\002\230!\360\010\000\005\010\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200u\210B\210a\330\010\016\210a\210u\220E\230\026\230q\240\005\240U\250&\260\001\260\025\260a\330\010\020\220\001\340\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\020\220\003\2202\220Q\340\004\014\210H\220A\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\035\230S\240\002\240$\240b\250\004\250A\250Q\360\010\000\005\010\200z\220\022\2201\330\010\017\210q\340\004\t\210\022\2101\210C\210r\220\022\2201\220A\330\004\t\210\022\2101\210C\210r\220\022\2201\220A\330\004\016\210c\220\022\2203\220b\230\003\2302\230Q\330\004\014\210C\210r\220\021\340\004\007\200x\210s\220&\230\002\230!\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\031\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200z\220\022\2201\330\010\016\210a\210u\220A\330\010\016\210a\210u\220G\2303\230c\240\031\250!\330\010\016\210a\210u\220A\330\010\020\220\001\340\010\013\2105\220\002\220!\330\014\022\220!\2205\230\005\230V\2401\240E\250\025\250f\260A\260U\270!\340\014\022\220$\220b\230\001\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\001\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\010\020\220\001\340\004\014\210H\220AO";
+    #else /* compression: none (4174 bytes) */
+const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_collision_manifold_3d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIAbCaCbCcEbEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryViewabcallocate_buffer__annotate__asyncio.coroutinesbaseccacaxcaycazcbcbxcbycbzclamped_y__class____class_getitem__cline_in_tracebackclxclyclzcountcpxcpycpzcscwxcwycwzcylinder_vs_cylinder_manifold_fastcylinder_vs_sphere_manifold_fastd_lend_len_sqd_ydepth__dict__diffxdiffydiffzdistdist_sqdtypedtype_is_objectdxdydzemptyencodeengine.cython.cy_collision_manifold_3denumerateerrorflagsfloat32formatfortran__func____getstate__hahbhchorizontal_overlapid__import__indexinvinv2_is_coroutineitemsitemsizelxlylz__main__memviewmode__module__name__name__ndim__new__nlnormalnpnumpynxnynzobjpackpop__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname__r_sumrarbrc__reduce____reduce_cython____reduce_ex__registerrs__set_name__setdefault__setsta""te____setstate_cython__shapesizesphere_vs_obb_manifold_fastsphere_vs_sphere_manifold_fastsphere_vs_sphere_manifold_fast_scalarsstartstepstopstruct__test__unpackupdatevaluesxy_overlap\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\034\230A\360\010\000\005\010\200z\220\022\2201\220A\330\010\024\220A\220Q\330\t\023\2202\220Q\330\010\024\220A\340\004\n\210\"\210A\210Q\330\004\n\210\"\210A\210S\220\002\220!\330\004\n\210\"\210A\210Q\340\004\t\210\022\2101\210C\210r\220\021\330\004\n\210\"\210A\210S\220\002\220!\330\004\t\210\022\2101\210C\210r\220\021\330\004\017\210s\220\"\220C\220r\230\024\230R\230t\2402\240S\250\002\250!\340\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200y\220\002\220!\330\010\016\210a\210u\220E\230\026\230q\240\005\240U\250&\260\001\260\025\260a\330\010\020\220\003\2202\220Q\330\010\013\2103\210b\220\004\220A\220T\230\022\2301\330\014\022\220!\2205\230\001\330\014\022\220!\2205\230\007\230s\240#\240Y\250a\330\014\022\220!\2205\230\001\330\014\025\220S\230\002\230$\230b\240\004\240A\240Q\340\010\020\220\004\220A\220Q\330\010\013\2106\220\023\220C\220r\230\021\330\014\023\2201\330\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230D\240\002\240!\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\021\220\023\220B\220d\230\"\230A\360\006\000\005\013\210!\2105\220\001\220\026\220q\230\001\330\004\n\210!\2105\220\001\220\026\220q\230\001\330\004\n\210!\2105\220\001\220\026\220q\230\001\340\004\014\210H\220A\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003\2602\260R\260q\270\003\2703\270b\300\001\330\004\025\220R\220q\230\003\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003\2602\260R\260q\270\003\2703\270b\300\001\330\004\025\220R\220q\230\003""\2303\230b\240\003\2402\240R\240q\250\003\2503\250b\260\003\2602\260R\260q\270\003\2703\270b\300\001\330\004\026\220j\240\n\250!\360\n\000\005\010\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\330\004\007\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\330\004\007\200t\2102\210Q\210b\220\001\220\024\220V\2301\230B\230a\230q\330\t\r\210R\210r\220\021\220$\220f\230B\230a\230q\340\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\330\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\330\004\n\210\"\210A\210S\220\002\220\"\220A\220S\230\003\2302\230T\240\022\2402\240Q\240c\250\023\250B\250d\260\"\260B\260a\260s\270#\270R\270q\340\004\014\210B\210a\210s\220\"\220A\330\004\014\210B\210a\210s\220\"\220A\330\004\014\210B\210a\210s\220\"\220A\330\004\016\210f\220B\220f\230B\230f\240B\240f\250B\250f\260B\260a\340\004\007\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200u\210B\210a\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210R\210q\220\003\2202\220R\220q\230\001\330\010\r\210T\220\021\220#\220R\220s\230\"\230C\230r\240\023\240B\240c\250\022\2501\330\010\013\2103\210b\220\001\330\014\022\220!\2205\230\005\230V\2401\240E\250\025\250f\260A\260U\270!\340\014\023\2204\220r\230\021\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\010\020\220\001\340\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\016\210a\210u\220H\230F\240\"\240A\330\010\020\220\003""\2202\220Q\340\004\014\210H\220A\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\025\220R\220q\230\003\2302\230R\230q\240\001\330\004\032\230#\230R\230s\240\"\240C\240r\250\023\250B\250c\260\022\2601\330\004\025\220S\230\002\230!\360\010\000\005\010\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200u\210B\210a\330\010\016\210a\210u\220E\230\026\230q\240\005\240U\250&\260\001\260\025\260a\330\010\020\220\001\340\010\016\210d\220\"\220A\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\016\210a\210u\220H\230C\230r\240\021\330\010\020\220\003\2202\220Q\340\004\014\210H\220A\200\001\360\n\000\005\026\220R\220q\230\003\2302\230R\230q\240\001\330\004\035\230S\240\002\240$\240b\250\004\250A\250Q\360\010\000\005\010\200z\220\022\2201\330\010\017\210q\340\004\t\210\022\2101\210C\210r\220\022\2201\220A\330\004\t\210\022\2101\210C\210r\220\022\2201\220A\330\004\016\210c\220\022\2203\220b\230\003\2302\230Q\330\004\014\210C\210r\220\021\340\004\007\200x\210s\220&\230\002\230!\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\031\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\340\004\007\200z\220\022\2201\330\010\016\210a\210u\220A\330\010\016\210a\210u\220G\2303\230c\240\031\250!\330\010\016\210a\210u\220A\330\010\020\220\001\340\010\013\2105\220\002\220!\330\014\022\220!\2205\230\005\230V\2401\240E\250\025\250f\260A\260U\270!\340\014\022\220$\220b\230\001\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\014\022\220!\2205\230\001\330\014\022\220!\2205\230\010\240\003\2402\240Q\330\010\020\220\001\340\004\014\210H\220A\200\001\360\n\000\005\026\220T\230\022\2301\330\004\025\220T\230\022\2301\330\004\025\220T\230\022\2301\330\004\032\230#\230R\230s\240\"\240C\240r\250\023\250B\250c\260\022\2601\330\004\025\220S\230\002\230!\360\006""\000\005\010\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\007\200u\210B\210a\330\010\021\220\021\220%\220u\230A\330\010\020\220\001\340\010\016\210d\220\"\220A\330\010\021\220\021\220#\220R\220u\230C\230r\240\025\240c\250\022\2501\330\010\020\220\003\2202\220Q\340\004\014\210H\220AO";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 171; i++) {
+    for (int i = 0; i < 178; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 44) PyUnicode_InternInPlace(&string);
@@ -23368,7 +23793,7 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 171; i < 176; i++) {
+    for (int i = 178; i < 184; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -23379,15 +23804,15 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 176; i++) {
+    for (Py_ssize_t i = 0; i < 184; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 171;
-      for (Py_ssize_t i=0; i<5; ++i) {
+      PyObject **table = stringtab + 178;
+      for (Py_ssize_t i=0; i<6; ++i) {
         #if PY_VERSION_HEX >= 0x030F0000
         PyUnstable_SetImmortal(table[i]);
         #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
@@ -23409,7 +23834,15 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
     #endif
   }
   {
-    PyObject **numbertab = __pyx_mstate->__pyx_number_tab + 0;
+    PyObject **numbertab = __pyx_mstate->__pyx_number_tab;
+    double const c_constants[] = {0.0,1.0};
+    for (int i = 0; i < 2; i++) {
+      numbertab[i] = PyFloat_FromDouble(c_constants[i]);
+      if (unlikely(!numbertab[i])) __PYX_ERR(0, 1, __pyx_L1_error)
+    }
+  }
+  {
+    PyObject **numbertab = __pyx_mstate->__pyx_number_tab + 2;
     int8_t const cint_constants_1[] = {0,-1,1,3};
     int32_t const cint_constants_4[] = {136983863L};
     for (int i = 0; i < 5; i++) {
@@ -23420,7 +23853,7 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
   #if CYTHON_IMMORTAL_CONSTANTS
   {
     PyObject **table = __pyx_mstate->__pyx_number_tab;
-    for (Py_ssize_t i=0; i<5; ++i) {
+    for (Py_ssize_t i=0; i<7; ++i) {
       #if PY_VERSION_HEX >= 0x030F0000
       PyUnstable_SetImmortal(table[i]);
       #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
@@ -23446,7 +23879,7 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
 }
 /* #### Code section: init_codeobjects ### */
 typedef struct {
-    unsigned int argcount : 3;
+    unsigned int argcount : 4;
     unsigned int num_posonly_args : 1;
     unsigned int num_kwonly_args : 1;
     unsigned int nlocals : 5;
@@ -23473,19 +23906,24 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_sphere_vs_sphere_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rs_Cr_Bc_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 30, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 45};
+    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 17, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 45};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cax, __pyx_mstate->__pyx_n_u_cay, __pyx_mstate->__pyx_n_u_caz, __pyx_mstate->__pyx_n_u_ra, __pyx_mstate->__pyx_n_u_cbx, __pyx_mstate->__pyx_n_u_cby, __pyx_mstate->__pyx_n_u_cbz, __pyx_mstate->__pyx_n_u_rb, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_dz, __pyx_mstate->__pyx_n_u_dist_sq, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_dist, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_normal};
+    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_sphere_vs_sphere_manifold_fast_s, __pyx_mstate->__pyx_kp_b_iso88591_T_1_T_1_T_1_Rs_Cr_Bc_1_S_xr_Ba, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
+  }
+  {
+    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 30, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 72};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cs, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_Cb, __pyx_mstate->__pyx_n_u_Ab, __pyx_mstate->__pyx_n_u_Eb, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_dz, __pyx_mstate->__pyx_n_u_lx, __pyx_mstate->__pyx_n_u_ly, __pyx_mstate->__pyx_n_u_lz, __pyx_mstate->__pyx_n_u_clx, __pyx_mstate->__pyx_n_u_cly, __pyx_mstate->__pyx_n_u_clz, __pyx_mstate->__pyx_n_u_cwx, __pyx_mstate->__pyx_n_u_cwy, __pyx_mstate->__pyx_n_u_cwz, __pyx_mstate->__pyx_n_u_diffx, __pyx_mstate->__pyx_n_u_diffy, __pyx_mstate->__pyx_n_u_diffz, __pyx_mstate->__pyx_n_u_dist_sq, __pyx_mstate->__pyx_n_u_dist, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_inv2, __pyx_mstate->__pyx_n_u_nx, __pyx_mstate->__pyx_n_u_ny, __pyx_mstate->__pyx_n_u_nz, __pyx_mstate->__pyx_n_u_nl, __pyx_mstate->__pyx_n_u_normal};
-    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_sphere_vs_obb_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rq_3b_2Rq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_sphere_vs_obb_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_Rq_2Rq_Rq_2Rq_Rq_3b_2Rq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 17, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 106};
+    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 17, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 133};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_Ca, __pyx_mstate->__pyx_n_u_ra, __pyx_mstate->__pyx_n_u_ha, __pyx_mstate->__pyx_n_u_Cb, __pyx_mstate->__pyx_n_u_rb, __pyx_mstate->__pyx_n_u_hb, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_y_overlap, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dz, __pyx_mstate->__pyx_n_u_dist_sq, __pyx_mstate->__pyx_n_u_r_sum, __pyx_mstate->__pyx_n_u_dist, __pyx_mstate->__pyx_n_u_horizontal_overlap, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_normal};
-    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_S_b_AQ_z_1_q_1Cr_1A_1Cr, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_cylinder_vs_cylinder_manifold_fa, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_S_b_AQ_z_1_q_1Cr_1A_1Cr, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 149};
+    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 176};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_Cc, __pyx_mstate->__pyx_n_u_rc, __pyx_mstate->__pyx_n_u_hc, __pyx_mstate->__pyx_n_u_cs, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_clamped_y, __pyx_mstate->__pyx_n_u_cpx, __pyx_mstate->__pyx_n_u_cpy, __pyx_mstate->__pyx_n_u_cpz, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_d_y, __pyx_mstate->__pyx_n_u_dz, __pyx_mstate->__pyx_n_u_d_len_sq, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_d_len, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_normal};
-    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_cylinder_vs_sphere_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_A_z_1A_AQ_2Q_A_AQ_AS_AQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[4] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_manif_2, __pyx_mstate->__pyx_n_u_cylinder_vs_sphere_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_Rq_2Rq_A_z_1A_AQ_2Q_A_AQ_AS_AQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[4])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

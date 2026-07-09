@@ -110,6 +110,26 @@ class Collider3D(Component):
         self.update_bounds()
         return self.aabb
 
+    def _get_aabb64(self):
+        """Return (min, max) as float64 C-contiguous for fast Cython path, creating cache if needed."""
+        if not hasattr(self, '_aabb64') or self._aabb64 is None:
+            if self.aabb is None:
+                return None
+            amin, amax = self.aabb
+            self._aabb64 = (
+                np.ascontiguousarray(amin, dtype=np.float64),
+                np.ascontiguousarray(amax, dtype=np.float64),
+            )
+        return self._aabb64
+
+    def _get_sphere64(self):
+        if not hasattr(self, '_sphere64') or self._sphere64 is None:
+            if self.sphere is None:
+                return None
+            c, r = self.sphere
+            self._sphere64 = (np.ascontiguousarray(c, dtype=np.float64), float(r))
+        return self._sphere64
+
     def get_world_cylinder(self):
         self.update_bounds()
         return self.cylinder

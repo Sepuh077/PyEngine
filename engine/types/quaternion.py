@@ -21,7 +21,6 @@ try:
 except ImportError:
     _USE_CYTHON = False
 
-
 class Quaternion:
     """
     A quaternion for representing 3D rotations without gimbal lock.
@@ -450,3 +449,14 @@ class Quaternion:
 
     def __len__(self) -> int:
         return 4
+
+
+if _USE_CYTHON:
+    def _q_mag(self):
+        return _cy_qmag(self._w, self._x, self._y, self._z)
+    Quaternion.magnitude = property(_q_mag)
+
+    def _q_norm(self):
+        nw, nx, ny, nz = _cy_qnorm(self._w, self._x, self._y, self._z)
+        return Quaternion(nw, nx, ny, nz)
+    Quaternion.normalized = property(_q_norm)

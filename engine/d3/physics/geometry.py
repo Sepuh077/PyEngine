@@ -14,12 +14,13 @@ def closest_point_on_triangle(p: np.ndarray, a: np.ndarray, b: np.ndarray, c: np
     Find the closest point on triangle ABC to point P.
     """
     if _USE_CYTHON:
-        return _cy_closest_tri(
-            np.ascontiguousarray(p, dtype=np.float64),
-            np.ascontiguousarray(a, dtype=np.float64),
-            np.ascontiguousarray(b, dtype=np.float64),
-            np.ascontiguousarray(c, dtype=np.float64),
-        )
+        p64 = getattr(p, '_c64', None)  # if someone cached
+        if p64 is None:
+            p64 = np.ascontiguousarray(p, dtype=np.float64)
+        a64 = np.ascontiguousarray(a, dtype=np.float64)
+        b64 = np.ascontiguousarray(b, dtype=np.float64)
+        c64 = np.ascontiguousarray(c, dtype=np.float64)
+        return _cy_closest_tri(p64, a64, b64, c64)
     # Check if P in vertex region outside A
     ab = b - a
     ac = c - a

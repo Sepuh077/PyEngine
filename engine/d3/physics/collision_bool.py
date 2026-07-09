@@ -27,10 +27,17 @@ def sphere_vs_sphere_bool(a: Collider3D, b: Collider3D) -> bool:
     ca, ra = a.get_world_sphere()
     cb, rb = b.get_world_sphere()
     if _USE_CYTHON:
-        return _cy_sph_sph(
-            np.ascontiguousarray(ca, dtype=np.float64), ra,
-            np.ascontiguousarray(cb, dtype=np.float64), rb,
-        )
+        # Cache the float64 contiguous version on the collider instance to
+        # avoid repeated ascontiguousarray in hot collision loops.
+        ca64 = getattr(a, '_c64', None)
+        if ca64 is None:
+            ca64 = np.ascontiguousarray(ca, dtype=np.float64)
+            a._c64 = ca64
+        cb64 = getattr(b, '_c64', None)
+        if cb64 is None:
+            cb64 = np.ascontiguousarray(cb, dtype=np.float64)
+            b._c64 = cb64
+        return _cy_sph_sph(ca64, ra, cb64, rb)
     diff = ca - cb
     dist_sq = diff.dot(diff)
     radius_sum = ra + rb
@@ -240,21 +247,13 @@ def cylinder_vs_mesh_bool(cyl: Collider3D, mesh: Collider3D) -> bool:
     return sphere_vs_mesh_bool(cyl, mesh)
 
 def aabb_overlap(a: Collider3D, b: Collider3D) -> bool:
-    # Fast AABB broadphase.
-    #
-    # We intentionally use the pure-Python version here (even with Cython enabled).
-    # Calling the C version requires 4x np.ascontiguousarray(..., dtype=float64)
-    # per test. For 6 cheap comparisons this FFI + allocation overhead makes the
-    # accelerated path *slower* for the common broadphase reject case (N-body etc.).
-    #
-    # The real wins from Cython are in heavier narrow-phase work (OBB SAT, cylinder,
-    # ray-triangle, manifolds, quaternion math, etc.).
     aabb_a = a.get_world_aabb()
     aabb_b = b.get_world_aabb()
     if aabb_a is None or aabb_b is None:
         return False
     amin, amax = aabb_a
     bmin, bmax = aabb_b
+    # Use pure fast path (avoids per-call FFI + conversion for this very cheap test)
     return not (amax[0] < bmin[0] or amax[1] < bmin[1] or amax[2] < bmin[2] or
                 amin[0] > bmax[0] or amin[1] > bmax[1] or amin[2] > bmax[2])
 

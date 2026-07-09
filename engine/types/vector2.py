@@ -20,7 +20,6 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
-
 class Vector2:
     """
     A 2D vector class with Unity-like API.
@@ -367,3 +366,17 @@ class Vector2:
 
 
 Vector2Like = Union[Vector2, Tuple[float, float], list, np.ndarray]
+
+if _USE_CYTHON:
+    def _vec2_mag(self):
+        return _cy_mag(self._x, self._y)
+    Vector2.magnitude = property(_vec2_mag)
+
+    def _vec2_sqr(self):
+        return _cy_sqr_mag(self._x, self._y)
+    Vector2.squared_magnitude = property(_vec2_sqr)
+
+    def _vec2_norm(self):
+        nx, ny = _cy_norm(self._x, self._y)
+        return Vector2(nx, ny)
+    Vector2.normalized = property(_vec2_norm)

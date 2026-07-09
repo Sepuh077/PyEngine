@@ -35,19 +35,39 @@ def cy_update_objects(list objects, double delta_time):
     cdef object obj, script
     cdef list scripts
 
+    # Import rigidbodies once (for explicit update of movement components)
+    RB2 = RB3 = None
+    try:
+        from engine.d2.physics.rigidbody import Rigidbody2D as _RB2
+        from engine.d3.physics.rigidbody import Rigidbody3D as _RB3
+        RB2, RB3 = _RB2, _RB3
+    except Exception:
+        pass
+
     n = <Py_ssize_t>len(objects)
     for i in range(n):
         obj = <object>objects[i]
 
-        # If the object has any scripts or active coroutines, run its full
-        # update (which iterates all Components including Rigidbody, etc.)
-        # plus coroutines. This preserves correctness for objects whose
-        # behavior lives in non-Script Components.
-        # Objects with neither are skipped entirely for speed (only visual
-        # components like Transform/Object2D that don't require per-frame
-        # Python work).
-        if obj._scripts or obj._active_coroutines:
-            obj.update()
+        # Fast path: call scripts directly (no component list overhead).
+        # Explicitly drive Rigidbody update too (bullets etc. use Rigidbody+Script).
+        scripts = obj._scripts
+        ns = <Py_ssize_t>len(scripts)
+        if ns > 0:
+            for j in range(ns):
+                script = <object>scripts[j]
+                script.update()
+
+            # Drive rigidbody movement if present (for correctness + speed)
+            if RB2 is not None or RB3 is not None:
+                try:
+                    rb = obj.get_component(RB2) or obj.get_component(RB3)
+                    if rb is not None:
+                        rb.update()
+                except Exception:
+                    pass
+
+        if obj._active_coroutines:
+            obj._update_coroutines(delta_time)
 
 
 def cy_update_end_of_frame(list objects, double delta_time):

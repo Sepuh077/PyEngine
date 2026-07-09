@@ -36,13 +36,19 @@ def sphere_vs_sphere_manifold(a: Collider3D, b: Collider3D) -> Optional[Collisio
     cb, rb = b.get_world_sphere()
 
     if _USE_CYTHON:
-        result = _cy_sph_sph_m(
-            np.ascontiguousarray(ca, dtype=np.float64), ra,
-            np.ascontiguousarray(cb, dtype=np.float64), rb,
-        )
+        ca64 = getattr(a, '_c64', None)
+        if ca64 is None:
+            ca64 = np.ascontiguousarray(ca, dtype=np.float64)
+            a._c64 = ca64
+        cb64 = getattr(b, '_c64', None)
+        if cb64 is None:
+            cb64 = np.ascontiguousarray(cb, dtype=np.float64)
+            b._c64 = cb64
+        result = _cy_sph_sph_m(ca64, ra, cb64, rb)
         if result is None:
             return None
-        return CollisionManifold(result[0], result[1])
+        normal, depth = result
+        return CollisionManifold(np.asarray(normal, dtype=np.float32), depth)
 
     diff = ca - cb
     dist_sq = diff.dot(diff)

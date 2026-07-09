@@ -23,6 +23,9 @@ except (ImportError, ModuleNotFoundError):
 if TYPE_CHECKING:
     from engine.types.vector2 import Vector2
 
+# Bind fast Cython implementations directly when available (avoids per-call 'if' overhead)
+
+
 
 class Vector3:
     """
@@ -637,3 +640,19 @@ class Vector3:
 # Type alias for type hints (includes Vector2 for auto-conversion)
 Vector3Like = Union[Vector3, Tuple[float, float, float], list, np.ndarray]
 # Note: Vector2 is also accepted at runtime via the constructor
+
+# Rebind Cython-accelerated properties (after class is defined) to avoid 'if'
+# overhead on every access in hot paths.
+if _USE_CYTHON:
+    def _vec3_mag(self):
+        return _cy_mag(self._x, self._y, self._z)
+    Vector3.magnitude = property(_vec3_mag)
+
+    def _vec3_sqr_mag(self):
+        return _cy_sqr_mag(self._x, self._y, self._z)
+    Vector3.squared_magnitude = property(_vec3_sqr_mag)
+
+    def _vec3_norm(self):
+        nx, ny, nz = _cy_norm(self._x, self._y, self._z)
+        return Vector3(nx, ny, nz)
+    Vector3.normalized = property(_vec3_norm)

@@ -21,6 +21,19 @@ cpdef bint sphere_vs_sphere_bool_fast(
     return dist_sq <= rs * rs
 
 
+# Scalar versions for lower call overhead (no memoryview / ascontig cost)
+cpdef bint sphere_vs_sphere_bool_fast_scalars(
+    double cax, double cay, double caz, double ra,
+    double cbx, double cby, double cbz, double rb,
+):
+    cdef double dx = cax - cbx
+    cdef double dy = cay - cby
+    cdef double dz = caz - cbz
+    cdef double dist_sq = dx * dx + dy * dy + dz * dz
+    cdef double rs = ra + rb
+    return dist_sq <= rs * rs
+
+
 cpdef bint aabb_overlap_fast(
     double[::1] amin, double[::1] amax,
     double[::1] bmin, double[::1] bmax,

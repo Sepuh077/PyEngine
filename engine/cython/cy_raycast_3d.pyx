@@ -150,3 +150,59 @@ def closest_point_on_triangle_fast(
         a[1] + aby * v_param + acy * w_param,
         a[2] + abz * v_param + acz * w_param,
     ], dtype=np.float64)
+
+
+def closest_point_on_triangle_fast_scalars(
+    double px, double py, double pz,
+    double ax, double ay, double az,
+    double bx, double by, double bz,
+    double cx, double cy, double cz,
+):
+    """Scalar version, returns tuple of 3 floats. Lower overhead for micro-benches."""
+    # All cdef declarations must be at the top of the function
+    cdef double abx = bx - ax, aby = by - ay, abz = bz - az
+    cdef double acx = cx - ax, acy = cy - ay, acz = cz - az
+    cdef double apx = px - ax, apy = py - ay, apz = pz - az
+    cdef double d1, d2, d3, d4, d5, d6
+    cdef double bpx, bpy, bpz, cpx, cpy, cpz
+    cdef double vc, vb, va, v_param, w_param, denom
+
+    d1 = abx * apx + aby * apy + abz * apz
+    d2 = acx * apx + acy * apy + acz * apz
+    if d1 <= 0.0 and d2 <= 0.0:
+        return (ax, ay, az)
+
+    bpx = px - bx; bpy = py - by; bpz = pz - bz
+    d3 = abx * bpx + aby * bpy + abz * bpz
+    d4 = acx * bpx + acy * bpy + acz * bpz
+    if d3 >= 0.0 and d4 <= d3:
+        return (bx, by, bz)
+
+    vc = d1 * d4 - d3 * d2
+    if vc <= 0.0 and d1 >= 0.0 and d3 <= 0.0:
+        v_param = d1 / (d1 - d3)
+        return (ax + v_param * abx, ay + v_param * aby, az + v_param * abz)
+
+    cpx = px - cx; cpy = py - cy; cpz = pz - cz
+    d5 = abx * cpx + aby * cpy + abz * cpz
+    d6 = acx * cpx + acy * cpy + acz * cpz
+    if d6 >= 0.0 and d5 <= d6:
+        return (cx, cy, cz)
+
+    vb = d5 * d2 - d1 * d6
+    if vb <= 0.0 and d2 >= 0.0 and d6 <= 0.0:
+        w_param = d2 / (d2 - d6)
+        return (ax + w_param * acx, ay + w_param * acy, az + w_param * acz)
+
+    va = d3 * d6 - d5 * d4
+    if va <= 0.0 and (d4 - d3) >= 0.0 and (d5 - d6) >= 0.0:
+        w_param = (d4 - d3) / ((d4 - d3) + (d5 - d6))
+        bcx = cx - bx; bcy = cy - by; bcz = cz - bz
+        return (bx + w_param * bcx, by + w_param * bcy, bz + w_param * bcz)
+
+    denom = 1.0 / (va + vb + vc)
+    v_param = vb * denom
+    w_param = vc * denom
+    return (ax + abx * v_param + acx * w_param,
+            ay + aby * v_param + acy * w_param,
+            az + abz * v_param + acz * w_param)
