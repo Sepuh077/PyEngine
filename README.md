@@ -11,6 +11,8 @@ PyEngine is an open-source, beginner-friendly 2D/3D game engine for Python inspi
 - **Shadow Mapping** - Directional and omnidirectional point light shadows with configurable resolution and bias
 - **Multi-Camera** - Multiple cameras with viewports, render priorities, and clear flags (minimaps, mirrors, split-screen)
 - **Materials** - Unlit, Lit, Specular, Emissive, Transparent, and Skybox materials
+- **Custom Shaders** - Powerful `Shader` + `ShaderMaterial` system. Includes built-in effects (unlit, rim light, dissolve, flash, color cycle) and easy support for fully custom GLSL shaders on both 2D (`Object2D`) and 3D (`Object3D`) objects.
+- **Animations** - `KeyFrame` + `AnimationClip` system for step-based animation with callbacks and direct property binding (`bind_property`). Includes a full state-machine `Animator` (Component) supporting parameters (bools, floats, triggers) and conditional transitions (Unity Animator style). See `examples/example_animation.py`.
 - **Particle System** - Pooled particles with lifetime curves, burst emission, shapes (sphere, cone, box), collision, and shadow support
 - **Physics** - Colliders (box, sphere, mesh), rigidbodies, collision detection/response, and raycasting
 - **2D UI System** - Labels, buttons, checkboxes, sliders, progress bars, and panels
@@ -31,13 +33,21 @@ PyEngine is an open-source, beginner-friendly 2D/3D game engine for Python inspi
 ⚠️ Python 3.13+ is not supported yet.
 Some dependencies (notably pygame) fail to build due to changes in Python's packaging system (distutils removal).
 
-### Install (editable, all extras)
+### Install (editable)
 
 ```bash
-pip install -e .[all]
+pip install -e .
 ```
 
-This installs the engine in editable mode with GPU rendering, the editor, and dev tools.
+This installs the engine in editable mode with core dependencies (including GPU acceleration via ModernGL).
+
+For additional features:
+
+```bash
+pip install -e .[editor]   # + PySide6 editor
+pip install -e .[dev]      # + pytest
+pip install -e .[all]      # editor + dev tools
+```
 
 ### Install from requirements
 
@@ -45,19 +55,20 @@ This installs the engine in editable mode with GPU rendering, the editor, and de
 pip install -r requirements.txt
 ```
 
+> **Note**: `requirements.txt` now includes core dependencies with GPU support (moderngl) and build tools (setuptools, cython).
+
 ### Selective extras
 
 ```bash
-pip install -e .           # core only (pygame, numpy, trimesh)
-pip install -e .[gpu]      # + moderngl GPU backend
+pip install -e .           # core (includes GPU via moderngl)
 pip install -e .[editor]   # + PySide6 editor
 pip install -e .[dev]      # + pytest
-pip install -e .[all]      # everything
+pip install -e .[all]      # editor + dev tools
 ```
 
 ## CLI - Create and Manage Projects
 
-After installing (`pip install -e .[all]`), the `pyengine` command is available globally.
+After installing (`pip install -e .`), the `pyengine` command is available globally.
 
 ### Create a new project
 
@@ -213,6 +224,69 @@ window = Window3D(800, 600, "Game with Scenes")
 window.show_scene(MenuScene())
 window.run()
 ```
+
+### Animations
+```python
+from engine.d3 import Window3D, Scene3D, create_cube, Object3D, Time
+from engine.animation import KeyFrame, AnimationClip, AnimatorState, Animator
+from engine.types import Vector3
+from engine.input import Input, Keys
+
+class AnimScene(Scene3D):
+    def setup(self):
+        super().setup()
+        cube = create_cube()
+        self.add_object(cube)
+
+        # Simple looping clip that moves the cube up/down
+        kf0 = KeyFrame(step=0)
+        kf0.bind_property(cube.transform, "position", Vector3(0, 1, 0))
+        kf1 = KeyFrame(step=4)
+        kf1.bind_property(cube.transform, "position", Vector3(0, 3, 0))
+
+        clip = AnimationClip(keyframes=[kf0, kf1], is_loop=True)
+
+        state = AnimatorState("bob", clip)
+        anim = Animator()
+        anim.register_state(state, is_initial=True)
+        cube.add_component(anim)
+        anim.start()
+
+    def on_key_press(self, key, mods):
+        if key == Keys.ESCAPE:
+            self.window.close()
+
+window = Window3D(800, 600, "Animation Demo", project_root=".")
+window.show_scene(AnimScene())
+window.run()
+```
+
+See also the dedicated `examples/example_animation.py` (state machine + transitions).
+
+### Shaders (2D & 3D)
+```python
+from engine.d3 import Window3D, Scene3D, create_cube, Object3D
+from engine.graphics import Shader, ShaderMaterial
+from engine.input import Keys
+
+class ShaderScene(Scene3D):
+    def setup(self):
+        super().setup()
+        cube = create_cube()
+        mat = ShaderMaterial(Shader.rim_light())
+        mat.set_color("rim_color", (0, 0.8, 1, 1))
+        cube.get_component(Object3D).material = mat
+        self.add_object(cube)
+
+    def on_key_press(self, key, mods):
+        if key == Keys.ESCAPE:
+            self.window.close()
+
+window = Window3D(800, 600, "Shaders")
+window.show_scene(ShaderScene())
+window.run()
+```
+See `examples/example_shaders.py` and `examples/example_2d_shaders.py` for more.
 
 ### Shadows
 ```python

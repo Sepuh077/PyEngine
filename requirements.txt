@@ -5,15 +5,14 @@ pyglet==2.1.11
 pillow==11.3.0
 trimesh>=4.0.0
 scipy>=1.10.0
+moderngl>=5.6.0
+moderngl-window>=2.4.0
+setuptools>=45
+cython>=3.0
 
 # Optional - for massive performance boost (5-20x faster)
 # Uncomment to install:
 # numba>=0.55.0
-
-# Optional - for GPU acceleration (100-1000x faster)
-# Uncomment to install:
-moderngl>=5.6.0
-moderngl-window>=2.4.0
 
 # Editor UI
 PySide6>=6.6.0

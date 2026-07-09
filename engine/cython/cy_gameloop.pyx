@@ -35,12 +35,18 @@ def cy_update_objects(list objects, double delta_time):
     cdef object obj, script
     cdef list scripts
 
-    # Import rigidbodies once (for explicit update of movement components)
+    # Import rigidbodies and animator once (for explicit update of behavior components)
     RB2 = RB3 = None
+    AnimatorCls = None
     try:
         from engine.d2.physics.rigidbody import Rigidbody2D as _RB2
         from engine.d3.physics.rigidbody import Rigidbody3D as _RB3
         RB2, RB3 = _RB2, _RB3
+    except Exception:
+        pass
+    try:
+        from engine.animation.animator import Animator as _Animator
+        AnimatorCls = _Animator
     except Exception:
         pass
 
@@ -48,21 +54,38 @@ def cy_update_objects(list objects, double delta_time):
     for i in range(n):
         obj = <object>objects[i]
 
-        # Fast path: call scripts directly (no component list overhead).
-        # Explicitly drive Rigidbody update too (bullets etc. use Rigidbody+Script).
         scripts = obj._scripts
         ns = <Py_ssize_t>len(scripts)
-        if ns > 0:
-            for j in range(ns):
-                script = <object>scripts[j]
-                script.update()
+        has_anim = False
+        anim = None
+        if AnimatorCls is not None:
+            try:
+                anim = obj.get_component(AnimatorCls)
+                has_anim = anim is not None
+            except Exception:
+                pass
 
-            # Drive rigidbody movement if present (for correctness + speed)
-            if RB2 is not None or RB3 is not None:
+        # Update objects that have scripts, coroutines, or Animators (behavior components)
+        needs_update = (ns > 0) or bool(obj._active_coroutines) or has_anim
+
+        if needs_update:
+            if ns > 0:
+                for j in range(ns):
+                    script = <object>scripts[j]
+                    script.update()
+
+                # Drive rigidbody movement if present
+                if RB2 is not None or RB3 is not None:
+                    try:
+                        rb = obj.get_component(RB2) or obj.get_component(RB3)
+                        if rb is not None:
+                            rb.update()
+                    except Exception:
+                        pass
+
+            if has_anim and anim is not None:
                 try:
-                    rb = obj.get_component(RB2) or obj.get_component(RB3)
-                    if rb is not None:
-                        rb.update()
+                    anim.update()
                 except Exception:
                     pass
 

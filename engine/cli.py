@@ -212,10 +212,8 @@ pyglet>=2.1.0
 pillow>=11.0.0
 trimesh>=4.0.0
 scipy>=1.10.0
-
-# Optional: GPU Acceleration (recommended)
-# moderngl>=5.6.0
-# moderngl-window>=2.4.0
+moderngl>=5.6.0
+moderngl-window>=2.4.0
 
 # Optional: Editor
 # PySide6>=6.6.0
