@@ -35,7 +35,9 @@ from engine.d2.physics import (
     CircleCollider2D,
     BoxCollider2D,
     Rigidbody2D,
-    CollisionMode
+    CollisionMode,
+    ColliderGroup,
+    CollisionRelation
 )
 
 # ---------------------------------------------------------------------------
@@ -54,7 +56,7 @@ BULLET_SIZE = 0.15
 ENEMY_BASE_SPEED = 3
 SPAWN_MARGIN = 1                        # spawn enemies just outside the viewport
 MAX_ENEMIES = 40
-STAR_COUNT = 80
+STAR_COUNT = 500
 
 # ---------------------------------------------------------------------------
 # Scripts
@@ -64,12 +66,12 @@ class PlayerScript(Script):
     """Player movement, shooting, and health management."""
 
     def start(self):
-        self.health = 100.0
-        self.max_health = 100.0
+        self.health = 100000.0
+        self.max_health = 100000.0
         self.score = 0
         self.wave = 1
         self.shoot_cooldown = 0.0
-        self.shoot_interval = 0.18   # seconds between shots
+        self.shoot_interval = 0.1   # seconds between shots
         self.invincible_timer = 0.0  # brief invincibility after hit
         self.game_over = False
 
@@ -157,7 +159,7 @@ class PlayerScript(Script):
         bullet_go.add_component(rb)
 
         col = CircleCollider2D()
-        col.collision_mode = CollisionMode.CONTINUOUS
+        # col.collision_mode = CollisionMode.CONTINUOUS
         bullet_go.add_component(col)
 
         bullet_script = BulletScript()
@@ -187,23 +189,23 @@ class BulletScript(Script):
 
     def start(self):
         self.lifetime = 2.0
+        self.is_destroyed = False
 
     def update(self):
         self.lifetime -= Time.delta_time
         if self.lifetime <= 0:
-            self._destroy()
+            self.destroy()
             return
 
         # Remove if far outside bounds
         pos = self.transform.position
         if abs(pos.x) > WORLD_HW * 2 or abs(pos.y) > WORLD_HH * 2:
-            self._destroy()
+            self.destroy()
 
-    def on_collision_enter(self, other):
-        if other.game_object and other.game_object.tag == "Enemy":
-            self._destroy()
-
-    def _destroy(self):
+    def destroy(self):
+        if self.is_destroyed:
+            return
+        self.is_destroyed = True
         scene = self.game_object._scene
         if scene:
             scene.remove_object(self.game_object)
@@ -243,9 +245,10 @@ class EnemyScript(Script):
         # Slow rotation for visual interest
         self.transform.rotate(0, 0, 90 * Time.delta_time)
 
-    def on_collision_enter(self, other):
-        if other.game_object and other.game_object.tag == "Bullet":
+    def on_collision_enter(self, other: GameObject):
+        if other.game_object and other.game_object.tag == "Bullet" and not other.get_component(BulletScript).is_destroyed:
             self.health -= 1
+            other.get_component(BulletScript).destroy()
             if self.health <= 0:
                 scene = self.game_object._scene
                 if scene:
@@ -268,6 +271,9 @@ class GameScene(Scene2D):
         # -- Background stars (purely visual, lowest sorting order) --
         self.stars = []
         self.star_pulse = []   # (base_brightness, speed, phase) per star
+        self.player_group = ColliderGroup("Player")
+        self.enemy_group = ColliderGroup("Enemy")
+        self.enemy_group.add_group(self.enemy_group, CollisionRelation.IGNORE)
         for _ in range(STAR_COUNT):
             sx = random.uniform(-WORLD_HW, WORLD_HW)
             sy = random.uniform(-WORLD_HH, WORLD_HH)
@@ -289,8 +295,9 @@ class GameScene(Scene2D):
         player_go.tag = "Player"
         player_go.transform.position = (0, 0, 0)
         player_go.get_component(Object2D).sorting_order = 5
-
-        player_go.add_component(CircleCollider2D())
+        col = CircleCollider2D()
+        col.group = self.player_group
+        player_go.add_component(col)
 
         self.player_script = PlayerScript()
         player_go.add_component(self.player_script)
@@ -299,7 +306,7 @@ class GameScene(Scene2D):
 
         # -- Enemy spawning state --
         self.spawn_timer = 0.0
-        self.spawn_interval = 1.5       # seconds between spawns
+        self.spawn_interval = 0.2      # seconds between spawns
         self.enemies_per_wave = 5
         self.enemies_spawned = 0
         self.wave_enemy_count = 5
@@ -336,7 +343,8 @@ class GameScene(Scene2D):
             self.spawn_timer = 0.0
             enemy_count = len([o for o in self.objects if o.tag == "Enemy"])
             if enemy_count < self.wave_enemy_count:
-                self._spawn_enemy()
+                for _ in range(10):
+                    self._spawn_enemy()
 
     def _spawn_enemy(self):
         """Spawn an enemy at a random edge position."""
@@ -364,8 +372,9 @@ class GameScene(Scene2D):
         enemy_go.tag = "Enemy"
         enemy_go.transform.position = (x, y, 0)
         enemy_go.get_component(Object2D).sorting_order = 3
-
-        enemy_go.add_component(CircleCollider2D())
+        col = CircleCollider2D()
+        col.group = self.enemy_group
+        enemy_go.add_component(col)
 
         es = EnemyScript()
         enemy_go.add_component(es)
@@ -428,8 +437,8 @@ class GameScene(Scene2D):
             self.draw_text("Press R to Restart | ESC to Quit",
                            SCREEN_W // 2, SCREEN_H // 2 + 60,
                            Color.LIGHT_GRAY, font_size=18, anchor_x='center', anchor_y='center')
-        for obj in self.objects:
-            self.window.draw_collider(obj, Color.BLACK, 3)
+        # for obj in self.objects:
+        #     self.window.draw_collider(obj, Color.BLACK, 3)
 
     def on_key_press(self, key, modifiers):
         if key == Keys.ESCAPE:
@@ -480,4 +489,4 @@ if __name__ == "__main__":
     window = Window2D(SCREEN_W, SCREEN_H, "Space Survivor", background_color=(0.02, 0.02, 0.06))
     scene = GameScene()
     window.show_scene(scene)
-    window.run(60)
+    window.run(100)

@@ -27,8 +27,6 @@ class ColliderGroup:
         return CollisionRelation.SOLID  # default Normal (block) if unspecified
 
     def add_group(self, other: 'ColliderGroup', relation: CollisionRelation):
-        if other is self:
-            raise ValueError("Cannot add self to group")
         # Check no existing
         for rel in [CollisionRelation.IGNORE, CollisionRelation.TRIGGER, CollisionRelation.SOLID]:
             if other in self.get_groups_for_relation(rel) or self in other.get_groups_for_relation(rel):

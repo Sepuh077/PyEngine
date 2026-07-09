@@ -91,6 +91,62 @@ class Window2D(WindowBase):
     }
     '''
 
+    # -- Instanced 2D shaders ---------------------------------------------
+
+    SPRITE_VERTEX_SHADER_INSTANCED = '''
+    #version 330 core
+    in vec2 in_position;
+    in vec2 in_texcoord;
+
+    // Per-instance attributes
+    in vec4 in_model_0;
+    in vec4 in_model_1;
+    in vec4 in_model_2;
+    in vec4 in_model_3;
+    in vec4 in_inst_color;
+    in float in_inst_flags;   // bit 0 = is_circle
+
+    uniform mat4 projection;
+    uniform mat4 view;
+
+    out vec2 v_texcoord;
+    out vec4 v_color;
+    flat out int v_is_circle;
+
+    void main() {
+        mat4 model = mat4(in_model_0, in_model_1, in_model_2, in_model_3);
+        gl_Position = projection * view * model * vec4(in_position, 0.0, 1.0);
+        v_texcoord = in_texcoord;
+        v_color = in_inst_color;
+        v_is_circle = int(in_inst_flags) & 1;
+    }
+    '''
+
+    SPRITE_FRAGMENT_SHADER_INSTANCED = '''
+    #version 330 core
+    in vec2 v_texcoord;
+    in vec4 v_color;
+    flat in int v_is_circle;
+
+    uniform sampler2D tex;
+    uniform bool use_texture;
+
+    out vec4 frag_color;
+    void main() {
+        if (v_is_circle == 1) {
+            vec2 center = v_texcoord - vec2(0.5);
+            float dist = dot(center, center);
+            if (dist > 0.25) discard;
+        }
+        vec4 color = v_color;
+        if (use_texture) {
+            color *= texture(tex, v_texcoord);
+        }
+        if (color.a < 0.001) discard;
+        frag_color = color;
+    }
+    '''
+
     def __init__(
         self,
         width: int = 800,
@@ -152,6 +208,12 @@ class Window2D(WindowBase):
             fragment_shader=self.SPRITE_FRAGMENT_SHADER,
         )
 
+        # Instanced sprite program
+        self._sprite_program_instanced = self._ctx.program(
+            vertex_shader=self.SPRITE_VERTEX_SHADER_INSTANCED,
+            fragment_shader=self.SPRITE_FRAGMENT_SHADER_INSTANCED,
+        )
+
         # Collider / gizmo program (for editor overlays)
         self._collider_program = self._ctx.program(
             vertex_shader=self._COLLIDER_VS,
@@ -174,13 +236,32 @@ class Window2D(WindowBase):
             [(self._quad_vbo, '2f 2f', 'in_position', 'in_texcoord')],
         )
 
+        # Instanced VAO + dynamic instance buffer
+        # Per-instance data: model(4x4=16f) + color(4f) + flags(1f) = 21 floats = 84 bytes
+        self._inst_floats_per = 21
+        self._inst_bytes_per = self._inst_floats_per * 4
+        self._inst_capacity = 64
+        self._inst_vbo = self._ctx.buffer(reserve=self._inst_capacity * self._inst_bytes_per)
+        self._inst_vao = self._ctx.vertex_array(
+            self._sprite_program_instanced,
+            [
+                (self._quad_vbo, '2f 2f', 'in_position', 'in_texcoord'),
+                (self._inst_vbo, '4f 4f 4f 4f 4f 1f /i',
+                 'in_model_0', 'in_model_1', 'in_model_2', 'in_model_3',
+                 'in_inst_color', 'in_inst_flags'),
+            ],
+        )
+
     def _cleanup_gpu(self):
         """Release 2-D GPU resources (called by WindowBase._cleanup)."""
         for tex in self._sprite_textures.values():
             tex.release()
         self._sprite_textures.clear()
+        self._inst_vao.release()
+        self._inst_vbo.release()
         self._quad_vao.release()
         self._quad_vbo.release()
+        self._sprite_program_instanced.release()
         self._sprite_program.release()
         self._collider_program.release()
 
@@ -327,9 +408,14 @@ class Window2D(WindowBase):
 
         proj = cam.get_projection_matrix()     # 4×4
 
-        # Upload camera matrices
-        self._sprite_program['projection'].write(proj.astype(np.float32).tobytes())
-        self._sprite_program['view'].write(view4.astype(np.float32).tobytes())
+        proj_bytes = proj.astype(np.float32).tobytes()
+        view_bytes = view4.tobytes()
+
+        # Upload camera matrices to both programs
+        self._sprite_program['projection'].write(proj_bytes)
+        self._sprite_program['view'].write(view_bytes)
+        self._sprite_program_instanced['projection'].write(proj_bytes)
+        self._sprite_program_instanced['view'].write(view_bytes)
 
         # Gather and sort visible Object2D by (layer_id, sorting_order)
         renderables: List[Object2D] = []
@@ -342,8 +428,7 @@ class Window2D(WindowBase):
         # Disable depth test for 2D (sorting_order determines order)
         self._ctx.disable(moderngl.DEPTH_TEST)
 
-        for obj2d in renderables:
-            self._render_object2d_gl(obj2d)
+        self._render_batched(renderables)
 
         self._ctx.enable(moderngl.DEPTH_TEST)
 
@@ -388,7 +473,146 @@ class Window2D(WindowBase):
         if self._use_pygame_window:
             pygame.display.flip()
 
-    # -- Per-object GL rendering ------------------------------------------
+    # -- Batched instanced rendering ---------------------------------------
+
+    def _render_batched(self, renderables: List[Object2D]):
+        """Draw all visible Object2D sprites using highly optimized instanced rendering."""
+        if not renderables:
+            return
+
+        num_objects = len(renderables)
+        
+        # 1. Pre-allocate a single NumPy array for ALL instance data upfront.
+        # 21 floats per object (4x4 matrix = 16, color = 4, flags = 1)
+        all_inst_data = np.empty((num_objects, 21), dtype=np.float32)
+        
+        keys: List[Optional[int]] = []
+        textures: dict = {}
+
+        # Single unified pass to extract textures and build raw data
+        for i, obj2d in enumerate(renderables):
+            # Cache texture keys
+            has_tex = (obj2d._sprite_surface is not None 
+                    and not isinstance(obj2d._sprite_surface, (str, bytes)))
+            if has_tex:
+                tex = self._ensure_sprite_texture(obj2d)
+                if tex is not None:
+                    k = id(tex)
+                    keys.append(k)
+                    textures[k] = tex
+                else:
+                    keys.append(None)
+            else:
+                keys.append(None)
+            
+            # Directly write data into our pre-allocated NumPy block
+            # Ensure _build_instance_data returns a flat list/tuple or numpy slice
+            all_inst_data[i] = self._build_instance_data(obj2d) 
+
+        # Handle dynamic GPU buffer resizing once before the draw sequence starts
+        if self._inst_capacity < num_objects:
+            self._inst_capacity = max(num_objects, self._inst_capacity * 2)
+            self._inst_vbo.orphan(self._inst_capacity * self._inst_bytes_per)
+            self._inst_vao.release()
+            self._inst_vao = self._ctx.vertex_array(
+                self._sprite_program_instanced,
+                [
+                    (self._quad_vbo, '2f 2f', 'in_position', 'in_texcoord'),
+                    (self._inst_vbo, '4f 4f 4f 4f 4f 1f /i',
+                    'in_model_0', 'in_model_1', 'in_model_2', 'in_model_3',
+                    'in_inst_color', 'in_inst_flags'),
+                ],
+            )
+
+        # Walk through and issue draws using slices of our master array
+        current_key = keys[0]
+        batch_start = 0
+
+        for i in range(num_objects):
+            if keys[i] != current_key:
+                # Draw the current batch run
+                count = i - batch_start
+                if count > 0:
+                    # Slice the pre-allocated array instead of casting a Python list
+                    batch_slice = all_inst_data[batch_start:i]
+                    self._inst_vbo.write(batch_slice.tobytes())
+                    
+                    use_tex = current_key is not None and current_key in textures
+                    if use_tex:
+                        textures[current_key].use(location=0)
+                        self._sprite_program_instanced['tex'].value = 0
+                    self._sprite_program_instanced['use_texture'].value = use_tex
+                    
+                    self._inst_vao.render(moderngl.TRIANGLES, instances=count)
+
+                batch_start = i
+                current_key = keys[i]
+
+        # Flush the absolute final batch
+        count = num_objects - batch_start
+        if count > 0:
+            batch_slice = all_inst_data[batch_start:num_objects]
+            self._inst_vbo.write(batch_slice.tobytes())
+            use_tex = current_key is not None and current_key in textures
+            if use_tex:
+                textures[current_key].use(location=0)
+                self._sprite_program_instanced['tex'].value = 0
+            self._sprite_program_instanced['use_texture'].value = use_tex
+            self._inst_vao.render(moderngl.TRIANGLES, instances=count)
+
+    def _build_instance_data(self, obj2d: Object2D) -> np.ndarray:
+        """Return a flat float32 array (21 floats) for one sprite instance.
+
+        Layout: model(16) + rgba(4) + flags(1)
+        """
+        go = obj2d.game_object
+        if not go:
+            return np.zeros(self._inst_floats_per, dtype=np.float32)
+
+        pos = go.transform.position
+        wx, wy = float(pos.x), float(pos.y)
+
+        t_scale = go.transform.scale_xyz
+        if hasattr(t_scale, 'x'):
+            sx_f, sy_f = float(t_scale.x), float(t_scale.y)
+        elif isinstance(t_scale, (tuple, list)):
+            sx_f = float(t_scale[0])
+            sy_f = float(t_scale[1]) if len(t_scale) > 1 else sx_f
+        else:
+            sx_f = sy_f = float(t_scale)
+
+        size = obj2d.size
+        w = size.x * sx_f
+        h = size.y * sy_f
+
+        rot = go.transform.rotation
+        if hasattr(rot, '__getitem__'):
+            rot_z = float(rot[2]) if len(rot) > 2 else 0.0
+        else:
+            rot_z = float(rot)
+        rad = math.radians(rot_z)
+        c_r, s_r = math.cos(rad), math.sin(rad)
+
+        flip_x = getattr(obj2d, 'flip_x', False)
+        flip_y = getattr(obj2d, 'flip_y', False)
+
+        sx = w * (-1 if flip_x else 1)
+        sy = h * (-1 if flip_y else 1) * (-1)
+
+        # model matrix  (T * R * S) — column-major flat
+        col = obj2d._color
+        flags = 1.0 if getattr(obj2d, '_shape', None) == 'circle' else 0.0
+
+        return np.array([
+            sx * c_r,  sx * s_r, 0, 0,      # column 0
+            -sy * s_r, sy * c_r, 0, 0,      # column 1
+            0,         0,       1, 0,        # column 2
+            wx,        wy,      0, 1,        # column 3
+            float(col[0]), float(col[1]), float(col[2]), float(col[3]),
+            flags,
+        ], dtype=np.float32)
+
+    # -- Per-object GL rendering (kept for editor / debug) -----------------
 
     def _render_object2d_gl(self, obj2d: Object2D):
         """Render one Object2D as a textured/colored quad via ModernGL."""
@@ -864,6 +1088,7 @@ class Window2D(WindowBase):
             objects_collide_2d, get_collision_manifold_2d,
         )
         from engine.d2.physics.rigidbody import Rigidbody2D
+        from engine.d2.physics.types import ColliderType2D
         from collections import defaultdict
 
         all_cols: List[Collider2D] = []
@@ -872,31 +1097,143 @@ class Window2D(WindowBase):
         if not all_cols:
             return
 
+        n = len(all_cols)
         current_collisions: dict = defaultdict(set)
 
-        for ca in all_cols:
-            rb_a = ca.game_object.get_component(Rigidbody2D) if ca.game_object else None
-            if (rb_a and rb_a.is_static) or ca.collision_mode == CollisionMode.IGNORE:
+        # --- Eagerly update bounds for every collider ----------------
+        for c in all_cols:
+            c.update_bounds()
+
+        # =============================================================
+        # Vectorised AABB broadphase  (N×N boolean overlap matrix)
+        # =============================================================
+        aabb_mins = np.empty((n, 2), dtype=np.float64)
+        aabb_maxs = np.empty((n, 2), dtype=np.float64)
+        valid_aabb = np.ones(n, dtype=bool)
+
+        for i, c in enumerate(all_cols):
+            if c.aabb is not None:
+                aabb_mins[i] = c.aabb[0]
+                aabb_maxs[i] = c.aabb[1]
+            else:
+                valid_aabb[i] = False
+
+        # overlap[i,j] = True iff all four AABB conditions hold
+        overlap = (
+            np.all(aabb_maxs[:, None, :] >= aabb_mins[None, :, :], axis=2)
+            & np.all(aabb_mins[:, None, :] <= aabb_maxs[None, :, :], axis=2)
+        )
+        overlap &= valid_aabb[:, None] & valid_aabb[None, :]
+        np.fill_diagonal(overlap, False)
+
+        # =============================================================
+        # Initiator mask  (matches the original outer-loop skip)
+        # =============================================================
+        active = np.ones(n, dtype=bool)
+        for i, c in enumerate(all_cols):
+            if c.collision_mode == CollisionMode.IGNORE:
+                active[i] = False
                 continue
+            if c.game_object:
+                rb = c.game_object.get_component(Rigidbody2D)
+                if rb and rb.is_static:
+                    active[i] = False
 
-            a = ca.game_object
-            for cb in all_cols:
-                if cb is ca or cb.game_object is a:
-                    continue
-                relation = ca.group.get_relation(cb.group)
-                if relation == CollisionRelation.IGNORE:
-                    continue
+        # =============================================================
+        # Same-object mask  (skip pairs on the same GameObject)
+        # =============================================================
+        obj_ids = np.array(
+            [id(c.game_object) if c.game_object else 0 for c in all_cols],
+            dtype=np.int64,
+        )
+        same_obj = obj_ids[:, None] == obj_ids[None, :]
 
-                if objects_collide_2d(ca, cb):
-                    current_collisions[ca].add(cb)
-                    current_collisions[cb].add(ca)
+        # =============================================================
+        # Group-relation lookup  (IGNORE=0 / TRIGGER=1 / SOLID=2)
+        # =============================================================
+        unique_groups = list({c.group for c in all_cols})
+        gid_map = {id(g): idx for idx, g in enumerate(unique_groups)}
+        ng = len(unique_groups)
 
-                    if relation == CollisionRelation.SOLID:
-                        manifold = get_collision_manifold_2d(ca, cb)
-                        if manifold:
-                            self._resolve_collision_2d(a, cb.game_object, manifold)
+        rel_lut = np.empty((ng, ng), dtype=np.int8)
+        for gi, ga in enumerate(unique_groups):
+            for gj, gb in enumerate(unique_groups):
+                rel_lut[gi, gj] = ga.get_relation(gb).value
 
-        # Fire collision events
+        col_gidx = np.array(
+            [gid_map[id(c.group)] for c in all_cols], dtype=np.int32,
+        )
+        pair_rel = rel_lut[col_gidx[:, None], col_gidx[None, :]]  # (N,N)
+        non_ignore = pair_rel != CollisionRelation.IGNORE.value
+
+        # =============================================================
+        # Combined candidate matrix
+        # =============================================================
+        candidates = active[:, None] & (~same_obj) & overlap & non_ignore
+
+        # =============================================================
+        # Vectorised circle-vs-circle narrowphase
+        # =============================================================
+        types = np.array([c.type.value for c in all_cols], dtype=np.int32)
+        circ_mask = types == ColliderType2D.CIRCLE.value
+        both_circ = circ_mask[:, None] & circ_mask[None, :]
+        circ_cands = candidates & both_circ
+
+        circ_idxs = np.where(circ_mask)[0]
+        nc = len(circ_idxs)
+
+        if nc > 1 and np.any(circ_cands):
+            c_centers = np.array(
+                [all_cols[k].circle[0] for k in circ_idxs], dtype=np.float64,
+            )  # (nc, 2)
+            c_radii = np.array(
+                [all_cols[k].circle[1] for k in circ_idxs], dtype=np.float64,
+            )  # (nc,)
+
+            diff = c_centers[:, None, :] - c_centers[None, :, :]  # (nc,nc,2)
+            dist_sq = np.sum(diff * diff, axis=2)                 # (nc,nc)
+            r_sum = c_radii[:, None] + c_radii[None, :]           # (nc,nc)
+            circle_hit = dist_sq <= r_sum * r_sum                 # (nc,nc)
+
+            # Intersect with the candidate mask (mapped to local indices)
+            local_cands = circ_cands[np.ix_(circ_idxs, circ_idxs)]
+            local_hits = local_cands & circle_hit
+
+            li, lj = np.nonzero(local_hits)
+            for k in range(len(li)):
+                i_g = int(circ_idxs[li[k]])
+                j_g = int(circ_idxs[lj[k]])
+                ca, cb = all_cols[i_g], all_cols[j_g]
+                current_collisions[ca].add(cb)
+                current_collisions[cb].add(ca)
+                if pair_rel[i_g, j_g] == CollisionRelation.SOLID.value:
+                    manifold = get_collision_manifold_2d(ca, cb)
+                    if manifold:
+                        self._resolve_collision_2d(
+                            ca.game_object, cb.game_object, manifold,
+                        )
+
+        # =============================================================
+        # Non-circle-circle pairs — per-pair narrowphase
+        # =============================================================
+        other_cands = candidates & ~both_circ
+        ri, rj = np.nonzero(other_cands)
+        for k in range(len(ri)):
+            i, j = int(ri[k]), int(rj[k])
+            ca, cb = all_cols[i], all_cols[j]
+            if objects_collide_2d(ca, cb):
+                current_collisions[ca].add(cb)
+                current_collisions[cb].add(ca)
+                if pair_rel[i, j] == CollisionRelation.SOLID.value:
+                    manifold = get_collision_manifold_2d(ca, cb)
+                    if manifold:
+                        self._resolve_collision_2d(
+                            ca.game_object, cb.game_object, manifold,
+                        )
+
+        # =============================================================
+        # Fire collision events  (Enter / Stay / Exit)
+        # =============================================================
         for c in all_cols:
             prev = c._current_collisions
             now = current_collisions.get(c, set())
