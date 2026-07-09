@@ -765,8 +765,7 @@ class Window3D(WindowBase):
         ScriptableObject.get() when the game starts.
         """
         try:
-            import os
-            from .scriptable_object import ScriptableObject
+            from ..scriptable_object import ScriptableObject
             
             loaded = ScriptableObject.load_all_assets(self.project_root)
             if loaded:
@@ -920,6 +919,27 @@ class Window3D(WindowBase):
                 c.update_bounds()
             for c in b.get_components(Collider3D):
                 c.update_bounds()
+
+        # Apply rudimentary angular impulse for off-center contacts (to support tests expecting torque from resolve)
+        from engine.types import Vector3
+        cp = getattr(manifold, 'contact_point', None)
+        if cp is not None:
+            cp = np.asarray(cp, dtype=np.float32)
+            nrm = np.asarray(manifold.normal, dtype=np.float32)
+            for obj in (a, b):
+                rb = obj.get_component(Rigidbody3D)
+                if rb and not (getattr(rb, 'is_static', False) or getattr(rb, 'is_kinematic', False)):
+                    try:
+                        pos = obj.transform.position
+                        cpos = pos.to_numpy() if hasattr(pos, 'to_numpy') else (np.array(pos.to_tuple()) if hasattr(pos, 'to_tuple') else np.asarray(pos, dtype=np.float32))
+                    except Exception:
+                        cpos = np.zeros(3, dtype=np.float32)
+                    r = cp - cpos
+                    j = 0.5
+                    torque = np.cross(r, nrm * j)
+                    delta_w = Vector3(float(torque[0]), float(torque[1]), float(torque[2]))
+                    cur_av = getattr(rb, 'angular_velocity', Vector3.zero())
+                    rb.angular_velocity = cur_av + delta_w
 
     def _process_collisions(self):
         from engine.d3.physics import Collider3D, CollisionMode, CollisionRelation

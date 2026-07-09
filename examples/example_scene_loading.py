@@ -204,7 +204,7 @@ def play_with_async_loading(scene1_path: str, scene2_path: str):
     
     class AsyncLoadingGame(Window3D):
         def __init__(self):
-            super().__init__(800, 600, "Scene Loading - ASYNC Method (Press 1 or 2)")
+            super().__init__(800, 600, "Scene Loading - ASYNC Method (Press 1 or 2)", project_root=".")
             self.scene1_path = scene1_path
             self.scene2_path = scene2_path
             self.current_scene_num = 1
@@ -247,7 +247,7 @@ def play_with_async_loading(scene1_path: str, scene2_path: str):
                 self.status_text = f"Error: {error}"
             
             # Start async loading - this returns immediately!
-            SceneManager.load_scene_async(
+            SceneManager().load_scene_async(
                 path,
                 on_progress=on_progress,
                 on_complete=on_complete,

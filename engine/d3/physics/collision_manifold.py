@@ -11,6 +11,7 @@ from engine.d3.physics.types import ColliderType
 class CollisionManifold:
     normal: np.ndarray  # Normal pointing from B to A
     depth: float        # Penetration depth
+    contact_point: Optional[np.ndarray] = None
 
 # =========================================================================
 # Manifold Generators (Expensive, Detailed)

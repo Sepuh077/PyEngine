@@ -273,7 +273,7 @@ class Animator(Component):
 
     def get_parameter_value(self, name: str):
         try:
-            return self._parameters[name].value
+            return self._parameters[name]
         except KeyError:
             raise KeyError(f"Parameter with name {name} is not registered.")
 

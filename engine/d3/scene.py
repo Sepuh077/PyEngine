@@ -577,7 +577,7 @@ class Scene3D(Scene):
         This is needed because component references point to other objects/components
         that may not exist during the first pass of deserialization.
         """
-        from .gameobject import GameObject
+        from ..gameobject import GameObject
         
         for component in obj.components:
             # Check if this component has serialized state that needs resolution
