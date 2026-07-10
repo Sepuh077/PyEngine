@@ -13,7 +13,10 @@ try:
     from engine.cython import CYTHON_ENABLED
     if not CYTHON_ENABLED:
         raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
-    from engine.cython.cy_particles import update_particles_fast as _cy_update_particles
+    from engine.cython.cy_particles import (
+        update_particles_fast as _cy_update_particles,
+        update_particles_full as _cy_update_particles_full,
+    )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
@@ -459,27 +462,22 @@ class ParticleSystem(Component):
         gravity = Vector3(0.0, -9.81, 0.0) * self.gravity_scale
 
         if _USE_CYTHON and self._particles:
-            # Cython path: accelerate the core numeric loop (age + expiry + gravity).
-            # Gravity is applied in-place on the velocity Vector3 (avoids allocation).
-            # The remaining work (curves, position, collisions, transform sync) stays in Python.
-            expired_indices = _cy_update_particles(
-                self._particles, delta_time, -9.81, self.gravity_scale
+            # Cython path: age + expiry + gravity + position integration all in C.
+            has_vel_curve = self.velocity_over_lifetime is not None
+            has_size_curve = self.size_over_lifetime is not None
+            has_color_curve = self.color_over_lifetime is not None
+
+            expired_indices, active_ratios = _cy_update_particles_full(
+                self._particles, delta_time, -9.81, self.gravity_scale,
+                has_vel_curve, has_size_curve, has_color_curve,
             )
             for idx in expired_indices:
                 self._deactivate(self._particles[idx])
 
-            for particle in self._particles:
-                if not particle.active:
-                    continue
+            for idx, life_ratio in active_ratios:
+                particle = self._particles[idx]
 
-                # Compute life_ratio only when any curve is present
-                life_ratio = None
-                if (self.velocity_over_lifetime is not None or
-                    self.size_over_lifetime is not None or
-                    self.color_over_lifetime is not None):
-                    life_ratio = particle.age / max(particle.life, 1e-6)
-
-                if self.velocity_over_lifetime is not None:
+                if has_vel_curve:
                     vel_value = self.velocity_over_lifetime(life_ratio)
                     if isinstance(vel_value, (float, int, np.floating, np.integer)):
                         base = self._normalize_velocity(particle.velocity)
@@ -487,14 +485,9 @@ class ParticleSystem(Component):
                     else:
                         particle.velocity = Vector3(vel_value)
 
-                # Position integration.
-                # - If a velocity curve ran, we must recompute local_position.
-                # - If using the improved C extension (after rebuild) and no curve, C already advanced .local_position.
-                # - For safety with the current .so we still compute unless we know C did it.
-                # For now we conservatively always compute to guarantee correctness; after rebuild
-                # the C work is "free" and this line is cheap.
+                # Position already integrated in C (local_position updated).
+                # Sync to transform.
                 if self.is_local and self.game_object:
-                    particle.local_position = particle.local_position + particle.velocity * delta_time
                     new_world_pos = self.game_object.transform.world_position + particle.local_position
                     if self.collider is not None:
                         self._move_with_collisions(particle, new_world_pos)
@@ -507,13 +500,9 @@ class ParticleSystem(Component):
                     else:
                         particle.obj.transform.position = new_pos
 
-                if self.size_over_lifetime is not None:
-                    if life_ratio is None:
-                        life_ratio = particle.age / max(particle.life, 1e-6)
+                if has_size_curve:
                     particle.obj.transform.scale = float(self.size_over_lifetime(life_ratio))
-                if self.color_over_lifetime is not None:
-                    if life_ratio is None:
-                        life_ratio = particle.age / max(particle.life, 1e-6)
+                if has_color_curve:
                     particle.obj.get_component(Object3D).color = self.color_over_lifetime(life_ratio)
         else:
             # Pure Python path

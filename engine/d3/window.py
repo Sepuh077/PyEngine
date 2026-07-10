@@ -1028,8 +1028,38 @@ class Window3D(WindowBase):
         current_collisions = defaultdict(set)  # key: collider, value: set of other colliders
         from engine.d3.physics.collision import get_collision_manifold, objects_collide
 
+        # Ensure all bounds are up to date and build AABB data for broadphase
+        for c in all_cols:
+            c.update_bounds()
+
+        # Broadphase: use Cython sweep-and-prune when available
+        try:
+            from engine.cython.cy_math import broadphase_aabb_pairs as _cy_broadphase
+            _bp_cython = True
+        except (ImportError, ModuleNotFoundError):
+            _bp_cython = False
+
+        # Build broadphase candidate set
+        bp_candidates = None
+        if _bp_cython and len(all_cols) >= 4:
+            # Build AABB list for sweep-and-prune
+            aabb_data = []
+            for idx, c in enumerate(all_cols):
+                aabb = c.aabb
+                if aabb is not None:
+                    amin, amax = aabb
+                    aabb_data.append((idx,
+                        float(amin[0]), float(amin[1]), float(amin[2]),
+                        float(amax[0]), float(amax[1]), float(amax[2])))
+            if aabb_data:
+                raw_pairs = _cy_broadphase(aabb_data)
+                bp_candidates = set()
+                for i, j in raw_pairs:
+                    bp_candidates.add((i, j))
+                    bp_candidates.add((j, i))
+
         # Check non-statics vs all (use ColliderGroup for relations; *all* pairs)
-        for ca in all_cols:
+        for idx_a, ca in enumerate(all_cols):
             if (ca.game_object.get_component(Rigidbody3D) and ca.game_object.get_component(Rigidbody3D).is_static) or ca.collision_mode == CollisionMode.IGNORE:
                 continue
             
@@ -1094,15 +1124,16 @@ class Window3D(WindowBase):
             
             # Normal snapshot
             if perform_final_check:
-                for cb in all_cols:
+                for idx_b, cb in enumerate(all_cols):
                     if cb is ca or cb.game_object is a:
+                        continue
+                    # Broadphase skip: if sweep-and-prune says no overlap, skip
+                    if bp_candidates is not None and (idx_a, idx_b) not in bp_candidates:
                         continue
                     # ColliderGroup relation: IGNORE skip, TRIGGER detect/pass, SOLID block
                     relation = ca.group.get_relation(cb.group)
                     if relation == CollisionRelation.IGNORE:
                         continue
-                    ca.update_bounds()
-                    cb.update_bounds()
                     if objects_collide(ca, cb):
                         current_collisions[ca].add(cb)
                         current_collisions[cb].add(ca)

@@ -5,7 +5,15 @@ from engine.component import Component, Time, InspectorField
 from engine.types import Vector3
 from engine.types.quaternion import Quaternion
 from engine.d3.physics.collider import BoxCollider3D
-from engine.types.quaternion import Quaternion
+
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_math import rigidbody_update as _cy_rb_update
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
 
 
 class Rigidbody3D(Component):
@@ -85,7 +93,42 @@ class Rigidbody3D(Component):
             return
 
         delta_time = Time.delta_time
-            
+        has_go = self.game_object is not None
+
+        if _USE_CYTHON:
+            qw = qx = qy = qz = 1.0, 0.0, 0.0, 0.0
+            if has_go:
+                cq = self.game_object.transform._local_quaternion
+                qw, qx, qy, qz = cq._w, cq._x, cq._y, cq._z
+
+            result = _cy_rb_update(
+                self._velocity._x, self._velocity._y, self._velocity._z,
+                self._angular_velocity._x, self._angular_velocity._y, self._angular_velocity._z,
+                0.0, 0.0, 0.0,  # position not needed by C side
+                delta_time,
+                float(self.drag), float(self.angular_drag),
+                bool(self.use_gravity), has_go,
+                qw, qx, qy, qz,
+            )
+            (nvx, nvy, nvz,
+             navx, navy, navz,
+             move_x, move_y, move_z,
+             need_angular,
+             nqw, nqx, nqy, nqz) = result
+
+            self._velocity = Vector3(nvx, nvy, nvz)
+            self._angular_velocity = Vector3(navx, navy, navz)
+
+            if has_go and (move_x != 0.0 or move_y != 0.0 or move_z != 0.0):
+                self.game_object.transform.move(move_x, move_y, move_z)
+
+            if need_angular and has_go:
+                self.game_object.transform.set_rotation_quaternion(
+                    Quaternion(nqw, nqx, nqy, nqz)
+                )
+            return
+
+        # Pure-Python fallback
         if self.drag > 0.0:
             # Apply drag to gradually decrease velocity
             drag_factor = max(0.0, 1.0 - self.drag * delta_time)
@@ -105,7 +148,7 @@ class Rigidbody3D(Component):
                 self._velocity.z
             )
 
-        if self.game_object and (self._velocity.x != 0 or self._velocity.y != 0 or self._velocity.z != 0):
+        if has_go and (self._velocity.x != 0 or self._velocity.y != 0 or self._velocity.z != 0):
             # Apply velocity to position
             movement = self._velocity * delta_time
             self.game_object.transform.move(movement.x, movement.y, movement.z)
@@ -116,7 +159,7 @@ class Rigidbody3D(Component):
             self._angular_velocity = self._angular_velocity * ang_drag_factor
 
         # --- Angular integration via quaternion (exact for constant omega) ---
-        if self.game_object and self._angular_velocity.magnitude > 1e-9:
+        if has_go and self._angular_velocity.magnitude > 1e-9:
             omega = self._angular_velocity
             ang_speed = omega.magnitude
             if ang_speed > 1e-9:

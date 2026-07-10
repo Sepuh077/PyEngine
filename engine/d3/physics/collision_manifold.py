@@ -16,6 +16,10 @@ try:
         cylinder_vs_cylinder_manifold_fast as _cy_cyl_cyl_m,
         cylinder_vs_sphere_manifold_fast as _cy_cyl_sph_m,
     )
+    from engine.cython.cy_math import (
+        obb_vs_obb_manifold_c as _cy_obb_obb_m,
+        cylinder_vs_obb_manifold_c as _cy_cyl_obb_m,
+    )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
@@ -120,6 +124,27 @@ def _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb) -> Optional[CollisionManifold]:
 def obb_vs_obb_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     Ca, Aa, Ea = a.get_world_obb()
     Cb, Ab, Eb = b.get_world_obb()
+
+    if _USE_CYTHON:
+        result = _cy_obb_obb_m(
+            float(Ca[0]), float(Ca[1]), float(Ca[2]),
+            float(Aa[0, 0]), float(Aa[1, 0]), float(Aa[2, 0]),
+            float(Aa[0, 1]), float(Aa[1, 1]), float(Aa[2, 1]),
+            float(Aa[0, 2]), float(Aa[1, 2]), float(Aa[2, 2]),
+            float(Ea[0]), float(Ea[1]), float(Ea[2]),
+            float(Cb[0]), float(Cb[1]), float(Cb[2]),
+            float(Ab[0, 0]), float(Ab[1, 0]), float(Ab[2, 0]),
+            float(Ab[0, 1]), float(Ab[1, 1]), float(Ab[2, 1]),
+            float(Ab[0, 2]), float(Ab[1, 2]), float(Ab[2, 2]),
+            float(Eb[0]), float(Eb[1]), float(Eb[2]),
+        )
+        if result is None:
+            return None
+        nx, ny, nz, depth = result
+        return CollisionManifold(
+            np.array([nx, ny, nz], dtype=np.float32), depth
+        )
+
     return _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb)
 
 def sphere_vs_obb_manifold(sphere_obj: Collider3D, obb_obj: Collider3D) -> Optional[CollisionManifold]:
@@ -245,6 +270,22 @@ def cylinder_vs_cylinder_manifold(a: Collider3D, b: Collider3D) -> Optional[Coll
 def cylinder_vs_obb_manifold(cyl: Collider3D, obb: Collider3D) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
     Cb, Ab, Eb = obb.get_world_obb()
+
+    if _USE_CYTHON:
+        result = _cy_cyl_obb_m(
+            float(Cc[0]), float(Cc[1]), float(Cc[2]), float(rc), float(hc),
+            float(Cb[0]), float(Cb[1]), float(Cb[2]),
+            float(Ab[0, 0]), float(Ab[1, 0]), float(Ab[2, 0]),
+            float(Ab[0, 1]), float(Ab[1, 1]), float(Ab[2, 1]),
+            float(Ab[0, 2]), float(Ab[1, 2]), float(Ab[2, 2]),
+            float(Eb[0]), float(Eb[1]), float(Eb[2]),
+        )
+        if result is None:
+            return None
+        nx, ny, nz, depth = result
+        return CollisionManifold(
+            np.array([nx, ny, nz], dtype=np.float32), depth
+        )
     
     cyl_axis = np.array([0, 1, 0], dtype=np.float32)
     

@@ -15,6 +15,9 @@ try:
         vec2_normalized as _cy_norm, vec2_dot as _cy_dot, vec2_cross as _cy_cross,
         vec2_distance as _cy_dist, vec2_lerp as _cy_lerp,
         vec2_lerp_unclamped as _cy_lerp_unc,
+        vec2_add as _cy_add, vec2_sub as _cy_sub,
+        vec2_mul_scalar as _cy_mul_s, vec2_mul_comp as _cy_mul_c,
+        vec2_div_scalar as _cy_div_s,
     )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
@@ -290,41 +293,128 @@ class Vector2:
 
     def __add__(self, other) -> 'Vector2':
         if isinstance(other, (int, float)):
-            return Vector2(self._x + other, self._y + other)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry = _cy_add(self._x, self._y, s, s)
+                return Vector2(rx, ry)
+            return Vector2(self._x + s, self._y + s)
         other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            rx, ry = _cy_add(self._x, self._y, other._x, other._y)
+            return Vector2(rx, ry)
         return Vector2(self._x + other._x, self._y + other._y)
 
     def __radd__(self, other) -> 'Vector2':
         return self.__add__(other)
 
+    def __iadd__(self, other) -> 'Vector2':
+        if isinstance(other, (int, float)):
+            s = float(other)
+            if _USE_CYTHON:
+                self._x, self._y = _cy_add(self._x, self._y, s, s)
+            else:
+                self._x += s; self._y += s
+            return self
+        other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            self._x, self._y = _cy_add(self._x, self._y, other._x, other._y)
+        else:
+            self._x += other._x; self._y += other._y
+        return self
+
     def __sub__(self, other) -> 'Vector2':
         if isinstance(other, (int, float)):
-            return Vector2(self._x - other, self._y - other)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry = _cy_sub(self._x, self._y, s, s)
+                return Vector2(rx, ry)
+            return Vector2(self._x - s, self._y - s)
         other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            rx, ry = _cy_sub(self._x, self._y, other._x, other._y)
+            return Vector2(rx, ry)
         return Vector2(self._x - other._x, self._y - other._y)
 
     def __rsub__(self, other) -> 'Vector2':
         if isinstance(other, (int, float)):
-            return Vector2(other - self._x, other - self._y)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry = _cy_sub(s, s, self._x, self._y)
+                return Vector2(rx, ry)
+            return Vector2(s - self._x, s - self._y)
         other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            rx, ry = _cy_sub(other._x, other._y, self._x, self._y)
+            return Vector2(rx, ry)
         return Vector2(other._x - self._x, other._y - self._y)
+
+    def __isub__(self, other) -> 'Vector2':
+        if isinstance(other, (int, float)):
+            s = float(other)
+            if _USE_CYTHON:
+                self._x, self._y = _cy_sub(self._x, self._y, s, s)
+            else:
+                self._x -= s; self._y -= s
+            return self
+        other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            self._x, self._y = _cy_sub(self._x, self._y, other._x, other._y)
+        else:
+            self._x -= other._x; self._y -= other._y
+        return self
 
     def __mul__(self, other) -> 'Vector2':
         if isinstance(other, (int, float)):
+            if _USE_CYTHON:
+                rx, ry = _cy_mul_s(self._x, self._y, float(other))
+                return Vector2(rx, ry)
             return Vector2(self._x * other, self._y * other)
         other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            rx, ry = _cy_mul_c(self._x, self._y, other._x, other._y)
+            return Vector2(rx, ry)
         return Vector2(self._x * other._x, self._y * other._y)
 
     def __rmul__(self, other) -> 'Vector2':
         return self.__mul__(other)
 
+    def __imul__(self, other) -> 'Vector2':
+        if isinstance(other, (int, float)):
+            if _USE_CYTHON:
+                self._x, self._y = _cy_mul_s(self._x, self._y, float(other))
+            else:
+                self._x *= other; self._y *= other
+            return self
+        other = self._ensure_vector2(other)
+        if _USE_CYTHON:
+            self._x, self._y = _cy_mul_c(self._x, self._y, other._x, other._y)
+        else:
+            self._x *= other._x; self._y *= other._y
+        return self
+
     def __truediv__(self, other) -> 'Vector2':
         if isinstance(other, (int, float)):
             if other == 0:
                 raise ZeroDivisionError("Cannot divide Vector2 by zero")
+            if _USE_CYTHON:
+                rx, ry = _cy_div_s(self._x, self._y, float(other))
+                return Vector2(rx, ry)
             return Vector2(self._x / other, self._y / other)
         other = self._ensure_vector2(other)
         return Vector2(self._x / other._x, self._y / other._y)
+
+    def __itruediv__(self, other) -> 'Vector2':
+        if isinstance(other, (int, float)):
+            if other == 0:
+                raise ZeroDivisionError("Cannot divide Vector2 by zero")
+            if _USE_CYTHON:
+                self._x, self._y = _cy_div_s(self._x, self._y, float(other))
+            else:
+                self._x /= other; self._y /= other
+            return self
+        other = self._ensure_vector2(other)
+        self._x /= other._x; self._y /= other._y
+        return self
 
     def __neg__(self) -> 'Vector2':
         return Vector2(-self._x, -self._y)

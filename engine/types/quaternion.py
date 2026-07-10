@@ -7,6 +7,9 @@ from typing import Union, Tuple, Optional
 import numpy as np
 
 try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
     from engine.cython.cy_math import (
         quat_mul as _cy_qmul, quat_magnitude as _cy_qmag,
         quat_normalized as _cy_qnorm, quat_conjugate as _cy_qconj,
@@ -16,9 +19,10 @@ try:
         quat_to_euler as _cy_qto_euler,
         quat_slerp as _cy_qslerp, quat_dot as _cy_qdot,
         quat_rotate_vector as _cy_qrot_vec,
+        quat_mul_scalar as _cy_qmul_s,
     )
     _USE_CYTHON = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
 class Quaternion:
@@ -355,12 +359,52 @@ class Quaternion:
             )
         return NotImplemented
 
+    def __iadd__(self, other):
+        if isinstance(other, Quaternion):
+            self._w += other._w; self._x += other._x
+            self._y += other._y; self._z += other._z
+            return self
+        return NotImplemented
+
     def __sub__(self, other):
         if isinstance(other, Quaternion):
             return Quaternion(
                 self._w - other._w, self._x - other._x,
                 self._y - other._y, self._z - other._z,
             )
+        return NotImplemented
+
+    def __isub__(self, other):
+        if isinstance(other, Quaternion):
+            self._w -= other._w; self._x -= other._x
+            self._y -= other._y; self._z -= other._z
+            return self
+        return NotImplemented
+
+    def __imul__(self, other):
+        if isinstance(other, Quaternion):
+            if _USE_CYTHON:
+                self._w, self._x, self._y, self._z = _cy_qmul(
+                    self._w, self._x, self._y, self._z,
+                    other._w, other._x, other._y, other._z,
+                )
+            else:
+                w1, x1, y1, z1 = self._w, self._x, self._y, self._z
+                w2, x2, y2, z2 = other._w, other._x, other._y, other._z
+                self._w = w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2
+                self._x = w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2
+                self._y = w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2
+                self._z = w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2
+            return self
+        if isinstance(other, (int, float)):
+            if _USE_CYTHON:
+                self._w, self._x, self._y, self._z = _cy_qmul_s(
+                    self._w, self._x, self._y, self._z, float(other),
+                )
+            else:
+                self._w *= other; self._x *= other
+                self._y *= other; self._z *= other
+            return self
         return NotImplemented
 
     def __neg__(self):

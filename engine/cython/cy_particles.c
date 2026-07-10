@@ -2747,6 +2747,7 @@ int __pyx_module_is_main_engine__cython__cy_particles = 0;
 static const char __pyx_k_Cython_accelerated_particle_sys[] = "\nCython-accelerated particle system update loop.\n";
 /* #### Code section: decls ### */
 static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_particles, double __pyx_v_dt, double __pyx_v_gravity_y, double __pyx_v_gravity_scale); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_12cy_particles_2update_particles_full(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_particles, double __pyx_v_dt, double __pyx_v_gravity_y, double __pyx_v_gravity_scale, int __pyx_v_has_velocity_curve, int __pyx_v_has_size_curve, int __pyx_v_has_color_curve); /* proto */
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
 /* SmallCodeConfig */
@@ -2786,8 +2787,9 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_pop;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
-  PyObject *__pyx_codeobj_tab[1];
-  PyObject *__pyx_string_tab[50];
+  PyObject *__pyx_codeobj_tab[2];
+  PyObject *__pyx_string_tab[62];
+  PyObject *__pyx_number_tab[1];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
 PyTypeObject *__pyx_CommonTypesMetaclassType;
@@ -2836,48 +2838,61 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_kp_u_numpy__core_umath_failed_to_impo __pyx_string_tab[5]
 #define __pyx_n_u_Pyx_PyDict_NextRef __pyx_string_tab[6]
 #define __pyx_n_u_active __pyx_string_tab[7]
-#define __pyx_n_u_age __pyx_string_tab[8]
-#define __pyx_n_u_annotate __pyx_string_tab[9]
-#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[10]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[11]
-#define __pyx_n_u_dt __pyx_string_tab[12]
-#define __pyx_n_u_engine_cython_cy_particles __pyx_string_tab[13]
-#define __pyx_n_u_expired __pyx_string_tab[14]
-#define __pyx_n_u_func __pyx_string_tab[15]
-#define __pyx_n_u_grav_y __pyx_string_tab[16]
-#define __pyx_n_u_grav_y_dt __pyx_string_tab[17]
-#define __pyx_n_u_gravity_scale __pyx_string_tab[18]
-#define __pyx_n_u_gravity_y __pyx_string_tab[19]
-#define __pyx_n_u_i __pyx_string_tab[20]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[21]
-#define __pyx_n_u_items __pyx_string_tab[22]
-#define __pyx_n_u_life __pyx_string_tab[23]
-#define __pyx_n_u_local_position __pyx_string_tab[24]
-#define __pyx_n_u_main __pyx_string_tab[25]
-#define __pyx_n_u_module __pyx_string_tab[26]
-#define __pyx_n_u_n __pyx_string_tab[27]
-#define __pyx_n_u_name __pyx_string_tab[28]
-#define __pyx_n_u_np __pyx_string_tab[29]
-#define __pyx_n_u_numpy __pyx_string_tab[30]
-#define __pyx_n_u_p __pyx_string_tab[31]
-#define __pyx_n_u_particles __pyx_string_tab[32]
-#define __pyx_n_u_pop __pyx_string_tab[33]
-#define __pyx_n_u_pos __pyx_string_tab[34]
-#define __pyx_n_u_qualname __pyx_string_tab[35]
-#define __pyx_n_u_set_name __pyx_string_tab[36]
-#define __pyx_n_u_setdefault __pyx_string_tab[37]
-#define __pyx_n_u_test __pyx_string_tab[38]
-#define __pyx_n_u_update_particles_fast __pyx_string_tab[39]
-#define __pyx_n_u_values __pyx_string_tab[40]
-#define __pyx_n_u_vel __pyx_string_tab[41]
-#define __pyx_n_u_velocity __pyx_string_tab[42]
-#define __pyx_n_u_vx __pyx_string_tab[43]
-#define __pyx_n_u_vy __pyx_string_tab[44]
-#define __pyx_n_u_vz __pyx_string_tab[45]
-#define __pyx_n_u_x __pyx_string_tab[46]
-#define __pyx_n_u_y __pyx_string_tab[47]
-#define __pyx_n_u_z __pyx_string_tab[48]
-#define __pyx_kp_b_iso88591_2_2Q_G2Q_a_AQ_U_1_IQa_4q_1E_AQ __pyx_string_tab[49]
+#define __pyx_n_u_active_ratios __pyx_string_tab[8]
+#define __pyx_n_u_age __pyx_string_tab[9]
+#define __pyx_n_u_annotate __pyx_string_tab[10]
+#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[11]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[12]
+#define __pyx_n_u_dt __pyx_string_tab[13]
+#define __pyx_n_u_engine_cython_cy_particles __pyx_string_tab[14]
+#define __pyx_n_u_expired __pyx_string_tab[15]
+#define __pyx_n_u_func __pyx_string_tab[16]
+#define __pyx_n_u_grav_y __pyx_string_tab[17]
+#define __pyx_n_u_grav_y_dt __pyx_string_tab[18]
+#define __pyx_n_u_grav_y_val __pyx_string_tab[19]
+#define __pyx_n_u_gravity_scale __pyx_string_tab[20]
+#define __pyx_n_u_gravity_y __pyx_string_tab[21]
+#define __pyx_n_u_has_color_curve __pyx_string_tab[22]
+#define __pyx_n_u_has_size_curve __pyx_string_tab[23]
+#define __pyx_n_u_has_velocity_curve __pyx_string_tab[24]
+#define __pyx_n_u_i __pyx_string_tab[25]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[26]
+#define __pyx_n_u_items __pyx_string_tab[27]
+#define __pyx_n_u_life __pyx_string_tab[28]
+#define __pyx_n_u_local_position __pyx_string_tab[29]
+#define __pyx_n_u_main __pyx_string_tab[30]
+#define __pyx_n_u_module __pyx_string_tab[31]
+#define __pyx_n_u_n __pyx_string_tab[32]
+#define __pyx_n_u_name __pyx_string_tab[33]
+#define __pyx_n_u_need_ratio __pyx_string_tab[34]
+#define __pyx_n_u_np __pyx_string_tab[35]
+#define __pyx_n_u_numpy __pyx_string_tab[36]
+#define __pyx_n_u_p __pyx_string_tab[37]
+#define __pyx_n_u_particles __pyx_string_tab[38]
+#define __pyx_n_u_pop __pyx_string_tab[39]
+#define __pyx_n_u_pos __pyx_string_tab[40]
+#define __pyx_n_u_px __pyx_string_tab[41]
+#define __pyx_n_u_py __pyx_string_tab[42]
+#define __pyx_n_u_pz __pyx_string_tab[43]
+#define __pyx_n_u_qualname __pyx_string_tab[44]
+#define __pyx_n_u_ratio __pyx_string_tab[45]
+#define __pyx_n_u_set_name __pyx_string_tab[46]
+#define __pyx_n_u_setdefault __pyx_string_tab[47]
+#define __pyx_n_u_test __pyx_string_tab[48]
+#define __pyx_n_u_update_particles_fast __pyx_string_tab[49]
+#define __pyx_n_u_update_particles_full __pyx_string_tab[50]
+#define __pyx_n_u_values __pyx_string_tab[51]
+#define __pyx_n_u_vel __pyx_string_tab[52]
+#define __pyx_n_u_velocity __pyx_string_tab[53]
+#define __pyx_n_u_vx __pyx_string_tab[54]
+#define __pyx_n_u_vy __pyx_string_tab[55]
+#define __pyx_n_u_vz __pyx_string_tab[56]
+#define __pyx_n_u_x __pyx_string_tab[57]
+#define __pyx_n_u_y __pyx_string_tab[58]
+#define __pyx_n_u_z __pyx_string_tab[59]
+#define __pyx_kp_b_iso88591_2Q_G2Q_a_AQ_U_1_IQa_4q_1E_AQ_7 __pyx_string_tab[60]
+#define __pyx_kp_b_iso88591_Zr_Kr_a_AQ_c_1_U_1_IQa_4q_aq_q __pyx_string_tab[61]
+#define __pyx_float_0_0 __pyx_number_tab[0]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -2908,8 +2923,9 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_flexible);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_character);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_ufunc);
-  for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<50; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<2; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<62; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
 Py_CLEAR(clear_module_state->__pyx_CommonTypesMetaclassType);
@@ -2948,8 +2964,9 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_flexible);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_character);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_ufunc);
-  for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<50; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<2; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<62; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
 Py_VISIT(traverse_module_state->__pyx_CommonTypesMetaclassType);
@@ -5243,7 +5260,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_12cy_particles_update_particles_fast, "\n    Batch-update particles (age, lifetime, gravity on velocity, and basic position).\n\n    This is the C-accelerated core. It mutates Particle and Vector3 objects\n    in place to avoid Python object allocations in the hot loop.\n\n    When rebuilt after improvements, this also advances .local_position\n    using the post-gravity velocity (basic integration). The caller can\n    then decide whether to apply curves and sync to transforms.\n\n    Parameters\n    ----------\n    particles : list of Particle objects\n    dt, gravity_y, gravity_scale : simulation params\n\n    Returns\n    -------\n    list of indices of particles that just expired.\n    ");
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_12cy_particles_update_particles_fast, "\n    Batch-update particles (age, lifetime, gravity on velocity, and basic position).\n\n    This is the C-accelerated core. It mutates Particle and Vector3 objects\n    in place to avoid Python object allocations in the hot loop.\n\n    Parameters\n    ----------\n    particles : list of Particle objects\n    dt, gravity_y, gravity_scale : simulation params\n\n    Returns\n    -------\n    list of indices of particles that just expired.\n    ");
 static PyMethodDef __pyx_mdef_6engine_6cython_12cy_particles_1update_particles_fast = {"update_particles_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_12cy_particles_1update_particles_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_12cy_particles_update_particles_fast};
 static PyObject *__pyx_pw_6engine_6cython_12cy_particles_1update_particles_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -5385,7 +5402,7 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update_particles_fast", 0);
 
-  /* "engine/cython/cy_particles.pyx":38
+  /* "engine/cython/cy_particles.pyx":34
  *     list of indices of particles that just expired.
  *     """
  *     cdef double grav_y = gravity_y * gravity_scale             # <<<<<<<<<<<<<<
@@ -5394,7 +5411,7 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
   __pyx_v_grav_y = (__pyx_v_gravity_y * __pyx_v_gravity_scale);
 
-  /* "engine/cython/cy_particles.pyx":39
+  /* "engine/cython/cy_particles.pyx":35
  *     """
  *     cdef double grav_y = gravity_y * gravity_scale
  *     cdef double grav_y_dt = grav_y * dt             # <<<<<<<<<<<<<<
@@ -5403,34 +5420,34 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
   __pyx_v_grav_y_dt = (__pyx_v_grav_y * __pyx_v_dt);
 
-  /* "engine/cython/cy_particles.pyx":41
+  /* "engine/cython/cy_particles.pyx":37
  *     cdef double grav_y_dt = grav_y * dt
  * 
  *     expired = []             # <<<<<<<<<<<<<<
  *     cdef int i
  *     cdef int n = len(particles)
 */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_expired = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "engine/cython/cy_particles.pyx":43
+  /* "engine/cython/cy_particles.pyx":39
  *     expired = []
  *     cdef int i
  *     cdef int n = len(particles)             # <<<<<<<<<<<<<<
  *     cdef double vx, vy, vz
- * 
+ *     cdef double px, py, pz
 */
   if (unlikely(__pyx_v_particles == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 43, __pyx_L1_error)
+    __PYX_ERR(0, 39, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_v_particles); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_v_particles); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 39, __pyx_L1_error)
   __pyx_v_n = __pyx_t_2;
 
-  /* "engine/cython/cy_particles.pyx":46
- *     cdef double vx, vy, vz
+  /* "engine/cython/cy_particles.pyx":43
+ *     cdef double px, py, pz
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
  *         p = particles[i]
@@ -5441,7 +5458,7 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "engine/cython/cy_particles.pyx":47
+    /* "engine/cython/cy_particles.pyx":44
  * 
  *     for i in range(n):
  *         p = particles[i]             # <<<<<<<<<<<<<<
@@ -5450,28 +5467,28 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
     if (unlikely(__pyx_v_particles == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 47, __pyx_L1_error)
+      __PYX_ERR(0, 44, __pyx_L1_error)
     }
     __pyx_t_1 = __Pyx_PyList_GET_ITEM(__pyx_v_particles, __pyx_v_i);
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "engine/cython/cy_particles.pyx":48
+    /* "engine/cython/cy_particles.pyx":45
  *     for i in range(n):
  *         p = particles[i]
  *         if not p.active:             # <<<<<<<<<<<<<<
  *             continue
  * 
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_active); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_active); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_7 = (!__pyx_t_6);
     if (__pyx_t_7) {
 
-      /* "engine/cython/cy_particles.pyx":49
+      /* "engine/cython/cy_particles.pyx":46
  *         p = particles[i]
  *         if not p.active:
  *             continue             # <<<<<<<<<<<<<<
@@ -5480,7 +5497,7 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
       goto __pyx_L3_continue;
 
-      /* "engine/cython/cy_particles.pyx":48
+      /* "engine/cython/cy_particles.pyx":45
  *     for i in range(n):
  *         p = particles[i]
  *         if not p.active:             # <<<<<<<<<<<<<<
@@ -5489,64 +5506,64 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
     }
 
-    /* "engine/cython/cy_particles.pyx":51
+    /* "engine/cython/cy_particles.pyx":48
  *             continue
  * 
  *         p.age += dt             # <<<<<<<<<<<<<<
  *         if p.age >= p.life:
  *             expired.append(i)
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age, __pyx_t_9) < (0)) __PYX_ERR(0, 51, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age, __pyx_t_9) < (0)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":52
+    /* "engine/cython/cy_particles.pyx":49
  * 
  *         p.age += dt
  *         if p.age >= p.life:             # <<<<<<<<<<<<<<
  *             expired.append(i)
  *             continue
 */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_life); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_life); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_9, __pyx_t_8, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_9, __pyx_t_8, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_7) {
 
-      /* "engine/cython/cy_particles.pyx":53
+      /* "engine/cython/cy_particles.pyx":50
  *         p.age += dt
  *         if p.age >= p.life:
  *             expired.append(i)             # <<<<<<<<<<<<<<
  *             continue
  * 
 */
-      __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_expired, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_expired, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 50, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "engine/cython/cy_particles.pyx":54
+      /* "engine/cython/cy_particles.pyx":51
  *         if p.age >= p.life:
  *             expired.append(i)
  *             continue             # <<<<<<<<<<<<<<
  * 
- *         # Gravity on velocity (in-place)
+ *         # Gravity on velocity (in-place, avoids Vector3 alloc)
 */
       goto __pyx_L3_continue;
 
-      /* "engine/cython/cy_particles.pyx":52
+      /* "engine/cython/cy_particles.pyx":49
  * 
  *         p.age += dt
  *         if p.age >= p.life:             # <<<<<<<<<<<<<<
@@ -5555,171 +5572,173 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
 */
     }
 
-    /* "engine/cython/cy_particles.pyx":57
+    /* "engine/cython/cy_particles.pyx":54
  * 
- *         # Gravity on velocity (in-place)
+ *         # Gravity on velocity (in-place, avoids Vector3 alloc)
  *         vel = p.velocity             # <<<<<<<<<<<<<<
  *         vx = vel._x
  *         vy = vel._y + grav_y_dt
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_vel, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "engine/cython/cy_particles.pyx":58
- *         # Gravity on velocity (in-place)
+    /* "engine/cython/cy_particles.pyx":55
+ *         # Gravity on velocity (in-place, avoids Vector3 alloc)
  *         vel = p.velocity
  *         vx = vel._x             # <<<<<<<<<<<<<<
  *         vy = vel._y + grav_y_dt
  *         vz = vel._z
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_vx = __pyx_t_11;
 
-    /* "engine/cython/cy_particles.pyx":59
+    /* "engine/cython/cy_particles.pyx":56
  *         vel = p.velocity
  *         vx = vel._x
  *         vy = vel._y + grav_y_dt             # <<<<<<<<<<<<<<
  *         vz = vel._z
  *         vel._x = vx
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_grav_y_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_grav_y_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 56, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_v_vy = __pyx_t_11;
 
-    /* "engine/cython/cy_particles.pyx":60
+    /* "engine/cython/cy_particles.pyx":57
  *         vx = vel._x
  *         vy = vel._y + grav_y_dt
  *         vz = vel._z             # <<<<<<<<<<<<<<
  *         vel._x = vx
  *         vel._y = vy
 */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_v_vz = __pyx_t_11;
 
-    /* "engine/cython/cy_particles.pyx":61
+    /* "engine/cython/cy_particles.pyx":58
  *         vy = vel._y + grav_y_dt
  *         vz = vel._z
  *         vel._x = vx             # <<<<<<<<<<<<<<
  *         vel._y = vy
  *         vel._z = vz
 */
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vx); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vx); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_9) < (0)) __PYX_ERR(0, 61, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_9) < (0)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":62
+    /* "engine/cython/cy_particles.pyx":59
  *         vz = vel._z
  *         vel._x = vx
  *         vel._y = vy             # <<<<<<<<<<<<<<
  *         vel._z = vz
  * 
 */
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_9) < (0)) __PYX_ERR(0, 62, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_9) < (0)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":63
+    /* "engine/cython/cy_particles.pyx":60
  *         vel._x = vx
  *         vel._y = vy
  *         vel._z = vz             # <<<<<<<<<<<<<<
  * 
  *         # Basic position integration (in-place on local_position).
 */
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vz); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_vz); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_9) < (0)) __PYX_ERR(0, 63, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_9) < (0)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":69
- *         # Caller may override velocity via curves afterwards (affects next frame)
- *         # or re-compute position if needed.
+    /* "engine/cython/cy_particles.pyx":63
+ * 
+ *         # Basic position integration (in-place on local_position).
  *         pos = p.local_position             # <<<<<<<<<<<<<<
  *         pos._x = pos._x + vx * dt
  *         pos._y = pos._y + vy * dt
 */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_local_position); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_local_position); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_XDECREF_SET(__pyx_v_pos, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":70
- *         # or re-compute position if needed.
+    /* "engine/cython/cy_particles.pyx":64
+ *         # Basic position integration (in-place on local_position).
  *         pos = p.local_position
  *         pos._x = pos._x + vx * dt             # <<<<<<<<<<<<<<
  *         pos._y = pos._y + vy * dt
  *         pos._z = pos._z + vz * dt
 */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vx * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vx * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_1) < (0)) __PYX_ERR(0, 70, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_1) < (0)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "engine/cython/cy_particles.pyx":71
+    /* "engine/cython/cy_particles.pyx":65
  *         pos = p.local_position
  *         pos._x = pos._x + vx * dt
  *         pos._y = pos._y + vy * dt             # <<<<<<<<<<<<<<
  *         pos._z = pos._z + vz * dt
  * 
 */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vy * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vy * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_9) < (0)) __PYX_ERR(0, 71, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_9) < (0)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "engine/cython/cy_particles.pyx":72
+    /* "engine/cython/cy_particles.pyx":66
  *         pos._x = pos._x + vx * dt
  *         pos._y = pos._y + vy * dt
  *         pos._z = pos._z + vz * dt             # <<<<<<<<<<<<<<
  * 
  *     return expired
 */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vz * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vz * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_1) < (0)) __PYX_ERR(0, 72, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_1) < (0)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_L3_continue:;
   }
 
-  /* "engine/cython/cy_particles.pyx":74
+  /* "engine/cython/cy_particles.pyx":68
  *         pos._z = pos._z + vz * dt
  * 
  *     return expired             # <<<<<<<<<<<<<<
+ * 
+ * 
 */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_expired);
@@ -5743,6 +5762,724 @@ static PyObject *__pyx_pf_6engine_6cython_12cy_particles_update_particles_fast(C
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_expired);
+  __Pyx_XDECREF(__pyx_v_p);
+  __Pyx_XDECREF(__pyx_v_vel);
+  __Pyx_XDECREF(__pyx_v_pos);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_particles.pyx":71
+ * 
+ * 
+ * def update_particles_full(             # <<<<<<<<<<<<<<
+ *     list particles,
+ *     double dt,
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6engine_6cython_12cy_particles_3update_particles_full(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_12cy_particles_2update_particles_full, "\n    Extended particle update that also computes life_ratio for active particles.\n\n    Returns (expired_indices, active_indices_with_ratios).\n    active_indices_with_ratios is a list of (index, life_ratio) tuples.\n    ");
+static PyMethodDef __pyx_mdef_6engine_6cython_12cy_particles_3update_particles_full = {"update_particles_full", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_12cy_particles_3update_particles_full, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_12cy_particles_2update_particles_full};
+static PyObject *__pyx_pw_6engine_6cython_12cy_particles_3update_particles_full(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_particles = 0;
+  double __pyx_v_dt;
+  double __pyx_v_gravity_y;
+  double __pyx_v_gravity_scale;
+  int __pyx_v_has_velocity_curve;
+  int __pyx_v_has_size_curve;
+  int __pyx_v_has_color_curve;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[7] = {0,0,0,0,0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("update_particles_full (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_SIZE
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_particles,&__pyx_mstate_global->__pyx_n_u_dt,&__pyx_mstate_global->__pyx_n_u_gravity_y,&__pyx_mstate_global->__pyx_n_u_gravity_scale,&__pyx_mstate_global->__pyx_n_u_has_velocity_curve,&__pyx_mstate_global->__pyx_n_u_has_size_curve,&__pyx_mstate_global->__pyx_n_u_has_color_curve,0};
+    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 71, __pyx_L3_error)
+    if (__pyx_kwds_len > 0) {
+      switch (__pyx_nargs) {
+        case  7:
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  6:
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  5:
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  4:
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  3:
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  2:
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  1:
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 71, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      const Py_ssize_t kwd_pos_args = __pyx_nargs;
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "update_particles_full", 0) < (0)) __PYX_ERR(0, 71, __pyx_L3_error)
+      for (Py_ssize_t i = __pyx_nargs; i < 7; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("update_particles_full", 1, 7, 7, i); __PYX_ERR(0, 71, __pyx_L3_error) }
+      }
+    } else if (unlikely(__pyx_nargs != 7)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 71, __pyx_L3_error)
+      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 71, __pyx_L3_error)
+    }
+    __pyx_v_particles = ((PyObject*)values[0]);
+    __pyx_v_dt = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
+    __pyx_v_gravity_y = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_gravity_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L3_error)
+    __pyx_v_gravity_scale = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_gravity_scale == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
+    __pyx_v_has_velocity_curve = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_has_velocity_curve == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
+    __pyx_v_has_size_curve = __Pyx_PyObject_IsTrue(values[5]); if (unlikely((__pyx_v_has_size_curve == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L3_error)
+    __pyx_v_has_color_curve = __Pyx_PyObject_IsTrue(values[6]); if (unlikely((__pyx_v_has_color_curve == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L3_error)
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("update_particles_full", 1, 7, 7, __pyx_nargs); __PYX_ERR(0, 71, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __Pyx_AddTraceback("engine.cython.cy_particles.update_particles_full", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_particles), (&PyList_Type), 1, "particles", 1))) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6engine_6cython_12cy_particles_2update_particles_full(__pyx_self, __pyx_v_particles, __pyx_v_dt, __pyx_v_gravity_y, __pyx_v_gravity_scale, __pyx_v_has_velocity_curve, __pyx_v_has_size_curve, __pyx_v_has_color_curve);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  goto __pyx_L7_cleaned_up;
+  __pyx_L0:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __pyx_L7_cleaned_up:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6engine_6cython_12cy_particles_2update_particles_full(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_particles, double __pyx_v_dt, double __pyx_v_gravity_y, double __pyx_v_gravity_scale, int __pyx_v_has_velocity_curve, int __pyx_v_has_size_curve, int __pyx_v_has_color_curve) {
+  double __pyx_v_grav_y_val;
+  double __pyx_v_grav_y_dt;
+  PyObject *__pyx_v_expired = 0;
+  PyObject *__pyx_v_active_ratios = 0;
+  int __pyx_v_i;
+  int __pyx_v_n;
+  double __pyx_v_vx;
+  double __pyx_v_vy;
+  double __pyx_v_vz;
+  double __pyx_v_age;
+  double __pyx_v_life;
+  double __pyx_v_ratio;
+  int __pyx_v_need_ratio;
+  PyObject *__pyx_v_p = NULL;
+  PyObject *__pyx_v_vel = NULL;
+  PyObject *__pyx_v_pos = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  double __pyx_t_10;
+  int __pyx_t_11;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("update_particles_full", 0);
+
+  /* "engine/cython/cy_particles.pyx":86
+ *     active_indices_with_ratios is a list of (index, life_ratio) tuples.
+ *     """
+ *     cdef double grav_y_val = gravity_y * gravity_scale             # <<<<<<<<<<<<<<
+ *     cdef double grav_y_dt = grav_y_val * dt
+ * 
+*/
+  __pyx_v_grav_y_val = (__pyx_v_gravity_y * __pyx_v_gravity_scale);
+
+  /* "engine/cython/cy_particles.pyx":87
+ *     """
+ *     cdef double grav_y_val = gravity_y * gravity_scale
+ *     cdef double grav_y_dt = grav_y_val * dt             # <<<<<<<<<<<<<<
+ * 
+ *     cdef list expired = []
+*/
+  __pyx_v_grav_y_dt = (__pyx_v_grav_y_val * __pyx_v_dt);
+
+  /* "engine/cython/cy_particles.pyx":89
+ *     cdef double grav_y_dt = grav_y_val * dt
+ * 
+ *     cdef list expired = []             # <<<<<<<<<<<<<<
+ *     cdef list active_ratios = []
+ *     cdef int i
+*/
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_expired = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "engine/cython/cy_particles.pyx":90
+ * 
+ *     cdef list expired = []
+ *     cdef list active_ratios = []             # <<<<<<<<<<<<<<
+ *     cdef int i
+ *     cdef int n = len(particles)
+*/
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_active_ratios = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "engine/cython/cy_particles.pyx":92
+ *     cdef list active_ratios = []
+ *     cdef int i
+ *     cdef int n = len(particles)             # <<<<<<<<<<<<<<
+ *     cdef double vx, vy, vz
+ *     cdef double age, life, ratio
+*/
+  if (unlikely(__pyx_v_particles == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 92, __pyx_L1_error)
+  }
+  __pyx_t_2 = __Pyx_PyList_GET_SIZE(__pyx_v_particles); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_v_n = __pyx_t_2;
+
+  /* "engine/cython/cy_particles.pyx":96
+ *     cdef double age, life, ratio
+ * 
+ *     cdef bint need_ratio = has_velocity_curve or has_size_curve or has_color_curve             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(n):
+*/
+  if (!__pyx_v_has_velocity_curve) {
+  } else {
+    __pyx_t_3 = __pyx_v_has_velocity_curve;
+    goto __pyx_L3_bool_binop_done;
+  }
+  if (!__pyx_v_has_size_curve) {
+  } else {
+    __pyx_t_3 = __pyx_v_has_size_curve;
+    goto __pyx_L3_bool_binop_done;
+  }
+  __pyx_t_3 = __pyx_v_has_color_curve;
+  __pyx_L3_bool_binop_done:;
+  __pyx_v_need_ratio = __pyx_t_3;
+
+  /* "engine/cython/cy_particles.pyx":98
+ *     cdef bint need_ratio = has_velocity_curve or has_size_curve or has_color_curve
+ * 
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         p = particles[i]
+ *         if not p.active:
+*/
+  __pyx_t_4 = __pyx_v_n;
+  __pyx_t_5 = __pyx_t_4;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_i = __pyx_t_6;
+
+    /* "engine/cython/cy_particles.pyx":99
+ * 
+ *     for i in range(n):
+ *         p = particles[i]             # <<<<<<<<<<<<<<
+ *         if not p.active:
+ *             continue
+*/
+    if (unlikely(__pyx_v_particles == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 99, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_PyList_GET_ITEM(__pyx_v_particles, __pyx_v_i);
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":100
+ *     for i in range(n):
+ *         p = particles[i]
+ *         if not p.active:             # <<<<<<<<<<<<<<
+ *             continue
+ * 
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_active); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 100, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_7 = (!__pyx_t_3);
+    if (__pyx_t_7) {
+
+      /* "engine/cython/cy_particles.pyx":101
+ *         p = particles[i]
+ *         if not p.active:
+ *             continue             # <<<<<<<<<<<<<<
+ * 
+ *         p.age += dt
+*/
+      goto __pyx_L6_continue;
+
+      /* "engine/cython/cy_particles.pyx":100
+ *     for i in range(n):
+ *         p = particles[i]
+ *         if not p.active:             # <<<<<<<<<<<<<<
+ *             continue
+ * 
+*/
+    }
+
+    /* "engine/cython/cy_particles.pyx":103
+ *             continue
+ * 
+ *         p.age += dt             # <<<<<<<<<<<<<<
+ *         age = p.age
+ *         life = p.life
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age, __pyx_t_9) < (0)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "engine/cython/cy_particles.pyx":104
+ * 
+ *         p.age += dt
+ *         age = p.age             # <<<<<<<<<<<<<<
+ *         life = p.life
+ * 
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_age); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_10 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_v_age = __pyx_t_10;
+
+    /* "engine/cython/cy_particles.pyx":105
+ *         p.age += dt
+ *         age = p.age
+ *         life = p.life             # <<<<<<<<<<<<<<
+ * 
+ *         if age >= life:
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_life); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_10 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_v_life = __pyx_t_10;
+
+    /* "engine/cython/cy_particles.pyx":107
+ *         life = p.life
+ * 
+ *         if age >= life:             # <<<<<<<<<<<<<<
+ *             expired.append(i)
+ *             continue
+*/
+    __pyx_t_7 = (__pyx_v_age >= __pyx_v_life);
+    if (__pyx_t_7) {
+
+      /* "engine/cython/cy_particles.pyx":108
+ * 
+ *         if age >= life:
+ *             expired.append(i)             # <<<<<<<<<<<<<<
+ *             continue
+ * 
+*/
+      __pyx_t_9 = __Pyx_PyLong_From_int(__pyx_v_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_expired, __pyx_t_9); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 108, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+      /* "engine/cython/cy_particles.pyx":109
+ *         if age >= life:
+ *             expired.append(i)
+ *             continue             # <<<<<<<<<<<<<<
+ * 
+ *         # Gravity on velocity (in-place)
+*/
+      goto __pyx_L6_continue;
+
+      /* "engine/cython/cy_particles.pyx":107
+ *         life = p.life
+ * 
+ *         if age >= life:             # <<<<<<<<<<<<<<
+ *             expired.append(i)
+ *             continue
+*/
+    }
+
+    /* "engine/cython/cy_particles.pyx":112
+ * 
+ *         # Gravity on velocity (in-place)
+ *         vel = p.velocity             # <<<<<<<<<<<<<<
+ *         vx = vel._x
+ *         vy = vel._y + grav_y_dt
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_velocity); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_XDECREF_SET(__pyx_v_vel, __pyx_t_9);
+    __pyx_t_9 = 0;
+
+    /* "engine/cython/cy_particles.pyx":113
+ *         # Gravity on velocity (in-place)
+ *         vel = p.velocity
+ *         vx = vel._x             # <<<<<<<<<<<<<<
+ *         vy = vel._y + grav_y_dt
+ *         vz = vel._z
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_10 = __Pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_v_vx = __pyx_t_10;
+
+    /* "engine/cython/cy_particles.pyx":114
+ *         vel = p.velocity
+ *         vx = vel._x
+ *         vy = vel._y + grav_y_dt             # <<<<<<<<<<<<<<
+ *         vz = vel._z
+ *         vel._x = vx
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_grav_y_dt); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_10 = __Pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_vy = __pyx_t_10;
+
+    /* "engine/cython/cy_particles.pyx":115
+ *         vx = vel._x
+ *         vy = vel._y + grav_y_dt
+ *         vz = vel._z             # <<<<<<<<<<<<<<
+ *         vel._x = vx
+ *         vel._y = vy
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_10 = __Pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_vz = __pyx_t_10;
+
+    /* "engine/cython/cy_particles.pyx":116
+ *         vy = vel._y + grav_y_dt
+ *         vz = vel._z
+ *         vel._x = vx             # <<<<<<<<<<<<<<
+ *         vel._y = vy
+ *         vel._z = vz
+*/
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_vx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_1) < (0)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":117
+ *         vz = vel._z
+ *         vel._x = vx
+ *         vel._y = vy             # <<<<<<<<<<<<<<
+ *         vel._z = vz
+ * 
+*/
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_vy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_1) < (0)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":118
+ *         vel._x = vx
+ *         vel._y = vy
+ *         vel._z = vz             # <<<<<<<<<<<<<<
+ * 
+ *         # Position integration
+*/
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_vz); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_vel, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_1) < (0)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":121
+ * 
+ *         # Position integration
+ *         pos = p.local_position             # <<<<<<<<<<<<<<
+ *         pos._x = pos._x + vx * dt
+ *         pos._y = pos._y + vy * dt
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_p, __pyx_mstate_global->__pyx_n_u_local_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_pos, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":122
+ *         # Position integration
+ *         pos = p.local_position
+ *         pos._x = pos._x + vx * dt             # <<<<<<<<<<<<<<
+ *         pos._y = pos._y + vy * dt
+ *         pos._z = pos._z + vz * dt
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vx * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_x, __pyx_t_9) < (0)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "engine/cython/cy_particles.pyx":123
+ *         pos = p.local_position
+ *         pos._x = pos._x + vx * dt
+ *         pos._y = pos._y + vy * dt             # <<<<<<<<<<<<<<
+ *         pos._z = pos._z + vz * dt
+ * 
+*/
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vy * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_1 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_y, __pyx_t_1) < (0)) __PYX_ERR(0, 123, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "engine/cython/cy_particles.pyx":124
+ *         pos._x = pos._x + vx * dt
+ *         pos._y = pos._y + vy * dt
+ *         pos._z = pos._z + vz * dt             # <<<<<<<<<<<<<<
+ * 
+ *         if need_ratio:
+*/
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_8 = PyFloat_FromDouble((__pyx_v_vz * __pyx_v_dt)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = PyNumber_Add(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_pos, __pyx_mstate_global->__pyx_n_u_z, __pyx_t_9) < (0)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "engine/cython/cy_particles.pyx":126
+ *         pos._z = pos._z + vz * dt
+ * 
+ *         if need_ratio:             # <<<<<<<<<<<<<<
+ *             if life > 1e-6:
+ *                 ratio = age / life
+*/
+    if (__pyx_v_need_ratio) {
+
+      /* "engine/cython/cy_particles.pyx":127
+ * 
+ *         if need_ratio:
+ *             if life > 1e-6:             # <<<<<<<<<<<<<<
+ *                 ratio = age / life
+ *             else:
+*/
+      __pyx_t_7 = (__pyx_v_life > 1e-6);
+      if (__pyx_t_7) {
+
+        /* "engine/cython/cy_particles.pyx":128
+ *         if need_ratio:
+ *             if life > 1e-6:
+ *                 ratio = age / life             # <<<<<<<<<<<<<<
+ *             else:
+ *                 ratio = 1.0
+*/
+        __pyx_v_ratio = (__pyx_v_age / __pyx_v_life);
+
+        /* "engine/cython/cy_particles.pyx":127
+ * 
+ *         if need_ratio:
+ *             if life > 1e-6:             # <<<<<<<<<<<<<<
+ *                 ratio = age / life
+ *             else:
+*/
+        goto __pyx_L11;
+      }
+
+      /* "engine/cython/cy_particles.pyx":130
+ *                 ratio = age / life
+ *             else:
+ *                 ratio = 1.0             # <<<<<<<<<<<<<<
+ *             active_ratios.append((i, ratio))
+ *         else:
+*/
+      /*else*/ {
+        __pyx_v_ratio = 1.0;
+      }
+      __pyx_L11:;
+
+      /* "engine/cython/cy_particles.pyx":131
+ *             else:
+ *                 ratio = 1.0
+ *             active_ratios.append((i, ratio))             # <<<<<<<<<<<<<<
+ *         else:
+ *             active_ratios.append((i, 0.0))
+*/
+      __pyx_t_9 = __Pyx_PyLong_From_int(__pyx_v_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_8 = PyFloat_FromDouble(__pyx_v_ratio); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_9);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_9) != (0)) __PYX_ERR(0, 131, __pyx_L1_error);
+      __Pyx_GIVEREF(__pyx_t_8);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_8) != (0)) __PYX_ERR(0, 131, __pyx_L1_error);
+      __pyx_t_9 = 0;
+      __pyx_t_8 = 0;
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_active_ratios, __pyx_t_1); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 131, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "engine/cython/cy_particles.pyx":126
+ *         pos._z = pos._z + vz * dt
+ * 
+ *         if need_ratio:             # <<<<<<<<<<<<<<
+ *             if life > 1e-6:
+ *                 ratio = age / life
+*/
+      goto __pyx_L10;
+    }
+
+    /* "engine/cython/cy_particles.pyx":133
+ *             active_ratios.append((i, ratio))
+ *         else:
+ *             active_ratios.append((i, 0.0))             # <<<<<<<<<<<<<<
+ * 
+ *     return expired, active_ratios
+*/
+    /*else*/ {
+      __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 133, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_GIVEREF(__pyx_t_1);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1) != (0)) __PYX_ERR(0, 133, __pyx_L1_error);
+      __Pyx_INCREF(__pyx_mstate_global->__pyx_float_0_0);
+      __Pyx_GIVEREF(__pyx_mstate_global->__pyx_float_0_0);
+      if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_mstate_global->__pyx_float_0_0) != (0)) __PYX_ERR(0, 133, __pyx_L1_error);
+      __pyx_t_1 = 0;
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_active_ratios, __pyx_t_8); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 133, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    }
+    __pyx_L10:;
+    __pyx_L6_continue:;
+  }
+
+  /* "engine/cython/cy_particles.pyx":135
+ *             active_ratios.append((i, 0.0))
+ * 
+ *     return expired, active_ratios             # <<<<<<<<<<<<<<
+*/
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_INCREF(__pyx_v_expired);
+  __Pyx_GIVEREF(__pyx_v_expired);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_expired) != (0)) __PYX_ERR(0, 135, __pyx_L1_error);
+  __Pyx_INCREF(__pyx_v_active_ratios);
+  __Pyx_GIVEREF(__pyx_v_active_ratios);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_active_ratios) != (0)) __PYX_ERR(0, 135, __pyx_L1_error);
+  __pyx_r = __pyx_t_8;
+  __pyx_t_8 = 0;
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_particles.pyx":71
+ * 
+ * 
+ * def update_particles_full(             # <<<<<<<<<<<<<<
+ *     list particles,
+ *     double dt,
+*/
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_AddTraceback("engine.cython.cy_particles.update_particles_full", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_expired);
+  __Pyx_XDECREF(__pyx_v_active_ratios);
   __Pyx_XDECREF(__pyx_v_p);
   __Pyx_XDECREF(__pyx_v_vel);
   __Pyx_XDECREF(__pyx_v_pos);
@@ -6295,6 +7032,21 @@ __Pyx_RefNannySetupContext("PyInit_cy_particles", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_update_particles_fast, __pyx_t_2) < (0)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
+  /* "engine/cython/cy_particles.pyx":71
+ * 
+ * 
+ * def update_particles_full(             # <<<<<<<<<<<<<<
+ *     list particles,
+ *     double dt,
+*/
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_12cy_particles_3update_particles_full, 0, __pyx_mstate_global->__pyx_n_u_update_particles_full, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_particles, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
+  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
+  #endif
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_update_particles_full, __pyx_t_2) < (0)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
   /* "engine/cython/cy_particles.pyx":1
  * # cython: boundscheck=False, wraparound=False, cdivision=True, nonecheck=False             # <<<<<<<<<<<<<<
  * """
@@ -6365,31 +7117,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 8; } index[] = {{1},{179},{8},{30},{39},{34},{20},{6},{3},{12},{18},{18},{2},{26},{7},{8},{6},{9},{13},{9},{1},{13},{5},{4},{14},{8},{10},{1},{8},{2},{5},{1},{9},{3},{3},{12},{12},{10},{8},{21},{6},{3},{8},{2},{2},{2},{2},{2},{2},{222}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (622 bytes) */
-const char* const cstring = "BZh91AY&SY\354\002\177\276\000\000I\377\363\367o\250Th\203\265\300\277\241z\000\277\377\377p@@@@@\000\000@@\000@\000@\002\035K0\226\303H\223h\231O\324i\212d4\311\215F\002bdbd\036\246h5=6Pj\236\214\212y\250\232O)\345?Ri\220\000\000\000\000\000d\320q\223&\214C\023L\004\014\t\246\010\30114\323@\006\020J\010\020\232i\243\"\236\325\0324\000\r\003\320\200\000\017H\364\221\312\266\3447\247\363\2418'\010T\177\272H\304\022\005\3324(\022\2120ZB\361k\0071\007\033u\235\222\360\213\205\357\311n\377N\330jd1\272\2034\004\311K\007A!\327\336\002L?t{\003\211\255\210+.%u\345\322n\363\311\022Z\375,\227gd\272P\261[\265\313\355\203\223\265Uu\321(\021\037\203#)\247Jl\374\273\252\342\262$q\020\275\\\217\351\222U4\242\273\335\224\250U\255&dY\377\362\246\351\304\365\005\275\356R(\273\336\363\355Q\010BYj\255X\036a\014\020\356\036\000\320>(\246\366\266~F\265\222\016\0013&\223D\\^&\n\r\002\253\035U\003*\335\261%L\371\240\255\332t\232\r\257\300\374\257\0255\357\311[\215\033\202!\342\351@\245H\261B\220K\350\006:\361\307a\255\272\255f\3258\3374\224\007[T7\342\364.\260\223\325\221(\027\355cc\322v\352\326R\204\032\3053^;\204&\316\342\304\2139H:n\210\351\036\274qx\260\2536k\234\236\251\3113\252Ps\002gn\353\324'a\305^I\002W\202\205f\325\317\260\265#V\210\231\347\205\244\351-0MP\343;\242\2568.\320\321Q\250\276NkU\005\204\341K&3b\225\250.g\">\226Fbs\0101\200\253\266\205T\200\"x\"\236\375\311\330j\005sE@+D\035\000\217\002\023\2318\031\261\177\220G\r\013z\331M\212u\016\026P\0274\r8)E\300\353Fy\036)\342f\031,\305\311tHz\351\026\247\203q\360@\344\345\370\2474b?xB\205\263I)i\220\344\271y\027\351\213G@\265i)\225\320\234\235E\364HZ\203\257\326Y\304\246\3216\030j4\217\023\t\316\377\027rE8P\220\354\002\177\276";
-    PyObject *data = __Pyx_DecompressString(cstring, 622, 2);
+    const struct { const unsigned int length: 9; } index[] = {{1},{179},{8},{30},{39},{34},{20},{6},{13},{3},{12},{18},{18},{2},{26},{7},{8},{6},{9},{10},{13},{9},{15},{14},{18},{1},{13},{5},{4},{14},{8},{10},{1},{8},{10},{2},{5},{1},{9},{3},{3},{2},{2},{2},{12},{5},{12},{10},{8},{21},{21},{6},{3},{8},{2},{2},{2},{2},{2},{2},{222},{303}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (791 bytes) */
+const char* const cstring = "BZh91AY&SYU\027YB\000\000\212\177\377\377o\350\375\350\223\265\340\277\251z\020\277\377\377p@@@@@@@\000@\000@@@\000@\000@\002\334\247m3v\231\32454\231\032O@\246\236\247\265G\244i\243@\000\000\000\000\000\017Q\264\323j\203E\033SM\032OSM=P\365\032\003@\000d\006\206@\000\000\000\003@D\247\2124\332G\251\240\032\000\000\000\000\000\000\003@\002H\215)\2404\"xM \r\000\000b\032i\243FM\000\017(cIc\236\331,\207\237F\2013g\034_\303\217JZU\010\270\034g0\250Q\230f\0220\300jVI\220\r4\241\244\006 i\363\201\345\021\007-\3013\0202\010\004\0016\202B\322\324\207\"#\267\312\2325\350\334\366\247k\346\265\007\252u\317\244%\002\250ap\356\231\325\3435FatO\336\316/\235\273\305\312\35696\363I\365\313\245\321\372\267\215\357L\322T2>\374\222\253\005r\025\372N\031\307\354\357\360\304\213\005\326d\306K\002\250\006\211iq\333\016\023.uS?\343\256q\021\025\354\003\277{\200\241\302\331B\211\317\007\007\364\301\231\224D\347\006\253\003Dd\201\005/\345F\371\306\013!\373\277\007\214\331\263\341gMY\202LS\010]C\030%\220\234 \353\013Y\031\220\331\214Z\205\353\3703b\344\224\207\312Q\021\2042\310\265A\246\27607\206\324\001)0*X\205k\215\211\236H&\005\246\231\3475\304\240([Uj\026\\'\203\327\345u\363%\344[A\236\021\223\345<\202e\231d\023i S-\353\030\241\207\3108\\\344.\300\210^p \340\340\214\324\310Y\271Y\005I\204\026\322\364A\205[\264!t\262Fz\321\244\034\204\254\263\030\236\250U l\352\354\305Y\024A-\\J\354[\220\nOa\344W@g\024D\220\343Z0W\241\325D\315Rvz\365\340`\250\270\272\026\357\353(V)0rL[2\265x\313\300\222N\020T]z\2028\342\252\210K\241\027d\205\220\014\214=\225\340B\244\205T\025\204\353\204Rf@\350,\201\taU\n,\201\004fZ`%`\316\224*\304\221\320\302%CJ/\235,\250\300f\2623n\014s@\246\201AI)\003\234#\014\230H\260\030\325\034D\245A/\362\t1&\305mk\372IM{\212`\366\0225\3059C\013\220P\363\010o\244\360\342\215CA\325V;\263+x\344P\376\320\225\252\240z\354\376\2667wX\340H'\270p\213p\342\016#h|Hw\345\016\262c\353\240\031\215\277\240\342\322k\347>\347\371\227\001\337ql\233\313I\310h\207\0101P?j\024\003D!\274/\203P\027""\322\rHP\261\203\002\210\232\336\001\313\266\326\310\313\234\315\330\034p\330\027t\230\344\311\273\223Q\222T\234A\"\235\302t\210\202\t\023\037\342\356H\247\n\022\n\242\353(@";
+    PyObject *data = __Pyx_DecompressString(cstring, 791, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (542 bytes) */
-const char* const cstring = "x\332\215\221\301n\323@\020\206[\224\242DMAU/\250\342\260\025\207\2360j\025\0017\004\264\240^\252\266\210\363hb\217\223\205\365\356\306\273\266\262=q\364\321G\037\373X9\346\021\362\010\214\343\022\"q\301\222wf\327\377?\373\315\370\303\265\361$\374\024\275\370\034\374\324h!\235HH\3111\345\350I\005\341|.cOy+\322\342\346\362\346\365\350\375H\240NDN?(\366N\270b\034+t\216\2340\251\030\027Ry\251\205\017\226\\$\256R\021L!4Q\"\274\021\226u\333\006?%-\034\3716\021\247\250\265\361\350\245\321\300v\251'\247\"\2219_\"Kj\335_P9\2120I\200uDz\"5\275\211\327\334\034\300b\356e\254\370Z\033\346\272\310l\210 69EY\301H\230\347\030D\212Ru(2\263&\367\333\262\"C?\375G\001p\023\346\374^\360\030\340\232\346\376\216R\\#\341\204\000\036\231\333\314\005\035K\023q-S\360\010\310\305\212W\220\334M\2161\2151\376\231\370\216:\352\250\243mj\232[n6\001H\013\035\003Lr,!t+$\276M\244\017\340bT\364g\023$H\007\233\013\245\247\314)\231\2222\254\002k\234\\\017\0232d\010~2\223\024\212Qy\2431k\023\273\036\200\335@Xc\331\0060+Pu\022\000\376?\217r\316\022\356\236\307\t\340\311\361Z\330\244m~\343\207\024\235/Q\025\344JReK\302\240\345\274\014\345=\314\271\223\373_\273\253\363\235\275\343\346\370\341\374\341v\321{\331|m\223e\357Y\205\313\336a}T\177\254oWOw\366\006\325^\365\275>\251\317\026\375auU\337\326\270\350\357W\243jV\357.\206\007\313\376\240zQ\037\266Gg\325e\347Z\014\217\352w\315Is\306\337\271\302\340y\205\325l\321?\250\276\261e\035z\365\247\266\314\343\311~\365\266\253\3607\254\206\033[\273?\252/\232'\315\253\346\256\371\217\203e\217Y~\003\332\312E=";
-    PyObject *data = __Pyx_DecompressString(cstring, 542, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (690 bytes) */
+const char* const cstring = "x\332\305Q=O\334@\020\005\342\213\016q|\211\"\204 \262\210\002)R\034]\204\362QE\020H\204\"! J\223f\265g\317\335m\262\3365\336\265u\276*\245K\227.\257\244\314O\340'\244ty?\201\237\220Y\373\200\213h\350r\322\355\316\214\337\314\276\367\346\303\2112@L\237\031\36215}%\t\327\304\007\301;\0201\003\"%\332D\3343\020Y\220$\247G\247/\367\336\355\021&}\022\301\017\360\214&:\356x\202i\r\232\250.\351\304\\\030.\211IC\320.9\356\222T\305D\002\370\304(\022\"n\272\301\364A\022\r\306\006d\227I\251\0143\\I\212\355\\\366v\211\317#|\204'`\273?1\241\301e\276O\021\007 {\\\302+\257\342\215\027\rYd\270'\360\3310\035\3108\010S\227z*\0027\210\221\022\213\"\226\222.\343\242\246\302\203PEf\032\026\007\314\364\357!(=M\007\370?D\033\350\t\014\3149tYE\251>id\031k\326\003J'\002l\244S\351q\345\342`\025\243\037\240=\201'\345(-b\036t\230\367\3237\265\004\267\226\340NK\200A\210\312}J\273\261\364(\355E,\241i}R\337L\202\204\t\033q\223R\3551\0017I\332g\032%\t\025Q/\216\022\260\251\346C\270\313\022\020\312\263\320\252\302)\267\370\tSn \320\202w-\204\t\032*\315\253\225\320\200!{\374\005\312\217\005j\304D\262\300\006\270\335\332\006\031V\206\206\267:B\025\342\200p\200\265!\245\0271\023uK\205\246\024W?\231\201\221\217\306\342\246(5\240\361\214C\337Zy;\212v\2316\367\213\261\020\350C\014\0325\335\310J\006I\232\014\351\000=\032\376\232\275~1\323\330(6F\257Gg\245\263Y|\266\301\330Y\312\330\330Y\315\327\362\375\374\354\2729\323\230\317\032\331\267|;o\227\315Vv\234\237\345\254l.d{\331E>[\266\026\307\315\371l=_\265\245vvTw\225\255\265\374m\261]\264\361\373\365\343\231\371\345\214e\027es1\373\212-\325\345\344\007v\314\244\262\220\275\251'\334]Sm6_\313\017\213\271b\2478/\036P\030;\310\005\325m\3154\266\212\357\243\350r\325\252\373b\203\261\263^\314\226\316V\361\257\304\315?\317\334K\357\367\363\253GW\355\261\323|\230\340\245\232\336\262\255\217+\200\316\267\377\267t\273\206\262\265\234\305\325++\353\205S\034\240\330\025+\273\365\264x2\232\033\355\340\222\247B4\353}\276\377\027\362\216\341\007";
+    PyObject *data = __Pyx_DecompressString(cstring, 690, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (849 bytes) */
-const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_noteengine/cython/cy_particles.pyxnumpy._core.multiarray failed to importnumpy._core.umath failed to import__Pyx_PyDict_NextRefactiveage__annotate__asyncio.coroutinescline_in_tracebackdtengine.cython.cy_particlesexpired__func__grav_ygrav_y_dtgravity_scalegravity_yi_is_coroutineitemslifelocal_position__main____module__n__name__npnumpypparticlespoppos__qualname____set_name__setdefault__test__update_particles_fastvaluesvelvelocityvxvyvz_x_y_z\200\001\3602\000\005\032\230\032\2402\240Q\330\004\034\230G\2402\240Q\340\004\016\210a\340\004\021\220\023\220A\220Q\360\006\000\005\t\210\005\210U\220!\2201\330\010\014\210I\220Q\220a\330\010\013\2104\210q\220\001\330\014\r\340\010\t\210\030\220\021\330\010\013\2101\210E\220\023\220A\220Q\330\014\023\2207\230!\2301\330\014\r\360\006\000\t\017\210a\210q\330\010\r\210S\220\001\330\010\r\210S\220\004\220B\220a\330\010\r\210S\220\001\330\010\013\2106\220\021\330\010\013\2106\220\021\330\010\013\2106\220\021\360\014\000\t\017\210a\210q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\340\004\013\2101";
+    #else /* compression: none (1264 bytes) */
+const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_noteengine/cython/cy_particles.pyxnumpy._core.multiarray failed to importnumpy._core.umath failed to import__Pyx_PyDict_NextRefactiveactive_ratiosage__annotate__asyncio.coroutinescline_in_tracebackdtengine.cython.cy_particlesexpired__func__grav_ygrav_y_dtgrav_y_valgravity_scalegravity_yhas_color_curvehas_size_curvehas_velocity_curvei_is_coroutineitemslifelocal_position__main____module__n__name__need_rationpnumpypparticlespoppospxpypz__qualname__ratio__set_name__setdefault__test__update_particles_fastupdate_particles_fullvaluesvelvelocityvxvyvz_x_y_z\200\001\360*\000\005\032\230\032\2402\240Q\330\004\034\230G\2402\240Q\340\004\016\210a\340\004\021\220\023\220A\220Q\360\010\000\005\t\210\005\210U\220!\2201\330\010\014\210I\220Q\220a\330\010\013\2104\210q\220\001\330\014\r\340\010\t\210\030\220\021\330\010\013\2101\210E\220\023\220A\220Q\330\014\023\2207\230!\2301\330\014\r\360\006\000\t\017\210a\210q\330\010\r\210S\220\001\330\010\r\210S\220\004\220B\220a\330\010\r\210S\220\001\330\010\013\2106\220\021\330\010\013\2106\220\021\330\010\013\2106\220\021\360\006\000\t\017\210a\210q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\340\004\013\2101\200\001\360\036\000\005\036\230Z\240r\250\021\330\004\034\230K\240r\250\021\340\004\030\230\001\330\004\036\230a\340\004\021\220\023\220A\220Q\360\010\000\005\034\320\033.\250c\260\037\300\003\3001\340\004\010\210\005\210U\220!\2201\330\010\014\210I\220Q\220a\330\010\013\2104\210q\220\001\330\014\r\340\010\t\210\030\220\021\330\010\016\210a\210q\330\010\017\210q\220\001\340\010\013\2104\210s\220!\330\014\023\2207\230!\2301\330\014\r\360\006\000\t\017\210a\210q\330\010\r\210S\220\001\330\010\r\210S\220\004\220B\220a\330\010\r\210S\220\001""\330\010\013\2106\220\021\330\010\013\2106\220\021\330\010\013\2106\220\021\360\006\000\t\017\210a\210q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\330\010\013\2106\220\023\220D\230\002\230#\230R\230q\340\010\013\2101\330\014\017\210u\220B\220a\330\020\030\230\004\230B\230a\340\020\030\230\001\330\014\031\230\027\240\002\240#\240Q\340\014\031\230\027\240\002\240#\240Q\340\004\013\2109\220A";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 49; i++) {
+    for (int i = 0; i < 60; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 6) PyUnicode_InternInPlace(&string);
@@ -6400,7 +7152,7 @@ const char* const bytes = "?Note that Cython is deliberately stricter than PEP-4
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 49; i < 50; i++) {
+    for (int i = 60; i < 62; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -6411,15 +7163,15 @@ const char* const bytes = "?Note that Cython is deliberately stricter than PEP-4
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 50; i++) {
+    for (Py_ssize_t i = 0; i < 62; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 49;
-      for (Py_ssize_t i=0; i<1; ++i) {
+      PyObject **table = stringtab + 60;
+      for (Py_ssize_t i=0; i<2; ++i) {
         #if PY_VERSION_HEX >= 0x030F0000
         PyUnstable_SetImmortal(table[i]);
         #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
@@ -6440,6 +7192,37 @@ const char* const bytes = "?Note that Cython is deliberately stricter than PEP-4
     }
     #endif
   }
+  {
+    PyObject **numbertab = __pyx_mstate->__pyx_number_tab;
+    double const c_constants[] = {0.0};
+    for (int i = 0; i < 1; i++) {
+      numbertab[i] = PyFloat_FromDouble(c_constants[i]);
+      if (unlikely(!numbertab[i])) __PYX_ERR(0, 1, __pyx_L1_error)
+    }
+  }
+  #if CYTHON_IMMORTAL_CONSTANTS
+  {
+    PyObject **table = __pyx_mstate->__pyx_number_tab;
+    for (Py_ssize_t i=0; i<1; ++i) {
+      #if PY_VERSION_HEX >= 0x030F0000
+      PyUnstable_SetImmortal(table[i]);
+      #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
+      if ((PY_SSIZE_T_MAX <= _Py_IMMORTAL_REFCNT_LOCAL)) break;
+      #if PY_VERSION_HEX < 0x030E0000
+      if (_Py_IsOwnedByCurrentThread(table[i]) && Py_REFCNT(table[i]) == 1)
+      #else
+      if (PyUnstable_Object_IsUniquelyReferenced(table[i]))
+      #endif
+      {
+        Py_SET_REFCNT(table[i], ((Py_ssize_t)_Py_IMMORTAL_REFCNT_LOCAL + 1));
+      }
+      #else
+      if ((PY_SSIZE_T_MAX < _Py_IMMORTAL_INITIAL_REFCNT)) break;
+      Py_SET_REFCNT(table[i], _Py_IMMORTAL_INITIAL_REFCNT);
+      #endif
+    }
+  }
+  #endif
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6449,9 +7232,9 @@ typedef struct {
     unsigned int argcount : 3;
     unsigned int num_posonly_args : 1;
     unsigned int num_kwonly_args : 1;
-    unsigned int nlocals : 4;
+    unsigned int nlocals : 5;
     unsigned int flags : 10;
-    unsigned int first_line : 4;
+    unsigned int first_line : 7;
 } __Pyx_PyCode_New_function_description;
 /* NewCodeObj.proto */
 static PyObject* __Pyx_PyCode_New(
@@ -6468,9 +7251,14 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {4, 0, 0, 15, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 13};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_particles, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_gravity_y, __pyx_mstate->__pyx_n_u_gravity_scale, __pyx_mstate->__pyx_n_u_grav_y, __pyx_mstate->__pyx_n_u_grav_y_dt, __pyx_mstate->__pyx_n_u_expired, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_vx, __pyx_mstate->__pyx_n_u_vy, __pyx_mstate->__pyx_n_u_vz, __pyx_mstate->__pyx_n_u_p, __pyx_mstate->__pyx_n_u_vel, __pyx_mstate->__pyx_n_u_pos};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_particles_pyx, __pyx_mstate->__pyx_n_u_update_particles_fast, __pyx_mstate->__pyx_kp_b_iso88591_2_2Q_G2Q_a_AQ_U_1_IQa_4q_1E_AQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    const __Pyx_PyCode_New_function_description descr = {4, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 13};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_particles, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_gravity_y, __pyx_mstate->__pyx_n_u_gravity_scale, __pyx_mstate->__pyx_n_u_grav_y, __pyx_mstate->__pyx_n_u_grav_y_dt, __pyx_mstate->__pyx_n_u_expired, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_vx, __pyx_mstate->__pyx_n_u_vy, __pyx_mstate->__pyx_n_u_vz, __pyx_mstate->__pyx_n_u_px, __pyx_mstate->__pyx_n_u_py, __pyx_mstate->__pyx_n_u_pz, __pyx_mstate->__pyx_n_u_p, __pyx_mstate->__pyx_n_u_vel, __pyx_mstate->__pyx_n_u_pos};
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_particles_pyx, __pyx_mstate->__pyx_n_u_update_particles_fast, __pyx_mstate->__pyx_kp_b_iso88591_2Q_G2Q_a_AQ_U_1_IQa_4q_1E_AQ_7, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+  }
+  {
+    const __Pyx_PyCode_New_function_description descr = {7, 0, 0, 23, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 71};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_particles, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_gravity_y, __pyx_mstate->__pyx_n_u_gravity_scale, __pyx_mstate->__pyx_n_u_has_velocity_curve, __pyx_mstate->__pyx_n_u_has_size_curve, __pyx_mstate->__pyx_n_u_has_color_curve, __pyx_mstate->__pyx_n_u_grav_y_val, __pyx_mstate->__pyx_n_u_grav_y_dt, __pyx_mstate->__pyx_n_u_expired, __pyx_mstate->__pyx_n_u_active_ratios, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_vx, __pyx_mstate->__pyx_n_u_vy, __pyx_mstate->__pyx_n_u_vz, __pyx_mstate->__pyx_n_u_age, __pyx_mstate->__pyx_n_u_life, __pyx_mstate->__pyx_n_u_ratio, __pyx_mstate->__pyx_n_u_need_ratio, __pyx_mstate->__pyx_n_u_p, __pyx_mstate->__pyx_n_u_vel, __pyx_mstate->__pyx_n_u_pos};
+    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_particles_pyx, __pyx_mstate->__pyx_n_u_update_particles_full, __pyx_mstate->__pyx_kp_b_iso88591_Zr_Kr_a_AQ_c_1_U_1_IQa_4q_aq_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

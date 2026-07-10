@@ -15,6 +15,9 @@ try:
         vec3_normalized as _cy_norm, vec3_dot as _cy_dot, vec3_cross as _cy_cross,
         vec3_distance as _cy_dist, vec3_lerp as _cy_lerp,
         vec3_lerp_unclamped as _cy_lerp_unc,
+        vec3_add as _cy_add, vec3_sub as _cy_sub,
+        vec3_mul_scalar as _cy_mul_s, vec3_mul_comp as _cy_mul_c,
+        vec3_div_scalar as _cy_div_s,
     )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
@@ -520,44 +523,121 @@ class Vector3:
     def __add__(self, other: 'Vector3Like') -> 'Vector3':
         """Add two vectors or vector and scalar."""
         if isinstance(other, (int, float)):
-            return Vector3(self._x + other, self._y + other, self._z + other)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry, rz = _cy_add(self._x, self._y, self._z, s, s, s)
+                return Vector3(rx, ry, rz)
+            return Vector3(self._x + s, self._y + s, self._z + s)
         other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_add(self._x, self._y, self._z, other._x, other._y, other._z)
+            return Vector3(rx, ry, rz)
         return Vector3(self._x + other._x, self._y + other._y, self._z + other._z)
     
     def __radd__(self, other: 'Vector3Like') -> 'Vector3':
         """Right addition."""
         return self.__add__(other)
+
+    def __iadd__(self, other: 'Vector3Like') -> 'Vector3':
+        """In-place addition."""
+        if isinstance(other, (int, float)):
+            s = float(other)
+            if _USE_CYTHON:
+                self._x, self._y, self._z = _cy_add(self._x, self._y, self._z, s, s, s)
+            else:
+                self._x += s; self._y += s; self._z += s
+            return self
+        other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_add(self._x, self._y, self._z, other._x, other._y, other._z)
+        else:
+            self._x += other._x; self._y += other._y; self._z += other._z
+        return self
     
     def __sub__(self, other: 'Vector3Like') -> 'Vector3':
         """Subtract two vectors or vector and scalar."""
         if isinstance(other, (int, float)):
-            return Vector3(self._x - other, self._y - other, self._z - other)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry, rz = _cy_sub(self._x, self._y, self._z, s, s, s)
+                return Vector3(rx, ry, rz)
+            return Vector3(self._x - s, self._y - s, self._z - s)
         other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_sub(self._x, self._y, self._z, other._x, other._y, other._z)
+            return Vector3(rx, ry, rz)
         return Vector3(self._x - other._x, self._y - other._y, self._z - other._z)
     
     def __rsub__(self, other: 'Vector3Like') -> 'Vector3':
         """Right subtraction."""
         if isinstance(other, (int, float)):
-            return Vector3(other - self._x, other - self._y, other - self._z)
+            s = float(other)
+            if _USE_CYTHON:
+                rx, ry, rz = _cy_sub(s, s, s, self._x, self._y, self._z)
+                return Vector3(rx, ry, rz)
+            return Vector3(s - self._x, s - self._y, s - self._z)
         other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_sub(other._x, other._y, other._z, self._x, self._y, self._z)
+            return Vector3(rx, ry, rz)
         return Vector3(other._x - self._x, other._y - self._y, other._z - self._z)
+
+    def __isub__(self, other: 'Vector3Like') -> 'Vector3':
+        """In-place subtraction."""
+        if isinstance(other, (int, float)):
+            s = float(other)
+            if _USE_CYTHON:
+                self._x, self._y, self._z = _cy_sub(self._x, self._y, self._z, s, s, s)
+            else:
+                self._x -= s; self._y -= s; self._z -= s
+            return self
+        other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_sub(self._x, self._y, self._z, other._x, other._y, other._z)
+        else:
+            self._x -= other._x; self._y -= other._y; self._z -= other._z
+        return self
     
     def __mul__(self, other: Union[int, float, 'Vector3Like']) -> 'Vector3':
         """Multiply vector by scalar or component-wise."""
         if isinstance(other, (int, float)):
+            if _USE_CYTHON:
+                rx, ry, rz = _cy_mul_s(self._x, self._y, self._z, float(other))
+                return Vector3(rx, ry, rz)
             return Vector3(self._x * other, self._y * other, self._z * other)
         other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            rx, ry, rz = _cy_mul_c(self._x, self._y, self._z, other._x, other._y, other._z)
+            return Vector3(rx, ry, rz)
         return Vector3(self._x * other._x, self._y * other._y, self._z * other._z)
     
     def __rmul__(self, other: Union[int, float, 'Vector3Like']) -> 'Vector3':
         """Right multiplication."""
         return self.__mul__(other)
+
+    def __imul__(self, other: Union[int, float, 'Vector3Like']) -> 'Vector3':
+        """In-place multiplication."""
+        if isinstance(other, (int, float)):
+            if _USE_CYTHON:
+                self._x, self._y, self._z = _cy_mul_s(self._x, self._y, self._z, float(other))
+            else:
+                self._x *= other; self._y *= other; self._z *= other
+            return self
+        other = self._ensure_vector3(other)
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_mul_c(self._x, self._y, self._z, other._x, other._y, other._z)
+        else:
+            self._x *= other._x; self._y *= other._y; self._z *= other._z
+        return self
     
     def __truediv__(self, other: Union[int, float, 'Vector3Like']) -> 'Vector3':
         """Divide vector by scalar or component-wise."""
         if isinstance(other, (int, float)):
             if other == 0:
                 raise ZeroDivisionError("Cannot divide Vector3 by zero")
+            if _USE_CYTHON:
+                rx, ry, rz = _cy_div_s(self._x, self._y, self._z, float(other))
+                return Vector3(rx, ry, rz)
             return Vector3(self._x / other, self._y / other, self._z / other)
         other = self._ensure_vector3(other)
         if other._x == 0 or other._y == 0 or other._z == 0:
@@ -570,6 +650,22 @@ class Vector3:
             return Vector3(other / self._x, other / self._y, other / self._z)
         other = self._ensure_vector3(other)
         return Vector3(other._x / self._x, other._y / self._y, other._z / self._z)
+
+    def __itruediv__(self, other: Union[int, float, 'Vector3Like']) -> 'Vector3':
+        """In-place division."""
+        if isinstance(other, (int, float)):
+            if other == 0:
+                raise ZeroDivisionError("Cannot divide Vector3 by zero")
+            if _USE_CYTHON:
+                self._x, self._y, self._z = _cy_div_s(self._x, self._y, self._z, float(other))
+            else:
+                self._x /= other; self._y /= other; self._z /= other
+            return self
+        other = self._ensure_vector3(other)
+        if other._x == 0 or other._y == 0 or other._z == 0:
+            raise ZeroDivisionError("Cannot divide by Vector3 with zero component")
+        self._x /= other._x; self._y /= other._y; self._z /= other._z
+        return self
     
     def __neg__(self) -> 'Vector3':
         """Negate vector."""
