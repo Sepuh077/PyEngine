@@ -3820,6 +3820,8 @@ class {class_name}(Script):
                 width=w, height=h,
                 title="PyEngine 2D Editor Viewport",
                 resizable=True,
+                project_root=self.project_root,
+                auto_load_scriptable_assets=True,
                 use_pygame_window=False,
                 use_pygame_events=False,
             )
@@ -3836,6 +3838,7 @@ class {class_name}(Script):
                 width=w, height=h,
                 title="PyEngine Editor Viewport",
                 project_root=self.project_root,
+                auto_load_scriptable_assets=True,
                 resizable=True,
                 use_pygame_window=False,
                 use_pygame_events=False,
@@ -4764,6 +4767,8 @@ class {class_name}(Script):
                 width=w, height=h,
                 title="PyEngine 2D Editor Viewport",
                 resizable=True,
+                project_root=self.project_root,
+                auto_load_scriptable_assets=True,
                 use_pygame_window=False,
                 use_pygame_events=False,
             )
@@ -4777,6 +4782,7 @@ class {class_name}(Script):
                 width=w, height=h,
                 title="PyEngine Editor Viewport",
                 project_root=self.project_root,
+                auto_load_scriptable_assets=True,
                 resizable=True,
                 use_pygame_window=False,
                 use_pygame_events=False,

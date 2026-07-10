@@ -8,7 +8,7 @@ Similar to Unity's ScriptableObject, these are data-only classes that:
 - Can be created from the editor's context menu
 
 Example:
-    from engine.d3 import ScriptableObject, InspectorField
+    from engine import ScriptableObject, InspectorField
     
     class PlayerData(ScriptableObject):
         max_health = InspectorField(int, default=100, min_value=0)
@@ -120,6 +120,11 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
     
     # Instance registry (name -> instance)
     _instances: Dict[str, 'ScriptableObject'] = {}
+
+    # For lazy loading support
+    _project_root: Optional[str] = None
+    _assets_loaded: bool = False
+    _asset_name_to_path: Dict[str, str] = {}  # name -> full path, built on demand for lazy
     
     def __init__(self, name: str = "ScriptableObject"):
         """
@@ -169,6 +174,7 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         instance = cls(name)
         # Register in the global registry
         ScriptableObject._instances[name] = instance
+        ScriptableObject._assets_loaded = True
         return instance
     
     @classmethod
@@ -189,6 +195,10 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
             data = json.load(f)
         
         instance_name = data.get("_name", "")
+        
+        # Populate lazy index
+        if instance_name:
+            ScriptableObject._asset_name_to_path[instance_name] = str(path)
         
         # Check if an instance with this name already exists in the registry
         # If so, update it in place to preserve references from components
@@ -219,6 +229,7 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         
         # Register in the global registry
         ScriptableObject._instances[instance.name] = instance
+        ScriptableObject._assets_loaded = True
         
         return instance
     
@@ -404,12 +415,26 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         """
         Get a ScriptableObject instance by name from the global registry.
         
+        Lazy loading: If the name is not found and a project root is known
+        (set via window's auto_load_scriptable_assets=False or set_project_root),
+        this will locate **only the requested asset** by name and load just that
+        one file (not the entire directory).
+        
+        Once loaded, the instance is kept in the registry.
+        
         Args:
             name: The name of the ScriptableObject to find
             
         Returns:
             The ScriptableObject instance or None if not found
         """
+        if name not in cls._instances:
+            path = cls._find_asset_path_by_name(name)
+            if path:
+                try:
+                    cls.load(path)  # load() registers it
+                except Exception:
+                    pass
         return cls._instances.get(name)
     
     @classmethod
@@ -417,8 +442,8 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         """
         Get all registered ScriptableObject instances.
         
-        Returns:
-            List of all ScriptableObject instances
+        In lazy mode, this returns only the assets that have been requested so far
+        (via get() etc.). Call load_all_assets() explicitly to load everything.
         """
         return list(cls._instances.values())
     
@@ -427,10 +452,8 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         """
         Get all ScriptableObject instances of a specific type.
         
-        This method handles the case where the same class may be loaded
-        multiple times with different module names (e.g., during dynamic
-        scanning). It combines both isinstance check and class name matching
-        to ensure all instances of the same logical type are returned.
+        In lazy mode, this returns only the assets of that type that have been
+        requested so far. Call load_all_assets() to load everything.
         
         Args:
             scriptable_type: The type to filter by
@@ -472,6 +495,47 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
     def clear_registry(cls) -> None:
         """Clear all registered ScriptableObject instances."""
         cls._instances.clear()
+        cls._assets_loaded = False
+        cls._asset_name_to_path.clear()
+
+    @classmethod
+    def set_project_root(cls, directory: str) -> None:
+        """Set the project root directory used for lazy asset loading.
+        
+        When lazy loading is enabled (auto_load_scriptable_assets=False on window),
+        the first call to get(name) will locate and load **only** that specific
+        asset (not the whole directory).
+        """
+        cls._project_root = str(Path(directory).resolve())
+        cls._assets_loaded = False
+        cls._asset_name_to_path.clear()
+
+    @classmethod
+    def _build_asset_index(cls, directory: str) -> None:
+        """Scan the directory for .asset files and build a name -> path index.
+        This is cheap (only reads _name from JSON, does not fully load or register).
+        """
+        cls._asset_name_to_path.clear()
+        dir_path = Path(directory)
+        if not dir_path.exists() or not dir_path.is_dir():
+            return
+        for asset_file in dir_path.rglob(f"*{SCRIPTABLE_OBJECT_EXT}"):
+            try:
+                with open(asset_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                name = data.get("_name")
+                if name:
+                    cls._asset_name_to_path[name] = str(asset_file)
+            except Exception:
+                # Ignore bad JSON or unreadable files
+                continue
+
+    @classmethod
+    def _find_asset_path_by_name(cls, name: str) -> Optional[str]:
+        """Return the full path for a specific asset name, building index if needed."""
+        if not cls._asset_name_to_path and cls._project_root:
+            cls._build_asset_index(cls._project_root)
+        return cls._asset_name_to_path.get(name)
     
     @classmethod
     def get_all_types(cls) -> Dict[str, ScriptableObjectTypeInfo]:
@@ -508,7 +572,8 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         """
         Load all .asset files from a directory and register them in the instance registry.
         
-        This method should be called when the editor starts or when play mode begins
+        This method is called automatically by Window2D/Window3D (unless
+        auto_load_scriptable_assets=False). It can also be called manually
         to ensure all ScriptableObject assets are available via ScriptableObject.get().
         
         Args:
@@ -519,10 +584,12 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         Returns:
             List of all loaded ScriptableObject instances
         """
+        cls._project_root = str(Path(directory).resolve())
         loaded_instances = []
         dir_path = Path(directory)
         
         if not dir_path.exists() or not dir_path.is_dir():
+            cls._assets_loaded = True
             return loaded_instances
         
         # Optionally scan for type definitions first
@@ -541,6 +608,10 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
                 # Get the type from the stored type name
                 type_name = data.get("_type", "")
                 instance_name = data.get("_name", "Unknown")
+                
+                # Populate lazy index
+                if instance_name:
+                    cls._asset_name_to_path[instance_name] = str(asset_path)
                 
                 # Check if already loaded (avoid duplicates)
                 if instance_name in cls._instances:
@@ -595,6 +666,7 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
                 print(f"Warning: Failed to load asset '{asset_path}': {e}")
                 continue
         
+        cls._assets_loaded = True
         return loaded_instances
     
     @classmethod
@@ -671,6 +743,7 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
         """
         if instance and instance.name:
             cls._instances[instance.name] = instance
+            cls._assets_loaded = True
     
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(name='{self._name}')"

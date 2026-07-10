@@ -5,9 +5,8 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from engine.d3 import (
-    Resources, GameObject, ScriptableObject, InspectorField, Scene3D
-)
+from engine import Resources, GameObject, ScriptableObject, InspectorField
+from engine.d3 import Scene3D
 from engine.graphics import Material, LitMaterial
 
 

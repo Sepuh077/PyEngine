@@ -11,6 +11,7 @@ Subclasses must implement:
     _cleanup_gpu()        — release subclass-specific GPU resources
 """
 import time
+from pathlib import Path
 import pygame
 
 try:
@@ -48,7 +49,13 @@ except ImportError:
 
 
 class WindowBase:
-    """Abstract base for both 2D and 3D engine windows."""
+    """Abstract base for both 2D and 3D engine windows.
+
+    Common parameters include project_root for asset location and
+    auto_load_scriptable_assets (default True) which controls whether
+    ScriptableObject assets are loaded on startup or lazily on first access
+    via ScriptableObject.get() etc.
+    """
 
     # -- Overlay shaders (shared by both 2D and 3D) -------------------------
 
@@ -83,6 +90,8 @@ class WindowBase:
         height: int = 600,
         title: str = "Engine",
         resizable: bool = False,
+        project_root: Union[str, Path] = ".",
+        auto_load_scriptable_assets: bool = True,
         background_color: ColorType = (0.1, 0.1, 0.15),
         use_pygame_window: bool = True,
         use_pygame_events: bool = True,
@@ -96,6 +105,8 @@ class WindowBase:
         self.height = height
         self.title = title
         self.background_color = background_color
+        self.project_root = project_root if isinstance(project_root, Path) else Path(project_root).resolve()
+        self.auto_load_scriptable_assets = auto_load_scriptable_assets
 
         # -- Pygame ----------------------------------------------------------
         self._use_pygame_window = use_pygame_window
@@ -176,6 +187,14 @@ class WindowBase:
 
         self._setup_done = False
 
+        # Always register project root (for lazy loading support)
+        from engine.scriptable_object import ScriptableObject
+        ScriptableObject.set_project_root(str(self.project_root))
+
+        if self.auto_load_scriptable_assets:
+            # Load all ScriptableObject assets upfront (default behavior)
+            self._load_scriptable_objects()
+
         # -- Register for global draw funcs ----------------------------------
         from engine import drawing
         drawing.set_window(self)
@@ -189,6 +208,23 @@ class WindowBase:
 
     def _init_gpu(self):
         """Called once at end of __init__. Compile shaders, create VAOs, etc."""
+
+    def _load_scriptable_objects(self) -> None:
+        """
+        Load all ScriptableObject assets from the project directory.
+        Called automatically if auto_load_scriptable_assets=True (the default).
+        When False, loading happens lazily on first ScriptableObject.get() etc.
+        """
+        try:
+            from engine.scriptable_object import ScriptableObject
+
+            loaded = ScriptableObject.load_all_assets(str(self.project_root))
+            if loaded:
+                print(f"Loaded {len(loaded)} ScriptableObject assets from {self.project_root}")
+
+        except Exception as e:
+            # Silently ignore errors during loading - assets might not exist
+            pass
 
     def _render(self):
         """Full per-frame rendering pipeline. Must be implemented by subclass."""

@@ -24,9 +24,10 @@ Example::
 """
 import math
 import time
+from pathlib import Path
 import pygame
 import numpy as np
-from typing import List, Optional, Tuple, TYPE_CHECKING
+from typing import List, Optional, Tuple, Union, TYPE_CHECKING
 
 import moderngl
 
@@ -154,6 +155,8 @@ class Window2D(WindowBase):
         height: int = 600,
         title: str = "2D Engine",
         resizable: bool = False,
+        project_root: Union[str, Path] = ".",
+        auto_load_scriptable_assets: bool = True,
         background_color: ColorType = (0.1, 0.1, 0.15),
         use_pygame_window: bool = True,
         use_pygame_events: bool = True,
@@ -161,7 +164,7 @@ class Window2D(WindowBase):
         # WindowBase handles: pygame, moderngl context, overlay shader,
         # 2D HUD surface, timing, input, drawing helpers, main loop.
         # It also calls self._init_gpu() at the end.
-        super().__init__(width, height, title, resizable, background_color,
+        super().__init__(width, height, title, resizable, project_root, auto_load_scriptable_assets, background_color,
                          use_pygame_window, use_pygame_events)
 
         # Default 2D camera (orthographic_size controls viewport/world size like Unity)

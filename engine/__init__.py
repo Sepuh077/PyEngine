@@ -13,10 +13,18 @@ from .component import (
 from .resources import Resources
 from .gameobject import GameObject
 from .transform import Transform
+from .scriptable_object import (
+    ScriptableObject,
+    ScriptableObjectTypeInfo,
+    ScriptableObjectMeta,
+    SCRIPTABLE_OBJECT_EXT,
+)
 
 
 __all__ = [
     "Time", "Tag", "Script", "Component", "WaitEndOfFrame",
     "WaitForFrames", "WaitForSeconds", "serializable", "InspectorField",
-    "GameObject", "Transform", "Resources"
+    "GameObject", "Transform", "Resources",
+    "ScriptableObject", "ScriptableObjectTypeInfo", "ScriptableObjectMeta",
+    "SCRIPTABLE_OBJECT_EXT",
 ]

@@ -446,7 +446,7 @@ window.run()
 
 ### Scriptable Objects
 ```python
-from engine.d3 import ScriptableObject, InspectorField
+from engine import ScriptableObject, InspectorField
 
 class WeaponData(ScriptableObject):
     damage = InspectorField(float, default=10.0, min_value=0.0)

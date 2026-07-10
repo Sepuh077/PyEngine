@@ -68,14 +68,6 @@ from engine.d3.particle import (  # particle system (3D-specific)
     BoxShape,
 )
 
-# Scriptable Objects
-from engine.scriptable_object import (
-    ScriptableObject,
-    ScriptableObjectTypeInfo,
-    ScriptableObjectMeta,
-    SCRIPTABLE_OBJECT_EXT,
-)
-
 # Lazy import Rigidbody3D to avoid circular dependency
 def __getattr__(name):
     if name == "Rigidbody3D":
@@ -168,11 +160,6 @@ __all__ = [
     'SphereShape',
     'ConeShape',
     'BoxShape',
-    # Scriptable Objects
-    'ScriptableObject',
-    'ScriptableObjectTypeInfo',
-    'ScriptableObjectMeta',
-    'SCRIPTABLE_OBJECT_EXT',
     # UI System
     'UILayer',
     'UIElement',

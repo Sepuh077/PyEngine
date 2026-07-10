@@ -639,17 +639,16 @@ class Window3D(WindowBase):
                  height: int = 600,
                  title: str = "3D Engine",
                  resizable: bool = False,
-                 project_root: Union[str, Path] = "..",
+                 project_root: Union[str, Path] = ".",
+                 auto_load_scriptable_assets: bool = True,
                  vsync: bool = True,
                  background_color: ColorType = (0.1, 0.1, 0.15),
                  use_pygame_window: bool = True,
                  use_pygame_events: bool = True):
-        self.project_root = project_root if isinstance(project_root, Path) else Path(project_root).resolve()
-
         # WindowBase handles: pygame, moderngl context, overlay shader,
         # 2D HUD surface, timing, input, drawing helpers, main loop.
         # It also calls self._init_gpu() at the end.
-        super().__init__(width, height, title, resizable, background_color,
+        super().__init__(width, height, title, resizable, project_root, auto_load_scriptable_assets, background_color,
                          use_pygame_window, use_pygame_events)
 
         # -- 3D-specific state (shaders compiled in _init_gpu via super) ------
@@ -701,9 +700,6 @@ class Window3D(WindowBase):
         self.editor_show_gizmo = True
         self._editor_gizmo = None
         self.active_camera_override: Optional[Camera3D] = None
-
-        # Load ScriptableObject assets
-        self._load_scriptable_objects()
 
     # =========================================================================
     # GPU init / cleanup  (called by WindowBase)
@@ -828,24 +824,6 @@ class Window3D(WindowBase):
         vao = self._ctx.vertex_array(program, content)
         self._shader_vao_cache[cache_key] = vao
         return vao
-
-    def _load_scriptable_objects(self) -> None:
-        """
-        Load all ScriptableObject assets from the project directory.
-        
-        This ensures all ScriptableObject instances are available via
-        ScriptableObject.get() when the game starts.
-        """
-        try:
-            from ..scriptable_object import ScriptableObject
-            
-            loaded = ScriptableObject.load_all_assets(self.project_root)
-            if loaded:
-                print(f"Loaded {len(loaded)} ScriptableObject assets from {self.project_root}")
-                    
-        except Exception as e:
-            # Silently ignore errors during loading - assets might not exist
-            pass
 
     @property
     def light(self) -> Optional[DirectionalLight3D]:

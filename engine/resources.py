@@ -5,7 +5,7 @@ Provides a simple API for loading game resources (prefabs, scriptable objects,
 materials, scenes) from the Assets folder.
 
 Example:
-    from engine.d3 import Resources, GameObject, ScriptableObject
+    from engine import Resources, GameObject, ScriptableObject
     
     # Load a single prefab
     player = Resources.load(GameObject, "prefabs/player")
