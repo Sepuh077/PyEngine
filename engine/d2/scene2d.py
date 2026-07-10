@@ -134,6 +134,7 @@ class Scene2D(Scene):
         super().clear_objects()
         self._cameras.clear()
         self._main_camera = None
+        # _updatables already cleared by super()
 
     # -- Light compatibility (for 3D render path) ----------------------------
 

@@ -39,6 +39,12 @@ class GameObject:
         # to skip objects whose components are all no-op (Transform, Object2D, …).
         self._scripts: List[Script] = []
 
+        # Cached references to common behavioral components for zero-search
+        # fast paths inside the Cython update loop and physics.
+        self._rigidbody = None   # Rigidbody2D or Rigidbody3D
+        self._animator = None
+        self._particle_system = None  # ParticleSystem for simulation updates
+
         # Coroutines state
         self._active_coroutines: List[Dict[str, Any]] = []
         self._end_of_frame_coroutines: List[Dict[str, Any]] = []
@@ -92,12 +98,99 @@ class GameObject:
             Tag.create(str(value))  # Auto-register string tags
 
     def add_component(self, component: Component) -> Component:
+        # Enforce that certain components are singular per GameObject.
+        # Multiple Scripts are allowed and encouraged; Rigidbody, Animator,
+        # and ParticleSystem are designed as one-per-object.
+        cls_name = component.__class__.__name__
+        if cls_name in ("Rigidbody3D", "Rigidbody2D", "Rigidbody"):
+            existing = self._rigidbody
+            if existing is not None:
+                if existing is component:
+                    # Re-adding the same instance is a no-op
+                    return component
+                raise ValueError(
+                    f"GameObject '{self.name}' already has a Rigidbody "
+                    f"({existing.__class__.__name__}). "
+                    "Only one Rigidbody is allowed per GameObject. "
+                    "Remove the existing one with remove_component() first "
+                    "if you intend to replace it."
+                )
+        elif cls_name == "Animator":
+            existing = self._animator
+            if existing is not None:
+                if existing is component:
+                    return component
+                raise ValueError(
+                    f"GameObject '{self.name}' already has an Animator. "
+                    "Only one Animator is allowed per GameObject. "
+                    "Remove the existing one with remove_component() first "
+                    "if you intend to replace it."
+                )
+        elif cls_name == "ParticleSystem":
+            existing = self._particle_system
+            if existing is not None:
+                if existing is component:
+                    return component
+                raise ValueError(
+                    f"GameObject '{self.name}' already has a ParticleSystem. "
+                    "Only one ParticleSystem is allowed per GameObject. "
+                    "Remove the existing one with remove_component() first "
+                    "if you intend to replace it."
+                )
+
         component.game_object = self
         self.components.append(component)
+
         if isinstance(component, Script):
             self._scripts.append(component)
+            if self._scene is not None:
+                self._scene._register_updatable(self)
+
+        # Cache hot behavioral components so that the Cython game loop and
+        # other hot paths can do cheap attribute access instead of get_component
+        # linear searches + isinstance.
+        if cls_name in ("Rigidbody3D", "Rigidbody2D", "Rigidbody"):
+            self._rigidbody = component
+            if self._scene is not None:
+                self._scene._register_updatable(self)
+        elif cls_name == "Animator":
+            self._animator = component
+            if self._scene is not None:
+                self._scene._register_updatable(self)
+        elif cls_name == "ParticleSystem":
+            self._particle_system = component
+            if self._scene is not None:
+                self._scene._register_updatable(self)
+
         component.on_attach()
         return component
+
+    def remove_component(self, component: Component) -> bool:
+        """Remove a component from this GameObject.
+
+        Returns True if the component was found and removed.
+        Also cleans cached fast-path references used by the entity container.
+        """
+        if component not in self.components:
+            return False
+
+        self.components.remove(component)
+
+        if component in self._scripts:
+            self._scripts.remove(component)
+
+        # Clear caches used by the fast Cython entity/container paths
+        if self._rigidbody is component:
+            self._rigidbody = None
+        if self._animator is component:
+            self._animator = None
+        if self._particle_system is component:
+            self._particle_system = None
+
+        # If this removal leaves the object with no behavior, we could prune
+        # from scene._updatables, but we leave it (harmless) or let rebuild do it.
+        component.game_object = None
+        return True
 
     def start_coroutine(self, routine: Generator) -> Generator:
         """Starts a coroutine on this GameObject."""
@@ -116,6 +209,10 @@ class GameObject:
         if wait is None:
             wait = WaitForFrames(1)
         
+        # Having any active coroutine means this object needs per-frame work
+        if self._scene is not None:
+            self._scene._register_updatable(self)
+
         entry = {
             "generator": routine,
             "wait_instruction": wait

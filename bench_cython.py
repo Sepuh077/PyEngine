@@ -216,6 +216,13 @@ def bench_gameloop(n_objects, n_frames):
             go.add_component(TinyScript())
         objects.append(go)
 
+    # Simulate the fast container: build an "updatables" list exactly like Scene does
+    updatables = [go for go in objects
+                  if (getattr(go, "_scripts", None) and len(go._scripts) > 0)
+                  or getattr(go, "_active_coroutines", None)
+                  or getattr(go, "_rigidbody", None) is not None
+                  or getattr(go, "_animator", None) is not None]
+
     # Detect whether the Cython game loop is available
     try:
         from engine.cython import CYTHON_ENABLED
@@ -231,13 +238,16 @@ def bench_gameloop(n_objects, n_frames):
 
     start = perf_counter()
     for _ in range(n_frames):
+        # When the fast entity container is active the engine passes the
+        # (much smaller) updatables list instead of the full objects list.
+        update_list = updatables if use_cy else objects
         if use_cy:
-            cy_update_objects(objects, dt)
-            cy_update_end_of_frame(objects, dt)
+            cy_update_objects(update_list, dt)
+            cy_update_end_of_frame(update_list, dt)
         else:
-            for obj in objects:
+            for obj in update_list:
                 obj.update()
-            for obj in objects:
+            for obj in update_list:
                 obj.update_end_of_frame()
     return perf_counter() - start
 

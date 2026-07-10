@@ -348,6 +348,9 @@ class Scene3D(Scene):
                 if self._main_camera is None:
                     self._main_camera = cam
         
+        # Keep the fast updatable container in sync (for large scenes)
+        self._register_updatable_if_needed(go)
+        
         return go
     
     def remove_object(self, obj: GameObject):
@@ -384,6 +387,7 @@ class Scene3D(Scene):
                             self._main_camera = self._cameras[0] if self._cameras else None
                 
                 self.objects.remove(descendant)
+                self._unregister_updatable(descendant)
         
         # Now remove the main object
         obj3d = obj.get_component(Object3D)
@@ -401,6 +405,7 @@ class Scene3D(Scene):
                     self._main_camera = self._cameras[0] if self._cameras else None
 
         self.objects.remove(obj)
+        self._unregister_updatable(obj)
         
         # Clear scene reference
         if hasattr(obj, '_scene'):
@@ -418,6 +423,8 @@ class Scene3D(Scene):
             if hasattr(obj, '_scene'):
                 obj._scene = None
         self.objects.clear()
+        if hasattr(self, '_updatables'):
+            self._updatables.clear()
         self._cameras.clear()
         self._main_camera = None
     

@@ -403,6 +403,17 @@ class ParticleSystem(Component):
         self._playing = True
         self._elapsed = 0.0
         self._emit_timer = 0.0
+        # Emit immediately so bursts are visible right away (instead of waiting
+        # the full interval after play_on_awake). The timer will then drive
+        # subsequent periodic bursts.
+        try:
+            b = self.burst if isinstance(self.burst, ParticleBurst) else ParticleBurst()
+            count = b.count
+            if getattr(b, "randomize", False):
+                count = self._rng.randint(0, max(b.count, 0))
+            self.emit(max(0, int(count)))
+        except Exception:
+            pass  # defensive, in case partially initialized
 
     def stop(self, clear_particles: bool = False) -> None:
         self._playing = False

@@ -26,6 +26,14 @@ class Scene:
     def __init__(self):
         self.window = None
         self.objects: List[GameObject] = []
+        # Updatables is a (usually much smaller) list of GameObjects that have
+        # Scripts, Rigidbodies, Animators or active coroutines.  The Cython
+        # game loop and other simulation code iterate only this list for very
+        # large scenes full of passive objects.
+        self._updatables: List[GameObject] = []
+        # Optional Cython-backed fast container (used for scans/rebuilds and
+        # future direct C-level iteration).
+        self._entity_container = None
         self._setup_done = False
         # Lazy-init canvas to avoid import issues at module level
         self._canvas: Optional['UIManager'] = None
@@ -73,6 +81,8 @@ class Scene:
 
         self.objects.append(obj)
         obj._scene = self
+        # Register for fast simulation path if this object carries behavior
+        self._register_updatable_if_needed(obj)
         return obj
 
     def remove_object(self, obj: GameObject):
@@ -91,15 +101,71 @@ class Scene:
                 self.objects.remove(desc)
                 if hasattr(desc, '_scene'):
                     desc._scene = None
+                self._unregister_updatable(desc)
         self.objects.remove(obj)
         if hasattr(obj, '_scene'):
             obj._scene = None
+        self._unregister_updatable(obj)
 
     def clear_objects(self):
         for obj in self.objects:
             if hasattr(obj, '_scene'):
                 obj._scene = None
         self.objects.clear()
+        if hasattr(self, '_updatables'):
+            self._updatables.clear()
+
+    # -- Fast entity/component container support ---------------------------
+
+    def _register_updatable(self, obj: 'GameObject'):
+        """Register a GameObject as requiring per-frame simulation work.
+
+        This is called automatically when Scripts, Rigidbodies, Animators or
+        coroutines are added.  The Cython fast path will iterate only the
+        much smaller _updatables list instead of every object in the scene.
+        """
+        if not hasattr(self, '_updatables'):
+            self._updatables = []
+        if obj not in self._updatables:
+            self._updatables.append(obj)
+
+        # Also feed the Cython container when present (for advanced use / rebuilds)
+        if self._entity_container is not None:
+            try:
+                self._entity_container._ensure_updatable(obj)
+            except Exception:
+                pass
+
+    def _unregister_updatable(self, obj: 'GameObject'):
+        """Remove an object from the updatables fast list (called on remove)."""
+        if hasattr(self, '_updatables') and obj in self._updatables:
+            self._updatables.remove(obj)
+
+    def _register_updatable_if_needed(self, obj: 'GameObject'):
+        """Check object state and register only if it has behavioral components."""
+        if (getattr(obj, '_scripts', None) and len(obj._scripts) > 0) or \
+           getattr(obj, '_active_coroutines', None) or \
+           getattr(obj, '_end_of_frame_coroutines', None) or \
+           getattr(obj, '_rigidbody', None) is not None or \
+           getattr(obj, '_animator', None) is not None or \
+           getattr(obj, '_particle_system', None) is not None:
+            self._register_updatable(obj)
+
+    def _ensure_entity_container(self):
+        """Lazily create the Cython fast entity container if acceleration is on."""
+        if self._entity_container is not None:
+            return
+        try:
+            from engine.cython import CYTHON_ENABLED
+            if not CYTHON_ENABLED:
+                return
+            from engine.cython.cy_entities import EntityContainer
+            self._entity_container = EntityContainer()
+            # Seed it with whatever we already have
+            for o in self._updatables:
+                self._entity_container._ensure_updatable(o)
+        except Exception:
+            self._entity_container = None
 
     def get_objects_by_name(self, name: str) -> List[GameObject]:
         return [o for o in self.objects if o.name == name]
@@ -189,6 +255,35 @@ class Scene:
     def draw_image(self, image, x, y, scale=1.0, alpha=1.0):
         if self.window:
             self.window.draw_image(image, x, y, scale, alpha)
+
+    # -- Fast Cython entity/component container support ---------------------
+
+    def rebuild_updatables(self):
+        """
+        Rebuild the _updatables list by scanning all objects.
+
+        Uses the Cython EntityContainer (from cy_entities) for a fast C-level
+        scan when Cython acceleration is available.  This is the main hook
+        for the "fast container for very large numbers of objects".
+        """
+        self._ensure_entity_container()
+        if self._entity_container is not None:
+            try:
+                self._updatables = self._entity_container.collect_updatables(self.objects)
+                return
+            except Exception:
+                pass
+
+        # Pure-Python fallback scan
+        self._updatables = [
+            obj for obj in self.objects
+            if (getattr(obj, '_scripts', None) and len(obj._scripts) > 0) or
+               getattr(obj, '_active_coroutines', None) or
+               getattr(obj, '_end_of_frame_coroutines', None) or
+               getattr(obj, '_rigidbody', None) is not None or
+               getattr(obj, '_animator', None) is not None or
+               getattr(obj, '_particle_system', None) is not None
+        ]
 
 
 class SceneManager:

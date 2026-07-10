@@ -6,6 +6,10 @@ Provides a fast update path that skips GameObjects whose components are all
 no-ops (Transform, Object2D, etc.) and only dispatches to Python for
 GameObjects that carry Script subclasses or active coroutines.
 
+When used together with Scene._updatables (maintained via the Cython
+EntityContainer in cy_entities), the loop only ever sees the small subset
+of objects that actually need work.
+
 The user writes exactly the same pure-Python Script code; the speed-up comes
 from eliminating thousands of empty ``comp.update()`` calls per frame on
 passive objects (background sprites, static decorations, etc.).
@@ -13,12 +17,11 @@ passive objects (background sprites, static decorations, etc.).
 
 
 def cy_update_objects(list objects, double delta_time):
-    """Update all GameObjects, skipping those with no scripts, coroutines, animators or rigidbodies.
+    """Update all GameObjects, skipping those with no scripts, coroutines, animators, rigidbodies or particle systems.
 
     For each object:
-      - If it has scripts/active coroutines/animators/rigidbodies, run the relevant
-        updates (scripts + explicit Rigidbody/Animator updates to ensure physics
-        and behavior components run).
+      - If it has scripts/active coroutines/animators/rigidbodies/ParticleSystem, run the relevant
+        updates (scripts + explicit Rigidbody/Animator/ParticleSystem updates).
       - Otherwise skip it entirely (big win for scenes full of static visuals).
 
     Objects that have neither (e.g. background stars with only Transform +
@@ -35,18 +38,11 @@ def cy_update_objects(list objects, double delta_time):
     cdef object obj, script
     cdef list scripts
 
-    # Import rigidbodies and animator once (for explicit update of behavior components)
-    RB2 = RB3 = None
-    AnimatorCls = None
+    # Import ParticleSystem for explicit update (like we do for RB/Animator)
+    PS = None
     try:
-        from engine.d2.physics.rigidbody import Rigidbody2D as _RB2
-        from engine.d3.physics.rigidbody import Rigidbody3D as _RB3
-        RB2, RB3 = _RB2, _RB3
-    except Exception:
-        pass
-    try:
-        from engine.animation.animator import Animator as _Animator
-        AnimatorCls = _Animator
+        from engine.d3.particle import ParticleSystem as _PS
+        PS = _PS
     except Exception:
         pass
 
@@ -56,27 +52,30 @@ def cy_update_objects(list objects, double delta_time):
 
         scripts = obj._scripts
         ns = <Py_ssize_t>len(scripts)
-        has_anim = False
-        anim = None
-        if AnimatorCls is not None:
+
+        # Fast path: use cached direct references populated by GameObject.add_component
+        # instead of calling the Python get_component() which does linear search.
+        anim = getattr(obj, '_animator', None)
+        has_anim = anim is not None
+
+        rb = getattr(obj, '_rigidbody', None)
+        has_rb = rb is not None
+
+        has_ps = False
+        ps = getattr(obj, '_particle_system', None)
+        if ps is not None:
+            has_ps = True
+        elif PS is not None:
+            # Fallback to get_component (for objects added before cache was introduced)
             try:
-                anim = obj.get_component(AnimatorCls)
-                has_anim = anim is not None
+                ps = obj.get_component(PS)
+                has_ps = ps is not None
             except Exception:
                 pass
 
-        has_rb = False
-        rb = None
-        if RB2 is not None or RB3 is not None:
-            try:
-                rb = obj.get_component(RB2) or obj.get_component(RB3)
-                has_rb = rb is not None
-            except Exception:
-                pass
-
-        # Update objects that have scripts, coroutines, Animators, or Rigidbodies
-        # (Rigidbody updates are required for physics-driven objects even without scripts)
-        needs_update = (ns > 0) or bool(obj._active_coroutines) or has_anim or has_rb
+        # Update objects that have scripts, coroutines, Animators, Rigidbodies or ParticleSystems
+        # (Rigidbody/ParticleSystem updates are required even without scripts)
+        needs_update = (ns > 0) or bool(getattr(obj, '_active_coroutines', None)) or has_anim or has_rb or has_ps
 
         if needs_update:
             if ns > 0:
@@ -96,7 +95,13 @@ def cy_update_objects(list objects, double delta_time):
                 except Exception:
                     pass
 
-        if obj._active_coroutines:
+            if has_ps and ps is not None:
+                try:
+                    ps.update()
+                except Exception:
+                    pass
+
+        if getattr(obj, '_active_coroutines', None):
             obj._update_coroutines(delta_time)
 
 
@@ -119,5 +124,5 @@ def cy_update_end_of_frame(list objects, double delta_time):
     n = <Py_ssize_t>len(objects)
     for i in range(n):
         obj = <object>objects[i]
-        if obj._end_of_frame_coroutines:
+        if getattr(obj, '_end_of_frame_coroutines', None):
             obj._update_end_of_frame_coroutines(delta_time)

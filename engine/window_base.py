@@ -610,6 +610,8 @@ class WindowBase:
             self.setup()
             self._setup_done = True
         if start_components:
+            # One-time lifecycle: run on every object (cheap, and some non-behavior
+            # components may still implement start/awake).
             for obj in self._active_objects():
                 obj.start_components()
 
@@ -631,7 +633,15 @@ class WindowBase:
                 self._current_scene.on_update()
             self.on_update()
 
-            active = self._active_objects()
+            # Use the fast Cython entity container's updatables list when available.
+            # For scenes with thousands of passive objects this avoids touching
+            # the vast majority of them every frame.
+            scene = self._current_scene
+            if scene is not None and getattr(scene, '_updatables', None):
+                active = scene._updatables
+            else:
+                active = self._active_objects()
+
             if _USE_CYTHON_GAMELOOP:
                 _cy_update_objects(active, raw_dt)
             else:

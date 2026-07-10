@@ -24,9 +24,10 @@ project_root = os.path.dirname(current_file_dir)
 sys.path.insert(0, project_root)
 
 from engine.d3 import (
-    Resources, GameObject, ScriptableObject, InspectorField, Scene3D
+    Resources, GameObject, InspectorField, Scene3D
 )
 from engine.graphics import Material, LitMaterial
+from engine import ScriptableObject
 import tempfile
 
 
