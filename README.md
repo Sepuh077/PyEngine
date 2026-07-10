@@ -169,7 +169,7 @@ Editor layout:
 ### Basic Example
 ```python
 from engine.d3 import Window3D, Scene3D, Keys, Time
-from pyengine.input import Input
+from engine.input import Input
 
 class BasicGame(Scene3D):
     def setup(self):
@@ -195,7 +195,7 @@ window.run()
 ### Scene Switching
 ```python
 from engine.d3 import Window3D, Scene3D, Keys, Time
-from pyengine.input import Input
+from engine.input import Input
 
 class MenuScene(Scene3D):
     def setup(self):
@@ -387,12 +387,12 @@ window.run()
 ### Physics
 ```python
 from engine.d3 import Window3D, Scene3D, create_cube, Script, Time
-from pyengine.physics import BoxCollider, SphereCollider, Rigidbody
-from pyengine.input import Input, Keys
+from engine.d3.physics import BoxCollider3D, SphereCollider3D, Rigidbody3D
+from engine.input import Input, Keys
 
 class PlayerController(Script):
     def start(self):
-        self.rb = self.get_component(Rigidbody)
+        self.rb = self.get_component(Rigidbody3D)
 
     def update(self):
         if Input.get_key(Keys.SPACE):
@@ -405,13 +405,13 @@ class PhysicsDemo(Scene3D):
         # Ground with box collider
         ground = create_cube(size=1, position=(0, -1, 0))
         ground.transform.scale = (20, 1, 20)
-        ground.add_component(BoxCollider(size=(20, 1, 20)))
+        ground.add_component(BoxCollider3D(size=(20, 1, 20)))
         self.add_object(ground)
 
         # Falling sphere
         ball = create_cube(size=1, position=(0, 5, 0))
-        ball.add_component(SphereCollider(radius=0.5))
-        ball.add_component(Rigidbody())
+        ball.add_component(SphereCollider3D(radius=0.5))
+        ball.add_component(Rigidbody3D())
         ball.add_component(PlayerController())
         self.add_object(ball)
 
@@ -586,7 +586,7 @@ Key parameters: `speed`, `particle_life`, `size`, `color`, `gravity_scale`, `max
 ### Input
 
 ```python
-from pyengine.input import Input, Keys
+from engine.input import Input, Keys
 
 if Input.get_key(Keys.W):        # held down
     ...
@@ -609,7 +609,7 @@ plane = create_plane(size=10.0)
 ### Color
 
 ```python
-from pyengine.types import Color
+from engine.types import Color
 
 Color.WHITE, Color.RED, Color.ORANGE, Color.SKY_BLUE  # predefined
 Color.from_rgb(255, 128, 0)   # from 0-255 values
@@ -639,53 +639,77 @@ For large scenes, mark objects as `static = True` and call
 ## Project Structure
 
 ```
-pyengine/
-  pyengine/               # Core engine
-    __init__.py            # Public API exports
-    window.py              # Window3D (main loop, rendering, shaders)
-    scene.py               # Scene3D, SceneManager
-    gameobject.py          # GameObject, Prefab
-    component.py           # Component, Script, Time, Tag, InspectorField
-    transform.py           # Transform (hierarchy, dirty-flag caching)
-    object3d.py            # Object3D, create_cube/sphere/plane
-    camera.py              # Camera3D, Viewport, ClearFlags, RenderLayer
-    light.py               # DirectionalLight3D, PointLight3D
-    particle.py            # ParticleSystem, shapes, lifetime curves
-    scriptable_object.py   # ScriptableObject, registry
-    resources.py           # Resource loading/caching
-    build.py               # Build system (PyInstaller/Nuitka)
-    drawing.py             # Arcade-style 2D drawing helpers
-    graphics/
-      material.py          # Material classes (Unlit, Lit, Specular, etc.)
-      shadow.py            # ShadowMap, OmnidirectionalShadowMap, ShadowRenderer
-    ui/
-      core.py              # UIElement, UIContainer, UIEvent
-      widgets.py           # Label, Button, CheckBox, Slider, ProgressBar, Panel
-      manager.py           # UIManager
-  input/
-    input.py               # Input state tracking
-    keys.py                # Key constants
-  physics/
-    collider.py            # BoxCollider, SphereCollider, MeshCollider
-    collision.py           # Collision detection
-    collision_manifold.py  # Contact point resolution
-    rigidbody.py           # Rigidbody dynamics
-    raycast.py             # Raycasting
-    group.py               # CollisionGroup filtering
-    geometry.py            # Geometry helpers
-  types/
-    vector3.py             # Vector3
-    color.py               # Color
-  editor/                  # PySide6 editor (optional)
-    window.py              # EditorWindow
-    viewport.py            # 3D viewport widget
-    scene.py               # Scene panel
-    selection.py           # Selection management
-    gizmo.py               # Transform gizmos
-    undo.py                # Undo/redo system
-examples/                  # Runnable examples
-tests/                     # Test suite
+engine/
+├── __init__.py                 # Core exports (GameObject, Script, Time, Tag, ...)
+├── d2/                         # 2D engine
+│   ├── window2d.py             # Window2D
+│   ├── scene2d.py              # Scene2D
+│   ├── object2d.py, sprite.py  # 2D renderables
+│   ├── camera2d.py
+│   └── physics/
+│       ├── __init__.py
+│       ├── collider.py         # Collider2D, BoxCollider2D, CircleCollider2D, ...
+│       ├── rigidbody.py        # Rigidbody2D
+│       ├── raycast.py
+│       ├── collision.py
+│       ├── collision_bool.py
+│       ├── collision_manifold.py
+│       ├── geometry.py
+│       └── types.py
+├── d3/                         # 3D engine
+│   ├── window.py               # Window3D (main loop, rendering, shadows)
+│   ├── scene.py                # Scene3D
+│   ├── object3d.py             # Object3D + create_cube/sphere/plane
+│   ├── camera.py               # Camera3D, Viewport, ClearFlags, RenderLayer
+│   ├── light.py                # Lights (Directional, Point) + shadow support
+│   ├── particle.py             # ParticleSystem + shapes + curves
+│   └── physics/
+│       ├── __init__.py
+│       ├── collider.py         # Collider3D, BoxCollider3D, SphereCollider3D, CapsuleCollider3D, ...
+│       ├── rigidbody.py        # Rigidbody3D
+│       ├── raycast.py
+│       ├── group.py            # CollisionGroup filtering
+│       ├── collision.py
+│       ├── collision_bool.py
+│       ├── collision_manifold.py
+│       ├── geometry.py
+│       └── types.py
+├── animation/                  # KeyFrame, AnimationClip, Animator (state machine)
+├── graphics/                   # Materials and custom shaders
+│   ├── material.py             # Unlit, Lit, Specular, Transparent, Skybox, ...
+│   ├── shader.py
+│   ├── shader_material.py
+│   └── shadow.py               # Shadow mapping
+├── ui/                         # 2D UI system
+│   ├── widgets.py              # Label, Button, Slider, ProgressBar, Panel, ...
+│   └── manager.py              # UIManager (accessed via scene.canvas)
+├── editor/                     # PySide6 editor
+│   ├── window.py
+│   ├── viewport.py
+│   ├── scene.py
+│   ├── gizmo.py
+│   └── ...
+├── input/                      # Input, Keys, MouseButtons
+├── types/                      # Vector2, Vector3, Color, Quaternion
+├── component.py                # Component, Script, InspectorField, serializable, ...
+├── gameobject.py               # GameObject, Prefab
+├── transform.py                # Position/rotation/scale + parent-child hierarchy
+├── scene.py                    # Base Scene + SceneManager (loading/saving)
+├── resources.py                # Centralized mesh/texture loading
+├── scriptable_object.py        # ScriptableObject + InspectorField (data assets)
+├── drawing.py                  # Arcade-style immediate-mode 2D drawing
+├── audio.py                    # AudioClip, AudioSource, AudioListener
+├── build.py                    # Packaging helpers
+├── cli.py                      # `pyengine` CLI (startproject, run, build, editor)
+├── window_base.py              # Shared window infrastructure
+└── cython/                     # Performance-critical Cython extensions (.pyx)
 ```
+
+Top-level in the repository:
+- `examples/` – runnable demos
+- `tests/`
+- `Scenes/`, `example/`
+- `pyproject.toml`, `setup_cython.py`
 
 ## Performance
 
