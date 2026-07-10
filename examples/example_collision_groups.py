@@ -6,7 +6,6 @@ Also demonstrates OnCollisionEnter/Exit/Stay callbacks.
 import os
 import sys
 import math
-import pygame
 
 # Add project root to path
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,7 +15,7 @@ sys.path.insert(0, project_root)
 from engine.d3 import Window3D, Scene3D, GameObject, Time
 from engine.d3.object3d import create_cube, create_plane, Object3D
 from engine.d3.physics import CollisionMode, CollisionRelation, BoxCollider3D, SphereCollider3D, Rigidbody3D, Collider3D, ColliderGroup
-from engine.input import Keys
+from engine.input import Input, Keys
 from engine.types import Color
 
 
@@ -142,17 +141,16 @@ class CollisionGroupsScene(Scene3D):
     
     def on_update(self):
         delta_time = Time.delta_time
-        # Player movement with WASD + arrows for Y
+        # Player movement with WASD + arrows for Y (use Input class directly)
         dx = dy = dz = 0.0
         speed = self.player.move_speed
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+        if Input.get_key(Keys.A) or Input.get_key(Keys.LEFT):
             dx -= speed
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+        if Input.get_key(Keys.D) or Input.get_key(Keys.RIGHT):
             dx += speed
-        if keys[pygame.K_w] or keys[pygame.K_UP]:
+        if Input.get_key(Keys.W) or Input.get_key(Keys.UP):
             dz -= speed
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+        if Input.get_key(Keys.S) or Input.get_key(Keys.DOWN):
             dz += speed
         
         self.player.get_component(Rigidbody3D).velocity[0] = dx
@@ -178,17 +176,17 @@ class CollisionGroupsScene(Scene3D):
             self.window.close()
         elif key == Keys.SPACE:
             self.show_colliders = not self.show_colliders
-        elif key == pygame.K_c:
+        elif key == Keys.C:
             # Cycle collision mode (on collider)
             pcoll = self.player.get_component(Collider3D)
             if pcoll:
                 self.player.mode_idx = (self.player.mode_idx + 1) % len(self.player.collision_modes)
                 pcoll.collision_mode = self.player.collision_modes[self.player.mode_idx]
-        elif key == pygame.K_1:
+        elif key == Keys.KEY_1:
             self.player.move_speed = 10.0
-        elif key == pygame.K_2:
+        elif key == Keys.KEY_2:
             self.player.move_speed = 100.0
-        elif key == pygame.K_3:
+        elif key == Keys.KEY_3:
             self.player.move_speed = 1000.0
     
     def on_draw(self):
@@ -229,7 +227,7 @@ if __name__ == "__main__":
     print()
     print("Watch console for prints/color changes.")
     print()
-    window = Window3D(900, 600, "PyEngine - ColliderGroup Demo")
+    window = Window3D(900, 600, "PyEngine - ColliderGroup Demo", project_root=".")
     scene = CollisionGroupsScene()
     window.show_scene(scene)
     window.run()

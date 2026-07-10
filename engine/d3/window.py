@@ -1068,59 +1068,61 @@ class Window3D(WindowBase):
             # Continuous sweep (per obj of collider)
             a = ca.game_object
             if ca.collision_mode == CollisionMode.CONTINUOUS:
+                from engine.types import Vector3
                 delta = a.transform._local_position - a.transform._prev_position
                 speed = np.linalg.norm(delta)
                 if speed > 1e-6:
-                    a.transform._local_position = np.copy(a.transform._prev_position)
-                    a.transform._mark_dirty()
                     steps = max(1, int(speed / 0.1))
-                    step = delta / steps
-                    last_safe = np.copy(a.transform._local_position)
-                    
-                    for _ in range(steps):
-                        a.transform._local_position += step
+                    if steps > 1:
+                        # Only sweep-subdivide when the frame delta warrants multiple samples (>~0.1 units)
+                        # For smaller (slow) moves, rely on the final normal snapshot to avoid fp/type artifacts
+                        # and ensure consistent detection with NORMAL mode.
+                        a.transform._local_position = Vector3(a.transform._prev_position)
                         a.transform._mark_dirty()
-                        hit_solid = False
-                        for cb in all_cols:
-                            if cb is ca or cb.game_object is a:
-                                continue
-                            # ColliderGroup: IGNORE skip; TRIGGER detect/pass; SOLID block
-                            relation = ca.group.get_relation(cb.group)
-                            if relation == CollisionRelation.IGNORE:
-                                continue
-                            if ca.check_collision(cb):
-                                current_collisions[ca].add(cb)
-                                current_collisions[cb].add(ca)
-                                # block only on SOLID (TRIGGER passes)
-                                if relation == CollisionRelation.SOLID:
-                                    manifold = get_collision_manifold(ca, cb)
-                                    if manifold:
-                                        self._resolve_collision(a, cb.game_object, manifold)
-                                        # Project remaining step along the wall to slide
-                                        step_np = np.array([step.x, step.y, step.z]) if hasattr(step, 'x') else np.array(step)
-                                        dot = float(np.dot(step_np, manifold.normal))
-                                        if dot < 0:
-                                            step_np -= dot * manifold.normal
-                                            if hasattr(step, 'x'):
-                                                step = type(step)(*step_np)
-                                            else:
-                                                step = step_np
-                                    else:
-                                        # Fallback if no manifold could be generated
-                                        a.transform._local_position = np.copy(last_safe)
-                                        a.transform._mark_dirty()
-                                        if a.get_component(Rigidbody3D):
-                                            from engine.types import Vector3
-                                            a.get_component(Rigidbody3D).velocity = Vector3.zero()
-                                    hit_solid = True
+                        step = delta / steps
+                        last_safe = Vector3(a.transform._local_position)
+                        
+                        for _ in range(steps):
+                            a.transform._local_position = a.transform._local_position + step
+                            a.transform._mark_dirty()
+                            hit_solid = False
+                            for cb in all_cols:
+                                if cb is ca or cb.game_object is a:
+                                    continue
+                                # ColliderGroup: IGNORE skip; TRIGGER detect/pass; SOLID block
+                                relation = ca.group.get_relation(cb.group)
+                                if relation == CollisionRelation.IGNORE:
+                                    continue
+                                if ca.check_collision(cb):
+                                    current_collisions[ca].add(cb)
+                                    current_collisions[cb].add(ca)
+                                    # block only on SOLID (TRIGGER passes)
+                                    if relation == CollisionRelation.SOLID:
+                                        manifold = get_collision_manifold(ca, cb)
+                                        if manifold:
+                                            self._resolve_collision(a, cb.game_object, manifold)
+                                            # Project remaining step along the wall to slide
+                                            step_np = np.array([float(step[0]), float(step[1]), float(step[2])])
+                                            dot = float(np.dot(step_np, manifold.normal))
+                                            if dot < 0:
+                                                step_np -= dot * manifold.normal
+                                                step = Vector3(step_np)
+                                        else:
+                                            # Fallback if no manifold could be generated
+                                            a.transform._local_position = Vector3(last_safe)
+                                            a.transform._mark_dirty()
+                                            if a.get_component(Rigidbody3D):
+                                                from engine.types import Vector3
+                                                a.get_component(Rigidbody3D).velocity = Vector3.zero()
+                                        hit_solid = True
+                                        break
+                            if hit_solid:
+                                step_np = np.array([float(step[0]), float(step[1]), float(step[2])])
+                                if np.linalg.norm(step_np) < 1e-6:
                                     break
-                        if hit_solid:
-                            step_np = np.array([step.x, step.y, step.z]) if hasattr(step, 'x') else np.array(step)
-                            if np.linalg.norm(step_np) < 1e-6:
-                                break
-                        last_safe = np.copy(a.transform._local_position)
-                    else:
-                        perform_final_check = False
+                            last_safe = Vector3(a.transform._local_position)
+                        else:
+                            perform_final_check = False
             
             # Normal snapshot
             if perform_final_check:
