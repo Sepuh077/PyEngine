@@ -23,6 +23,18 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
+# Use the fully Cython cdef class when available
+try:
+    from engine.cython import CYTHON_ENABLED as _cy_en
+    if _cy_en:
+        from engine.cython.cy_vector2 import Vector2 as _CVector2
+        import sys as _sys
+        _this = _sys.modules[__name__]
+        _this.Vector2 = _CVector2
+except Exception:
+    pass
+
+
 class Vector2:
     """
     A 2D vector class with Unity-like API.
@@ -470,3 +482,12 @@ if _USE_CYTHON:
         nx, ny = _cy_norm(self._x, self._y)
         return Vector2(nx, ny)
     Vector2.normalized = property(_vec2_norm)
+
+# Override with cdef class
+try:
+    from engine.cython import CYTHON_ENABLED as _cy_full
+    if _cy_full:
+        from engine.cython.cy_vector2 import Vector2 as _CVector2
+        Vector2 = _CVector2
+except Exception:
+    pass

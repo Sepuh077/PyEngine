@@ -30,6 +30,7 @@ if TYPE_CHECKING:
 
 
 
+
 class Vector3:
     """
     A 3D vector class with Unity-like API.
@@ -752,3 +753,13 @@ if _USE_CYTHON:
         nx, ny, nz = _cy_norm(self._x, self._y, self._z)
         return Vector3(nx, ny, nz)
     Vector3.normalized = property(_vec3_norm)
+
+# Override with the fully Cython cdef class if the compiled module is present.
+# This must be after the pure Python class and any rebinding.
+try:
+    from engine.cython import CYTHON_ENABLED as _cy_full
+    if _cy_full:
+        from engine.cython.cy_vector3 import Vector3 as _CVector3
+        Vector3 = _CVector3
+except Exception:
+    pass

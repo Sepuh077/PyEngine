@@ -25,6 +25,18 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
+# Use the fully Cython cdef class when available
+try:
+    from engine.cython import CYTHON_ENABLED as _cy_en
+    if _cy_en:
+        from engine.cython.cy_quaternion import Quaternion as _CQuaternion
+        import sys as _sys
+        _this = _sys.modules[__name__]
+        _this.Quaternion = _CQuaternion
+except Exception:
+    pass
+
+
 class Quaternion:
     """
     A quaternion for representing 3D rotations without gimbal lock.
@@ -504,3 +516,12 @@ if _USE_CYTHON:
         nw, nx, ny, nz = _cy_qnorm(self._w, self._x, self._y, self._z)
         return Quaternion(nw, nx, ny, nz)
     Quaternion.normalized = property(_q_norm)
+
+# Override with cdef class
+try:
+    from engine.cython import CYTHON_ENABLED as _cy_full
+    if _cy_full:
+        from engine.cython.cy_quaternion import Quaternion as _CQuaternion
+        Quaternion = _CQuaternion
+except Exception:
+    pass

@@ -383,8 +383,19 @@ class Transform(Component):
         return float(self._local_scale.x)
 
     @scale.setter
-    def scale(self, value: float):
-        self._local_scale = Vector3(value, value, value)
+    def scale(self, value):
+        """Set uniform or per-axis scale.
+        
+        Accepts a scalar (for uniform scale) or a vector-like value (tuple, list,
+        Vector3, ndarray) which will be used directly for (possibly non-uniform) scale.
+        This provides robustness and backward compatibility with code that assigns
+        vectors/tuples to the 'scale' convenience property.
+        """
+        if isinstance(value, (int, float)):
+            s = float(value)
+            self._local_scale = Vector3(s, s, s)
+        else:
+            self._local_scale = Vector3(value)
         self._mark_dirty()
 
     @property
