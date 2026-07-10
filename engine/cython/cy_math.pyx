@@ -388,6 +388,53 @@ cpdef tuple rigidbody_update(
 
 
 # =========================================================================
+# 2D Rigidbody (simpler scalar angular)
+# =========================================================================
+
+cpdef tuple rigidbody_update_2d(
+    double vx, double vy,
+    double av,           # angular velocity (degrees/sec or rad/sec, caller consistent)
+    double dt,
+    double drag, double angular_drag,
+    bint use_gravity, double gravity_scale,
+    bint has_game_object,
+):
+    """
+    Lightweight 2D rigidbody integration.
+    Returns (new_vx, new_vy, move_x, move_y, new_av, need_rotate).
+    """
+    cdef double drag_factor, ang_drag_factor
+    cdef double move_x = 0.0, move_y = 0.0
+    cdef bint need_rotate = 0
+
+    if drag > 0.0:
+        drag_factor = 1.0 - drag * dt
+        if drag_factor < 0.0:
+            drag_factor = 0.0
+        vx *= drag_factor
+        if not use_gravity:
+            vy *= drag_factor
+
+    if use_gravity:
+        vy -= 9.81 * gravity_scale * dt
+
+    if has_game_object and (vx != 0.0 or vy != 0.0):
+        move_x = vx * dt
+        move_y = vy * dt
+
+    if angular_drag > 0.0:
+        ang_drag_factor = 1.0 - angular_drag * dt
+        if ang_drag_factor < 0.0:
+            ang_drag_factor = 0.0
+        av *= ang_drag_factor
+
+    if has_game_object and av != 0.0:
+        need_rotate = 1
+
+    return (vx, vy, move_x, move_y, av, need_rotate)
+
+
+# =========================================================================
 # Broadphase helpers
 # =========================================================================
 

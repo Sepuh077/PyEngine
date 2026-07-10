@@ -3,6 +3,15 @@ import numpy as np
 from engine.component import Component, Time, InspectorField
 from engine.types.vector2 import Vector2
 
+try:
+    from engine.cython import CYTHON_ENABLED
+    if not CYTHON_ENABLED:
+        raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
+    from engine.cython.cy_math import rigidbody_update_2d as _cy_rb_update_2d
+    _USE_CYTHON = True
+except (ImportError, ModuleNotFoundError):
+    _USE_CYTHON = False
+
 
 class Rigidbody2D(Component):
     """2D physics body for velocity, forces, and gravity. Similar to Unity Rigidbody2D."""
@@ -104,6 +113,29 @@ class Rigidbody2D(Component):
         if dt <= 0.0:
             return
 
+        has_go = self.game_object is not None
+
+        if _USE_CYTHON:
+            result = _cy_rb_update_2d(
+                self._velocity.x, self._velocity.y,
+                float(self._angular_velocity),
+                dt,
+                float(self.drag), float(self.angular_drag),
+                bool(self.use_gravity), float(self.gravity_scale),
+                has_go,
+            )
+            nvx, nvy, move_x, move_y, nav, need_rotate = result
+
+            self._velocity = Vector2(nvx, nvy)
+            self._angular_velocity = float(nav)
+
+            if has_go and (move_x != 0.0 or move_y != 0.0):
+                self.game_object.transform.move(move_x, move_y, 0.0)
+            if need_rotate and has_go and self._angular_velocity != 0.0:
+                self.game_object.transform.rotate(0.0, 0.0, self._angular_velocity * dt)
+            return
+
+        # --- Pure Python fallback ---
         vx = self._velocity.x
         vy = self._velocity.y
 
@@ -112,7 +144,6 @@ class Rigidbody2D(Component):
             drag_factor = max(0.0, 1.0 - self.drag * dt)
             if self.use_gravity:
                 # When gravity is on, only damp the horizontal (X) component
-                # (mirrors 3D behavior where XZ are damped but Y is not)
                 vx *= drag_factor
             else:
                 vx *= drag_factor
@@ -130,7 +161,7 @@ class Rigidbody2D(Component):
         self._velocity = Vector2(vx, vy)
 
         # --- Integration (move + rotate) ---
-        if self.game_object and (vx != 0.0 or vy != 0.0 or self._angular_velocity != 0.0):
+        if has_go and (vx != 0.0 or vy != 0.0 or self._angular_velocity != 0.0):
             self.game_object.transform.move(vx * dt, vy * dt, 0.0)
             if self._angular_velocity != 0.0:
                 self.game_object.transform.rotate(0.0, 0.0, self._angular_velocity * dt)
