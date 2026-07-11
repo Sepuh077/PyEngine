@@ -1,0 +1,13 @@
+# Include Cython sources and generated C files so that the package
+# can be built from source distributions (sdist) without requiring
+# Cython on the end-user machine (only a C compiler is needed).
+# Note: we only ship what actually exists (*.pyx + *.c). No .pxd or .pxi files.
+recursive-include engine/cython *.pyx *.c
+
+# Include the dedicated Cython build helper (for developers)
+include setup_cython.py
+
+# Core files for sdist
+include README.md
+include pyproject.toml
+include setup.py

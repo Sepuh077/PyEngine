@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
+            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-bb6qlp2q\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
         ],
         "name": "engine.cython.cy_entities",
         "sources": [
@@ -1359,7 +1359,7 @@ static const char *__pyx_filename;
 static const char* const __pyx_f[] = {
   "engine/cython/cy_entities.pyx",
   "<stringsource>",
-  "venv_linux/lib/python3.12/site-packages/Cython/Includes/cpython/type.pxd",
+  "cpython/type.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* Atomics.proto (used by UnpackUnboundCMethod) */

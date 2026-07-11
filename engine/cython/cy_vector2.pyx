@@ -41,6 +41,13 @@ cdef class Vector2:
             self._y = (<Vector2>x)._y
             return
 
+        if hasattr(x, "x") and hasattr(x, "y"):
+            # Accept Vector3 (or any object exposing .x/.y) by taking its x/y.
+            # Vector2(vec3) is explicitly supported. Extra y arg ignored.
+            self._x = float((<object>x).x)
+            self._y = float((<object>x).y)
+            return
+
         if isinstance(x, (tuple, list)):
             if len(x) < 2:
                 raise ValueError(f"Expected at least 2 elements, got {len(x)}")

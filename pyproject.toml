@@ -1,5 +1,16 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "cython>=3.0"]
+requires = [
+    # Modern setuptools is required for reliable extension compilation
+    # during `pip install -e .` (PEP 660 editable installs) and wheel builds.
+    "setuptools>=68",
+    "wheel",
+    # Cython + numpy are pulled automatically into the isolated build
+    # environment by pip. This is what allows `pip install -e .` or
+    # `pip install pyengine` to produce working Cython modules without the
+    # user manually running setup_cython.py.
+    "Cython>=3.0",
+    "numpy>=1.20.0",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,6 +20,8 @@ description = "A simple, GPU-accelerated 2D/3D game engine for Python"
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
+# SPDX expression as a simple string is the current recommended form.
+# You can alternatively use license = { text = "MIT" } on newer setuptools.
 authors = [
     {name = "PyEngine Contributors"}
 ]
@@ -35,14 +48,15 @@ dependencies = [
     "scipy>=1.10.0",
     "moderngl>=5.6.0",
     "moderngl-window>=2.4.0",
-    "setuptools>=45",
-    "cython>=3.0",
 ]
 
 [project.optional-dependencies]
 editor = ["PySide6>=6.6.0"]
-dev = ["pytest>=9.0.0"]
-all = ["PySide6>=6.6.0", "pytest>=9.0.0"]
+# dev includes Cython so that developers who edit .pyx files can easily
+# rebuild the extensions later (pip install -e .[dev] + re-run build if needed).
+dev = ["pytest>=9.0.0", "Cython>=3.0"]
+build = ["Cython>=3.0"]  # explicit build deps for people who use --no-build-isolation
+all = ["PySide6>=6.6.0", "pytest>=9.0.0", "Cython>=3.0"]
 
 [project.scripts]
 pyengine = "engine.cli:main"
@@ -57,3 +71,45 @@ Issues = "https://github.com/Sepuh077/3D-engine/issues"
 where = ["."]
 include = ["engine*"]
 exclude = ["tests*", "examples*", "example*"]
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.package-data]
+"engine.cython" = ["*.pyx", "*.pxd", "*.c", "*.pxi"]
+
+# =============================================================================
+# cibuildwheel configuration
+# This is how numpy, pandas, scikit-learn, Pillow, etc. produce wheels that
+# "just work" with pip install on all major platforms.
+# =============================================================================
+[tool.cibuildwheel]
+# Build for the Python versions we officially support
+build = "cp38-* cp39-* cp310-* cp311-* cp312-*"
+
+# Skip PyPy and musllinux (Alpine) for now. Add them later if needed.
+skip = "pp* *-musllinux*"
+
+# Show more output when building (helpful while setting this up)
+build-verbosity = 1
+
+# On Linux we get highly portable "manylinux" wheels thanks to auditwheel.
+# cibuildwheel runs auditwheel automatically.
+
+[tool.cibuildwheel.linux]
+# Use a relatively modern manylinux image. This is fine for most users.
+# You can pin a specific one if you have glibc requirements.
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+
+# Make sure build dependencies are available (already declared in build-system,
+# but being explicit here is harmless and good for documentation).
+before-build = "pip install cython numpy"
+
+[tool.cibuildwheel.macos]
+# On macOS we build native wheels for both Intel and Apple Silicon.
+# cibuildwheel on the right runner will do the right thing.
+
+[tool.cibuildwheel.windows]
+# Windows wheels are built with MSVC on the windows-* runners.

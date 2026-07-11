@@ -302,8 +302,11 @@ pyengine build
 # Build single executable file
 pyengine build --onefile
 
-# Build with Nuitka (better performance)
-pyengine build --backend nuitka
+# Build with Nuitka (RECOMMENDED if the engine's Cython modules are active)
+pyengine build --backend nuitka     # Best for Cython-accelerated engine
+
+# PyInstaller alternative (Cython .pyd files may require extra care)
+pyengine build --backend pyinstaller
 
 # Build debug version with console
 pyengine build --debug
@@ -569,8 +572,11 @@ pyengine build
 # Build single executable file
 pyengine build --onefile
 
-# Build with Nuitka (better performance)
-pyengine build --backend nuitka
+# Build with Nuitka (RECOMMENDED if the engine's Cython modules are active)
+pyengine build --backend nuitka     # Best for Cython-accelerated engine
+
+# PyInstaller alternative (Cython .pyd files may require extra care)
+pyengine build --backend pyinstaller
 
 # Build debug version with console
 pyengine build --debug
@@ -649,7 +655,7 @@ It supports multiple backends: PyInstaller and Nuitka.
 
 Usage:
     python build.py                    # Build with default settings
-    python build.py --backend nuitka   # Build with Nuitka
+    python build.py --backend nuitka   # Recommended for Cython modules
     python build.py --onefile          # Build single executable
     python build.py --clean            # Clean build files
 """

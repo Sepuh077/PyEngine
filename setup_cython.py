@@ -1,11 +1,19 @@
 """
-Build script for Cython-accelerated engine modules.
+Legacy helper to build Cython modules **in-place** inside the source tree.
 
-Usage:
+Preferred way (works for both normal usage and development):
+    pip install -e .
+
+This uses the main setup.py + pyproject.toml [build-system] and will
+automatically compile the Cython extensions as part of the editable install.
+
+Only use this script if you are doing very low-level Cython development and
+need to force a rebuild without re-running pip:
+
     python setup_cython.py build_ext --inplace
 """
 
-import os
+from pathlib import Path
 import numpy as np
 from setuptools import setup, Extension
 
@@ -16,16 +24,15 @@ except ImportError:
                        "Install it with: pip install cython")
 
 # All .pyx modules under engine/cython/
-cython_dir = os.path.join("engine", "cython")
-pyx_files = [
-    f for f in os.listdir(cython_dir)
-    if f.endswith(".pyx")
-]
+# Always use /-separated relative paths for Extension.sources
+cython_dir = Path("engine") / "cython"
+pyx_files = sorted([f for f in cython_dir.iterdir() if f.suffix == ".pyx"])
 
 extensions = []
 for pyx in pyx_files:
-    module_name = f"engine.cython.{pyx[:-4]}"  # strip .pyx
-    source = os.path.join(cython_dir, pyx)
+    module_name = f"engine.cython.{pyx.stem}"
+    # Use posix-style relative path (required by setuptools even on Windows)
+    source = pyx.as_posix()
     extensions.append(
         Extension(
             module_name,

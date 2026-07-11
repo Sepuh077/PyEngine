@@ -5,8 +5,13 @@ Benchmark script to measure Cython vs pure Python performance.
 Runs every benchmark **twice** -- first with Cython acceleration, then with
 pure-Python fallbacks -- and prints a side-by-side comparison table at the end.
 
-Usage:
+To get the Cython version (and see the speedups):
+    pip install -e .     # or pip install pyengine (for released wheels)
     python bench_cython.py
+
+After a normal pip install the Cython modules should be present and
+CYTHON_ENABLED should be True (assuming you have a working compiler for
+source installs).
 """
 import os
 import sys

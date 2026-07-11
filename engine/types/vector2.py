@@ -40,6 +40,7 @@ class Vector2:
     A 2D vector class with Unity-like API.
 
     Supports operations with numpy arrays, lists, and tuples.
+    Also accepts Vector3 (uses x,y) or any object with .x/.y attributes.
     All operations return new Vector2 instances (immutable pattern).
 
     Examples:
@@ -47,18 +48,24 @@ class Vector2:
         v2 = Vector2(3, 4)
         v3 = v1 + v2  # Vector2(4, 6)
         v4 = v1 * 2   # Vector2(2, 4)
+        v5 = Vector2(some_vector3)  # takes .x and .y
     """
 
     __slots__ = ('_x', '_y')
 
     def __init__(
         self,
-        x: Union[float, int, Tuple, list, np.ndarray, 'Vector2'] = 0.0,
+        x: Union[float, int, Tuple, list, np.ndarray, 'Vector2', 'Vector3'] = 0.0,
         y: Optional[float] = None,
     ):
         if isinstance(x, Vector2):
             self._x = x._x
             self._y = x._y
+        elif hasattr(x, "x") and hasattr(x, "y"):
+            # Accept Vector3 (or any object with .x/.y) by taking its x/y components.
+            # This makes Vector2(vec3) work naturally. Second arg (if any) is ignored.
+            self._x = float(x.x)
+            self._y = float(x.y)
         elif isinstance(x, (tuple, list)):
             if len(x) < 2:
                 raise ValueError(f"Expected at least 2 elements, got {len(x)}")

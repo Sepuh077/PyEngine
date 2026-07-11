@@ -5,8 +5,8 @@ This module provides the BuildSystem class for building PyEngine projects
 into standalone executables.
 
 Supported backends:
-- pyinstaller: Easy to use, widely supported
-- nuitka: Better performance, compiles to C
+- pyinstaller: Easy, widely supported. We auto-add --collect-all + hidden-imports for Cython.
+- nuitka: Generally more reliable with the engine's Cython .pyd modules. Recommended when using acceleration.
 
 Usage:
     from engine.build import BuildSystem
@@ -90,7 +90,28 @@ class BuildSystem:
             True if build succeeded, False otherwise
         """
         print(f"Building '{self.config.get('output_name', 'game')}' with {self.backend}...")
-        
+
+        # Detect Cython acceleration (affects bundling advice and warnings)
+        using_cython = False
+        try:
+            import engine.cython as cython_pkg
+            if getattr(cython_pkg, "CYTHON_ENABLED", False):
+                # Quick probe — if this works we have real native modules
+                from engine.cython import cy_math  # noqa: F401
+                using_cython = True
+        except Exception:
+            using_cython = False
+
+        if using_cython:
+            print("  ✓ Cython-accelerated modules detected (much faster physics/math/loop).")
+            if self.backend.lower() == "pyinstaller":
+                print("  ℹ PyInstaller support for Cython is improved but not perfect.")
+                print("    Strongly consider `--backend nuitka` for Cython-heavy games.")
+            else:
+                print("  ✓ Nuitka usually bundles Cython extensions more reliably.")
+        else:
+            print("  (Pure-Python engine — Cython speedups not active in this build)")
+
         if self.backend == "pyinstaller":
             return self._build_pyinstaller(onefile, debug)
         elif self.backend == "nuitka":
@@ -152,7 +173,39 @@ class BuildSystem:
         # Exclude modules
         for module in self.config.get("exclude_modules", []):
             args.extend(["--exclude-module", module])
-        
+
+        # === Support for Cython-accelerated modules ===
+        # The engine loads Cython extensions (cy_*.pyd) via try/except + dynamic imports.
+        # PyInstaller's module graph frequently misses them.
+        # --collect-all ensures the whole engine package + all its binaries are included.
+        args.extend(["--collect-all", "engine"])
+
+        # Explicit hidden imports for all major Cython modules used at runtime.
+        for mod in [
+            "engine.cython",
+            "engine.cython.cy_math",
+            "engine.cython.cy_gameloop",
+            "engine.cython.cy_vector2",
+            "engine.cython.cy_vector3",
+            "engine.cython.cy_transform",
+            "engine.cython.cy_entities",
+            "engine.cython.cy_collision_2d",
+            "engine.cython.cy_collision_bool_3d",
+            "engine.cython.cy_collision_manifold_3d",
+            "engine.cython.cy_raycast_3d",
+            "engine.cython.cy_particles",
+            "engine.cython.cy_quaternion",
+        ]:
+            args.extend(["--hidden-import", mod])
+
+        # On Windows the .pyd files depend on the MSVC runtime.
+        if os.name == "nt":
+            print("\n[IMPORTANT for Windows users]")
+            print("  Cython modules produce native .pyd files that require the")
+            print("  'Microsoft Visual C++ Redistributable' on the target machine.")
+            print("  Download: https://aka.ms/vs/17/release/vc_redist.x64.exe")
+            print("  Consider shipping the redistributable with your game.\n")
+
         print(f"Running: pyinstaller {' '.join(args)}")
         
         try:
@@ -192,6 +245,9 @@ class BuildSystem:
             "--output-filename=" + output_name,
             "--enable-plugin=pygame",
             "--include-package=engine",
+            # Strongly recommended when the engine's Cython modules are used.
+            # Nuitka generally handles .pyd extensions more reliably than PyInstaller.
+            "--include-module=engine.cython",
         ]
         
         if onefile:

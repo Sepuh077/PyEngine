@@ -28,7 +28,7 @@ if str(ROOT) not in sys.path:
 from engine.d2 import Window2D, Scene2D, Object2D, create_rect, create_circle
 from engine.gameobject import GameObject
 from engine.component import Script, Time
-from engine.input import Keys, MouseButtons
+from engine.input import Input, Keys, MouseButtons
 from engine.types import Color, Vector3
 from engine.types.vector2 import Vector2
 from engine.d2.physics import (
@@ -83,20 +83,14 @@ class PlayerScript(Script):
         speed = PLAYER_SPEED * dt
         dx, dy = 0.0, 0.0
 
-        window = self.game_object._scene
-        if isinstance(window, Scene2D):
-            window = window.window
-        if window is None:
-            return
-
-        # Movement
-        if window.is_key_pressed(Keys.W) or window.is_key_pressed(Keys.UP):
+        # Movement - use global Input class (works from any Script)
+        if Input.get_key(Keys.W) or Input.get_key(Keys.UP):
             dy += speed
-        if window.is_key_pressed(Keys.S) or window.is_key_pressed(Keys.DOWN):
+        if Input.get_key(Keys.S) or Input.get_key(Keys.DOWN):
             dy -= speed
-        if window.is_key_pressed(Keys.A) or window.is_key_pressed(Keys.LEFT):
+        if Input.get_key(Keys.A) or Input.get_key(Keys.LEFT):
             dx -= speed
-        if window.is_key_pressed(Keys.D) or window.is_key_pressed(Keys.RIGHT):
+        if Input.get_key(Keys.D) or Input.get_key(Keys.RIGHT):
             dx += speed
 
         # Normalize diagonal movement
@@ -120,8 +114,8 @@ class PlayerScript(Script):
         self.shoot_cooldown = max(0.0, self.shoot_cooldown - dt)
 
         # Shoot on left mouse button
-        if window.is_mouse_button_pressed(MouseButtons.LEFT) and self.shoot_cooldown <= 0:
-            self._shoot(window)
+        if Input.get_mouse_button(MouseButtons.LEFT) and self.shoot_cooldown <= 0:
+            self._shoot()
             self.shoot_cooldown = self.shoot_interval
 
         # Invincibility timer
@@ -136,10 +130,16 @@ class PlayerScript(Script):
             if obj2d:
                 obj2d.alpha = 1.0
 
-    def _shoot(self, window):
+    def _shoot(self):
         """Spawn a bullet toward the mouse cursor."""
-        mx, my = window.mouse_position
-        world = window.screen_to_world(mx, my)
+        mx, my = Input.get_mouse_position()
+        scene = self.game_object._scene
+        cam = None
+        if scene:
+            cam = getattr(scene, 'main_camera', None) or getattr(scene, 'camera', None)
+        if cam is None:
+            return
+        world = cam.screen_to_world(mx, my)
         pos = self.transform.position
 
         dir_x = world.x - pos.x

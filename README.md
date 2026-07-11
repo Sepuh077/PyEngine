@@ -39,7 +39,52 @@ Some dependencies (notably pygame) fail to build due to changes in Python's pack
 pip install -e .
 ```
 
-This installs the engine in editable mode with core dependencies (including GPU acceleration via ModernGL).
+This installs the engine in editable mode **and compiles the Cython modules** (if you have a C compiler).
+
+**For full Cython acceleration** (recommended for development and benchmarking):
+
+```bash
+pip install -e .
+```
+
+After this, the compiled `.so`/`.pyd` files should be present and
+`python bench_cython.py` should show the speedups (typically 5-10x+ in
+physics, math, game loop, etc.) without any extra commands.
+
+PyEngine follows the same model as NumPy/Pillow/etc.:
+
+- `pip install pyengine` (from PyPI) → pre-built wheel with compiled extensions (no compiler needed).
+- `pip install -e .` (from source clone) → setuptools + the `[build-system]` deps (Cython + numpy) will compile the extensions during install if a C compiler is available on your machine.
+
+If you lack a C compiler the install still succeeds (pure-Python fallback).
+
+To force pure-Python mode:
+
+```bash
+PYENGINE_PURE_PYTHON=1 python your_script.py
+```
+
+To force pure-Python mode:
+
+```bash
+PYENGINE_PURE_PYTHON=1 python your_script.py
+```
+
+#### System requirements for full Cython speed (when building from source)
+
+You need a C compiler + Python headers on your machine (this is true for *any* package that ships C extensions: numpy, Pillow, etc.):
+
+- **Linux**: `sudo apt-get install build-essential python3-dev` (or equivalent)
+- **macOS**: `xcode-select --install`
+- **Windows**: Install "Microsoft C++ Build Tools" (from Visual Studio)
+
+Then simply:
+
+```bash
+pip install -e .
+```
+
+This is the only command you should need. The Cython modules will be built as part of the install.
 
 For additional features:
 
@@ -55,7 +100,7 @@ pip install -e .[all]      # editor + dev tools
 pip install -r requirements.txt
 ```
 
-> **Note**: `requirements.txt` now includes core dependencies with GPU support (moderngl) and build tools (setuptools, cython).
+> **Note**: Cython + numpy are only needed at *build time* when compiling the accelerated modules from source. They are declared in `pyproject.toml` `[build-system]`. `pip install pyengine` on supported platforms gives you the compiled version automatically (like NumPy).
 
 ### Selective extras
 
@@ -108,6 +153,11 @@ pyengine build --backend nuitka    # use Nuitka instead
 pyengine build --debug             # keep console window open
 pyengine build --clean             # remove build artifacts
 ```
+
+> **Note about Cython modules**: If you installed the engine with Cython acceleration enabled (recommended), the built executable will contain native `.pyd` (Windows) / `.so` files. 
+> - Nuitka (`--backend nuitka`) usually handles this more reliably.
+> - On Windows the resulting EXE will typically require the **Visual C++ Redistributable** on the end-user's machine.
+> - Always test your final `.exe` on a clean Windows installation (or VM) that does not have your development tools.
 
 ### Launch the editor
 

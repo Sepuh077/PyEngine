@@ -13,8 +13,17 @@ class Camera2D(Component):
     """Orthographic camera for 2D scenes.
 
     The camera defines a rectangular viewport in world space.
-    Position comes from the attached GameObject's Transform.
-    Zoom controls how much of the world is visible.
+    Position and rotation come from the attached GameObject's Transform (z ignored).
+    Use orthographic_size (Unity style) or legacy zoom.
+
+    To make the camera follow a player:
+        # Simplest (every frame in Scene2D.on_update or Script.update)
+        scene.main_camera.position = player.transform.position   # or Vector2(player_pos)
+
+        # Or with a little lookahead/offset:
+        scene.main_camera.position = (player.transform.position.x + 2, player.transform.position.y)
+
+    The follow() helper below provides a convenient one-liner with optional offset and smoothing.
     """
 
     zoom = InspectorField(float, default=1.0, min_value=0.01, max_value=100.0,
@@ -66,6 +75,41 @@ class Camera2D(Component):
         if self.game_object:
             v = Vector2(value)
             self.game_object.transform.position = (v.x, v.y, 0.0)
+
+    def follow(self, target, offset: Optional[Vector2] = None, smooth: float = 1.0):
+        """Convenience helper to make this camera follow a target.
+
+        target: GameObject, Transform, Vector2/Vector3, or tuple/list (x, y)
+        offset: world-space offset added to target (e.g. Vector2(0, 1.5) for "over the shoulder")
+        smooth: 1.0 = snap immediately. Use e.g. 0.1 for a laggy follow, or compute as
+                1.0 - exp(-speed * dt) for nice frame-rate independent smoothing.
+
+        Typical usage in a Scene2D subclass:
+            def on_update(self):
+                self.main_camera.follow(self.player, offset=Vector2(0, 0.5), smooth=0.15)
+        """
+        if offset is None:
+            offset = Vector2.zero()
+        else:
+            offset = Vector2(offset)
+
+        # Resolve various target types to a Vector2 position
+        if hasattr(target, "transform"):
+            p = target.transform.position
+            tpos = Vector2(p.x, p.y)
+        elif hasattr(target, "position"):
+            p = target.position
+            tpos = Vector2(p)
+        else:
+            tpos = Vector2(target)
+
+        desired = tpos + offset
+
+        if smooth <= 0.0 or smooth >= 1.0:
+            self.position = desired
+        else:
+            cur = self.position
+            self.position = Vector2.lerp(cur, desired, smooth)
 
     @property
     def rotation(self) -> float:

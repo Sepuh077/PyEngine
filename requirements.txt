@@ -7,8 +7,13 @@ trimesh>=4.0.0
 scipy>=1.10.0
 moderngl>=5.6.0
 moderngl-window>=2.4.0
-setuptools>=45
-cython>=3.0
+
+# Build-time only (for compiling Cython extensions):
+# These are pulled automatically when you do `pip install .` thanks to pyproject.toml.
+# You only need them if building from source.
+# setuptools>=61
+# Cython>=3.0
+# numpy (already required at runtime too)
 
 # Optional - for massive performance boost (5-20x faster)
 # Uncomment to install:

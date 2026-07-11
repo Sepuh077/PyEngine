@@ -144,7 +144,7 @@ class TranslateGizmo:
             pts = np.array([center, shaft_end], dtype=np.float32)
             self._line_vbo.write(pts.tobytes())
             identity = np.eye(4, dtype=np.float32)
-            prog['mvp'].write((identity @ vp).astype(np.float32).tobytes())
+            prog['mvp'].write(((identity @ vp).astype(np.float32)).T.tobytes())
             prog['color'].value = color
             ctx.line_width = lw
             self._line_vao.render(0x0001)  # GL_LINES
@@ -366,8 +366,8 @@ class TranslateGizmo2D:
         # Build 4x4 VP for 2D (view is 3x3, proj is 4x4)
         view4 = np.eye(4, dtype=np.float32)
         if view.shape == (3, 3):
-            view4[0, 0] = view[0, 0]; view4[0, 1] = view[0, 1]; view4[0, 3] = view[0, 2]
-            view4[1, 0] = view[1, 0]; view4[1, 1] = view[1, 1]; view4[1, 3] = view[1, 2]
+            view4[:2, :2] = view[:2, :2]
+            view4[:2, 3] = view[:2, 2]
         else:
             view4 = view.astype(np.float32)
         vp = view4 @ proj.astype(np.float32)
@@ -385,7 +385,7 @@ class TranslateGizmo2D:
             pts = np.array([center, shaft_end], dtype=np.float32)
             self._line_vbo.write(pts.tobytes())
             identity = np.eye(4, dtype=np.float32)
-            prog['mvp'].write((identity @ vp).astype(np.float32).tobytes())
+            prog['mvp'].write(((identity @ vp).astype(np.float32)).T.tobytes())
             prog['color'].value = color
             ctx.line_width = lw
             self._line_vao.render(0x0001)  # GL_LINES

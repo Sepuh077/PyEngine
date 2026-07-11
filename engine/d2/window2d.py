@@ -443,13 +443,14 @@ class Window2D(WindowBase):
         # Build 4×4 view matrix from Camera2D's 3×3
         view3 = cam.get_view_matrix()          # 3×3
         view4 = np.eye(4, dtype=np.float32)
-        view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
-        view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+        view4[:2, :2] = view3[:2, :2]
+        view4[:2, 3] = view3[:2, 2]
 
         proj = cam.get_projection_matrix()     # 4×4
 
         proj_bytes = proj.astype(np.float32).tobytes()
-        view_bytes = view4.tobytes()
+        # Upload in column-major order (GL expects column-major for mat4)
+        view_bytes = view4.T.tobytes()
 
         # Upload camera matrices to both programs
         self._sprite_program['projection'].write(proj_bytes)
@@ -741,16 +742,16 @@ class Window2D(WindowBase):
                 cam = self._get_active_camera()
                 view3 = cam.get_view_matrix()
                 view4 = np.eye(4, dtype=np.float32)
-                view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
-                view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+                view4[:2, :2] = view3[:2, :2]
+                view4[:2, 3] = view3[:2, 2]
                 proj = cam.get_projection_matrix()
 
                 if 'projection' in custom_prog:
                     custom_prog['projection'].write(proj.astype(np.float32).tobytes())
                 if 'view' in custom_prog:
-                    custom_prog['view'].write(view4.tobytes())
+                    custom_prog['view'].write(view4.T.tobytes())
                 if 'model' in custom_prog:
-                    custom_prog['model'].write(model.tobytes())
+                    custom_prog['model'].write(model.T.tobytes())
 
                 # Base colour
                 col = obj2d._color
@@ -781,7 +782,7 @@ class Window2D(WindowBase):
                 return
 
         # ── Standard sprite path ───────────────────────────────────
-        self._sprite_program['model'].write(model.tobytes())
+        self._sprite_program['model'].write(model.T.tobytes())
 
         has_texture = obj2d._sprite_surface is not None and not isinstance(obj2d._sprite_surface, (str, bytes))
         if has_texture:
@@ -889,7 +890,7 @@ class Window2D(WindowBase):
                 [(vbo, '3f', 'in_position')],
             )
 
-            self._collider_program['mvp'].write(mvp.tobytes())
+            self._collider_program['mvp'].write(mvp.T.tobytes())
             self._collider_program['color'].value = (0.9, 0.9, 0.2)  # yellow
             vao.render(moderngl.LINES)
 
@@ -931,8 +932,8 @@ class Window2D(WindowBase):
         # Reuse the same view/proj construction as main render + frustum drawing
         view3 = cam.get_view_matrix()
         view4 = np.eye(4, dtype=np.float32)
-        view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
-        view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+        view4[:2, :2] = view3[:2, :2]
+        view4[:2, 3] = view3[:2, 2]
         proj = cam.get_projection_matrix()
         mvp = (proj @ view4).astype(np.float32)
 
@@ -1035,7 +1036,7 @@ class Window2D(WindowBase):
                     self._collider_program,
                     [(vbo, '3f', 'in_position')],
                 )
-                self._collider_program['mvp'].write(mvp.tobytes())
+                self._collider_program['mvp'].write(mvp.T.tobytes())
                 vao.render(moderngl.LINES)
                 vao.release()
                 vbo.release()
@@ -1090,8 +1091,8 @@ class Window2D(WindowBase):
         # Compute MVP once for all colliders on this object
         view3 = cam.get_view_matrix()
         view4 = np.eye(4, dtype=np.float32)
-        view4[0, 0] = view3[0, 0]; view4[0, 1] = view3[0, 1]; view4[0, 3] = view3[0, 2]
-        view4[1, 0] = view3[1, 0]; view4[1, 1] = view3[1, 1]; view4[1, 3] = view3[1, 2]
+        view4[:2, :2] = view3[:2, :2]
+        view4[:2, 3] = view3[:2, 2]
         proj = cam.get_projection_matrix()
         mvp = (proj @ view4).astype(np.float32)
 
