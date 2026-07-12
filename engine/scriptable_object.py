@@ -335,6 +335,12 @@ class ScriptableObject(metaclass=ScriptableObjectMeta):
                 "__type__": "Vector3",
                 "value": value.to_list(),
             }
+        if hasattr(value, '_current') and callable(getattr(value, '_current', None)):
+            v = value._current()
+            return {
+                "__type__": "Vector3",
+                "value": v.to_list(),
+            }
         if isinstance(value, tuple):
             return {
                 "__type__": "tuple",

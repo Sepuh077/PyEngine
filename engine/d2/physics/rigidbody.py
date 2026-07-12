@@ -70,9 +70,7 @@ class Rigidbody2D(Component):
     def velocity(self, value):
         if isinstance(value, Vector2):
             self._velocity = value
-        elif isinstance(value, np.ndarray):
-            self._velocity = Vector2(value)
-        elif isinstance(value, (tuple, list)):
+        elif isinstance(value, (np.ndarray, tuple, list)) or (hasattr(value, "x") and hasattr(value, "y")):
             self._velocity = Vector2(value)
         else:
             raise TypeError(f"velocity must be Vector2, numpy array, tuple, or list, got {type(value)}")

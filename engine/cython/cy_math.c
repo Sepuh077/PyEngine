@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-bb6qlp2q\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
+            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-kum7tn_2\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
         ],
         "name": "engine.cython.cy_math",
         "sources": [

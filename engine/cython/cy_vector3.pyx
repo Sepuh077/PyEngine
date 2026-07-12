@@ -61,6 +61,14 @@ cdef class Vector3:
             self._z = (<Vector3>x)._z
             return
 
+        # Support _Vector3Proxy from Transform (e.g. transform.position)
+        if hasattr(x, '_current') and callable(getattr(x, '_current', None)):
+            v = x._current()
+            self._x = (<Vector3>v)._x
+            self._y = (<Vector3>v)._y
+            self._z = (<Vector3>v)._z
+            return
+
         from engine.types.vector2 import Vector2 as _Vec2
         if isinstance(x, _Vec2):
             self._x = float((<object>x).x)
@@ -425,6 +433,12 @@ cdef class Vector3:
             return Vector3(other)
         if isinstance(other, (tuple, list, np.ndarray)):
             return Vector3(other)
+        # Support _Vector3Proxy from transform (for .position.x etc. in-place updates)
+        if hasattr(other, '_current') and callable(getattr(other, '_current', None)):
+            try:
+                return Vector3(other._current())
+            except Exception:
+                pass
         raise TypeError(f"Unsupported type for Vector3 operation: {type(other)}")
 
     def __add__(self, other):
@@ -626,6 +640,24 @@ cdef class Vector3:
 
     def __hash__(self):
         return hash((self._x, self._y, self._z))
+
+    # =========================================================================
+    # Pickle / copy support (for undo, deepcopy, serialization, etc.)
+    # =========================================================================
+
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc. (fixes non-trivial __cinit__)."""
+        return (Vector3, (self._x, self._y, self._z))
+
+    def __copy__(self):
+        cdef Vector3 v = Vector3.__new__(Vector3)
+        v._x = self._x
+        v._y = self._y
+        v._z = self._z
+        return v
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
 
 
 # Note: Vector3Like is defined in the .py wrapper for type hints.

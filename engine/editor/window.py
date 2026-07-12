@@ -959,6 +959,7 @@ class {type_name}(ScriptableObject):
         import types
         
         project_root = self.editor_window.project_root
+        self.editor_window._ensure_project_on_sys_path()
         
         found_types = []
         for py_file in project_root.rglob("*.py"):
@@ -988,6 +989,8 @@ class {type_name}(ScriptableObject):
                     except ValueError:
                         module_name = file_path.stem
                     
+                    # The root is now ensured; still register intermediate packages for
+                    # robustness with the controlled spec_from_file_location load below.
                     if "." in module_name:
                         parts = module_name.split(".")
                         for i in range(1, len(parts)):
@@ -1347,6 +1350,10 @@ class EditorWindow(QtWidgets.QMainWindow):
         self._mode = mode  # "2d" or "3d"
         self.setWindowTitle("PyEngine 2D Editor" if mode == "2d" else "PyEngine Editor")
         self.resize(1280, 768)
+
+        # Ensure project root (and thus "scripts", etc.) is importable right away.
+        # Scene loads that reference user script components happen early.
+        self._ensure_project_on_sys_path()
 
         self._selection = EditorSelection()
         self._scene = EditorScene2D() if mode == "2d" else EditorScene()
@@ -1994,10 +2001,7 @@ class {class_name}(Script):
         from PySide6 import QtWidgets
 
         try:
-            # Add the project root to sys.path if not already there
-            project_root = str(self.project_root)
-            if project_root not in sys.path:
-                sys.path.insert(0, project_root)
+            self._ensure_project_on_sys_path()
 
             # Create a unique module name to allow reloading
             # Use the relative path from project root to create a unique identifier
@@ -2520,6 +2524,7 @@ class {class_name}(Script):
     
     def _load_scene_with_check(self, path: Path) -> None:
         """Load a scene, prompting to save if there are unsaved changes."""
+        self._ensure_project_on_sys_path()
         # Check for unsaved changes
         if self._scene_dirty:
             reply = QtWidgets.QMessageBox.question(
@@ -2997,10 +3002,7 @@ class {class_name}(Script):
         from PySide6 import QtWidgets
         
         try:
-            # Add the project root to sys.path if not already there
-            project_root = str(self.project_root)
-            if project_root not in sys.path:
-                sys.path.insert(0, project_root)
+            self._ensure_project_on_sys_path()
             
             # Create a unique module name to allow reloading
             try:
@@ -3872,6 +3874,24 @@ class {class_name}(Script):
         self._viewport.render_callback = self._render_frame
         self._timer.start()
     
+    def _ensure_project_on_sys_path(self) -> None:
+        """Ensure the project root is on sys.path so dotted imports like 'scripts.player'
+        succeed when loading scenes that contain user script components.
+        """
+        import types
+        proj = str(self.project_root)
+        if proj not in sys.path:
+            sys.path.insert(0, proj)
+
+        # Pre-register conventional packages under the project root.
+        for pkg_name in ("scripts",):
+            if pkg_name not in sys.modules:
+                pkg_dir = self.project_root / pkg_name
+                if pkg_dir.is_dir():
+                    pkg = types.ModuleType(pkg_name)
+                    pkg.__path__ = [str(pkg_dir)]
+                    sys.modules[pkg_name] = pkg
+
     def _init_scriptable_objects(self) -> None:
         """Load all ScriptableObject assets from the project directory."""
         from engine.scriptable_object import ScriptableObject
@@ -3933,6 +3953,7 @@ class {class_name}(Script):
 
     def _load_scene(self, path: Path) -> None:
         """Load a scene from a file, switching 2D/3D editor mode if needed."""
+        self._ensure_project_on_sys_path()
         try:
             self._viewport.makeCurrent()
             
@@ -5709,10 +5730,10 @@ class {class_name}(Script):
         undo_commands = []
         
         for obj in objects:
-            # Store old values
-            old_pos = obj.transform.position
-            old_rot = obj.transform.rotation
-            old_scale = obj.transform.scale_xyz
+            # Store old values as plain tuples (lightweight + always copyable)
+            old_pos = tuple(obj.transform.position)
+            old_rot = tuple(obj.transform.rotation)
+            old_scale = tuple(obj.transform.scale_xyz)
             
             # Position: only update components that changed
             new_pos = list(obj.transform.position)

@@ -389,8 +389,36 @@ class FieldChangeCommand(Command):
         self.editor = editor_window
         self.target = target
         self.field_name = field_name
-        self.old_value = copy.deepcopy(old_value)
-        self.new_value = copy.deepcopy(new_value)
+        # Normalize common engine math types to plain tuples for cheap, always-copyable storage.
+        # (Cython Vector*/Quaternion now support deepcopy via __reduce__, but tuples are preferable here.)
+        self.old_value = self._freeze_value(old_value)
+        self.new_value = self._freeze_value(new_value)
+
+    @staticmethod
+    def _freeze_value(v):
+        """Convert engine math objects (Vector*, Quaternion) to tuples for undo storage."""
+        if v is None:
+            return None
+        # Prefer explicit to_tuple if present (works for both cython and pure py)
+        if hasattr(v, 'to_tuple') and callable(getattr(v, 'to_tuple')):
+            try:
+                return v.to_tuple()
+            except Exception:
+                pass
+        # Common iterables -> tuple (covers Vector3/2 that are iterable, numpy arrays for small sizes, etc.)
+        if isinstance(v, (list, tuple)):
+            return tuple(v)
+        if hasattr(v, '__iter__') and not isinstance(v, (str, bytes)):
+            try:
+                # Only convert small sequences that look like math values
+                t = tuple(v)
+                if len(t) in (2, 3, 4):
+                    # Heuristic: looks like vec2/3/quat/color
+                    if all(isinstance(x, (int, float)) for x in t):
+                        return t
+            except Exception:
+                pass
+        return v
     
     def execute(self) -> None:
         # Use set_inspector_field_value to ensure all field-change side effects (e.g., _transform_dirty)

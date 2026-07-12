@@ -108,6 +108,10 @@ class WindowBase:
         self.project_root = project_root if isinstance(project_root, Path) else Path(project_root).resolve()
         self.auto_load_scriptable_assets = auto_load_scriptable_assets
 
+        # Ensure project root is on sys.path so that project packages like "scripts"
+        # (and modules saved in scene files as e.g. "scripts.player") can be imported.
+        self._ensure_project_on_sys_path()
+
         # -- Pygame ----------------------------------------------------------
         self._use_pygame_window = use_pygame_window
         self._use_pygame_events = use_pygame_events and use_pygame_window
@@ -235,6 +239,31 @@ class WindowBase:
 
     def _cleanup_gpu(self):
         """Release subclass-specific GPU resources."""
+
+    def _ensure_project_on_sys_path(self) -> None:
+        """Ensure the project root directory is at the front of sys.path.
+
+        This makes it possible to do ``import scripts.xxx`` and similar for any
+        Python package/module living directly under the project root. This is
+        required when deserializing scenes (or ScriptableObjects) that were saved
+        with references to user-defined component classes.
+        """
+        import sys
+        import types
+        proj = str(self.project_root)
+        if proj not in sys.path:
+            sys.path.insert(0, proj)
+
+        # Pre-register the conventional "scripts" package (and potentially others)
+        # so that "import scripts.player" works even before Python walks the path
+        # in certain reload or partially-initialized states.
+        for pkg_name in ("scripts",):
+            if pkg_name not in sys.modules:
+                pkg_dir = self.project_root / pkg_name
+                if pkg_dir.is_dir():
+                    pkg = types.ModuleType(pkg_name)
+                    pkg.__path__ = [str(pkg_dir)]
+                    sys.modules[pkg_name] = pkg
 
     # =======================================================================
     # Properties

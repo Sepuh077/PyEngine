@@ -318,3 +318,19 @@ cdef class Quaternion:
     def __hash__(self):
         return hash((self._w, self._x, self._y, self._z))
 
+    # Pickle / copy support (for undo system etc.)
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc."""
+        return (Quaternion, (self._w, self._x, self._y, self._z))
+
+    def __copy__(self):
+        cdef Quaternion q = Quaternion.__new__(Quaternion)
+        q._w = self._w
+        q._x = self._x
+        q._y = self._y
+        q._z = self._z
+        return q
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
+

@@ -18,6 +18,126 @@ if TYPE_CHECKING:
     from .gameobject import GameObject
 
 
+class _Vector3Proxy:
+    """
+    Proxy object returned by transform.position / scale_xyz etc.
+
+    Allows in-place component changes like:
+        t.position.x = 5
+        t.position.x += 1
+        t.position[0] = 10
+    to actually update the transform (calling update_prev + mark_dirty + rb notify).
+    It otherwise behaves like a Vector3 for reading and math.
+    """
+
+    def __init__(self, read_func, write_func):
+        # read_func() -> something convertible to Vector3 (current value)
+        # write_func( tuple_or_list_or_vec ) -> sets it (and does side effects)
+        self._read = read_func
+        self._write = write_func
+
+    def _current(self) -> Vector3:
+        v = self._read()
+        if isinstance(v, Vector3):
+            return Vector3(v)  # copy for safety in delegation
+        return Vector3(v)
+
+    # --- Component access (the main feature) ---
+    @property
+    def x(self) -> float:
+        return float(self._current().x)
+
+    @x.setter
+    def x(self, value: float):
+        cur = self._current()
+        self._write((float(value), cur.y, cur.z))
+
+    @property
+    def y(self) -> float:
+        return float(self._current().y)
+
+    @y.setter
+    def y(self, value: float):
+        cur = self._current()
+        self._write((cur.x, float(value), cur.z))
+
+    @property
+    def z(self) -> float:
+        return float(self._current().z)
+
+    @z.setter
+    def z(self, value: float):
+        cur = self._current()
+        self._write((cur.x, cur.y, float(value)))
+
+    # --- Indexing support e.g. pos[0] += 1 ---
+    def __getitem__(self, index):
+        return self._current()[index]
+
+    def __setitem__(self, index, value):
+        cur = list(self._current().to_tuple())
+        cur[index] = float(value)
+        if len(cur) == 2:
+            cur.append(0.0)
+        self._write(tuple(cur[:3]))
+
+    # --- Delegation for read-only / value ops ---
+    def __getattr__(self, name):
+        if name.startswith('__'):
+            raise AttributeError(name)
+        return getattr(self._current(), name)
+
+    # Common operators (return real Vector3 so assignment works as before)
+    def __add__(self, other):
+        return self._current() + other
+
+    def __radd__(self, other):
+        return other + self._current()
+
+    def __sub__(self, other):
+        return self._current() - other
+
+    def __rsub__(self, other):
+        return other - self._current()
+
+    def __mul__(self, other):
+        return self._current() * other
+
+    def __rmul__(self, other):
+        return other * self._current()
+
+    def __truediv__(self, other):
+        return self._current() / other
+
+    def __rtruediv__(self, other):
+        return other / self._current()
+
+    def __neg__(self):
+        return -self._current()
+
+    # Convenience
+    def __repr__(self):
+        return repr(self._current())
+
+    def __str__(self):
+        return str(self._current())
+
+    def __len__(self):
+        return 3
+
+    def __iter__(self):
+        return iter(self._current())
+
+    def to_tuple(self):
+        return self._current().to_tuple()
+
+    def to_list(self):
+        return self._current().to_list()
+
+    def to_numpy(self, dtype=None):
+        return self._current().to_numpy(dtype=dtype)
+
+
 class Transform(Component):
     """Component storing position, rotation, and scale.
     
@@ -121,13 +241,14 @@ class Transform(Component):
     @property
     def local_position(self) -> Vector3:
         """Get local position (relative to parent)."""
-        return Vector3(self._local_position)
+        return _Vector3Proxy(
+            read_func=lambda: self._local_position,
+            write_func=self._set_local_position_vector,
+        )
     
     @local_position.setter
     def local_position(self, value):
-        self._update_prev_position()
-        self._local_position = Vector3(value)
-        self._mark_dirty()
+        self._set_local_position_vector(value)
     
     @property
     def local_rotation(self) -> tuple:
@@ -143,15 +264,14 @@ class Transform(Component):
     @property
     def local_scale(self) -> Vector3:
         """Get local scale (relative to parent)."""
-        return Vector3(self._local_scale)
+        return _Vector3Proxy(
+            read_func=lambda: self._local_scale,
+            write_func=self._set_local_scale_vector,
+        )
     
     @local_scale.setter
     def local_scale(self, value):
-        if isinstance(value, (int, float)):
-            self._local_scale = Vector3(value, value, value)
-        else:
-            self._local_scale = Vector3(value)
-        self._mark_dirty()
+        self._set_local_scale_vector(value)
     
     # =========================================================================
     # World transform properties (computed from parent + local)
@@ -207,9 +327,20 @@ class Transform(Component):
     
     @property
     def world_position(self) -> Vector3:
-        """Get world position (computed from parent + local)."""
-        self._compute_world_transform()
-        return Vector3(self._world_position)
+        """Get world position (computed from parent + local).
+
+        Supports component-wise mutation (will convert back to local):
+            t.world_position.x = 10
+        """
+        def _read():
+            self._compute_world_transform()
+            return self._world_position
+
+        def _write(v):
+            # Delegate to setter (handles conversion + notify)
+            self.world_position = v
+
+        return _Vector3Proxy(read_func=_read, write_func=_write)
     
     @world_position.setter
     def world_position(self, value):
@@ -258,8 +389,14 @@ class Transform(Component):
     @property
     def world_scale(self) -> Vector3:
         """Get world scale (computed from parent + local)."""
-        self._compute_world_transform()
-        return Vector3(self._world_scale)
+        def _read():
+            self._compute_world_transform()
+            return self._world_scale
+
+        def _write(v):
+            self.world_scale = v
+
+        return _Vector3Proxy(read_func=_read, write_func=_write)
 
     @world_scale.setter
     def world_scale(self, value):
@@ -282,16 +419,37 @@ class Transform(Component):
     # Convenience properties (alias to local transform for backward compatibility)
     # =========================================================================
     
-    @property
-    def position(self) -> Vector3:
-        """Get local position (alias for local_position)."""
-        return Vector3(self._local_position)
-
-    @position.setter
-    def position(self, value):
+    def _set_local_position_vector(self, value):
+        """Internal setter used by position/local_position and their proxies."""
         self._update_prev_position()
         self._local_position = Vector3(value)
         self._mark_dirty()
+
+    def _set_local_scale_vector(self, value):
+        """Internal setter used by scale_xyz / local_scale and their proxies."""
+        if isinstance(value, (int, float)):
+            self._local_scale = Vector3(value, value, value)
+        else:
+            self._local_scale = Vector3(value)
+        self._mark_dirty()
+
+    @property
+    def position(self) -> Vector3:
+        """Get local position (alias for local_position).
+
+        Returns a proxy so that component-wise changes work:
+            t.position.x = 5
+            t.position.x += 1
+            t.position[1] = 10
+        """
+        return _Vector3Proxy(
+            read_func=lambda: self._local_position,
+            write_func=self._set_local_position_vector,
+        )
+
+    @position.setter
+    def position(self, value):
+        self._set_local_position_vector(value)
 
     @property
     def x(self) -> float:
@@ -400,15 +558,19 @@ class Transform(Component):
 
     @property
     def scale_xyz(self) -> Vector3:
-        return Vector3(self._local_scale)
+        """Get local scale as Vector3 (x,y,z).
+
+        Supports component mutation via proxy:
+            t.scale_xyz.x = 2.0
+        """
+        return _Vector3Proxy(
+            read_func=lambda: self._local_scale,
+            write_func=self._set_local_scale_vector,
+        )
 
     @scale_xyz.setter
     def scale_xyz(self, value):
-        if isinstance(value, (int, float)):
-            self._local_scale = Vector3(value, value, value)
-        else:
-            self._local_scale = Vector3(value)
-        self._mark_dirty()
+        self._set_local_scale_vector(value)
 
     def get_model_matrix(self) -> np.ndarray:
         if not self._transform_dirty:

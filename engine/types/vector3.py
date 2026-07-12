@@ -103,6 +103,12 @@ class Vector3:
             self._x = x._x
             self._y = x._y
             self._z = x._z
+        elif hasattr(x, '_current') and callable(getattr(x, '_current', None)):
+            # Support _Vector3Proxy (e.g. from transform.position)
+            v = x._current()
+            self._x = v._x
+            self._y = v._y
+            self._z = v._z
         else:
             self._x = float(x) if y is None else float(x)
             self._y = float(y) if y is not None else 0.0
@@ -519,6 +525,12 @@ class Vector3:
             return Vector3(other)
         if isinstance(other, np.ndarray):
             return Vector3(other)
+        # Support _Vector3Proxy from transform (for position.x etc. mutations)
+        if hasattr(other, '_current') and callable(getattr(other, '_current', None)):
+            try:
+                return Vector3(other._current())
+            except Exception:
+                pass
         raise TypeError(f"Unsupported type for Vector3 operation: {type(other)}")
     
     def __add__(self, other: 'Vector3Like') -> 'Vector3':
@@ -732,6 +744,17 @@ class Vector3:
     
     def __hash__(self) -> int:
         return hash((self._x, self._y, self._z))
+
+    # Pickle / copy support
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc."""
+        return (Vector3, (self._x, self._y, self._z))
+
+    def __copy__(self):
+        return Vector3(self._x, self._y, self._z)
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
 
 
 # Type alias for type hints (includes Vector2 for auto-conversion)

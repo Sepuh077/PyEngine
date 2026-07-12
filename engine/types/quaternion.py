@@ -506,6 +506,17 @@ class Quaternion:
     def __len__(self) -> int:
         return 4
 
+    # Pickle / copy support
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc."""
+        return (Quaternion, (self._w, self._x, self._y, self._z))
+
+    def __copy__(self):
+        return Quaternion(self._w, self._x, self._y, self._z)
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
+
 
 if _USE_CYTHON:
     def _q_mag(self):

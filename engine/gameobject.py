@@ -289,8 +289,14 @@ class GameObject:
             self._end_of_frame_coroutines.extend(deferred_end_of_frame)
 
     def update(self):
-        # Update components
+        # Update components (ensure awake/start called before first update)
         for comp in self.components:
+            if not getattr(comp, '_awoken', False):
+                comp.awake()
+                comp._awoken = True
+            if not getattr(comp, '_started', False):
+                comp.start()
+                comp._started = True
             comp.update()
         
         # Update coroutines (main phase)
@@ -579,6 +585,13 @@ class GameObject:
             return {
                 "__type__": "Vector3",
                 "value": value.to_list(),
+            }
+        if hasattr(value, '_current') and callable(getattr(value, '_current', None)):
+            # _Vector3Proxy etc.
+            v = value._current()
+            return {
+                "__type__": "Vector3",
+                "value": v.to_list(),
             }
         if isinstance(value, Vector2):
             return {

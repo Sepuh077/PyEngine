@@ -296,5 +296,19 @@ cdef class Vector2:
     def __hash__(self):
         return hash((self._x, self._y))
 
+    # Pickle / copy support
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc."""
+        return (Vector2, (self._x, self._y))
+
+    def __copy__(self):
+        cdef Vector2 v = Vector2.__new__(Vector2)
+        v._x = self._x
+        v._y = self._y
+        return v
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
+
 
 # Vector2Like defined in wrapper .py for type hints

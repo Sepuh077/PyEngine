@@ -308,6 +308,14 @@ class Vector2:
             return Vector2(other)
         if isinstance(other, np.ndarray):
             return Vector2(other)
+        if hasattr(other, "z") and hasattr(other, "x") and hasattr(other, "y"):
+            # Vector3 or _Vector3Proxy etc. -> take xy for 2D
+            return Vector2(float(other.x), float(other.y))
+        if hasattr(other, '_current') and callable(getattr(other, '_current', None)):
+            try:
+                return Vector2(other._current())
+            except Exception:
+                pass
         raise TypeError(f"Unsupported type for Vector2 operation: {type(other)}")
 
     def __add__(self, other) -> 'Vector2':
@@ -472,6 +480,17 @@ class Vector2:
 
     def __str__(self) -> str:
         return f"({self._x}, {self._y})"
+
+    # Pickle / copy support
+    def __reduce__(self):
+        """Support for pickle, copy.deepcopy, etc."""
+        return (Vector2, (self._x, self._y))
+
+    def __copy__(self):
+        return Vector2(self._x, self._y)
+
+    def __deepcopy__(self, memo):
+        return self.__copy__()
 
 
 Vector2Like = Union[Vector2, Tuple[float, float], list, np.ndarray]

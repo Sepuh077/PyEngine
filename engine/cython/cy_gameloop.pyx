@@ -81,21 +81,46 @@ def cy_update_objects(list objects, double delta_time):
             if ns > 0:
                 for j in range(ns):
                     script = <object>scripts[j]
+                    # Ensure awake/start are called before first update (mirrors pure Python start_components)
+                    if not getattr(script, '_awoken', False):
+                        script.awake()
+                        script._awoken = True
+                    if not getattr(script, '_started', False):
+                        script.start()
+                        script._started = True
                     script.update()
 
             if has_rb and rb is not None:
+                if not getattr(rb, '_awoken', False):
+                    rb.awake()
+                    rb._awoken = True
+                if not getattr(rb, '_started', False):
+                    rb.start()
+                    rb._started = True
                 try:
                     rb.update()
                 except Exception:
                     pass
 
             if has_anim and anim is not None:
+                if not getattr(anim, '_awoken', False):
+                    anim.awake()
+                    anim._awoken = True
+                if not getattr(anim, '_started', False):
+                    anim.start()
+                    anim._started = True
                 try:
                     anim.update()
                 except Exception:
                     pass
 
             if has_ps and ps is not None:
+                if not getattr(ps, '_awoken', False):
+                    ps.awake()
+                    ps._awoken = True
+                if not getattr(ps, '_started', False):
+                    ps.start()
+                    ps._started = True
                 try:
                     ps.update()
                 except Exception:
