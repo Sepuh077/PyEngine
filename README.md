@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/logo.jpg" alt="PyEngine logo" width="200">
+</p>
+
 # PyEngine - Open Source 2D/3D Game Engine for Python
 
 PyEngine is an open-source, beginner-friendly 2D/3D game engine for Python inspired by [Arcade](https://arcade.academy/). It provides a simple, batteries-included API built on a component-entity architecture with GPU acceleration via ModernGL and an included PySide6 editor.
@@ -770,4 +774,4 @@ Top-level in the repository:
 
 ## License
 
-MIT License
+This project is licensed under the [MIT License](LICENSE).
