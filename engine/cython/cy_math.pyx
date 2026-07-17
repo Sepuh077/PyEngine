@@ -744,3 +744,206 @@ cpdef object cylinder_vs_obb_manifold_c(
         best_x = -best_x; best_y = -best_y; best_z = -best_z
 
     return (best_x, best_y, best_z, min_overlap)
+
+
+# =========================================================================
+# Physics-material combine helper
+# =========================================================================
+# Combine modes: 0=AVERAGE, 1=MINIMUM, 2=MULTIPLY, 3=MAXIMUM
+
+cpdef inline double physics_material_combine(double a_val, double b_val,
+                                             int a_mode, int b_mode):
+    """Combine two physics material values using the higher-priority mode."""
+    cdef int mode = a_mode if a_mode > b_mode else b_mode
+    if mode == 0:  # AVERAGE
+        return (a_val + b_val) * 0.5
+    elif mode == 1:  # MINIMUM
+        return a_val if a_val < b_val else b_val
+    elif mode == 2:  # MULTIPLY
+        return a_val * b_val
+    else:  # MAXIMUM
+        return a_val if a_val > b_val else b_val
+
+
+# =========================================================================
+# Collision response helpers (2D)
+# =========================================================================
+
+cpdef tuple resolve_velocity_2d(
+    double vx_a, double vy_a,
+    double vx_b, double vy_b,
+    double nx, double ny,
+    double inv_mass_a, double inv_mass_b,
+    double restitution,
+    double static_fric, double dynamic_fric,
+):
+    """Compute post-collision velocities for two 2D bodies.
+
+    Parameters
+    ----------
+    vx_a, vy_a : velocity of body A
+    vx_b, vy_b : velocity of body B
+    nx, ny : collision normal (from B towards A, unit length)
+    inv_mass_a, inv_mass_b : inverse masses (0 for static/kinematic)
+    restitution : combined bounciness [0..1]
+    static_fric : combined static friction coefficient
+    dynamic_fric : combined dynamic friction coefficient
+
+    Returns
+    -------
+    (new_vx_a, new_vy_a, new_vx_b, new_vy_b)
+    """
+    cdef double rvx, rvy, vel_along_normal, j, inv_mass_sum
+    cdef double tx, ty, t_mag, vt, jt, mu_s, mu_d
+
+    # Relative velocity  (A relative to B)
+    rvx = vx_a - vx_b
+    rvy = vy_a - vy_b
+
+    # Relative velocity along the collision normal
+    vel_along_normal = rvx * nx + rvy * ny
+
+    # Only resolve if objects are moving towards each other
+    if vel_along_normal > 0:
+        return (vx_a, vy_a, vx_b, vy_b)
+
+    inv_mass_sum = inv_mass_a + inv_mass_b
+    if inv_mass_sum < 1e-12:
+        return (vx_a, vy_a, vx_b, vy_b)
+
+    # --- Normal impulse (restitution / bounce) ---
+    j = -(1.0 + restitution) * vel_along_normal / inv_mass_sum
+
+    vx_a += j * inv_mass_a * nx
+    vy_a += j * inv_mass_a * ny
+    vx_b -= j * inv_mass_b * nx
+    vy_b -= j * inv_mass_b * ny
+
+    # --- Friction impulse (tangential) ---
+    # Recompute relative velocity after normal impulse
+    rvx = vx_a - vx_b
+    rvy = vy_a - vy_b
+    # Tangent = relative velocity minus normal component
+    vt = rvx * nx + rvy * ny
+    tx = rvx - vt * nx
+    ty = rvy - vt * ny
+
+    t_mag = sqrt(tx * tx + ty * ty)
+    if t_mag < 1e-10:
+        return (vx_a, vy_a, vx_b, vy_b)
+
+    tx /= t_mag
+    ty /= t_mag
+
+    # Tangential impulse magnitude
+    jt = -(rvx * tx + rvy * ty) / inv_mass_sum
+
+    # Coulomb friction: use static friction if within threshold, else dynamic
+    mu_s = static_fric
+    mu_d = dynamic_fric
+    if fabs(jt) < j * mu_s:
+        # Static friction — apply full tangential impulse
+        vx_a += jt * inv_mass_a * tx
+        vy_a += jt * inv_mass_a * ty
+        vx_b -= jt * inv_mass_b * tx
+        vy_b -= jt * inv_mass_b * ty
+    else:
+        # Dynamic friction — clamp to dynamic friction cone
+        if jt < 0:
+            jt = -j * mu_d
+        else:
+            jt = j * mu_d
+        vx_a += jt * inv_mass_a * tx
+        vy_a += jt * inv_mass_a * ty
+        vx_b -= jt * inv_mass_b * tx
+        vy_b -= jt * inv_mass_b * ty
+
+    return (vx_a, vy_a, vx_b, vy_b)
+
+
+# =========================================================================
+# Collision response helpers (3D)
+# =========================================================================
+
+cpdef tuple resolve_velocity_3d(
+    double vx_a, double vy_a, double vz_a,
+    double vx_b, double vy_b, double vz_b,
+    double nx, double ny, double nz,
+    double inv_mass_a, double inv_mass_b,
+    double restitution,
+    double static_fric, double dynamic_fric,
+):
+    """Compute post-collision velocities for two 3D bodies.
+
+    Returns (new_vx_a, new_vy_a, new_vz_a, new_vx_b, new_vy_b, new_vz_b).
+    """
+    cdef double rvx, rvy, rvz, vel_along_normal, j, inv_mass_sum
+    cdef double tx, ty, tz, t_mag, vt, jt, mu_s, mu_d
+
+    # Relative velocity  (A relative to B)
+    rvx = vx_a - vx_b
+    rvy = vy_a - vy_b
+    rvz = vz_a - vz_b
+
+    # Relative velocity along the collision normal
+    vel_along_normal = rvx * nx + rvy * ny + rvz * nz
+
+    # Only resolve if objects are moving towards each other
+    if vel_along_normal > 0:
+        return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+    inv_mass_sum = inv_mass_a + inv_mass_b
+    if inv_mass_sum < 1e-12:
+        return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+    # --- Normal impulse (restitution / bounce) ---
+    j = -(1.0 + restitution) * vel_along_normal / inv_mass_sum
+
+    vx_a += j * inv_mass_a * nx
+    vy_a += j * inv_mass_a * ny
+    vz_a += j * inv_mass_a * nz
+    vx_b -= j * inv_mass_b * nx
+    vy_b -= j * inv_mass_b * ny
+    vz_b -= j * inv_mass_b * nz
+
+    # --- Friction impulse (tangential) ---
+    rvx = vx_a - vx_b
+    rvy = vy_a - vy_b
+    rvz = vz_a - vz_b
+    vt = rvx * nx + rvy * ny + rvz * nz
+    tx = rvx - vt * nx
+    ty = rvy - vt * ny
+    tz = rvz - vt * nz
+
+    t_mag = sqrt(tx * tx + ty * ty + tz * tz)
+    if t_mag < 1e-10:
+        return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+    tx /= t_mag
+    ty /= t_mag
+    tz /= t_mag
+
+    jt = -(rvx * tx + rvy * ty + rvz * tz) / inv_mass_sum
+
+    mu_s = static_fric
+    mu_d = dynamic_fric
+    if fabs(jt) < j * mu_s:
+        vx_a += jt * inv_mass_a * tx
+        vy_a += jt * inv_mass_a * ty
+        vz_a += jt * inv_mass_a * tz
+        vx_b -= jt * inv_mass_b * tx
+        vy_b -= jt * inv_mass_b * ty
+        vz_b -= jt * inv_mass_b * tz
+    else:
+        if jt < 0:
+            jt = -j * mu_d
+        else:
+            jt = j * mu_d
+        vx_a += jt * inv_mass_a * tx
+        vy_a += jt * inv_mass_a * ty
+        vz_a += jt * inv_mass_a * tz
+        vx_b -= jt * inv_mass_b * tx
+        vy_b -= jt * inv_mass_b * ty
+        vz_b -= jt * inv_mass_b * tz
+
+    return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)

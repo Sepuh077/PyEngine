@@ -1,6 +1,6 @@
 import numpy as np
 from typing import TYPE_CHECKING
-from engine.d3.physics.types import CollisionMode, CollisionRelation
+from engine.d3.physics.types import CollisionMode, CollisionRelation, PhysicsMaterialCombine
 from engine.component import Component, InspectorField
 from engine.types import Vector3
 from engine.d3.physics.group import ColliderGroup
@@ -10,7 +10,12 @@ if TYPE_CHECKING:
 
 
 class Collider3D(Component):
-    """Base collider. Subclasses for types (Box, Sphere, Capsule). Contains Object3D ref."""
+    """Base collider. Subclasses for types (Box, Sphere, Capsule). Contains Object3D ref.
+
+    Includes built-in physics-material properties (like Unity's PhysicMaterial):
+    *bounciness*, *static_friction*, *dynamic_friction*, and combine modes that
+    control how values are merged when two colliders interact.
+    """
     
     # Inspector fields
     center = InspectorField(Vector3, default=(0.0, 0.0, 0.0), tooltip="Center offset of the collider")
@@ -18,6 +23,28 @@ class Collider3D(Component):
         CollisionMode,
         default=CollisionMode.NORMAL,
         tooltip="Collision mode: NORMAL=detect+block, CONTINUOUS=sweep, IGNORE=no detection, TRIGGER=detect but pass"
+    )
+
+    # -- Physics material properties (built-in, no separate object needed) --
+    bounciness = InspectorField(
+        float, default=0.0, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Bounciness (restitution). 0 = no bounce, 1 = perfect bounce",
+    )
+    static_friction = InspectorField(
+        float, default=0.6, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Static friction coefficient (resists initial sliding)",
+    )
+    dynamic_friction = InspectorField(
+        float, default=0.4, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Dynamic friction coefficient (resists ongoing sliding)",
+    )
+    friction_combine = InspectorField(
+        PhysicsMaterialCombine, default=PhysicsMaterialCombine.AVERAGE,
+        tooltip="How to combine friction when two colliders meet (Average, Min, Max, Multiply)",
+    )
+    bounce_combine = InspectorField(
+        PhysicsMaterialCombine, default=PhysicsMaterialCombine.AVERAGE,
+        tooltip="How to combine bounciness when two colliders meet (Average, Min, Max, Multiply)",
     )
 
     def __init__(self):
@@ -35,6 +62,13 @@ class Collider3D(Component):
         self._current_collisions: set = set()
         # Dirty flag (shared transform dirty from Object3D)
         self._transform_dirty = True
+
+        # Physics material defaults
+        self.bounciness: float = 0.0
+        self.static_friction: float = 0.6
+        self.dynamic_friction: float = 0.4
+        self.friction_combine: PhysicsMaterialCombine = PhysicsMaterialCombine.AVERAGE
+        self.bounce_combine: PhysicsMaterialCombine = PhysicsMaterialCombine.AVERAGE
 
     def set_bounds_data(self, sphere, obb, aabb, cylinder, mesh_data=None):
         self.sphere = sphere

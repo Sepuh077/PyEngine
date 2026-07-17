@@ -4,13 +4,18 @@ from typing import Optional, List, Tuple
 
 from engine.component import Component, InspectorField
 from engine.types.vector2 import Vector2
-from engine.d3.physics.types import CollisionMode, CollisionRelation
+from engine.d3.physics.types import CollisionMode, CollisionRelation, PhysicsMaterialCombine
 from engine.d3.physics.group import ColliderGroup
 from engine.d2.physics.types import ColliderType2D
 
 
 class Collider2D(Component):
-    """Base 2D collider. Subclasses: BoxCollider2D, CircleCollider2D, CapsuleCollider2D, PolygonCollider2D."""
+    """Base 2D collider. Subclasses: BoxCollider2D, CircleCollider2D, CapsuleCollider2D, PolygonCollider2D.
+
+    Includes built-in physics-material properties (like Unity's PhysicsMaterial2D):
+    *bounciness*, *static_friction*, *dynamic_friction*, and combine modes that
+    control how values are merged when two colliders interact.
+    """
 
     # Inspector fields (center exposed as two floats for inspector editing; code still uses Vector2 .center)
     center_x = InspectorField(float, default=0.0, tooltip="Center X offset of the collider")
@@ -19,6 +24,28 @@ class Collider2D(Component):
         CollisionMode,
         default=CollisionMode.NORMAL,
         tooltip="Collision mode: NORMAL=detect+block, CONTINUOUS=sweep, IGNORE=no detection, TRIGGER=detect but pass",
+    )
+
+    # -- Physics material properties (built-in, no separate object needed) --
+    bounciness = InspectorField(
+        float, default=0.0, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Bounciness (restitution). 0 = no bounce, 1 = perfect bounce",
+    )
+    static_friction = InspectorField(
+        float, default=0.6, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Static friction coefficient (resists initial sliding)",
+    )
+    dynamic_friction = InspectorField(
+        float, default=0.4, min_value=0.0, max_value=1.0,
+        step=0.05, decimals=2, tooltip="Dynamic friction coefficient (resists ongoing sliding)",
+    )
+    friction_combine = InspectorField(
+        PhysicsMaterialCombine, default=PhysicsMaterialCombine.AVERAGE,
+        tooltip="How to combine friction when two colliders meet (Average, Min, Max, Multiply)",
+    )
+    bounce_combine = InspectorField(
+        PhysicsMaterialCombine, default=PhysicsMaterialCombine.AVERAGE,
+        tooltip="How to combine bounciness when two colliders meet (Average, Min, Max, Multiply)",
     )
 
     def __init__(self):
@@ -32,6 +59,13 @@ class Collider2D(Component):
         self._transform_dirty: bool = True
         self.aabb: Optional[Tuple[np.ndarray, np.ndarray]] = None
         self.type: ColliderType2D = ColliderType2D.BOX
+
+        # Physics material defaults
+        self.bounciness: float = 0.0
+        self.static_friction: float = 0.6
+        self.dynamic_friction: float = 0.4
+        self.friction_combine: PhysicsMaterialCombine = PhysicsMaterialCombine.AVERAGE
+        self.bounce_combine: PhysicsMaterialCombine = PhysicsMaterialCombine.AVERAGE
 
     # ------------------------------------------------------------------
     # Helpers to extract 2D transform data

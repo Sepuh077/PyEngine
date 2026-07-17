@@ -909,60 +909,53 @@ class Window3D(WindowBase):
             return obj.transform.move(*delta)
         return obj.transform.move(*delta)
 
-    def _resolve_collision(self, a: GameObject, b: GameObject, manifold):
+    def _resolve_collision(self, a: GameObject, b: GameObject, manifold,
+                            col_a=None, col_b=None):
+        """Separate overlapping objects and apply impulse-based collision response.
+
+        Uses physics-material properties (bounciness, friction) stored on the
+        colliders to compute proper bounce and friction impulses, matching
+        Unity's collision resolution model.
+
+        Parameters
+        ----------
+        a, b : GameObjects involved in the collision.
+        manifold : CollisionManifold with *normal* (from B towards A) and *depth*.
+        col_a, col_b : The Collider3D instances (optional; looked up if None).
+        """
         from engine.d3.physics import Collider3D
         from engine.d3.physics.rigidbody import Rigidbody3D
-        # Minimal depen + velocity project (slide, no jitter/vibrate on wall)
+        from engine.d3.physics.types import PhysicsMaterialCombine
+        from engine.types import Vector3
+
         depth = getattr(manifold, 'depth', 0.0)
         if depth <= 0:
             return
         push = depth + 1e-5
         normal = manifold.normal
-        a_static = a.get_component(Rigidbody3D) and a.get_component(Rigidbody3D).is_static
-        b_static = b.get_component(Rigidbody3D) and b.get_component(Rigidbody3D).is_static
-        
+
+        rb_a = a.get_component(Rigidbody3D)
+        rb_b = b.get_component(Rigidbody3D)
+        a_static = (rb_a is not None and rb_a.is_static) or rb_a is None
+        b_static = (rb_b is not None and rb_b.is_static) or rb_b is None
+
         if a_static and b_static:
             return
-        elif a_static:
+
+        # --- Positional separation ---
+        if a_static:
             b.transform._local_position -= normal * push
-            # Project b vel: full stop if into, else slide
-            if b.get_component(Rigidbody3D):
-                from engine.types import Vector3
-                vel = b.get_component(Rigidbody3D).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:
-                    b.get_component(Rigidbody3D).velocity = vel - normal_vec * dot
             b.transform._mark_dirty()
-            # Update colliders (moved from obj._update_cache)
             for c in b.get_components(Collider3D):
                 c.update_bounds()
         elif b_static:
             a.transform._local_position += normal * push
-            # Project a vel: full stop if into, else slide
-            if a.get_component(Rigidbody3D):
-                from engine.types import Vector3
-                vel = a.get_component(Rigidbody3D).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:
-                    a.get_component(Rigidbody3D).velocity = vel - normal_vec * dot
             a.transform._mark_dirty()
             for c in a.get_components(Collider3D):
                 c.update_bounds()
         else:
-            a.transform._local_position += normal * (push / 2)
-            b.transform._local_position -= normal * (push / 2)
-            # Project vels: full stop if pushing into, else slide
-            for obj in (a, b):
-                if not obj.get_component(Rigidbody3D):
-                    continue
-                from engine.types import Vector3
-                vel = obj.get_component(Rigidbody3D).velocity
-                normal_vec = Vector3(normal[0], normal[1], normal[2]) if hasattr(normal, '__len__') else Vector3(normal)
-                dot = Vector3.dot(vel, normal_vec)
-                if dot < 0:  # trying to move into wall
-                    obj.get_component(Rigidbody3D).velocity = vel - normal_vec * dot  # allow slide
+            a.transform._local_position += normal * (push * 0.5)
+            b.transform._local_position -= normal * (push * 0.5)
             a.transform._mark_dirty()
             b.transform._mark_dirty()
             for c in a.get_components(Collider3D):
@@ -970,8 +963,70 @@ class Window3D(WindowBase):
             for c in b.get_components(Collider3D):
                 c.update_bounds()
 
-        # Apply rudimentary angular impulse for off-center contacts (to support tests expecting torque from resolve)
-        from engine.types import Vector3
+        # --- Velocity impulse (bounce + friction) ---
+        # Look up colliders if not provided
+        if col_a is None:
+            col_a = a.get_component(Collider3D)
+        if col_b is None:
+            col_b = b.get_component(Collider3D)
+
+        # Combined material values
+        bounciness_a = getattr(col_a, 'bounciness', 0.0) if col_a else 0.0
+        bounciness_b = getattr(col_b, 'bounciness', 0.0) if col_b else 0.0
+        bm_a = getattr(col_a, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        bm_b = getattr(col_b, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        restitution = PhysicsMaterialCombine.combine(bounciness_a, bounciness_b, bm_a, bm_b)
+
+        sf_a = getattr(col_a, 'static_friction', 0.6) if col_a else 0.6
+        sf_b = getattr(col_b, 'static_friction', 0.6) if col_b else 0.6
+        df_a = getattr(col_a, 'dynamic_friction', 0.4) if col_a else 0.4
+        df_b = getattr(col_b, 'dynamic_friction', 0.4) if col_b else 0.4
+        fc_a = getattr(col_a, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        fc_b = getattr(col_b, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        static_fric = PhysicsMaterialCombine.combine(sf_a, sf_b, fc_a, fc_b)
+        dynamic_fric = PhysicsMaterialCombine.combine(df_a, df_b, fc_a, fc_b)
+
+        # Inverse masses
+        inv_mass_a = 0.0 if a_static else (1.0 / max(rb_a.mass, 1e-10))
+        inv_mass_b = 0.0 if b_static else (1.0 / max(rb_b.mass, 1e-10))
+
+        vx_a = float(rb_a.velocity.x) if rb_a else 0.0
+        vy_a = float(rb_a.velocity.y) if rb_a else 0.0
+        vz_a = float(rb_a.velocity.z) if rb_a else 0.0
+        vx_b = float(rb_b.velocity.x) if rb_b else 0.0
+        vy_b = float(rb_b.velocity.y) if rb_b else 0.0
+        vz_b = float(rb_b.velocity.z) if rb_b else 0.0
+
+        nx = float(normal[0])
+        ny = float(normal[1])
+        nz = float(normal[2])
+
+        # Try Cython fast path
+        try:
+            from engine.cython import CYTHON_ENABLED
+            if not CYTHON_ENABLED:
+                raise ImportError
+            from engine.cython.cy_math import resolve_velocity_3d as _cy_rv3d
+            result = _cy_rv3d(
+                vx_a, vy_a, vz_a, vx_b, vy_b, vz_b,
+                nx, ny, nz, inv_mass_a, inv_mass_b,
+                restitution, static_fric, dynamic_fric,
+            )
+            new_vx_a, new_vy_a, new_vz_a, new_vx_b, new_vy_b, new_vz_b = result
+        except (ImportError, ModuleNotFoundError):
+            result = self._resolve_velocity_3d_py(
+                vx_a, vy_a, vz_a, vx_b, vy_b, vz_b,
+                nx, ny, nz, inv_mass_a, inv_mass_b,
+                restitution, static_fric, dynamic_fric,
+            )
+            new_vx_a, new_vy_a, new_vz_a, new_vx_b, new_vy_b, new_vz_b = result
+
+        if rb_a and not a_static:
+            rb_a.velocity = Vector3(new_vx_a, new_vy_a, new_vz_a)
+        if rb_b and not b_static:
+            rb_b.velocity = Vector3(new_vx_b, new_vy_b, new_vz_b)
+
+        # --- Angular impulse for off-center contacts ---
         cp = getattr(manifold, 'contact_point', None)
         if cp is not None:
             cp = np.asarray(cp, dtype=np.float32)
@@ -981,15 +1036,82 @@ class Window3D(WindowBase):
                 if rb and not (getattr(rb, 'is_static', False) or getattr(rb, 'is_kinematic', False)):
                     try:
                         pos = obj.transform.position
-                        cpos = pos.to_numpy() if hasattr(pos, 'to_numpy') else (np.array(pos.to_tuple()) if hasattr(pos, 'to_tuple') else np.asarray(pos, dtype=np.float32))
+                        cpos = pos.to_numpy() if hasattr(pos, 'to_numpy') else (
+                            np.array(pos.to_tuple()) if hasattr(pos, 'to_tuple') else np.asarray(pos, dtype=np.float32))
                     except Exception:
                         cpos = np.zeros(3, dtype=np.float32)
                     r = cp - cpos
-                    j = 0.5
-                    torque = np.cross(r, nrm * j)
+                    j_ang = 0.5
+                    torque = np.cross(r, nrm * j_ang)
                     delta_w = Vector3(float(torque[0]), float(torque[1]), float(torque[2]))
                     cur_av = getattr(rb, 'angular_velocity', Vector3.zero())
                     rb.angular_velocity = cur_av + delta_w
+
+    # -- Pure-Python fallback for 3D velocity resolution -------------------
+
+    @staticmethod
+    def _resolve_velocity_3d_py(vx_a, vy_a, vz_a, vx_b, vy_b, vz_b,
+                                 nx, ny, nz, inv_mass_a, inv_mass_b,
+                                 restitution, static_fric, dynamic_fric):
+        """Pure-Python impulse-based collision response (3D)."""
+        import math
+
+        rvx = vx_a - vx_b
+        rvy = vy_a - vy_b
+        rvz = vz_a - vz_b
+        vel_along_normal = rvx * nx + rvy * ny + rvz * nz
+
+        if vel_along_normal > 0:
+            return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+        inv_mass_sum = inv_mass_a + inv_mass_b
+        if inv_mass_sum < 1e-12:
+            return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+        # Normal impulse
+        j = -(1.0 + restitution) * vel_along_normal / inv_mass_sum
+        vx_a += j * inv_mass_a * nx
+        vy_a += j * inv_mass_a * ny
+        vz_a += j * inv_mass_a * nz
+        vx_b -= j * inv_mass_b * nx
+        vy_b -= j * inv_mass_b * ny
+        vz_b -= j * inv_mass_b * nz
+
+        # Friction impulse
+        rvx = vx_a - vx_b
+        rvy = vy_a - vy_b
+        rvz = vz_a - vz_b
+        vt = rvx * nx + rvy * ny + rvz * nz
+        tx = rvx - vt * nx
+        ty = rvy - vt * ny
+        tz = rvz - vt * nz
+        t_mag = math.sqrt(tx * tx + ty * ty + tz * tz)
+
+        if t_mag < 1e-10:
+            return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
+
+        tx /= t_mag
+        ty /= t_mag
+        tz /= t_mag
+        jt = -(rvx * tx + rvy * ty + rvz * tz) / inv_mass_sum
+
+        if abs(jt) < j * static_fric:
+            vx_a += jt * inv_mass_a * tx
+            vy_a += jt * inv_mass_a * ty
+            vz_a += jt * inv_mass_a * tz
+            vx_b -= jt * inv_mass_b * tx
+            vy_b -= jt * inv_mass_b * ty
+            vz_b -= jt * inv_mass_b * tz
+        else:
+            jt_c = -j * dynamic_fric if jt < 0 else j * dynamic_fric
+            vx_a += jt_c * inv_mass_a * tx
+            vy_a += jt_c * inv_mass_a * ty
+            vz_a += jt_c * inv_mass_a * tz
+            vx_b -= jt_c * inv_mass_b * tx
+            vy_b -= jt_c * inv_mass_b * ty
+            vz_b -= jt_c * inv_mass_b * tz
+
+        return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
 
     def _process_collisions(self):
         from engine.d3.physics import Collider3D, CollisionMode, CollisionRelation
@@ -1078,7 +1200,8 @@ class Window3D(WindowBase):
                                     if relation == CollisionRelation.SOLID:
                                         manifold = get_collision_manifold(ca, cb)
                                         if manifold:
-                                            self._resolve_collision(a, cb.game_object, manifold)
+                                            self._resolve_collision(a, cb.game_object, manifold,
+                                                                    col_a=ca, col_b=cb)
                                             # Project remaining step along the wall to slide
                                             step_np = np.array([float(step[0]), float(step[1]), float(step[2])])
                                             dot = float(np.dot(step_np, manifold.normal))
@@ -1121,7 +1244,8 @@ class Window3D(WindowBase):
                         if relation == CollisionRelation.SOLID:
                             manifold = get_collision_manifold(ca, cb)
                             if manifold:
-                                self._resolve_collision(a, cb.game_object, manifold)
+                                self._resolve_collision(a, cb.game_object, manifold,
+                                                        col_a=ca, col_b=cb)
         
         # Update collision events (per-collider _current_collisions)
         for c in all_cols:

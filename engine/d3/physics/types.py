@@ -33,3 +33,32 @@ class CollisionMode(IntEnum):
     CONTINUOUS = 1
     IGNORE = 2
     TRIGGER = 3
+
+
+class PhysicsMaterialCombine(IntEnum):
+    """How to combine physics material values (friction, bounciness) from two colliders.
+
+    When two colliders interact, each has its own combine mode. The engine
+    picks the mode with the **highest numeric value** (priority), matching
+    Unity's behaviour:
+        AVERAGE (0) < MINIMUM (1) < MULTIPLY (2) < MAXIMUM (3)
+    """
+    AVERAGE = 0
+    MINIMUM = 1
+    MULTIPLY = 2
+    MAXIMUM = 3
+
+    @staticmethod
+    def combine(a_val: float, b_val: float,
+                a_mode: 'PhysicsMaterialCombine',
+                b_mode: 'PhysicsMaterialCombine') -> float:
+        """Combine two material values using the higher-priority mode."""
+        mode = max(int(a_mode), int(b_mode))
+        if mode == PhysicsMaterialCombine.AVERAGE:
+            return (a_val + b_val) * 0.5
+        elif mode == PhysicsMaterialCombine.MINIMUM:
+            return min(a_val, b_val)
+        elif mode == PhysicsMaterialCombine.MULTIPLY:
+            return a_val * b_val
+        else:  # MAXIMUM
+            return max(a_val, b_val)

@@ -1,5 +1,8 @@
 from enum import IntEnum
 
+# Re-export PhysicsMaterialCombine so 2D code can import from d2.physics.types
+from engine.d3.physics.types import PhysicsMaterialCombine  # noqa: F401
+
 
 class ColliderType2D(IntEnum):
     CIRCLE = 0

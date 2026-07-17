@@ -1323,6 +1323,7 @@ class Window2D(WindowBase):
                     if manifold:
                         self._resolve_collision_2d(
                             ca.game_object, cb.game_object, manifold,
+                            col_a=ca, col_b=cb,
                         )
 
         # =============================================================
@@ -1341,6 +1342,7 @@ class Window2D(WindowBase):
                     if manifold:
                         self._resolve_collision_2d(
                             ca.game_object, cb.game_object, manifold,
+                            col_a=ca, col_b=cb,
                         )
 
         # =============================================================
@@ -1366,10 +1368,25 @@ class Window2D(WindowBase):
                         script.on_collision_exit(oc)
             c._current_collisions = now.copy()
 
-    def _resolve_collision_2d(self, a: GameObject, b: GameObject, manifold):
-        """Separate overlapping objects along the collision normal."""
+    def _resolve_collision_2d(self, a: GameObject, b: GameObject, manifold,
+                              col_a=None, col_b=None):
+        """Separate overlapping objects and apply impulse-based collision response.
+
+        Uses physics-material properties (bounciness, friction) stored on the
+        colliders to compute proper bounce and friction impulses, similar to
+        Unity's collision resolution.
+
+        Parameters
+        ----------
+        a, b : GameObjects involved in the collision.
+        manifold : CollisionManifold2D with *normal* (from B towards A) and *depth*.
+        col_a, col_b : The Collider2D instances (optional; looked up if None).
+        """
         from engine.d2.physics.rigidbody import Rigidbody2D
+        from engine.d2.physics.collider import Collider2D
+        from engine.d3.physics.types import PhysicsMaterialCombine
         from engine.types import Vector3
+        from engine.types.vector2 import Vector2
 
         rb_a = a.get_component(Rigidbody2D)
         rb_b = b.get_component(Rigidbody2D)
@@ -1377,33 +1394,149 @@ class Window2D(WindowBase):
         a_static = (rb_a is None or rb_a.is_static or rb_a.is_kinematic)
         b_static = (rb_b is None or rb_b.is_static or rb_b.is_kinematic)
 
-        normal = manifold.normal
-        depth = manifold.depth
-
         if a_static and b_static:
             return
 
+        normal = manifold.normal
+        depth = manifold.depth
+        nx, ny = float(normal[0]), float(normal[1])
+        push = depth + 1e-5
+
+        # --- Positional separation ---
         if a_static:
             b.transform.position = Vector3(
-                b.transform.position.x - normal[0] * depth,
-                b.transform.position.y - normal[1] * depth,
+                b.transform.position.x - nx * push,
+                b.transform.position.y - ny * push,
                 b.transform.position.z,
             )
         elif b_static:
             a.transform.position = Vector3(
-                a.transform.position.x + normal[0] * depth,
-                a.transform.position.y + normal[1] * depth,
+                a.transform.position.x + nx * push,
+                a.transform.position.y + ny * push,
                 a.transform.position.z,
             )
         else:
-            half = depth * 0.5
+            half = push * 0.5
             a.transform.position = Vector3(
-                a.transform.position.x + normal[0] * half,
-                a.transform.position.y + normal[1] * half,
+                a.transform.position.x + nx * half,
+                a.transform.position.y + ny * half,
                 a.transform.position.z,
             )
             b.transform.position = Vector3(
-                b.transform.position.x - normal[0] * half,
-                b.transform.position.y - normal[1] * half,
+                b.transform.position.x - nx * half,
+                b.transform.position.y - ny * half,
                 b.transform.position.z,
             )
+
+        # --- Velocity impulse (bounce + friction) ---
+        # Look up colliders if not provided
+        if col_a is None:
+            col_a = a.get_component(Collider2D)
+        if col_b is None:
+            col_b = b.get_component(Collider2D)
+
+        # Combined material values
+        bounciness_a = getattr(col_a, 'bounciness', 0.0) if col_a else 0.0
+        bounciness_b = getattr(col_b, 'bounciness', 0.0) if col_b else 0.0
+        bounce_mode_a = getattr(col_a, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        bounce_mode_b = getattr(col_b, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        restitution = PhysicsMaterialCombine.combine(bounciness_a, bounciness_b, bounce_mode_a, bounce_mode_b)
+
+        sf_a = getattr(col_a, 'static_friction', 0.6) if col_a else 0.6
+        sf_b = getattr(col_b, 'static_friction', 0.6) if col_b else 0.6
+        df_a = getattr(col_a, 'dynamic_friction', 0.4) if col_a else 0.4
+        df_b = getattr(col_b, 'dynamic_friction', 0.4) if col_b else 0.4
+        fc_a = getattr(col_a, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        fc_b = getattr(col_b, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        static_fric = PhysicsMaterialCombine.combine(sf_a, sf_b, fc_a, fc_b)
+        dynamic_fric = PhysicsMaterialCombine.combine(df_a, df_b, fc_a, fc_b)
+
+        # Inverse masses (0 for static/kinematic bodies)
+        inv_mass_a = 0.0 if a_static else (1.0 / max(rb_a.mass, 1e-10))
+        inv_mass_b = 0.0 if b_static else (1.0 / max(rb_b.mass, 1e-10))
+
+        vx_a = rb_a.velocity.x if rb_a else 0.0
+        vy_a = rb_a.velocity.y if rb_a else 0.0
+        vx_b = rb_b.velocity.x if rb_b else 0.0
+        vy_b = rb_b.velocity.y if rb_b else 0.0
+
+        # Try Cython fast path
+        try:
+            from engine.cython import CYTHON_ENABLED
+            if not CYTHON_ENABLED:
+                raise ImportError
+            from engine.cython.cy_math import resolve_velocity_2d as _cy_rv2d
+            new_vx_a, new_vy_a, new_vx_b, new_vy_b = _cy_rv2d(
+                vx_a, vy_a, vx_b, vy_b,
+                nx, ny, inv_mass_a, inv_mass_b,
+                restitution, static_fric, dynamic_fric,
+            )
+        except (ImportError, ModuleNotFoundError):
+            new_vx_a, new_vy_a, new_vx_b, new_vy_b = self._resolve_velocity_2d_py(
+                vx_a, vy_a, vx_b, vy_b,
+                nx, ny, inv_mass_a, inv_mass_b,
+                restitution, static_fric, dynamic_fric,
+            )
+
+        if rb_a and not a_static:
+            rb_a.velocity = Vector2(new_vx_a, new_vy_a)
+        if rb_b and not b_static:
+            rb_b.velocity = Vector2(new_vx_b, new_vy_b)
+
+    # -- Pure-Python fallback for velocity resolution ----------------------
+
+    @staticmethod
+    def _resolve_velocity_2d_py(vx_a, vy_a, vx_b, vy_b,
+                                 nx, ny, inv_mass_a, inv_mass_b,
+                                 restitution, static_fric, dynamic_fric):
+        """Pure-Python impulse-based collision response (2D)."""
+        import math
+
+        # Relative velocity (A relative to B)
+        rvx = vx_a - vx_b
+        rvy = vy_a - vy_b
+        vel_along_normal = rvx * nx + rvy * ny
+
+        if vel_along_normal > 0:
+            return (vx_a, vy_a, vx_b, vy_b)
+
+        inv_mass_sum = inv_mass_a + inv_mass_b
+        if inv_mass_sum < 1e-12:
+            return (vx_a, vy_a, vx_b, vy_b)
+
+        # Normal impulse
+        j = -(1.0 + restitution) * vel_along_normal / inv_mass_sum
+
+        vx_a += j * inv_mass_a * nx
+        vy_a += j * inv_mass_a * ny
+        vx_b -= j * inv_mass_b * nx
+        vy_b -= j * inv_mass_b * ny
+
+        # Friction impulse
+        rvx = vx_a - vx_b
+        rvy = vy_a - vy_b
+        vt = rvx * nx + rvy * ny
+        tx = rvx - vt * nx
+        ty = rvy - vt * ny
+        t_mag = math.sqrt(tx * tx + ty * ty)
+
+        if t_mag < 1e-10:
+            return (vx_a, vy_a, vx_b, vy_b)
+
+        tx /= t_mag
+        ty /= t_mag
+        jt = -(rvx * tx + rvy * ty) / inv_mass_sum
+
+        if abs(jt) < j * static_fric:
+            vx_a += jt * inv_mass_a * tx
+            vy_a += jt * inv_mass_a * ty
+            vx_b -= jt * inv_mass_b * tx
+            vy_b -= jt * inv_mass_b * ty
+        else:
+            jt_clamped = -j * dynamic_fric if jt < 0 else j * dynamic_fric
+            vx_a += jt_clamped * inv_mass_a * tx
+            vy_a += jt_clamped * inv_mass_a * ty
+            vx_b -= jt_clamped * inv_mass_b * tx
+            vy_b -= jt_clamped * inv_mass_b * ty
+
+        return (vx_a, vy_a, vx_b, vy_b)
