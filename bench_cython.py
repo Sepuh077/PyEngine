@@ -31,6 +31,8 @@ N_TRANSFORM = 50_000
 N_PARTICLE_FRAMES = 300
 N_GAMELOOP_OBJECTS = 5_000
 N_GAMELOOP_FRAMES = 2_000
+N_LIFECYCLE_OBJECTS = 5_000
+N_LIFECYCLE_FRAMES = 2_000
 
 
 def timeit(fn, iterations, *args, **kwargs):
@@ -203,6 +205,8 @@ def bench_gameloop(n_objects, n_frames):
     Then runs the update loop for *n_frames* frames using the same code
     path as the real engine (cy_update_objects when Cython is available,
     plain Python loop otherwise).
+
+    Uses opt-in ``_scripts_update`` lists (empty Script.update is never called).
     """
     from engine.gameobject import GameObject
     from engine.component import Script, Time
@@ -221,12 +225,16 @@ def bench_gameloop(n_objects, n_frames):
             go.add_component(TinyScript())
         objects.append(go)
 
-    # Simulate the fast container: build an "updatables" list exactly like Scene does
-    updatables = [go for go in objects
-                  if (getattr(go, "_scripts", None) and len(go._scripts) > 0)
-                  or getattr(go, "_active_coroutines", None)
-                  or getattr(go, "_rigidbody", None) is not None
-                  or getattr(go, "_animator", None) is not None]
+    # Match Scene._updatables: only objects with opted-in update scripts (or other behavior)
+    updatables = [
+        go for go in objects
+        if (getattr(go, "_scripts_update", None) and len(go._scripts_update) > 0)
+        or (getattr(go, "_scripts", None) and len(go._scripts) > 0
+            and not hasattr(go, "_scripts_update"))  # legacy fallback
+        or getattr(go, "_active_coroutines", None)
+        or getattr(go, "_rigidbody", None) is not None
+        or getattr(go, "_animator", None) is not None
+    ]
 
     # Detect whether the Cython game loop is available
     try:
@@ -257,6 +265,145 @@ def bench_gameloop(n_objects, n_frames):
     return perf_counter() - start
 
 
+def bench_script_lifecycle(n_objects, n_frames):
+    """Benchmark Unity-like script phases with opt-in registration.
+
+    Mix of *n_objects* GameObjects (via Scene so phase lists match production):
+      - ~5%  ``update`` only
+      - ~5%  ``fixed_update`` only
+      - ~2%  ``late_update`` only
+      - ~2%  all three phases
+      - ~5%  empty Script (no overrides) — must not appear on phase lists
+      - rest passive Transform-only
+
+    Each frame mirrors ``WindowBase.tick`` order:
+      fixed_update × 1  →  update  →  late_update
+
+    Empty hooks are never called; cost scales with scripts that override
+    each method, not with total object count.
+    """
+    from engine.gameobject import GameObject
+    from engine.component import Script, Time
+    from engine.scene import Scene
+
+    class UpdateOnly(Script):
+        def update(self):
+            p = self.transform.position
+            self.transform.position = (p.x + 0.001, p.y, p.z)
+
+    class FixedOnly(Script):
+        def fixed_update(self):
+            p = self.transform.position
+            self.transform.position = (p.x, p.y + 0.001, p.z)
+
+    class LateOnly(Script):
+        def late_update(self):
+            p = self.transform.position
+            self.transform.position = (p.x, p.y, p.z + 0.001)
+
+    class AllPhases(Script):
+        def fixed_update(self):
+            p = self.transform.position
+            self.transform.position = (p.x + 0.0005, p.y, p.z)
+
+        def update(self):
+            p = self.transform.position
+            self.transform.position = (p.x, p.y + 0.0005, p.z)
+
+        def late_update(self):
+            p = self.transform.position
+            self.transform.position = (p.x, p.y, p.z + 0.0005)
+
+    class EmptyScript(Script):
+        pass
+
+    n_update = max(1, n_objects // 20)       # 5%
+    n_fixed = max(1, n_objects // 20)        # 5%
+    n_late = max(1, n_objects // 50)         # 2%
+    n_all = max(1, n_objects // 50)          # 2%
+    n_empty = max(1, n_objects // 20)        # 5% empty Script (should be free)
+
+    scene = Scene()
+    cursor = 0
+
+    def _add(n, script_cls):
+        nonlocal cursor
+        for _ in range(n):
+            go = GameObject(f"lc_{cursor}")
+            if script_cls is not None:
+                go.add_component(script_cls())
+            scene.add_object(go)
+            cursor += 1
+
+    _add(n_update, UpdateOnly)
+    _add(n_fixed, FixedOnly)
+    _add(n_late, LateOnly)
+    _add(n_all, AllPhases)
+    _add(n_empty, EmptyScript)
+    _add(max(0, n_objects - cursor), None)  # passive
+
+    # Sanity: empty scripts must not pollute phase lists
+    assert len(scene._fixed_updatables) == n_fixed + n_all
+    assert len(scene._late_updatables) == n_late + n_all
+    # update list includes update-only + all-phases (+ any other frame behavior)
+    n_frame = sum(
+        1 for o in scene._updatables
+        if getattr(o, "_scripts_update", None)
+    )
+    assert n_frame == n_update + n_all
+
+    fixed_list = scene._fixed_updatables
+    late_list = scene._late_updatables
+    updatables = scene._updatables
+
+    try:
+        from engine.cython import CYTHON_ENABLED
+        if not CYTHON_ENABLED:
+            raise ImportError
+        from engine.cython.cy_gameloop import cy_update_objects
+        use_cy = True
+    except (ImportError, ModuleNotFoundError):
+        use_cy = False
+
+    frame_dt = 0.016
+    fixed_dt = 1.0 / 60.0
+    Time.fixed_delta_time = fixed_dt
+    Time.maximum_delta_time = 0.0
+    Time._physics_accumulator = 0.0
+    Time._skip_rigidbody_frame_update = True
+
+    def _run_fixed(objs):
+        if not objs:
+            return
+        for obj in objs:
+            for script in obj._scripts_fixed:
+                script.fixed_update()
+
+    def _run_late(objs):
+        if not objs:
+            return
+        for obj in objs:
+            for script in obj._scripts_late:
+                script.late_update()
+
+    start = perf_counter()
+    for _ in range(n_frames):
+        # One fixed step per frame (same cost shape as a full accumulator flush
+        # of a single step; keeps the bench deterministic).
+        Time.delta_time = fixed_dt
+        _run_fixed(fixed_list)
+
+        Time.delta_time = frame_dt
+        if use_cy:
+            cy_update_objects(updatables, frame_dt)
+        else:
+            for obj in updatables:
+                obj.update()
+
+        _run_late(late_list)
+    return perf_counter() - start
+
+
 # =============================================================================
 # Runner: executes all benchmarks and returns a dict of results
 # =============================================================================
@@ -280,6 +427,8 @@ BENCHMARKS = [
      f"{N_PARTICLE_FRAMES} frames"),
     ("Game loop (many objs)", lambda: bench_gameloop(N_GAMELOOP_OBJECTS, N_GAMELOOP_FRAMES),
      f"{N_GAMELOOP_OBJECTS:,} objs x {N_GAMELOOP_FRAMES:,} frames"),
+    ("Script lifecycle", lambda: bench_script_lifecycle(N_LIFECYCLE_OBJECTS, N_LIFECYCLE_FRAMES),
+     f"{N_LIFECYCLE_OBJECTS:,} objs x {N_LIFECYCLE_FRAMES:,} frames (fixed/update/late)"),
 ]
 
 
