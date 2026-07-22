@@ -56,6 +56,40 @@ class Rigidbody2D(Component):
         self.drag = drag
         self.angular_drag = angular_drag
         self.gravity_scale = gravity_scale
+        self.sleep_threshold = 0.05
+        self.sleep_time = 0.5
+        self._sleep_timer = 0.0
+        self._is_sleeping = False
+
+    @property
+    def is_sleeping(self) -> bool:
+        return self._is_sleeping
+
+    def wake(self) -> None:
+        self._is_sleeping = False
+        self._sleep_timer = 0.0
+
+    def sleep(self) -> None:
+        if self.is_static or self.is_kinematic:
+            return
+        self._is_sleeping = True
+        self._sleep_timer = 0.0
+        self._velocity = Vector2.zero()
+        self._angular_velocity = 0.0
+
+    def _update_sleep(self, delta_time: float) -> None:
+        lin = self._velocity.magnitude if hasattr(self._velocity, "magnitude") else float(
+            np.linalg.norm([self._velocity.x, self._velocity.y])
+        )
+        ang = abs(self._angular_velocity) * 0.017453292519943295  # deg/s → rough rad-ish scale
+        thr = float(self.sleep_threshold)
+        if lin < thr and ang < thr:
+            self._sleep_timer += delta_time
+            if self._sleep_timer >= float(self.sleep_time):
+                self.sleep()
+        else:
+            self._sleep_timer = 0.0
+            self._is_sleeping = False
 
     # ------------------------------------------------------------------
     # Velocity
@@ -74,6 +108,7 @@ class Rigidbody2D(Component):
             self._velocity = Vector2(value)
         else:
             raise TypeError(f"velocity must be Vector2, numpy array, tuple, or list, got {type(value)}")
+        self.wake()
 
     @property
     def angular_velocity(self) -> float:
@@ -83,28 +118,39 @@ class Rigidbody2D(Component):
     @angular_velocity.setter
     def angular_velocity(self, value: float):
         self._angular_velocity = float(value)
+        self.wake()
 
     # ------------------------------------------------------------------
     # Forces
     # ------------------------------------------------------------------
 
-    def add_force(self, force) -> None:
-        """Apply an impulse-style force: velocity += force / mass."""
+    def add_force(self, force, as_impulse: bool = True) -> None:
+        """Apply force. Default is impulse (``v += F/m``); continuous if as_impulse=False."""
         force_vec = Vector2(force) if not isinstance(force, Vector2) else force
         m = self.mass if self.mass > 1e-10 else 1e-10
-        self._velocity = self._velocity + force_vec / m
+        if as_impulse:
+            self._velocity = self._velocity + force_vec / m
+        else:
+            self._velocity = self._velocity + force_vec * (Time.delta_time / m)
+        self.wake()
 
-    def add_torque(self, torque: float) -> None:
-        """Apply a torque impulse: angular_velocity += torque / mass."""
+    def add_torque(self, torque: float, as_impulse: bool = True) -> None:
+        """Apply torque. Default is impulse; continuous if as_impulse=False."""
         m = self.mass if self.mass > 1e-10 else 1e-10
-        self._angular_velocity += torque / m
+        if as_impulse:
+            self._angular_velocity += torque / m
+        else:
+            self._angular_velocity += torque * (Time.delta_time / m)
+        self.wake()
 
     # ------------------------------------------------------------------
     # Integration
     # ------------------------------------------------------------------
 
     def update(self):
-        if self.is_static or self.is_kinematic:
+        if Time._skip_rigidbody_frame_update:
+            return
+        if self.is_static or self.is_kinematic or self._is_sleeping:
             return
 
         dt = Time.delta_time
@@ -131,6 +177,7 @@ class Rigidbody2D(Component):
                 self.game_object.transform.move(move_x, move_y, 0.0)
             if need_rotate and has_go and self._angular_velocity != 0.0:
                 self.game_object.transform.rotate(0.0, 0.0, self._angular_velocity * dt)
+            self._update_sleep(dt)
             return
 
         # --- Pure Python fallback ---
@@ -163,3 +210,5 @@ class Rigidbody2D(Component):
             self.game_object.transform.move(vx * dt, vy * dt, 0.0)
             if self._angular_velocity != 0.0:
                 self.game_object.transform.rotate(0.0, 0.0, self._angular_velocity * dt)
+
+        self._update_sleep(dt)

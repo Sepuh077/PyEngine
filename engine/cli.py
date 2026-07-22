@@ -208,12 +208,10 @@ REQUIREMENTS_TXT_TEMPLATE = """# PyEngine Game Dependencies
 # Core PyEngine Dependencies
 pygame>=2.6.0
 numpy>=1.20.0
-pyglet>=2.1.0
 pillow>=11.0.0
 trimesh>=4.0.0
 scipy>=1.10.0
 moderngl>=5.6.0
-moderngl-window>=2.4.0
 
 # Optional: Editor
 # PySide6>=6.6.0
@@ -238,10 +236,10 @@ requires-python = ">=3.8"
 dependencies = [
     "pygame>=2.6.0",
     "numpy>=1.20.0",
-    "pyglet>=2.1.0",
     "pillow>=11.0.0",
     "trimesh>=4.0.0",
     "scipy>=1.10.0",
+    "moderngl>=5.6.0",
 ]
 
 [tool.pyengine.build]
@@ -958,7 +956,8 @@ Examples:
         """,
     )
 
-    parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
+    from engine.version import __version__ as _pyengine_version
+    parser.add_argument("--version", action="version", version=f"%(prog)s {_pyengine_version}")
 
     # Global flag for 2D mode (affects startproject)
     parser.add_argument(

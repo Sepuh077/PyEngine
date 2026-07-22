@@ -10,7 +10,7 @@
             ]
         ],
         "include_dirs": [
-            "/tmp/pip-build-env-o1b0_avt/overlay/lib/python3.12/site-packages/numpy/_core/include"
+            "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
         ],
         "name": "engine.cython.cy_gameloop",
         "sources": [
@@ -1901,11 +1901,11 @@ static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject 
 #define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
 #endif
 
-/* RaiseUnexpectedTypeError.proto */
-static int __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj);
-
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
+
+/* RaiseUnexpectedTypeError.proto */
+static int __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj);
 
 /* PyObjectFastCallMethod.proto */
 #if CYTHON_VECTORCALL && PY_VERSION_HEX >= 0x03090000
@@ -2308,7 +2308,7 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_pop;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_codeobj_tab[2];
-  PyObject *__pyx_string_tab[60];
+  PyObject *__pyx_string_tab[61];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
 PyTypeObject *__pyx_CommonTypesMetaclassType;
@@ -2398,17 +2398,18 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_script __pyx_string_tab[46]
 #define __pyx_n_u_scripts __pyx_string_tab[47]
 #define __pyx_n_u_scripts_2 __pyx_string_tab[48]
-#define __pyx_n_u_set_name __pyx_string_tab[49]
-#define __pyx_n_u_setdefault __pyx_string_tab[50]
-#define __pyx_n_u_start __pyx_string_tab[51]
-#define __pyx_n_u_started __pyx_string_tab[52]
-#define __pyx_n_u_test __pyx_string_tab[53]
-#define __pyx_n_u_update __pyx_string_tab[54]
-#define __pyx_n_u_update_coroutines __pyx_string_tab[55]
-#define __pyx_n_u_update_end_of_frame_coroutines __pyx_string_tab[56]
-#define __pyx_n_u_values __pyx_string_tab[57]
-#define __pyx_kp_b_iso88591_Cq_U_1_hgQa_7_5_4A_q __pyx_string_tab[58]
-#define __pyx_kp_b_iso88591_q_Q_Cq_U_1_hgQa_Q_AQ_wauM_5_q_W __pyx_string_tab[59]
+#define __pyx_n_u_scripts_update __pyx_string_tab[49]
+#define __pyx_n_u_set_name __pyx_string_tab[50]
+#define __pyx_n_u_setdefault __pyx_string_tab[51]
+#define __pyx_n_u_start __pyx_string_tab[52]
+#define __pyx_n_u_started __pyx_string_tab[53]
+#define __pyx_n_u_test __pyx_string_tab[54]
+#define __pyx_n_u_update __pyx_string_tab[55]
+#define __pyx_n_u_update_coroutines __pyx_string_tab[56]
+#define __pyx_n_u_update_end_of_frame_coroutines __pyx_string_tab[57]
+#define __pyx_n_u_values __pyx_string_tab[58]
+#define __pyx_kp_b_iso88591_Cq_U_1_hgQa_7_5_4A_q __pyx_string_tab[59]
+#define __pyx_kp_b_iso88591_q_Q_Cq_U_1_hgQa_2_83a_c_AQ_wauM __pyx_string_tab[60]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -2424,7 +2425,7 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   __Pyx_State_RemoveModule(NULL);
   #endif
   for (int i=0; i<2; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<60; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<61; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
 Py_CLEAR(clear_module_state->__pyx_CommonTypesMetaclassType);
@@ -2448,7 +2449,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_bytes);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_unicode);
   for (int i=0; i<2; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<60; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<61; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
 Py_VISIT(traverse_module_state->__pyx_CommonTypesMetaclassType);
@@ -2603,8 +2604,8 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
   int __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  int __pyx_t_12;
+  int __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
   size_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
   Py_ssize_t __pyx_t_15;
@@ -2763,7 +2764,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
  *     for i in range(n):
  *         obj = <object>objects[i]             # <<<<<<<<<<<<<<
  * 
- *         scripts = obj._scripts
+ *         # Prefer opt-in _scripts_update (only scripts that override update()).
 */
     if (unlikely(__pyx_v_objects == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -2774,84 +2775,116 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
     __Pyx_XDECREF_SET(__pyx_v_obj, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":53
- *         obj = <object>objects[i]
- * 
- *         scripts = obj._scripts             # <<<<<<<<<<<<<<
- *         ns = <Py_ssize_t>len(scripts)
- * 
+    /* "engine/cython/cy_gameloop.pyx":55
+ *         # Prefer opt-in _scripts_update (only scripts that override update()).
+ *         # Fall back to _scripts for older GameObject builds.
+ *         scripts = getattr(obj, '_scripts_update', None)             # <<<<<<<<<<<<<<
+ *         if scripts is None:
+ *             scripts = obj._scripts
 */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_scripts); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_scripts_update, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 53, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_scripts, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":54
+    /* "engine/cython/cy_gameloop.pyx":56
+ *         # Fall back to _scripts for older GameObject builds.
+ *         scripts = getattr(obj, '_scripts_update', None)
+ *         if scripts is None:             # <<<<<<<<<<<<<<
+ *             scripts = obj._scripts
+ *         ns = <Py_ssize_t>len(scripts)
+*/
+    __pyx_t_11 = (__pyx_v_scripts == ((PyObject*)Py_None));
+    if (__pyx_t_11) {
+
+      /* "engine/cython/cy_gameloop.pyx":57
+ *         scripts = getattr(obj, '_scripts_update', None)
+ *         if scripts is None:
+ *             scripts = obj._scripts             # <<<<<<<<<<<<<<
+ *         ns = <Py_ssize_t>len(scripts)
  * 
- *         scripts = obj._scripts
+*/
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_scripts); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 57, __pyx_L1_error)
+      __Pyx_DECREF_SET(__pyx_v_scripts, ((PyObject*)__pyx_t_4));
+      __pyx_t_4 = 0;
+
+      /* "engine/cython/cy_gameloop.pyx":56
+ *         # Fall back to _scripts for older GameObject builds.
+ *         scripts = getattr(obj, '_scripts_update', None)
+ *         if scripts is None:             # <<<<<<<<<<<<<<
+ *             scripts = obj._scripts
+ *         ns = <Py_ssize_t>len(scripts)
+*/
+    }
+
+    /* "engine/cython/cy_gameloop.pyx":58
+ *         if scripts is None:
+ *             scripts = obj._scripts
  *         ns = <Py_ssize_t>len(scripts)             # <<<<<<<<<<<<<<
  * 
  *         # Fast path: use cached direct references populated by GameObject.add_component
 */
     if (unlikely(__pyx_v_scripts == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 54, __pyx_L1_error)
+      __PYX_ERR(0, 58, __pyx_L1_error)
     }
-    __pyx_t_11 = __Pyx_PyList_GET_SIZE(__pyx_v_scripts); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 54, __pyx_L1_error)
-    __pyx_v_ns = ((Py_ssize_t)__pyx_t_11);
+    __pyx_t_12 = __Pyx_PyList_GET_SIZE(__pyx_v_scripts); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_v_ns = ((Py_ssize_t)__pyx_t_12);
 
-    /* "engine/cython/cy_gameloop.pyx":58
+    /* "engine/cython/cy_gameloop.pyx":62
  *         # Fast path: use cached direct references populated by GameObject.add_component
  *         # instead of calling the Python get_component() which does linear search.
  *         anim = getattr(obj, '_animator', None)             # <<<<<<<<<<<<<<
  *         has_anim = anim is not None
  * 
 */
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_animator, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_animator, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_anim, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":59
+    /* "engine/cython/cy_gameloop.pyx":63
  *         # instead of calling the Python get_component() which does linear search.
  *         anim = getattr(obj, '_animator', None)
  *         has_anim = anim is not None             # <<<<<<<<<<<<<<
  * 
  *         rb = getattr(obj, '_rigidbody', None)
 */
-    __pyx_t_12 = (__pyx_v_anim != Py_None);
-    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_11 = (__pyx_v_anim != Py_None);
+    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_has_anim, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":61
+    /* "engine/cython/cy_gameloop.pyx":65
  *         has_anim = anim is not None
  * 
  *         rb = getattr(obj, '_rigidbody', None)             # <<<<<<<<<<<<<<
  *         has_rb = rb is not None
  * 
 */
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_rigidbody, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_rigidbody, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_rb, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":62
+    /* "engine/cython/cy_gameloop.pyx":66
  * 
  *         rb = getattr(obj, '_rigidbody', None)
  *         has_rb = rb is not None             # <<<<<<<<<<<<<<
  * 
  *         has_ps = False
 */
-    __pyx_t_12 = (__pyx_v_rb != Py_None);
-    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_11 = (__pyx_v_rb != Py_None);
+    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_has_rb, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":64
+    /* "engine/cython/cy_gameloop.pyx":68
  *         has_rb = rb is not None
  * 
  *         has_ps = False             # <<<<<<<<<<<<<<
@@ -2861,29 +2894,29 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
     __Pyx_INCREF(Py_False);
     __Pyx_XDECREF_SET(__pyx_v_has_ps, Py_False);
 
-    /* "engine/cython/cy_gameloop.pyx":65
+    /* "engine/cython/cy_gameloop.pyx":69
  * 
  *         has_ps = False
  *         ps = getattr(obj, '_particle_system', None)             # <<<<<<<<<<<<<<
  *         if ps is not None:
  *             has_ps = True
 */
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_particle_system, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_particle_system, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_ps, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":66
+    /* "engine/cython/cy_gameloop.pyx":70
  *         has_ps = False
  *         ps = getattr(obj, '_particle_system', None)
  *         if ps is not None:             # <<<<<<<<<<<<<<
  *             has_ps = True
  *         elif PS is not None:
 */
-    __pyx_t_12 = (__pyx_v_ps != Py_None);
-    if (__pyx_t_12) {
+    __pyx_t_11 = (__pyx_v_ps != Py_None);
+    if (__pyx_t_11) {
 
-      /* "engine/cython/cy_gameloop.pyx":67
+      /* "engine/cython/cy_gameloop.pyx":71
  *         ps = getattr(obj, '_particle_system', None)
  *         if ps is not None:
  *             has_ps = True             # <<<<<<<<<<<<<<
@@ -2893,27 +2926,27 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
       __Pyx_INCREF(Py_True);
       __Pyx_DECREF_SET(__pyx_v_has_ps, Py_True);
 
-      /* "engine/cython/cy_gameloop.pyx":66
+      /* "engine/cython/cy_gameloop.pyx":70
  *         has_ps = False
  *         ps = getattr(obj, '_particle_system', None)
  *         if ps is not None:             # <<<<<<<<<<<<<<
  *             has_ps = True
  *         elif PS is not None:
 */
-      goto __pyx_L13;
+      goto __pyx_L14;
     }
 
-    /* "engine/cython/cy_gameloop.pyx":68
+    /* "engine/cython/cy_gameloop.pyx":72
  *         if ps is not None:
  *             has_ps = True
  *         elif PS is not None:             # <<<<<<<<<<<<<<
  *             # Fallback to get_component (for objects added before cache was introduced)
  *             try:
 */
-    __pyx_t_12 = (__pyx_v_PS != Py_None);
-    if (__pyx_t_12) {
+    __pyx_t_11 = (__pyx_v_PS != Py_None);
+    if (__pyx_t_11) {
 
-      /* "engine/cython/cy_gameloop.pyx":70
+      /* "engine/cython/cy_gameloop.pyx":74
  *         elif PS is not None:
  *             # Fallback to get_component (for objects added before cache was introduced)
  *             try:             # <<<<<<<<<<<<<<
@@ -2929,7 +2962,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
         __Pyx_XGOTREF(__pyx_t_1);
         /*try:*/ {
 
-          /* "engine/cython/cy_gameloop.pyx":71
+          /* "engine/cython/cy_gameloop.pyx":75
  *             # Fallback to get_component (for objects added before cache was introduced)
  *             try:
  *                 ps = obj.get_component(PS)             # <<<<<<<<<<<<<<
@@ -2943,26 +2976,26 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_v_PS};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_get_component, __pyx_callargs+__pyx_t_13, (2-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L14_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L15_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF_SET(__pyx_v_ps, __pyx_t_4);
           __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":72
+          /* "engine/cython/cy_gameloop.pyx":76
  *             try:
  *                 ps = obj.get_component(PS)
  *                 has_ps = ps is not None             # <<<<<<<<<<<<<<
  *             except Exception:
  *                 pass
 */
-          __pyx_t_12 = (__pyx_v_ps != Py_None);
-          __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L14_error)
+          __pyx_t_11 = (__pyx_v_ps != Py_None);
+          __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L15_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF_SET(__pyx_v_has_ps, __pyx_t_4);
           __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":70
+          /* "engine/cython/cy_gameloop.pyx":74
  *         elif PS is not None:
  *             # Fallback to get_component (for objects added before cache was introduced)
  *             try:             # <<<<<<<<<<<<<<
@@ -2973,12 +3006,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        goto __pyx_L21_try_end;
-        __pyx_L14_error:;
+        goto __pyx_L22_try_end;
+        __pyx_L15_error:;
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "engine/cython/cy_gameloop.pyx":73
+        /* "engine/cython/cy_gameloop.pyx":77
  *                 ps = obj.get_component(PS)
  *                 has_ps = ps is not None
  *             except Exception:             # <<<<<<<<<<<<<<
@@ -2988,32 +3021,32 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
         __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(((PyTypeObject*)PyExc_Exception))));
         if (__pyx_t_8) {
           __Pyx_ErrRestore(0,0,0);
-          goto __pyx_L15_exception_handled;
+          goto __pyx_L16_exception_handled;
         }
-        goto __pyx_L16_except_error;
+        goto __pyx_L17_except_error;
 
-        /* "engine/cython/cy_gameloop.pyx":70
+        /* "engine/cython/cy_gameloop.pyx":74
  *         elif PS is not None:
  *             # Fallback to get_component (for objects added before cache was introduced)
  *             try:             # <<<<<<<<<<<<<<
  *                 ps = obj.get_component(PS)
  *                 has_ps = ps is not None
 */
-        __pyx_L16_except_error:;
+        __pyx_L17_except_error:;
         __Pyx_XGIVEREF(__pyx_t_3);
         __Pyx_XGIVEREF(__pyx_t_2);
         __Pyx_XGIVEREF(__pyx_t_1);
         __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_2, __pyx_t_1);
         goto __pyx_L1_error;
-        __pyx_L15_exception_handled:;
+        __pyx_L16_exception_handled:;
         __Pyx_XGIVEREF(__pyx_t_3);
         __Pyx_XGIVEREF(__pyx_t_2);
         __Pyx_XGIVEREF(__pyx_t_1);
         __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_2, __pyx_t_1);
-        __pyx_L21_try_end:;
+        __pyx_L22_try_end:;
       }
 
-      /* "engine/cython/cy_gameloop.pyx":68
+      /* "engine/cython/cy_gameloop.pyx":72
  *         if ps is not None:
  *             has_ps = True
  *         elif PS is not None:             # <<<<<<<<<<<<<<
@@ -3021,92 +3054,92 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
  *             try:
 */
     }
-    __pyx_L13:;
+    __pyx_L14:;
 
-    /* "engine/cython/cy_gameloop.pyx":78
- *         # Update objects that have scripts, coroutines, Animators, Rigidbodies or ParticleSystems
- *         # (Rigidbody/ParticleSystem updates are required even without scripts)
+    /* "engine/cython/cy_gameloop.pyx":82
+ *         # Update objects that have opted-in update scripts, coroutines, Animators,
+ *         # Rigidbodies or ParticleSystems. Empty Script.update is never registered.
  *         needs_update = (ns > 0) or bool(getattr(obj, '_active_coroutines', None)) or has_anim or has_rb or has_ps             # <<<<<<<<<<<<<<
  * 
  *         if needs_update:
 */
-    __pyx_t_12 = (__pyx_v_ns > 0);
-    if (!__pyx_t_12) {
+    __pyx_t_11 = (__pyx_v_ns > 0);
+    if (!__pyx_t_11) {
     } else {
-      __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_4 = __pyx_t_7;
       __pyx_t_7 = 0;
-      goto __pyx_L24_bool_binop_done;
+      goto __pyx_L25_bool_binop_done;
     }
-    __pyx_t_7 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_active_coroutines, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_active_coroutines, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyBool_FromLong((!(!__pyx_t_12))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyBool_FromLong((!(!__pyx_t_11))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 78, __pyx_L1_error)
-    if (!__pyx_t_12) {
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (!__pyx_t_11) {
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else {
       __Pyx_INCREF(__pyx_t_7);
       __pyx_t_4 = __pyx_t_7;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      goto __pyx_L24_bool_binop_done;
+      goto __pyx_L25_bool_binop_done;
     }
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_has_anim); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 78, __pyx_L1_error)
-    if (!__pyx_t_12) {
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_has_anim); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (!__pyx_t_11) {
     } else {
       __Pyx_INCREF(__pyx_v_has_anim);
       __pyx_t_4 = __pyx_v_has_anim;
-      goto __pyx_L24_bool_binop_done;
+      goto __pyx_L25_bool_binop_done;
     }
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_has_rb); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 78, __pyx_L1_error)
-    if (!__pyx_t_12) {
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_has_rb); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (!__pyx_t_11) {
     } else {
       __Pyx_INCREF(__pyx_v_has_rb);
       __pyx_t_4 = __pyx_v_has_rb;
-      goto __pyx_L24_bool_binop_done;
+      goto __pyx_L25_bool_binop_done;
     }
     __Pyx_INCREF(__pyx_v_has_ps);
     __pyx_t_4 = __pyx_v_has_ps;
-    __pyx_L24_bool_binop_done:;
+    __pyx_L25_bool_binop_done:;
     __Pyx_XDECREF_SET(__pyx_v_needs_update, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":80
+    /* "engine/cython/cy_gameloop.pyx":84
  *         needs_update = (ns > 0) or bool(getattr(obj, '_active_coroutines', None)) or has_anim or has_rb or has_ps
  * 
  *         if needs_update:             # <<<<<<<<<<<<<<
  *             if ns > 0:
  *                 for j in range(ns):
 */
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_needs_update); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 80, __pyx_L1_error)
-    if (__pyx_t_12) {
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_needs_update); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 84, __pyx_L1_error)
+    if (__pyx_t_11) {
 
-      /* "engine/cython/cy_gameloop.pyx":81
+      /* "engine/cython/cy_gameloop.pyx":85
  * 
  *         if needs_update:
  *             if ns > 0:             # <<<<<<<<<<<<<<
  *                 for j in range(ns):
  *                     script = <object>scripts[j]
 */
-      __pyx_t_12 = (__pyx_v_ns > 0);
-      if (__pyx_t_12) {
+      __pyx_t_11 = (__pyx_v_ns > 0);
+      if (__pyx_t_11) {
 
-        /* "engine/cython/cy_gameloop.pyx":82
+        /* "engine/cython/cy_gameloop.pyx":86
  *         if needs_update:
  *             if ns > 0:
  *                 for j in range(ns):             # <<<<<<<<<<<<<<
  *                     script = <object>scripts[j]
  *                     # Ensure awake/start are called before first update (mirrors pure Python start_components)
 */
-        __pyx_t_11 = __pyx_v_ns;
-        __pyx_t_14 = __pyx_t_11;
+        __pyx_t_12 = __pyx_v_ns;
+        __pyx_t_14 = __pyx_t_12;
         for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
           __pyx_v_j = __pyx_t_15;
 
-          /* "engine/cython/cy_gameloop.pyx":83
+          /* "engine/cython/cy_gameloop.pyx":87
  *             if ns > 0:
  *                 for j in range(ns):
  *                     script = <object>scripts[j]             # <<<<<<<<<<<<<<
@@ -3115,28 +3148,28 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
           if (unlikely(__pyx_v_scripts == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 83, __pyx_L1_error)
+            __PYX_ERR(0, 87, __pyx_L1_error)
           }
           __pyx_t_4 = __Pyx_PyList_GET_ITEM(__pyx_v_scripts, __pyx_v_j);
           __Pyx_INCREF(__pyx_t_4);
           __Pyx_XDECREF_SET(__pyx_v_script, __pyx_t_4);
           __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":85
+          /* "engine/cython/cy_gameloop.pyx":89
  *                     script = <object>scripts[j]
  *                     # Ensure awake/start are called before first update (mirrors pure Python start_components)
  *                     if not getattr(script, '_awoken', False):             # <<<<<<<<<<<<<<
  *                         script.awake()
  *                         script._awoken = True
 */
-          __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 85, __pyx_L1_error)
+          __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 89, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_16 = (!__pyx_t_12);
+          __pyx_t_16 = (!__pyx_t_11);
           if (__pyx_t_16) {
 
-            /* "engine/cython/cy_gameloop.pyx":86
+            /* "engine/cython/cy_gameloop.pyx":90
  *                     # Ensure awake/start are called before first update (mirrors pure Python start_components)
  *                     if not getattr(script, '_awoken', False):
  *                         script.awake()             # <<<<<<<<<<<<<<
@@ -3150,21 +3183,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
               PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
               __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_awake, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
               __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_4);
             }
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "engine/cython/cy_gameloop.pyx":87
+            /* "engine/cython/cy_gameloop.pyx":91
  *                     if not getattr(script, '_awoken', False):
  *                         script.awake()
  *                         script._awoken = True             # <<<<<<<<<<<<<<
  *                     if not getattr(script, '_started', False):
  *                         script.start()
 */
-            if (__Pyx_PyObject_SetAttrStr(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 87, __pyx_L1_error)
+            if (__Pyx_PyObject_SetAttrStr(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
 
-            /* "engine/cython/cy_gameloop.pyx":85
+            /* "engine/cython/cy_gameloop.pyx":89
  *                     script = <object>scripts[j]
  *                     # Ensure awake/start are called before first update (mirrors pure Python start_components)
  *                     if not getattr(script, '_awoken', False):             # <<<<<<<<<<<<<<
@@ -3173,21 +3206,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
           }
 
-          /* "engine/cython/cy_gameloop.pyx":88
+          /* "engine/cython/cy_gameloop.pyx":92
  *                         script.awake()
  *                         script._awoken = True
  *                     if not getattr(script, '_started', False):             # <<<<<<<<<<<<<<
  *                         script.start()
  *                         script._started = True
 */
-          __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 88, __pyx_L1_error)
+          __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 92, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_12 = (!__pyx_t_16);
-          if (__pyx_t_12) {
+          __pyx_t_11 = (!__pyx_t_16);
+          if (__pyx_t_11) {
 
-            /* "engine/cython/cy_gameloop.pyx":89
+            /* "engine/cython/cy_gameloop.pyx":93
  *                         script._awoken = True
  *                     if not getattr(script, '_started', False):
  *                         script.start()             # <<<<<<<<<<<<<<
@@ -3201,21 +3234,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
               PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
               __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_start, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
               __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_4);
             }
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "engine/cython/cy_gameloop.pyx":90
+            /* "engine/cython/cy_gameloop.pyx":94
  *                     if not getattr(script, '_started', False):
  *                         script.start()
  *                         script._started = True             # <<<<<<<<<<<<<<
  *                     script.update()
  * 
 */
-            if (__Pyx_PyObject_SetAttrStr(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+            if (__Pyx_PyObject_SetAttrStr(__pyx_v_script, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 94, __pyx_L1_error)
 
-            /* "engine/cython/cy_gameloop.pyx":88
+            /* "engine/cython/cy_gameloop.pyx":92
  *                         script.awake()
  *                         script._awoken = True
  *                     if not getattr(script, '_started', False):             # <<<<<<<<<<<<<<
@@ -3224,7 +3257,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
           }
 
-          /* "engine/cython/cy_gameloop.pyx":91
+          /* "engine/cython/cy_gameloop.pyx":95
  *                         script.start()
  *                         script._started = True
  *                     script.update()             # <<<<<<<<<<<<<<
@@ -3238,13 +3271,13 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
 
-        /* "engine/cython/cy_gameloop.pyx":81
+        /* "engine/cython/cy_gameloop.pyx":85
  * 
  *         if needs_update:
  *             if ns > 0:             # <<<<<<<<<<<<<<
@@ -3253,39 +3286,39 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
       }
 
-      /* "engine/cython/cy_gameloop.pyx":93
+      /* "engine/cython/cy_gameloop.pyx":97
  *                     script.update()
  * 
  *             if has_rb and rb is not None:             # <<<<<<<<<<<<<<
  *                 if not getattr(rb, '_awoken', False):
  *                     rb.awake()
 */
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_rb); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 93, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_rb); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 97, __pyx_L1_error)
       if (__pyx_t_16) {
       } else {
-        __pyx_t_12 = __pyx_t_16;
-        goto __pyx_L36_bool_binop_done;
+        __pyx_t_11 = __pyx_t_16;
+        goto __pyx_L37_bool_binop_done;
       }
       __pyx_t_16 = (__pyx_v_rb != Py_None);
-      __pyx_t_12 = __pyx_t_16;
-      __pyx_L36_bool_binop_done:;
-      if (__pyx_t_12) {
+      __pyx_t_11 = __pyx_t_16;
+      __pyx_L37_bool_binop_done:;
+      if (__pyx_t_11) {
 
-        /* "engine/cython/cy_gameloop.pyx":94
+        /* "engine/cython/cy_gameloop.pyx":98
  * 
  *             if has_rb and rb is not None:
  *                 if not getattr(rb, '_awoken', False):             # <<<<<<<<<<<<<<
  *                     rb.awake()
  *                     rb._awoken = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 94, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 98, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_16 = (!__pyx_t_12);
+        __pyx_t_16 = (!__pyx_t_11);
         if (__pyx_t_16) {
 
-          /* "engine/cython/cy_gameloop.pyx":95
+          /* "engine/cython/cy_gameloop.pyx":99
  *             if has_rb and rb is not None:
  *                 if not getattr(rb, '_awoken', False):
  *                     rb.awake()             # <<<<<<<<<<<<<<
@@ -3299,21 +3332,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_awake, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":96
+          /* "engine/cython/cy_gameloop.pyx":100
  *                 if not getattr(rb, '_awoken', False):
  *                     rb.awake()
  *                     rb._awoken = True             # <<<<<<<<<<<<<<
  *                 if not getattr(rb, '_started', False):
  *                     rb.start()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 96, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 100, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":94
+          /* "engine/cython/cy_gameloop.pyx":98
  * 
  *             if has_rb and rb is not None:
  *                 if not getattr(rb, '_awoken', False):             # <<<<<<<<<<<<<<
@@ -3322,21 +3355,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":97
+        /* "engine/cython/cy_gameloop.pyx":101
  *                     rb.awake()
  *                     rb._awoken = True
  *                 if not getattr(rb, '_started', False):             # <<<<<<<<<<<<<<
  *                     rb.start()
  *                     rb._started = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 101, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_12 = (!__pyx_t_16);
-        if (__pyx_t_12) {
+        __pyx_t_11 = (!__pyx_t_16);
+        if (__pyx_t_11) {
 
-          /* "engine/cython/cy_gameloop.pyx":98
+          /* "engine/cython/cy_gameloop.pyx":102
  *                     rb._awoken = True
  *                 if not getattr(rb, '_started', False):
  *                     rb.start()             # <<<<<<<<<<<<<<
@@ -3350,21 +3383,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_start, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":99
+          /* "engine/cython/cy_gameloop.pyx":103
  *                 if not getattr(rb, '_started', False):
  *                     rb.start()
  *                     rb._started = True             # <<<<<<<<<<<<<<
  *                 try:
  *                     rb.update()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 99, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_rb, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 103, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":97
+          /* "engine/cython/cy_gameloop.pyx":101
  *                     rb.awake()
  *                     rb._awoken = True
  *                 if not getattr(rb, '_started', False):             # <<<<<<<<<<<<<<
@@ -3373,7 +3406,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":100
+        /* "engine/cython/cy_gameloop.pyx":104
  *                     rb.start()
  *                     rb._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3389,7 +3422,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XGOTREF(__pyx_t_3);
           /*try:*/ {
 
-            /* "engine/cython/cy_gameloop.pyx":101
+            /* "engine/cython/cy_gameloop.pyx":105
  *                     rb._started = True
  *                 try:
  *                     rb.update()             # <<<<<<<<<<<<<<
@@ -3403,12 +3436,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
               PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
               __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
               __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L40_error)
+              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L41_error)
               __Pyx_GOTREF(__pyx_t_4);
             }
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "engine/cython/cy_gameloop.pyx":100
+            /* "engine/cython/cy_gameloop.pyx":104
  *                     rb.start()
  *                     rb._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3419,12 +3452,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          goto __pyx_L47_try_end;
-          __pyx_L40_error:;
+          goto __pyx_L48_try_end;
+          __pyx_L41_error:;
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":102
+          /* "engine/cython/cy_gameloop.pyx":106
  *                 try:
  *                     rb.update()
  *                 except Exception:             # <<<<<<<<<<<<<<
@@ -3434,32 +3467,32 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(((PyTypeObject*)PyExc_Exception))));
           if (__pyx_t_8) {
             __Pyx_ErrRestore(0,0,0);
-            goto __pyx_L41_exception_handled;
+            goto __pyx_L42_exception_handled;
           }
-          goto __pyx_L42_except_error;
+          goto __pyx_L43_except_error;
 
-          /* "engine/cython/cy_gameloop.pyx":100
+          /* "engine/cython/cy_gameloop.pyx":104
  *                     rb.start()
  *                     rb._started = True
  *                 try:             # <<<<<<<<<<<<<<
  *                     rb.update()
  *                 except Exception:
 */
-          __pyx_L42_except_error:;
+          __pyx_L43_except_error:;
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
           goto __pyx_L1_error;
-          __pyx_L41_exception_handled:;
+          __pyx_L42_exception_handled:;
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
-          __pyx_L47_try_end:;
+          __pyx_L48_try_end:;
         }
 
-        /* "engine/cython/cy_gameloop.pyx":93
+        /* "engine/cython/cy_gameloop.pyx":97
  *                     script.update()
  * 
  *             if has_rb and rb is not None:             # <<<<<<<<<<<<<<
@@ -3468,39 +3501,39 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
       }
 
-      /* "engine/cython/cy_gameloop.pyx":105
+      /* "engine/cython/cy_gameloop.pyx":109
  *                     pass
  * 
  *             if has_anim and anim is not None:             # <<<<<<<<<<<<<<
  *                 if not getattr(anim, '_awoken', False):
  *                     anim.awake()
 */
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_anim); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 105, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_anim); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 109, __pyx_L1_error)
       if (__pyx_t_16) {
       } else {
-        __pyx_t_12 = __pyx_t_16;
-        goto __pyx_L51_bool_binop_done;
+        __pyx_t_11 = __pyx_t_16;
+        goto __pyx_L52_bool_binop_done;
       }
       __pyx_t_16 = (__pyx_v_anim != Py_None);
-      __pyx_t_12 = __pyx_t_16;
-      __pyx_L51_bool_binop_done:;
-      if (__pyx_t_12) {
+      __pyx_t_11 = __pyx_t_16;
+      __pyx_L52_bool_binop_done:;
+      if (__pyx_t_11) {
 
-        /* "engine/cython/cy_gameloop.pyx":106
+        /* "engine/cython/cy_gameloop.pyx":110
  * 
  *             if has_anim and anim is not None:
  *                 if not getattr(anim, '_awoken', False):             # <<<<<<<<<<<<<<
  *                     anim.awake()
  *                     anim._awoken = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 106, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 110, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_16 = (!__pyx_t_12);
+        __pyx_t_16 = (!__pyx_t_11);
         if (__pyx_t_16) {
 
-          /* "engine/cython/cy_gameloop.pyx":107
+          /* "engine/cython/cy_gameloop.pyx":111
  *             if has_anim and anim is not None:
  *                 if not getattr(anim, '_awoken', False):
  *                     anim.awake()             # <<<<<<<<<<<<<<
@@ -3514,21 +3547,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_awake, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":108
+          /* "engine/cython/cy_gameloop.pyx":112
  *                 if not getattr(anim, '_awoken', False):
  *                     anim.awake()
  *                     anim._awoken = True             # <<<<<<<<<<<<<<
  *                 if not getattr(anim, '_started', False):
  *                     anim.start()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 108, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 112, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":106
+          /* "engine/cython/cy_gameloop.pyx":110
  * 
  *             if has_anim and anim is not None:
  *                 if not getattr(anim, '_awoken', False):             # <<<<<<<<<<<<<<
@@ -3537,21 +3570,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":109
+        /* "engine/cython/cy_gameloop.pyx":113
  *                     anim.awake()
  *                     anim._awoken = True
  *                 if not getattr(anim, '_started', False):             # <<<<<<<<<<<<<<
  *                     anim.start()
  *                     anim._started = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 109, __pyx_L1_error)
+        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 113, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_12 = (!__pyx_t_16);
-        if (__pyx_t_12) {
+        __pyx_t_11 = (!__pyx_t_16);
+        if (__pyx_t_11) {
 
-          /* "engine/cython/cy_gameloop.pyx":110
+          /* "engine/cython/cy_gameloop.pyx":114
  *                     anim._awoken = True
  *                 if not getattr(anim, '_started', False):
  *                     anim.start()             # <<<<<<<<<<<<<<
@@ -3565,21 +3598,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_start, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":111
+          /* "engine/cython/cy_gameloop.pyx":115
  *                 if not getattr(anim, '_started', False):
  *                     anim.start()
  *                     anim._started = True             # <<<<<<<<<<<<<<
  *                 try:
  *                     anim.update()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 111, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_anim, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 115, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":109
+          /* "engine/cython/cy_gameloop.pyx":113
  *                     anim.awake()
  *                     anim._awoken = True
  *                 if not getattr(anim, '_started', False):             # <<<<<<<<<<<<<<
@@ -3588,7 +3621,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":112
+        /* "engine/cython/cy_gameloop.pyx":116
  *                     anim.start()
  *                     anim._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3604,7 +3637,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XGOTREF(__pyx_t_1);
           /*try:*/ {
 
-            /* "engine/cython/cy_gameloop.pyx":113
+            /* "engine/cython/cy_gameloop.pyx":117
  *                     anim._started = True
  *                 try:
  *                     anim.update()             # <<<<<<<<<<<<<<
@@ -3618,12 +3651,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
               PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
               __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
               __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L55_error)
+              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L56_error)
               __Pyx_GOTREF(__pyx_t_4);
             }
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "engine/cython/cy_gameloop.pyx":112
+            /* "engine/cython/cy_gameloop.pyx":116
  *                     anim.start()
  *                     anim._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3634,12 +3667,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-          goto __pyx_L62_try_end;
-          __pyx_L55_error:;
+          goto __pyx_L63_try_end;
+          __pyx_L56_error:;
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":114
+          /* "engine/cython/cy_gameloop.pyx":118
  *                 try:
  *                     anim.update()
  *                 except Exception:             # <<<<<<<<<<<<<<
@@ -3649,32 +3682,32 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(((PyTypeObject*)PyExc_Exception))));
           if (__pyx_t_8) {
             __Pyx_ErrRestore(0,0,0);
-            goto __pyx_L56_exception_handled;
+            goto __pyx_L57_exception_handled;
           }
-          goto __pyx_L57_except_error;
+          goto __pyx_L58_except_error;
 
-          /* "engine/cython/cy_gameloop.pyx":112
+          /* "engine/cython/cy_gameloop.pyx":116
  *                     anim.start()
  *                     anim._started = True
  *                 try:             # <<<<<<<<<<<<<<
  *                     anim.update()
  *                 except Exception:
 */
-          __pyx_L57_except_error:;
+          __pyx_L58_except_error:;
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_2, __pyx_t_1);
           goto __pyx_L1_error;
-          __pyx_L56_exception_handled:;
+          __pyx_L57_exception_handled:;
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_2, __pyx_t_1);
-          __pyx_L62_try_end:;
+          __pyx_L63_try_end:;
         }
 
-        /* "engine/cython/cy_gameloop.pyx":105
+        /* "engine/cython/cy_gameloop.pyx":109
  *                     pass
  * 
  *             if has_anim and anim is not None:             # <<<<<<<<<<<<<<
@@ -3683,39 +3716,39 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
       }
 
-      /* "engine/cython/cy_gameloop.pyx":117
+      /* "engine/cython/cy_gameloop.pyx":121
  *                     pass
  * 
  *             if has_ps and ps is not None:             # <<<<<<<<<<<<<<
  *                 if not getattr(ps, '_awoken', False):
  *                     ps.awake()
 */
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_ps); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_has_ps); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 121, __pyx_L1_error)
       if (__pyx_t_16) {
       } else {
-        __pyx_t_12 = __pyx_t_16;
-        goto __pyx_L66_bool_binop_done;
+        __pyx_t_11 = __pyx_t_16;
+        goto __pyx_L67_bool_binop_done;
       }
       __pyx_t_16 = (__pyx_v_ps != Py_None);
-      __pyx_t_12 = __pyx_t_16;
-      __pyx_L66_bool_binop_done:;
-      if (__pyx_t_12) {
+      __pyx_t_11 = __pyx_t_16;
+      __pyx_L67_bool_binop_done:;
+      if (__pyx_t_11) {
 
-        /* "engine/cython/cy_gameloop.pyx":118
+        /* "engine/cython/cy_gameloop.pyx":122
  * 
  *             if has_ps and ps is not None:
  *                 if not getattr(ps, '_awoken', False):             # <<<<<<<<<<<<<<
  *                     ps.awake()
  *                     ps._awoken = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_awoken, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 118, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_16 = (!__pyx_t_12);
+        __pyx_t_16 = (!__pyx_t_11);
         if (__pyx_t_16) {
 
-          /* "engine/cython/cy_gameloop.pyx":119
+          /* "engine/cython/cy_gameloop.pyx":123
  *             if has_ps and ps is not None:
  *                 if not getattr(ps, '_awoken', False):
  *                     ps.awake()             # <<<<<<<<<<<<<<
@@ -3729,21 +3762,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_awake, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 123, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":120
+          /* "engine/cython/cy_gameloop.pyx":124
  *                 if not getattr(ps, '_awoken', False):
  *                     ps.awake()
  *                     ps._awoken = True             # <<<<<<<<<<<<<<
  *                 if not getattr(ps, '_started', False):
  *                     ps.start()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 120, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_awoken, Py_True) < (0)) __PYX_ERR(0, 124, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":118
+          /* "engine/cython/cy_gameloop.pyx":122
  * 
  *             if has_ps and ps is not None:
  *                 if not getattr(ps, '_awoken', False):             # <<<<<<<<<<<<<<
@@ -3752,21 +3785,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":121
+        /* "engine/cython/cy_gameloop.pyx":125
  *                     ps.awake()
  *                     ps._awoken = True
  *                 if not getattr(ps, '_started', False):             # <<<<<<<<<<<<<<
  *                     ps.start()
  *                     ps._started = True
 */
-        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 121, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_started, Py_False); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 121, __pyx_L1_error)
+        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_12 = (!__pyx_t_16);
-        if (__pyx_t_12) {
+        __pyx_t_11 = (!__pyx_t_16);
+        if (__pyx_t_11) {
 
-          /* "engine/cython/cy_gameloop.pyx":122
+          /* "engine/cython/cy_gameloop.pyx":126
  *                     ps._awoken = True
  *                 if not getattr(ps, '_started', False):
  *                     ps.start()             # <<<<<<<<<<<<<<
@@ -3780,21 +3813,21 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
             PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
             __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_start, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
+            if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
           }
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":123
+          /* "engine/cython/cy_gameloop.pyx":127
  *                 if not getattr(ps, '_started', False):
  *                     ps.start()
  *                     ps._started = True             # <<<<<<<<<<<<<<
  *                 try:
  *                     ps.update()
 */
-          if (__Pyx_PyObject_SetAttrStr(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 123, __pyx_L1_error)
+          if (__Pyx_PyObject_SetAttrStr(__pyx_v_ps, __pyx_mstate_global->__pyx_n_u_started, Py_True) < (0)) __PYX_ERR(0, 127, __pyx_L1_error)
 
-          /* "engine/cython/cy_gameloop.pyx":121
+          /* "engine/cython/cy_gameloop.pyx":125
  *                     ps.awake()
  *                     ps._awoken = True
  *                 if not getattr(ps, '_started', False):             # <<<<<<<<<<<<<<
@@ -3803,7 +3836,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
         }
 
-        /* "engine/cython/cy_gameloop.pyx":124
+        /* "engine/cython/cy_gameloop.pyx":128
  *                     ps.start()
  *                     ps._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3819,7 +3852,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XGOTREF(__pyx_t_3);
           /*try:*/ {
 
-            /* "engine/cython/cy_gameloop.pyx":125
+            /* "engine/cython/cy_gameloop.pyx":129
  *                     ps._started = True
  *                 try:
  *                     ps.update()             # <<<<<<<<<<<<<<
@@ -3833,12 +3866,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
               PyObject *__pyx_callargs[2] = {__pyx_t_7, NULL};
               __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update, __pyx_callargs+__pyx_t_13, (1-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
               __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L70_error)
+              if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 129, __pyx_L71_error)
               __Pyx_GOTREF(__pyx_t_4);
             }
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "engine/cython/cy_gameloop.pyx":124
+            /* "engine/cython/cy_gameloop.pyx":128
  *                     ps.start()
  *                     ps._started = True
  *                 try:             # <<<<<<<<<<<<<<
@@ -3849,12 +3882,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-          goto __pyx_L77_try_end;
-          __pyx_L70_error:;
+          goto __pyx_L78_try_end;
+          __pyx_L71_error:;
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "engine/cython/cy_gameloop.pyx":126
+          /* "engine/cython/cy_gameloop.pyx":130
  *                 try:
  *                     ps.update()
  *                 except Exception:             # <<<<<<<<<<<<<<
@@ -3864,32 +3897,32 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
           __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(((PyTypeObject*)PyExc_Exception))));
           if (__pyx_t_8) {
             __Pyx_ErrRestore(0,0,0);
-            goto __pyx_L71_exception_handled;
+            goto __pyx_L72_exception_handled;
           }
-          goto __pyx_L72_except_error;
+          goto __pyx_L73_except_error;
 
-          /* "engine/cython/cy_gameloop.pyx":124
+          /* "engine/cython/cy_gameloop.pyx":128
  *                     ps.start()
  *                     ps._started = True
  *                 try:             # <<<<<<<<<<<<<<
  *                     ps.update()
  *                 except Exception:
 */
-          __pyx_L72_except_error:;
+          __pyx_L73_except_error:;
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
           goto __pyx_L1_error;
-          __pyx_L71_exception_handled:;
+          __pyx_L72_exception_handled:;
           __Pyx_XGIVEREF(__pyx_t_1);
           __Pyx_XGIVEREF(__pyx_t_2);
           __Pyx_XGIVEREF(__pyx_t_3);
           __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
-          __pyx_L77_try_end:;
+          __pyx_L78_try_end:;
         }
 
-        /* "engine/cython/cy_gameloop.pyx":117
+        /* "engine/cython/cy_gameloop.pyx":121
  *                     pass
  * 
  *             if has_ps and ps is not None:             # <<<<<<<<<<<<<<
@@ -3898,7 +3931,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
       }
 
-      /* "engine/cython/cy_gameloop.pyx":80
+      /* "engine/cython/cy_gameloop.pyx":84
  *         needs_update = (ns > 0) or bool(getattr(obj, '_active_coroutines', None)) or has_anim or has_rb or has_ps
  * 
  *         if needs_update:             # <<<<<<<<<<<<<<
@@ -3907,20 +3940,20 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
     }
 
-    /* "engine/cython/cy_gameloop.pyx":129
+    /* "engine/cython/cy_gameloop.pyx":133
  *                     pass
  * 
  *         if getattr(obj, '_active_coroutines', None):             # <<<<<<<<<<<<<<
  *             obj._update_coroutines(delta_time)
  * 
 */
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_active_coroutines, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_active_coroutines, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (__pyx_t_12) {
+    if (__pyx_t_11) {
 
-      /* "engine/cython/cy_gameloop.pyx":130
+      /* "engine/cython/cy_gameloop.pyx":134
  * 
  *         if getattr(obj, '_active_coroutines', None):
  *             obj._update_coroutines(delta_time)             # <<<<<<<<<<<<<<
@@ -3929,7 +3962,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
 */
       __pyx_t_7 = __pyx_v_obj;
       __Pyx_INCREF(__pyx_t_7);
-      __pyx_t_17 = PyFloat_FromDouble(__pyx_v_delta_time); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 130, __pyx_L1_error)
+      __pyx_t_17 = PyFloat_FromDouble(__pyx_v_delta_time); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 134, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_17);
       __pyx_t_13 = 0;
       {
@@ -3937,12 +3970,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
         __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update_coroutines, __pyx_callargs+__pyx_t_13, (2-__pyx_t_13) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 130, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "engine/cython/cy_gameloop.pyx":129
+      /* "engine/cython/cy_gameloop.pyx":133
  *                     pass
  * 
  *         if getattr(obj, '_active_coroutines', None):             # <<<<<<<<<<<<<<
@@ -3987,7 +4020,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_cy_update_objects(CYTHON
   return __pyx_r;
 }
 
-/* "engine/cython/cy_gameloop.pyx":133
+/* "engine/cython/cy_gameloop.pyx":137
  * 
  * 
  * def cy_update_end_of_frame(list objects, double delta_time):             # <<<<<<<<<<<<<<
@@ -4036,39 +4069,39 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_objects,&__pyx_mstate_global->__pyx_n_u_delta_time,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 133, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 137, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 133, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 137, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 133, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 137, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cy_update_end_of_frame", 0) < (0)) __PYX_ERR(0, 133, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "cy_update_end_of_frame", 0) < (0)) __PYX_ERR(0, 137, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 2; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cy_update_end_of_frame", 1, 2, 2, i); __PYX_ERR(0, 133, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("cy_update_end_of_frame", 1, 2, 2, i); __PYX_ERR(0, 137, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 133, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 137, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 133, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 137, __pyx_L3_error)
     }
     __pyx_v_objects = ((PyObject*)values[0]);
-    __pyx_v_delta_time = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_delta_time == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L3_error)
+    __pyx_v_delta_time = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_delta_time == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cy_update_end_of_frame", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 133, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cy_update_end_of_frame", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 137, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4079,7 +4112,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_objects), (&PyList_Type), 1, "objects", 1))) __PYX_ERR(0, 133, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_objects), (&PyList_Type), 1, "objects", 1))) __PYX_ERR(0, 137, __pyx_L1_error)
   __pyx_r = __pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(__pyx_self, __pyx_v_objects, __pyx_v_delta_time);
 
   /* function exit code */
@@ -4118,7 +4151,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cy_update_end_of_frame", 0);
 
-  /* "engine/cython/cy_gameloop.pyx":149
+  /* "engine/cython/cy_gameloop.pyx":153
  *     cdef object obj
  * 
  *     n = <Py_ssize_t>len(objects)             # <<<<<<<<<<<<<<
@@ -4127,12 +4160,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
 */
   if (unlikely(__pyx_v_objects == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 149, __pyx_L1_error)
+    __PYX_ERR(0, 153, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_objects); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyList_GET_SIZE(__pyx_v_objects); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 153, __pyx_L1_error)
   __pyx_v_n = ((Py_ssize_t)__pyx_t_1);
 
-  /* "engine/cython/cy_gameloop.pyx":150
+  /* "engine/cython/cy_gameloop.pyx":154
  * 
  *     n = <Py_ssize_t>len(objects)
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -4144,7 +4177,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "engine/cython/cy_gameloop.pyx":151
+    /* "engine/cython/cy_gameloop.pyx":155
  *     n = <Py_ssize_t>len(objects)
  *     for i in range(n):
  *         obj = <object>objects[i]             # <<<<<<<<<<<<<<
@@ -4153,33 +4186,33 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
 */
     if (unlikely(__pyx_v_objects == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 151, __pyx_L1_error)
+      __PYX_ERR(0, 155, __pyx_L1_error)
     }
     __pyx_t_4 = __Pyx_PyList_GET_ITEM(__pyx_v_objects, __pyx_v_i);
     __Pyx_INCREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_obj, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "engine/cython/cy_gameloop.pyx":152
+    /* "engine/cython/cy_gameloop.pyx":156
  *     for i in range(n):
  *         obj = <object>objects[i]
  *         if getattr(obj, '_end_of_frame_coroutines', None):             # <<<<<<<<<<<<<<
  *             obj._update_end_of_frame_coroutines(delta_time)
 */
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_end_of_frame_coroutines, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_obj, __pyx_mstate_global->__pyx_n_u_end_of_frame_coroutines, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 152, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "engine/cython/cy_gameloop.pyx":153
+      /* "engine/cython/cy_gameloop.pyx":157
  *         obj = <object>objects[i]
  *         if getattr(obj, '_end_of_frame_coroutines', None):
  *             obj._update_end_of_frame_coroutines(delta_time)             # <<<<<<<<<<<<<<
 */
       __pyx_t_6 = __pyx_v_obj;
       __Pyx_INCREF(__pyx_t_6);
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_delta_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_delta_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 157, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = 0;
       {
@@ -4187,12 +4220,12 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
         __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_update_end_of_frame_coroutines, __pyx_callargs+__pyx_t_8, (2-__pyx_t_8) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "engine/cython/cy_gameloop.pyx":152
+      /* "engine/cython/cy_gameloop.pyx":156
  *     for i in range(n):
  *         obj = <object>objects[i]
  *         if getattr(obj, '_end_of_frame_coroutines', None):             # <<<<<<<<<<<<<<
@@ -4201,7 +4234,7 @@ static PyObject *__pyx_pf_6engine_6cython_11cy_gameloop_2cy_update_end_of_frame(
     }
   }
 
-  /* "engine/cython/cy_gameloop.pyx":133
+  /* "engine/cython/cy_gameloop.pyx":137
  * 
  * 
  * def cy_update_end_of_frame(list objects, double delta_time):             # <<<<<<<<<<<<<<
@@ -4588,19 +4621,19 @@ __Pyx_RefNannySetupContext("PyInit_cy_gameloop", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cy_update_objects, __pyx_t_2) < (0)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_gameloop.pyx":133
+  /* "engine/cython/cy_gameloop.pyx":137
  * 
  * 
  * def cy_update_end_of_frame(list objects, double delta_time):             # <<<<<<<<<<<<<<
  *     """Process end-of-frame coroutines on all GameObjects.
  * 
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_11cy_gameloop_3cy_update_end_of_frame, 0, __pyx_mstate_global->__pyx_n_u_cy_update_end_of_frame, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_gameloop, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_11cy_gameloop_3cy_update_end_of_frame, 0, __pyx_mstate_global->__pyx_n_u_cy_update_end_of_frame, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_gameloop, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cy_update_end_of_frame, __pyx_t_2) < (0)) __PYX_ERR(0, 133, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_cy_update_end_of_frame, __pyx_t_2) < (0)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "engine/cython/cy_gameloop.pyx":1
@@ -4673,31 +4706,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{1},{179},{1},{8},{29},{2},{3},{14},{20},{18},{4},{9},{12},{18},{5},{7},{18},{22},{17},{10},{24},{25},{18},{8},{13},{8},{6},{6},{1},{13},{5},{1},{8},{10},{1},{8},{12},{2},{3},{7},{16},{3},{2},{12},{2},{10},{6},{8},{7},{12},{10},{5},{8},{8},{6},{18},{31},{6},{61},{622}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (983 bytes) */
-const char* const cstring = "BZh91AY&SY\204\3109L\000\000~\377\377\357\377\377\363x\203\276\314\257\253z\315\277\377\377\340@@@@@@@\000\000@@@@\000@\000P\003>\353\326;\260t\\0\224\2214FF\023C\023\321=OH\320<\246\201\240d\332\200\000b\0324bi\241\215C\200\006\200\3204\0004\323 \000\321\246@\006\214\230 1\000\0004&\"\002\014\201\242\231\003\324\321\246\200\0004\000\000\003@\r2\017P\210iL\203CSF\323M\032\010\323C#\000\010\3021\014\200`\023\032G\240\002Q$\332\215\r\032j=CM\006@\000\000\000\031\r\003@\000\r\036\240\322\361\270\n\364\306\025c\371#\031dr?\324d\324\214l\026\201\323\361InZy\025PUUh\230\255\014k|\245\030\031\226:B\344\2306\251\020\314a\340 \002\200R\270\234Mz\366\002\364d,q\2578#\0334\220!=@v\233\354v\240\203\250\243\314\t\343\210a$\010\234\341\322\000\367\003,Bb\236Fh\037X\243\230\373\316\033\022HL\202\r\326\000P\200\271\273\212\3744H7?M\304\351\333v\323\3347c\227\255I\255\202\032\006+\tDNV\335h\215\227M\304i(\265\177$(\250\274\030\207\206\313\022\250\010.\200\327\271\031Q\023\276\234\351\374\355\r[\210\034J\371\204\025\236\016%C+\263D@n Q\200\315\r\2764OMP\037\303\321\261X\335\337E=&g\257G\"v\234;A\010\230\226\340p\337Bs\222\231D@\036\363@\033&\365\002\0170dz\344\276\353+\325\314\264\374T\206\233f\006\343d\246\354q\272$$V\"\n\354JB\"\226\2212$-\031\350\215\341\240\272\221F\261R]P\2063\210\232\212\304)a\202$\024\300;\n\017\010pI\022\223\022\033\304\302\324D\256\004\213\001%,\265Pr\254c\031\237Z4\026u1\234\260A\340H\030\330\364\342\322OS\034Bl\331\010\243\203`*\247\031Wm\0179\344`\312\002\236U\341\030\336\305\273:\021\320\00604\t\340W!m0\025\013)B\3302a\243\r\312_\234\266\035\265\0063\225\347)(,Y\322b\315\300\226&\030\022\361J\234xm\030\356p,9\216H\014\362,!\021\033\240\365\233\2203#\360R\301Q\025\001\261\242Zs\362^&Q\003\013\244\214\022\223\020\310\032\002\300\332\313n|T)l\333\211\036\243\t\000\307\332$\362\371a\273\022MG\347D$\206\224\006Ml\344\224\312&&\030\242\224\215&\271\247\263`\2410\242\373B\322\210,\344\036/r\013\360fD\013\256b\310\316\371YE,'\267%\023\030\222<\342D\254\251\303""\202m_\246\002\234\325\250\300\030\344\t\221\024`IQM\343*\312bZ3\002\224\204B4\353Q\203\213\265\243\020\025\352\230G[\0359'\005 S\313\t0\222D\216\211\tn\376D!.\205\311\006d\213-\"\224\373\266+\225K\034\205u\255\312*U\3529\373\005(\363*\227H\336\277%dE\030\013\221\312\314]\343\370/\224\322\330T\024#e\273#\276BR.Q\260\225\3248\373\026(\226Z\375\372\3343\252\005\305\236\232\014\337\317>\332hL7\305~\004\346\205\t2\271jf\243\243\303\233\314\262\270\3108\3518\305\356R\327\217&\273\256\342\315\223x\213?\030\300[\233\204\210\372\266dBa\367\252\224\215\256I\353^\227NS\335$\002B\356C\376 \300\200\274\031k\224\005\221\200\357\013\363BA\003\206\000\334\302\210\264\214\340\2164$\225\"\374^\271'j\201\377\027rE8P\220\204\3109L";
-    PyObject *data = __Pyx_DecompressString(cstring, 983, 2);
+    const struct { const unsigned int length: 10; } index[] = {{1},{179},{1},{8},{29},{2},{3},{14},{20},{18},{4},{9},{12},{18},{5},{7},{18},{22},{17},{10},{24},{25},{18},{8},{13},{8},{6},{6},{1},{13},{5},{1},{8},{10},{1},{8},{12},{2},{3},{7},{16},{3},{2},{12},{2},{10},{6},{8},{7},{15},{12},{10},{5},{8},{8},{6},{18},{31},{6},{61},{647}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (1006 bytes) */
+const char* const cstring = "BZh91AY&SY\313\232o\006\000\000\204\177\377\357\377\357\363\372\203\276\314\257\253z\315\277\377\377\340@@@@@@@\000\000@@@@\000@\000P\003I6\255\000!\202Q\022b\231\252?*zM\242l\325<iCM\244\336\2444\310d\336\251\243\322\036\243G\222=CO\324\232i\344\365O\n\tB4 \023&D\364S$\365\017SG\251\240\000\r\000\000\000\323M4\032\r6\240\324\304\320\246P\001\221\345\000\032\000\310\032\000\000\000\000\000\032\007\250p4\006\203F\201\223@\001\240\000\304\320\323@\323@\r\0324\0004hp4\006\203F\201\223@\001\240\000\304\320\323@\323@\r\0324\0004ia\333\213\244Taz\214\205\0031\215\24322\004\240v-\001H\312\2456\2324\201U\005REA\230\353\035\201I\301T7ZG}C\365Q\rT\224\010\004A)\301$J\254\033\014NQ\262hW\\\004\252\224\034C\005\001\372\3673\267\210 \350\245l\020\215B\342@\373\216\035\340f\246.\276\256\357W\243\237\257y\312\032\364\356gp\377A\003X\353\264\365\302\262XR6\355\327N\233\2566NmXa\233\267\023N:)\371\343u\330\252\302l0|\340\325r\227'\033\004z\245\266\243\204\3415\352<\t\010\025\363\303\322\341X\326\200bT\027\222\232\264\314\367\017..EI\273\214H\276\241\213\327\037\036\343Y;\314\201\371\261\023\025VW\356Y]\267@\360//\223y\337\377\032+D\231w\036,K\020r\241\261\212\306\310\t>\215\216(4\230\360\200\252\222\240%:\261\205j\324;J\372G\361\333\177W\237\372u^\225\247\242x9\360\271==\207?\234M\027\302J\017\274K\025\261\326\307\256H\211o7}\252\342\2146V\010\365\213-\335H\253kZU\262<\215\2106T\252\016\020<\251\333\227\206\r\014\252\214V\330'\004J\252\344\276\325\246\005\206\262\346\235\211\306*q\031qiA\030uu\350\323\241%s\254\306\351\333\t\264\205p\272\335\311~vJ\265\336\343\304\"\274\221\347S\373\323\277[\"\330\033\203\254W\004\340\311\331p\270\333k'aQ\316\266\\\"\237\317&\325\316\341\325i\204\222\221\023N-Pk\313M\034\305\260J[\273,\315\334$\033V\245\243\n\273\343\010L\237\010J\365\222\n\250\277\035\256E\232,+\2536k_\227)\252L2\223QD\212:\033\307\201\264~h\347\307K\"\2359\350\225k\221\260k\244&\0072\345\300I\363\335~\210\221\221\210\326\312\360\243jy\035\002\212q:\026:\327\267\260\220\250\263c""\3030\230\234P\224\345\301\215\216\356\302\221\353\251\266u\217\310\361-r\274\367\331R\224iVQ\"\361o\026\r\331\331l\013u\276&#\255\021\035\232&-K-\301R\364\251#f\242R\204\306z\342\\*\316O\231\240_\325Q>m\326\357\255\022\202WL\213\t\232#\211\221\235\3359\005x\3576y\256ct\324\177\261K\005\362\361\203\344_S\223\224T\275\365/_\025O\261\304\177\010~\223\237\006\"0\312~\3420R\341\3472\036\232\263\260P\340\024KD\370\215\257\230\233\247F\336\024\300\245\336]\255\017a\224\267\212J:|\244|!\320\311\255\005\234\230\317\355\311\004\315\214\\\201jAD\261\314G\257wp\230\227~\275v\225\302]\3023?\344\337\361E\247\206Ys\326\323\336;2>e'\261\230\251\241|{\025_wD\323\025\0059\2660\023\332M[z\233\241\243\006\321\242/\260\344\311G\312\206P\010\305\016rX\316H\003\016\n\0018\203C\326\004Hn\027G\002{\250\3520\341\263\030\377\027rE8P\220\313\232o\006";
+    PyObject *data = __Pyx_DecompressString(cstring, 1006, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (867 bytes) */
-const char* const cstring = "x\332\265R\317o\3336\024\216\321\270q\032\273\265ggI\013l`\332CNS\341\325A\n\264\300`tY1\014+\354\032A\006\264(AK\264\315Z&%\221\212\343\333\216:\362\310\243\216:\372\317\330QG\035\375'\344O\330\223\343$\0320`\247\t\020\337\023\337\257\357\373\236\254\017BQ\244&D\241w\0135\021\0341\211\034\352\262!\r\210\242\356\002I\0250[\321 O\342\250w\326\373\241\363\272\203\010wP@\277R[I$\303\241\355\022)\251Db\204\206!s\025\343H-<*-\364\353\010-D\2108\245\016R\002y\220W,P\023\312\221\244*w\3201\341\\(\242\230\340\030\312\031\037\037#\207\0050\204]\322\274\372\027\342Jj\375D\034\007C\"\245|\3148}i\257\201\203\301c2\243\256\020\236\345-\256z\003\334\033\364H\240\230\355\322\301B*:\303\270\267\270\202\367g \204?\320+\365\221\2160Yw\307\266\010D\010\270\251$\234\315p~\020%\002\2147\230(xr\301m&\254B\352\234L)&s1\245\334v\341\0063@\036\020\233\016\211=\005@\241\347\344\245\224;X\214\360(\000|\367\267b\270\326\017\324V\004+6\373g^\001\321\rO\353\206\247U\340\271\t8\257,oC\024\343Q\310m\214\307TA\203\231'8\345\2608\271&\224[O\346g0d\230\311\373\021\014\324\221_1\236\021 \000\317L8a\336\014>x\216\005\347\373\223\033\340\\\002\362\rx|7X\256%\366\204\347I\214\375\220\2707\205\301\020\007l\314\234\241p\026\322\016\230\247\360\215\221\033\2031\254\1773\005<\207\216H\350*\251\240/^\237\324\301XQ\251\360\255n\033s\257\317\277\311\\\010_\0227\244\362\317\3225\332*\357FU\375N\373\246\224mW\242rt\256\217t;\253<\216&zl\372\206d\225\275\350\024\356N\322\303\316\262\233U\237\244O^&\376\262\004\305\326V\371Q\324\310\266\313Y\245\226\326\216c\037l\324\317\366\252\327\017\377\263\355\252\362\215~\241\373y\305g\3234]\323\277\256l\355\326\243\271&:4\277'\215\254\322\324'f\307\370+H\271\320]}n\254\244\224U\032\272\251\337\233\366\n\234Fv\033J\237Y\311\032\351\253h\014M\253\373p\324\352zG\373\253j-\253\357\353\201y\034\023\000X\177\n\303\336\307\355\254\331\272~\264\265\373\324<0?\232A\374 \356\304~\262\003\274\312\351\311o\177\235\246\037\317\323\363/\351\027\222\222I:\231\246Sw\005\315\333\300>\222""\372\271\356f\365\226>3\373\206\030?k}g\376\210/\222n\322_\265\016\2642\247\361Q\374:y\263$\331\341\367f\024ws3\005>\205\340\333\245_\010\272\311Q\326zf\216\343\306\n\372\317\265c^\230\013\010\325\233\272\243\3470C\305o\200]\353[=2\335\334L\343F1\3706\361\013A7>\312\352\215\334\003\235\263\203C\330E\255\036-\314\2669\213\017@\300\273\302\313\370\323\262\224\265\016\315CX2\230=P\245\020\374\274l\024\202\325\034\317\372\0026r\327\365\177\300\272[\275\375\333\362\215\346\177\333s\220\254\3757\324\0161|";
-    PyObject *data = __Pyx_DecompressString(cstring, 867, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (890 bytes) */
+const char* const cstring = "x\332\265R\317o\032G\0246\212\211q\014\t\010\034;\221\332\016\251*N\335\210\030\313\226\022)B\251\033UU#\010\262\034\251QF\303\356\000\023\226\331eg\326\230[\216{\234\343\034\367\270G\376\214\036\367\270G\376\004\377\t}\273\306\366V\252\324S\221\230\367v\276\367\343\373\336\033\343\203#)\222\023\"\321\273\245\2348\0341\201,j\263!\365\210\244\366\022\t\3511SR/\r\342\250w\326\373\271s\332A\204[\310\243_\251)\005\022\376\320\264\211\020T g\204\206>\263%\343H.]*\014\364\333\010-\035\037qJ-$\035\344B\\>AN(G\202\312\324A-\302\271#\211d\016\307\220\316\370\270\205,\346A\023vI\323\354_\211-\250\361\226X\026\206@J\371\230q\372\322\314\210\203\301c2\243\266\343\270\206\273\274\352\rpo\320#\236d\246M\007K!\351\014\343\336\362\n\376\277\200 \374\201^\311\217t\204IV\035\233\216\347\370\300\233\n\302\331\014\247\007\221\216\207\361\206\023\005O,\271\311\034#\027\272 S\212\311\302\231Rn\332p\203\0310\367\210I\207\304\234\002!\337\265\322T\312-\354\214\360\310\003~\367\267\3160\233\037L[\022,\331\354\237q9F7:\215\033\235FN\347\006\260\216\014w#\024\343\221\317M\214\307TB\201\231\353p\312aq\"\023\224ZW\244\2477d\230\211\373\026\014\246#\276b<# \000~3\307\362\323b\360\301S.8\335\237\330\020\347\002\230o\310\343\273\306\"\033\261\353\270\256\300x\356\023\373&\321\033b\217\215\2315t\254\2450=\346J|c\304\306\334~\336N\005\303k\3304\005\317\242#\342\333RHh\203\263\223Z\030K*$\276M\330\230\373q\375\333\324s\360%\261}*\276\025\256\321Vq7(\253wj\256\013\311v)(\006\347\252\251\332I\351q0Qc\335\327$)\355\005'pw\034\037vV\335\244\374$~\3622\232\257\n\220ll\025\037\005\265d\273\230\224*q\245\025\316\301\006\375d\257|\375\360?\313^\227\266v\353\252\245k\372\247\370\207W\253f\332\346T\035)\222\224\237*S\327\322R\237u]wu?\r\255\006\013E\224\257\377\210\000\251\253c\275\243\347k\010\271P]u\256\215\250\220\224j\252\256\336\353\366\032\234,;\203\342\347F\224I8\n\306\252\237\224\367\341\250T\325\216\232\257\313\225\244\272\257\006\372qH\200y\365\0314{\037\266\223z\343\372\321\326\3563\375@\277\322""\203\360A\330\t\347\321\016\010.\306\307\277\377u\022\177<\217\317\277\304_HL&\361d\032O\3555\024o\303X\002\241^\250nRm\2503\275\257\211\236'\215\357\364\247\360\"\352F\375u\343@I}\0226\303\323\350\365\212$\207\337\353Q\330M\315\024\364\344\3007\253y\016\264\243f\322x\256[am\r\365\027\312\322?\352\013\200\252u\325Q\013\350!\303\327\240\256\361T\215t75\323\260\226\007\337D\363\034h\207\315\244ZK=X@rp\010K\252T\203\245\336\326g\341\001\014\360.\3612\374sUH\032\207\372!l\037\314\036L%\007~^\325r`9\345\223]\300F\356\252\376\017\\w\313\267\3170\335h\372\014_\300\310\332\177\003\000\270@O";
+    PyObject *data = __Pyx_DecompressString(cstring, 890, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (1429 bytes) */
-const char* const bytes = ".Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.?add_noteengine/cython/cy_gameloop.pyxPS_PSParticleSystem__Pyx_PyDict_NextRef_active_coroutinesanim_animator__annotate__asyncio.coroutinesawake_awokencline_in_tracebackcy_update_end_of_framecy_update_objectsdelta_time_end_of_frame_coroutinesengine.cython.cy_gameloopengine.d3.particle__func__get_componenthas_animhas_pshas_rbi_is_coroutineitemsj__main____module__n__name__needs_updatensobjobjects_particle_systempopps__qualname__rb_rigidbodyscript_scriptsscripts__set_name__setdefaultstart_started__test__update_update_coroutines_update_end_of_frame_coroutinesvalues\200\001\360 \000\005\t\210\014\220C\220q\230\001\330\004\010\210\005\210U\220!\2201\330\010\016\210h\220g\230Q\230a\330\010\013\2107\220!\2205\320\0304\260A\330\014\017\320\017/\250q\260\001\200\001\360.\000\005\n\210\021\330\004\005\330\010\r\320\r'\240q\330\010\r\210Q\330\013\014\360\006\000\005\t\210\014\220C\220q\230\001\330\004\010\210\005\210U\220!\2201\330\010\016\210h\220g\230Q\230a\340\010\022\220#\220Q\330\010\r\210\\\230\023\230A\230Q\360\010\000\t\020\210w\220a\220u\230M\250\021\330\010\023\2205\230\007\230q\340\010\r\210W\220A\220U\230.\250\001\330\010\021\220\023\220G\2301\340\010\021\220\021\330\010\r\210W\220A\220U\320\032.\250a\330\010\013\2103\210g\220Q\330\014\025\220Q\330\r\020\220\007\220q\340\014\r\330\020\025\220S\230\016\240a\240q\330\020\031\230\023\230G\2401\330\023\024\360\n\000\t\031\230\003\2302\230S\240\003\2404\240q\250\007\250q\260\005\3205K\3107\320RU\320U^\320^a\320ah\320hk\320kl\340\010\013\2101\330\014\017\210s\220\"\220A\330\020\024\220E\230\025\230a\230q\330\024\035\230X\240W\250A\250Q\340\024\027\220t\2307\240!\2408\250;\260a\330\030\036\230f\240A\330\030\036\230k\250\021\330\024\027\220t\2307\240!\2408\250<\260q\330\030\036\230f\240A\330\030\036\230l\250!\330\024\032\230'\240\021\340\014\017""\210w\220d\230#\230W\240A\330\020\023\2204\220w\230a\230t\240;\250a\330\024\026\220f\230A\330\024\026\220k\240\021\330\020\023\2204\220w\230a\230t\240<\250q\330\024\026\220f\230A\330\024\026\220l\240!\330\020\021\330\024\026\220g\230Q\330\027\030\360\006\000\r\020\210y\230\004\230E\240\027\250\001\330\020\023\2204\220w\230a\230v\240[\260\001\330\024\030\230\006\230a\330\024\030\230\013\2401\330\020\023\2204\220w\230a\230v\240\\\260\021\330\024\030\230\006\230a\330\024\030\230\014\240A\330\020\021\330\024\030\230\007\230q\330\027\030\360\006\000\r\020\210w\220d\230#\230W\240A\330\020\023\2204\220w\230a\230t\240;\250a\330\024\026\220f\230A\330\024\026\220k\240\021\330\020\023\2204\220w\230a\230t\240<\250q\330\024\026\220f\230A\330\024\026\220l\240!\330\020\021\330\024\026\220g\230Q\330\027\030\360\006\000\t\014\2107\220!\2205\320\030.\250a\330\014\017\320\017\"\240!\2401";
+    #else /* compression: none (1469 bytes) */
+const char* const bytes = ".Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.?add_noteengine/cython/cy_gameloop.pyxPS_PSParticleSystem__Pyx_PyDict_NextRef_active_coroutinesanim_animator__annotate__asyncio.coroutinesawake_awokencline_in_tracebackcy_update_end_of_framecy_update_objectsdelta_time_end_of_frame_coroutinesengine.cython.cy_gameloopengine.d3.particle__func__get_componenthas_animhas_pshas_rbi_is_coroutineitemsj__main____module__n__name__needs_updatensobjobjects_particle_systempopps__qualname__rb_rigidbodyscript_scriptsscripts_scripts_update__set_name__setdefaultstart_started__test__update_update_coroutines_update_end_of_frame_coroutinesvalues\200\001\360 \000\005\t\210\014\220C\220q\230\001\330\004\010\210\005\210U\220!\2201\330\010\016\210h\220g\230Q\230a\330\010\013\2107\220!\2205\320\0304\260A\330\014\017\320\017/\250q\260\001\200\001\360.\000\005\n\210\021\330\004\005\330\010\r\320\r'\240q\330\010\r\210Q\330\013\014\360\006\000\005\t\210\014\220C\220q\230\001\330\004\010\210\005\210U\220!\2201\330\010\016\210h\220g\230Q\230a\360\010\000\t\023\220'\230\021\230%\320\0372\260!\330\010\013\2108\2203\220a\330\014\026\220c\230\021\330\010\r\210\\\230\023\230A\230Q\360\010\000\t\020\210w\220a\220u\230M\250\021\330\010\023\2205\230\007\230q\340\010\r\210W\220A\220U\230.\250\001\330\010\021\220\023\220G\2301\340\010\021\220\021\330\010\r\210W\220A\220U\320\032.\250a\330\010\013\2103\210g\220Q\330\014\025\220Q\330\r\020\220\007\220q\340\014\r\330\020\025\220S\230\016\240a\240q\330\020\031\230\023\230G\2401\330\023\024\360\n\000\t\031\230\003\2302\230S\240\003\2404\240q\250\007\250q\260\005\3205K\3107\320RU\320U^\320^a\320ah\320hk\320kl\340\010\013\2101\330\014\017\210s\220\"\220A\330\020\024\220E\230\025\230a\230q\330\024\035\230X\240W\250A\250Q\340\024\027\220t\2307\240!\2408\250;\260a\330\030\036\230f\240A\330\030\036\230k\250\021\330\024\027\220t\2307\240!""\2408\250<\260q\330\030\036\230f\240A\330\030\036\230l\250!\330\024\032\230'\240\021\340\014\017\210w\220d\230#\230W\240A\330\020\023\2204\220w\230a\230t\240;\250a\330\024\026\220f\230A\330\024\026\220k\240\021\330\020\023\2204\220w\230a\230t\240<\250q\330\024\026\220f\230A\330\024\026\220l\240!\330\020\021\330\024\026\220g\230Q\330\027\030\360\006\000\r\020\210y\230\004\230E\240\027\250\001\330\020\023\2204\220w\230a\230v\240[\260\001\330\024\030\230\006\230a\330\024\030\230\013\2401\330\020\023\2204\220w\230a\230v\240\\\260\021\330\024\030\230\006\230a\330\024\030\230\014\240A\330\020\021\330\024\030\230\007\230q\330\027\030\360\006\000\r\020\210w\220d\230#\230W\240A\330\020\023\2204\220w\230a\230t\240;\250a\330\024\026\220f\230A\330\024\026\220k\240\021\330\020\023\2204\220w\230a\230t\240<\250q\330\024\026\220f\230A\330\024\026\220l\240!\330\020\021\330\024\026\220g\230Q\330\027\030\360\006\000\t\014\2107\220!\2205\320\030.\250a\330\014\017\320\017\"\240!\2401";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 58; i++) {
+    for (int i = 0; i < 59; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 5) PyUnicode_InternInPlace(&string);
@@ -4708,7 +4741,7 @@ const char* const bytes = ".Note that Cython is deliberately stricter than PEP-4
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 58; i < 60; i++) {
+    for (int i = 59; i < 61; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -4719,14 +4752,14 @@ const char* const bytes = ".Note that Cython is deliberately stricter than PEP-4
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 60; i++) {
+    for (Py_ssize_t i = 0; i < 61; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 58;
+      PyObject **table = stringtab + 59;
       for (Py_ssize_t i=0; i<2; ++i) {
         #if PY_VERSION_HEX >= 0x030F0000
         PyUnstable_SetImmortal(table[i]);
@@ -4778,10 +4811,10 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 19};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_objects, __pyx_mstate->__pyx_n_u_delta_time, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_j, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_ns, __pyx_mstate->__pyx_n_u_obj, __pyx_mstate->__pyx_n_u_script, __pyx_mstate->__pyx_n_u_scripts_2, __pyx_mstate->__pyx_n_u_PS, __pyx_mstate->__pyx_n_u_PS_2, __pyx_mstate->__pyx_n_u_anim, __pyx_mstate->__pyx_n_u_has_anim, __pyx_mstate->__pyx_n_u_rb, __pyx_mstate->__pyx_n_u_has_rb, __pyx_mstate->__pyx_n_u_has_ps, __pyx_mstate->__pyx_n_u_ps, __pyx_mstate->__pyx_n_u_needs_update};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_gameloop_pyx, __pyx_mstate->__pyx_n_u_cy_update_objects, __pyx_mstate->__pyx_kp_b_iso88591_q_Q_Cq_U_1_hgQa_Q_AQ_wauM_5_q_W, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_gameloop_pyx, __pyx_mstate->__pyx_n_u_cy_update_objects, __pyx_mstate->__pyx_kp_b_iso88591_q_Q_Cq_U_1_hgQa_2_83a_c_AQ_wauM, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 133};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 137};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_objects, __pyx_mstate->__pyx_n_u_delta_time, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_obj};
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_gameloop_pyx, __pyx_mstate->__pyx_n_u_cy_update_end_of_frame, __pyx_mstate->__pyx_kp_b_iso88591_Cq_U_1_hgQa_7_5_4A_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
@@ -6337,17 +6370,6 @@ static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject 
 }
 #endif
 
-/* RaiseUnexpectedTypeError */
-static int
-__Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj)
-{
-    __Pyx_TypeName obj_type_name = __Pyx_PyType_GetFullyQualifiedName(Py_TYPE(obj));
-    PyErr_Format(PyExc_TypeError, "Expected %s, got " __Pyx_FMT_TYPENAME,
-                 expected, obj_type_name);
-    __Pyx_DECREF_TypeName(obj_type_name);
-    return 0;
-}
-
 /* GetAttr3 */
 #if __PYX_LIMITED_VERSION_HEX < 0x030d0000
 static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
@@ -6378,6 +6400,17 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject
     r = PyObject_GetAttr(o, n);
     return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
 #endif
+}
+
+/* RaiseUnexpectedTypeError */
+static int
+__Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj)
+{
+    __Pyx_TypeName obj_type_name = __Pyx_PyType_GetFullyQualifiedName(Py_TYPE(obj));
+    PyErr_Format(PyExc_TypeError, "Expected %s, got " __Pyx_FMT_TYPENAME,
+                 expected, obj_type_name);
+    __Pyx_DECREF_TypeName(obj_type_name);
+    return 0;
 }
 
 /* PyObjectFastCallMethod */

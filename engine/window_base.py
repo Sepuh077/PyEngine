@@ -137,7 +137,11 @@ class WindowBase:
         # -- ModernGL context ------------------------------------------------
         try:
             self._ctx = moderngl.create_context(require=330)
-        except Exception:
+        except Exception as exc:
+            from engine.log import get_logger
+            get_logger("window").debug(
+                "OpenGL 3.3 context failed (%s); retrying without require", exc
+            )
             self._ctx = moderngl.create_context()
         self._ctx.enable(moderngl.DEPTH_TEST | moderngl.BLEND)
         self._ctx.blend_func = (
@@ -227,8 +231,11 @@ class WindowBase:
                 print(f"Loaded {len(loaded)} ScriptableObject assets from {self.project_root}")
 
         except Exception as e:
-            # Silently ignore errors during loading - assets might not exist
-            pass
+            # Assets may be missing in empty projects; still log for diagnostics
+            from engine.log import get_logger
+            get_logger("window").debug(
+                "ScriptableObject auto-load skipped/failed: %s", e, exc_info=True
+            )
 
     def _render(self):
         """Full per-frame rendering pipeline. Must be implemented by subclass."""
@@ -348,8 +355,9 @@ class WindowBase:
             return
         try:
             self._ctx.use()
-        except Exception:
-            pass
+        except Exception as exc:
+            from engine.log import get_logger
+            get_logger("window").debug("ctx.use() failed: %s", exc)
 
     # =======================================================================
     # 2D overlay rendering (HUD)
@@ -652,8 +660,9 @@ class WindowBase:
             self._running = True
 
         raw_dt = self._clock.tick(self._fps) / 1000.0
-        self._delta_time = raw_dt
-        Time.set(raw_dt)
+        Time.set(raw_dt)  # clamps via Time.maximum_delta_time
+        self._delta_time = Time.delta_time
+        frame_dt = Time.delta_time
 
         self._handle_events()
 
@@ -671,25 +680,125 @@ class WindowBase:
             else:
                 active = self._active_objects()
 
-            if _USE_CYTHON_GAMELOOP:
-                _cy_update_objects(active, raw_dt)
+            fixed_list = (
+                scene._fixed_updatables
+                if scene is not None and getattr(scene, '_fixed_updatables', None)
+                else ()
+            )
+            late_list = (
+                scene._late_updatables
+                if scene is not None and getattr(scene, '_late_updatables', None)
+                else ()
+            )
+
+            # Unity-like order:
+            #   FixedUpdate × N  →  Update  →  LateUpdate  →  (EOF coroutines) → Render
+            #
+            # Fixed-step physics: accumulate frame time and step scripts + RBs
+            # + collisions at a constant rate (default 60 Hz).
+            fixed_dt = Time.fixed_delta_time
+            if fixed_dt > 0.0:
+                Time._physics_accumulator += frame_dt
+                max_steps = max(1, int(Time.maximum_physics_steps))
+                steps = 0
+                while Time._physics_accumulator >= fixed_dt and steps < max_steps:
+                    Time.delta_time = fixed_dt
+                    self._run_fixed_updates(fixed_list)
+                    self._update_rigidbodies(active)
+                    self._process_collisions()
+                    Time.fixed_time += fixed_dt
+                    Time._physics_accumulator -= fixed_dt
+                    steps += 1
+                # Drop leftover if we hit the step cap (prevent spiral of death)
+                if steps >= max_steps:
+                    Time._physics_accumulator = min(
+                        Time._physics_accumulator, fixed_dt
+                    )
+                # Restore frame delta for Update / LateUpdate / render
+                Time.delta_time = frame_dt
             else:
-                for obj in active:
-                    obj.update()
+                # fixed_delta_time <= 0: one variable-dt physics step, still
+                # call fixed_update once so gameplay can rely on the hook.
+                self._run_fixed_updates(fixed_list)
+                self._update_rigidbodies(active)
+                self._process_collisions()
+
+            # Frame update: scripts (opt-in) / animators / particles / coroutines.
+            # Rigidbodies already integrated above.
+            Time._skip_rigidbody_frame_update = True
+            try:
+                if _USE_CYTHON_GAMELOOP:
+                    _cy_update_objects(active, frame_dt)
+                else:
+                    for obj in active:
+                        obj.update()
+            finally:
+                Time._skip_rigidbody_frame_update = False
 
             if self._current_scene:
                 self._current_scene.canvas.update(self._delta_time)
 
-            self._process_collisions()
+            # LateUpdate — only objects whose scripts override late_update
+            self._run_late_updates(late_list)
 
             if _USE_CYTHON_GAMELOOP:
-                _cy_update_end_of_frame(active, raw_dt)
+                _cy_update_end_of_frame(active, frame_dt)
             else:
                 for obj in active:
                     obj.update_end_of_frame()
 
         self._render()
         return self._running
+
+    def _run_fixed_updates(self, fixed_objs) -> None:
+        """Call Script.fixed_update on opt-in lists only (empty list = free)."""
+        if not fixed_objs:
+            return
+        for obj in fixed_objs:
+            scripts = getattr(obj, '_scripts_fixed', None)
+            if not scripts:
+                continue
+            for script in scripts:
+                if not getattr(script, '_awoken', False):
+                    script.awake()
+                    script._awoken = True
+                if not getattr(script, '_started', False):
+                    script.start()
+                    script._started = True
+                script.fixed_update()
+
+    def _run_late_updates(self, late_objs) -> None:
+        """Call Script.late_update on opt-in lists only (empty list = free)."""
+        if not late_objs:
+            return
+        for obj in late_objs:
+            scripts = getattr(obj, '_scripts_late', None)
+            if not scripts:
+                continue
+            for script in scripts:
+                if not getattr(script, '_awoken', False):
+                    script.awake()
+                    script._awoken = True
+                if not getattr(script, '_started', False):
+                    script.start()
+                    script._started = True
+                script.late_update()
+
+    def _update_rigidbodies(self, active) -> None:
+        """Integrate all non-sleeping rigidbodies for the current Time.delta_time."""
+        for obj in active:
+            rb = getattr(obj, '_rigidbody', None)
+            if rb is None:
+                continue
+            if getattr(rb, 'is_sleeping', False):
+                continue
+            try:
+                rb.update()
+            except Exception:
+                from engine.log import get_logger
+                get_logger("physics").exception(
+                    "Rigidbody.update failed on %r", obj
+                )
 
     def run(self, fps: int = 60):
         self._fps = fps

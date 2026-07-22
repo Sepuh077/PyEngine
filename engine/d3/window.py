@@ -934,10 +934,19 @@ class Window3D(WindowBase):
         push = depth + 1e-5
         normal = manifold.normal
 
-        rb_a = a.get_component(Rigidbody3D)
-        rb_b = b.get_component(Rigidbody3D)
+        rb_a = getattr(a, '_rigidbody', None)
+        if rb_a is not None and not isinstance(rb_a, Rigidbody3D):
+            rb_a = a.get_component(Rigidbody3D)
+        rb_b = getattr(b, '_rigidbody', None)
+        if rb_b is not None and not isinstance(rb_b, Rigidbody3D):
+            rb_b = b.get_component(Rigidbody3D)
         a_static = (rb_a is not None and rb_a.is_static) or rb_a is None
         b_static = (rb_b is not None and rb_b.is_static) or rb_b is None
+        # Collisions wake sleeping bodies
+        if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
+            rb_a.wake()
+        if rb_b is not None and getattr(rb_b, 'is_sleeping', False):
+            rb_b.wake()
 
         if a_static and b_static:
             return
@@ -1032,13 +1041,19 @@ class Window3D(WindowBase):
             cp = np.asarray(cp, dtype=np.float32)
             nrm = np.asarray(manifold.normal, dtype=np.float32)
             for obj in (a, b):
-                rb = obj.get_component(Rigidbody3D)
+                rb = getattr(obj, '_rigidbody', None)
+                if rb is not None and not isinstance(rb, Rigidbody3D):
+                    rb = obj.get_component(Rigidbody3D)
                 if rb and not (getattr(rb, 'is_static', False) or getattr(rb, 'is_kinematic', False)):
                     try:
                         pos = obj.transform.position
                         cpos = pos.to_numpy() if hasattr(pos, 'to_numpy') else (
                             np.array(pos.to_tuple()) if hasattr(pos, 'to_tuple') else np.asarray(pos, dtype=np.float32))
-                    except Exception:
+                    except Exception as exc:
+                        import logging
+                        logging.getLogger('pyengine').debug(
+                            "angular impulse: failed to read position: %s", exc
+                        )
                         cpos = np.zeros(3, dtype=np.float32)
                     r = cp - cpos
                     j_ang = 0.5
@@ -1132,6 +1147,20 @@ class Window3D(WindowBase):
         for c in all_cols:
             c.update_bounds()
 
+        # Cache rigidbody pointers per game object for this frame
+        rb_cache = {}
+        def _rb_of(go):
+            if go is None:
+                return None
+            rid = id(go)
+            if rid in rb_cache:
+                return rb_cache[rid]
+            rb = getattr(go, '_rigidbody', None)
+            if rb is not None and not isinstance(rb, Rigidbody3D):
+                rb = go.get_component(Rigidbody3D)
+            rb_cache[rid] = rb
+            return rb
+
         # Broadphase: use Cython sweep-and-prune when available
         try:
             from engine.cython.cy_math import broadphase_aabb_pairs as _cy_broadphase
@@ -1139,8 +1168,9 @@ class Window3D(WindowBase):
         except (ImportError, ModuleNotFoundError):
             _bp_cython = False
 
-        # Build broadphase candidate set
+        # Build broadphase candidate set (also used by continuous sweeps)
         bp_candidates = None
+        bp_neighbors = None  # idx -> set of other indices
         if _bp_cython and len(all_cols) >= 4:
             # Build AABB list for sweep-and-prune
             aabb_data = []
@@ -1154,13 +1184,17 @@ class Window3D(WindowBase):
             if aabb_data:
                 raw_pairs = _cy_broadphase(aabb_data)
                 bp_candidates = set()
+                bp_neighbors = defaultdict(set)
                 for i, j in raw_pairs:
                     bp_candidates.add((i, j))
                     bp_candidates.add((j, i))
+                    bp_neighbors[i].add(j)
+                    bp_neighbors[j].add(i)
 
         # Check non-statics vs all (use ColliderGroup for relations; *all* pairs)
         for idx_a, ca in enumerate(all_cols):
-            if (ca.game_object.get_component(Rigidbody3D) and ca.game_object.get_component(Rigidbody3D).is_static) or ca.collision_mode == CollisionMode.IGNORE:
+            rb_a = _rb_of(ca.game_object)
+            if (rb_a is not None and rb_a.is_static) or ca.collision_mode == CollisionMode.IGNORE:
                 continue
             
             perform_final_check = True
@@ -1181,12 +1215,23 @@ class Window3D(WindowBase):
                         a.transform._mark_dirty()
                         step = delta / steps
                         last_safe = Vector3(a.transform._local_position)
+
+                        # Continuous broadphase: SAP neighbors when available; full
+                        # list fallback so fast movers never miss distant obstacles.
+                        if bp_neighbors is not None:
+                            cont_idxs = list(bp_neighbors.get(idx_a, ()))
+                        else:
+                            cont_idxs = []
+                        if not cont_idxs:
+                            cont_idxs = [i for i in range(len(all_cols)) if i != idx_a]
                         
                         for _ in range(steps):
                             a.transform._local_position = a.transform._local_position + step
                             a.transform._mark_dirty()
+                            ca.update_bounds()
                             hit_solid = False
-                            for cb in all_cols:
+                            for idx_b in cont_idxs:
+                                cb = all_cols[idx_b]
                                 if cb is ca or cb.game_object is a:
                                     continue
                                 # ColliderGroup: IGNORE skip; TRIGGER detect/pass; SOLID block
@@ -1212,9 +1257,10 @@ class Window3D(WindowBase):
                                             # Fallback if no manifold could be generated
                                             a.transform._local_position = Vector3(last_safe)
                                             a.transform._mark_dirty()
-                                            if a.get_component(Rigidbody3D):
+                                            rb = _rb_of(a)
+                                            if rb is not None:
                                                 from engine.types import Vector3
-                                                a.get_component(Rigidbody3D).velocity = Vector3.zero()
+                                                rb.velocity = Vector3.zero()
                                         hit_solid = True
                                         break
                             if hit_solid:
@@ -1385,9 +1431,13 @@ class Window3D(WindowBase):
 
         groups = defaultdict(list)
         for obj in self._active_objects():
-            if not obj.get_component(Object3D) or not obj.get_component(Object3D)._visible or not (obj.get_component(Rigidbody3D) and obj.get_component(Rigidbody3D).is_static):
+            o3d = obj.get_component(Object3D)
+            rb = getattr(obj, '_rigidbody', None)
+            if rb is not None and not isinstance(rb, Rigidbody3D):
+                rb = obj.get_component(Rigidbody3D)
+            if not o3d or not o3d._visible or not (rb and rb.is_static):
                 continue
-            key = (obj.get_component(Object3D).get_mesh_key(), tuple(obj.get_component(Object3D)._color))
+            key = (o3d.get_mesh_key(), tuple(o3d._color))
             groups[key].append(obj)
 
         for (_, color), objs in groups.items():

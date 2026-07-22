@@ -28,6 +28,14 @@ class Rigidbody3D(Component):
     angular_drag = InspectorField(float, default=0.0, min_value=0.0, max_value=1000.0, step=0.1, decimals=2, tooltip="Angular drag coefficient")
     restitution = InspectorField(float, default=0.3, min_value=0.0, max_value=1.0, step=0.05, decimals=2, tooltip="Bounciness")
     friction = InspectorField(float, default=0.5, min_value=0.0, max_value=1.0, step=0.05, decimals=2, tooltip="Friction coefficient")
+    sleep_threshold = InspectorField(
+        float, default=0.05, min_value=0.0, max_value=10.0, step=0.01, decimals=3,
+        tooltip="Speed below which the body may fall asleep",
+    )
+    sleep_time = InspectorField(
+        float, default=0.5, min_value=0.0, max_value=10.0, step=0.05, decimals=2,
+        tooltip="Seconds at rest before sleeping",
+    )
 
     def __init__(self, use_gravity: bool = True, is_kinematic: bool = False, is_static: bool = False, drag: float = 0.0):
         super().__init__()
@@ -43,6 +51,55 @@ class Rigidbody3D(Component):
         self.friction = 0.5
         self._inertia_dirty = True
         self._body_inertia_inv = np.array([1.0, 1.0, 1.0], dtype=np.float32)
+        # Sleep state (static/kinematic never simulate)
+        self.sleep_threshold = 0.05
+        self.sleep_time = 0.5
+        self._sleep_timer = 0.0
+        self._is_sleeping = False
+
+    @property
+    def is_sleeping(self) -> bool:
+        return self._is_sleeping
+
+    def wake(self) -> None:
+        """Wake a sleeping body so it participates in simulation again."""
+        self._is_sleeping = False
+        self._sleep_timer = 0.0
+
+    def sleep(self) -> None:
+        """Force the body to sleep (zeros residual velocity)."""
+        if self.is_static or self.is_kinematic:
+            return
+        self._is_sleeping = True
+        self._sleep_timer = 0.0
+        self._velocity = Vector3.zero()
+        self._angular_velocity = Vector3.zero()
+
+    def _update_sleep(self, delta_time: float) -> None:
+        if self.is_static or self.is_kinematic or self.use_gravity:
+            # Bodies under gravity stay awake (they would fall if unsupported);
+            # sleep is mainly useful for resting stacks / zero-gravity scenes.
+            # Still allow sleep when nearly still AND not accelerating from gravity
+            # only when velocity is tiny (resting on ground after collision zeros vy).
+            pass
+        lin = self._velocity.magnitude if hasattr(self._velocity, 'magnitude') else float(
+            np.linalg.norm([self._velocity.x, self._velocity.y, self._velocity.z])
+        )
+        ang = self._angular_velocity.magnitude if hasattr(self._angular_velocity, 'magnitude') else float(
+            np.linalg.norm([
+                self._angular_velocity.x,
+                self._angular_velocity.y,
+                self._angular_velocity.z,
+            ])
+        )
+        thr = float(self.sleep_threshold)
+        if lin < thr and ang < thr:
+            self._sleep_timer += delta_time
+            if self._sleep_timer >= float(self.sleep_time):
+                self.sleep()
+        else:
+            self._sleep_timer = 0.0
+            self._is_sleeping = False
 
     @property
     def velocity(self) -> Vector3:
@@ -60,6 +117,7 @@ class Rigidbody3D(Component):
             self._velocity = Vector3(value)
         else:
             raise TypeError(f"velocity must be Vector3, numpy array, tuple, or list, got {type(value)}")
+        self.wake()
 
     @property
     def angular_velocity(self) -> Vector3:
@@ -76,20 +134,41 @@ class Rigidbody3D(Component):
             self._angular_velocity = Vector3(value)
         else:
             raise TypeError(f"angular_velocity must be Vector3, numpy array, tuple, or list, got {type(value)}")
+        self.wake()
 
-    def add_force(self, force):
-        """Simple force application."""
+    def add_force(self, force, as_impulse: bool = True):
+        """Apply a force to this body.
+
+        By default this is an **impulse** (``v += F / m``), matching the prior
+        engine behavior and suitable for one-shot kicks.  Pass
+        ``as_impulse=False`` to apply a continuous force for the current
+        physics step (``v += F / m * dt``).
+        """
         force_vec = Vector3(force) if not isinstance(force, Vector3) else force
-        self._velocity = self._velocity + force_vec / self.mass
+        m = self.mass if self.mass > 1e-10 else 1e-10
+        if as_impulse:
+            self._velocity = self._velocity + force_vec / m
+        else:
+            dt = Time.delta_time
+            self._velocity = self._velocity + force_vec * (dt / m)
+        self.wake()
 
-    def add_torque(self, torque):
-        """Apply torque (simple; augments angular_velocity)."""
+    def add_torque(self, torque, as_impulse: bool = True):
+        """Apply torque. Default is impulse; use as_impulse=False for continuous."""
         torque_vec = Vector3(torque) if not isinstance(torque, Vector3) else torque
         m = self.mass if self.mass > 1e-10 else 1e-10
-        self._angular_velocity = self._angular_velocity + torque_vec / m
+        if as_impulse:
+            self._angular_velocity = self._angular_velocity + torque_vec / m
+        else:
+            dt = Time.delta_time
+            self._angular_velocity = self._angular_velocity + torque_vec * (dt / m)
+        self.wake()
 
     def update(self):
-        if self.is_static or self.is_kinematic:
+        # When the window runs fixed-step physics, frame-phase updates skip RBs
+        if Time._skip_rigidbody_frame_update:
+            return
+        if self.is_static or self.is_kinematic or self._is_sleeping:
             return
 
         delta_time = Time.delta_time
@@ -126,6 +205,7 @@ class Rigidbody3D(Component):
                 self.game_object.transform.set_rotation_quaternion(
                     Quaternion(nqw, nqx, nqy, nqz)
                 )
+            self._update_sleep(delta_time)
             return
 
         # Pure-Python fallback
@@ -169,6 +249,8 @@ class Rigidbody3D(Component):
                 current_q = self.game_object.transform._local_quaternion
                 new_q = delta_q * current_q
                 self.game_object.transform.set_rotation_quaternion(new_q)
+
+        self._update_sleep(delta_time)
 
     def _update_inertia(self):
         if not getattr(self, '_inertia_dirty', True):

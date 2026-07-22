@@ -546,14 +546,63 @@ def inspector_field(
 class Time:
     """
     Global time utility similar to Unity's Time class.
+
+    Frame timing:
+        - ``delta_time`` / ``unscaled_delta_time`` — last frame duration.
+        - ``time`` — total scaled elapsed time since start.
+
+    Hitch clamp (``maximum_delta_time``):
+        This is a **ceiling on large dt only** (slow frames / freezes). It does
+        **not** limit high FPS. At 200 FPS, raw dt ≈ 0.005 s, which is far
+        below the ceiling and is never touched.
+
+        Only when a frame takes longer than the ceiling (e.g. asset load hitch)
+        is dt cut down so scripts/physics don't simulate a multi-second jump
+        in one update.
+
+        Set ``maximum_delta_time = 0`` (or None) to disable the ceiling entirely.
+
+    Physics (fixed step):
+        - ``fixed_delta_time`` — physics sub-step size (default 1/60 s).
+          Independent of render FPS: at 200 FPS you still integrate physics
+          at ~60 Hz (accumulator). Set to 0 for one variable-dt physics step
+          per rendered frame.
+        - ``maximum_physics_steps`` — max sub-steps per frame (spiral-of-death).
+        - ``fixed_time`` — total fixed-step simulation time.
+        - ``_skip_rigidbody_frame_update`` — when True, Rigidbody.update()
+          no-ops so the window can run physics only in fixed sub-steps.
+
+    Target render FPS is controlled by ``Window.run(fps=…)`` / ``tick(fps=…)``,
+    not by these Time fields.
     """
     delta_time: float = 0.0
     unscaled_delta_time: float = 0.0
     scale: float = 1.0
     time: float = 0.0  # Total elapsed time since game start
 
+    # Ceiling for slow frames only (does NOT affect high FPS).
+    # 0.1 s ≈ ignore freezes worse than 10 FPS for one frame; Unity uses ~0.33.
+    maximum_delta_time: float = 0.1
+
+    # Fixed-step physics
+    fixed_delta_time: float = 1.0 / 60.0
+    maximum_physics_steps: int = 8
+    fixed_time: float = 0.0
+    _physics_accumulator: float = 0.0
+    _skip_rigidbody_frame_update: bool = False
+
     @staticmethod
     def set(raw_dt: float):
+        """Record frame delta; optionally clamp *large* dt via maximum_delta_time.
+
+        Small dt (high FPS) is never increased or reduced by this — only values
+        above ``maximum_delta_time`` are capped. Pass 0 / None for max to skip.
+        """
+        if raw_dt < 0.0:
+            raw_dt = 0.0
+        max_dt = Time.maximum_delta_time
+        if max_dt is not None and max_dt > 0.0 and raw_dt > max_dt:
+            raw_dt = max_dt
         Time.unscaled_delta_time = raw_dt
         Time.delta_time = raw_dt * Time.scale
         Time.time += Time.delta_time
@@ -726,24 +775,41 @@ class Script(Component):
     and receive lifecycle callbacks:
     - awake(): Called once when the script is first created (before start)
     - start(): Called once when play mode begins
-    - update(): Called every frame
-    - on_collision_enter(other): Called when collision starts
-    - on_collision_stay(other): Called every frame while colliding
-    - on_collision_exit(other): Called when collision ends
+    - fixed_update(): Fixed timestep (physics rate); only called if overridden
+    - update(): Once per rendered frame; only called if overridden
+    - late_update(): After update + physics; only called if overridden
+    - on_collision_enter/stay/exit(other)
+
+    Empty hooks are **not** called every frame: GameObject only registers a
+    script for a phase when that method is actually overridden, so large
+    scenes with few FixedUpdate/LateUpdate users pay almost nothing.
+
+    Frame order (Unity-like)::
+
+        fixed_update × N  (Time.delta_time == fixed_delta_time)
+        update            (frame delta)
+        late_update       (frame delta)
+        render
     
     Example:
         class PlayerController(Script):
             def awake(self):
-                # Initialize references here
                 self.speed = 5.0
                 
             def start(self):
-                # Called when play begins
                 self.start_coroutine(self.delayed_action())
+
+            def fixed_update(self):
+                # Forces / physics-friendly movement
+                ...
                 
             def update(self):
-                # Move player logic here
-                pass
+                # Input, animation triggers
+                ...
+
+            def late_update(self):
+                # Camera follow after all motion
+                ...
                 
             def on_collision_enter(self, other):
                 print(f"Collided with {other.game_object.name}")
@@ -759,8 +825,27 @@ class Script(Component):
     
     def update(self):
         """
-        Called every frame.
-        Override to implement per-frame behavior.
+        Called every rendered frame when overridden.
+        Uses ``Time.delta_time`` (variable frame delta).
+        """
+        pass
+
+    def fixed_update(self):
+        """
+        Called on each physics step when overridden.
+
+        Runs at ``Time.fixed_delta_time`` (default 60 Hz). During this call,
+        ``Time.delta_time`` equals the fixed step size. Prefer this for
+        applying forces and other physics-coupled logic.
+        """
+        pass
+
+    def late_update(self):
+        """
+        Called once per frame after ``update`` and fixed physics when overridden.
+
+        Uses frame ``Time.delta_time``. Ideal for camera follow and other
+        logic that should run after all movement for the frame.
         """
         pass
     

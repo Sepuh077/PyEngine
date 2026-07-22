@@ -1247,7 +1247,9 @@ class Window2D(WindowBase):
                 active[i] = False
                 continue
             if c.game_object:
-                rb = c.game_object.get_component(Rigidbody2D)
+                rb = getattr(c.game_object, '_rigidbody', None)
+                if rb is None:
+                    rb = c.game_object.get_component(Rigidbody2D)
                 if rb and rb.is_static:
                     active[i] = False
 
@@ -1388,14 +1390,19 @@ class Window2D(WindowBase):
         from engine.types import Vector3
         from engine.types.vector2 import Vector2
 
-        rb_a = a.get_component(Rigidbody2D)
-        rb_b = b.get_component(Rigidbody2D)
+        rb_a = getattr(a, '_rigidbody', None) or a.get_component(Rigidbody2D)
+        rb_b = getattr(b, '_rigidbody', None) or b.get_component(Rigidbody2D)
 
         a_static = (rb_a is None or rb_a.is_static or rb_a.is_kinematic)
         b_static = (rb_b is None or rb_b.is_static or rb_b.is_kinematic)
 
         if a_static and b_static:
             return
+
+        if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
+            rb_a.wake()
+        if rb_b is not None and getattr(rb_b, 'is_sleeping', False):
+            rb_b.wake()
 
         normal = manifold.normal
         depth = manifold.depth

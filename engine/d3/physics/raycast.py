@@ -256,20 +256,134 @@ def raycast_cylinder(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     
     return RaycastHit(collider, pt_world, n_world, t)
 
+# =========================================================================
+# Mesh triangle BVH (local space, rebuilt when mesh data identity changes)
+# =========================================================================
+
+class _MeshBVHNode:
+    __slots__ = ("min_b", "max_b", "left", "right", "tri_indices")
+
+    def __init__(self, min_b, max_b, left=None, right=None, tri_indices=None):
+        self.min_b = min_b
+        self.max_b = max_b
+        self.left = left
+        self.right = right
+        self.tri_indices = tri_indices  # list of face indices for leaves
+
+
+class MeshTriangleBVH:
+    """Simple median-split AABB BVH over mesh triangles (local space)."""
+
+    LEAF_SIZE = 8
+
+    def __init__(self, vertices, faces):
+        self.vertices = np.asarray(vertices, dtype=np.float64)
+        self.faces = np.asarray(faces, dtype=np.int64)
+        n = len(self.faces)
+        if n == 0:
+            self.root = None
+            return
+        # Precompute triangle centroids and bounds
+        self._tri_min = np.empty((n, 3), dtype=np.float64)
+        self._tri_max = np.empty((n, 3), dtype=np.float64)
+        self._centroids = np.empty((n, 3), dtype=np.float64)
+        # Pad zero-thickness bounds so flat (coplanar) triangles still
+        # produce valid AABBs for ray-slab tests.
+        _pad = 1e-5
+        for i, face in enumerate(self.faces):
+            pts = self.vertices[face]
+            tmin = pts.min(axis=0)
+            tmax = pts.max(axis=0)
+            for a in range(3):
+                if tmax[a] - tmin[a] < _pad:
+                    tmin[a] -= _pad
+                    tmax[a] += _pad
+            self._tri_min[i] = tmin
+            self._tri_max[i] = tmax
+            self._centroids[i] = pts.mean(axis=0)
+        indices = list(range(n))
+        self.root = self._build(indices)
+
+    def _build(self, indices: List[int]):
+        if not indices:
+            return None
+        tmin = self._tri_min[indices].min(axis=0)
+        tmax = self._tri_max[indices].max(axis=0)
+        if len(indices) <= self.LEAF_SIZE:
+            return _MeshBVHNode(tmin, tmax, tri_indices=indices)
+        # Split along longest axis by centroid median
+        extent = tmax - tmin
+        axis = int(np.argmax(extent))
+        indices.sort(key=lambda i: self._centroids[i, axis])
+        mid = len(indices) // 2
+        if mid == 0 or mid == len(indices):
+            return _MeshBVHNode(tmin, tmax, tri_indices=indices)
+        left = self._build(indices[:mid])
+        right = self._build(indices[mid:])
+        return _MeshBVHNode(tmin, tmax, left=left, right=right)
+
+    def raycast(self, ray: Ray) -> Optional[Tuple[float, np.ndarray, np.ndarray]]:
+        """Return (t_local, pt_local, n_local) for closest hit or None."""
+        if self.root is None:
+            return None
+        best = None
+        min_dist = float('inf')
+        stack = [self.root]
+        while stack:
+            node = stack.pop()
+            if ray_aabb_intersection(ray, node.min_b, node.max_b) is None:
+                continue
+            if node.tri_indices is not None:
+                for fi in node.tri_indices:
+                    face = self.faces[fi]
+                    v0 = self.vertices[face[0]]
+                    v1 = self.vertices[face[1]]
+                    v2 = self.vertices[face[2]]
+                    hit = ray_triangle_intersection(ray, v0, v1, v2)
+                    if hit is None:
+                        continue
+                    t_local = hit[0]
+                    if 0.0 <= t_local < min_dist:
+                        min_dist = t_local
+                        edge1 = v1 - v0
+                        edge2 = v2 - v0
+                        n_local = np.cross(edge1, edge2)
+                        nlen = np.linalg.norm(n_local)
+                        if nlen > 1e-12:
+                            n_local = n_local / nlen
+                        pt_local = ray.origin + ray.direction * t_local
+                        best = (t_local, pt_local, n_local)
+            else:
+                if node.left is not None:
+                    stack.append(node.left)
+                if node.right is not None:
+                    stack.append(node.right)
+        return best
+
+
+def _get_or_build_mesh_bvh(collider: Collider3D) -> Optional[MeshTriangleBVH]:
+    """Cache a local-space BVH on the collider keyed by mesh_data identity."""
+    if collider.mesh_data is None:
+        return None
+    vertices, faces, _model = collider.mesh_data
+    cache_key = (id(vertices), id(faces), len(faces))
+    cached = getattr(collider, '_mesh_bvh', None)
+    cached_key = getattr(collider, '_mesh_bvh_key', None)
+    if cached is not None and cached_key == cache_key:
+        return cached
+    bvh = MeshTriangleBVH(vertices, faces)
+    collider._mesh_bvh = bvh
+    collider._mesh_bvh_key = cache_key
+    return bvh
+
+
 def raycast_mesh(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     if collider.mesh_data is None:
         return None
         
     vertices, faces, model_mat = collider.mesh_data
     
-    # Check broadphase AABB first
-    center, axes, extents = collider.get_world_obb()
-    # Or rely on user calling code to check AABB first?
-    # Better to do it here for safety if expensive.
-    # We don't have easy AABB here without importing again. 
-    # Let's assume broadphase is done or acceptable cost.
-    
-    # We can transform Ray to Model space (cheaper than transforming all triangles)
+    # Transform Ray to Model space (cheaper than transforming all triangles)
     try:
         inv_model = np.linalg.inv(model_mat)
     except np.linalg.LinAlgError:
@@ -280,45 +394,41 @@ def raycast_mesh(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     local_origin = orig_4[:3]
     
     # Transform Ray Direction (Vector) - ignore translation
-    # M = T * R * S. Inv(M) = Inv(S) * Inv(R) * Inv(T).
-    # For direction we just need Inv(R) * Inv(S).
-    # Or just mat3(inv_model) if uniform scale.
     local_dir = (inv_model[:3, :3] @ ray.direction)
     # Normalize local direction (scale changes length)
     local_dir_norm = np.linalg.norm(local_dir)
-    if local_dir_norm < 1e-6: return None
+    if local_dir_norm < 1e-6:
+        return None
     local_dir /= local_dir_norm
     
     local_ray = Ray(local_origin, local_dir)
-    
-    # Intersect all faces
-    # BVH would be ideal here.
-    
+
+    # BVH-accelerated triangle tests (linear scan for tiny meshes)
     best_hit = None
-    min_dist = float('inf')
-    
-    for face in faces:
-        v0 = vertices[face[0]]
-        v1 = vertices[face[1]]
-        v2 = vertices[face[2]]
-        
-        hit = ray_triangle_intersection(local_ray, v0, v1, v2)
-        if hit:
-            t_local, u, v = hit
-            if t_local < min_dist:
-                min_dist = t_local
-                
-                # Compute normal (face normal)
-                edge1 = v1 - v0
-                edge2 = v2 - v0
-                n_local = np.cross(edge1, edge2)
-                n_local /= np.linalg.norm(n_local)
-                
-                # Point
-                pt_local = local_origin + local_dir * t_local
-                
-                best_hit = (t_local, pt_local, n_local)
-                
+    if len(faces) >= MeshTriangleBVH.LEAF_SIZE:
+        bvh = _get_or_build_mesh_bvh(collider)
+        if bvh is not None:
+            best_hit = bvh.raycast(local_ray)
+    else:
+        min_dist = float('inf')
+        for face in faces:
+            v0 = vertices[face[0]]
+            v1 = vertices[face[1]]
+            v2 = vertices[face[2]]
+            hit = ray_triangle_intersection(local_ray, v0, v1, v2)
+            if hit:
+                t_local = hit[0]
+                if t_local < min_dist:
+                    min_dist = t_local
+                    edge1 = v1 - v0
+                    edge2 = v2 - v0
+                    n_local = np.cross(edge1, edge2)
+                    nlen = np.linalg.norm(n_local)
+                    if nlen > 1e-12:
+                        n_local = n_local / nlen
+                    pt_local = local_origin + local_dir * t_local
+                    best_hit = (t_local, pt_local, n_local)
+
     if not best_hit:
         return None
         
@@ -329,10 +439,11 @@ def raycast_mesh(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
     pt_world = pt_world_4[:3]
     
     # Normal transform (transpose inverse of model matrix upper 3x3)
-    # We already have inv_model. Transpose of its 3x3.
     norm_mat = inv_model[:3, :3].T
     n_world = norm_mat @ n_local
-    n_world /= np.linalg.norm(n_world)
+    nlen = np.linalg.norm(n_world)
+    if nlen > 1e-12:
+        n_world = n_world / nlen
     
     # Distance: distance from ray origin to hit point
     dist = np.linalg.norm(pt_world - ray.origin)

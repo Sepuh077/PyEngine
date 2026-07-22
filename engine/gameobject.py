@@ -11,7 +11,7 @@ from engine.transform import Transform
 from engine.types import Vector3, Vector2
 
 if TYPE_CHECKING:
-    from engine.d3 import Scene3D
+    from engine.scene import Scene
 
 T = TypeVar('T', bound=Component)
 
@@ -19,13 +19,39 @@ T = TypeVar('T', bound=Component)
 _component_ref_registry: Dict[str, 'GameObject'] = {}
 
 # Global registry of all scenes (for static query methods)
-_scenes_registry: List['Scene3D'] = []
+_scenes_registry: List['Scene'] = []
+
+
+def _script_method_overridden(script: Script, method_name: str) -> bool:
+    """Return True if *script*'s class overrides Script's empty *method_name*.
+
+    Used to opt into update / fixed_update / late_update call lists so empty
+    base methods are never invoked in hot loops.
+    """
+    for cls in type(script).__mro__:
+        if method_name in cls.__dict__:
+            # Defined on Script (or Component) → still the empty base hook
+            return cls is not Script and cls is not Component
+    return False
+
+
+def _ensure_script_started(script: Script) -> None:
+    """Run awake/start once before the first phase callback."""
+    if not getattr(script, '_awoken', False):
+        script.awake()
+        script._awoken = True
+    if not getattr(script, '_started', False):
+        script.start()
+        script._started = True
+
 
 class GameObject:
     def __init__(self, name: str = "GameObject", _id: Optional[str] = None):
         self.name = name
         self._tag: Optional[Union[str, Tag]] = None
         self.components: List[Component] = []
+        # Type → list of components for O(1) get_component lookups
+        self._components_by_type: Dict[type, List[Component]] = {}
         
         # Unique ID for serialization (auto-generated, not exposed to users)
         self._id = _id if _id else str(uuid.uuid4())
@@ -34,10 +60,13 @@ class GameObject:
         self.transform = Transform()
         self.add_component(self.transform)
 
-        # Fast-path list: only Script subclasses (components with real update logic).
-        # Populated automatically by add_component(); used by the Cython game loop
-        # to skip objects whose components are all no-op (Transform, Object2D, …).
+        # All Script components on this object (for queries / editor).
         self._scripts: List[Script] = []
+        # Opt-in phase lists: only scripts that override the corresponding method.
+        # Empty base hooks are never called → cheap for large scenes.
+        self._scripts_update: List[Script] = []
+        self._scripts_fixed: List[Script] = []
+        self._scripts_late: List[Script] = []
 
         # Cached references to common behavioral components for zero-search
         # fast paths inside the Cython update loop and physics.
@@ -50,15 +79,15 @@ class GameObject:
         self._end_of_frame_coroutines: List[Dict[str, Any]] = []
         
         # Reference to the scene this object belongs to
-        self._scene: Optional['Scene3D'] = None
+        self._scene: Optional['Scene'] = None
         
         # Render layer for selective camera rendering
         # Import here to avoid circular imports at module level
         from engine.d3.camera import RenderLayer
         self._render_layer: RenderLayer = RenderLayer.DEFAULT
-    
+   
     @property
-    def scene(self) -> Optional['Scene3D']:
+    def scene(self) -> Optional['Scene']:
         """Get the scene this GameObject belongs to."""
         return self._scene
     
@@ -140,44 +169,133 @@ class GameObject:
 
         component.game_object = self
         self.components.append(component)
+        self._index_component(component)
 
         if isinstance(component, Script):
             self._scripts.append(component)
-            if self._scene is not None:
-                self._scene._register_updatable(self)
+            # Opt-in phase lists — only if the method is actually overridden
+            if _script_method_overridden(component, 'update'):
+                self._scripts_update.append(component)
+            if _script_method_overridden(component, 'fixed_update'):
+                self._scripts_fixed.append(component)
+            if _script_method_overridden(component, 'late_update'):
+                self._scripts_late.append(component)
+            self._refresh_updatable_registration()
 
         # Cache hot behavioral components so that the Cython game loop and
         # other hot paths can do cheap attribute access instead of get_component
         # linear searches + isinstance.
         if cls_name in ("Rigidbody3D", "Rigidbody2D", "Rigidbody"):
             self._rigidbody = component
-            if self._scene is not None:
-                self._scene._register_updatable(self)
+            self._refresh_updatable_registration()
         elif cls_name == "Animator":
             self._animator = component
-            if self._scene is not None:
-                self._scene._register_updatable(self)
+            self._refresh_updatable_registration()
         elif cls_name == "ParticleSystem":
             self._particle_system = component
-            if self._scene is not None:
-                self._scene._register_updatable(self)
+            self._refresh_updatable_registration()
 
         component.on_attach()
         return component
+
+    def _index_component(self, component: Component) -> None:
+        """Register component under its type and all base Component subclasses."""
+        by_type = self._components_by_type
+        for cls in type(component).__mro__:
+            if cls is object:
+                continue
+            # Index concrete component types only
+            try:
+                if not issubclass(cls, Component):
+                    continue
+            except TypeError:
+                continue
+            bucket = by_type.get(cls)
+            if bucket is None:
+                by_type[cls] = [component]
+            elif component not in bucket:
+                bucket.append(component)
+
+    def _unindex_component(self, component: Component) -> None:
+        by_type = self._components_by_type
+        for cls in type(component).__mro__:
+            bucket = by_type.get(cls)
+            if not bucket:
+                continue
+            try:
+                bucket.remove(component)
+            except ValueError:
+                pass
+            if not bucket:
+                del by_type[cls]
+
+    def _has_frame_behavior(self) -> bool:
+        """True if this object needs the per-frame update phase.
+
+        Scripts that only implement fixed_update/late_update are *not* included
+        here — they live on the dedicated fixed/late scene lists.
+        """
+        if self._scripts_update:
+            return True
+        if self._rigidbody is not None:
+            return True
+        if self._animator is not None:
+            return True
+        if self._particle_system is not None:
+            return True
+        if self._active_coroutines or self._end_of_frame_coroutines:
+            return True
+        return False
+
+    def _has_behavior(self) -> bool:
+        """True if this object still needs any simulation registration."""
+        if self._has_frame_behavior():
+            return True
+        if self._scripts_fixed or self._scripts_late:
+            return True
+        return False
+
+    def _refresh_updatable_registration(self) -> None:
+        """Keep scene phase lists in sync after add/remove component."""
+        if self._scene is None:
+            return
+        scene = self._scene
+        if self._has_frame_behavior():
+            scene._register_updatable(self)
+        else:
+            scene._unregister_updatable(self)
+
+        if self._scripts_fixed:
+            scene._register_fixed_updatable(self)
+        else:
+            scene._unregister_fixed_updatable(self)
+
+        if self._scripts_late:
+            scene._register_late_updatable(self)
+        else:
+            scene._unregister_late_updatable(self)
 
     def remove_component(self, component: Component) -> bool:
         """Remove a component from this GameObject.
 
         Returns True if the component was found and removed.
-        Also cleans cached fast-path references used by the entity container.
+        Also cleans cached fast-path references used by the entity container
+        and unregisters from the scene updatables list when no behavior remains.
         """
         if component not in self.components:
             return False
 
         self.components.remove(component)
+        self._unindex_component(component)
 
         if component in self._scripts:
             self._scripts.remove(component)
+        if component in self._scripts_update:
+            self._scripts_update.remove(component)
+        if component in self._scripts_fixed:
+            self._scripts_fixed.remove(component)
+        if component in self._scripts_late:
+            self._scripts_late.remove(component)
 
         # Clear caches used by the fast Cython entity/container paths
         if self._rigidbody is component:
@@ -187,9 +305,8 @@ class GameObject:
         if self._particle_system is component:
             self._particle_system = None
 
-        # If this removal leaves the object with no behavior, we could prune
-        # from scene._updatables, but we leave it (harmless) or let rebuild do it.
         component.game_object = None
+        self._refresh_updatable_registration()
         return True
 
     def start_coroutine(self, routine: Generator) -> Generator:
@@ -289,18 +406,57 @@ class GameObject:
             self._end_of_frame_coroutines.extend(deferred_end_of_frame)
 
     def update(self):
-        # Update components (ensure awake/start called before first update)
-        for comp in self.components:
-            if not getattr(comp, '_awoken', False):
-                comp.awake()
-                comp._awoken = True
-            if not getattr(comp, '_started', False):
-                comp.start()
-                comp._started = True
-            comp.update()
-        
+        """Per-frame update (variable dt). Only calls overridden Script.update."""
+        # Scripts that opted into update()
+        for script in self._scripts_update:
+            _ensure_script_started(script)
+            script.update()
+
+        # Behavioral non-script components (RBs skipped when fixed-step owns them)
+        rb = self._rigidbody
+        if rb is not None and not Time._skip_rigidbody_frame_update:
+            if not getattr(rb, '_awoken', False):
+                rb.awake()
+                rb._awoken = True
+            if not getattr(rb, '_started', False):
+                rb.start()
+                rb._started = True
+            rb.update()
+
+        anim = self._animator
+        if anim is not None:
+            if not getattr(anim, '_awoken', False):
+                anim.awake()
+                anim._awoken = True
+            if not getattr(anim, '_started', False):
+                anim.start()
+                anim._started = True
+            anim.update()
+
+        ps = self._particle_system
+        if ps is not None:
+            if not getattr(ps, '_awoken', False):
+                ps.awake()
+                ps._awoken = True
+            if not getattr(ps, '_started', False):
+                ps.start()
+                ps._started = True
+            ps.update()
+
         # Update coroutines (main phase)
         self._update_coroutines(Time.delta_time)
+
+    def fixed_update(self):
+        """Physics-step update; only scripts in ``_scripts_fixed`` are called."""
+        for script in self._scripts_fixed:
+            _ensure_script_started(script)
+            script.fixed_update()
+
+    def late_update(self):
+        """Post-update phase; only scripts in ``_scripts_late`` are called."""
+        for script in self._scripts_late:
+            _ensure_script_started(script)
+            script.late_update()
 
     def update_end_of_frame(self):
         """Called by Window3D to process end-of-frame coroutines."""
@@ -326,12 +482,21 @@ class GameObject:
                 comp._awoken = True
 
     def get_component(self, component_type: Type[T]) -> Optional[T]:
+        """Return the first component of the given type (or a subclass)."""
+        # Fast path: exact type or known base already indexed
+        bucket = self._components_by_type.get(component_type)
+        if bucket:
+            return bucket[0]  # type: ignore[return-value]
+        # Subclass match: scan components list (rare for exact base types)
         for comp in self.components:
             if isinstance(comp, component_type):
                 return comp
         return None
 
     def get_components(self, component_type: Type[T]) -> List[T]:
+        bucket = self._components_by_type.get(component_type)
+        if bucket is not None:
+            return list(bucket)  # type: ignore[return-value]
         return [comp for comp in self.components if isinstance(comp, component_type)]
 
     def __repr__(self):

@@ -50,7 +50,11 @@ def cy_update_objects(list objects, double delta_time):
     for i in range(n):
         obj = <object>objects[i]
 
-        scripts = obj._scripts
+        # Prefer opt-in _scripts_update (only scripts that override update()).
+        # Fall back to _scripts for older GameObject builds.
+        scripts = getattr(obj, '_scripts_update', None)
+        if scripts is None:
+            scripts = obj._scripts
         ns = <Py_ssize_t>len(scripts)
 
         # Fast path: use cached direct references populated by GameObject.add_component
@@ -73,8 +77,8 @@ def cy_update_objects(list objects, double delta_time):
             except Exception:
                 pass
 
-        # Update objects that have scripts, coroutines, Animators, Rigidbodies or ParticleSystems
-        # (Rigidbody/ParticleSystem updates are required even without scripts)
+        # Update objects that have opted-in update scripts, coroutines, Animators,
+        # Rigidbodies or ParticleSystems. Empty Script.update is never registered.
         needs_update = (ns > 0) or bool(getattr(obj, '_active_coroutines', None)) or has_anim or has_rb or has_ps
 
         if needs_update:

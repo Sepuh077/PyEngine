@@ -1,4 +1,5 @@
 # PyEngine - 2D/3D game engine
+from .version import __version__
 from .component import (
     Time,
     Tag,
@@ -22,6 +23,7 @@ from .scriptable_object import (
 
 
 __all__ = [
+    "__version__",
     "Time", "Tag", "Script", "Component", "WaitEndOfFrame",
     "WaitForFrames", "WaitForSeconds", "serializable", "InspectorField",
     "GameObject", "Transform", "Resources",

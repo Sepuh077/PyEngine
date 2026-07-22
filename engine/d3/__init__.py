@@ -21,30 +21,14 @@ Example:
     MyGame(800, 600, "My Game").run()
 """
 
+from engine.version import __version__
 from engine.d3.window import Window3D
-
-
-def run_editor(path: str = "."):
-    """Launch the PyEngine editor."""
-    try:
-        from engine.editor.window import EditorWindow
-        import sys
-        from PySide6.QtWidgets import QApplication
-        
-        app = QApplication(sys.argv)
-        editor = EditorWindow(path)
-        editor.show()
-        sys.exit(app.exec())
-    except ImportError:
-        print("Editor requires PySide6. Install with: pip install PySide6")
-        raise
 from engine.d3.scene import Scene3D
 from engine.scene import Scene, SceneManager
 from engine.gameobject import GameObject, Prefab
 from engine.component import Component, Script, WaitForSeconds, WaitEndOfFrame, Time, InspectorField, InspectorFieldType, Tag, serializable
 from engine.transform import Transform
 from engine.d3.object3d import Object3D, create_cube, create_sphere, create_plane
-from engine.scene import Scene  # noqa: F811 – base class re-export
 from engine.d3.camera import Camera3D, Viewport, ClearFlags, RenderLayer
 from engine.d3.light import Light3D, DirectionalLight3D, PointLight3D
 from engine.graphics.material import (
@@ -67,17 +51,6 @@ from engine.d3.particle import (  # particle system (3D-specific)
     ConeShape,
     BoxShape,
 )
-
-# Lazy import Rigidbody3D to avoid circular dependency
-def __getattr__(name):
-    if name == "Rigidbody3D":
-        from engine.d3.physics.rigidbody import Rigidbody3D
-        return Rigidbody3D
-    # Backward compat alias
-    if name == "Rigidbody":
-        from engine.d3.physics.rigidbody import Rigidbody3D
-        return Rigidbody3D
-    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 # UI System
 from engine.ui import (
@@ -111,6 +84,34 @@ from engine.resources import Resources
 
 # Audio
 from engine.audio import AudioClip, AudioListener, AudioSource
+
+
+def run_editor(path: str = "."):
+    """Launch the PyEngine editor."""
+    try:
+        from engine.editor.window import EditorWindow
+        import sys
+        from PySide6.QtWidgets import QApplication
+
+        app = QApplication(sys.argv)
+        editor = EditorWindow(path)
+        editor.show()
+        sys.exit(app.exec())
+    except ImportError:
+        print("Editor requires PySide6. Install with: pip install PySide6")
+        raise
+
+
+# Lazy import Rigidbody3D to avoid circular dependency
+def __getattr__(name):
+    if name == "Rigidbody3D":
+        from engine.d3.physics.rigidbody import Rigidbody3D
+        return Rigidbody3D
+    # Backward compat alias
+    if name == "Rigidbody":
+        from engine.d3.physics.rigidbody import Rigidbody3D
+        return Rigidbody3D
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 __all__ = [
@@ -188,5 +189,3 @@ __all__ = [
     'AudioListener',
     'AudioSource',
 ]
-
-__version__ = '0.1.0'

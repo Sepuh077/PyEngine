@@ -1,5 +1,9 @@
 from PySide6 import QtWidgets
 from engine.editor.window import EditorWindow
+from engine.editor.widgets import NoWheelSpinBox, NoWheelIntSpinBox, NoWheelSlider
+from engine.editor.console import ConsoleWidget
+from engine.editor.project_browser import FileIconView
+from engine.editor.hierarchy import HierarchyTreeWidget
 from engine.editor.undo import (
     UndoManager,
     Command,

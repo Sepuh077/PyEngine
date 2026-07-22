@@ -31,6 +31,9 @@ class Scene:
         # game loop and other simulation code iterate only this list for very
         # large scenes full of passive objects.
         self._updatables: List[GameObject] = []
+        # Opt-in phase lists (only objects whose scripts override the method)
+        self._fixed_updatables: List[GameObject] = []
+        self._late_updatables: List[GameObject] = []
         # Optional Cython-backed fast container (used for scans/rebuilds and
         # future direct C-level iteration).
         self._entity_container = None
@@ -102,10 +105,14 @@ class Scene:
                 if hasattr(desc, '_scene'):
                     desc._scene = None
                 self._unregister_updatable(desc)
+                self._unregister_fixed_updatable(desc)
+                self._unregister_late_updatable(desc)
         self.objects.remove(obj)
         if hasattr(obj, '_scene'):
             obj._scene = None
         self._unregister_updatable(obj)
+        self._unregister_fixed_updatable(obj)
+        self._unregister_late_updatable(obj)
 
     def clear_objects(self):
         for obj in self.objects:
@@ -114,6 +121,10 @@ class Scene:
         self.objects.clear()
         if hasattr(self, '_updatables'):
             self._updatables.clear()
+        if hasattr(self, '_fixed_updatables'):
+            self._fixed_updatables.clear()
+        if hasattr(self, '_late_updatables'):
+            self._late_updatables.clear()
 
     # -- Fast entity/component container support ---------------------------
 
@@ -133,17 +144,44 @@ class Scene:
         if self._entity_container is not None:
             try:
                 self._entity_container._ensure_updatable(obj)
-            except Exception:
-                pass
+            except Exception as exc:
+                from engine.log import get_logger
+                get_logger("scene").debug("entity_container ensure failed: %s", exc)
 
     def _unregister_updatable(self, obj: 'GameObject'):
         """Remove an object from the updatables fast list (called on remove)."""
         if hasattr(self, '_updatables') and obj in self._updatables:
             self._updatables.remove(obj)
 
+    def _register_fixed_updatable(self, obj: 'GameObject'):
+        if not hasattr(self, '_fixed_updatables'):
+            self._fixed_updatables = []
+        if obj not in self._fixed_updatables:
+            self._fixed_updatables.append(obj)
+
+    def _unregister_fixed_updatable(self, obj: 'GameObject'):
+        if hasattr(self, '_fixed_updatables') and obj in self._fixed_updatables:
+            self._fixed_updatables.remove(obj)
+
+    def _register_late_updatable(self, obj: 'GameObject'):
+        if not hasattr(self, '_late_updatables'):
+            self._late_updatables = []
+        if obj not in self._late_updatables:
+            self._late_updatables.append(obj)
+
+    def _unregister_late_updatable(self, obj: 'GameObject'):
+        if hasattr(self, '_late_updatables') and obj in self._late_updatables:
+            self._late_updatables.remove(obj)
+
     def _register_updatable_if_needed(self, obj: 'GameObject'):
         """Check object state and register only if it has behavioral components."""
-        if (getattr(obj, '_scripts', None) and len(obj._scripts) > 0) or \
+        # Delegate to GameObject so phase lists stay consistent
+        if hasattr(obj, '_refresh_updatable_registration'):
+            # Temporarily attach scene if not set (add_object sets it first)
+            obj._refresh_updatable_registration()
+            return
+        if (getattr(obj, '_scripts_update', None) and len(obj._scripts_update) > 0) or \
+           (getattr(obj, '_scripts', None) and len(obj._scripts) > 0) or \
            getattr(obj, '_active_coroutines', None) or \
            getattr(obj, '_end_of_frame_coroutines', None) or \
            getattr(obj, '_rigidbody', None) is not None or \
@@ -164,7 +202,9 @@ class Scene:
             # Seed it with whatever we already have
             for o in self._updatables:
                 self._entity_container._ensure_updatable(o)
-        except Exception:
+        except Exception as exc:
+            from engine.log import get_logger
+            get_logger("scene").debug("entity container init failed: %s", exc)
             self._entity_container = None
 
     def get_objects_by_name(self, name: str) -> List[GameObject]:
