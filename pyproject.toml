@@ -42,12 +42,10 @@ classifiers = [
 dependencies = [
     "pygame>=2.6.0",
     "numpy>=1.20.0",
-    "pyglet>=2.1.0",
     "pillow>=11.0.0",
     "trimesh>=4.0.0",
     "scipy>=1.10.0",
     "moderngl>=5.6.0",
-    "moderngl-window>=2.4.0",
 ]
 
 [project.optional-dependencies]
@@ -113,3 +111,11 @@ before-build = "pip install cython numpy"
 
 [tool.cibuildwheel.windows]
 # Windows wheels are built with MSVC on the windows-* runners.
+
+[tool.pytest.ini_options]
+markers = [
+    "window: opens a real OpenGL window (runs by default; set PYENGINE_SKIP_WINDOW_TESTS=1 on headless CI)",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]

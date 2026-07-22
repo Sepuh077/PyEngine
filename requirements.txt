@@ -1,12 +1,10 @@
 # Core dependencies
 pygame==2.6.1
 numpy>=1.20.0
-pyglet==2.1.11
 pillow==11.3.0
 trimesh>=4.0.0
 scipy>=1.10.0
 moderngl>=5.6.0
-moderngl-window>=2.4.0
 
 # Build-time only (for compiling Cython extensions):
 # These are pulled automatically when you do `pip install .` thanks to pyproject.toml.

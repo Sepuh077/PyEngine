@@ -29,6 +29,11 @@ dmypy.json
 .DS_Store
 .idea/
 .vscode/
-assets/
+
+# Local/dev scratch
+/assets/
+/Scenes/
 Scenes/
-test.*
+/test.py
+/test_*.py
+!tests/
