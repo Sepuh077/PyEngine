@@ -453,19 +453,28 @@ class TestObject3DIntegration:
 # =========================================================================
 
 def _try_standalone_ctx():
-    """Try to create a headless ModernGL context."""
+    """Try to create a headless ModernGL context.
+
+    Probes in a subprocess first so Windows access-violation / segfault
+    from a broken driver does not kill the pytest process.
+    """
+    from tests.window_support import probe_standalone_context
+
+    ok, reason = probe_standalone_context()
+    if not ok:
+        return None, reason
     try:
         import moderngl
-        return moderngl.create_standalone_context()
-    except Exception:
-        return None
+        return moderngl.create_standalone_context(), ""
+    except Exception as e:
+        return None, f"{type(e).__name__}: {e}"
 
 
 @pytest.fixture
 def ctx():
-    c = _try_standalone_ctx()
+    c, reason = _try_standalone_ctx()
     if c is None:
-        pytest.skip("No standalone ModernGL context available")
+        pytest.skip(reason or "No standalone ModernGL context available")
     yield c
     c.release()
 

@@ -23,12 +23,14 @@ class TestResources:
     def test_set_and_get_assets_path(self):
         """Test setting and getting the assets path."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            # When Assets/ subdirectory exists, set_assets_path should find it
-            assets_path = Path(tmpdir) / "Assets"
+            # When Assets/ subdirectory exists, set_assets_path should find it.
+            # Compare resolved paths: set_assets_path() always stores Path.resolve()
+            # (Windows temp dirs can differ before/after resolve).
+            assets_path = (Path(tmpdir) / "Assets").resolve()
             assets_path.mkdir(exist_ok=True)
             Resources.set_assets_path(tmpdir)
             assert Resources.get_assets_path() == assets_path
-            
+
             # When pointing directly to the Assets folder
             Resources.set_assets_path(assets_path)
             assert Resources.get_assets_path() == assets_path
@@ -158,10 +160,10 @@ class TestResources:
     def test_get_full_path(self):
         """Test getting the full path for a resource."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            assets_path = Path(tmpdir) / "Assets"
+            assets_path = (Path(tmpdir) / "Assets").resolve()
             assets_path.mkdir()
             Resources.set_assets_path(tmpdir)
-            
+
             path = Resources.get_full_path("prefabs/player", GameObject)
             assert path == assets_path / "prefabs" / "player.prefab"
     

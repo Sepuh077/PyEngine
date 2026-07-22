@@ -44,9 +44,13 @@ jobs:
         env:
           PYENGINE_PURE_PYTHON: "0"
 
+      # windows-latest has no reliable OpenGL; create_context can access-violate.
+      # Skip window/GPU integration tests; pure logic tests still run.
       - name: Run tests (Windows)
         if: runner.os == 'Windows'
         run: python -m pytest tests/ -q --tb=short
+        env:
+          PYENGINE_SKIP_WINDOW_TESTS: "1"
 
       - name: Run tests pure-Python fallback
         if: runner.os == 'Linux'
