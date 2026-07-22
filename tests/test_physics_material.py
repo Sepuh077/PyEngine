@@ -83,20 +83,37 @@ def _init_2d_objects(window, *objs):
 
 def _step_3d(window, rb, dt=1 / 60, steps=1):
     """Run *steps* physics frames on the 3D window."""
-    for _ in range(steps):
-        Time.delta_time = dt
-        Time.set(dt)
-        rb.update()
-        window._process_collisions()
+    # Allow large test timesteps (production clamps via Time.maximum_delta_time)
+    prev_max = Time.maximum_delta_time
+    prev_skip = Time._skip_rigidbody_frame_update
+    Time.maximum_delta_time = 0.0  # disable clamp
+    Time._skip_rigidbody_frame_update = False
+    try:
+        for _ in range(steps):
+            Time.set(dt)
+            rb.wake()
+            rb.update()
+            window._process_collisions()
+    finally:
+        Time.maximum_delta_time = prev_max
+        Time._skip_rigidbody_frame_update = prev_skip
 
 
 def _step_2d(window, rb, dt=1 / 60, steps=1):
     """Run *steps* physics frames on the 2D window."""
-    for _ in range(steps):
-        Time.delta_time = dt
-        Time.set(dt)
-        rb.update()
-        window._process_collisions()
+    prev_max = Time.maximum_delta_time
+    prev_skip = Time._skip_rigidbody_frame_update
+    Time.maximum_delta_time = 0.0  # disable clamp
+    Time._skip_rigidbody_frame_update = False
+    try:
+        for _ in range(steps):
+            Time.set(dt)
+            rb.wake()
+            rb.update()
+            window._process_collisions()
+    finally:
+        Time.maximum_delta_time = prev_max
+        Time._skip_rigidbody_frame_update = prev_skip
 
 
 # =========================================================================
@@ -715,12 +732,18 @@ class TestDynamicCollisions:
 
         _init_2d_objects(window, a, b)
 
-        for _ in range(5):
-            Time.delta_time = 0.3
-            Time.set(0.3)
-            rb_a.update()
-            rb_b.update()
-            window._process_collisions()
+        prev_max = Time.maximum_delta_time
+        Time.maximum_delta_time = 0.0
+        try:
+            for _ in range(5):
+                Time.set(0.3)
+                rb_a.wake()
+                rb_b.wake()
+                rb_a.update()
+                rb_b.update()
+                window._process_collisions()
+        finally:
+            Time.maximum_delta_time = prev_max
 
         total_ke = rb_a.velocity.x ** 2 + rb_b.velocity.x ** 2
         assert total_ke > 5.0, f"Energy should be mostly conserved, got KE={total_ke}"

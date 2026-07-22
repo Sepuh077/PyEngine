@@ -10,12 +10,24 @@ from engine.d2.object2d import Object2D
 
 # ── fixtures ─────────────────────────────────────────────────────────
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def _init_pygame():
-    """Initialise pygame once (no display) so Surface operations work."""
+    """Initialise pygame for Surface ops without a display.
+
+    Module-scoped (not session) so we don't call pygame.quit() at the end of
+    the entire suite before window tests have finished — and so we don't leave
+    a half-dead pygame state for OpenGL tests.
+    """
+    import os
+    os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
+    # Do not force SDL_VIDEODRIVER=dummy — it breaks later OpenGL tests.
     pygame.init()
     yield
-    pygame.quit()
+    # Soft shutdown only; window tests re-init as needed
+    try:
+        pygame.display.quit()
+    except Exception:
+        pass
 
 
 def _make_sheet_image(path: str, width: int, height: int):
