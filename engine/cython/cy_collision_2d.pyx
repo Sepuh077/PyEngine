@@ -44,30 +44,36 @@ def circle_vs_circle_manifold_fast(
     double cx_a, double cy_a, double ra,
     double cx_b, double cy_b, double rb,
 ):
-    """Returns (normal_ndarray, depth) or None."""
+    """Returns (normal_ndarray, depth, contact_point) or None."""
     cdef double dx = cx_a - cx_b
     cdef double dy = cy_a - cy_b
     cdef double dist_sq = dx * dx + dy * dy
     cdef double rs = ra + rb
     cdef double dist, depth, inv
     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] contact
 
     if dist_sq > rs * rs:
         return None
 
     dist = sqrt(dist_sq)
     normal = np.empty(2, dtype=np.float64)
+    contact = np.empty(2, dtype=np.float64)
 
     if dist < 1e-10:
         normal[0] = 0.0; normal[1] = 1.0
         depth = rs
+        contact[0] = 0.5 * (cx_a + cx_b)
+        contact[1] = 0.5 * (cy_a + cy_b)
     else:
         inv = 1.0 / dist
         normal[0] = dx * inv
         normal[1] = dy * inv
         depth = rs - dist
+        contact[0] = cx_a - normal[0] * (ra - 0.5 * depth)
+        contact[1] = cy_a - normal[1] * (ra - 0.5 * depth)
 
-    return (normal, depth)
+    return (normal, depth, contact)
 
 
 # =========================================================================
@@ -118,7 +124,7 @@ def obb_vs_obb_2d_manifold_fast(
     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
 ):
-    """Returns (normal_ndarray, depth) or None."""
+    """Returns (normal_ndarray, depth, contact_point) or None."""
     cdef double cos_aa = cos(aa), sin_aa = sin(aa)
     cdef double cos_ab = cos(ab), sin_ab = sin(ab)
     cdef double axes[4][2]
@@ -132,8 +138,8 @@ def obb_vs_obb_2d_manifold_fast(
     cdef double best_ax = 0.0, best_ay = 0.0
     cdef int i
 
-    cdef double tx = cx_a - cx_b
-    cdef double ty = cy_a - cy_b
+    cdef double dx_ab = cx_a - cx_b
+    cdef double dy_ab = cy_a - cy_b
 
     for i in range(4):
         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
@@ -147,13 +153,96 @@ def obb_vs_obb_2d_manifold_fast(
             best_ay = axes[i][1]
 
     # Ensure normal points from B to A
-    if best_ax * tx + best_ay * ty < 0:
+    if best_ax * dx_ab + best_ay * dy_ab < 0:
         best_ax = -best_ax
         best_ay = -best_ay
 
     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal = np.empty(2, dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] contact = np.empty(2, dtype=np.float64)
+    cdef double cos_a2, sin_a2, cos_b2, sin_b2
+    cdef double lx, ly, sx, sy
+    cdef double pax, pay, pbx, pby
+    cdef double face_eps = 1e-3
+    cdef double nx, ny, tanx, tany, plane_n, mid_t, ha, hb, ca_t, cb_t, lo, hi, du, dv
+    cdef double align_a, align_b
     normal[0] = best_ax; normal[1] = best_ay
-    return (normal, min_overlap)
+    nx = best_ax; ny = best_ay
+
+    # Support feature centroid of A in -n
+    cos_a2 = cos_aa; sin_a2 = sin_aa
+    lx = (-nx) * cos_a2 + (-ny) * sin_a2
+    ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
+    if fabs(lx) < face_eps and fabs(ly) < face_eps:
+        sx = 0.0; sy = 0.0
+    elif fabs(lx) < face_eps:
+        sx = 0.0
+        sy = ey_a if ly >= 0.0 else -ey_a
+    elif fabs(ly) < face_eps:
+        sx = ex_a if lx >= 0.0 else -ex_a
+        sy = 0.0
+    else:
+        sx = ex_a if lx >= 0.0 else -ex_a
+        sy = ey_a if ly >= 0.0 else -ey_a
+    pax = cx_a + sx * cos_a2 + sy * (-sin_a2)
+    pay = cy_a + sx * sin_a2 + sy * cos_a2
+    # Support feature centroid of B in +n
+    cos_b2 = cos_ab; sin_b2 = sin_ab
+    lx = nx * cos_b2 + ny * sin_b2
+    ly = nx * (-sin_b2) + ny * cos_b2
+    if fabs(lx) < face_eps and fabs(ly) < face_eps:
+        sx = 0.0; sy = 0.0
+    elif fabs(lx) < face_eps:
+        sx = 0.0
+        sy = ey_b if ly >= 0.0 else -ey_b
+    elif fabs(ly) < face_eps:
+        sx = ex_b if lx >= 0.0 else -ex_b
+        sy = 0.0
+    else:
+        sx = ex_b if lx >= 0.0 else -ex_b
+        sy = ey_b if ly >= 0.0 else -ey_b
+    pbx = cx_b + sx * cos_b2 + sy * (-sin_b2)
+    pby = cy_b + sx * sin_b2 + sy * cos_b2
+
+    # Face align: only use segment overlap when nearly face-flat
+    align_a = fabs(nx * cos_aa + ny * sin_aa)
+    du = fabs(nx * (-sin_aa) + ny * cos_aa)
+    if du > align_a:
+        align_a = du
+    align_b = fabs(nx * cos_ab + ny * sin_ab)
+    du = fabs(nx * (-sin_ab) + ny * cos_ab)
+    if du > align_b:
+        align_b = du
+
+    if align_a < 0.985 or align_b < 0.985:
+        # Edge/corner: average support centroids (lever arm for tipping)
+        contact[0] = 0.5 * (pax + pbx)
+        contact[1] = 0.5 * (pay + pby)
+        return (normal, min_overlap, contact)
+
+    # Face–face: midpoint of 1D face-segment overlap along tangent
+    tanx = -ny; tany = nx
+    plane_n = 0.5 * (pax * nx + pay * ny + pbx * nx + pby * ny)
+    du = fabs(nx * cos_aa + ny * sin_aa)
+    dv = fabs(nx * (-sin_aa) + ny * cos_aa)
+    ha = ey_a if du >= dv else ex_a
+    du = fabs(nx * cos_ab + ny * sin_ab)
+    dv = fabs(nx * (-sin_ab) + ny * cos_ab)
+    hb = ey_b if du >= dv else ex_b
+    ca_t = cx_a * tanx + cy_a * tany
+    cb_t = cx_b * tanx + cy_b * tany
+    lo = ca_t - ha
+    if cb_t - hb > lo:
+        lo = cb_t - hb
+    hi = ca_t + ha
+    if cb_t + hb < hi:
+        hi = cb_t + hb
+    if lo <= hi:
+        mid_t = 0.5 * (lo + hi)
+    else:
+        mid_t = 0.5 * (ca_t + cb_t)
+    contact[0] = tanx * mid_t + nx * plane_n
+    contact[1] = tany * mid_t + ny * plane_n
+    return (normal, min_overlap, contact)
 
 
 # =========================================================================
@@ -185,7 +274,7 @@ def circle_vs_obb_2d_manifold_fast(
     double cs_x, double cs_y, double rs,
     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
 ):
-    """Returns (normal_ndarray, depth) or None."""
+    """Returns (normal_ndarray, depth, contact_point) or None."""
     cdef double cos_a = cos(angle)
     cdef double sin_a = sin(angle)
     cdef double dx = cs_x - cb_x
@@ -196,6 +285,7 @@ def circle_vs_obb_2d_manifold_fast(
     cdef double ddx, ddy, dist_sq, dist, depth, inv
     cdef double ln_x, ln_y, wn_x, wn_y, face0, face1
     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] contact
 
     if cx_c < -eb_x: cx_c = -eb_x
     elif cx_c > eb_x: cx_c = eb_x
@@ -211,6 +301,7 @@ def circle_vs_obb_2d_manifold_fast(
 
     dist = sqrt(dist_sq)
     normal = np.empty(2, dtype=np.float64)
+    contact = np.empty(2, dtype=np.float64)
 
     if dist < 1e-10:
         # Circle center inside OBB
@@ -234,7 +325,9 @@ def circle_vs_obb_2d_manifold_fast(
     wn_x = ln_x * cos_a - ln_y * sin_a
     wn_y = ln_x * sin_a + ln_y * cos_a
     normal[0] = wn_x; normal[1] = wn_y
-    return (normal, depth)
+    contact[0] = cs_x - wn_x * (rs - 0.5 * depth)
+    contact[1] = cs_y - wn_y * (rs - 0.5 * depth)
+    return (normal, depth, contact)
 
 
 # =========================================================================

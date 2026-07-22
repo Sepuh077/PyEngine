@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
+            "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
         ],
         "name": "engine.cython.cy_math",
         "sources": [
@@ -13411,7 +13411,7 @@ static PyObject *__pyx_pf_6engine_6cython_7cy_math_78rigidbody_update(CYTHON_UNU
  * 
  * cpdef tuple rigidbody_update_2d(             # <<<<<<<<<<<<<<
  *     double vx, double vy,
- *     double av,           # angular velocity (degrees/sec or rad/sec, caller consistent)
+ *     double av,           # angular velocity (rad/s about Z; caller applies degrees to Transform)
 */
 
 static PyObject *__pyx_pw_6engine_6cython_7cy_math_81rigidbody_update_2d(PyObject *__pyx_self, 
@@ -13781,7 +13781,7 @@ static PyObject *__pyx_f_6engine_6cython_7cy_math_rigidbody_update_2d(double __p
  * 
  * cpdef tuple rigidbody_update_2d(             # <<<<<<<<<<<<<<
  *     double vx, double vy,
- *     double av,           # angular velocity (degrees/sec or rad/sec, caller consistent)
+ *     double av,           # angular velocity (rad/s about Z; caller applies degrees to Transform)
 */
 
   /* function exit code */
@@ -20186,7 +20186,7 @@ __Pyx_RefNannySetupContext("PyInit_cy_math", 0);
  * 
  * cpdef tuple rigidbody_update_2d(             # <<<<<<<<<<<<<<
  *     double vx, double vy,
- *     double av,           # angular velocity (degrees/sec or rad/sec, caller consistent)
+ *     double av,           # angular velocity (rad/s about Z; caller applies degrees to Transform)
 */
   __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_7cy_math_81rigidbody_update_2d, 0, __pyx_mstate_global->__pyx_n_u_rigidbody_update_2d, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_math, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[40])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);

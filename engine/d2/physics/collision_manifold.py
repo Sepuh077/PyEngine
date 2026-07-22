@@ -25,6 +25,117 @@ class CollisionManifold2D:
     """Contact information for a 2D collision."""
     normal: np.ndarray   # 2D collision normal (from B towards A)
     depth: float         # penetration depth (>= 0)
+    contact_point: Optional[np.ndarray] = None  # world-space contact (optional)
+
+
+def _make_manifold(normal, depth, contact_point=None) -> CollisionManifold2D:
+    n = np.asarray(normal, dtype=np.float64).reshape(2)
+    cp = None
+    if contact_point is not None:
+        cp = np.asarray(contact_point, dtype=np.float64).reshape(2)
+    return CollisionManifold2D(n, float(depth), cp)
+
+
+def _obb_support_feature_centroid(center, angle, half_ext, direction) -> np.ndarray:
+    """Centroid of the OBB support feature in *direction*.
+
+    Face-aligned queries return the edge midpoint (not a corner), so floor
+    contacts sit under the body instead of at a distant ground corner.
+    """
+    d = np.asarray(direction, dtype=np.float64).reshape(2)
+    d_len = float(np.linalg.norm(d))
+    if d_len > 1e-12:
+        d = d / d_len
+    c = math.cos(angle)
+    s = math.sin(angle)
+    ux, uy = c, s
+    vx, vy = -s, c
+    lx = float(d[0] * ux + d[1] * uy)
+    ly = float(d[0] * vx + d[1] * vy)
+    ex, ey = float(half_ext[0]), float(half_ext[1])
+    # Near-zero local component → that axis spans a face (edge in 2D)
+    face_eps = 1e-3
+    if abs(lx) < face_eps and abs(ly) < face_eps:
+        sx = sy = 0.0
+    elif abs(lx) < face_eps:
+        sx = 0.0
+        sy = ey if ly >= 0.0 else -ey
+    elif abs(ly) < face_eps:
+        sx = ex if lx >= 0.0 else -ex
+        sy = 0.0
+    else:
+        sx = ex if lx >= 0.0 else -ex
+        sy = ey if ly >= 0.0 else -ey
+    return np.array([
+        center[0] + sx * ux + sy * vx,
+        center[1] + sx * uy + sy * vy,
+    ], dtype=np.float64)
+
+
+def _obb_face_half_along_tangent(angle: float, half_ext, n: np.ndarray) -> float:
+    """Half-length of the OBB face whose outward normal best matches *n*."""
+    c = math.cos(angle)
+    s = math.sin(angle)
+    ux, uy = c, s
+    vx, vy = -s, c
+    # Which local axis is more aligned with n? That axis is the face normal;
+    # the orthogonal local extent is the face half-length.
+    du = abs(float(n[0] * ux + n[1] * uy))
+    dv = abs(float(n[0] * vx + n[1] * vy))
+    if du >= dv:
+        return abs(float(half_ext[1]))  # face ±U → edge along V
+    return abs(float(half_ext[0]))  # face ±V → edge along U
+
+
+def _obb_face_align(angle: float, n: np.ndarray) -> float:
+    """How well an OBB face aligns with *n* (1 = face-parallel)."""
+    c = math.cos(angle)
+    s = math.sin(angle)
+    return max(
+        abs(float(n[0] * c + n[1] * s)),
+        abs(float(n[0] * (-s) + n[1] * c)),
+    )
+
+
+def _obb_contact_point(ca, aa, ea, cb, ab, eb, normal, depth) -> np.ndarray:
+    """Contact point for two 2D OBBs.
+
+    * Face–face (both well aligned with the normal): midpoint of the 1D
+      overlap of the two face segments — avoids long-wall bias.
+    * Edge/corner: average of support feature centroids so tilted boxes
+      get a lever arm (not a phantom contact under the COM).
+    """
+    n = np.asarray(normal, dtype=np.float64).reshape(2)
+    n_len = float(np.linalg.norm(n))
+    if n_len > 1e-12:
+        n = n / n_len
+
+    pa = _obb_support_feature_centroid(ca, aa, ea, -n)
+    pb = _obb_support_feature_centroid(cb, ab, eb, n)
+
+    align_a = _obb_face_align(aa, n)
+    align_b = _obb_face_align(ab, n)
+    # Corner/edge path: need a real lever for tipping.
+    # Only use face-segment overlap when both faces are *nearly* parallel to
+    # the contact plane (~cos 10°). Milder tilts must use support centroids
+    # or boxes freeze mid-tip with a phantom under-COM contact.
+    if align_a < 0.985 or align_b < 0.985:
+        return (0.5 * (pa + pb)).astype(np.float64)
+
+    # Face–face path: segment overlap along tangent
+    t = np.array([-n[1], n[0]], dtype=np.float64)
+    plane_n = 0.5 * (float(np.dot(pa, n)) + float(np.dot(pb, n)))
+    ha = _obb_face_half_along_tangent(aa, ea, n)
+    hb = _obb_face_half_along_tangent(ab, eb, n)
+    ca_t = float(np.dot(ca, t))
+    cb_t = float(np.dot(cb, t))
+    lo = max(ca_t - ha, cb_t - hb)
+    hi = min(ca_t + ha, cb_t + hb)
+    if lo <= hi:
+        mid_t = 0.5 * (lo + hi)
+    else:
+        mid_t = 0.5 * (ca_t + cb_t)
+    return (t * mid_t + n * plane_n).astype(np.float64)
 
 
 # =========================================================================
@@ -40,7 +151,18 @@ def circle_vs_circle_manifold(a, b) -> Optional[CollisionManifold2D]:
         result = _cy_cc_m(float(ca[0]), float(ca[1]), ra, float(cb[0]), float(cb[1]), rb)
         if result is None:
             return None
-        return CollisionManifold2D(result[0], result[1])
+        if len(result) >= 3:
+            return _make_manifold(result[0], result[1], result[2])
+        # Older Cython builds omit contact — fill in Python
+        normal = np.asarray(result[0], dtype=np.float64).reshape(2)
+        depth = float(result[1])
+        n_len = float(np.linalg.norm(normal))
+        if n_len > 1e-12:
+            normal = normal / n_len
+            contact = ca - normal * (ra - 0.5 * depth)
+        else:
+            contact = 0.5 * (ca + cb)
+        return _make_manifold(normal, depth, contact)
 
     diff = ca - cb
     dist_sq = float(np.dot(diff, diff))
@@ -53,11 +175,14 @@ def circle_vs_circle_manifold(a, b) -> Optional[CollisionManifold2D]:
     if dist < 1e-10:
         normal = np.array([0.0, 1.0], dtype=np.float64)
         depth = radius_sum
+        contact = 0.5 * (ca + cb)
     else:
         normal = diff / dist
         depth = radius_sum - dist
+        # Point on A's surface toward B (normal from B→A)
+        contact = ca - normal * (ra - 0.5 * depth)
 
-    return CollisionManifold2D(normal, depth)
+    return _make_manifold(normal, depth, contact)
 
 
 # =========================================================================
@@ -76,7 +201,13 @@ def obb_vs_obb_manifold(a, b) -> Optional[CollisionManifold2D]:
         )
         if result is None:
             return None
-        return CollisionManifold2D(result[0], result[1])
+        normal = np.asarray(result[0], dtype=np.float64).reshape(2)
+        depth = float(result[1])
+        if len(result) >= 3:
+            return _make_manifold(normal, depth, result[2])
+        # Older Cython builds omit contact — use face-segment overlap
+        contact = _obb_contact_point(ca, aa, ea, cb, ab_, eb, normal, depth)
+        return _make_manifold(normal, depth, contact)
 
     t = ca - cb
     min_overlap = float('inf')
@@ -113,7 +244,8 @@ def obb_vs_obb_manifold(a, b) -> Optional[CollisionManifold2D]:
     if float(np.dot(best_axis, t)) < 0:
         best_axis = -best_axis
 
-    return CollisionManifold2D(best_axis, min_overlap)
+    contact = _obb_contact_point(ca, aa, ea, cb, ab_, eb, best_axis, min_overlap)
+    return _make_manifold(best_axis, min_overlap, contact)
 
 
 # =========================================================================
@@ -132,7 +264,15 @@ def circle_vs_obb_manifold(circle, obb) -> Optional[CollisionManifold2D]:
         )
         if result is None:
             return None
-        return CollisionManifold2D(result[0], result[1])
+        normal = np.asarray(result[0], dtype=np.float64).reshape(2)
+        depth = float(result[1])
+        if len(result) >= 3:
+            return _make_manifold(normal, depth, result[2])
+        n_len = float(np.linalg.norm(normal))
+        if n_len > 1e-12:
+            normal = normal / n_len
+        contact = cs - normal * (rs - 0.5 * depth)
+        return _make_manifold(normal, depth, contact)
 
     cos_a = math.cos(angle)
     sin_a = math.sin(angle)
@@ -181,7 +321,9 @@ def circle_vs_obb_manifold(circle, obb) -> Optional[CollisionManifold2D]:
         ], dtype=np.float64)
         depth = rs - dist
 
-    return CollisionManifold2D(world_normal, depth)
+    # Contact ≈ circle center minus normal * (radius - half depth)
+    contact = cs - world_normal * (rs - 0.5 * depth)
+    return _make_manifold(world_normal, depth, contact)
 
 
 # =========================================================================
@@ -268,7 +410,8 @@ def polygon_vs_circle_manifold(poly_collider, circle_collider) -> Optional[Colli
     if float(np.dot(best_axis, cc - poly_center)) < 0:
         best_axis = -best_axis
 
-    return CollisionManifold2D(best_axis, min_overlap)
+    contact = cc - best_axis * (rc - 0.5 * min_overlap)
+    return _make_manifold(best_axis, min_overlap, contact)
 
 
 def polygon_vs_obb_manifold(poly_collider, obb_collider) -> Optional[CollisionManifold2D]:
@@ -300,7 +443,8 @@ def polygon_vs_obb_manifold(poly_collider, obb_collider) -> Optional[CollisionMa
     if float(np.dot(best_axis, poly_center - ob_center)) < 0:
         best_axis = -best_axis
 
-    return CollisionManifold2D(best_axis, min_overlap)
+    contact = 0.5 * (poly_center + ob_center) - best_axis * (0.5 * min_overlap)
+    return _make_manifold(best_axis, min_overlap, contact)
 
 
 def polygon_vs_polygon_manifold(poly_a, poly_b) -> Optional[CollisionManifold2D]:
@@ -330,7 +474,8 @@ def polygon_vs_polygon_manifold(poly_a, poly_b) -> Optional[CollisionManifold2D]
     if float(np.dot(best_axis, center_a - center_b)) < 0:
         best_axis = -best_axis
 
-    return CollisionManifold2D(best_axis, min_overlap)
+    contact = 0.5 * (center_a + center_b) - best_axis * (0.5 * min_overlap)
+    return _make_manifold(best_axis, min_overlap, contact)
 
 
 # =========================================================================

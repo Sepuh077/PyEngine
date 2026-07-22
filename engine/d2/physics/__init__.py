@@ -17,6 +17,7 @@ from engine.d2.physics.raycast import (
     raycast_all_2d,
     raycast_closest_2d,
 )
+from engine.d2.physics.response import resolve_contact_2d
 from engine.d3.physics.types import CollisionMode, CollisionRelation, PhysicsMaterialCombine  # reuse from 3D
 from engine.d3.physics.group import ColliderGroup  # reuse from 3D
 
@@ -41,4 +42,5 @@ __all__ = [
     "CollisionMode",
     "CollisionRelation",
     "ColliderGroup",
+    "resolve_contact_2d",
 ]

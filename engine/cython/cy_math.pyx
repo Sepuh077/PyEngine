@@ -393,7 +393,7 @@ cpdef tuple rigidbody_update(
 
 cpdef tuple rigidbody_update_2d(
     double vx, double vy,
-    double av,           # angular velocity (degrees/sec or rad/sec, caller consistent)
+    double av,           # angular velocity (rad/s about Z; caller applies degrees to Transform)
     double dt,
     double drag, double angular_drag,
     bint use_gravity, double gravity_scale,

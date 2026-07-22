@@ -1211,6 +1211,8 @@ class Window2D(WindowBase):
 
         n = len(all_cols)
         current_collisions: dict = defaultdict(set)
+        # Bodies that rested on static / sleeping support this frame (for float wake)
+        self._physics_supported_bodies: set = set()
 
         # --- Eagerly update bounds for every collider ----------------
         for c in all_cols:
@@ -1317,6 +1319,10 @@ class Window2D(WindowBase):
             for k in range(len(li)):
                 i_g = int(circ_idxs[li[k]])
                 j_g = int(circ_idxs[lj[k]])
+                # Skip reverse pair only when the other body would also initiate
+                # (two dynamics). Keep dynamic→static when static has lower index.
+                if i_g > j_g and bool(active[j_g]):
+                    continue
                 ca, cb = all_cols[i_g], all_cols[j_g]
                 current_collisions[ca].add(cb)
                 current_collisions[cb].add(ca)
@@ -1335,6 +1341,11 @@ class Window2D(WindowBase):
         ri, rj = np.nonzero(other_cands)
         for k in range(len(ri)):
             i, j = int(ri[k]), int(rj[k])
+            # Avoid double impulses on dynamic–dynamic pairs (both directions
+            # appear in the candidate matrix). Still allow dynamic→static when
+            # the static collider has a lower index.
+            if i > j and bool(active[j]):
+                continue
             ca, cb = all_cols[i], all_cols[j]
             if objects_collide_2d(ca, cb):
                 current_collisions[ca].add(cb)
@@ -1370,136 +1381,280 @@ class Window2D(WindowBase):
                         script.on_collision_exit(oc)
             c._current_collisions = now.copy()
 
+        # Wake gravity bodies that fell asleep without real support (floaters).
+        # Propagate support through sleeping stacks a few times so tops of piles
+        # count as supported when the base is on static geometry.
+        supported = getattr(self, "_physics_supported_bodies", set())
+        for _ in range(4):
+            grew = False
+            for c in all_cols:
+                rb = None
+                if c.game_object:
+                    rb = getattr(c.game_object, "_rigidbody", None) or c.game_object.get_component(Rigidbody2D)
+                if rb is None or rb.is_static or rb.is_kinematic:
+                    continue
+                if id(rb) in supported:
+                    continue
+                # Supported if any solid contact partner is static or supported
+                for oc in current_collisions.get(c, ()):
+                    orb = None
+                    if oc.game_object:
+                        orb = getattr(oc.game_object, "_rigidbody", None) or oc.game_object.get_component(Rigidbody2D)
+                    if orb is None:
+                        continue
+                    if orb.is_static or id(orb) in supported:
+                        supported.add(id(rb))
+                        grew = True
+                        break
+            if not grew:
+                break
+
+        for o in self._active_objects():
+            rb = getattr(o, "_rigidbody", None) or o.get_component(Rigidbody2D)
+            if rb is None or rb.is_static or rb.is_kinematic:
+                continue
+            if not getattr(rb, "is_sleeping", False):
+                continue
+            if not getattr(rb, "use_gravity", True):
+                continue
+            if id(rb) not in supported:
+                rb.wake()
+
     def _resolve_collision_2d(self, a: GameObject, b: GameObject, manifold,
                               col_a=None, col_b=None):
-        """Separate overlapping objects and apply impulse-based collision response.
+        """Separate overlapping objects and apply linear+angular collision response.
 
-        Uses physics-material properties (bounciness, friction) stored on the
-        colliders to compute proper bounce and friction impulses, similar to
-        Unity's collision resolution.
+        Uses physics-material properties (bounciness, friction) on the colliders
+        together with each rigidbody's mass **and** scalar inverse inertia so
+        off-center contacts produce correct spin (same model as 3D, reduced to Z).
 
         Parameters
         ----------
         a, b : GameObjects involved in the collision.
-        manifold : CollisionManifold2D with *normal* (from B towards A) and *depth*.
+        manifold : CollisionManifold2D with *normal* (from B towards A), *depth*,
+            and optional *contact_point*.
         col_a, col_b : The Collider2D instances (optional; looked up if None).
         """
         from engine.d2.physics.rigidbody import Rigidbody2D
         from engine.d2.physics.collider import Collider2D
+        from engine.d2.physics.response import (
+            resolve_contact_2d,
+            body_state_from_rigidbody,
+            apply_body_state,
+            estimate_contact_point,
+            stabilize_contact_point,
+            _as_np2,
+            _face_align_from_rotation,
+        )
         from engine.d3.physics.types import PhysicsMaterialCombine
         from engine.types import Vector3
-        from engine.types.vector2 import Vector2
 
-        rb_a = getattr(a, '_rigidbody', None) or a.get_component(Rigidbody2D)
-        rb_b = getattr(b, '_rigidbody', None) or b.get_component(Rigidbody2D)
+        depth = getattr(manifold, "depth", 0.0)
+        if depth <= 0:
+            return
+        normal = manifold.normal
 
-        a_static = (rb_a is None or rb_a.is_static or rb_a.is_kinematic)
-        b_static = (rb_b is None or rb_b.is_static or rb_b.is_kinematic)
+        def _rb_of(go):
+            rb = getattr(go, "_rigidbody", None)
+            if rb is not None and not isinstance(rb, Rigidbody2D):
+                rb = go.get_component(Rigidbody2D)
+            if rb is None:
+                rb = go.get_component(Rigidbody2D)
+            return rb
+
+        rb_a = _rb_of(a)
+        rb_b = _rb_of(b)
+
+        def _immovable(rb):
+            if rb is None:
+                return True
+            return bool(getattr(rb, "is_static", False) or getattr(rb, "is_kinematic", False))
+
+        a_static = _immovable(rb_a)
+        b_static = _immovable(rb_b)
 
         if a_static and b_static:
             return
 
-        if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
-            rb_a.wake()
-        if rb_b is not None and getattr(rb_b, 'is_sleeping', False):
-            rb_b.wake()
-
-        normal = manifold.normal
-        depth = manifold.depth
-        nx, ny = float(normal[0]), float(normal[1])
-        push = depth + 1e-5
-
-        # --- Positional separation ---
-        if a_static:
-            b.transform.position = Vector3(
-                b.transform.position.x - nx * push,
-                b.transform.position.y - ny * push,
-                b.transform.position.z,
-            )
-        elif b_static:
-            a.transform.position = Vector3(
-                a.transform.position.x + nx * push,
-                a.transform.position.y + ny * push,
-                a.transform.position.z,
-            )
+        if a_static or b_static:
+            push = depth + 1e-6
         else:
-            half = push * 0.5
-            a.transform.position = Vector3(
-                a.transform.position.x + nx * half,
-                a.transform.position.y + ny * half,
-                a.transform.position.z,
-            )
-            b.transform.position = Vector3(
-                b.transform.position.x - nx * half,
-                b.transform.position.y - ny * half,
-                b.transform.position.z,
-            )
+            PENETRATION_SLOP = 0.001
+            push = max(0.0, depth - PENETRATION_SLOP) * 0.95
+            if push > 0.0:
+                push += 1e-6
 
-        # --- Velocity impulse (bounce + friction) ---
-        # Look up colliders if not provided
+        a_sleep = rb_a is not None and getattr(rb_a, "is_sleeping", False)
+        b_sleep = rb_b is not None and getattr(rb_b, "is_sleeping", False)
+
+        def _speed(rb):
+            if rb is None:
+                return 0.0
+            v = rb.velocity
+            w = float(rb.angular_velocity)
+            return float((v.x * v.x + v.y * v.y) ** 0.5 + 0.25 * abs(w))
+
+        sa = 0.0 if a_static else _speed(rb_a)
+        sb = 0.0 if b_static else _speed(rb_b)
+        both_resting = sa < 0.12 and sb < 0.12
+
+        # Sleeping stacks: skip micro-penetration contacts entirely so piles
+        # don't wake and accumulate phantom spin every frame.
+        if a_sleep and (b_sleep or b_static) and depth < 0.05 and both_resting:
+            return
+        if b_sleep and (a_sleep or a_static) and depth < 0.05 and both_resting:
+            return
+
+        # Only wake for deep sinks or real impacts — not resting overlap.
+        deep = depth >= 0.05
+        impact = max(sa, sb) > 0.25
+        if deep or impact:
+            if a_sleep and not a_static:
+                rb_a.wake()
+                a_sleep = False
+            if b_sleep and not b_static:
+                rb_b.wake()
+                b_sleep = False
+        elif both_resting and depth < 0.03 and not impact:
+            # Soft rest contact: still resolve once for depenetration, but keep
+            # sleep timers intact (do not wake).
+            pass
+
         if col_a is None:
             col_a = a.get_component(Collider2D)
         if col_b is None:
             col_b = b.get_component(Collider2D)
 
-        # Combined material values
-        bounciness_a = getattr(col_a, 'bounciness', 0.0) if col_a else 0.0
-        bounciness_b = getattr(col_b, 'bounciness', 0.0) if col_b else 0.0
-        bounce_mode_a = getattr(col_a, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
-        bounce_mode_b = getattr(col_b, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
-        restitution = PhysicsMaterialCombine.combine(bounciness_a, bounciness_b, bounce_mode_a, bounce_mode_b)
+        nx, ny = float(normal[0]), float(normal[1])
+        if push > 0.0:
+            if a_static:
+                b.transform.position = Vector3(
+                    b.transform.position.x - nx * push,
+                    b.transform.position.y - ny * push,
+                    b.transform.position.z,
+                )
+                if col_b is not None:
+                    col_b._transform_dirty = True
+                    col_b.update_bounds()
+            elif b_static:
+                a.transform.position = Vector3(
+                    a.transform.position.x + nx * push,
+                    a.transform.position.y + ny * push,
+                    a.transform.position.z,
+                )
+                if col_a is not None:
+                    col_a._transform_dirty = True
+                    col_a.update_bounds()
+            else:
+                half = push * 0.5
+                a.transform.position = Vector3(
+                    a.transform.position.x + nx * half,
+                    a.transform.position.y + ny * half,
+                    a.transform.position.z,
+                )
+                b.transform.position = Vector3(
+                    b.transform.position.x - nx * half,
+                    b.transform.position.y - ny * half,
+                    b.transform.position.z,
+                )
+                if col_a is not None:
+                    col_a._transform_dirty = True
+                    col_a.update_bounds()
+                if col_b is not None:
+                    col_b._transform_dirty = True
+                    col_b.update_bounds()
 
-        sf_a = getattr(col_a, 'static_friction', 0.6) if col_a else 0.6
-        sf_b = getattr(col_b, 'static_friction', 0.6) if col_b else 0.6
-        df_a = getattr(col_a, 'dynamic_friction', 0.4) if col_a else 0.4
-        df_b = getattr(col_b, 'dynamic_friction', 0.4) if col_b else 0.4
-        fc_a = getattr(col_a, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
-        fc_b = getattr(col_b, 'friction_combine', PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        bounciness_a = getattr(col_a, "bounciness", 0.0) if col_a else 0.0
+        bounciness_b = getattr(col_b, "bounciness", 0.0) if col_b else 0.0
+        bm_a = getattr(col_a, "bounce_combine", PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        bm_b = getattr(col_b, "bounce_combine", PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
+        restitution = PhysicsMaterialCombine.combine(bounciness_a, bounciness_b, bm_a, bm_b)
+
+        sf_a = getattr(col_a, "static_friction", 0.6) if col_a else 0.6
+        sf_b = getattr(col_b, "static_friction", 0.6) if col_b else 0.6
+        df_a = getattr(col_a, "dynamic_friction", 0.4) if col_a else 0.4
+        df_b = getattr(col_b, "dynamic_friction", 0.4) if col_b else 0.4
+        fc_a = getattr(col_a, "friction_combine", PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
+        fc_b = getattr(col_b, "friction_combine", PhysicsMaterialCombine.AVERAGE) if col_b else PhysicsMaterialCombine.AVERAGE
         static_fric = PhysicsMaterialCombine.combine(sf_a, sf_b, fc_a, fc_b)
         dynamic_fric = PhysicsMaterialCombine.combine(df_a, df_b, fc_a, fc_b)
 
-        # Inverse masses (0 for static/kinematic bodies)
-        inv_mass_a = 0.0 if a_static else (1.0 / max(rb_a.mass, 1e-10))
-        inv_mass_b = 0.0 if b_static else (1.0 / max(rb_b.mass, 1e-10))
+        n_arr = _as_np2(normal)
+        n_len = float(np.linalg.norm(n_arr))
+        if n_len > 1e-12:
+            n_arr = n_arr / n_len
+        face_align_a = 0.0 if a_static else _face_align_from_rotation(a, n_arr)
+        face_align_b = 0.0 if b_static else _face_align_from_rotation(b, n_arr)
 
-        vx_a = rb_a.velocity.x if rb_a else 0.0
-        vy_a = rb_a.velocity.y if rb_a else 0.0
-        vx_b = rb_b.velocity.x if rb_b else 0.0
-        vy_b = rb_b.velocity.y if rb_b else 0.0
-
-        # Try Cython fast path
-        try:
-            from engine.cython import CYTHON_ENABLED
-            if not CYTHON_ENABLED:
-                raise ImportError
-            from engine.cython.cy_math import resolve_velocity_2d as _cy_rv2d
-            new_vx_a, new_vy_a, new_vx_b, new_vy_b = _cy_rv2d(
-                vx_a, vy_a, vx_b, vy_b,
-                nx, ny, inv_mass_a, inv_mass_b,
-                restitution, static_fric, dynamic_fric,
+        cp = getattr(manifold, "contact_point", None)
+        if cp is None:
+            cp = estimate_contact_point(
+                a.transform.position, b.transform.position, normal, depth
             )
-        except (ImportError, ModuleNotFoundError):
-            new_vx_a, new_vy_a, new_vx_b, new_vy_b = self._resolve_velocity_2d_py(
-                vx_a, vy_a, vx_b, vy_b,
-                nx, ny, inv_mass_a, inv_mass_b,
-                restitution, static_fric, dynamic_fric,
-            )
+        cp = stabilize_contact_point(
+            a.transform.position, b.transform.position, cp, normal, depth,
+            face_align_a=face_align_a, face_align_b=face_align_b,
+        )
 
-        if rb_a and not a_static:
-            rb_a.velocity = Vector2(new_vx_a, new_vy_a)
-        if rb_b and not b_static:
-            rb_b.velocity = Vector2(new_vx_b, new_vy_b)
+        pos_a, vel_a, omega_a, inv_mass_a, i_inv_a = body_state_from_rigidbody(
+            rb_a, a, a_static
+        )
+        pos_b, vel_b, omega_b, inv_mass_b, i_inv_b = body_state_from_rigidbody(
+            rb_b, b, b_static
+        )
 
-    # -- Pure-Python fallback for velocity resolution ----------------------
+        result = resolve_contact_2d(
+            pos_a=pos_a, vel_a=vel_a, omega_a=omega_a,
+            inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
+            pos_b=pos_b, vel_b=vel_b, omega_b=omega_b,
+            inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
+            contact_point=cp, normal=normal,
+            restitution=restitution,
+            static_friction=static_fric,
+            dynamic_friction=dynamic_fric,
+            face_align_a=face_align_a,
+            face_align_b=face_align_b,
+        )
+        new_va, new_oa, new_vb, new_ob, unstable = result
+
+        # Sleep only when resting on immovable geometry or an *already sleeping*
+        # support. Never sleep two free-falling bodies that just bumped mid-air
+        # (that froze floaters in multi-object piles).
+        n_y = float(n_arr[1]) if n_arr is not None else 0.0
+        support_up = n_y > 0.55   # normal from B toward A is mostly +Y
+        support_down = n_y < -0.55
+
+        def _partner_supports(other_rb, other_static, upward_for_self: bool) -> bool:
+            if unstable:
+                return False
+            if other_static:
+                return True
+            if other_rb is not None and getattr(other_rb, "is_sleeping", False):
+                return upward_for_self
+            return False
+
+        if rb_a is not None and not a_static:
+            # A rests on B when normal points up toward A (B is below)
+            can_sleep_a = _partner_supports(rb_b, b_static, support_up)
+            apply_body_state(rb_a, new_va, new_oa, allow_sleep=can_sleep_a)
+            if can_sleep_a:
+                getattr(self, "_physics_supported_bodies", set()).add(id(rb_a))
+        if rb_b is not None and not b_static:
+            # B rests on A when normal points down toward B (A is below)
+            can_sleep_b = _partner_supports(rb_a, a_static, support_down)
+            apply_body_state(rb_b, new_vb, new_ob, allow_sleep=can_sleep_b)
+            if can_sleep_b:
+                getattr(self, "_physics_supported_bodies", set()).add(id(rb_b))
+
+    # -- Pure-Python fallback for velocity resolution (linear only, legacy) --
 
     @staticmethod
     def _resolve_velocity_2d_py(vx_a, vy_a, vx_b, vy_b,
                                  nx, ny, inv_mass_a, inv_mass_b,
                                  restitution, static_fric, dynamic_fric):
-        """Pure-Python impulse-based collision response (2D)."""
+        """Pure-Python linear-only impulse response (legacy / tests)."""
         import math
 
-        # Relative velocity (A relative to B)
         rvx = vx_a - vx_b
         rvy = vy_a - vy_b
         vel_along_normal = rvx * nx + rvy * ny
@@ -1511,7 +1666,6 @@ class Window2D(WindowBase):
         if inv_mass_sum < 1e-12:
             return (vx_a, vy_a, vx_b, vy_b)
 
-        # Normal impulse
         j = -(1.0 + restitution) * vel_along_normal / inv_mass_sum
 
         vx_a += j * inv_mass_a * nx
@@ -1519,7 +1673,6 @@ class Window2D(WindowBase):
         vx_b -= j * inv_mass_b * nx
         vy_b -= j * inv_mass_b * ny
 
-        # Friction impulse
         rvx = vx_a - vx_b
         rvy = vy_a - vy_b
         vt = rvx * nx + rvy * ny

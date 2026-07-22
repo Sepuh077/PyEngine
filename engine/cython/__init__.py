@@ -54,6 +54,7 @@ _OPTIONAL_MODULES = (
     "cy_raycast_3d",
     "cy_particles",
     "cy_response_3d",
+    "cy_response_2d",
 )
 
 

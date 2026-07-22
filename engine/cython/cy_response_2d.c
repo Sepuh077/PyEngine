@@ -19,12 +19,12 @@
         "include_dirs": [
             "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
         ],
-        "name": "engine.cython.cy_collision_2d",
+        "name": "engine.cython.cy_response_2d",
         "sources": [
-            "engine/cython/cy_collision_2d.pyx"
+            "engine/cython/cy_response_2d.pyx"
         ]
     },
-    "module_name": "engine.cython.cy_collision_2d"
+    "module_name": "engine.cython.cy_response_2d"
 }
 END: Cython Metadata */
 
@@ -1142,8 +1142,8 @@ static int __Pyx_init_co_variables(void) {
   #endif
 #endif
 
-#define __PYX_HAVE__engine__cython__cy_collision_2d
-#define __PYX_HAVE_API__engine__cython__cy_collision_2d
+#define __PYX_HAVE__engine__cython__cy_response_2d
+#define __PYX_HAVE_API__engine__cython__cy_response_2d
 /* Early includes */
 #include <math.h>
 #include <string.h>
@@ -1396,7 +1396,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char* const __pyx_f[] = {
-  "engine/cython/cy_collision_2d.pyx",
+  "engine/cython/cy_response_2d.pyx",
   "<stringsource>",
   "venv_linux/lib/python3.12/site-packages/numpy/__init__.cython-30.pxd",
   "venv_linux/lib/python3.12/site-packages/Cython/Includes/cpython/type.pxd",
@@ -3163,9 +3163,6 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
                                  size_t sizeof_dtype, int contig_flag,
                                  int dtype_is_object);
 
-/* CIntFromPy.proto */
-static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *);
-
 /* PyObjectCall2Args.proto (used by PyObjectCallMethod1) */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
 
@@ -3177,6 +3174,9 @@ static int __Pyx_UpdateUnpickledDict(PyObject *obj, PyObject *state, Py_ssize_t 
 
 /* CheckUnpickleChecksum.proto */
 static CYTHON_INLINE int __Pyx_CheckUnpickleChecksum(long checksum, long checksum1, long checksum2, long checksum3, const char *members);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyLong_As_long(PyObject *);
@@ -3338,7 +3338,18 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_9userloops_userloops(PyUFun
 /* Module declarations from "numpy" */
 static CYTHON_INLINE int __pyx_f_5numpy_import_array(void); /*proto*/
 
-/* Module declarations from "engine.cython.cy_collision_2d" */
+/* Module declarations from "engine.cython.cy_response_2d" */
+static double __pyx_v_6engine_6cython_14cy_response_2d_RESTITUTION_THRESHOLD;
+static double __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_START;
+static double __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_END;
+static double __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD;
+static double __pyx_v_6engine_6cython_14cy_response_2d_FACE_REST_ALIGN;
+static double __pyx_v_6engine_6cython_14cy_response_2d_UNSTABLE_SUPPORT_OFFSET;
+static double __pyx_v_6engine_6cython_14cy_response_2d_FACE_TIP_OFFSET;
+static double __pyx_v_6engine_6cython_14cy_response_2d_MAX_NORMAL_TANGENT_ARM;
+static double __pyx_v_6engine_6cython_14cy_response_2d_RESTING_TANGENTIAL_SPEED;
+static double __pyx_v_6engine_6cython_14cy_response_2d_MAX_ANGULAR_SPEED;
+static double __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY;
 static PyObject *__pyx_collections_abc_Sequence = 0;
 static PyObject *generic = 0;
 static PyObject *strided = 0;
@@ -3347,13 +3358,16 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static int __pyx_f_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_circle_fast(double, double, double, double, double, double, int __pyx_skip_dispatch); /*proto*/
-static CYTHON_INLINE void __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(double, double, double, double, double, double, double, double *, double *); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_obb_vs_obb_2d_fast(double, double, double, double, double, double, double, double, double, double, int __pyx_skip_dispatch); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_obb_2d_fast(double, double, double, double, double, double, double, double, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6engine_6cython_15cy_collision_2d_closest_point_on_segment_fast(double, double, double, double, double, double, int __pyx_skip_dispatch); /*proto*/
-static double __pyx_f_6engine_6cython_15cy_collision_2d_segment_segment_dist_sq_fast(double, double, double, double, double, double, double, double, int __pyx_skip_dispatch); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__dot2(double, double, double, double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__len2(double, double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__cross_z(double, double, double, double); /*proto*/
+static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_2d__clamp_vec2(double *, double *, double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__clamp_omega(double, double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__impact_weight(double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__support_offset(double, double, double, double); /*proto*/
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__effective_mass(double, double, double, double, double, double, double, double, int, double, int, double); /*proto*/
+static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_2d__apply_impulse(double *, double *, double *, double *, double *, double *, double, double, int, double, int, double, double, double, double, double, double, double); /*proto*/
+static void __pyx_f_6engine_6cython_14cy_response_2d__resolve_contact_core(double, double, double *, double *, double *, double, int, double, double, double, double *, double *, double *, double, int, double, double, double, double, double, double, double, double, double, double, double, int *); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char const *, char *); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo const *); /*proto*/
@@ -3391,11 +3405,11 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, 
 static const __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t = { "float64_t", NULL, sizeof(__pyx_t_5numpy_float64_t), { 0 }, 0, 'R', 0, 0 };
 static const __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "engine.cython.cy_collision_2d"
-extern int __pyx_module_is_main_engine__cython__cy_collision_2d;
-int __pyx_module_is_main_engine__cython__cy_collision_2d = 0;
+#define __Pyx_MODULE_NAME "engine.cython.cy_response_2d"
+extern int __pyx_module_is_main_engine__cython__cy_response_2d;
+int __pyx_module_is_main_engine__cython__cy_response_2d = 0;
 
-/* Implementation of "engine.cython.cy_collision_2d" */
+/* Implementation of "engine.cython.cy_response_2d" */
 /* #### Code section: global_var ### */
 static PyObject *__pyx_builtin___import__;
 static PyObject *__pyx_builtin_enumerate;
@@ -3405,7 +3419,7 @@ static PyObject *__pyx_builtin_id;
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_fortran[] = "fortran";
-static const char __pyx_k_Cython_accelerated_2D_collision[] = "\nCython-accelerated 2D collision detection (bool + manifold) and raycasting.\n";
+static const char __pyx_k_Cython_accelerated_2D_contact_r[] = "\nCython-accelerated 2D contact response (linear + angular impulses).\n\nMatches engine.d2.physics.response.resolve_contact_2d semantics\n(including face-rest stacks, no mid-air freeze, edge tipping only).\n\317\211 is a scalar about Z; I\342\201\273\302\271 is a scalar (pass < 0 to disable angular for a body).\n";
 /* #### Code section: decls ### */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -3448,17 +3462,7 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_a_min, __Pyx_memviewslice __pyx_v_a_max, __Pyx_memviewslice __pyx_v_b_min, __Pyx_memviewslice __pyx_v_b_max); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_2circle_vs_circle_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_ra, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_rb); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_4circle_vs_circle_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_ra, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_rb); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_6obb_vs_obb_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_aa, double __pyx_v_ex_a, double __pyx_v_ey_a, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_ab, double __pyx_v_ex_b, double __pyx_v_ey_b); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_8obb_vs_obb_2d_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_aa, double __pyx_v_ex_a, double __pyx_v_ey_a, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_ab, double __pyx_v_ex_b, double __pyx_v_ey_b); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_10circle_vs_obb_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cs_x, double __pyx_v_cs_y, double __pyx_v_rs, double __pyx_v_cb_x, double __pyx_v_cb_y, double __pyx_v_angle, double __pyx_v_eb_x, double __pyx_v_eb_y); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_12circle_vs_obb_2d_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cs_x, double __pyx_v_cs_y, double __pyx_v_rs, double __pyx_v_cb_x, double __pyx_v_cb_y, double __pyx_v_angle, double __pyx_v_eb_x, double __pyx_v_eb_y); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_14closest_point_on_segment_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_px, double __pyx_v_py, double __pyx_v_ax, double __pyx_v_ay, double __pyx_v_bx, double __pyx_v_by); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_16segment_segment_dist_sq_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_a1x, double __pyx_v_a1y, double __pyx_v_a2x, double __pyx_v_a2y, double __pyx_v_b1x, double __pyx_v_b1y, double __pyx_v_b2x, double __pyx_v_b2y); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_18ray_circle_intersection_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_ox, double __pyx_v_oy, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_cx, double __pyx_v_cy, double __pyx_v_radius); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_20ray_aabb_intersection_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_ox, double __pyx_v_oy, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_min_x, double __pyx_v_min_y, double __pyx_v_max_x, double __pyx_v_max_y); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_2d_resolve_contact_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, double __pyx_v_omega_a, double __pyx_v_inv_mass_a, double __pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, double __pyx_v_omega_b, double __pyx_v_inv_mass_b, double __pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3512,8 +3516,8 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_slice[1];
   PyObject *__pyx_tuple[1];
-  PyObject *__pyx_codeobj_tab[11];
-  PyObject *__pyx_string_tab[261];
+  PyObject *__pyx_codeobj_tab[1];
+  PyObject *__pyx_string_tab[149];
   PyObject *__pyx_number_tab[5];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
@@ -3584,7 +3588,7 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_kp_u_contiguous_and_indirect __pyx_string_tab[26]
 #define __pyx_kp_u_disable __pyx_string_tab[27]
 #define __pyx_kp_u_enable __pyx_string_tab[28]
-#define __pyx_kp_u_engine_cython_cy_collision_2d_py __pyx_string_tab[29]
+#define __pyx_kp_u_engine_cython_cy_response_2d_pyx __pyx_string_tab[29]
 #define __pyx_kp_u_gc __pyx_string_tab[30]
 #define __pyx_kp_u_got __pyx_string_tab[31]
 #define __pyx_kp_u_got_differing_extents_in_dimensi __pyx_string_tab[32]
@@ -3604,218 +3608,106 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_Pyx_PyDict_NextRef __pyx_string_tab[46]
 #define __pyx_n_u_Sequence __pyx_string_tab[47]
 #define __pyx_n_u_View_MemoryView __pyx_string_tab[48]
-#define __pyx_n_u_a1x __pyx_string_tab[49]
-#define __pyx_n_u_a1y __pyx_string_tab[50]
-#define __pyx_n_u_a2x __pyx_string_tab[51]
-#define __pyx_n_u_a2y __pyx_string_tab[52]
-#define __pyx_n_u_a_max __pyx_string_tab[53]
-#define __pyx_n_u_a_min __pyx_string_tab[54]
-#define __pyx_n_u_aa __pyx_string_tab[55]
-#define __pyx_n_u_aabb_overlap_2d_fast __pyx_string_tab[56]
-#define __pyx_n_u_ab __pyx_string_tab[57]
-#define __pyx_n_u_abc __pyx_string_tab[58]
-#define __pyx_n_u_align_a __pyx_string_tab[59]
-#define __pyx_n_u_align_b __pyx_string_tab[60]
-#define __pyx_n_u_allocate_buffer __pyx_string_tab[61]
-#define __pyx_n_u_angle __pyx_string_tab[62]
-#define __pyx_n_u_annotate __pyx_string_tab[63]
-#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[64]
-#define __pyx_n_u_ax __pyx_string_tab[65]
-#define __pyx_n_u_axes __pyx_string_tab[66]
-#define __pyx_n_u_ay __pyx_string_tab[67]
-#define __pyx_n_u_b __pyx_string_tab[68]
-#define __pyx_n_u_b1x __pyx_string_tab[69]
-#define __pyx_n_u_b1y __pyx_string_tab[70]
-#define __pyx_n_u_b2x __pyx_string_tab[71]
-#define __pyx_n_u_b2y __pyx_string_tab[72]
-#define __pyx_n_u_b_max __pyx_string_tab[73]
-#define __pyx_n_u_b_min __pyx_string_tab[74]
-#define __pyx_n_u_base __pyx_string_tab[75]
-#define __pyx_n_u_best_ax __pyx_string_tab[76]
-#define __pyx_n_u_best_ay __pyx_string_tab[77]
-#define __pyx_n_u_bx __pyx_string_tab[78]
-#define __pyx_n_u_by __pyx_string_tab[79]
-#define __pyx_n_u_c __pyx_string_tab[80]
-#define __pyx_n_u_ca_t __pyx_string_tab[81]
-#define __pyx_n_u_cb_t __pyx_string_tab[82]
-#define __pyx_n_u_cb_x __pyx_string_tab[83]
-#define __pyx_n_u_cb_y __pyx_string_tab[84]
-#define __pyx_n_u_circle_vs_circle_fast __pyx_string_tab[85]
-#define __pyx_n_u_circle_vs_circle_manifold_fast __pyx_string_tab[86]
-#define __pyx_n_u_circle_vs_obb_2d_fast __pyx_string_tab[87]
-#define __pyx_n_u_circle_vs_obb_2d_manifold_fast __pyx_string_tab[88]
-#define __pyx_n_u_class __pyx_string_tab[89]
-#define __pyx_n_u_class_getitem __pyx_string_tab[90]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[91]
-#define __pyx_n_u_closest_point_on_segment_fast __pyx_string_tab[92]
-#define __pyx_n_u_contact __pyx_string_tab[93]
-#define __pyx_n_u_cos_a __pyx_string_tab[94]
-#define __pyx_n_u_cos_a2 __pyx_string_tab[95]
-#define __pyx_n_u_cos_aa __pyx_string_tab[96]
-#define __pyx_n_u_cos_ab __pyx_string_tab[97]
-#define __pyx_n_u_cos_b2 __pyx_string_tab[98]
-#define __pyx_n_u_count __pyx_string_tab[99]
-#define __pyx_n_u_cs_x __pyx_string_tab[100]
-#define __pyx_n_u_cs_y __pyx_string_tab[101]
-#define __pyx_n_u_cx __pyx_string_tab[102]
-#define __pyx_n_u_cx_a __pyx_string_tab[103]
-#define __pyx_n_u_cx_b __pyx_string_tab[104]
-#define __pyx_n_u_cx_c __pyx_string_tab[105]
-#define __pyx_n_u_cy __pyx_string_tab[106]
-#define __pyx_n_u_cy_a __pyx_string_tab[107]
-#define __pyx_n_u_cy_b __pyx_string_tab[108]
-#define __pyx_n_u_cy_c __pyx_string_tab[109]
-#define __pyx_n_u_ddx __pyx_string_tab[110]
-#define __pyx_n_u_ddy __pyx_string_tab[111]
-#define __pyx_n_u_depth __pyx_string_tab[112]
-#define __pyx_n_u_dict __pyx_string_tab[113]
-#define __pyx_n_u_disc __pyx_string_tab[114]
-#define __pyx_n_u_dist __pyx_string_tab[115]
-#define __pyx_n_u_dist_sq __pyx_string_tab[116]
-#define __pyx_n_u_dtype __pyx_string_tab[117]
-#define __pyx_n_u_dtype_is_object __pyx_string_tab[118]
-#define __pyx_n_u_du __pyx_string_tab[119]
-#define __pyx_n_u_dv __pyx_string_tab[120]
-#define __pyx_n_u_dx __pyx_string_tab[121]
-#define __pyx_n_u_dx_ab __pyx_string_tab[122]
-#define __pyx_n_u_dy __pyx_string_tab[123]
-#define __pyx_n_u_dy_ab __pyx_string_tab[124]
-#define __pyx_n_u_eb_x __pyx_string_tab[125]
-#define __pyx_n_u_eb_y __pyx_string_tab[126]
-#define __pyx_n_u_empty __pyx_string_tab[127]
-#define __pyx_n_u_encode __pyx_string_tab[128]
-#define __pyx_n_u_engine_cython_cy_collision_2d __pyx_string_tab[129]
-#define __pyx_n_u_enumerate __pyx_string_tab[130]
-#define __pyx_n_u_error __pyx_string_tab[131]
-#define __pyx_n_u_ex_a __pyx_string_tab[132]
-#define __pyx_n_u_ex_b __pyx_string_tab[133]
-#define __pyx_n_u_ey_a __pyx_string_tab[134]
-#define __pyx_n_u_ey_b __pyx_string_tab[135]
-#define __pyx_n_u_face0 __pyx_string_tab[136]
-#define __pyx_n_u_face1 __pyx_string_tab[137]
-#define __pyx_n_u_face_eps __pyx_string_tab[138]
-#define __pyx_n_u_flags __pyx_string_tab[139]
-#define __pyx_n_u_float64 __pyx_string_tab[140]
-#define __pyx_n_u_format __pyx_string_tab[141]
-#define __pyx_n_u_fortran __pyx_string_tab[142]
-#define __pyx_n_u_func __pyx_string_tab[143]
-#define __pyx_n_u_getstate __pyx_string_tab[144]
-#define __pyx_n_u_ha __pyx_string_tab[145]
-#define __pyx_n_u_hb __pyx_string_tab[146]
-#define __pyx_n_u_hi __pyx_string_tab[147]
-#define __pyx_n_u_i __pyx_string_tab[148]
-#define __pyx_n_u_id __pyx_string_tab[149]
-#define __pyx_n_u_import __pyx_string_tab[150]
-#define __pyx_n_u_index __pyx_string_tab[151]
-#define __pyx_n_u_inv __pyx_string_tab[152]
-#define __pyx_n_u_inv_d __pyx_string_tab[153]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[154]
-#define __pyx_n_u_items __pyx_string_tab[155]
-#define __pyx_n_u_itemsize __pyx_string_tab[156]
-#define __pyx_n_u_ln_x __pyx_string_tab[157]
-#define __pyx_n_u_ln_y __pyx_string_tab[158]
-#define __pyx_n_u_lo __pyx_string_tab[159]
-#define __pyx_n_u_local_x __pyx_string_tab[160]
-#define __pyx_n_u_local_y __pyx_string_tab[161]
-#define __pyx_n_u_lx __pyx_string_tab[162]
-#define __pyx_n_u_ly __pyx_string_tab[163]
-#define __pyx_n_u_main __pyx_string_tab[164]
-#define __pyx_n_u_max_x __pyx_string_tab[165]
-#define __pyx_n_u_max_y __pyx_string_tab[166]
-#define __pyx_n_u_memview __pyx_string_tab[167]
-#define __pyx_n_u_mid_t __pyx_string_tab[168]
-#define __pyx_n_u_min_overlap __pyx_string_tab[169]
-#define __pyx_n_u_min_x __pyx_string_tab[170]
-#define __pyx_n_u_min_y __pyx_string_tab[171]
-#define __pyx_n_u_mode __pyx_string_tab[172]
-#define __pyx_n_u_module __pyx_string_tab[173]
-#define __pyx_n_u_name __pyx_string_tab[174]
-#define __pyx_n_u_name_2 __pyx_string_tab[175]
-#define __pyx_n_u_ndim __pyx_string_tab[176]
-#define __pyx_n_u_new __pyx_string_tab[177]
-#define __pyx_n_u_normal __pyx_string_tab[178]
-#define __pyx_n_u_np __pyx_string_tab[179]
-#define __pyx_n_u_numpy __pyx_string_tab[180]
-#define __pyx_n_u_nx __pyx_string_tab[181]
-#define __pyx_n_u_ny __pyx_string_tab[182]
-#define __pyx_n_u_obb_vs_obb_2d_fast __pyx_string_tab[183]
-#define __pyx_n_u_obb_vs_obb_2d_manifold_fast __pyx_string_tab[184]
-#define __pyx_n_u_obj __pyx_string_tab[185]
-#define __pyx_n_u_ocx __pyx_string_tab[186]
-#define __pyx_n_u_ocy __pyx_string_tab[187]
-#define __pyx_n_u_overlap __pyx_string_tab[188]
-#define __pyx_n_u_ox __pyx_string_tab[189]
-#define __pyx_n_u_oy __pyx_string_tab[190]
-#define __pyx_n_u_pack __pyx_string_tab[191]
-#define __pyx_n_u_pax __pyx_string_tab[192]
-#define __pyx_n_u_pay __pyx_string_tab[193]
-#define __pyx_n_u_pbx __pyx_string_tab[194]
-#define __pyx_n_u_pby __pyx_string_tab[195]
-#define __pyx_n_u_plane_n __pyx_string_tab[196]
-#define __pyx_n_u_pop __pyx_string_tab[197]
-#define __pyx_n_u_px __pyx_string_tab[198]
-#define __pyx_n_u_py __pyx_string_tab[199]
-#define __pyx_n_u_pyx_checksum __pyx_string_tab[200]
-#define __pyx_n_u_pyx_state __pyx_string_tab[201]
-#define __pyx_n_u_pyx_type __pyx_string_tab[202]
-#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[203]
-#define __pyx_n_u_pyx_vtable __pyx_string_tab[204]
-#define __pyx_n_u_qualname __pyx_string_tab[205]
-#define __pyx_n_u_ra __pyx_string_tab[206]
-#define __pyx_n_u_radius __pyx_string_tab[207]
-#define __pyx_n_u_ray_aabb_intersection_2d_fast __pyx_string_tab[208]
-#define __pyx_n_u_ray_circle_intersection_fast __pyx_string_tab[209]
-#define __pyx_n_u_rb __pyx_string_tab[210]
-#define __pyx_n_u_reduce __pyx_string_tab[211]
-#define __pyx_n_u_reduce_cython __pyx_string_tab[212]
-#define __pyx_n_u_reduce_ex __pyx_string_tab[213]
-#define __pyx_n_u_register __pyx_string_tab[214]
-#define __pyx_n_u_rs __pyx_string_tab[215]
-#define __pyx_n_u_s __pyx_string_tab[216]
-#define __pyx_n_u_segment_segment_dist_sq_fast __pyx_string_tab[217]
-#define __pyx_n_u_set_name __pyx_string_tab[218]
-#define __pyx_n_u_setdefault __pyx_string_tab[219]
-#define __pyx_n_u_setstate __pyx_string_tab[220]
-#define __pyx_n_u_setstate_cython __pyx_string_tab[221]
-#define __pyx_n_u_shape __pyx_string_tab[222]
-#define __pyx_n_u_sin_a __pyx_string_tab[223]
-#define __pyx_n_u_sin_a2 __pyx_string_tab[224]
-#define __pyx_n_u_sin_aa __pyx_string_tab[225]
-#define __pyx_n_u_sin_ab __pyx_string_tab[226]
-#define __pyx_n_u_sin_b2 __pyx_string_tab[227]
-#define __pyx_n_u_size __pyx_string_tab[228]
-#define __pyx_n_u_start __pyx_string_tab[229]
-#define __pyx_n_u_step __pyx_string_tab[230]
-#define __pyx_n_u_stop __pyx_string_tab[231]
-#define __pyx_n_u_struct __pyx_string_tab[232]
-#define __pyx_n_u_sx __pyx_string_tab[233]
-#define __pyx_n_u_sy __pyx_string_tab[234]
-#define __pyx_n_u_t0 __pyx_string_tab[235]
-#define __pyx_n_u_t1 __pyx_string_tab[236]
-#define __pyx_n_u_t_max __pyx_string_tab[237]
-#define __pyx_n_u_t_min __pyx_string_tab[238]
-#define __pyx_n_u_tanx __pyx_string_tab[239]
-#define __pyx_n_u_tany __pyx_string_tab[240]
-#define __pyx_n_u_test __pyx_string_tab[241]
-#define __pyx_n_u_tmp __pyx_string_tab[242]
-#define __pyx_n_u_unpack __pyx_string_tab[243]
-#define __pyx_n_u_update __pyx_string_tab[244]
-#define __pyx_n_u_values __pyx_string_tab[245]
-#define __pyx_n_u_wn_x __pyx_string_tab[246]
-#define __pyx_n_u_wn_y __pyx_string_tab[247]
-#define __pyx_n_u_x __pyx_string_tab[248]
-#define __pyx_kp_b_iso88591_1A_1A_U_A_U_A_RvRs_A_3b_b_2Q_oQ __pyx_string_tab[249]
-#define __pyx_kp_b_iso88591_1A_1A_U_A_U_A_RvRs_A_3b_b_2Q_q __pyx_string_tab[250]
-#define __pyx_kp_b_iso88591_A_3aq_A_3aq_1E_ar_q_1E_ar_q_1E __pyx_string_tab[251]
-#define __pyx_kp_b_iso88591_Q_A_3aq_A_3aq_1E_ar_q_1E_ar_q_1 __pyx_string_tab[252]
-#define __pyx_kp_b_iso88591_U_A_U_A_Rs_Cr_S_83c_1 __pyx_string_tab[253]
-#define __pyx_kp_b_iso88591_U_A_U_A_Rs_Cr_S_xr_Ba_q_4q_RvQc __pyx_string_tab[254]
-#define __pyx_kp_b_iso88591_c_1_c_1_D_Rt2Q_D_b_Bd_G2Q_r_2Rq __pyx_string_tab[255]
-#define __pyx_kp_b_iso88591_c_S_Rt2T_1_wb_A_c_4r_S_2T_5_r_5 __pyx_string_tab[256]
-#define __pyx_kp_b_iso88591_d_Kt2Q_d_Kt2Q_T_T_1_D_b_Ba_D_b __pyx_string_tab[257]
-#define __pyx_kp_b_iso88591_q_uAS_q_3e1Cr_aq_q_uAS_q_3e1Cr __pyx_string_tab[258]
-#define __pyx_kp_b_iso88591_t1D_3b_c_Ba_1_Ba_fBd_A_fBd_A_6 __pyx_string_tab[259]
-#define __pyx_n_b_O __pyx_string_tab[260]
+#define __pyx_n_u_abc __pyx_string_tab[49]
+#define __pyx_n_u_allocate_buffer __pyx_string_tab[50]
+#define __pyx_n_u_annotate __pyx_string_tab[51]
+#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[52]
+#define __pyx_n_u_base __pyx_string_tab[53]
+#define __pyx_n_u_c __pyx_string_tab[54]
+#define __pyx_n_u_class __pyx_string_tab[55]
+#define __pyx_n_u_class_getitem __pyx_string_tab[56]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[57]
+#define __pyx_n_u_contact_point __pyx_string_tab[58]
+#define __pyx_n_u_count __pyx_string_tab[59]
+#define __pyx_n_u_dict __pyx_string_tab[60]
+#define __pyx_n_u_dt __pyx_string_tab[61]
+#define __pyx_n_u_dtype __pyx_string_tab[62]
+#define __pyx_n_u_dtype_is_object __pyx_string_tab[63]
+#define __pyx_n_u_dynamic_friction __pyx_string_tab[64]
+#define __pyx_n_u_empty __pyx_string_tab[65]
+#define __pyx_n_u_encode __pyx_string_tab[66]
+#define __pyx_n_u_engine_cython_cy_response_2d __pyx_string_tab[67]
+#define __pyx_n_u_enumerate __pyx_string_tab[68]
+#define __pyx_n_u_error __pyx_string_tab[69]
+#define __pyx_n_u_face_align_a __pyx_string_tab[70]
+#define __pyx_n_u_face_align_b __pyx_string_tab[71]
+#define __pyx_n_u_flags __pyx_string_tab[72]
+#define __pyx_n_u_float64 __pyx_string_tab[73]
+#define __pyx_n_u_format __pyx_string_tab[74]
+#define __pyx_n_u_fortran __pyx_string_tab[75]
+#define __pyx_n_u_func __pyx_string_tab[76]
+#define __pyx_n_u_getstate __pyx_string_tab[77]
+#define __pyx_n_u_has_ia __pyx_string_tab[78]
+#define __pyx_n_u_has_ib __pyx_string_tab[79]
+#define __pyx_n_u_i_inv_a __pyx_string_tab[80]
+#define __pyx_n_u_i_inv_b __pyx_string_tab[81]
+#define __pyx_n_u_id __pyx_string_tab[82]
+#define __pyx_n_u_import __pyx_string_tab[83]
+#define __pyx_n_u_index __pyx_string_tab[84]
+#define __pyx_n_u_inv_mass_a __pyx_string_tab[85]
+#define __pyx_n_u_inv_mass_b __pyx_string_tab[86]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[87]
+#define __pyx_n_u_items __pyx_string_tab[88]
+#define __pyx_n_u_itemsize __pyx_string_tab[89]
+#define __pyx_n_u_main __pyx_string_tab[90]
+#define __pyx_n_u_memview __pyx_string_tab[91]
+#define __pyx_n_u_mode __pyx_string_tab[92]
+#define __pyx_n_u_module __pyx_string_tab[93]
+#define __pyx_n_u_name __pyx_string_tab[94]
+#define __pyx_n_u_name_2 __pyx_string_tab[95]
+#define __pyx_n_u_ndim __pyx_string_tab[96]
+#define __pyx_n_u_new __pyx_string_tab[97]
+#define __pyx_n_u_normal __pyx_string_tab[98]
+#define __pyx_n_u_np __pyx_string_tab[99]
+#define __pyx_n_u_numpy __pyx_string_tab[100]
+#define __pyx_n_u_oa __pyx_string_tab[101]
+#define __pyx_n_u_ob __pyx_string_tab[102]
+#define __pyx_n_u_obj __pyx_string_tab[103]
+#define __pyx_n_u_omega_a __pyx_string_tab[104]
+#define __pyx_n_u_omega_b __pyx_string_tab[105]
+#define __pyx_n_u_pack __pyx_string_tab[106]
+#define __pyx_n_u_pop __pyx_string_tab[107]
+#define __pyx_n_u_pos_a __pyx_string_tab[108]
+#define __pyx_n_u_pos_b __pyx_string_tab[109]
+#define __pyx_n_u_pyx_checksum __pyx_string_tab[110]
+#define __pyx_n_u_pyx_state __pyx_string_tab[111]
+#define __pyx_n_u_pyx_type __pyx_string_tab[112]
+#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[113]
+#define __pyx_n_u_pyx_vtable __pyx_string_tab[114]
+#define __pyx_n_u_qualname __pyx_string_tab[115]
+#define __pyx_n_u_reduce __pyx_string_tab[116]
+#define __pyx_n_u_reduce_cython __pyx_string_tab[117]
+#define __pyx_n_u_reduce_ex __pyx_string_tab[118]
+#define __pyx_n_u_register __pyx_string_tab[119]
+#define __pyx_n_u_resolve_contact_2d_fast __pyx_string_tab[120]
+#define __pyx_n_u_restitution __pyx_string_tab[121]
+#define __pyx_n_u_set_name __pyx_string_tab[122]
+#define __pyx_n_u_setdefault __pyx_string_tab[123]
+#define __pyx_n_u_setstate __pyx_string_tab[124]
+#define __pyx_n_u_setstate_cython __pyx_string_tab[125]
+#define __pyx_n_u_shape __pyx_string_tab[126]
+#define __pyx_n_u_size __pyx_string_tab[127]
+#define __pyx_n_u_start __pyx_string_tab[128]
+#define __pyx_n_u_static_friction __pyx_string_tab[129]
+#define __pyx_n_u_step __pyx_string_tab[130]
+#define __pyx_n_u_stop __pyx_string_tab[131]
+#define __pyx_n_u_struct __pyx_string_tab[132]
+#define __pyx_n_u_test __pyx_string_tab[133]
+#define __pyx_n_u_unpack __pyx_string_tab[134]
+#define __pyx_n_u_unstable __pyx_string_tab[135]
+#define __pyx_n_u_update __pyx_string_tab[136]
+#define __pyx_n_u_va_out __pyx_string_tab[137]
+#define __pyx_n_u_values __pyx_string_tab[138]
+#define __pyx_n_u_vax __pyx_string_tab[139]
+#define __pyx_n_u_vay __pyx_string_tab[140]
+#define __pyx_n_u_vb_out __pyx_string_tab[141]
+#define __pyx_n_u_vbx __pyx_string_tab[142]
+#define __pyx_n_u_vby __pyx_string_tab[143]
+#define __pyx_n_u_vel_a __pyx_string_tab[144]
+#define __pyx_n_u_vel_b __pyx_string_tab[145]
+#define __pyx_n_u_x __pyx_string_tab[146]
+#define __pyx_kp_b_iso88591_Q_e1Je1A_e1Je1A_1_xs_xs_t1_t1_Q __pyx_string_tab[147]
+#define __pyx_n_b_O __pyx_string_tab[148]
 #define __pyx_int_0 __pyx_number_tab[0]
 #define __pyx_int_neg_1 __pyx_number_tab[1]
 #define __pyx_int_1 __pyx_number_tab[2]
@@ -3861,8 +3753,8 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_slice[i]); }
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<11; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<261; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<149; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<5; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
@@ -3912,8 +3804,8 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   Py_VISIT(traverse_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_slice[i]); }
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<11; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<261; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<149; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<5; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
@@ -18679,6116 +18571,4727 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
   return __pyx_r;
 }
 
-/* "engine/cython/cy_collision_2d.pyx":17
- * # =========================================================================
+/* "engine/cython/cy_response_2d.pyx":29
  * 
- * cpdef bint aabb_overlap_2d_fast(             # <<<<<<<<<<<<<<
- *     double[::1] a_min, double[::1] a_max,
- *     double[::1] b_min, double[::1] b_max,
-*/
-
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(__Pyx_memviewslice __pyx_v_a_min, __Pyx_memviewslice __pyx_v_a_max, __Pyx_memviewslice __pyx_v_b_min, __Pyx_memviewslice __pyx_v_b_max, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  int __pyx_r;
-  int __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-
-  /* "engine/cython/cy_collision_2d.pyx":21
- *     double[::1] b_min, double[::1] b_max,
- * ):
- *     if a_max[0] < b_min[0] or a_max[1] < b_min[1]:             # <<<<<<<<<<<<<<
- *         return False
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:
-*/
-  __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  __pyx_t_4 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a_max.data) + __pyx_t_2)) ))) < (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b_min.data) + __pyx_t_3)) ))));
-  if (!__pyx_t_4) {
-  } else {
-    __pyx_t_1 = __pyx_t_4;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_3 = 1;
-  __pyx_t_2 = 1;
-  __pyx_t_4 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a_max.data) + __pyx_t_3)) ))) < (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b_min.data) + __pyx_t_2)) ))));
-  __pyx_t_1 = __pyx_t_4;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":22
- * ):
- *     if a_max[0] < b_min[0] or a_max[1] < b_min[1]:
- *         return False             # <<<<<<<<<<<<<<
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:
- *         return False
-*/
-    __pyx_r = 0;
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":21
- *     double[::1] b_min, double[::1] b_max,
- * ):
- *     if a_max[0] < b_min[0] or a_max[1] < b_min[1]:             # <<<<<<<<<<<<<<
- *         return False
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":23
- *     if a_max[0] < b_min[0] or a_max[1] < b_min[1]:
- *         return False
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:             # <<<<<<<<<<<<<<
- *         return False
- *     return True
-*/
-  __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  __pyx_t_4 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a_min.data) + __pyx_t_2)) ))) > (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b_max.data) + __pyx_t_3)) ))));
-  if (!__pyx_t_4) {
-  } else {
-    __pyx_t_1 = __pyx_t_4;
-    goto __pyx_L7_bool_binop_done;
-  }
-  __pyx_t_3 = 1;
-  __pyx_t_2 = 1;
-  __pyx_t_4 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a_min.data) + __pyx_t_3)) ))) > (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b_max.data) + __pyx_t_2)) ))));
-  __pyx_t_1 = __pyx_t_4;
-  __pyx_L7_bool_binop_done:;
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":24
- *         return False
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:
- *         return False             # <<<<<<<<<<<<<<
- *     return True
- * 
-*/
-    __pyx_r = 0;
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":23
- *     if a_max[0] < b_min[0] or a_max[1] < b_min[1]:
- *         return False
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:             # <<<<<<<<<<<<<<
- *         return False
- *     return True
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":25
- *     if a_min[0] > b_max[0] or a_min[1] > b_max[1]:
- *         return False
- *     return True             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __pyx_r = 1;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":17
- * # =========================================================================
- * 
- * cpdef bint aabb_overlap_2d_fast(             # <<<<<<<<<<<<<<
- *     double[::1] a_min, double[::1] a_max,
- *     double[::1] b_min, double[::1] b_max,
-*/
-
-  /* function exit code */
-  __pyx_L0:;
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast = {"aabb_overlap_2d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  __Pyx_memviewslice __pyx_v_a_min = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_a_max = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_b_min = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_b_max = { 0, 0, { 0 }, { 0 }, { 0 } };
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[4] = {0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("aabb_overlap_2d_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_a_min,&__pyx_mstate_global->__pyx_n_u_a_max,&__pyx_mstate_global->__pyx_n_u_b_min,&__pyx_mstate_global->__pyx_n_u_b_max,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 17, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 17, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 17, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 17, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 17, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "aabb_overlap_2d_fast", 0) < (0)) __PYX_ERR(0, 17, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 4; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("aabb_overlap_2d_fast", 1, 4, 4, i); __PYX_ERR(0, 17, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 4)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 17, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 17, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 17, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 17, __pyx_L3_error)
-    }
-    __pyx_v_a_min = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_a_min.memview)) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_a_max = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_a_max.memview)) __PYX_ERR(0, 18, __pyx_L3_error)
-    __pyx_v_b_min = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_b_min.memview)) __PYX_ERR(0, 19, __pyx_L3_error)
-    __pyx_v_b_max = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_b_max.memview)) __PYX_ERR(0, 19, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("aabb_overlap_2d_fast", 1, 4, 4, __pyx_nargs); __PYX_ERR(0, 17, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_a_min, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_a_max, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_min, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_max, 1);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.aabb_overlap_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(__pyx_self, __pyx_v_a_min, __pyx_v_a_max, __pyx_v_b_min, __pyx_v_b_max);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_a_min, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_a_max, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_min, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_b_max, 1);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_a_min, __Pyx_memviewslice __pyx_v_a_max, __Pyx_memviewslice __pyx_v_b_min, __Pyx_memviewslice __pyx_v_b_max) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("aabb_overlap_2d_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_a_min.memview)) { __Pyx_RaiseUnboundLocalError("a_min"); __PYX_ERR(0, 17, __pyx_L1_error) }
-  if (unlikely(!__pyx_v_a_max.memview)) { __Pyx_RaiseUnboundLocalError("a_max"); __PYX_ERR(0, 17, __pyx_L1_error) }
-  if (unlikely(!__pyx_v_b_min.memview)) { __Pyx_RaiseUnboundLocalError("b_min"); __PYX_ERR(0, 17, __pyx_L1_error) }
-  if (unlikely(!__pyx_v_b_max.memview)) { __Pyx_RaiseUnboundLocalError("b_max"); __PYX_ERR(0, 17, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_aabb_overlap_2d_fast(__pyx_v_a_min, __pyx_v_a_max, __pyx_v_b_min, __pyx_v_b_max, 1); if (unlikely(__pyx_t_1 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.aabb_overlap_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":32
- * # =========================================================================
- * 
- * cpdef bint circle_vs_circle_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
-*/
-
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_circle_fast(double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_ra, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_rb, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_dist_sq;
-  double __pyx_v_rs;
-  int __pyx_r;
-
-  /* "engine/cython/cy_collision_2d.pyx":36
- *     double cx_b, double cy_b, double rb,
- * ):
- *     cdef double dx = cx_a - cx_b             # <<<<<<<<<<<<<<
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy
-*/
-  __pyx_v_dx = (__pyx_v_cx_a - __pyx_v_cx_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":37
- * ):
- *     cdef double dx = cx_a - cx_b
- *     cdef double dy = cy_a - cy_b             # <<<<<<<<<<<<<<
- *     cdef double dist_sq = dx * dx + dy * dy
- *     cdef double rs = ra + rb
-*/
-  __pyx_v_dy = (__pyx_v_cy_a - __pyx_v_cy_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":38
- *     cdef double dx = cx_a - cx_b
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy             # <<<<<<<<<<<<<<
- *     cdef double rs = ra + rb
- *     return dist_sq <= rs * rs
-*/
-  __pyx_v_dist_sq = ((__pyx_v_dx * __pyx_v_dx) + (__pyx_v_dy * __pyx_v_dy));
-
-  /* "engine/cython/cy_collision_2d.pyx":39
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy
- *     cdef double rs = ra + rb             # <<<<<<<<<<<<<<
- *     return dist_sq <= rs * rs
- * 
-*/
-  __pyx_v_rs = (__pyx_v_ra + __pyx_v_rb);
-
-  /* "engine/cython/cy_collision_2d.pyx":40
- *     cdef double dist_sq = dx * dx + dy * dy
- *     cdef double rs = ra + rb
- *     return dist_sq <= rs * rs             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __pyx_r = (__pyx_v_dist_sq <= (__pyx_v_rs * __pyx_v_rs));
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":32
- * # =========================================================================
- * 
- * cpdef bint circle_vs_circle_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
-*/
-
-  /* function exit code */
-  __pyx_L0:;
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast = {"circle_vs_circle_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cx_a;
-  double __pyx_v_cy_a;
-  double __pyx_v_ra;
-  double __pyx_v_cx_b;
-  double __pyx_v_cy_b;
-  double __pyx_v_rb;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[6] = {0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("circle_vs_circle_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cx_a,&__pyx_mstate_global->__pyx_n_u_cy_a,&__pyx_mstate_global->__pyx_n_u_ra,&__pyx_mstate_global->__pyx_n_u_cx_b,&__pyx_mstate_global->__pyx_n_u_cy_b,&__pyx_mstate_global->__pyx_n_u_rb,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 32, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "circle_vs_circle_fast", 0) < (0)) __PYX_ERR(0, 32, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 6; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("circle_vs_circle_fast", 1, 6, 6, i); __PYX_ERR(0, 32, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 6)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 32, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 32, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 32, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 32, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 32, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 32, __pyx_L3_error)
-    }
-    __pyx_v_cx_a = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cx_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
-    __pyx_v_cy_a = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cy_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
-    __pyx_v_ra = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_ra == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
-    __pyx_v_cx_b = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_cx_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
-    __pyx_v_cy_b = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cy_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
-    __pyx_v_rb = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_rb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("circle_vs_circle_fast", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 32, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_circle_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_2circle_vs_circle_fast(__pyx_self, __pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_ra, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_rb);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_2circle_vs_circle_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_ra, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_rb) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("circle_vs_circle_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_circle_fast(__pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_ra, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_rb, 1); if (unlikely(__pyx_t_1 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_circle_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":43
- * 
- * 
- * def circle_vs_circle_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
-*/
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_5circle_vs_circle_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_4circle_vs_circle_manifold_fast, "Returns (normal_ndarray, depth, contact_point) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_5circle_vs_circle_manifold_fast = {"circle_vs_circle_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_5circle_vs_circle_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_4circle_vs_circle_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_5circle_vs_circle_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cx_a;
-  double __pyx_v_cy_a;
-  double __pyx_v_ra;
-  double __pyx_v_cx_b;
-  double __pyx_v_cy_b;
-  double __pyx_v_rb;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[6] = {0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("circle_vs_circle_manifold_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cx_a,&__pyx_mstate_global->__pyx_n_u_cy_a,&__pyx_mstate_global->__pyx_n_u_ra,&__pyx_mstate_global->__pyx_n_u_cx_b,&__pyx_mstate_global->__pyx_n_u_cy_b,&__pyx_mstate_global->__pyx_n_u_rb,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 43, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 43, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "circle_vs_circle_manifold_fast", 0) < (0)) __PYX_ERR(0, 43, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 6; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("circle_vs_circle_manifold_fast", 1, 6, 6, i); __PYX_ERR(0, 43, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 6)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 43, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 43, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 43, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 43, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 43, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 43, __pyx_L3_error)
-    }
-    __pyx_v_cx_a = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cx_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
-    __pyx_v_cy_a = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cy_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
-    __pyx_v_ra = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_ra == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
-    __pyx_v_cx_b = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_cx_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
-    __pyx_v_cy_b = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cy_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
-    __pyx_v_rb = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_rb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("circle_vs_circle_manifold_fast", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 43, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_circle_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_4circle_vs_circle_manifold_fast(__pyx_self, __pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_ra, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_rb);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_4circle_vs_circle_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_ra, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_rb) {
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_dist_sq;
-  double __pyx_v_rs;
-  double __pyx_v_dist;
-  double __pyx_v_depth;
-  double __pyx_v_inv;
-  PyArrayObject *__pyx_v_normal = 0;
-  PyArrayObject *__pyx_v_contact = 0;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_contact;
-  __Pyx_Buffer __pyx_pybuffer_contact;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_normal;
-  __Pyx_Buffer __pyx_pybuffer_normal;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  size_t __pyx_t_7;
-  int __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  Py_ssize_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("circle_vs_circle_manifold_fast", 0);
-  __pyx_pybuffer_normal.pybuffer.buf = NULL;
-  __pyx_pybuffer_normal.refcount = 0;
-  __pyx_pybuffernd_normal.data = NULL;
-  __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
-  __pyx_pybuffer_contact.pybuffer.buf = NULL;
-  __pyx_pybuffer_contact.refcount = 0;
-  __pyx_pybuffernd_contact.data = NULL;
-  __pyx_pybuffernd_contact.rcbuffer = &__pyx_pybuffer_contact;
-
-  /* "engine/cython/cy_collision_2d.pyx":48
- * ):
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double dx = cx_a - cx_b             # <<<<<<<<<<<<<<
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy
-*/
-  __pyx_v_dx = (__pyx_v_cx_a - __pyx_v_cx_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":49
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double dx = cx_a - cx_b
- *     cdef double dy = cy_a - cy_b             # <<<<<<<<<<<<<<
- *     cdef double dist_sq = dx * dx + dy * dy
- *     cdef double rs = ra + rb
-*/
-  __pyx_v_dy = (__pyx_v_cy_a - __pyx_v_cy_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":50
- *     cdef double dx = cx_a - cx_b
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy             # <<<<<<<<<<<<<<
- *     cdef double rs = ra + rb
- *     cdef double dist, depth, inv
-*/
-  __pyx_v_dist_sq = ((__pyx_v_dx * __pyx_v_dx) + (__pyx_v_dy * __pyx_v_dy));
-
-  /* "engine/cython/cy_collision_2d.pyx":51
- *     cdef double dy = cy_a - cy_b
- *     cdef double dist_sq = dx * dx + dy * dy
- *     cdef double rs = ra + rb             # <<<<<<<<<<<<<<
- *     cdef double dist, depth, inv
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal
-*/
-  __pyx_v_rs = (__pyx_v_ra + __pyx_v_rb);
-
-  /* "engine/cython/cy_collision_2d.pyx":56
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] contact
- * 
- *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
- *         return None
- * 
-*/
-  __pyx_t_1 = (__pyx_v_dist_sq > (__pyx_v_rs * __pyx_v_rs));
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":57
- * 
- *     if dist_sq > rs * rs:
- *         return None             # <<<<<<<<<<<<<<
- * 
- *     dist = sqrt(dist_sq)
-*/
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":56
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] contact
- * 
- *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
- *         return None
- * 
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":59
- *         return None
- * 
- *     dist = sqrt(dist_sq)             # <<<<<<<<<<<<<<
- *     normal = np.empty(2, dtype=np.float64)
- *     contact = np.empty(2, dtype=np.float64)
-*/
-  __pyx_v_dist = sqrt(__pyx_v_dist_sq);
-
-  /* "engine/cython/cy_collision_2d.pyx":60
- * 
- *     dist = sqrt(dist_sq)
- *     normal = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- *     contact = np.empty(2, dtype=np.float64)
- * 
-*/
-  __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_7 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
-    assert(__pyx_t_3);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_5);
-    __Pyx_INCREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_5, __pyx__function);
-    __pyx_t_7 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-  }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 60, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-    __pyx_t_8 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_normal.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
-    if (unlikely(__pyx_t_8 < 0)) {
-      PyErr_Fetch(&__pyx_t_9, &__pyx_t_10, &__pyx_t_11);
-      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_normal.rcbuffer->pybuffer, (PyObject*)__pyx_v_normal, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-        Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_11);
-        __Pyx_RaiseBufferFallbackError();
-      } else {
-        PyErr_Restore(__pyx_t_9, __pyx_t_10, __pyx_t_11);
-      }
-      __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
-    }
-    __pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 60, __pyx_L1_error)
-  }
-  __pyx_v_normal = ((PyArrayObject *)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":61
- *     dist = sqrt(dist_sq)
- *     normal = np.empty(2, dtype=np.float64)
- *     contact = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- * 
- *     if dist < 1e-10:
-*/
-  __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_7 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    assert(__pyx_t_5);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
-    __Pyx_INCREF(__pyx_t_5);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
-    __pyx_t_7 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 61, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-  }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 61, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-    __pyx_t_8 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_contact.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
-    if (unlikely(__pyx_t_8 < 0)) {
-      PyErr_Fetch(&__pyx_t_11, &__pyx_t_10, &__pyx_t_9);
-      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_contact.rcbuffer->pybuffer, (PyObject*)__pyx_v_contact, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-        Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9);
-        __Pyx_RaiseBufferFallbackError();
-      } else {
-        PyErr_Restore(__pyx_t_11, __pyx_t_10, __pyx_t_9);
-      }
-      __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
-    }
-    __pyx_pybuffernd_contact.diminfo[0].strides = __pyx_pybuffernd_contact.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_contact.diminfo[0].shape = __pyx_pybuffernd_contact.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 61, __pyx_L1_error)
-  }
-  __pyx_v_contact = ((PyArrayObject *)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":63
- *     contact = np.empty(2, dtype=np.float64)
- * 
- *     if dist < 1e-10:             # <<<<<<<<<<<<<<
- *         normal[0] = 0.0; normal[1] = 1.0
- *         depth = rs
-*/
-  __pyx_t_1 = (__pyx_v_dist < 1e-10);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":64
- * 
- *     if dist < 1e-10:
- *         normal[0] = 0.0; normal[1] = 1.0             # <<<<<<<<<<<<<<
- *         depth = rs
- *         contact[0] = 0.5 * (cx_a + cx_b)
-*/
-    __pyx_t_12 = 0;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides) = 0.0;
-    __pyx_t_12 = 1;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides) = 1.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":65
- *     if dist < 1e-10:
- *         normal[0] = 0.0; normal[1] = 1.0
- *         depth = rs             # <<<<<<<<<<<<<<
- *         contact[0] = 0.5 * (cx_a + cx_b)
- *         contact[1] = 0.5 * (cy_a + cy_b)
-*/
-    __pyx_v_depth = __pyx_v_rs;
-
-    /* "engine/cython/cy_collision_2d.pyx":66
- *         normal[0] = 0.0; normal[1] = 1.0
- *         depth = rs
- *         contact[0] = 0.5 * (cx_a + cx_b)             # <<<<<<<<<<<<<<
- *         contact[1] = 0.5 * (cy_a + cy_b)
- *     else:
-*/
-    __pyx_t_12 = 0;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_contact.diminfo[0].strides) = (0.5 * (__pyx_v_cx_a + __pyx_v_cx_b));
-
-    /* "engine/cython/cy_collision_2d.pyx":67
- *         depth = rs
- *         contact[0] = 0.5 * (cx_a + cx_b)
- *         contact[1] = 0.5 * (cy_a + cy_b)             # <<<<<<<<<<<<<<
- *     else:
- *         inv = 1.0 / dist
-*/
-    __pyx_t_12 = 1;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_contact.diminfo[0].strides) = (0.5 * (__pyx_v_cy_a + __pyx_v_cy_b));
-
-    /* "engine/cython/cy_collision_2d.pyx":63
- *     contact = np.empty(2, dtype=np.float64)
- * 
- *     if dist < 1e-10:             # <<<<<<<<<<<<<<
- *         normal[0] = 0.0; normal[1] = 1.0
- *         depth = rs
-*/
-    goto __pyx_L4;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":69
- *         contact[1] = 0.5 * (cy_a + cy_b)
- *     else:
- *         inv = 1.0 / dist             # <<<<<<<<<<<<<<
- *         normal[0] = dx * inv
- *         normal[1] = dy * inv
-*/
-  /*else*/ {
-    __pyx_v_inv = (1.0 / __pyx_v_dist);
-
-    /* "engine/cython/cy_collision_2d.pyx":70
- *     else:
- *         inv = 1.0 / dist
- *         normal[0] = dx * inv             # <<<<<<<<<<<<<<
- *         normal[1] = dy * inv
- *         depth = rs - dist
-*/
-    __pyx_t_12 = 0;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides) = (__pyx_v_dx * __pyx_v_inv);
-
-    /* "engine/cython/cy_collision_2d.pyx":71
- *         inv = 1.0 / dist
- *         normal[0] = dx * inv
- *         normal[1] = dy * inv             # <<<<<<<<<<<<<<
- *         depth = rs - dist
- *         contact[0] = cx_a - normal[0] * (ra - 0.5 * depth)
-*/
-    __pyx_t_12 = 1;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides) = (__pyx_v_dy * __pyx_v_inv);
-
-    /* "engine/cython/cy_collision_2d.pyx":72
- *         normal[0] = dx * inv
- *         normal[1] = dy * inv
- *         depth = rs - dist             # <<<<<<<<<<<<<<
- *         contact[0] = cx_a - normal[0] * (ra - 0.5 * depth)
- *         contact[1] = cy_a - normal[1] * (ra - 0.5 * depth)
-*/
-    __pyx_v_depth = (__pyx_v_rs - __pyx_v_dist);
-
-    /* "engine/cython/cy_collision_2d.pyx":73
- *         normal[1] = dy * inv
- *         depth = rs - dist
- *         contact[0] = cx_a - normal[0] * (ra - 0.5 * depth)             # <<<<<<<<<<<<<<
- *         contact[1] = cy_a - normal[1] * (ra - 0.5 * depth)
- * 
-*/
-    __pyx_t_12 = 0;
-    __pyx_t_13 = 0;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (__pyx_v_cx_a - ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides)) * (__pyx_v_ra - (0.5 * __pyx_v_depth))));
-
-    /* "engine/cython/cy_collision_2d.pyx":74
- *         depth = rs - dist
- *         contact[0] = cx_a - normal[0] * (ra - 0.5 * depth)
- *         contact[1] = cy_a - normal[1] * (ra - 0.5 * depth)             # <<<<<<<<<<<<<<
- * 
- *     return (normal, depth, contact)
-*/
-    __pyx_t_12 = 1;
-    __pyx_t_13 = 1;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (__pyx_v_cy_a - ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_normal.diminfo[0].strides)) * (__pyx_v_ra - (0.5 * __pyx_v_depth))));
-  }
-  __pyx_L4:;
-
-  /* "engine/cython/cy_collision_2d.pyx":76
- *         contact[1] = cy_a - normal[1] * (ra - 0.5 * depth)
- * 
- *     return (normal, depth, contact)             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_INCREF((PyObject *)__pyx_v_normal);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 76, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_2) != (0)) __PYX_ERR(0, 76, __pyx_L1_error);
-  __Pyx_INCREF((PyObject *)__pyx_v_contact);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_contact);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, ((PyObject *)__pyx_v_contact)) != (0)) __PYX_ERR(0, 76, __pyx_L1_error);
-  __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_6;
-  __pyx_t_6 = 0;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":43
- * 
- * 
- * def circle_vs_circle_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
-*/
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_circle_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  goto __pyx_L2;
-  __pyx_L0:;
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __pyx_L2:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_normal);
-  __Pyx_XDECREF((PyObject *)__pyx_v_contact);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":83
- * # =========================================================================
- * 
- * cdef inline void _project_obb_c(             # <<<<<<<<<<<<<<
- *     double cx, double cy, double angle, double ex, double ey,
- *     double ax, double ay,
-*/
-
-static CYTHON_INLINE void __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(double __pyx_v_cx, double __pyx_v_cy, double __pyx_v_angle, double __pyx_v_ex, double __pyx_v_ey, double __pyx_v_ax, double __pyx_v_ay, double *__pyx_v_out_min, double *__pyx_v_out_max) {
-  double __pyx_v_cos_a;
-  double __pyx_v_sin_a;
-  double __pyx_v_ux_x;
-  double __pyx_v_ux_y;
-  double __pyx_v_uy_x;
-  double __pyx_v_uy_y;
-  double __pyx_v_c_proj;
-  double __pyx_v_r;
-
-  /* "engine/cython/cy_collision_2d.pyx":89
- * ):
- *     """Project 2D OBB onto axis, write to out_min/out_max."""
- *     cdef double cos_a = cos(angle)             # <<<<<<<<<<<<<<
- *     cdef double sin_a = sin(angle)
- *     cdef double ux_x = cos_a, ux_y = sin_a
-*/
-  __pyx_v_cos_a = cos(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":90
- *     """Project 2D OBB onto axis, write to out_min/out_max."""
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)             # <<<<<<<<<<<<<<
- *     cdef double ux_x = cos_a, ux_y = sin_a
- *     cdef double uy_x = -sin_a, uy_y = cos_a
-*/
-  __pyx_v_sin_a = sin(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":91
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)
- *     cdef double ux_x = cos_a, ux_y = sin_a             # <<<<<<<<<<<<<<
- *     cdef double uy_x = -sin_a, uy_y = cos_a
- *     cdef double c_proj = cx * ax + cy * ay
-*/
-  __pyx_v_ux_x = __pyx_v_cos_a;
-  __pyx_v_ux_y = __pyx_v_sin_a;
-
-  /* "engine/cython/cy_collision_2d.pyx":92
- *     cdef double sin_a = sin(angle)
- *     cdef double ux_x = cos_a, ux_y = sin_a
- *     cdef double uy_x = -sin_a, uy_y = cos_a             # <<<<<<<<<<<<<<
- *     cdef double c_proj = cx * ax + cy * ay
- *     cdef double r = fabs(ux_x * ax + ux_y * ay) * ex + fabs(uy_x * ax + uy_y * ay) * ey
-*/
-  __pyx_v_uy_x = (-__pyx_v_sin_a);
-  __pyx_v_uy_y = __pyx_v_cos_a;
-
-  /* "engine/cython/cy_collision_2d.pyx":93
- *     cdef double ux_x = cos_a, ux_y = sin_a
- *     cdef double uy_x = -sin_a, uy_y = cos_a
- *     cdef double c_proj = cx * ax + cy * ay             # <<<<<<<<<<<<<<
- *     cdef double r = fabs(ux_x * ax + ux_y * ay) * ex + fabs(uy_x * ax + uy_y * ay) * ey
- *     out_min[0] = c_proj - r
-*/
-  __pyx_v_c_proj = ((__pyx_v_cx * __pyx_v_ax) + (__pyx_v_cy * __pyx_v_ay));
-
-  /* "engine/cython/cy_collision_2d.pyx":94
- *     cdef double uy_x = -sin_a, uy_y = cos_a
- *     cdef double c_proj = cx * ax + cy * ay
- *     cdef double r = fabs(ux_x * ax + ux_y * ay) * ex + fabs(uy_x * ax + uy_y * ay) * ey             # <<<<<<<<<<<<<<
- *     out_min[0] = c_proj - r
- *     out_max[0] = c_proj + r
-*/
-  __pyx_v_r = ((fabs(((__pyx_v_ux_x * __pyx_v_ax) + (__pyx_v_ux_y * __pyx_v_ay))) * __pyx_v_ex) + (fabs(((__pyx_v_uy_x * __pyx_v_ax) + (__pyx_v_uy_y * __pyx_v_ay))) * __pyx_v_ey));
-
-  /* "engine/cython/cy_collision_2d.pyx":95
- *     cdef double c_proj = cx * ax + cy * ay
- *     cdef double r = fabs(ux_x * ax + ux_y * ay) * ex + fabs(uy_x * ax + uy_y * ay) * ey
- *     out_min[0] = c_proj - r             # <<<<<<<<<<<<<<
- *     out_max[0] = c_proj + r
- * 
-*/
-  (__pyx_v_out_min[0]) = (__pyx_v_c_proj - __pyx_v_r);
-
-  /* "engine/cython/cy_collision_2d.pyx":96
- *     cdef double r = fabs(ux_x * ax + ux_y * ay) * ex + fabs(uy_x * ax + uy_y * ay) * ey
- *     out_min[0] = c_proj - r
- *     out_max[0] = c_proj + r             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  (__pyx_v_out_max[0]) = (__pyx_v_c_proj + __pyx_v_r);
-
-  /* "engine/cython/cy_collision_2d.pyx":83
- * # =========================================================================
- * 
- * cdef inline void _project_obb_c(             # <<<<<<<<<<<<<<
- *     double cx, double cy, double angle, double ex, double ey,
- *     double ax, double ay,
-*/
-
-  /* function exit code */
-}
-
-/* "engine/cython/cy_collision_2d.pyx":99
- * 
- * 
- * cpdef bint obb_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_obb_vs_obb_2d_fast(double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_aa, double __pyx_v_ex_a, double __pyx_v_ey_a, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_ab, double __pyx_v_ex_b, double __pyx_v_ey_b, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  double __pyx_v_cos_aa;
-  double __pyx_v_sin_aa;
-  double __pyx_v_cos_ab;
-  double __pyx_v_sin_ab;
-  double __pyx_v_axes[4][2];
-  double __pyx_v_a_min;
-  double __pyx_v_a_max;
-  double __pyx_v_b_min;
-  double __pyx_v_b_max;
-  int __pyx_v_i;
-  int __pyx_r;
-  int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":104
- * ):
- *     """SAT test for two 2D OBBs."""
- *     cdef double cos_aa = cos(aa), sin_aa = sin(aa)             # <<<<<<<<<<<<<<
- *     cdef double cos_ab = cos(ab), sin_ab = sin(ab)
- *     # 4 axes: 2 from A, 2 from B
-*/
-  __pyx_v_cos_aa = cos(__pyx_v_aa);
-  __pyx_v_sin_aa = sin(__pyx_v_aa);
-
-  /* "engine/cython/cy_collision_2d.pyx":105
- *     """SAT test for two 2D OBBs."""
- *     cdef double cos_aa = cos(aa), sin_aa = sin(aa)
- *     cdef double cos_ab = cos(ab), sin_ab = sin(ab)             # <<<<<<<<<<<<<<
- *     # 4 axes: 2 from A, 2 from B
- *     cdef double axes[4][2]
-*/
-  __pyx_v_cos_ab = cos(__pyx_v_ab);
-  __pyx_v_sin_ab = sin(__pyx_v_ab);
-
-  /* "engine/cython/cy_collision_2d.pyx":108
- *     # 4 axes: 2 from A, 2 from B
- *     cdef double axes[4][2]
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa             # <<<<<<<<<<<<<<
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
-*/
-  ((__pyx_v_axes[0])[0]) = __pyx_v_cos_aa;
-  ((__pyx_v_axes[0])[1]) = __pyx_v_sin_aa;
-
-  /* "engine/cython/cy_collision_2d.pyx":109
- *     cdef double axes[4][2]
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa             # <<<<<<<<<<<<<<
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab
-*/
-  ((__pyx_v_axes[1])[0]) = (-__pyx_v_sin_aa);
-  ((__pyx_v_axes[1])[1]) = __pyx_v_cos_aa;
-
-  /* "engine/cython/cy_collision_2d.pyx":110
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab             # <<<<<<<<<<<<<<
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab
- * 
-*/
-  ((__pyx_v_axes[2])[0]) = __pyx_v_cos_ab;
-  ((__pyx_v_axes[2])[1]) = __pyx_v_sin_ab;
-
-  /* "engine/cython/cy_collision_2d.pyx":111
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab             # <<<<<<<<<<<<<<
- * 
- *     cdef double a_min, a_max, b_min, b_max
-*/
-  ((__pyx_v_axes[3])[0]) = (-__pyx_v_sin_ab);
-  ((__pyx_v_axes[3])[1]) = __pyx_v_cos_ab;
-
-  /* "engine/cython/cy_collision_2d.pyx":115
- *     cdef double a_min, a_max, b_min, b_max
- *     cdef int i
- *     for i in range(4):             # <<<<<<<<<<<<<<
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
-*/
-  for (__pyx_t_1 = 0; __pyx_t_1 < 4; __pyx_t_1+=1) {
-    __pyx_v_i = __pyx_t_1;
-
-    /* "engine/cython/cy_collision_2d.pyx":116
- *     cdef int i
- *     for i in range(4):
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)             # <<<<<<<<<<<<<<
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         if a_max < b_min or b_max < a_min:
-*/
-    __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(__pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_aa, __pyx_v_ex_a, __pyx_v_ey_a, ((__pyx_v_axes[__pyx_v_i])[0]), ((__pyx_v_axes[__pyx_v_i])[1]), (&__pyx_v_a_min), (&__pyx_v_a_max)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 116, __pyx_L1_error)
-
-    /* "engine/cython/cy_collision_2d.pyx":117
- *     for i in range(4):
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)             # <<<<<<<<<<<<<<
- *         if a_max < b_min or b_max < a_min:
- *             return False
-*/
-    __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(__pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_ab, __pyx_v_ex_b, __pyx_v_ey_b, ((__pyx_v_axes[__pyx_v_i])[0]), ((__pyx_v_axes[__pyx_v_i])[1]), (&__pyx_v_b_min), (&__pyx_v_b_max)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
-
-    /* "engine/cython/cy_collision_2d.pyx":118
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         if a_max < b_min or b_max < a_min:             # <<<<<<<<<<<<<<
- *             return False
- *     return True
-*/
-    __pyx_t_3 = (__pyx_v_a_max < __pyx_v_b_min);
-    if (!__pyx_t_3) {
-    } else {
-      __pyx_t_2 = __pyx_t_3;
-      goto __pyx_L6_bool_binop_done;
-    }
-    __pyx_t_3 = (__pyx_v_b_max < __pyx_v_a_min);
-    __pyx_t_2 = __pyx_t_3;
-    __pyx_L6_bool_binop_done:;
-    if (__pyx_t_2) {
-
-      /* "engine/cython/cy_collision_2d.pyx":119
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         if a_max < b_min or b_max < a_min:
- *             return False             # <<<<<<<<<<<<<<
- *     return True
- * 
-*/
-      __pyx_r = 0;
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":118
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         if a_max < b_min or b_max < a_min:             # <<<<<<<<<<<<<<
- *             return False
- *     return True
-*/
-    }
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":120
- *         if a_max < b_min or b_max < a_min:
- *             return False
- *     return True             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __pyx_r = 1;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":99
- * 
- * 
- * cpdef bint obb_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.obb_vs_obb_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_6obb_vs_obb_2d_fast, "SAT test for two 2D OBBs.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast = {"obb_vs_obb_2d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_6obb_vs_obb_2d_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cx_a;
-  double __pyx_v_cy_a;
-  double __pyx_v_aa;
-  double __pyx_v_ex_a;
-  double __pyx_v_ey_a;
-  double __pyx_v_cx_b;
-  double __pyx_v_cy_b;
-  double __pyx_v_ab;
-  double __pyx_v_ex_b;
-  double __pyx_v_ey_b;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[10] = {0,0,0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("obb_vs_obb_2d_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cx_a,&__pyx_mstate_global->__pyx_n_u_cy_a,&__pyx_mstate_global->__pyx_n_u_aa,&__pyx_mstate_global->__pyx_n_u_ex_a,&__pyx_mstate_global->__pyx_n_u_ey_a,&__pyx_mstate_global->__pyx_n_u_cx_b,&__pyx_mstate_global->__pyx_n_u_cy_b,&__pyx_mstate_global->__pyx_n_u_ab,&__pyx_mstate_global->__pyx_n_u_ex_b,&__pyx_mstate_global->__pyx_n_u_ey_b,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case 10:
-        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  9:
-        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 99, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "obb_vs_obb_2d_fast", 0) < (0)) __PYX_ERR(0, 99, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 10; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("obb_vs_obb_2d_fast", 1, 10, 10, i); __PYX_ERR(0, 99, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 10)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 99, __pyx_L3_error)
-      values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 99, __pyx_L3_error)
-    }
-    __pyx_v_cx_a = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cx_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_cy_a = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cy_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_aa = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_aa == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_ex_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_ex_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_ey_a = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_ey_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
-    __pyx_v_cx_b = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_cx_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
-    __pyx_v_cy_b = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_cy_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
-    __pyx_v_ab = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_ab == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
-    __pyx_v_ex_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_ex_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
-    __pyx_v_ey_b = __Pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_ey_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 101, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("obb_vs_obb_2d_fast", 1, 10, 10, __pyx_nargs); __PYX_ERR(0, 99, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.obb_vs_obb_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_6obb_vs_obb_2d_fast(__pyx_self, __pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_aa, __pyx_v_ex_a, __pyx_v_ey_a, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_ab, __pyx_v_ex_b, __pyx_v_ey_b);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_6obb_vs_obb_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_aa, double __pyx_v_ex_a, double __pyx_v_ey_a, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_ab, double __pyx_v_ex_b, double __pyx_v_ey_b) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("obb_vs_obb_2d_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_obb_vs_obb_2d_fast(__pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_aa, __pyx_v_ex_a, __pyx_v_ey_a, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_ab, __pyx_v_ex_b, __pyx_v_ey_b, 1); if (unlikely(__pyx_t_1 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.obb_vs_obb_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":123
- * 
- * 
- * def obb_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_9obb_vs_obb_2d_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_8obb_vs_obb_2d_manifold_fast, "Returns (normal_ndarray, depth, contact_point) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_9obb_vs_obb_2d_manifold_fast = {"obb_vs_obb_2d_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_9obb_vs_obb_2d_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_8obb_vs_obb_2d_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_9obb_vs_obb_2d_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cx_a;
-  double __pyx_v_cy_a;
-  double __pyx_v_aa;
-  double __pyx_v_ex_a;
-  double __pyx_v_ey_a;
-  double __pyx_v_cx_b;
-  double __pyx_v_cy_b;
-  double __pyx_v_ab;
-  double __pyx_v_ex_b;
-  double __pyx_v_ey_b;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[10] = {0,0,0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("obb_vs_obb_2d_manifold_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cx_a,&__pyx_mstate_global->__pyx_n_u_cy_a,&__pyx_mstate_global->__pyx_n_u_aa,&__pyx_mstate_global->__pyx_n_u_ex_a,&__pyx_mstate_global->__pyx_n_u_ey_a,&__pyx_mstate_global->__pyx_n_u_cx_b,&__pyx_mstate_global->__pyx_n_u_cy_b,&__pyx_mstate_global->__pyx_n_u_ab,&__pyx_mstate_global->__pyx_n_u_ex_b,&__pyx_mstate_global->__pyx_n_u_ey_b,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 123, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case 10:
-        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  9:
-        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 123, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "obb_vs_obb_2d_manifold_fast", 0) < (0)) __PYX_ERR(0, 123, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 10; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("obb_vs_obb_2d_manifold_fast", 1, 10, 10, i); __PYX_ERR(0, 123, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 10)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 123, __pyx_L3_error)
-      values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 123, __pyx_L3_error)
-    }
-    __pyx_v_cx_a = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cx_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L3_error)
-    __pyx_v_cy_a = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cy_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L3_error)
-    __pyx_v_aa = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_aa == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L3_error)
-    __pyx_v_ex_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_ex_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L3_error)
-    __pyx_v_ey_a = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_ey_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 124, __pyx_L3_error)
-    __pyx_v_cx_b = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_cx_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L3_error)
-    __pyx_v_cy_b = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_cy_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L3_error)
-    __pyx_v_ab = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_ab == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L3_error)
-    __pyx_v_ex_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_ex_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L3_error)
-    __pyx_v_ey_b = __Pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_ey_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("obb_vs_obb_2d_manifold_fast", 1, 10, 10, __pyx_nargs); __PYX_ERR(0, 123, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.obb_vs_obb_2d_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_8obb_vs_obb_2d_manifold_fast(__pyx_self, __pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_aa, __pyx_v_ex_a, __pyx_v_ey_a, __pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_ab, __pyx_v_ex_b, __pyx_v_ey_b);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_8obb_vs_obb_2d_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cx_a, double __pyx_v_cy_a, double __pyx_v_aa, double __pyx_v_ex_a, double __pyx_v_ey_a, double __pyx_v_cx_b, double __pyx_v_cy_b, double __pyx_v_ab, double __pyx_v_ex_b, double __pyx_v_ey_b) {
-  double __pyx_v_cos_aa;
-  double __pyx_v_sin_aa;
-  double __pyx_v_cos_ab;
-  double __pyx_v_sin_ab;
-  double __pyx_v_axes[4][2];
-  double __pyx_v_a_min;
-  double __pyx_v_a_max;
-  double __pyx_v_b_min;
-  double __pyx_v_b_max;
-  double __pyx_v_overlap;
-  double __pyx_v_min_overlap;
-  double __pyx_v_best_ax;
-  double __pyx_v_best_ay;
-  int __pyx_v_i;
-  double __pyx_v_dx_ab;
-  double __pyx_v_dy_ab;
-  PyArrayObject *__pyx_v_normal = 0;
-  PyArrayObject *__pyx_v_contact = 0;
-  double __pyx_v_cos_a2;
-  double __pyx_v_sin_a2;
-  double __pyx_v_cos_b2;
-  double __pyx_v_sin_b2;
-  double __pyx_v_lx;
-  double __pyx_v_ly;
-  double __pyx_v_sx;
-  double __pyx_v_sy;
-  double __pyx_v_pax;
-  double __pyx_v_pay;
-  double __pyx_v_pbx;
-  double __pyx_v_pby;
-  double __pyx_v_face_eps;
-  double __pyx_v_nx;
-  double __pyx_v_ny;
-  double __pyx_v_tanx;
-  double __pyx_v_tany;
-  double __pyx_v_plane_n;
-  double __pyx_v_mid_t;
-  double __pyx_v_ha;
-  double __pyx_v_hb;
-  double __pyx_v_ca_t;
-  double __pyx_v_cb_t;
-  double __pyx_v_lo;
-  double __pyx_v_hi;
-  double __pyx_v_du;
-  double __pyx_v_dv;
-  double __pyx_v_align_a;
-  double __pyx_v_align_b;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_contact;
-  __Pyx_Buffer __pyx_pybuffer_contact;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_normal;
-  __Pyx_Buffer __pyx_pybuffer_normal;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  double __pyx_t_2;
-  double __pyx_t_3;
-  double __pyx_t_4;
-  int __pyx_t_5;
-  double __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  size_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  int __pyx_t_14;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("obb_vs_obb_2d_manifold_fast", 0);
-  __pyx_pybuffer_normal.pybuffer.buf = NULL;
-  __pyx_pybuffer_normal.refcount = 0;
-  __pyx_pybuffernd_normal.data = NULL;
-  __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
-  __pyx_pybuffer_contact.pybuffer.buf = NULL;
-  __pyx_pybuffer_contact.refcount = 0;
-  __pyx_pybuffernd_contact.data = NULL;
-  __pyx_pybuffernd_contact.rcbuffer = &__pyx_pybuffer_contact;
-
-  /* "engine/cython/cy_collision_2d.pyx":128
- * ):
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double cos_aa = cos(aa), sin_aa = sin(aa)             # <<<<<<<<<<<<<<
- *     cdef double cos_ab = cos(ab), sin_ab = sin(ab)
- *     cdef double axes[4][2]
-*/
-  __pyx_v_cos_aa = cos(__pyx_v_aa);
-  __pyx_v_sin_aa = sin(__pyx_v_aa);
-
-  /* "engine/cython/cy_collision_2d.pyx":129
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double cos_aa = cos(aa), sin_aa = sin(aa)
- *     cdef double cos_ab = cos(ab), sin_ab = sin(ab)             # <<<<<<<<<<<<<<
- *     cdef double axes[4][2]
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa
-*/
-  __pyx_v_cos_ab = cos(__pyx_v_ab);
-  __pyx_v_sin_ab = sin(__pyx_v_ab);
-
-  /* "engine/cython/cy_collision_2d.pyx":131
- *     cdef double cos_ab = cos(ab), sin_ab = sin(ab)
- *     cdef double axes[4][2]
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa             # <<<<<<<<<<<<<<
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
-*/
-  ((__pyx_v_axes[0])[0]) = __pyx_v_cos_aa;
-  ((__pyx_v_axes[0])[1]) = __pyx_v_sin_aa;
-
-  /* "engine/cython/cy_collision_2d.pyx":132
- *     cdef double axes[4][2]
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa             # <<<<<<<<<<<<<<
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab
-*/
-  ((__pyx_v_axes[1])[0]) = (-__pyx_v_sin_aa);
-  ((__pyx_v_axes[1])[1]) = __pyx_v_cos_aa;
-
-  /* "engine/cython/cy_collision_2d.pyx":133
- *     axes[0][0] = cos_aa;  axes[0][1] = sin_aa
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab             # <<<<<<<<<<<<<<
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab
- * 
-*/
-  ((__pyx_v_axes[2])[0]) = __pyx_v_cos_ab;
-  ((__pyx_v_axes[2])[1]) = __pyx_v_sin_ab;
-
-  /* "engine/cython/cy_collision_2d.pyx":134
- *     axes[1][0] = -sin_aa; axes[1][1] = cos_aa
- *     axes[2][0] = cos_ab;  axes[2][1] = sin_ab
- *     axes[3][0] = -sin_ab; axes[3][1] = cos_ab             # <<<<<<<<<<<<<<
- * 
- *     cdef double a_min, a_max, b_min, b_max
-*/
-  ((__pyx_v_axes[3])[0]) = (-__pyx_v_sin_ab);
-  ((__pyx_v_axes[3])[1]) = __pyx_v_cos_ab;
-
-  /* "engine/cython/cy_collision_2d.pyx":137
- * 
- *     cdef double a_min, a_max, b_min, b_max
- *     cdef double overlap, min_overlap = 1e30             # <<<<<<<<<<<<<<
- *     cdef double best_ax = 0.0, best_ay = 0.0
- *     cdef int i
-*/
-  __pyx_v_min_overlap = 1e30;
-
-  /* "engine/cython/cy_collision_2d.pyx":138
- *     cdef double a_min, a_max, b_min, b_max
- *     cdef double overlap, min_overlap = 1e30
- *     cdef double best_ax = 0.0, best_ay = 0.0             # <<<<<<<<<<<<<<
- *     cdef int i
- * 
-*/
-  __pyx_v_best_ax = 0.0;
-  __pyx_v_best_ay = 0.0;
-
-  /* "engine/cython/cy_collision_2d.pyx":141
- *     cdef int i
- * 
- *     cdef double dx_ab = cx_a - cx_b             # <<<<<<<<<<<<<<
- *     cdef double dy_ab = cy_a - cy_b
- * 
-*/
-  __pyx_v_dx_ab = (__pyx_v_cx_a - __pyx_v_cx_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":142
- * 
- *     cdef double dx_ab = cx_a - cx_b
- *     cdef double dy_ab = cy_a - cy_b             # <<<<<<<<<<<<<<
- * 
- *     for i in range(4):
-*/
-  __pyx_v_dy_ab = (__pyx_v_cy_a - __pyx_v_cy_b);
-
-  /* "engine/cython/cy_collision_2d.pyx":144
- *     cdef double dy_ab = cy_a - cy_b
- * 
- *     for i in range(4):             # <<<<<<<<<<<<<<
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
-*/
-  for (__pyx_t_1 = 0; __pyx_t_1 < 4; __pyx_t_1+=1) {
-    __pyx_v_i = __pyx_t_1;
-
-    /* "engine/cython/cy_collision_2d.pyx":145
- * 
- *     for i in range(4):
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)             # <<<<<<<<<<<<<<
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         overlap = min(a_max, b_max) - max(a_min, b_min)
-*/
-    __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(__pyx_v_cx_a, __pyx_v_cy_a, __pyx_v_aa, __pyx_v_ex_a, __pyx_v_ey_a, ((__pyx_v_axes[__pyx_v_i])[0]), ((__pyx_v_axes[__pyx_v_i])[1]), (&__pyx_v_a_min), (&__pyx_v_a_max)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 145, __pyx_L1_error)
-
-    /* "engine/cython/cy_collision_2d.pyx":146
- *     for i in range(4):
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)             # <<<<<<<<<<<<<<
- *         overlap = min(a_max, b_max) - max(a_min, b_min)
- *         if overlap < 0:
-*/
-    __pyx_f_6engine_6cython_15cy_collision_2d__project_obb_c(__pyx_v_cx_b, __pyx_v_cy_b, __pyx_v_ab, __pyx_v_ex_b, __pyx_v_ey_b, ((__pyx_v_axes[__pyx_v_i])[0]), ((__pyx_v_axes[__pyx_v_i])[1]), (&__pyx_v_b_min), (&__pyx_v_b_max)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
-
-    /* "engine/cython/cy_collision_2d.pyx":147
- *         _project_obb_c(cx_a, cy_a, aa, ex_a, ey_a, axes[i][0], axes[i][1], &a_min, &a_max)
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         overlap = min(a_max, b_max) - max(a_min, b_min)             # <<<<<<<<<<<<<<
- *         if overlap < 0:
- *             return None
-*/
-    __pyx_t_2 = __pyx_v_b_max;
-    __pyx_t_3 = __pyx_v_a_max;
-    __pyx_t_5 = (__pyx_t_2 < __pyx_t_3);
-    if (__pyx_t_5) {
-      __pyx_t_4 = __pyx_t_2;
-    } else {
-      __pyx_t_4 = __pyx_t_3;
-    }
-    __pyx_t_2 = __pyx_v_b_min;
-    __pyx_t_3 = __pyx_v_a_min;
-    __pyx_t_5 = (__pyx_t_2 > __pyx_t_3);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_t_2;
-    } else {
-      __pyx_t_6 = __pyx_t_3;
-    }
-    __pyx_v_overlap = (__pyx_t_4 - __pyx_t_6);
-
-    /* "engine/cython/cy_collision_2d.pyx":148
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         overlap = min(a_max, b_max) - max(a_min, b_min)
- *         if overlap < 0:             # <<<<<<<<<<<<<<
- *             return None
- *         if overlap < min_overlap:
-*/
-    __pyx_t_5 = (__pyx_v_overlap < 0.0);
-    if (__pyx_t_5) {
-
-      /* "engine/cython/cy_collision_2d.pyx":149
- *         overlap = min(a_max, b_max) - max(a_min, b_min)
- *         if overlap < 0:
- *             return None             # <<<<<<<<<<<<<<
- *         if overlap < min_overlap:
- *             min_overlap = overlap
-*/
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":148
- *         _project_obb_c(cx_b, cy_b, ab, ex_b, ey_b, axes[i][0], axes[i][1], &b_min, &b_max)
- *         overlap = min(a_max, b_max) - max(a_min, b_min)
- *         if overlap < 0:             # <<<<<<<<<<<<<<
- *             return None
- *         if overlap < min_overlap:
-*/
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":150
- *         if overlap < 0:
- *             return None
- *         if overlap < min_overlap:             # <<<<<<<<<<<<<<
- *             min_overlap = overlap
- *             best_ax = axes[i][0]
-*/
-    __pyx_t_5 = (__pyx_v_overlap < __pyx_v_min_overlap);
-    if (__pyx_t_5) {
-
-      /* "engine/cython/cy_collision_2d.pyx":151
- *             return None
- *         if overlap < min_overlap:
- *             min_overlap = overlap             # <<<<<<<<<<<<<<
- *             best_ax = axes[i][0]
- *             best_ay = axes[i][1]
-*/
-      __pyx_v_min_overlap = __pyx_v_overlap;
-
-      /* "engine/cython/cy_collision_2d.pyx":152
- *         if overlap < min_overlap:
- *             min_overlap = overlap
- *             best_ax = axes[i][0]             # <<<<<<<<<<<<<<
- *             best_ay = axes[i][1]
- * 
-*/
-      __pyx_v_best_ax = ((__pyx_v_axes[__pyx_v_i])[0]);
-
-      /* "engine/cython/cy_collision_2d.pyx":153
- *             min_overlap = overlap
- *             best_ax = axes[i][0]
- *             best_ay = axes[i][1]             # <<<<<<<<<<<<<<
- * 
- *     # Ensure normal points from B to A
-*/
-      __pyx_v_best_ay = ((__pyx_v_axes[__pyx_v_i])[1]);
-
-      /* "engine/cython/cy_collision_2d.pyx":150
- *         if overlap < 0:
- *             return None
- *         if overlap < min_overlap:             # <<<<<<<<<<<<<<
- *             min_overlap = overlap
- *             best_ax = axes[i][0]
-*/
-    }
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":156
- * 
- *     # Ensure normal points from B to A
- *     if best_ax * dx_ab + best_ay * dy_ab < 0:             # <<<<<<<<<<<<<<
- *         best_ax = -best_ax
- *         best_ay = -best_ay
-*/
-  __pyx_t_5 = (((__pyx_v_best_ax * __pyx_v_dx_ab) + (__pyx_v_best_ay * __pyx_v_dy_ab)) < 0.0);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":157
- *     # Ensure normal points from B to A
- *     if best_ax * dx_ab + best_ay * dy_ab < 0:
- *         best_ax = -best_ax             # <<<<<<<<<<<<<<
- *         best_ay = -best_ay
- * 
-*/
-    __pyx_v_best_ax = (-__pyx_v_best_ax);
-
-    /* "engine/cython/cy_collision_2d.pyx":158
- *     if best_ax * dx_ab + best_ay * dy_ab < 0:
- *         best_ax = -best_ax
- *         best_ay = -best_ay             # <<<<<<<<<<<<<<
- * 
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal = np.empty(2, dtype=np.float64)
-*/
-    __pyx_v_best_ay = (-__pyx_v_best_ay);
-
-    /* "engine/cython/cy_collision_2d.pyx":156
- * 
- *     # Ensure normal points from B to A
- *     if best_ax * dx_ab + best_ay * dy_ab < 0:             # <<<<<<<<<<<<<<
- *         best_ax = -best_ax
- *         best_ay = -best_ay
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":160
- *         best_ay = -best_ay
- * 
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] contact = np.empty(2, dtype=np.float64)
- *     cdef double cos_a2, sin_a2, cos_b2, sin_b2
-*/
-  __pyx_t_8 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 160, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 160, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_12 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_10))) {
-    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_10);
-    assert(__pyx_t_8);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_10);
-    __Pyx_INCREF(__pyx_t_8);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_10, __pyx__function);
-    __pyx_t_12 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_8, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_9 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_11, __pyx_t_9, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 160, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_10, __pyx_callargs+__pyx_t_12, (2-__pyx_t_12) | (__pyx_t_12*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_9);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 160, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-  }
-  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 160, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_normal.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_7), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-      __pyx_v_normal = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 160, __pyx_L1_error)
-    } else {__pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    }
-  }
-  __pyx_v_normal = ((PyArrayObject *)__pyx_t_7);
-  __pyx_t_7 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":161
- * 
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] normal = np.empty(2, dtype=np.float64)
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] contact = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- *     cdef double cos_a2, sin_a2, cos_b2, sin_b2
- *     cdef double lx, ly, sx, sy
-*/
-  __pyx_t_10 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_12 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_11))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_11);
-    assert(__pyx_t_10);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_11);
-    __Pyx_INCREF(__pyx_t_10);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_11, __pyx__function);
-    __pyx_t_12 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_10, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_9 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_9, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 161, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_11, __pyx_callargs+__pyx_t_12, (2-__pyx_t_12) | (__pyx_t_12*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_9);
-    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 161, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-  }
-  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 161, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_contact.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_7), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-      __pyx_v_contact = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 161, __pyx_L1_error)
-    } else {__pyx_pybuffernd_contact.diminfo[0].strides = __pyx_pybuffernd_contact.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_contact.diminfo[0].shape = __pyx_pybuffernd_contact.rcbuffer->pybuffer.shape[0];
-    }
-  }
-  __pyx_v_contact = ((PyArrayObject *)__pyx_t_7);
-  __pyx_t_7 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":165
- *     cdef double lx, ly, sx, sy
- *     cdef double pax, pay, pbx, pby
- *     cdef double face_eps = 1e-3             # <<<<<<<<<<<<<<
- *     cdef double nx, ny, tanx, tany, plane_n, mid_t, ha, hb, ca_t, cb_t, lo, hi, du, dv
- *     cdef double align_a, align_b
-*/
-  __pyx_v_face_eps = 1e-3;
-
-  /* "engine/cython/cy_collision_2d.pyx":168
- *     cdef double nx, ny, tanx, tany, plane_n, mid_t, ha, hb, ca_t, cb_t, lo, hi, du, dv
- *     cdef double align_a, align_b
- *     normal[0] = best_ax; normal[1] = best_ay             # <<<<<<<<<<<<<<
- *     nx = best_ax; ny = best_ay
- * 
-*/
-  __pyx_t_13 = 0;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_v_best_ax;
-  __pyx_t_13 = 1;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_v_best_ay;
-
-  /* "engine/cython/cy_collision_2d.pyx":169
- *     cdef double align_a, align_b
- *     normal[0] = best_ax; normal[1] = best_ay
- *     nx = best_ax; ny = best_ay             # <<<<<<<<<<<<<<
- * 
- *     # Support feature centroid of A in -n
-*/
-  __pyx_v_nx = __pyx_v_best_ax;
-  __pyx_v_ny = __pyx_v_best_ay;
-
-  /* "engine/cython/cy_collision_2d.pyx":172
- * 
- *     # Support feature centroid of A in -n
- *     cos_a2 = cos_aa; sin_a2 = sin_aa             # <<<<<<<<<<<<<<
- *     lx = (-nx) * cos_a2 + (-ny) * sin_a2
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
-*/
-  __pyx_v_cos_a2 = __pyx_v_cos_aa;
-  __pyx_v_sin_a2 = __pyx_v_sin_aa;
-
-  /* "engine/cython/cy_collision_2d.pyx":173
- *     # Support feature centroid of A in -n
- *     cos_a2 = cos_aa; sin_a2 = sin_aa
- *     lx = (-nx) * cos_a2 + (-ny) * sin_a2             # <<<<<<<<<<<<<<
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
-*/
-  __pyx_v_lx = (((-__pyx_v_nx) * __pyx_v_cos_a2) + ((-__pyx_v_ny) * __pyx_v_sin_a2));
-
-  /* "engine/cython/cy_collision_2d.pyx":174
- *     cos_a2 = cos_aa; sin_a2 = sin_aa
- *     lx = (-nx) * cos_a2 + (-ny) * sin_a2
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2             # <<<<<<<<<<<<<<
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
-*/
-  __pyx_v_ly = (((-__pyx_v_nx) * (-__pyx_v_sin_a2)) + ((-__pyx_v_ny) * __pyx_v_cos_a2));
-
-  /* "engine/cython/cy_collision_2d.pyx":175
- *     lx = (-nx) * cos_a2 + (-ny) * sin_a2
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
-*/
-  __pyx_t_14 = (fabs(__pyx_v_lx) < __pyx_v_face_eps);
-  if (__pyx_t_14) {
-  } else {
-    __pyx_t_5 = __pyx_t_14;
-    goto __pyx_L9_bool_binop_done;
-  }
-  __pyx_t_14 = (fabs(__pyx_v_ly) < __pyx_v_face_eps);
-  __pyx_t_5 = __pyx_t_14;
-  __pyx_L9_bool_binop_done:;
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":176
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0             # <<<<<<<<<<<<<<
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0
-*/
-    __pyx_v_sx = 0.0;
-    __pyx_v_sy = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":175
- *     lx = (-nx) * cos_a2 + (-ny) * sin_a2
- *     ly = (-nx) * (-sin_a2) + (-ny) * cos_a2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
-*/
-    goto __pyx_L8;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":177
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0
- *         sy = ey_a if ly >= 0.0 else -ey_a
-*/
-  __pyx_t_5 = (fabs(__pyx_v_lx) < __pyx_v_face_eps);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":178
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0             # <<<<<<<<<<<<<<
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     elif fabs(ly) < face_eps:
-*/
-    __pyx_v_sx = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":179
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0
- *         sy = ey_a if ly >= 0.0 else -ey_a             # <<<<<<<<<<<<<<
- *     elif fabs(ly) < face_eps:
- *         sx = ex_a if lx >= 0.0 else -ex_a
-*/
-    __pyx_t_5 = (__pyx_v_ly >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ey_a;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ey_a);
-    }
-    __pyx_v_sy = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":177
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0
- *         sy = ey_a if ly >= 0.0 else -ey_a
-*/
-    goto __pyx_L8;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":180
- *         sx = 0.0
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     elif fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = ex_a if lx >= 0.0 else -ex_a
- *         sy = 0.0
-*/
-  __pyx_t_5 = (fabs(__pyx_v_ly) < __pyx_v_face_eps);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":181
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     elif fabs(ly) < face_eps:
- *         sx = ex_a if lx >= 0.0 else -ex_a             # <<<<<<<<<<<<<<
- *         sy = 0.0
- *     else:
-*/
-    __pyx_t_5 = (__pyx_v_lx >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ex_a;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ex_a);
-    }
-    __pyx_v_sx = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":182
- *     elif fabs(ly) < face_eps:
- *         sx = ex_a if lx >= 0.0 else -ex_a
- *         sy = 0.0             # <<<<<<<<<<<<<<
- *     else:
- *         sx = ex_a if lx >= 0.0 else -ex_a
-*/
-    __pyx_v_sy = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":180
- *         sx = 0.0
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     elif fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = ex_a if lx >= 0.0 else -ex_a
- *         sy = 0.0
-*/
-    goto __pyx_L8;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":184
- *         sy = 0.0
- *     else:
- *         sx = ex_a if lx >= 0.0 else -ex_a             # <<<<<<<<<<<<<<
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     pax = cx_a + sx * cos_a2 + sy * (-sin_a2)
-*/
-  /*else*/ {
-    __pyx_t_5 = (__pyx_v_lx >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ex_a;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ex_a);
-    }
-    __pyx_v_sx = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":185
- *     else:
- *         sx = ex_a if lx >= 0.0 else -ex_a
- *         sy = ey_a if ly >= 0.0 else -ey_a             # <<<<<<<<<<<<<<
- *     pax = cx_a + sx * cos_a2 + sy * (-sin_a2)
- *     pay = cy_a + sx * sin_a2 + sy * cos_a2
-*/
-    __pyx_t_5 = (__pyx_v_ly >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ey_a;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ey_a);
-    }
-    __pyx_v_sy = __pyx_t_6;
-  }
-  __pyx_L8:;
-
-  /* "engine/cython/cy_collision_2d.pyx":186
- *         sx = ex_a if lx >= 0.0 else -ex_a
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     pax = cx_a + sx * cos_a2 + sy * (-sin_a2)             # <<<<<<<<<<<<<<
- *     pay = cy_a + sx * sin_a2 + sy * cos_a2
- *     # Support feature centroid of B in +n
-*/
-  __pyx_v_pax = ((__pyx_v_cx_a + (__pyx_v_sx * __pyx_v_cos_a2)) + (__pyx_v_sy * (-__pyx_v_sin_a2)));
-
-  /* "engine/cython/cy_collision_2d.pyx":187
- *         sy = ey_a if ly >= 0.0 else -ey_a
- *     pax = cx_a + sx * cos_a2 + sy * (-sin_a2)
- *     pay = cy_a + sx * sin_a2 + sy * cos_a2             # <<<<<<<<<<<<<<
- *     # Support feature centroid of B in +n
- *     cos_b2 = cos_ab; sin_b2 = sin_ab
-*/
-  __pyx_v_pay = ((__pyx_v_cy_a + (__pyx_v_sx * __pyx_v_sin_a2)) + (__pyx_v_sy * __pyx_v_cos_a2));
-
-  /* "engine/cython/cy_collision_2d.pyx":189
- *     pay = cy_a + sx * sin_a2 + sy * cos_a2
- *     # Support feature centroid of B in +n
- *     cos_b2 = cos_ab; sin_b2 = sin_ab             # <<<<<<<<<<<<<<
- *     lx = nx * cos_b2 + ny * sin_b2
- *     ly = nx * (-sin_b2) + ny * cos_b2
-*/
-  __pyx_v_cos_b2 = __pyx_v_cos_ab;
-  __pyx_v_sin_b2 = __pyx_v_sin_ab;
-
-  /* "engine/cython/cy_collision_2d.pyx":190
- *     # Support feature centroid of B in +n
- *     cos_b2 = cos_ab; sin_b2 = sin_ab
- *     lx = nx * cos_b2 + ny * sin_b2             # <<<<<<<<<<<<<<
- *     ly = nx * (-sin_b2) + ny * cos_b2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
-*/
-  __pyx_v_lx = ((__pyx_v_nx * __pyx_v_cos_b2) + (__pyx_v_ny * __pyx_v_sin_b2));
-
-  /* "engine/cython/cy_collision_2d.pyx":191
- *     cos_b2 = cos_ab; sin_b2 = sin_ab
- *     lx = nx * cos_b2 + ny * sin_b2
- *     ly = nx * (-sin_b2) + ny * cos_b2             # <<<<<<<<<<<<<<
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
-*/
-  __pyx_v_ly = ((__pyx_v_nx * (-__pyx_v_sin_b2)) + (__pyx_v_ny * __pyx_v_cos_b2));
-
-  /* "engine/cython/cy_collision_2d.pyx":192
- *     lx = nx * cos_b2 + ny * sin_b2
- *     ly = nx * (-sin_b2) + ny * cos_b2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
-*/
-  __pyx_t_14 = (fabs(__pyx_v_lx) < __pyx_v_face_eps);
-  if (__pyx_t_14) {
-  } else {
-    __pyx_t_5 = __pyx_t_14;
-    goto __pyx_L12_bool_binop_done;
-  }
-  __pyx_t_14 = (fabs(__pyx_v_ly) < __pyx_v_face_eps);
-  __pyx_t_5 = __pyx_t_14;
-  __pyx_L12_bool_binop_done:;
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":193
- *     ly = nx * (-sin_b2) + ny * cos_b2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0             # <<<<<<<<<<<<<<
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0
-*/
-    __pyx_v_sx = 0.0;
-    __pyx_v_sy = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":192
- *     lx = nx * cos_b2 + ny * sin_b2
- *     ly = nx * (-sin_b2) + ny * cos_b2
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
-*/
-    goto __pyx_L11;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":194
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0
- *         sy = ey_b if ly >= 0.0 else -ey_b
-*/
-  __pyx_t_5 = (fabs(__pyx_v_lx) < __pyx_v_face_eps);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":195
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0             # <<<<<<<<<<<<<<
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     elif fabs(ly) < face_eps:
-*/
-    __pyx_v_sx = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":196
- *     elif fabs(lx) < face_eps:
- *         sx = 0.0
- *         sy = ey_b if ly >= 0.0 else -ey_b             # <<<<<<<<<<<<<<
- *     elif fabs(ly) < face_eps:
- *         sx = ex_b if lx >= 0.0 else -ex_b
-*/
-    __pyx_t_5 = (__pyx_v_ly >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ey_b;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ey_b);
-    }
-    __pyx_v_sy = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":194
- *     if fabs(lx) < face_eps and fabs(ly) < face_eps:
- *         sx = 0.0; sy = 0.0
- *     elif fabs(lx) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = 0.0
- *         sy = ey_b if ly >= 0.0 else -ey_b
-*/
-    goto __pyx_L11;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":197
- *         sx = 0.0
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     elif fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = ex_b if lx >= 0.0 else -ex_b
- *         sy = 0.0
-*/
-  __pyx_t_5 = (fabs(__pyx_v_ly) < __pyx_v_face_eps);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":198
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     elif fabs(ly) < face_eps:
- *         sx = ex_b if lx >= 0.0 else -ex_b             # <<<<<<<<<<<<<<
- *         sy = 0.0
- *     else:
-*/
-    __pyx_t_5 = (__pyx_v_lx >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ex_b;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ex_b);
-    }
-    __pyx_v_sx = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":199
- *     elif fabs(ly) < face_eps:
- *         sx = ex_b if lx >= 0.0 else -ex_b
- *         sy = 0.0             # <<<<<<<<<<<<<<
- *     else:
- *         sx = ex_b if lx >= 0.0 else -ex_b
-*/
-    __pyx_v_sy = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":197
- *         sx = 0.0
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     elif fabs(ly) < face_eps:             # <<<<<<<<<<<<<<
- *         sx = ex_b if lx >= 0.0 else -ex_b
- *         sy = 0.0
-*/
-    goto __pyx_L11;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":201
- *         sy = 0.0
- *     else:
- *         sx = ex_b if lx >= 0.0 else -ex_b             # <<<<<<<<<<<<<<
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     pbx = cx_b + sx * cos_b2 + sy * (-sin_b2)
-*/
-  /*else*/ {
-    __pyx_t_5 = (__pyx_v_lx >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ex_b;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ex_b);
-    }
-    __pyx_v_sx = __pyx_t_6;
-
-    /* "engine/cython/cy_collision_2d.pyx":202
- *     else:
- *         sx = ex_b if lx >= 0.0 else -ex_b
- *         sy = ey_b if ly >= 0.0 else -ey_b             # <<<<<<<<<<<<<<
- *     pbx = cx_b + sx * cos_b2 + sy * (-sin_b2)
- *     pby = cy_b + sx * sin_b2 + sy * cos_b2
-*/
-    __pyx_t_5 = (__pyx_v_ly >= 0.0);
-    if (__pyx_t_5) {
-      __pyx_t_6 = __pyx_v_ey_b;
-    } else {
-      __pyx_t_6 = (-__pyx_v_ey_b);
-    }
-    __pyx_v_sy = __pyx_t_6;
-  }
-  __pyx_L11:;
-
-  /* "engine/cython/cy_collision_2d.pyx":203
- *         sx = ex_b if lx >= 0.0 else -ex_b
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     pbx = cx_b + sx * cos_b2 + sy * (-sin_b2)             # <<<<<<<<<<<<<<
- *     pby = cy_b + sx * sin_b2 + sy * cos_b2
- * 
-*/
-  __pyx_v_pbx = ((__pyx_v_cx_b + (__pyx_v_sx * __pyx_v_cos_b2)) + (__pyx_v_sy * (-__pyx_v_sin_b2)));
-
-  /* "engine/cython/cy_collision_2d.pyx":204
- *         sy = ey_b if ly >= 0.0 else -ey_b
- *     pbx = cx_b + sx * cos_b2 + sy * (-sin_b2)
- *     pby = cy_b + sx * sin_b2 + sy * cos_b2             # <<<<<<<<<<<<<<
- * 
- *     # Face align: only use segment overlap when nearly face-flat
-*/
-  __pyx_v_pby = ((__pyx_v_cy_b + (__pyx_v_sx * __pyx_v_sin_b2)) + (__pyx_v_sy * __pyx_v_cos_b2));
-
-  /* "engine/cython/cy_collision_2d.pyx":207
- * 
- *     # Face align: only use segment overlap when nearly face-flat
- *     align_a = fabs(nx * cos_aa + ny * sin_aa)             # <<<<<<<<<<<<<<
- *     du = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     if du > align_a:
-*/
-  __pyx_v_align_a = fabs(((__pyx_v_nx * __pyx_v_cos_aa) + (__pyx_v_ny * __pyx_v_sin_aa)));
-
-  /* "engine/cython/cy_collision_2d.pyx":208
- *     # Face align: only use segment overlap when nearly face-flat
- *     align_a = fabs(nx * cos_aa + ny * sin_aa)
- *     du = fabs(nx * (-sin_aa) + ny * cos_aa)             # <<<<<<<<<<<<<<
- *     if du > align_a:
- *         align_a = du
-*/
-  __pyx_v_du = fabs(((__pyx_v_nx * (-__pyx_v_sin_aa)) + (__pyx_v_ny * __pyx_v_cos_aa)));
-
-  /* "engine/cython/cy_collision_2d.pyx":209
- *     align_a = fabs(nx * cos_aa + ny * sin_aa)
- *     du = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     if du > align_a:             # <<<<<<<<<<<<<<
- *         align_a = du
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
-*/
-  __pyx_t_5 = (__pyx_v_du > __pyx_v_align_a);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":210
- *     du = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     if du > align_a:
- *         align_a = du             # <<<<<<<<<<<<<<
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)
-*/
-    __pyx_v_align_a = __pyx_v_du;
-
-    /* "engine/cython/cy_collision_2d.pyx":209
- *     align_a = fabs(nx * cos_aa + ny * sin_aa)
- *     du = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     if du > align_a:             # <<<<<<<<<<<<<<
- *         align_a = du
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":211
- *     if du > align_a:
- *         align_a = du
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)             # <<<<<<<<<<<<<<
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     if du > align_b:
-*/
-  __pyx_v_align_b = fabs(((__pyx_v_nx * __pyx_v_cos_ab) + (__pyx_v_ny * __pyx_v_sin_ab)));
-
-  /* "engine/cython/cy_collision_2d.pyx":212
- *         align_a = du
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)             # <<<<<<<<<<<<<<
- *     if du > align_b:
- *         align_b = du
-*/
-  __pyx_v_du = fabs(((__pyx_v_nx * (-__pyx_v_sin_ab)) + (__pyx_v_ny * __pyx_v_cos_ab)));
-
-  /* "engine/cython/cy_collision_2d.pyx":213
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     if du > align_b:             # <<<<<<<<<<<<<<
- *         align_b = du
- * 
-*/
-  __pyx_t_5 = (__pyx_v_du > __pyx_v_align_b);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":214
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     if du > align_b:
- *         align_b = du             # <<<<<<<<<<<<<<
- * 
- *     if align_a < 0.985 or align_b < 0.985:
-*/
-    __pyx_v_align_b = __pyx_v_du;
-
-    /* "engine/cython/cy_collision_2d.pyx":213
- *     align_b = fabs(nx * cos_ab + ny * sin_ab)
- *     du = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     if du > align_b:             # <<<<<<<<<<<<<<
- *         align_b = du
- * 
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":216
- *         align_b = du
- * 
- *     if align_a < 0.985 or align_b < 0.985:             # <<<<<<<<<<<<<<
- *         # Edge/corner: average support centroids (lever arm for tipping)
- *         contact[0] = 0.5 * (pax + pbx)
-*/
-  __pyx_t_14 = (__pyx_v_align_a < 0.985);
-  if (!__pyx_t_14) {
-  } else {
-    __pyx_t_5 = __pyx_t_14;
-    goto __pyx_L17_bool_binop_done;
-  }
-  __pyx_t_14 = (__pyx_v_align_b < 0.985);
-  __pyx_t_5 = __pyx_t_14;
-  __pyx_L17_bool_binop_done:;
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":218
- *     if align_a < 0.985 or align_b < 0.985:
- *         # Edge/corner: average support centroids (lever arm for tipping)
- *         contact[0] = 0.5 * (pax + pbx)             # <<<<<<<<<<<<<<
- *         contact[1] = 0.5 * (pay + pby)
- *         return (normal, min_overlap, contact)
-*/
-    __pyx_t_13 = 0;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (0.5 * (__pyx_v_pax + __pyx_v_pbx));
-
-    /* "engine/cython/cy_collision_2d.pyx":219
- *         # Edge/corner: average support centroids (lever arm for tipping)
- *         contact[0] = 0.5 * (pax + pbx)
- *         contact[1] = 0.5 * (pay + pby)             # <<<<<<<<<<<<<<
- *         return (normal, min_overlap, contact)
- * 
-*/
-    __pyx_t_13 = 1;
-    *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (0.5 * (__pyx_v_pay + __pyx_v_pby));
-
-    /* "engine/cython/cy_collision_2d.pyx":220
- *         contact[0] = 0.5 * (pax + pbx)
- *         contact[1] = 0.5 * (pay + pby)
- *         return (normal, min_overlap, contact)             # <<<<<<<<<<<<<<
- * 
- *     # Faceface: midpoint of 1D face-segment overlap along tangent
-*/
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_min_overlap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 220, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 220, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_11);
-    __Pyx_INCREF((PyObject *)__pyx_v_normal);
-    __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 220, __pyx_L1_error);
-    __Pyx_GIVEREF(__pyx_t_7);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_7) != (0)) __PYX_ERR(0, 220, __pyx_L1_error);
-    __Pyx_INCREF((PyObject *)__pyx_v_contact);
-    __Pyx_GIVEREF((PyObject *)__pyx_v_contact);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 2, ((PyObject *)__pyx_v_contact)) != (0)) __PYX_ERR(0, 220, __pyx_L1_error);
-    __pyx_t_7 = 0;
-    __pyx_r = __pyx_t_11;
-    __pyx_t_11 = 0;
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":216
- *         align_b = du
- * 
- *     if align_a < 0.985 or align_b < 0.985:             # <<<<<<<<<<<<<<
- *         # Edge/corner: average support centroids (lever arm for tipping)
- *         contact[0] = 0.5 * (pax + pbx)
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":223
- * 
- *     # Faceface: midpoint of 1D face-segment overlap along tangent
- *     tanx = -ny; tany = nx             # <<<<<<<<<<<<<<
- *     plane_n = 0.5 * (pax * nx + pay * ny + pbx * nx + pby * ny)
- *     du = fabs(nx * cos_aa + ny * sin_aa)
-*/
-  __pyx_v_tanx = (-__pyx_v_ny);
-  __pyx_v_tany = __pyx_v_nx;
-
-  /* "engine/cython/cy_collision_2d.pyx":224
- *     # Faceface: midpoint of 1D face-segment overlap along tangent
- *     tanx = -ny; tany = nx
- *     plane_n = 0.5 * (pax * nx + pay * ny + pbx * nx + pby * ny)             # <<<<<<<<<<<<<<
- *     du = fabs(nx * cos_aa + ny * sin_aa)
- *     dv = fabs(nx * (-sin_aa) + ny * cos_aa)
-*/
-  __pyx_v_plane_n = (0.5 * ((((__pyx_v_pax * __pyx_v_nx) + (__pyx_v_pay * __pyx_v_ny)) + (__pyx_v_pbx * __pyx_v_nx)) + (__pyx_v_pby * __pyx_v_ny)));
-
-  /* "engine/cython/cy_collision_2d.pyx":225
- *     tanx = -ny; tany = nx
- *     plane_n = 0.5 * (pax * nx + pay * ny + pbx * nx + pby * ny)
- *     du = fabs(nx * cos_aa + ny * sin_aa)             # <<<<<<<<<<<<<<
- *     dv = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     ha = ey_a if du >= dv else ex_a
-*/
-  __pyx_v_du = fabs(((__pyx_v_nx * __pyx_v_cos_aa) + (__pyx_v_ny * __pyx_v_sin_aa)));
-
-  /* "engine/cython/cy_collision_2d.pyx":226
- *     plane_n = 0.5 * (pax * nx + pay * ny + pbx * nx + pby * ny)
- *     du = fabs(nx * cos_aa + ny * sin_aa)
- *     dv = fabs(nx * (-sin_aa) + ny * cos_aa)             # <<<<<<<<<<<<<<
- *     ha = ey_a if du >= dv else ex_a
- *     du = fabs(nx * cos_ab + ny * sin_ab)
-*/
-  __pyx_v_dv = fabs(((__pyx_v_nx * (-__pyx_v_sin_aa)) + (__pyx_v_ny * __pyx_v_cos_aa)));
-
-  /* "engine/cython/cy_collision_2d.pyx":227
- *     du = fabs(nx * cos_aa + ny * sin_aa)
- *     dv = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     ha = ey_a if du >= dv else ex_a             # <<<<<<<<<<<<<<
- *     du = fabs(nx * cos_ab + ny * sin_ab)
- *     dv = fabs(nx * (-sin_ab) + ny * cos_ab)
-*/
-  __pyx_t_5 = (__pyx_v_du >= __pyx_v_dv);
-  if (__pyx_t_5) {
-    __pyx_t_6 = __pyx_v_ey_a;
-  } else {
-    __pyx_t_6 = __pyx_v_ex_a;
-  }
-  __pyx_v_ha = __pyx_t_6;
-
-  /* "engine/cython/cy_collision_2d.pyx":228
- *     dv = fabs(nx * (-sin_aa) + ny * cos_aa)
- *     ha = ey_a if du >= dv else ex_a
- *     du = fabs(nx * cos_ab + ny * sin_ab)             # <<<<<<<<<<<<<<
- *     dv = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     hb = ey_b if du >= dv else ex_b
-*/
-  __pyx_v_du = fabs(((__pyx_v_nx * __pyx_v_cos_ab) + (__pyx_v_ny * __pyx_v_sin_ab)));
-
-  /* "engine/cython/cy_collision_2d.pyx":229
- *     ha = ey_a if du >= dv else ex_a
- *     du = fabs(nx * cos_ab + ny * sin_ab)
- *     dv = fabs(nx * (-sin_ab) + ny * cos_ab)             # <<<<<<<<<<<<<<
- *     hb = ey_b if du >= dv else ex_b
- *     ca_t = cx_a * tanx + cy_a * tany
-*/
-  __pyx_v_dv = fabs(((__pyx_v_nx * (-__pyx_v_sin_ab)) + (__pyx_v_ny * __pyx_v_cos_ab)));
-
-  /* "engine/cython/cy_collision_2d.pyx":230
- *     du = fabs(nx * cos_ab + ny * sin_ab)
- *     dv = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     hb = ey_b if du >= dv else ex_b             # <<<<<<<<<<<<<<
- *     ca_t = cx_a * tanx + cy_a * tany
- *     cb_t = cx_b * tanx + cy_b * tany
-*/
-  __pyx_t_5 = (__pyx_v_du >= __pyx_v_dv);
-  if (__pyx_t_5) {
-    __pyx_t_6 = __pyx_v_ey_b;
-  } else {
-    __pyx_t_6 = __pyx_v_ex_b;
-  }
-  __pyx_v_hb = __pyx_t_6;
-
-  /* "engine/cython/cy_collision_2d.pyx":231
- *     dv = fabs(nx * (-sin_ab) + ny * cos_ab)
- *     hb = ey_b if du >= dv else ex_b
- *     ca_t = cx_a * tanx + cy_a * tany             # <<<<<<<<<<<<<<
- *     cb_t = cx_b * tanx + cy_b * tany
- *     lo = ca_t - ha
-*/
-  __pyx_v_ca_t = ((__pyx_v_cx_a * __pyx_v_tanx) + (__pyx_v_cy_a * __pyx_v_tany));
-
-  /* "engine/cython/cy_collision_2d.pyx":232
- *     hb = ey_b if du >= dv else ex_b
- *     ca_t = cx_a * tanx + cy_a * tany
- *     cb_t = cx_b * tanx + cy_b * tany             # <<<<<<<<<<<<<<
- *     lo = ca_t - ha
- *     if cb_t - hb > lo:
-*/
-  __pyx_v_cb_t = ((__pyx_v_cx_b * __pyx_v_tanx) + (__pyx_v_cy_b * __pyx_v_tany));
-
-  /* "engine/cython/cy_collision_2d.pyx":233
- *     ca_t = cx_a * tanx + cy_a * tany
- *     cb_t = cx_b * tanx + cy_b * tany
- *     lo = ca_t - ha             # <<<<<<<<<<<<<<
- *     if cb_t - hb > lo:
- *         lo = cb_t - hb
-*/
-  __pyx_v_lo = (__pyx_v_ca_t - __pyx_v_ha);
-
-  /* "engine/cython/cy_collision_2d.pyx":234
- *     cb_t = cx_b * tanx + cy_b * tany
- *     lo = ca_t - ha
- *     if cb_t - hb > lo:             # <<<<<<<<<<<<<<
- *         lo = cb_t - hb
- *     hi = ca_t + ha
-*/
-  __pyx_t_5 = ((__pyx_v_cb_t - __pyx_v_hb) > __pyx_v_lo);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":235
- *     lo = ca_t - ha
- *     if cb_t - hb > lo:
- *         lo = cb_t - hb             # <<<<<<<<<<<<<<
- *     hi = ca_t + ha
- *     if cb_t + hb < hi:
-*/
-    __pyx_v_lo = (__pyx_v_cb_t - __pyx_v_hb);
-
-    /* "engine/cython/cy_collision_2d.pyx":234
- *     cb_t = cx_b * tanx + cy_b * tany
- *     lo = ca_t - ha
- *     if cb_t - hb > lo:             # <<<<<<<<<<<<<<
- *         lo = cb_t - hb
- *     hi = ca_t + ha
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":236
- *     if cb_t - hb > lo:
- *         lo = cb_t - hb
- *     hi = ca_t + ha             # <<<<<<<<<<<<<<
- *     if cb_t + hb < hi:
- *         hi = cb_t + hb
-*/
-  __pyx_v_hi = (__pyx_v_ca_t + __pyx_v_ha);
-
-  /* "engine/cython/cy_collision_2d.pyx":237
- *         lo = cb_t - hb
- *     hi = ca_t + ha
- *     if cb_t + hb < hi:             # <<<<<<<<<<<<<<
- *         hi = cb_t + hb
- *     if lo <= hi:
-*/
-  __pyx_t_5 = ((__pyx_v_cb_t + __pyx_v_hb) < __pyx_v_hi);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":238
- *     hi = ca_t + ha
- *     if cb_t + hb < hi:
- *         hi = cb_t + hb             # <<<<<<<<<<<<<<
- *     if lo <= hi:
- *         mid_t = 0.5 * (lo + hi)
-*/
-    __pyx_v_hi = (__pyx_v_cb_t + __pyx_v_hb);
-
-    /* "engine/cython/cy_collision_2d.pyx":237
- *         lo = cb_t - hb
- *     hi = ca_t + ha
- *     if cb_t + hb < hi:             # <<<<<<<<<<<<<<
- *         hi = cb_t + hb
- *     if lo <= hi:
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":239
- *     if cb_t + hb < hi:
- *         hi = cb_t + hb
- *     if lo <= hi:             # <<<<<<<<<<<<<<
- *         mid_t = 0.5 * (lo + hi)
- *     else:
-*/
-  __pyx_t_5 = (__pyx_v_lo <= __pyx_v_hi);
-  if (__pyx_t_5) {
-
-    /* "engine/cython/cy_collision_2d.pyx":240
- *         hi = cb_t + hb
- *     if lo <= hi:
- *         mid_t = 0.5 * (lo + hi)             # <<<<<<<<<<<<<<
- *     else:
- *         mid_t = 0.5 * (ca_t + cb_t)
-*/
-    __pyx_v_mid_t = (0.5 * (__pyx_v_lo + __pyx_v_hi));
-
-    /* "engine/cython/cy_collision_2d.pyx":239
- *     if cb_t + hb < hi:
- *         hi = cb_t + hb
- *     if lo <= hi:             # <<<<<<<<<<<<<<
- *         mid_t = 0.5 * (lo + hi)
- *     else:
-*/
-    goto __pyx_L21;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":242
- *         mid_t = 0.5 * (lo + hi)
- *     else:
- *         mid_t = 0.5 * (ca_t + cb_t)             # <<<<<<<<<<<<<<
- *     contact[0] = tanx * mid_t + nx * plane_n
- *     contact[1] = tany * mid_t + ny * plane_n
-*/
-  /*else*/ {
-    __pyx_v_mid_t = (0.5 * (__pyx_v_ca_t + __pyx_v_cb_t));
-  }
-  __pyx_L21:;
-
-  /* "engine/cython/cy_collision_2d.pyx":243
- *     else:
- *         mid_t = 0.5 * (ca_t + cb_t)
- *     contact[0] = tanx * mid_t + nx * plane_n             # <<<<<<<<<<<<<<
- *     contact[1] = tany * mid_t + ny * plane_n
- *     return (normal, min_overlap, contact)
-*/
-  __pyx_t_13 = 0;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = ((__pyx_v_tanx * __pyx_v_mid_t) + (__pyx_v_nx * __pyx_v_plane_n));
-
-  /* "engine/cython/cy_collision_2d.pyx":244
- *         mid_t = 0.5 * (ca_t + cb_t)
- *     contact[0] = tanx * mid_t + nx * plane_n
- *     contact[1] = tany * mid_t + ny * plane_n             # <<<<<<<<<<<<<<
- *     return (normal, min_overlap, contact)
- * 
-*/
-  __pyx_t_13 = 1;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = ((__pyx_v_tany * __pyx_v_mid_t) + (__pyx_v_ny * __pyx_v_plane_n));
-
-  /* "engine/cython/cy_collision_2d.pyx":245
- *     contact[0] = tanx * mid_t + nx * plane_n
- *     contact[1] = tany * mid_t + ny * plane_n
- *     return (normal, min_overlap, contact)             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_min_overlap); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 245, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF((PyObject *)__pyx_v_normal);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 245, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_11);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_11) != (0)) __PYX_ERR(0, 245, __pyx_L1_error);
-  __Pyx_INCREF((PyObject *)__pyx_v_contact);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_contact);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 2, ((PyObject *)__pyx_v_contact)) != (0)) __PYX_ERR(0, 245, __pyx_L1_error);
-  __pyx_t_11 = 0;
-  __pyx_r = __pyx_t_7;
-  __pyx_t_7 = 0;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":123
- * 
- * 
- * def obb_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
-  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.obb_vs_obb_2d_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  goto __pyx_L2;
-  __pyx_L0:;
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __pyx_L2:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_normal);
-  __Pyx_XDECREF((PyObject *)__pyx_v_contact);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":252
- * # =========================================================================
- * 
- * cpdef bint circle_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static int __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_obb_2d_fast(double __pyx_v_cs_x, double __pyx_v_cs_y, double __pyx_v_rs, double __pyx_v_cb_x, double __pyx_v_cb_y, double __pyx_v_angle, double __pyx_v_eb_x, double __pyx_v_eb_y, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  double __pyx_v_cos_a;
-  double __pyx_v_sin_a;
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_local_x;
-  double __pyx_v_local_y;
-  double __pyx_v_clx;
-  double __pyx_v_cly;
-  double __pyx_v_ddx;
-  double __pyx_v_ddy;
-  int __pyx_r;
-  int __pyx_t_1;
-
-  /* "engine/cython/cy_collision_2d.pyx":256
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
- * ):
- *     cdef double cos_a = cos(angle)             # <<<<<<<<<<<<<<
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x
-*/
-  __pyx_v_cos_a = cos(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":257
- * ):
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)             # <<<<<<<<<<<<<<
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y
-*/
-  __pyx_v_sin_a = sin(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":258
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x             # <<<<<<<<<<<<<<
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a
-*/
-  __pyx_v_dx = (__pyx_v_cs_x - __pyx_v_cb_x);
-
-  /* "engine/cython/cy_collision_2d.pyx":259
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y             # <<<<<<<<<<<<<<
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a
-*/
-  __pyx_v_dy = (__pyx_v_cs_y - __pyx_v_cb_y);
-
-  /* "engine/cython/cy_collision_2d.pyx":260
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a             # <<<<<<<<<<<<<<
- *     cdef double local_y = -dx * sin_a + dy * cos_a
- *     cdef double clx = local_x, cly = local_y
-*/
-  __pyx_v_local_x = ((__pyx_v_dx * __pyx_v_cos_a) + (__pyx_v_dy * __pyx_v_sin_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":261
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a             # <<<<<<<<<<<<<<
- *     cdef double clx = local_x, cly = local_y
- *     if clx < -eb_x: clx = -eb_x
-*/
-  __pyx_v_local_y = (((-__pyx_v_dx) * __pyx_v_sin_a) + (__pyx_v_dy * __pyx_v_cos_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":262
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a
- *     cdef double clx = local_x, cly = local_y             # <<<<<<<<<<<<<<
- *     if clx < -eb_x: clx = -eb_x
- *     elif clx > eb_x: clx = eb_x
-*/
-  __pyx_v_clx = __pyx_v_local_x;
-  __pyx_v_cly = __pyx_v_local_y;
-
-  /* "engine/cython/cy_collision_2d.pyx":263
- *     cdef double local_y = -dx * sin_a + dy * cos_a
- *     cdef double clx = local_x, cly = local_y
- *     if clx < -eb_x: clx = -eb_x             # <<<<<<<<<<<<<<
- *     elif clx > eb_x: clx = eb_x
- *     if cly < -eb_y: cly = -eb_y
-*/
-  __pyx_t_1 = (__pyx_v_clx < (-__pyx_v_eb_x));
-  if (__pyx_t_1) {
-    __pyx_v_clx = (-__pyx_v_eb_x);
-    goto __pyx_L3;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":264
- *     cdef double clx = local_x, cly = local_y
- *     if clx < -eb_x: clx = -eb_x
- *     elif clx > eb_x: clx = eb_x             # <<<<<<<<<<<<<<
- *     if cly < -eb_y: cly = -eb_y
- *     elif cly > eb_y: cly = eb_y
-*/
-  __pyx_t_1 = (__pyx_v_clx > __pyx_v_eb_x);
-  if (__pyx_t_1) {
-    __pyx_v_clx = __pyx_v_eb_x;
-  }
-  __pyx_L3:;
-
-  /* "engine/cython/cy_collision_2d.pyx":265
- *     if clx < -eb_x: clx = -eb_x
- *     elif clx > eb_x: clx = eb_x
- *     if cly < -eb_y: cly = -eb_y             # <<<<<<<<<<<<<<
- *     elif cly > eb_y: cly = eb_y
- * 
-*/
-  __pyx_t_1 = (__pyx_v_cly < (-__pyx_v_eb_y));
-  if (__pyx_t_1) {
-    __pyx_v_cly = (-__pyx_v_eb_y);
-    goto __pyx_L4;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":266
- *     elif clx > eb_x: clx = eb_x
- *     if cly < -eb_y: cly = -eb_y
- *     elif cly > eb_y: cly = eb_y             # <<<<<<<<<<<<<<
- * 
- *     cdef double ddx = local_x - clx
-*/
-  __pyx_t_1 = (__pyx_v_cly > __pyx_v_eb_y);
-  if (__pyx_t_1) {
-    __pyx_v_cly = __pyx_v_eb_y;
-  }
-  __pyx_L4:;
-
-  /* "engine/cython/cy_collision_2d.pyx":268
- *     elif cly > eb_y: cly = eb_y
- * 
- *     cdef double ddx = local_x - clx             # <<<<<<<<<<<<<<
- *     cdef double ddy = local_y - cly
- *     return ddx * ddx + ddy * ddy <= rs * rs
-*/
-  __pyx_v_ddx = (__pyx_v_local_x - __pyx_v_clx);
-
-  /* "engine/cython/cy_collision_2d.pyx":269
- * 
- *     cdef double ddx = local_x - clx
- *     cdef double ddy = local_y - cly             # <<<<<<<<<<<<<<
- *     return ddx * ddx + ddy * ddy <= rs * rs
- * 
-*/
-  __pyx_v_ddy = (__pyx_v_local_y - __pyx_v_cly);
-
-  /* "engine/cython/cy_collision_2d.pyx":270
- *     cdef double ddx = local_x - clx
- *     cdef double ddy = local_y - cly
- *     return ddx * ddx + ddy * ddy <= rs * rs             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __pyx_r = (((__pyx_v_ddx * __pyx_v_ddx) + (__pyx_v_ddy * __pyx_v_ddy)) <= (__pyx_v_rs * __pyx_v_rs));
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":252
- * # =========================================================================
- * 
- * cpdef bint circle_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-
-  /* function exit code */
-  __pyx_L0:;
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast = {"circle_vs_obb_2d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cs_x;
-  double __pyx_v_cs_y;
-  double __pyx_v_rs;
-  double __pyx_v_cb_x;
-  double __pyx_v_cb_y;
-  double __pyx_v_angle;
-  double __pyx_v_eb_x;
-  double __pyx_v_eb_y;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[8] = {0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("circle_vs_obb_2d_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cs_x,&__pyx_mstate_global->__pyx_n_u_cs_y,&__pyx_mstate_global->__pyx_n_u_rs,&__pyx_mstate_global->__pyx_n_u_cb_x,&__pyx_mstate_global->__pyx_n_u_cb_y,&__pyx_mstate_global->__pyx_n_u_angle,&__pyx_mstate_global->__pyx_n_u_eb_x,&__pyx_mstate_global->__pyx_n_u_eb_y,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 252, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 252, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "circle_vs_obb_2d_fast", 0) < (0)) __PYX_ERR(0, 252, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("circle_vs_obb_2d_fast", 1, 8, 8, i); __PYX_ERR(0, 252, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 8)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 252, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 252, __pyx_L3_error)
-    }
-    __pyx_v_cs_x = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cs_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L3_error)
-    __pyx_v_cs_y = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cs_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L3_error)
-    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L3_error)
-    __pyx_v_cb_x = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_cb_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
-    __pyx_v_cb_y = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cb_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
-    __pyx_v_angle = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_angle == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
-    __pyx_v_eb_x = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_eb_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
-    __pyx_v_eb_y = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_eb_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("circle_vs_obb_2d_fast", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 252, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_obb_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_10circle_vs_obb_2d_fast(__pyx_self, __pyx_v_cs_x, __pyx_v_cs_y, __pyx_v_rs, __pyx_v_cb_x, __pyx_v_cb_y, __pyx_v_angle, __pyx_v_eb_x, __pyx_v_eb_y);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_10circle_vs_obb_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cs_x, double __pyx_v_cs_y, double __pyx_v_rs, double __pyx_v_cb_x, double __pyx_v_cb_y, double __pyx_v_angle, double __pyx_v_eb_x, double __pyx_v_eb_y) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("circle_vs_obb_2d_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_circle_vs_obb_2d_fast(__pyx_v_cs_x, __pyx_v_cs_y, __pyx_v_rs, __pyx_v_cb_x, __pyx_v_cb_y, __pyx_v_angle, __pyx_v_eb_x, __pyx_v_eb_y, 1); if (unlikely(__pyx_t_1 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_obb_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":273
- * 
- * 
- * def circle_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_13circle_vs_obb_2d_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_12circle_vs_obb_2d_manifold_fast, "Returns (normal_ndarray, depth, contact_point) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_13circle_vs_obb_2d_manifold_fast = {"circle_vs_obb_2d_manifold_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_13circle_vs_obb_2d_manifold_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_12circle_vs_obb_2d_manifold_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_13circle_vs_obb_2d_manifold_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_cs_x;
-  double __pyx_v_cs_y;
-  double __pyx_v_rs;
-  double __pyx_v_cb_x;
-  double __pyx_v_cb_y;
-  double __pyx_v_angle;
-  double __pyx_v_eb_x;
-  double __pyx_v_eb_y;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[8] = {0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("circle_vs_obb_2d_manifold_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_cs_x,&__pyx_mstate_global->__pyx_n_u_cs_y,&__pyx_mstate_global->__pyx_n_u_rs,&__pyx_mstate_global->__pyx_n_u_cb_x,&__pyx_mstate_global->__pyx_n_u_cb_y,&__pyx_mstate_global->__pyx_n_u_angle,&__pyx_mstate_global->__pyx_n_u_eb_x,&__pyx_mstate_global->__pyx_n_u_eb_y,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 273, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 273, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "circle_vs_obb_2d_manifold_fast", 0) < (0)) __PYX_ERR(0, 273, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("circle_vs_obb_2d_manifold_fast", 1, 8, 8, i); __PYX_ERR(0, 273, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 8)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 273, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 273, __pyx_L3_error)
-    }
-    __pyx_v_cs_x = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cs_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L3_error)
-    __pyx_v_cs_y = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cs_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L3_error)
-    __pyx_v_rs = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_rs == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L3_error)
-    __pyx_v_cb_x = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_cb_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
-    __pyx_v_cb_y = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cb_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
-    __pyx_v_angle = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_angle == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
-    __pyx_v_eb_x = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_eb_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
-    __pyx_v_eb_y = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_eb_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("circle_vs_obb_2d_manifold_fast", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 273, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_obb_2d_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_12circle_vs_obb_2d_manifold_fast(__pyx_self, __pyx_v_cs_x, __pyx_v_cs_y, __pyx_v_rs, __pyx_v_cb_x, __pyx_v_cb_y, __pyx_v_angle, __pyx_v_eb_x, __pyx_v_eb_y);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_12circle_vs_obb_2d_manifold_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_cs_x, double __pyx_v_cs_y, double __pyx_v_rs, double __pyx_v_cb_x, double __pyx_v_cb_y, double __pyx_v_angle, double __pyx_v_eb_x, double __pyx_v_eb_y) {
-  double __pyx_v_cos_a;
-  double __pyx_v_sin_a;
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_local_x;
-  double __pyx_v_local_y;
-  double __pyx_v_cx_c;
-  double __pyx_v_cy_c;
-  double __pyx_v_ddx;
-  double __pyx_v_ddy;
-  double __pyx_v_dist_sq;
-  double __pyx_v_dist;
-  double __pyx_v_depth;
-  double __pyx_v_inv;
-  double __pyx_v_ln_x;
-  double __pyx_v_ln_y;
-  double __pyx_v_wn_x;
-  double __pyx_v_wn_y;
-  double __pyx_v_face0;
-  double __pyx_v_face1;
-  PyArrayObject *__pyx_v_normal = 0;
-  PyArrayObject *__pyx_v_contact = 0;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_contact;
-  __Pyx_Buffer __pyx_pybuffer_contact;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_normal;
-  __Pyx_Buffer __pyx_pybuffer_normal;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  size_t __pyx_t_7;
-  int __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  double __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("circle_vs_obb_2d_manifold_fast", 0);
-  __pyx_pybuffer_normal.pybuffer.buf = NULL;
-  __pyx_pybuffer_normal.refcount = 0;
-  __pyx_pybuffernd_normal.data = NULL;
-  __pyx_pybuffernd_normal.rcbuffer = &__pyx_pybuffer_normal;
-  __pyx_pybuffer_contact.pybuffer.buf = NULL;
-  __pyx_pybuffer_contact.refcount = 0;
-  __pyx_pybuffernd_contact.data = NULL;
-  __pyx_pybuffernd_contact.rcbuffer = &__pyx_pybuffer_contact;
-
-  /* "engine/cython/cy_collision_2d.pyx":278
- * ):
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double cos_a = cos(angle)             # <<<<<<<<<<<<<<
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x
-*/
-  __pyx_v_cos_a = cos(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":279
- *     """Returns (normal_ndarray, depth, contact_point) or None."""
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)             # <<<<<<<<<<<<<<
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y
-*/
-  __pyx_v_sin_a = sin(__pyx_v_angle);
-
-  /* "engine/cython/cy_collision_2d.pyx":280
- *     cdef double cos_a = cos(angle)
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x             # <<<<<<<<<<<<<<
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a
-*/
-  __pyx_v_dx = (__pyx_v_cs_x - __pyx_v_cb_x);
-
-  /* "engine/cython/cy_collision_2d.pyx":281
- *     cdef double sin_a = sin(angle)
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y             # <<<<<<<<<<<<<<
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a
-*/
-  __pyx_v_dy = (__pyx_v_cs_y - __pyx_v_cb_y);
-
-  /* "engine/cython/cy_collision_2d.pyx":282
- *     cdef double dx = cs_x - cb_x
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a             # <<<<<<<<<<<<<<
- *     cdef double local_y = -dx * sin_a + dy * cos_a
- *     cdef double cx_c = local_x, cy_c = local_y
-*/
-  __pyx_v_local_x = ((__pyx_v_dx * __pyx_v_cos_a) + (__pyx_v_dy * __pyx_v_sin_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":283
- *     cdef double dy = cs_y - cb_y
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a             # <<<<<<<<<<<<<<
- *     cdef double cx_c = local_x, cy_c = local_y
- *     cdef double ddx, ddy, dist_sq, dist, depth, inv
-*/
-  __pyx_v_local_y = (((-__pyx_v_dx) * __pyx_v_sin_a) + (__pyx_v_dy * __pyx_v_cos_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":284
- *     cdef double local_x = dx * cos_a + dy * sin_a
- *     cdef double local_y = -dx * sin_a + dy * cos_a
- *     cdef double cx_c = local_x, cy_c = local_y             # <<<<<<<<<<<<<<
- *     cdef double ddx, ddy, dist_sq, dist, depth, inv
- *     cdef double ln_x, ln_y, wn_x, wn_y, face0, face1
-*/
-  __pyx_v_cx_c = __pyx_v_local_x;
-  __pyx_v_cy_c = __pyx_v_local_y;
-
-  /* "engine/cython/cy_collision_2d.pyx":290
- *     cdef cnp.ndarray[cnp.float64_t, ndim=1] contact
- * 
- *     if cx_c < -eb_x: cx_c = -eb_x             # <<<<<<<<<<<<<<
- *     elif cx_c > eb_x: cx_c = eb_x
- *     if cy_c < -eb_y: cy_c = -eb_y
-*/
-  __pyx_t_1 = (__pyx_v_cx_c < (-__pyx_v_eb_x));
-  if (__pyx_t_1) {
-    __pyx_v_cx_c = (-__pyx_v_eb_x);
-    goto __pyx_L3;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":291
- * 
- *     if cx_c < -eb_x: cx_c = -eb_x
- *     elif cx_c > eb_x: cx_c = eb_x             # <<<<<<<<<<<<<<
- *     if cy_c < -eb_y: cy_c = -eb_y
- *     elif cy_c > eb_y: cy_c = eb_y
-*/
-  __pyx_t_1 = (__pyx_v_cx_c > __pyx_v_eb_x);
-  if (__pyx_t_1) {
-    __pyx_v_cx_c = __pyx_v_eb_x;
-  }
-  __pyx_L3:;
-
-  /* "engine/cython/cy_collision_2d.pyx":292
- *     if cx_c < -eb_x: cx_c = -eb_x
- *     elif cx_c > eb_x: cx_c = eb_x
- *     if cy_c < -eb_y: cy_c = -eb_y             # <<<<<<<<<<<<<<
- *     elif cy_c > eb_y: cy_c = eb_y
- * 
-*/
-  __pyx_t_1 = (__pyx_v_cy_c < (-__pyx_v_eb_y));
-  if (__pyx_t_1) {
-    __pyx_v_cy_c = (-__pyx_v_eb_y);
-    goto __pyx_L4;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":293
- *     elif cx_c > eb_x: cx_c = eb_x
- *     if cy_c < -eb_y: cy_c = -eb_y
- *     elif cy_c > eb_y: cy_c = eb_y             # <<<<<<<<<<<<<<
- * 
- *     ddx = local_x - cx_c
-*/
-  __pyx_t_1 = (__pyx_v_cy_c > __pyx_v_eb_y);
-  if (__pyx_t_1) {
-    __pyx_v_cy_c = __pyx_v_eb_y;
-  }
-  __pyx_L4:;
-
-  /* "engine/cython/cy_collision_2d.pyx":295
- *     elif cy_c > eb_y: cy_c = eb_y
- * 
- *     ddx = local_x - cx_c             # <<<<<<<<<<<<<<
- *     ddy = local_y - cy_c
- *     dist_sq = ddx * ddx + ddy * ddy
-*/
-  __pyx_v_ddx = (__pyx_v_local_x - __pyx_v_cx_c);
-
-  /* "engine/cython/cy_collision_2d.pyx":296
- * 
- *     ddx = local_x - cx_c
- *     ddy = local_y - cy_c             # <<<<<<<<<<<<<<
- *     dist_sq = ddx * ddx + ddy * ddy
- * 
-*/
-  __pyx_v_ddy = (__pyx_v_local_y - __pyx_v_cy_c);
-
-  /* "engine/cython/cy_collision_2d.pyx":297
- *     ddx = local_x - cx_c
- *     ddy = local_y - cy_c
- *     dist_sq = ddx * ddx + ddy * ddy             # <<<<<<<<<<<<<<
- * 
- *     if dist_sq > rs * rs:
-*/
-  __pyx_v_dist_sq = ((__pyx_v_ddx * __pyx_v_ddx) + (__pyx_v_ddy * __pyx_v_ddy));
-
-  /* "engine/cython/cy_collision_2d.pyx":299
- *     dist_sq = ddx * ddx + ddy * ddy
- * 
- *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
- *         return None
- * 
-*/
-  __pyx_t_1 = (__pyx_v_dist_sq > (__pyx_v_rs * __pyx_v_rs));
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":300
- * 
- *     if dist_sq > rs * rs:
- *         return None             # <<<<<<<<<<<<<<
- * 
- *     dist = sqrt(dist_sq)
-*/
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":299
- *     dist_sq = ddx * ddx + ddy * ddy
- * 
- *     if dist_sq > rs * rs:             # <<<<<<<<<<<<<<
- *         return None
- * 
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":302
- *         return None
- * 
- *     dist = sqrt(dist_sq)             # <<<<<<<<<<<<<<
- *     normal = np.empty(2, dtype=np.float64)
- *     contact = np.empty(2, dtype=np.float64)
-*/
-  __pyx_v_dist = sqrt(__pyx_v_dist_sq);
-
-  /* "engine/cython/cy_collision_2d.pyx":303
- * 
- *     dist = sqrt(dist_sq)
- *     normal = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- *     contact = np.empty(2, dtype=np.float64)
- * 
-*/
-  __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_7 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
-    assert(__pyx_t_3);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_5);
-    __Pyx_INCREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_5, __pyx__function);
-    __pyx_t_7 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 303, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 303, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-  }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 303, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-    __pyx_t_8 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_normal.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
-    if (unlikely(__pyx_t_8 < 0)) {
-      PyErr_Fetch(&__pyx_t_9, &__pyx_t_10, &__pyx_t_11);
-      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_normal.rcbuffer->pybuffer, (PyObject*)__pyx_v_normal, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-        Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_11);
-        __Pyx_RaiseBufferFallbackError();
-      } else {
-        PyErr_Restore(__pyx_t_9, __pyx_t_10, __pyx_t_11);
-      }
-      __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
-    }
-    __pyx_pybuffernd_normal.diminfo[0].strides = __pyx_pybuffernd_normal.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_normal.diminfo[0].shape = __pyx_pybuffernd_normal.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 303, __pyx_L1_error)
-  }
-  __pyx_v_normal = ((PyArrayObject *)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":304
- *     dist = sqrt(dist_sq)
- *     normal = np.empty(2, dtype=np.float64)
- *     contact = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
- * 
- *     if dist < 1e-10:
-*/
-  __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 304, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_7 = 1;
-  #if CYTHON_UNPACK_METHODS
-  if (unlikely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    assert(__pyx_t_5);
-    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
-    __Pyx_INCREF(__pyx_t_5);
-    __Pyx_INCREF(__pyx__function);
-    __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
-    __pyx_t_7 = 0;
-  }
-  #endif
-  {
-    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_2};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 304, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 304, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-  }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 304, __pyx_L1_error)
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-    __pyx_t_8 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_contact.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
-    if (unlikely(__pyx_t_8 < 0)) {
-      PyErr_Fetch(&__pyx_t_11, &__pyx_t_10, &__pyx_t_9);
-      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_contact.rcbuffer->pybuffer, (PyObject*)__pyx_v_contact, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
-        Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9);
-        __Pyx_RaiseBufferFallbackError();
-      } else {
-        PyErr_Restore(__pyx_t_11, __pyx_t_10, __pyx_t_9);
-      }
-      __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
-    }
-    __pyx_pybuffernd_contact.diminfo[0].strides = __pyx_pybuffernd_contact.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_contact.diminfo[0].shape = __pyx_pybuffernd_contact.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 304, __pyx_L1_error)
-  }
-  __pyx_v_contact = ((PyArrayObject *)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":306
- *     contact = np.empty(2, dtype=np.float64)
- * 
- *     if dist < 1e-10:             # <<<<<<<<<<<<<<
- *         # Circle center inside OBB
- *         face0 = eb_x - fabs(local_x)
-*/
-  __pyx_t_1 = (__pyx_v_dist < 1e-10);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":308
- *     if dist < 1e-10:
- *         # Circle center inside OBB
- *         face0 = eb_x - fabs(local_x)             # <<<<<<<<<<<<<<
- *         face1 = eb_y - fabs(local_y)
- *         if face0 < face1:
-*/
-    __pyx_v_face0 = (__pyx_v_eb_x - fabs(__pyx_v_local_x));
-
-    /* "engine/cython/cy_collision_2d.pyx":309
- *         # Circle center inside OBB
- *         face0 = eb_x - fabs(local_x)
- *         face1 = eb_y - fabs(local_y)             # <<<<<<<<<<<<<<
- *         if face0 < face1:
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0
-*/
-    __pyx_v_face1 = (__pyx_v_eb_y - fabs(__pyx_v_local_y));
-
-    /* "engine/cython/cy_collision_2d.pyx":310
- *         face0 = eb_x - fabs(local_x)
- *         face1 = eb_y - fabs(local_y)
- *         if face0 < face1:             # <<<<<<<<<<<<<<
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0
- *             ln_y = 0.0
-*/
-    __pyx_t_1 = (__pyx_v_face0 < __pyx_v_face1);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":311
- *         face1 = eb_y - fabs(local_y)
- *         if face0 < face1:
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0             # <<<<<<<<<<<<<<
- *             ln_y = 0.0
- *             depth = rs + face0
-*/
-      __pyx_t_1 = (__pyx_v_local_x >= 0.0);
-      if (__pyx_t_1) {
-        __pyx_t_12 = 1.0;
-      } else {
-        __pyx_t_12 = -1.0;
-      }
-      __pyx_v_ln_x = __pyx_t_12;
-
-      /* "engine/cython/cy_collision_2d.pyx":312
- *         if face0 < face1:
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0
- *             ln_y = 0.0             # <<<<<<<<<<<<<<
- *             depth = rs + face0
- *         else:
-*/
-      __pyx_v_ln_y = 0.0;
-
-      /* "engine/cython/cy_collision_2d.pyx":313
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0
- *             ln_y = 0.0
- *             depth = rs + face0             # <<<<<<<<<<<<<<
- *         else:
- *             ln_x = 0.0
-*/
-      __pyx_v_depth = (__pyx_v_rs + __pyx_v_face0);
-
-      /* "engine/cython/cy_collision_2d.pyx":310
- *         face0 = eb_x - fabs(local_x)
- *         face1 = eb_y - fabs(local_y)
- *         if face0 < face1:             # <<<<<<<<<<<<<<
- *             ln_x = 1.0 if local_x >= 0.0 else -1.0
- *             ln_y = 0.0
-*/
-      goto __pyx_L7;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":315
- *             depth = rs + face0
- *         else:
- *             ln_x = 0.0             # <<<<<<<<<<<<<<
- *             ln_y = 1.0 if local_y >= 0.0 else -1.0
- *             depth = rs + face1
-*/
-    /*else*/ {
-      __pyx_v_ln_x = 0.0;
-
-      /* "engine/cython/cy_collision_2d.pyx":316
- *         else:
- *             ln_x = 0.0
- *             ln_y = 1.0 if local_y >= 0.0 else -1.0             # <<<<<<<<<<<<<<
- *             depth = rs + face1
- *     else:
-*/
-      __pyx_t_1 = (__pyx_v_local_y >= 0.0);
-      if (__pyx_t_1) {
-        __pyx_t_12 = 1.0;
-      } else {
-        __pyx_t_12 = -1.0;
-      }
-      __pyx_v_ln_y = __pyx_t_12;
-
-      /* "engine/cython/cy_collision_2d.pyx":317
- *             ln_x = 0.0
- *             ln_y = 1.0 if local_y >= 0.0 else -1.0
- *             depth = rs + face1             # <<<<<<<<<<<<<<
- *     else:
- *         inv = 1.0 / dist
-*/
-      __pyx_v_depth = (__pyx_v_rs + __pyx_v_face1);
-    }
-    __pyx_L7:;
-
-    /* "engine/cython/cy_collision_2d.pyx":306
- *     contact = np.empty(2, dtype=np.float64)
- * 
- *     if dist < 1e-10:             # <<<<<<<<<<<<<<
- *         # Circle center inside OBB
- *         face0 = eb_x - fabs(local_x)
-*/
-    goto __pyx_L6;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":319
- *             depth = rs + face1
- *     else:
- *         inv = 1.0 / dist             # <<<<<<<<<<<<<<
- *         ln_x = ddx * inv
- *         ln_y = ddy * inv
-*/
-  /*else*/ {
-    __pyx_v_inv = (1.0 / __pyx_v_dist);
-
-    /* "engine/cython/cy_collision_2d.pyx":320
- *     else:
- *         inv = 1.0 / dist
- *         ln_x = ddx * inv             # <<<<<<<<<<<<<<
- *         ln_y = ddy * inv
- *         depth = rs - dist
-*/
-    __pyx_v_ln_x = (__pyx_v_ddx * __pyx_v_inv);
-
-    /* "engine/cython/cy_collision_2d.pyx":321
- *         inv = 1.0 / dist
- *         ln_x = ddx * inv
- *         ln_y = ddy * inv             # <<<<<<<<<<<<<<
- *         depth = rs - dist
- * 
-*/
-    __pyx_v_ln_y = (__pyx_v_ddy * __pyx_v_inv);
-
-    /* "engine/cython/cy_collision_2d.pyx":322
- *         ln_x = ddx * inv
- *         ln_y = ddy * inv
- *         depth = rs - dist             # <<<<<<<<<<<<<<
- * 
- *     # Rotate back to world
-*/
-    __pyx_v_depth = (__pyx_v_rs - __pyx_v_dist);
-  }
-  __pyx_L6:;
-
-  /* "engine/cython/cy_collision_2d.pyx":325
- * 
- *     # Rotate back to world
- *     wn_x = ln_x * cos_a - ln_y * sin_a             # <<<<<<<<<<<<<<
- *     wn_y = ln_x * sin_a + ln_y * cos_a
- *     normal[0] = wn_x; normal[1] = wn_y
-*/
-  __pyx_v_wn_x = ((__pyx_v_ln_x * __pyx_v_cos_a) - (__pyx_v_ln_y * __pyx_v_sin_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":326
- *     # Rotate back to world
- *     wn_x = ln_x * cos_a - ln_y * sin_a
- *     wn_y = ln_x * sin_a + ln_y * cos_a             # <<<<<<<<<<<<<<
- *     normal[0] = wn_x; normal[1] = wn_y
- *     contact[0] = cs_x - wn_x * (rs - 0.5 * depth)
-*/
-  __pyx_v_wn_y = ((__pyx_v_ln_x * __pyx_v_sin_a) + (__pyx_v_ln_y * __pyx_v_cos_a));
-
-  /* "engine/cython/cy_collision_2d.pyx":327
- *     wn_x = ln_x * cos_a - ln_y * sin_a
- *     wn_y = ln_x * sin_a + ln_y * cos_a
- *     normal[0] = wn_x; normal[1] = wn_y             # <<<<<<<<<<<<<<
- *     contact[0] = cs_x - wn_x * (rs - 0.5 * depth)
- *     contact[1] = cs_y - wn_y * (rs - 0.5 * depth)
-*/
-  __pyx_t_13 = 0;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_v_wn_x;
-  __pyx_t_13 = 1;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_normal.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_normal.diminfo[0].strides) = __pyx_v_wn_y;
-
-  /* "engine/cython/cy_collision_2d.pyx":328
- *     wn_y = ln_x * sin_a + ln_y * cos_a
- *     normal[0] = wn_x; normal[1] = wn_y
- *     contact[0] = cs_x - wn_x * (rs - 0.5 * depth)             # <<<<<<<<<<<<<<
- *     contact[1] = cs_y - wn_y * (rs - 0.5 * depth)
- *     return (normal, depth, contact)
-*/
-  __pyx_t_13 = 0;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (__pyx_v_cs_x - (__pyx_v_wn_x * (__pyx_v_rs - (0.5 * __pyx_v_depth))));
-
-  /* "engine/cython/cy_collision_2d.pyx":329
- *     normal[0] = wn_x; normal[1] = wn_y
- *     contact[0] = cs_x - wn_x * (rs - 0.5 * depth)
- *     contact[1] = cs_y - wn_y * (rs - 0.5 * depth)             # <<<<<<<<<<<<<<
- *     return (normal, depth, contact)
- * 
-*/
-  __pyx_t_13 = 1;
-  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_contact.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_contact.diminfo[0].strides) = (__pyx_v_cs_y - (__pyx_v_wn_y * (__pyx_v_rs - (0.5 * __pyx_v_depth))));
-
-  /* "engine/cython/cy_collision_2d.pyx":330
- *     contact[0] = cs_x - wn_x * (rs - 0.5 * depth)
- *     contact[1] = cs_y - wn_y * (rs - 0.5 * depth)
- *     return (normal, depth, contact)             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_depth); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 330, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_INCREF((PyObject *)__pyx_v_normal);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_normal);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, ((PyObject *)__pyx_v_normal)) != (0)) __PYX_ERR(0, 330, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_2) != (0)) __PYX_ERR(0, 330, __pyx_L1_error);
-  __Pyx_INCREF((PyObject *)__pyx_v_contact);
-  __Pyx_GIVEREF((PyObject *)__pyx_v_contact);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, ((PyObject *)__pyx_v_contact)) != (0)) __PYX_ERR(0, 330, __pyx_L1_error);
-  __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_6;
-  __pyx_t_6 = 0;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":273
- * 
- * 
- * def circle_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.circle_vs_obb_2d_manifold_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  goto __pyx_L2;
-  __pyx_L0:;
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_contact.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_normal.rcbuffer->pybuffer);
-  __pyx_L2:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_normal);
-  __Pyx_XDECREF((PyObject *)__pyx_v_contact);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":337
- * # =========================================================================
- * 
- * cpdef tuple closest_point_on_segment_fast(             # <<<<<<<<<<<<<<
- *     double px, double py,
- *     double ax, double ay,
-*/
-
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static PyObject *__pyx_f_6engine_6cython_15cy_collision_2d_closest_point_on_segment_fast(double __pyx_v_px, double __pyx_v_py, double __pyx_v_ax, double __pyx_v_ay, double __pyx_v_bx, double __pyx_v_by, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  double __pyx_v_abx;
-  double __pyx_v_aby;
-  double __pyx_v_dot_ab;
-  double __pyx_v_t;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("closest_point_on_segment_fast", 0);
-
-  /* "engine/cython/cy_collision_2d.pyx":343
- * ):
- *     """Returns (cx, cy) closest point on segment AB to point P."""
- *     cdef double abx = bx - ax, aby = by - ay             # <<<<<<<<<<<<<<
- *     cdef double dot_ab = abx * abx + aby * aby
- *     if dot_ab < 1e-10:
-*/
-  __pyx_v_abx = (__pyx_v_bx - __pyx_v_ax);
-  __pyx_v_aby = (__pyx_v_by - __pyx_v_ay);
-
-  /* "engine/cython/cy_collision_2d.pyx":344
- *     """Returns (cx, cy) closest point on segment AB to point P."""
- *     cdef double abx = bx - ax, aby = by - ay
- *     cdef double dot_ab = abx * abx + aby * aby             # <<<<<<<<<<<<<<
- *     if dot_ab < 1e-10:
- *         return (ax, ay)
-*/
-  __pyx_v_dot_ab = ((__pyx_v_abx * __pyx_v_abx) + (__pyx_v_aby * __pyx_v_aby));
-
-  /* "engine/cython/cy_collision_2d.pyx":345
- *     cdef double abx = bx - ax, aby = by - ay
- *     cdef double dot_ab = abx * abx + aby * aby
- *     if dot_ab < 1e-10:             # <<<<<<<<<<<<<<
- *         return (ax, ay)
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab
-*/
-  __pyx_t_1 = (__pyx_v_dot_ab < 1e-10);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":346
- *     cdef double dot_ab = abx * abx + aby * aby
- *     if dot_ab < 1e-10:
- *         return (ax, ay)             # <<<<<<<<<<<<<<
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab
- *     if t < 0.0: t = 0.0
-*/
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_ax); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 346, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_ay); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 346, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_2);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2) != (0)) __PYX_ERR(0, 346, __pyx_L1_error);
-    __Pyx_GIVEREF(__pyx_t_3);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 346, __pyx_L1_error);
-    __pyx_t_2 = 0;
-    __pyx_t_3 = 0;
-    __pyx_r = ((PyObject*)__pyx_t_4);
-    __pyx_t_4 = 0;
-    goto __pyx_L0;
-
-    /* "engine/cython/cy_collision_2d.pyx":345
- *     cdef double abx = bx - ax, aby = by - ay
- *     cdef double dot_ab = abx * abx + aby * aby
- *     if dot_ab < 1e-10:             # <<<<<<<<<<<<<<
- *         return (ax, ay)
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab
-*/
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":347
- *     if dot_ab < 1e-10:
- *         return (ax, ay)
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab             # <<<<<<<<<<<<<<
- *     if t < 0.0: t = 0.0
- *     elif t > 1.0: t = 1.0
-*/
-  __pyx_v_t = ((((__pyx_v_px - __pyx_v_ax) * __pyx_v_abx) + ((__pyx_v_py - __pyx_v_ay) * __pyx_v_aby)) / __pyx_v_dot_ab);
-
-  /* "engine/cython/cy_collision_2d.pyx":348
- *         return (ax, ay)
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab
- *     if t < 0.0: t = 0.0             # <<<<<<<<<<<<<<
- *     elif t > 1.0: t = 1.0
- *     return (ax + t * abx, ay + t * aby)
-*/
-  __pyx_t_1 = (__pyx_v_t < 0.0);
-  if (__pyx_t_1) {
-    __pyx_v_t = 0.0;
-    goto __pyx_L4;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":349
- *     cdef double t = ((px - ax) * abx + (py - ay) * aby) / dot_ab
- *     if t < 0.0: t = 0.0
- *     elif t > 1.0: t = 1.0             # <<<<<<<<<<<<<<
- *     return (ax + t * abx, ay + t * aby)
- * 
-*/
-  __pyx_t_1 = (__pyx_v_t > 1.0);
-  if (__pyx_t_1) {
-    __pyx_v_t = 1.0;
-  }
-  __pyx_L4:;
-
-  /* "engine/cython/cy_collision_2d.pyx":350
- *     if t < 0.0: t = 0.0
- *     elif t > 1.0: t = 1.0
- *     return (ax + t * abx, ay + t * aby)             # <<<<<<<<<<<<<<
- * 
- * 
-*/
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyFloat_FromDouble((__pyx_v_ax + (__pyx_v_t * __pyx_v_abx))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 350, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_ay + (__pyx_v_t * __pyx_v_aby))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 350, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4) != (0)) __PYX_ERR(0, 350, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 350, __pyx_L1_error);
-  __pyx_t_4 = 0;
-  __pyx_t_3 = 0;
-  __pyx_r = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":337
- * # =========================================================================
- * 
- * cpdef tuple closest_point_on_segment_fast(             # <<<<<<<<<<<<<<
- *     double px, double py,
- *     double ax, double ay,
-*/
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.closest_point_on_segment_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_14closest_point_on_segment_fast, "Returns (cx, cy) closest point on segment AB to point P.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast = {"closest_point_on_segment_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_14closest_point_on_segment_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_px;
-  double __pyx_v_py;
-  double __pyx_v_ax;
-  double __pyx_v_ay;
-  double __pyx_v_bx;
-  double __pyx_v_by;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[6] = {0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("closest_point_on_segment_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_px,&__pyx_mstate_global->__pyx_n_u_py,&__pyx_mstate_global->__pyx_n_u_ax,&__pyx_mstate_global->__pyx_n_u_ay,&__pyx_mstate_global->__pyx_n_u_bx,&__pyx_mstate_global->__pyx_n_u_by,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 337, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 337, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "closest_point_on_segment_fast", 0) < (0)) __PYX_ERR(0, 337, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 6; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("closest_point_on_segment_fast", 1, 6, 6, i); __PYX_ERR(0, 337, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 6)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 337, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 337, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 337, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 337, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 337, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 337, __pyx_L3_error)
-    }
-    __pyx_v_px = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_px == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 338, __pyx_L3_error)
-    __pyx_v_py = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_py == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 338, __pyx_L3_error)
-    __pyx_v_ax = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_ax == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 339, __pyx_L3_error)
-    __pyx_v_ay = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_ay == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 339, __pyx_L3_error)
-    __pyx_v_bx = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_bx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 340, __pyx_L3_error)
-    __pyx_v_by = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_by == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 340, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("closest_point_on_segment_fast", 1, 6, 6, __pyx_nargs); __PYX_ERR(0, 337, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.closest_point_on_segment_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_14closest_point_on_segment_fast(__pyx_self, __pyx_v_px, __pyx_v_py, __pyx_v_ax, __pyx_v_ay, __pyx_v_bx, __pyx_v_by);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_14closest_point_on_segment_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_px, double __pyx_v_py, double __pyx_v_ax, double __pyx_v_ay, double __pyx_v_bx, double __pyx_v_by) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("closest_point_on_segment_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_closest_point_on_segment_fast(__pyx_v_px, __pyx_v_py, __pyx_v_ax, __pyx_v_ay, __pyx_v_bx, __pyx_v_by, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.closest_point_on_segment_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":353
  * 
+ * cdef inline double _dot2(double ax, double ay, double bx, double by) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return ax * bx + ay * by
  * 
- * cpdef double segment_segment_dist_sq_fast(             # <<<<<<<<<<<<<<
- *     double a1x, double a1y, double a2x, double a2y,
- *     double b1x, double b1y, double b2x, double b2y,
 */
 
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-static double __pyx_f_6engine_6cython_15cy_collision_2d_segment_segment_dist_sq_fast(double __pyx_v_a1x, double __pyx_v_a1y, double __pyx_v_a2x, double __pyx_v_a2y, double __pyx_v_b1x, double __pyx_v_b1y, double __pyx_v_b2x, double __pyx_v_b2y, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  double __pyx_v_d1x;
-  double __pyx_v_d1y;
-  double __pyx_v_d2x;
-  double __pyx_v_d2y;
-  double __pyx_v_rx;
-  double __pyx_v_ry;
-  double __pyx_v_a;
-  double __pyx_v_e;
-  double __pyx_v_f;
-  double __pyx_v_s;
-  double __pyx_v_t;
-  double __pyx_v_c_val;
-  double __pyx_v_b_val;
-  double __pyx_v_denom;
-  double __pyx_v_cx;
-  double __pyx_v_cy;
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__dot2(double __pyx_v_ax, double __pyx_v_ay, double __pyx_v_bx, double __pyx_v_by) {
   double __pyx_r;
+
+  /* "engine/cython/cy_response_2d.pyx":30
+ * 
+ * cdef inline double _dot2(double ax, double ay, double bx, double by) noexcept nogil:
+ *     return ax * bx + ay * by             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = ((__pyx_v_ax * __pyx_v_bx) + (__pyx_v_ay * __pyx_v_by));
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":29
+ * 
+ * 
+ * cdef inline double _dot2(double ax, double ay, double bx, double by) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return ax * bx + ay * by
+ * 
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_2d.pyx":33
+ * 
+ * 
+ * cdef inline double _len2(double x, double y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return sqrt(x * x + y * y)
+ * 
+*/
+
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__len2(double __pyx_v_x, double __pyx_v_y) {
+  double __pyx_r;
+
+  /* "engine/cython/cy_response_2d.pyx":34
+ * 
+ * cdef inline double _len2(double x, double y) noexcept nogil:
+ *     return sqrt(x * x + y * y)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = sqrt(((__pyx_v_x * __pyx_v_x) + (__pyx_v_y * __pyx_v_y)));
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":33
+ * 
+ * 
+ * cdef inline double _len2(double x, double y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return sqrt(x * x + y * y)
+ * 
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_2d.pyx":37
+ * 
+ * 
+ * cdef inline double _cross_z(double rx, double ry, double jx, double jy) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return rx * jy - ry * jx
+ * 
+*/
+
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__cross_z(double __pyx_v_rx, double __pyx_v_ry, double __pyx_v_jx, double __pyx_v_jy) {
+  double __pyx_r;
+
+  /* "engine/cython/cy_response_2d.pyx":38
+ * 
+ * cdef inline double _cross_z(double rx, double ry, double jx, double jy) noexcept nogil:
+ *     return rx * jy - ry * jx             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = ((__pyx_v_rx * __pyx_v_jy) - (__pyx_v_ry * __pyx_v_jx));
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":37
+ * 
+ * 
+ * cdef inline double _cross_z(double rx, double ry, double jx, double jy) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return rx * jy - ry * jx
+ * 
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_2d.pyx":41
+ * 
+ * 
+ * cdef inline void _clamp_vec2(double *x, double *y, double max_len) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double mag = _len2(x[0], y[0])
+ *     cdef double s
+*/
+
+static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_2d__clamp_vec2(double *__pyx_v_x, double *__pyx_v_y, double __pyx_v_max_len) {
+  double __pyx_v_mag;
+  double __pyx_v_s;
   int __pyx_t_1;
   int __pyx_t_2;
+  long __pyx_t_3;
 
-  /* "engine/cython/cy_collision_2d.pyx":358
- * ):
- *     """Squared distance between two line segments in 2D."""
- *     cdef double d1x = a2x - a1x, d1y = a2y - a1y             # <<<<<<<<<<<<<<
- *     cdef double d2x = b2x - b1x, d2y = b2y - b1y
- *     cdef double rx = a1x - b1x, ry = a1y - b1y
-*/
-  __pyx_v_d1x = (__pyx_v_a2x - __pyx_v_a1x);
-  __pyx_v_d1y = (__pyx_v_a2y - __pyx_v_a1y);
-
-  /* "engine/cython/cy_collision_2d.pyx":359
- *     """Squared distance between two line segments in 2D."""
- *     cdef double d1x = a2x - a1x, d1y = a2y - a1y
- *     cdef double d2x = b2x - b1x, d2y = b2y - b1y             # <<<<<<<<<<<<<<
- *     cdef double rx = a1x - b1x, ry = a1y - b1y
- *     cdef double a = d1x * d1x + d1y * d1y
-*/
-  __pyx_v_d2x = (__pyx_v_b2x - __pyx_v_b1x);
-  __pyx_v_d2y = (__pyx_v_b2y - __pyx_v_b1y);
-
-  /* "engine/cython/cy_collision_2d.pyx":360
- *     cdef double d1x = a2x - a1x, d1y = a2y - a1y
- *     cdef double d2x = b2x - b1x, d2y = b2y - b1y
- *     cdef double rx = a1x - b1x, ry = a1y - b1y             # <<<<<<<<<<<<<<
- *     cdef double a = d1x * d1x + d1y * d1y
- *     cdef double e = d2x * d2x + d2y * d2y
-*/
-  __pyx_v_rx = (__pyx_v_a1x - __pyx_v_b1x);
-  __pyx_v_ry = (__pyx_v_a1y - __pyx_v_b1y);
-
-  /* "engine/cython/cy_collision_2d.pyx":361
- *     cdef double d2x = b2x - b1x, d2y = b2y - b1y
- *     cdef double rx = a1x - b1x, ry = a1y - b1y
- *     cdef double a = d1x * d1x + d1y * d1y             # <<<<<<<<<<<<<<
- *     cdef double e = d2x * d2x + d2y * d2y
- *     cdef double f = d2x * rx + d2y * ry
-*/
-  __pyx_v_a = ((__pyx_v_d1x * __pyx_v_d1x) + (__pyx_v_d1y * __pyx_v_d1y));
-
-  /* "engine/cython/cy_collision_2d.pyx":362
- *     cdef double rx = a1x - b1x, ry = a1y - b1y
- *     cdef double a = d1x * d1x + d1y * d1y
- *     cdef double e = d2x * d2x + d2y * d2y             # <<<<<<<<<<<<<<
- *     cdef double f = d2x * rx + d2y * ry
- *     cdef double s, t, c_val, b_val, denom
-*/
-  __pyx_v_e = ((__pyx_v_d2x * __pyx_v_d2x) + (__pyx_v_d2y * __pyx_v_d2y));
-
-  /* "engine/cython/cy_collision_2d.pyx":363
- *     cdef double a = d1x * d1x + d1y * d1y
- *     cdef double e = d2x * d2x + d2y * d2y
- *     cdef double f = d2x * rx + d2y * ry             # <<<<<<<<<<<<<<
- *     cdef double s, t, c_val, b_val, denom
- *     cdef double cx, cy
-*/
-  __pyx_v_f = ((__pyx_v_d2x * __pyx_v_rx) + (__pyx_v_d2y * __pyx_v_ry));
-
-  /* "engine/cython/cy_collision_2d.pyx":367
- *     cdef double cx, cy
+  /* "engine/cython/cy_response_2d.pyx":42
  * 
- *     if a < 1e-10 and e < 1e-10:             # <<<<<<<<<<<<<<
- *         return rx * rx + ry * ry
- * 
+ * cdef inline void _clamp_vec2(double *x, double *y, double max_len) noexcept nogil:
+ *     cdef double mag = _len2(x[0], y[0])             # <<<<<<<<<<<<<<
+ *     cdef double s
+ *     if mag > max_len and mag > 1e-12:
 */
-  __pyx_t_2 = (__pyx_v_a < 1e-10);
+  __pyx_v_mag = __pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_x[0]), (__pyx_v_y[0]));
+
+  /* "engine/cython/cy_response_2d.pyx":44
+ *     cdef double mag = _len2(x[0], y[0])
+ *     cdef double s
+ *     if mag > max_len and mag > 1e-12:             # <<<<<<<<<<<<<<
+ *         s = max_len / mag
+ *         x[0] *= s
+*/
+  __pyx_t_2 = (__pyx_v_mag > __pyx_v_max_len);
   if (__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (__pyx_v_e < 1e-10);
+  __pyx_t_2 = (__pyx_v_mag > 1e-12);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_collision_2d.pyx":368
- * 
- *     if a < 1e-10 and e < 1e-10:
- *         return rx * rx + ry * ry             # <<<<<<<<<<<<<<
- * 
- *     if a < 1e-10:
+    /* "engine/cython/cy_response_2d.pyx":45
+ *     cdef double s
+ *     if mag > max_len and mag > 1e-12:
+ *         s = max_len / mag             # <<<<<<<<<<<<<<
+ *         x[0] *= s
+ *         y[0] *= s
 */
-    __pyx_r = ((__pyx_v_rx * __pyx_v_rx) + (__pyx_v_ry * __pyx_v_ry));
-    goto __pyx_L0;
+    __pyx_v_s = (__pyx_v_max_len / __pyx_v_mag);
 
-    /* "engine/cython/cy_collision_2d.pyx":367
- *     cdef double cx, cy
+    /* "engine/cython/cy_response_2d.pyx":46
+ *     if mag > max_len and mag > 1e-12:
+ *         s = max_len / mag
+ *         x[0] *= s             # <<<<<<<<<<<<<<
+ *         y[0] *= s
  * 
- *     if a < 1e-10 and e < 1e-10:             # <<<<<<<<<<<<<<
- *         return rx * rx + ry * ry
+*/
+    __pyx_t_3 = 0;
+    (__pyx_v_x[__pyx_t_3]) = ((__pyx_v_x[__pyx_t_3]) * __pyx_v_s);
+
+    /* "engine/cython/cy_response_2d.pyx":47
+ *         s = max_len / mag
+ *         x[0] *= s
+ *         y[0] *= s             # <<<<<<<<<<<<<<
  * 
+ * 
+*/
+    __pyx_t_3 = 0;
+    (__pyx_v_y[__pyx_t_3]) = ((__pyx_v_y[__pyx_t_3]) * __pyx_v_s);
+
+    /* "engine/cython/cy_response_2d.pyx":44
+ *     cdef double mag = _len2(x[0], y[0])
+ *     cdef double s
+ *     if mag > max_len and mag > 1e-12:             # <<<<<<<<<<<<<<
+ *         s = max_len / mag
+ *         x[0] *= s
 */
   }
 
-  /* "engine/cython/cy_collision_2d.pyx":370
- *         return rx * rx + ry * ry
- * 
- *     if a < 1e-10:             # <<<<<<<<<<<<<<
- *         s = 0.0
- *         t = f / e
-*/
-  __pyx_t_1 = (__pyx_v_a < 1e-10);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":371
- * 
- *     if a < 1e-10:
- *         s = 0.0             # <<<<<<<<<<<<<<
- *         t = f / e
- *         if t < 0.0: t = 0.0
-*/
-    __pyx_v_s = 0.0;
-
-    /* "engine/cython/cy_collision_2d.pyx":372
- *     if a < 1e-10:
- *         s = 0.0
- *         t = f / e             # <<<<<<<<<<<<<<
- *         if t < 0.0: t = 0.0
- *         elif t > 1.0: t = 1.0
-*/
-    __pyx_v_t = (__pyx_v_f / __pyx_v_e);
-
-    /* "engine/cython/cy_collision_2d.pyx":373
- *         s = 0.0
- *         t = f / e
- *         if t < 0.0: t = 0.0             # <<<<<<<<<<<<<<
- *         elif t > 1.0: t = 1.0
- *     else:
-*/
-    __pyx_t_1 = (__pyx_v_t < 0.0);
-    if (__pyx_t_1) {
-      __pyx_v_t = 0.0;
-      goto __pyx_L7;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":374
- *         t = f / e
- *         if t < 0.0: t = 0.0
- *         elif t > 1.0: t = 1.0             # <<<<<<<<<<<<<<
- *     else:
- *         c_val = d1x * rx + d1y * ry
-*/
-    __pyx_t_1 = (__pyx_v_t > 1.0);
-    if (__pyx_t_1) {
-      __pyx_v_t = 1.0;
-    }
-    __pyx_L7:;
-
-    /* "engine/cython/cy_collision_2d.pyx":370
- *         return rx * rx + ry * ry
- * 
- *     if a < 1e-10:             # <<<<<<<<<<<<<<
- *         s = 0.0
- *         t = f / e
-*/
-    goto __pyx_L6;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":376
- *         elif t > 1.0: t = 1.0
- *     else:
- *         c_val = d1x * rx + d1y * ry             # <<<<<<<<<<<<<<
- *         if e < 1e-10:
- *             t = 0.0
-*/
-  /*else*/ {
-    __pyx_v_c_val = ((__pyx_v_d1x * __pyx_v_rx) + (__pyx_v_d1y * __pyx_v_ry));
-
-    /* "engine/cython/cy_collision_2d.pyx":377
- *     else:
- *         c_val = d1x * rx + d1y * ry
- *         if e < 1e-10:             # <<<<<<<<<<<<<<
- *             t = 0.0
- *             s = -c_val / a
-*/
-    __pyx_t_1 = (__pyx_v_e < 1e-10);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":378
- *         c_val = d1x * rx + d1y * ry
- *         if e < 1e-10:
- *             t = 0.0             # <<<<<<<<<<<<<<
- *             s = -c_val / a
- *             if s < 0.0: s = 0.0
-*/
-      __pyx_v_t = 0.0;
-
-      /* "engine/cython/cy_collision_2d.pyx":379
- *         if e < 1e-10:
- *             t = 0.0
- *             s = -c_val / a             # <<<<<<<<<<<<<<
- *             if s < 0.0: s = 0.0
- *             elif s > 1.0: s = 1.0
-*/
-      __pyx_v_s = ((-__pyx_v_c_val) / __pyx_v_a);
-
-      /* "engine/cython/cy_collision_2d.pyx":380
- *             t = 0.0
- *             s = -c_val / a
- *             if s < 0.0: s = 0.0             # <<<<<<<<<<<<<<
- *             elif s > 1.0: s = 1.0
- *         else:
-*/
-      __pyx_t_1 = (__pyx_v_s < 0.0);
-      if (__pyx_t_1) {
-        __pyx_v_s = 0.0;
-        goto __pyx_L9;
-      }
-
-      /* "engine/cython/cy_collision_2d.pyx":381
- *             s = -c_val / a
- *             if s < 0.0: s = 0.0
- *             elif s > 1.0: s = 1.0             # <<<<<<<<<<<<<<
- *         else:
- *             b_val = d1x * d2x + d1y * d2y
-*/
-      __pyx_t_1 = (__pyx_v_s > 1.0);
-      if (__pyx_t_1) {
-        __pyx_v_s = 1.0;
-      }
-      __pyx_L9:;
-
-      /* "engine/cython/cy_collision_2d.pyx":377
- *     else:
- *         c_val = d1x * rx + d1y * ry
- *         if e < 1e-10:             # <<<<<<<<<<<<<<
- *             t = 0.0
- *             s = -c_val / a
-*/
-      goto __pyx_L8;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":383
- *             elif s > 1.0: s = 1.0
- *         else:
- *             b_val = d1x * d2x + d1y * d2y             # <<<<<<<<<<<<<<
- *             denom = a * e - b_val * b_val
- *             if fabs(denom) > 1e-10:
-*/
-    /*else*/ {
-      __pyx_v_b_val = ((__pyx_v_d1x * __pyx_v_d2x) + (__pyx_v_d1y * __pyx_v_d2y));
-
-      /* "engine/cython/cy_collision_2d.pyx":384
- *         else:
- *             b_val = d1x * d2x + d1y * d2y
- *             denom = a * e - b_val * b_val             # <<<<<<<<<<<<<<
- *             if fabs(denom) > 1e-10:
- *                 s = (b_val * f - c_val * e) / denom
-*/
-      __pyx_v_denom = ((__pyx_v_a * __pyx_v_e) - (__pyx_v_b_val * __pyx_v_b_val));
-
-      /* "engine/cython/cy_collision_2d.pyx":385
- *             b_val = d1x * d2x + d1y * d2y
- *             denom = a * e - b_val * b_val
- *             if fabs(denom) > 1e-10:             # <<<<<<<<<<<<<<
- *                 s = (b_val * f - c_val * e) / denom
- *                 if s < 0.0: s = 0.0
-*/
-      __pyx_t_1 = (fabs(__pyx_v_denom) > 1e-10);
-      if (__pyx_t_1) {
-
-        /* "engine/cython/cy_collision_2d.pyx":386
- *             denom = a * e - b_val * b_val
- *             if fabs(denom) > 1e-10:
- *                 s = (b_val * f - c_val * e) / denom             # <<<<<<<<<<<<<<
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0
-*/
-        __pyx_v_s = (((__pyx_v_b_val * __pyx_v_f) - (__pyx_v_c_val * __pyx_v_e)) / __pyx_v_denom);
-
-        /* "engine/cython/cy_collision_2d.pyx":387
- *             if fabs(denom) > 1e-10:
- *                 s = (b_val * f - c_val * e) / denom
- *                 if s < 0.0: s = 0.0             # <<<<<<<<<<<<<<
- *                 elif s > 1.0: s = 1.0
- *             else:
-*/
-        __pyx_t_1 = (__pyx_v_s < 0.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 0.0;
-          goto __pyx_L11;
-        }
-
-        /* "engine/cython/cy_collision_2d.pyx":388
- *                 s = (b_val * f - c_val * e) / denom
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0             # <<<<<<<<<<<<<<
- *             else:
- *                 s = 0.0
-*/
-        __pyx_t_1 = (__pyx_v_s > 1.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 1.0;
-        }
-        __pyx_L11:;
-
-        /* "engine/cython/cy_collision_2d.pyx":385
- *             b_val = d1x * d2x + d1y * d2y
- *             denom = a * e - b_val * b_val
- *             if fabs(denom) > 1e-10:             # <<<<<<<<<<<<<<
- *                 s = (b_val * f - c_val * e) / denom
- *                 if s < 0.0: s = 0.0
-*/
-        goto __pyx_L10;
-      }
-
-      /* "engine/cython/cy_collision_2d.pyx":390
- *                 elif s > 1.0: s = 1.0
- *             else:
- *                 s = 0.0             # <<<<<<<<<<<<<<
- *             t = (b_val * s + f) / e
- *             if t < 0.0:
-*/
-      /*else*/ {
-        __pyx_v_s = 0.0;
-      }
-      __pyx_L10:;
-
-      /* "engine/cython/cy_collision_2d.pyx":391
- *             else:
- *                 s = 0.0
- *             t = (b_val * s + f) / e             # <<<<<<<<<<<<<<
- *             if t < 0.0:
- *                 t = 0.0
-*/
-      __pyx_v_t = (((__pyx_v_b_val * __pyx_v_s) + __pyx_v_f) / __pyx_v_e);
-
-      /* "engine/cython/cy_collision_2d.pyx":392
- *                 s = 0.0
- *             t = (b_val * s + f) / e
- *             if t < 0.0:             # <<<<<<<<<<<<<<
- *                 t = 0.0
- *                 s = -c_val / a
-*/
-      __pyx_t_1 = (__pyx_v_t < 0.0);
-      if (__pyx_t_1) {
-
-        /* "engine/cython/cy_collision_2d.pyx":393
- *             t = (b_val * s + f) / e
- *             if t < 0.0:
- *                 t = 0.0             # <<<<<<<<<<<<<<
- *                 s = -c_val / a
- *                 if s < 0.0: s = 0.0
-*/
-        __pyx_v_t = 0.0;
-
-        /* "engine/cython/cy_collision_2d.pyx":394
- *             if t < 0.0:
- *                 t = 0.0
- *                 s = -c_val / a             # <<<<<<<<<<<<<<
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0
-*/
-        __pyx_v_s = ((-__pyx_v_c_val) / __pyx_v_a);
-
-        /* "engine/cython/cy_collision_2d.pyx":395
- *                 t = 0.0
- *                 s = -c_val / a
- *                 if s < 0.0: s = 0.0             # <<<<<<<<<<<<<<
- *                 elif s > 1.0: s = 1.0
- *             elif t > 1.0:
-*/
-        __pyx_t_1 = (__pyx_v_s < 0.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 0.0;
-          goto __pyx_L13;
-        }
-
-        /* "engine/cython/cy_collision_2d.pyx":396
- *                 s = -c_val / a
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0             # <<<<<<<<<<<<<<
- *             elif t > 1.0:
- *                 t = 1.0
-*/
-        __pyx_t_1 = (__pyx_v_s > 1.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 1.0;
-        }
-        __pyx_L13:;
-
-        /* "engine/cython/cy_collision_2d.pyx":392
- *                 s = 0.0
- *             t = (b_val * s + f) / e
- *             if t < 0.0:             # <<<<<<<<<<<<<<
- *                 t = 0.0
- *                 s = -c_val / a
-*/
-        goto __pyx_L12;
-      }
-
-      /* "engine/cython/cy_collision_2d.pyx":397
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0
- *             elif t > 1.0:             # <<<<<<<<<<<<<<
- *                 t = 1.0
- *                 s = (b_val - c_val) / a
-*/
-      __pyx_t_1 = (__pyx_v_t > 1.0);
-      if (__pyx_t_1) {
-
-        /* "engine/cython/cy_collision_2d.pyx":398
- *                 elif s > 1.0: s = 1.0
- *             elif t > 1.0:
- *                 t = 1.0             # <<<<<<<<<<<<<<
- *                 s = (b_val - c_val) / a
- *                 if s < 0.0: s = 0.0
-*/
-        __pyx_v_t = 1.0;
-
-        /* "engine/cython/cy_collision_2d.pyx":399
- *             elif t > 1.0:
- *                 t = 1.0
- *                 s = (b_val - c_val) / a             # <<<<<<<<<<<<<<
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0
-*/
-        __pyx_v_s = ((__pyx_v_b_val - __pyx_v_c_val) / __pyx_v_a);
-
-        /* "engine/cython/cy_collision_2d.pyx":400
- *                 t = 1.0
- *                 s = (b_val - c_val) / a
- *                 if s < 0.0: s = 0.0             # <<<<<<<<<<<<<<
- *                 elif s > 1.0: s = 1.0
- * 
-*/
-        __pyx_t_1 = (__pyx_v_s < 0.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 0.0;
-          goto __pyx_L14;
-        }
-
-        /* "engine/cython/cy_collision_2d.pyx":401
- *                 s = (b_val - c_val) / a
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0             # <<<<<<<<<<<<<<
- * 
- *     cx = a1x + d1x * s - (b1x + d2x * t)
-*/
-        __pyx_t_1 = (__pyx_v_s > 1.0);
-        if (__pyx_t_1) {
-          __pyx_v_s = 1.0;
-        }
-        __pyx_L14:;
-
-        /* "engine/cython/cy_collision_2d.pyx":397
- *                 if s < 0.0: s = 0.0
- *                 elif s > 1.0: s = 1.0
- *             elif t > 1.0:             # <<<<<<<<<<<<<<
- *                 t = 1.0
- *                 s = (b_val - c_val) / a
-*/
-      }
-      __pyx_L12:;
-    }
-    __pyx_L8:;
-  }
-  __pyx_L6:;
-
-  /* "engine/cython/cy_collision_2d.pyx":403
- *                 elif s > 1.0: s = 1.0
- * 
- *     cx = a1x + d1x * s - (b1x + d2x * t)             # <<<<<<<<<<<<<<
- *     cy = a1y + d1y * s - (b1y + d2y * t)
- *     return cx * cx + cy * cy
-*/
-  __pyx_v_cx = ((__pyx_v_a1x + (__pyx_v_d1x * __pyx_v_s)) - (__pyx_v_b1x + (__pyx_v_d2x * __pyx_v_t)));
-
-  /* "engine/cython/cy_collision_2d.pyx":404
- * 
- *     cx = a1x + d1x * s - (b1x + d2x * t)
- *     cy = a1y + d1y * s - (b1y + d2y * t)             # <<<<<<<<<<<<<<
- *     return cx * cx + cy * cy
- * 
-*/
-  __pyx_v_cy = ((__pyx_v_a1y + (__pyx_v_d1y * __pyx_v_s)) - (__pyx_v_b1y + (__pyx_v_d2y * __pyx_v_t)));
-
-  /* "engine/cython/cy_collision_2d.pyx":405
- *     cx = a1x + d1x * s - (b1x + d2x * t)
- *     cy = a1y + d1y * s - (b1y + d2y * t)
- *     return cx * cx + cy * cy             # <<<<<<<<<<<<<<
+  /* "engine/cython/cy_response_2d.pyx":41
  * 
  * 
-*/
-  __pyx_r = ((__pyx_v_cx * __pyx_v_cx) + (__pyx_v_cy * __pyx_v_cy));
-  goto __pyx_L0;
-
-  /* "engine/cython/cy_collision_2d.pyx":353
- * 
- * 
- * cpdef double segment_segment_dist_sq_fast(             # <<<<<<<<<<<<<<
- *     double a1x, double a1y, double a2x, double a2y,
- *     double b1x, double b1y, double b2x, double b2y,
+ * cdef inline void _clamp_vec2(double *x, double *y, double max_len) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double mag = _len2(x[0], y[0])
+ *     cdef double s
 */
 
   /* function exit code */
-  __pyx_L0:;
-  return __pyx_r;
 }
 
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_16segment_segment_dist_sq_fast, "Squared distance between two line segments in 2D.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast = {"segment_segment_dist_sq_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_16segment_segment_dist_sq_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_a1x;
-  double __pyx_v_a1y;
-  double __pyx_v_a2x;
-  double __pyx_v_a2y;
-  double __pyx_v_b1x;
-  double __pyx_v_b1y;
-  double __pyx_v_b2x;
-  double __pyx_v_b2y;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[8] = {0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("segment_segment_dist_sq_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_a1x,&__pyx_mstate_global->__pyx_n_u_a1y,&__pyx_mstate_global->__pyx_n_u_a2x,&__pyx_mstate_global->__pyx_n_u_a2y,&__pyx_mstate_global->__pyx_n_u_b1x,&__pyx_mstate_global->__pyx_n_u_b1y,&__pyx_mstate_global->__pyx_n_u_b2x,&__pyx_mstate_global->__pyx_n_u_b2y,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 353, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 353, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "segment_segment_dist_sq_fast", 0) < (0)) __PYX_ERR(0, 353, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("segment_segment_dist_sq_fast", 1, 8, 8, i); __PYX_ERR(0, 353, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 8)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 353, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 353, __pyx_L3_error)
-    }
-    __pyx_v_a1x = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_a1x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 354, __pyx_L3_error)
-    __pyx_v_a1y = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_a1y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 354, __pyx_L3_error)
-    __pyx_v_a2x = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a2x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 354, __pyx_L3_error)
-    __pyx_v_a2y = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_a2y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 354, __pyx_L3_error)
-    __pyx_v_b1x = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_b1x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L3_error)
-    __pyx_v_b1y = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_b1y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L3_error)
-    __pyx_v_b2x = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_b2x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L3_error)
-    __pyx_v_b2y = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_b2y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("segment_segment_dist_sq_fast", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 353, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.segment_segment_dist_sq_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_16segment_segment_dist_sq_fast(__pyx_self, __pyx_v_a1x, __pyx_v_a1y, __pyx_v_a2x, __pyx_v_a2y, __pyx_v_b1x, __pyx_v_b1y, __pyx_v_b2x, __pyx_v_b2y);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_16segment_segment_dist_sq_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_a1x, double __pyx_v_a1y, double __pyx_v_a2x, double __pyx_v_a2y, double __pyx_v_b1x, double __pyx_v_b1y, double __pyx_v_b2x, double __pyx_v_b2y) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("segment_segment_dist_sq_fast", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6engine_6cython_15cy_collision_2d_segment_segment_dist_sq_fast(__pyx_v_a1x, __pyx_v_a1y, __pyx_v_a2x, __pyx_v_a2y, __pyx_v_b1x, __pyx_v_b1y, __pyx_v_b2x, __pyx_v_b2y, 1); if (unlikely(__pyx_t_1 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 353, __pyx_L1_error)
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 353, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.segment_segment_dist_sq_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "engine/cython/cy_collision_2d.pyx":412
- * # =========================================================================
+/* "engine/cython/cy_response_2d.pyx":50
  * 
- * def ray_circle_intersection_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double cx, double cy, double radius,
+ * 
+ * cdef inline double _clamp_omega(double omega, double limit) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     if omega > limit:
+ *         return limit
 */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_19ray_circle_intersection_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_18ray_circle_intersection_fast, "Returns (t_near, t_far) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_19ray_circle_intersection_fast = {"ray_circle_intersection_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_19ray_circle_intersection_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_18ray_circle_intersection_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_19ray_circle_intersection_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_ox;
-  double __pyx_v_oy;
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_cx;
-  double __pyx_v_cy;
-  double __pyx_v_radius;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[7] = {0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("ray_circle_intersection_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_ox,&__pyx_mstate_global->__pyx_n_u_oy,&__pyx_mstate_global->__pyx_n_u_dx,&__pyx_mstate_global->__pyx_n_u_dy,&__pyx_mstate_global->__pyx_n_u_cx,&__pyx_mstate_global->__pyx_n_u_cy,&__pyx_mstate_global->__pyx_n_u_radius,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 412, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 412, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "ray_circle_intersection_fast", 0) < (0)) __PYX_ERR(0, 412, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 7; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("ray_circle_intersection_fast", 1, 7, 7, i); __PYX_ERR(0, 412, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 7)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 412, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 412, __pyx_L3_error)
-    }
-    __pyx_v_ox = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_ox == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L3_error)
-    __pyx_v_oy = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_oy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L3_error)
-    __pyx_v_dx = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_dx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L3_error)
-    __pyx_v_dy = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_dy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 413, __pyx_L3_error)
-    __pyx_v_cx = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_cx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L3_error)
-    __pyx_v_cy = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_cy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L3_error)
-    __pyx_v_radius = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_radius == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L3_error)
-  }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ray_circle_intersection_fast", 1, 7, 7, __pyx_nargs); __PYX_ERR(0, 412, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.ray_circle_intersection_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_18ray_circle_intersection_fast(__pyx_self, __pyx_v_ox, __pyx_v_oy, __pyx_v_dx, __pyx_v_dy, __pyx_v_cx, __pyx_v_cy, __pyx_v_radius);
-
-  /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_18ray_circle_intersection_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_ox, double __pyx_v_oy, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_cx, double __pyx_v_cy, double __pyx_v_radius) {
-  double __pyx_v_ocx;
-  double __pyx_v_ocy;
-  double __pyx_v_b;
-  double __pyx_v_c;
-  double __pyx_v_disc;
-  double __pyx_v_s;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__clamp_omega(double __pyx_v_omega, double __pyx_v_limit) {
+  double __pyx_r;
   int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("ray_circle_intersection_fast", 0);
 
-  /* "engine/cython/cy_collision_2d.pyx":417
- * ):
- *     """Returns (t_near, t_far) or None."""
- *     cdef double ocx = ox - cx             # <<<<<<<<<<<<<<
- *     cdef double ocy = oy - cy
- *     cdef double b = ocx * dx + ocy * dy
+  /* "engine/cython/cy_response_2d.pyx":51
+ * 
+ * cdef inline double _clamp_omega(double omega, double limit) noexcept nogil:
+ *     if omega > limit:             # <<<<<<<<<<<<<<
+ *         return limit
+ *     if omega < -limit:
 */
-  __pyx_v_ocx = (__pyx_v_ox - __pyx_v_cx);
-
-  /* "engine/cython/cy_collision_2d.pyx":418
- *     """Returns (t_near, t_far) or None."""
- *     cdef double ocx = ox - cx
- *     cdef double ocy = oy - cy             # <<<<<<<<<<<<<<
- *     cdef double b = ocx * dx + ocy * dy
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius
-*/
-  __pyx_v_ocy = (__pyx_v_oy - __pyx_v_cy);
-
-  /* "engine/cython/cy_collision_2d.pyx":419
- *     cdef double ocx = ox - cx
- *     cdef double ocy = oy - cy
- *     cdef double b = ocx * dx + ocy * dy             # <<<<<<<<<<<<<<
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius
- *     cdef double disc = b * b - c
-*/
-  __pyx_v_b = ((__pyx_v_ocx * __pyx_v_dx) + (__pyx_v_ocy * __pyx_v_dy));
-
-  /* "engine/cython/cy_collision_2d.pyx":420
- *     cdef double ocy = oy - cy
- *     cdef double b = ocx * dx + ocy * dy
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius             # <<<<<<<<<<<<<<
- *     cdef double disc = b * b - c
- *     if disc < 0.0:
-*/
-  __pyx_v_c = (((__pyx_v_ocx * __pyx_v_ocx) + (__pyx_v_ocy * __pyx_v_ocy)) - (__pyx_v_radius * __pyx_v_radius));
-
-  /* "engine/cython/cy_collision_2d.pyx":421
- *     cdef double b = ocx * dx + ocy * dy
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius
- *     cdef double disc = b * b - c             # <<<<<<<<<<<<<<
- *     if disc < 0.0:
- *         return None
-*/
-  __pyx_v_disc = ((__pyx_v_b * __pyx_v_b) - __pyx_v_c);
-
-  /* "engine/cython/cy_collision_2d.pyx":422
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius
- *     cdef double disc = b * b - c
- *     if disc < 0.0:             # <<<<<<<<<<<<<<
- *         return None
- *     cdef double s = sqrt(disc)
-*/
-  __pyx_t_1 = (__pyx_v_disc < 0.0);
+  __pyx_t_1 = (__pyx_v_omega > __pyx_v_limit);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_collision_2d.pyx":423
- *     cdef double disc = b * b - c
- *     if disc < 0.0:
- *         return None             # <<<<<<<<<<<<<<
- *     cdef double s = sqrt(disc)
- *     return (-b - s, -b + s)
+    /* "engine/cython/cy_response_2d.pyx":52
+ * cdef inline double _clamp_omega(double omega, double limit) noexcept nogil:
+ *     if omega > limit:
+ *         return limit             # <<<<<<<<<<<<<<
+ *     if omega < -limit:
+ *         return -limit
 */
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+    __pyx_r = __pyx_v_limit;
     goto __pyx_L0;
 
-    /* "engine/cython/cy_collision_2d.pyx":422
- *     cdef double c = ocx * ocx + ocy * ocy - radius * radius
- *     cdef double disc = b * b - c
- *     if disc < 0.0:             # <<<<<<<<<<<<<<
- *         return None
- *     cdef double s = sqrt(disc)
+    /* "engine/cython/cy_response_2d.pyx":51
+ * 
+ * cdef inline double _clamp_omega(double omega, double limit) noexcept nogil:
+ *     if omega > limit:             # <<<<<<<<<<<<<<
+ *         return limit
+ *     if omega < -limit:
 */
   }
 
-  /* "engine/cython/cy_collision_2d.pyx":424
- *     if disc < 0.0:
- *         return None
- *     cdef double s = sqrt(disc)             # <<<<<<<<<<<<<<
- *     return (-b - s, -b + s)
- * 
+  /* "engine/cython/cy_response_2d.pyx":53
+ *     if omega > limit:
+ *         return limit
+ *     if omega < -limit:             # <<<<<<<<<<<<<<
+ *         return -limit
+ *     return omega
 */
-  __pyx_v_s = sqrt(__pyx_v_disc);
+  __pyx_t_1 = (__pyx_v_omega < (-__pyx_v_limit));
+  if (__pyx_t_1) {
 
-  /* "engine/cython/cy_collision_2d.pyx":425
- *         return None
- *     cdef double s = sqrt(disc)
- *     return (-b - s, -b + s)             # <<<<<<<<<<<<<<
+    /* "engine/cython/cy_response_2d.pyx":54
+ *         return limit
+ *     if omega < -limit:
+ *         return -limit             # <<<<<<<<<<<<<<
+ *     return omega
+ * 
+*/
+    __pyx_r = (-__pyx_v_limit);
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":53
+ *     if omega > limit:
+ *         return limit
+ *     if omega < -limit:             # <<<<<<<<<<<<<<
+ *         return -limit
+ *     return omega
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":55
+ *     if omega < -limit:
+ *         return -limit
+ *     return omega             # <<<<<<<<<<<<<<
  * 
  * 
 */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(((-__pyx_v_b) - __pyx_v_s)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(((-__pyx_v_b) + __pyx_v_s)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 425, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2) != (0)) __PYX_ERR(0, 425, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 425, __pyx_L1_error);
-  __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_r = __pyx_v_omega;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_collision_2d.pyx":412
- * # =========================================================================
+  /* "engine/cython/cy_response_2d.pyx":50
  * 
- * def ray_circle_intersection_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double cx, double cy, double radius,
+ * 
+ * cdef inline double _clamp_omega(double omega, double limit) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     if omega > limit:
+ *         return limit
 */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.ray_circle_intersection_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "engine/cython/cy_collision_2d.pyx":428
+/* "engine/cython/cy_response_2d.pyx":58
  * 
  * 
- * def ray_aabb_intersection_2d_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double min_x, double min_y, double max_x, double max_y,
+ * cdef inline double _impact_weight(double closing) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double t
+ *     if closing <= IMPACT_BLEND_START:
 */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_21ray_aabb_intersection_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_15cy_collision_2d_20ray_aabb_intersection_2d_fast, "Returns (t_min, t_max) or None.");
-static PyMethodDef __pyx_mdef_6engine_6cython_15cy_collision_2d_21ray_aabb_intersection_2d_fast = {"ray_aabb_intersection_2d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_15cy_collision_2d_21ray_aabb_intersection_2d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_15cy_collision_2d_20ray_aabb_intersection_2d_fast};
-static PyObject *__pyx_pw_6engine_6cython_15cy_collision_2d_21ray_aabb_intersection_2d_fast(PyObject *__pyx_self, 
-#if CYTHON_METH_FASTCALL
-PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
-#else
-PyObject *__pyx_args, PyObject *__pyx_kwds
-#endif
-) {
-  double __pyx_v_ox;
-  double __pyx_v_oy;
-  double __pyx_v_dx;
-  double __pyx_v_dy;
-  double __pyx_v_min_x;
-  double __pyx_v_min_y;
-  double __pyx_v_max_x;
-  double __pyx_v_max_y;
-  #if !CYTHON_METH_FASTCALL
-  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
-  #endif
-  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[8] = {0,0,0,0,0,0,0,0};
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("ray_aabb_intersection_2d_fast (wrapper)", 0);
-  #if !CYTHON_METH_FASTCALL
-  #if CYTHON_ASSUME_SAFE_SIZE
-  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
-  #else
-  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
-  #endif
-  #endif
-  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
-  {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_ox,&__pyx_mstate_global->__pyx_n_u_oy,&__pyx_mstate_global->__pyx_n_u_dx,&__pyx_mstate_global->__pyx_n_u_dy,&__pyx_mstate_global->__pyx_n_u_min_x,&__pyx_mstate_global->__pyx_n_u_min_y,&__pyx_mstate_global->__pyx_n_u_max_x,&__pyx_mstate_global->__pyx_n_u_max_y,0};
-    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 428, __pyx_L3_error)
-    if (__pyx_kwds_len > 0) {
-      switch (__pyx_nargs) {
-        case  8:
-        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  7:
-        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  6:
-        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  5:
-        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  4:
-        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  3:
-        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  2:
-        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  1:
-        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 428, __pyx_L3_error)
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "ray_aabb_intersection_2d_fast", 0) < (0)) __PYX_ERR(0, 428, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("ray_aabb_intersection_2d_fast", 1, 8, 8, i); __PYX_ERR(0, 428, __pyx_L3_error) }
-      }
-    } else if (unlikely(__pyx_nargs != 8)) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 428, __pyx_L3_error)
-      values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 428, __pyx_L3_error)
-    }
-    __pyx_v_ox = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_ox == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 429, __pyx_L3_error)
-    __pyx_v_oy = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_oy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 429, __pyx_L3_error)
-    __pyx_v_dx = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_dx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 429, __pyx_L3_error)
-    __pyx_v_dy = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_dy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 429, __pyx_L3_error)
-    __pyx_v_min_x = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_min_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L3_error)
-    __pyx_v_min_y = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_min_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L3_error)
-    __pyx_v_max_x = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_max_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L3_error)
-    __pyx_v_max_y = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_max_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L3_error)
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__impact_weight(double __pyx_v_closing) {
+  double __pyx_v_t;
+  double __pyx_r;
+  int __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":60
+ * cdef inline double _impact_weight(double closing) noexcept nogil:
+ *     cdef double t
+ *     if closing <= IMPACT_BLEND_START:             # <<<<<<<<<<<<<<
+ *         return 0.0
+ *     if closing >= IMPACT_BLEND_END:
+*/
+  __pyx_t_1 = (__pyx_v_closing <= __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_START);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":61
+ *     cdef double t
+ *     if closing <= IMPACT_BLEND_START:
+ *         return 0.0             # <<<<<<<<<<<<<<
+ *     if closing >= IMPACT_BLEND_END:
+ *         return 1.0
+*/
+    __pyx_r = 0.0;
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":60
+ * cdef inline double _impact_weight(double closing) noexcept nogil:
+ *     cdef double t
+ *     if closing <= IMPACT_BLEND_START:             # <<<<<<<<<<<<<<
+ *         return 0.0
+ *     if closing >= IMPACT_BLEND_END:
+*/
   }
-  goto __pyx_L6_skip;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ray_aabb_intersection_2d_fast", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 428, __pyx_L3_error)
-  __pyx_L6_skip:;
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
+
+  /* "engine/cython/cy_response_2d.pyx":62
+ *     if closing <= IMPACT_BLEND_START:
+ *         return 0.0
+ *     if closing >= IMPACT_BLEND_END:             # <<<<<<<<<<<<<<
+ *         return 1.0
+ *     t = (closing - IMPACT_BLEND_START) / (IMPACT_BLEND_END - IMPACT_BLEND_START)
+*/
+  __pyx_t_1 = (__pyx_v_closing >= __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_END);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":63
+ *         return 0.0
+ *     if closing >= IMPACT_BLEND_END:
+ *         return 1.0             # <<<<<<<<<<<<<<
+ *     t = (closing - IMPACT_BLEND_START) / (IMPACT_BLEND_END - IMPACT_BLEND_START)
+ *     return t * t * (3.0 - 2.0 * t)
+*/
+    __pyx_r = 1.0;
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":62
+ *     if closing <= IMPACT_BLEND_START:
+ *         return 0.0
+ *     if closing >= IMPACT_BLEND_END:             # <<<<<<<<<<<<<<
+ *         return 1.0
+ *     t = (closing - IMPACT_BLEND_START) / (IMPACT_BLEND_END - IMPACT_BLEND_START)
+*/
   }
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.ray_aabb_intersection_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_15cy_collision_2d_20ray_aabb_intersection_2d_fast(__pyx_self, __pyx_v_ox, __pyx_v_oy, __pyx_v_dx, __pyx_v_dy, __pyx_v_min_x, __pyx_v_min_y, __pyx_v_max_x, __pyx_v_max_y);
+
+  /* "engine/cython/cy_response_2d.pyx":64
+ *     if closing >= IMPACT_BLEND_END:
+ *         return 1.0
+ *     t = (closing - IMPACT_BLEND_START) / (IMPACT_BLEND_END - IMPACT_BLEND_START)             # <<<<<<<<<<<<<<
+ *     return t * t * (3.0 - 2.0 * t)
+ * 
+*/
+  __pyx_v_t = ((__pyx_v_closing - __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_START) / (__pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_END - __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_START));
+
+  /* "engine/cython/cy_response_2d.pyx":65
+ *         return 1.0
+ *     t = (closing - IMPACT_BLEND_START) / (IMPACT_BLEND_END - IMPACT_BLEND_START)
+ *     return t * t * (3.0 - 2.0 * t)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = ((__pyx_v_t * __pyx_v_t) * (3.0 - (2.0 * __pyx_v_t)));
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":58
+ * 
+ * 
+ * cdef inline double _impact_weight(double closing) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double t
+ *     if closing <= IMPACT_BLEND_START:
+*/
 
   /* function exit code */
-  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
-    Py_XDECREF(values[__pyx_temp]);
-  }
-  __Pyx_RefNannyFinishContext();
+  __pyx_L0:;
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_15cy_collision_2d_20ray_aabb_intersection_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_ox, double __pyx_v_oy, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_min_x, double __pyx_v_min_y, double __pyx_v_max_x, double __pyx_v_max_y) {
-  double __pyx_v_t_min;
-  double __pyx_v_t_max;
-  double __pyx_v_inv_d;
-  double __pyx_v_t0;
-  double __pyx_v_t1;
-  double __pyx_v_tmp;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
+/* "engine/cython/cy_response_2d.pyx":68
+ * 
+ * 
+ * cdef inline double _support_offset(double rx, double ry, double nx, double ny) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double dn = _dot2(rx, ry, nx, ny)
+ *     cdef double tx = rx - nx * dn
+*/
+
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__support_offset(double __pyx_v_rx, double __pyx_v_ry, double __pyx_v_nx, double __pyx_v_ny) {
+  double __pyx_v_dn;
+  double __pyx_v_tx;
+  double __pyx_v_ty;
+  double __pyx_r;
+
+  /* "engine/cython/cy_response_2d.pyx":69
+ * 
+ * cdef inline double _support_offset(double rx, double ry, double nx, double ny) noexcept nogil:
+ *     cdef double dn = _dot2(rx, ry, nx, ny)             # <<<<<<<<<<<<<<
+ *     cdef double tx = rx - nx * dn
+ *     cdef double ty = ry - ny * dn
+*/
+  __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_rx, __pyx_v_ry, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":70
+ * cdef inline double _support_offset(double rx, double ry, double nx, double ny) noexcept nogil:
+ *     cdef double dn = _dot2(rx, ry, nx, ny)
+ *     cdef double tx = rx - nx * dn             # <<<<<<<<<<<<<<
+ *     cdef double ty = ry - ny * dn
+ *     return _len2(tx, ty)
+*/
+  __pyx_v_tx = (__pyx_v_rx - (__pyx_v_nx * __pyx_v_dn));
+
+  /* "engine/cython/cy_response_2d.pyx":71
+ *     cdef double dn = _dot2(rx, ry, nx, ny)
+ *     cdef double tx = rx - nx * dn
+ *     cdef double ty = ry - ny * dn             # <<<<<<<<<<<<<<
+ *     return _len2(tx, ty)
+ * 
+*/
+  __pyx_v_ty = (__pyx_v_ry - (__pyx_v_ny * __pyx_v_dn));
+
+  /* "engine/cython/cy_response_2d.pyx":72
+ *     cdef double tx = rx - nx * dn
+ *     cdef double ty = ry - ny * dn
+ *     return _len2(tx, ty)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = __pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_tx, __pyx_v_ty);
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":68
+ * 
+ * 
+ * cdef inline double _support_offset(double rx, double ry, double nx, double ny) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef double dn = _dot2(rx, ry, nx, ny)
+ *     cdef double tx = rx - nx * dn
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_2d.pyx":75
+ * 
+ * 
+ * cdef inline double _effective_mass(             # <<<<<<<<<<<<<<
+ *     double dx, double dy,
+ *     double inv_mass_a, double inv_mass_b,
+*/
+
+static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_2d__effective_mass(double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_inv_mass_a, double __pyx_v_inv_mass_b, double __pyx_v_rax, double __pyx_v_ray, double __pyx_v_rbx, double __pyx_v_rby, int __pyx_v_has_ia, double __pyx_v_i_inv_a, int __pyx_v_has_ib, double __pyx_v_i_inv_b) {
+  double __pyx_v_k;
+  double __pyx_v_rn;
+  double __pyx_r;
   int __pyx_t_1;
   int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+
+  /* "engine/cython/cy_response_2d.pyx":82
+ *     bint has_ib, double i_inv_b,
+ * ) noexcept nogil:
+ *     cdef double k = inv_mass_a + inv_mass_b             # <<<<<<<<<<<<<<
+ *     cdef double rn
+ *     if has_ia and inv_mass_a > 0.0:
+*/
+  __pyx_v_k = (__pyx_v_inv_mass_a + __pyx_v_inv_mass_b);
+
+  /* "engine/cython/cy_response_2d.pyx":84
+ *     cdef double k = inv_mass_a + inv_mass_b
+ *     cdef double rn
+ *     if has_ia and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *         rn = _cross_z(rax, ray, dx, dy)
+ *         k += i_inv_a * rn * rn
+*/
+  if (__pyx_v_has_ia) {
+  } else {
+    __pyx_t_1 = __pyx_v_has_ia;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = (__pyx_v_inv_mass_a > 0.0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":85
+ *     cdef double rn
+ *     if has_ia and inv_mass_a > 0.0:
+ *         rn = _cross_z(rax, ray, dx, dy)             # <<<<<<<<<<<<<<
+ *         k += i_inv_a * rn * rn
+ *     if has_ib and inv_mass_b > 0.0:
+*/
+    __pyx_v_rn = __pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rax, __pyx_v_ray, __pyx_v_dx, __pyx_v_dy);
+
+    /* "engine/cython/cy_response_2d.pyx":86
+ *     if has_ia and inv_mass_a > 0.0:
+ *         rn = _cross_z(rax, ray, dx, dy)
+ *         k += i_inv_a * rn * rn             # <<<<<<<<<<<<<<
+ *     if has_ib and inv_mass_b > 0.0:
+ *         rn = _cross_z(rbx, rby, dx, dy)
+*/
+    __pyx_v_k = (__pyx_v_k + ((__pyx_v_i_inv_a * __pyx_v_rn) * __pyx_v_rn));
+
+    /* "engine/cython/cy_response_2d.pyx":84
+ *     cdef double k = inv_mass_a + inv_mass_b
+ *     cdef double rn
+ *     if has_ia and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *         rn = _cross_z(rax, ray, dx, dy)
+ *         k += i_inv_a * rn * rn
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":87
+ *         rn = _cross_z(rax, ray, dx, dy)
+ *         k += i_inv_a * rn * rn
+ *     if has_ib and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *         rn = _cross_z(rbx, rby, dx, dy)
+ *         k += i_inv_b * rn * rn
+*/
+  if (__pyx_v_has_ib) {
+  } else {
+    __pyx_t_1 = __pyx_v_has_ib;
+    goto __pyx_L7_bool_binop_done;
+  }
+  __pyx_t_2 = (__pyx_v_inv_mass_b > 0.0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L7_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":88
+ *         k += i_inv_a * rn * rn
+ *     if has_ib and inv_mass_b > 0.0:
+ *         rn = _cross_z(rbx, rby, dx, dy)             # <<<<<<<<<<<<<<
+ *         k += i_inv_b * rn * rn
+ *     return k
+*/
+    __pyx_v_rn = __pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rbx, __pyx_v_rby, __pyx_v_dx, __pyx_v_dy);
+
+    /* "engine/cython/cy_response_2d.pyx":89
+ *     if has_ib and inv_mass_b > 0.0:
+ *         rn = _cross_z(rbx, rby, dx, dy)
+ *         k += i_inv_b * rn * rn             # <<<<<<<<<<<<<<
+ *     return k
+ * 
+*/
+    __pyx_v_k = (__pyx_v_k + ((__pyx_v_i_inv_b * __pyx_v_rn) * __pyx_v_rn));
+
+    /* "engine/cython/cy_response_2d.pyx":87
+ *         rn = _cross_z(rax, ray, dx, dy)
+ *         k += i_inv_a * rn * rn
+ *     if has_ib and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *         rn = _cross_z(rbx, rby, dx, dy)
+ *         k += i_inv_b * rn * rn
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":90
+ *         rn = _cross_z(rbx, rby, dx, dy)
+ *         k += i_inv_b * rn * rn
+ *     return k             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_r = __pyx_v_k;
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_2d.pyx":75
+ * 
+ * 
+ * cdef inline double _effective_mass(             # <<<<<<<<<<<<<<
+ *     double dx, double dy,
+ *     double inv_mass_a, double inv_mass_b,
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_2d.pyx":93
+ * 
+ * 
+ * cdef inline void _apply_impulse(             # <<<<<<<<<<<<<<
+ *     double *vax, double *vay, double *oa,
+ *     double *vbx, double *vby, double *ob,
+*/
+
+static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_2d__apply_impulse(double *__pyx_v_vax, double *__pyx_v_vay, double *__pyx_v_oa, double *__pyx_v_vbx, double *__pyx_v_vby, double *__pyx_v_ob, double __pyx_v_inv_mass_a, double __pyx_v_inv_mass_b, int __pyx_v_has_ia, double __pyx_v_i_inv_a, int __pyx_v_has_ib, double __pyx_v_i_inv_b, double __pyx_v_rax, double __pyx_v_ray, double __pyx_v_rbx, double __pyx_v_rby, double __pyx_v_jx, double __pyx_v_jy) {
+  long __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+
+  /* "engine/cython/cy_response_2d.pyx":102
+ *     double jx, double jy,
+ * ) noexcept nogil:
+ *     vax[0] += jx * inv_mass_a             # <<<<<<<<<<<<<<
+ *     vay[0] += jy * inv_mass_a
+ *     vbx[0] -= jx * inv_mass_b
+*/
+  __pyx_t_1 = 0;
+  (__pyx_v_vax[__pyx_t_1]) = ((__pyx_v_vax[__pyx_t_1]) + (__pyx_v_jx * __pyx_v_inv_mass_a));
+
+  /* "engine/cython/cy_response_2d.pyx":103
+ * ) noexcept nogil:
+ *     vax[0] += jx * inv_mass_a
+ *     vay[0] += jy * inv_mass_a             # <<<<<<<<<<<<<<
+ *     vbx[0] -= jx * inv_mass_b
+ *     vby[0] -= jy * inv_mass_b
+*/
+  __pyx_t_1 = 0;
+  (__pyx_v_vay[__pyx_t_1]) = ((__pyx_v_vay[__pyx_t_1]) + (__pyx_v_jy * __pyx_v_inv_mass_a));
+
+  /* "engine/cython/cy_response_2d.pyx":104
+ *     vax[0] += jx * inv_mass_a
+ *     vay[0] += jy * inv_mass_a
+ *     vbx[0] -= jx * inv_mass_b             # <<<<<<<<<<<<<<
+ *     vby[0] -= jy * inv_mass_b
+ *     if has_ia and inv_mass_a > 0.0:
+*/
+  __pyx_t_1 = 0;
+  (__pyx_v_vbx[__pyx_t_1]) = ((__pyx_v_vbx[__pyx_t_1]) - (__pyx_v_jx * __pyx_v_inv_mass_b));
+
+  /* "engine/cython/cy_response_2d.pyx":105
+ *     vay[0] += jy * inv_mass_a
+ *     vbx[0] -= jx * inv_mass_b
+ *     vby[0] -= jy * inv_mass_b             # <<<<<<<<<<<<<<
+ *     if has_ia and inv_mass_a > 0.0:
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+*/
+  __pyx_t_1 = 0;
+  (__pyx_v_vby[__pyx_t_1]) = ((__pyx_v_vby[__pyx_t_1]) - (__pyx_v_jy * __pyx_v_inv_mass_b));
+
+  /* "engine/cython/cy_response_2d.pyx":106
+ *     vbx[0] -= jx * inv_mass_b
+ *     vby[0] -= jy * inv_mass_b
+ *     if has_ia and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+ *     if has_ib and inv_mass_b > 0.0:
+*/
+  if (__pyx_v_has_ia) {
+  } else {
+    __pyx_t_2 = __pyx_v_has_ia;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+  __pyx_t_2 = __pyx_t_3;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_2d.pyx":107
+ *     vby[0] -= jy * inv_mass_b
+ *     if has_ia and inv_mass_a > 0.0:
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)             # <<<<<<<<<<<<<<
+ *     if has_ib and inv_mass_b > 0.0:
+ *         ob[0] -= i_inv_b * _cross_z(rbx, rby, jx, jy)
+*/
+    __pyx_t_1 = 0;
+    (__pyx_v_oa[__pyx_t_1]) = ((__pyx_v_oa[__pyx_t_1]) + (__pyx_v_i_inv_a * __pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rax, __pyx_v_ray, __pyx_v_jx, __pyx_v_jy)));
+
+    /* "engine/cython/cy_response_2d.pyx":106
+ *     vbx[0] -= jx * inv_mass_b
+ *     vby[0] -= jy * inv_mass_b
+ *     if has_ia and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+ *     if has_ib and inv_mass_b > 0.0:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":108
+ *     if has_ia and inv_mass_a > 0.0:
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+ *     if has_ib and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *         ob[0] -= i_inv_b * _cross_z(rbx, rby, jx, jy)
+ * 
+*/
+  if (__pyx_v_has_ib) {
+  } else {
+    __pyx_t_2 = __pyx_v_has_ib;
+    goto __pyx_L7_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+  __pyx_t_2 = __pyx_t_3;
+  __pyx_L7_bool_binop_done:;
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_2d.pyx":109
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+ *     if has_ib and inv_mass_b > 0.0:
+ *         ob[0] -= i_inv_b * _cross_z(rbx, rby, jx, jy)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+    __pyx_t_1 = 0;
+    (__pyx_v_ob[__pyx_t_1]) = ((__pyx_v_ob[__pyx_t_1]) - (__pyx_v_i_inv_b * __pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rbx, __pyx_v_rby, __pyx_v_jx, __pyx_v_jy)));
+
+    /* "engine/cython/cy_response_2d.pyx":108
+ *     if has_ia and inv_mass_a > 0.0:
+ *         oa[0] += i_inv_a * _cross_z(rax, ray, jx, jy)
+ *     if has_ib and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *         ob[0] -= i_inv_b * _cross_z(rbx, rby, jx, jy)
+ * 
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":93
+ * 
+ * 
+ * cdef inline void _apply_impulse(             # <<<<<<<<<<<<<<
+ *     double *vax, double *vay, double *oa,
+ *     double *vbx, double *vby, double *ob,
+*/
+
+  /* function exit code */
+}
+
+/* "engine/cython/cy_response_2d.pyx":112
+ * 
+ * 
+ * cdef void _resolve_contact_core(             # <<<<<<<<<<<<<<
+ *     double pax, double pay,
+ *     double *vax, double *vay, double *oa,
+*/
+
+static void __pyx_f_6engine_6cython_14cy_response_2d__resolve_contact_core(double __pyx_v_pax, double __pyx_v_pay, double *__pyx_v_vax, double *__pyx_v_vay, double *__pyx_v_oa, double __pyx_v_inv_mass_a, int __pyx_v_has_ia, double __pyx_v_i_inv_a, double __pyx_v_pbx, double __pyx_v_pby, double *__pyx_v_vbx, double *__pyx_v_vby, double *__pyx_v_ob, double __pyx_v_inv_mass_b, int __pyx_v_has_ib, double __pyx_v_i_inv_b, double __pyx_v_cpx, double __pyx_v_cpy, double __pyx_v_nx, double __pyx_v_ny, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt, int *__pyx_v_out_unstable) {
+  double __pyx_v_n_len;
+  double __pyx_v_inv_n;
+  double __pyx_v_rax;
+  double __pyx_v_ray;
+  double __pyx_v_rbx;
+  double __pyx_v_rby;
+  double __pyx_v_vrx;
+  double __pyx_v_vry;
+  double __pyx_v_v_n0;
+  double __pyx_v_closing;
+  double __pyx_v_w_impact;
+  double __pyx_v_off_a;
+  double __pyx_v_off_b;
+  double __pyx_v_support_off;
+  int __pyx_v_aligned_a;
+  int __pyx_v_aligned_b;
+  int __pyx_v_face_aligned;
+  int __pyx_v_face_support;
+  int __pyx_v_unstable;
+  int __pyx_v_ground_like;
+  int __pyx_v_allow_gravity_tip;
+  int __pyx_v_a_on_static;
+  int __pyx_v_b_on_static;
+  double __pyx_v_best_align;
+  double __pyx_v_w_n;
+  double __pyx_v_tip;
+  double __pyx_v_tipx;
+  double __pyx_v_tipy;
+  double __pyx_v_tl;
+  double __pyx_v_dn;
+  double __pyx_v_lean;
+  double __pyx_v_ra_nx;
+  double __pyx_v_ra_ny;
+  double __pyx_v_rb_nx;
+  double __pyx_v_rb_ny;
+  double __pyx_v_ra_tx;
+  double __pyx_v_ra_ty;
+  double __pyx_v_rb_tx;
+  double __pyx_v_rb_ty;
+  double __pyx_v_ra_cx;
+  double __pyx_v_ra_cy;
+  double __pyx_v_rb_cx;
+  double __pyx_v_rb_cy;
+  double __pyx_v_v_n;
+  double __pyx_v_kn;
+  double __pyx_v_e;
+  double __pyx_v_jn;
+  double __pyx_v_jnx;
+  double __pyx_v_jny;
+  double __pyx_v_mass;
+  double __pyx_v_sx;
+  double __pyx_v_sy;
+  double __pyx_v_tau;
+  double __pyx_v_ra_fx;
+  double __pyx_v_ra_fy;
+  double __pyx_v_rb_fx;
+  double __pyx_v_rb_fy;
+  int __pyx_v_friction_angular;
+  double __pyx_v_vtx;
+  double __pyx_v_vty;
+  double __pyx_v_t_mag;
+  double __pyx_v_tx;
+  double __pyx_v_ty;
+  double __pyx_v_mu_s;
+  double __pyx_v_mu_d;
+  double __pyx_v_kt_lin;
+  double __pyx_v_jt;
+  double __pyx_v_max_f;
+  double __pyx_v_max_static;
+  double __pyx_v_vt_along;
+  double __pyx_v_kt;
+  double __pyx_v_speed;
+  double __pyx_v_speed_b;
+  double __pyx_v_damp;
+  int __pyx_t_1;
+  double __pyx_t_2;
+  int __pyx_t_3;
+  long __pyx_t_4;
+
+  /* "engine/cython/cy_response_2d.pyx":126
+ *     bint *out_unstable,
+ * ) noexcept nogil:
+ *     cdef double n_len = _len2(nx, ny)             # <<<<<<<<<<<<<<
+ *     cdef double inv_n
+ *     cdef double rax, ray, rbx, rby
+*/
+  __pyx_v_n_len = __pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":146
+ *     cdef double speed, speed_b, damp
+ * 
+ *     out_unstable[0] = 0             # <<<<<<<<<<<<<<
+ *     if n_len < 1e-12:
+ *         return
+*/
+  (__pyx_v_out_unstable[0]) = 0;
+
+  /* "engine/cython/cy_response_2d.pyx":147
+ * 
+ *     out_unstable[0] = 0
+ *     if n_len < 1e-12:             # <<<<<<<<<<<<<<
+ *         return
+ *     inv_n = 1.0 / n_len
+*/
+  __pyx_t_1 = (__pyx_v_n_len < 1e-12);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":148
+ *     out_unstable[0] = 0
+ *     if n_len < 1e-12:
+ *         return             # <<<<<<<<<<<<<<
+ *     inv_n = 1.0 / n_len
+ *     nx *= inv_n
+*/
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":147
+ * 
+ *     out_unstable[0] = 0
+ *     if n_len < 1e-12:             # <<<<<<<<<<<<<<
+ *         return
+ *     inv_n = 1.0 / n_len
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":149
+ *     if n_len < 1e-12:
+ *         return
+ *     inv_n = 1.0 / n_len             # <<<<<<<<<<<<<<
+ *     nx *= inv_n
+ *     ny *= inv_n
+*/
+  __pyx_v_inv_n = (1.0 / __pyx_v_n_len);
+
+  /* "engine/cython/cy_response_2d.pyx":150
+ *         return
+ *     inv_n = 1.0 / n_len
+ *     nx *= inv_n             # <<<<<<<<<<<<<<
+ *     ny *= inv_n
+ * 
+*/
+  __pyx_v_nx = (__pyx_v_nx * __pyx_v_inv_n);
+
+  /* "engine/cython/cy_response_2d.pyx":151
+ *     inv_n = 1.0 / n_len
+ *     nx *= inv_n
+ *     ny *= inv_n             # <<<<<<<<<<<<<<
+ * 
+ *     rax = cpx - pax; ray = cpy - pay
+*/
+  __pyx_v_ny = (__pyx_v_ny * __pyx_v_inv_n);
+
+  /* "engine/cython/cy_response_2d.pyx":153
+ *     ny *= inv_n
+ * 
+ *     rax = cpx - pax; ray = cpy - pay             # <<<<<<<<<<<<<<
+ *     rbx = cpx - pbx; rby = cpy - pby
+ * 
+*/
+  __pyx_v_rax = (__pyx_v_cpx - __pyx_v_pax);
+  __pyx_v_ray = (__pyx_v_cpy - __pyx_v_pay);
+
+  /* "engine/cython/cy_response_2d.pyx":154
+ * 
+ *     rax = cpx - pax; ray = cpy - pay
+ *     rbx = cpx - pbx; rby = cpy - pby             # <<<<<<<<<<<<<<
+ * 
+ *     # v_rel = (va + r) - (vb + r)
+*/
+  __pyx_v_rbx = (__pyx_v_cpx - __pyx_v_pbx);
+  __pyx_v_rby = (__pyx_v_cpy - __pyx_v_pby);
+
+  /* "engine/cython/cy_response_2d.pyx":157
+ * 
+ *     # v_rel = (va + r) - (vb + r)
+ *     vrx = vax[0] + (-oa[0] * ray)             # <<<<<<<<<<<<<<
+ *     vry = vay[0] + (oa[0] * rax)
+ *     vrx -= vbx[0] + (-ob[0] * rby)
+*/
+  __pyx_v_vrx = ((__pyx_v_vax[0]) + ((-(__pyx_v_oa[0])) * __pyx_v_ray));
+
+  /* "engine/cython/cy_response_2d.pyx":158
+ *     # v_rel = (va + r) - (vb + r)
+ *     vrx = vax[0] + (-oa[0] * ray)
+ *     vry = vay[0] + (oa[0] * rax)             # <<<<<<<<<<<<<<
+ *     vrx -= vbx[0] + (-ob[0] * rby)
+ *     vry -= vby[0] + (ob[0] * rbx)
+*/
+  __pyx_v_vry = ((__pyx_v_vay[0]) + ((__pyx_v_oa[0]) * __pyx_v_rax));
+
+  /* "engine/cython/cy_response_2d.pyx":159
+ *     vrx = vax[0] + (-oa[0] * ray)
+ *     vry = vay[0] + (oa[0] * rax)
+ *     vrx -= vbx[0] + (-ob[0] * rby)             # <<<<<<<<<<<<<<
+ *     vry -= vby[0] + (ob[0] * rbx)
+ * 
+*/
+  __pyx_v_vrx = (__pyx_v_vrx - ((__pyx_v_vbx[0]) + ((-(__pyx_v_ob[0])) * __pyx_v_rby)));
+
+  /* "engine/cython/cy_response_2d.pyx":160
+ *     vry = vay[0] + (oa[0] * rax)
+ *     vrx -= vbx[0] + (-ob[0] * rby)
+ *     vry -= vby[0] + (ob[0] * rbx)             # <<<<<<<<<<<<<<
+ * 
+ *     v_n0 = _dot2(vrx, vry, nx, ny)
+*/
+  __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + ((__pyx_v_ob[0]) * __pyx_v_rbx)));
+
+  /* "engine/cython/cy_response_2d.pyx":162
+ *     vry -= vby[0] + (ob[0] * rbx)
+ * 
+ *     v_n0 = _dot2(vrx, vry, nx, ny)             # <<<<<<<<<<<<<<
+ *     if v_n0 > 0.0:
+ *         return
+*/
+  __pyx_v_v_n0 = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_vrx, __pyx_v_vry, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":163
+ * 
+ *     v_n0 = _dot2(vrx, vry, nx, ny)
+ *     if v_n0 > 0.0:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+*/
+  __pyx_t_1 = (__pyx_v_v_n0 > 0.0);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":164
+ *     v_n0 = _dot2(vrx, vry, nx, ny)
+ *     if v_n0 > 0.0:
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     closing = -v_n0
+*/
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":163
+ * 
+ *     v_n0 = _dot2(vrx, vry, nx, ny)
+ *     if v_n0 > 0.0:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":166
+ *         return
+ * 
+ *     closing = -v_n0             # <<<<<<<<<<<<<<
+ *     w_impact = _impact_weight(closing)
+ * 
+*/
+  __pyx_v_closing = (-__pyx_v_v_n0);
+
+  /* "engine/cython/cy_response_2d.pyx":167
+ * 
+ *     closing = -v_n0
+ *     w_impact = _impact_weight(closing)             # <<<<<<<<<<<<<<
+ * 
+ *     off_a = _support_offset(rax, ray, nx, ny) if inv_mass_a > 0.0 else 0.0
+*/
+  __pyx_v_w_impact = __pyx_f_6engine_6cython_14cy_response_2d__impact_weight(__pyx_v_closing);
+
+  /* "engine/cython/cy_response_2d.pyx":169
+ *     w_impact = _impact_weight(closing)
+ * 
+ *     off_a = _support_offset(rax, ray, nx, ny) if inv_mass_a > 0.0 else 0.0             # <<<<<<<<<<<<<<
+ *     off_b = _support_offset(rbx, rby, nx, ny) if inv_mass_b > 0.0 else 0.0
+ *     support_off = off_a if off_a > off_b else off_b
+*/
+  __pyx_t_1 = (__pyx_v_inv_mass_a > 0.0);
+  if (__pyx_t_1) {
+    __pyx_t_2 = __pyx_f_6engine_6cython_14cy_response_2d__support_offset(__pyx_v_rax, __pyx_v_ray, __pyx_v_nx, __pyx_v_ny);
+  } else {
+    __pyx_t_2 = 0.0;
+  }
+  __pyx_v_off_a = __pyx_t_2;
+
+  /* "engine/cython/cy_response_2d.pyx":170
+ * 
+ *     off_a = _support_offset(rax, ray, nx, ny) if inv_mass_a > 0.0 else 0.0
+ *     off_b = _support_offset(rbx, rby, nx, ny) if inv_mass_b > 0.0 else 0.0             # <<<<<<<<<<<<<<
+ *     support_off = off_a if off_a > off_b else off_b
+ * 
+*/
+  __pyx_t_1 = (__pyx_v_inv_mass_b > 0.0);
+  if (__pyx_t_1) {
+    __pyx_t_2 = __pyx_f_6engine_6cython_14cy_response_2d__support_offset(__pyx_v_rbx, __pyx_v_rby, __pyx_v_nx, __pyx_v_ny);
+  } else {
+    __pyx_t_2 = 0.0;
+  }
+  __pyx_v_off_b = __pyx_t_2;
+
+  /* "engine/cython/cy_response_2d.pyx":171
+ *     off_a = _support_offset(rax, ray, nx, ny) if inv_mass_a > 0.0 else 0.0
+ *     off_b = _support_offset(rbx, rby, nx, ny) if inv_mass_b > 0.0 else 0.0
+ *     support_off = off_a if off_a > off_b else off_b             # <<<<<<<<<<<<<<
+ * 
+ *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD
+*/
+  __pyx_t_1 = (__pyx_v_off_a > __pyx_v_off_b);
+  if (__pyx_t_1) {
+    __pyx_t_2 = __pyx_v_off_a;
+  } else {
+    __pyx_t_2 = __pyx_v_off_b;
+  }
+  __pyx_v_support_off = __pyx_t_2;
+
+  /* "engine/cython/cy_response_2d.pyx":173
+ *     support_off = off_a if off_a > off_b else off_b
+ * 
+ *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD             # <<<<<<<<<<<<<<
+ *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD
+ *     face_aligned = aligned_a or aligned_b
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L5_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_face_align_a >= __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L5_bool_binop_done:;
+  __pyx_v_aligned_a = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":174
+ * 
+ *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD
+ *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD             # <<<<<<<<<<<<<<
+ *     face_aligned = aligned_a or aligned_b
+ *     best_align = 0.0
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L7_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_face_align_b >= __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L7_bool_binop_done:;
+  __pyx_v_aligned_b = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":175
+ *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD
+ *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD
+ *     face_aligned = aligned_a or aligned_b             # <<<<<<<<<<<<<<
+ *     best_align = 0.0
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:
+*/
+  if (!__pyx_v_aligned_a) {
+  } else {
+    __pyx_t_1 = __pyx_v_aligned_a;
+    goto __pyx_L9_bool_binop_done;
+  }
+  __pyx_t_1 = __pyx_v_aligned_b;
+  __pyx_L9_bool_binop_done:;
+  __pyx_v_face_aligned = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":176
+ *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD
+ *     face_aligned = aligned_a or aligned_b
+ *     best_align = 0.0             # <<<<<<<<<<<<<<
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:
+ *         best_align = face_align_a
+*/
+  __pyx_v_best_align = 0.0;
+
+  /* "engine/cython/cy_response_2d.pyx":177
+ *     face_aligned = aligned_a or aligned_b
+ *     best_align = 0.0
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_a
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L12_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_face_align_a > __pyx_v_best_align);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L12_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":178
+ *     best_align = 0.0
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:
+ *         best_align = face_align_a             # <<<<<<<<<<<<<<
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:
+ *         best_align = face_align_b
+*/
+    __pyx_v_best_align = __pyx_v_face_align_a;
+
+    /* "engine/cython/cy_response_2d.pyx":177
+ *     face_aligned = aligned_a or aligned_b
+ *     best_align = 0.0
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_a
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":179
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:
+ *         best_align = face_align_a
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_b
+ * 
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L15_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_face_align_b > __pyx_v_best_align);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L15_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":180
+ *         best_align = face_align_a
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:
+ *         best_align = face_align_b             # <<<<<<<<<<<<<<
+ * 
+ *     ground_like = fabs(ny) > 0.88
+*/
+    __pyx_v_best_align = __pyx_v_face_align_b;
+
+    /* "engine/cython/cy_response_2d.pyx":179
+ *     if inv_mass_a > 0.0 and face_align_a > best_align:
+ *         best_align = face_align_a
+ *     if inv_mass_b > 0.0 and face_align_b > best_align:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_b
+ * 
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":182
+ *         best_align = face_align_b
+ * 
+ *     ground_like = fabs(ny) > 0.88             # <<<<<<<<<<<<<<
+ * 
+ *     # Face vs edge (orientation-first, generous face tip offset for stacks)
+*/
+  __pyx_v_ground_like = (fabs(__pyx_v_ny) > 0.88);
+
+  /* "engine/cython/cy_response_2d.pyx":185
+ * 
+ *     # Face vs edge (orientation-first, generous face tip offset for stacks)
+ *     if face_aligned or best_align >= FACE_ALIGN_THRESHOLD:             # <<<<<<<<<<<<<<
+ *         if support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+*/
+  if (!__pyx_v_face_aligned) {
+  } else {
+    __pyx_t_1 = __pyx_v_face_aligned;
+    goto __pyx_L18_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_best_align >= __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L18_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":186
+ *     # Face vs edge (orientation-first, generous face tip offset for stacks)
+ *     if face_aligned or best_align >= FACE_ALIGN_THRESHOLD:
+ *         if support_off < FACE_TIP_OFFSET:             # <<<<<<<<<<<<<<
+ *             face_support = 1
+ *             unstable = 0
+*/
+    __pyx_t_1 = (__pyx_v_support_off < __pyx_v_6engine_6cython_14cy_response_2d_FACE_TIP_OFFSET);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":187
+ *     if face_aligned or best_align >= FACE_ALIGN_THRESHOLD:
+ *         if support_off < FACE_TIP_OFFSET:
+ *             face_support = 1             # <<<<<<<<<<<<<<
+ *             unstable = 0
+ *         else:
+*/
+      __pyx_v_face_support = 1;
+
+      /* "engine/cython/cy_response_2d.pyx":188
+ *         if support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+ *             unstable = 0             # <<<<<<<<<<<<<<
+ *         else:
+ *             face_support = 0
+*/
+      __pyx_v_unstable = 0;
+
+      /* "engine/cython/cy_response_2d.pyx":186
+ *     # Face vs edge (orientation-first, generous face tip offset for stacks)
+ *     if face_aligned or best_align >= FACE_ALIGN_THRESHOLD:
+ *         if support_off < FACE_TIP_OFFSET:             # <<<<<<<<<<<<<<
+ *             face_support = 1
+ *             unstable = 0
+*/
+      goto __pyx_L20;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":190
+ *             unstable = 0
+ *         else:
+ *             face_support = 0             # <<<<<<<<<<<<<<
+ *             unstable = 1
+ *     else:
+*/
+    /*else*/ {
+      __pyx_v_face_support = 0;
+
+      /* "engine/cython/cy_response_2d.pyx":191
+ *         else:
+ *             face_support = 0
+ *             unstable = 1             # <<<<<<<<<<<<<<
+ *     else:
+ *         face_support = 0
+*/
+      __pyx_v_unstable = 1;
+    }
+    __pyx_L20:;
+
+    /* "engine/cython/cy_response_2d.pyx":185
+ * 
+ *     # Face vs edge (orientation-first, generous face tip offset for stacks)
+ *     if face_aligned or best_align >= FACE_ALIGN_THRESHOLD:             # <<<<<<<<<<<<<<
+ *         if support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+*/
+    goto __pyx_L17;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":193
+ *             unstable = 1
+ *     else:
+ *         face_support = 0             # <<<<<<<<<<<<<<
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET or support_off > 1e-4
+ * 
+*/
+  /*else*/ {
+    __pyx_v_face_support = 0;
+
+    /* "engine/cython/cy_response_2d.pyx":194
+ *     else:
+ *         face_support = 0
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET or support_off > 1e-4             # <<<<<<<<<<<<<<
+ * 
+ *     if ground_like and closing < 2.5:
+*/
+    __pyx_t_3 = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_2d_UNSTABLE_SUPPORT_OFFSET);
+    if (!__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L21_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_support_off > 1e-4);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L21_bool_binop_done:;
+    __pyx_v_unstable = __pyx_t_1;
+  }
+  __pyx_L17:;
+
+  /* "engine/cython/cy_response_2d.pyx":196
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET or support_off > 1e-4
+ * 
+ *     if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+*/
+  if (__pyx_v_ground_like) {
+  } else {
+    __pyx_t_1 = __pyx_v_ground_like;
+    goto __pyx_L24_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_closing < 2.5);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L24_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":197
+ * 
+ *     if ground_like and closing < 2.5:
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:             # <<<<<<<<<<<<<<
+ *             face_support = 1
+ *             unstable = 0
+*/
+    __pyx_t_3 = (__pyx_v_best_align >= __pyx_v_6engine_6cython_14cy_response_2d_FACE_REST_ALIGN);
+    if (__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L27_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_support_off < __pyx_v_6engine_6cython_14cy_response_2d_FACE_TIP_OFFSET);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L27_bool_binop_done:;
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":198
+ *     if ground_like and closing < 2.5:
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:
+ *             face_support = 1             # <<<<<<<<<<<<<<
+ *             unstable = 0
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (
+*/
+      __pyx_v_face_support = 1;
+
+      /* "engine/cython/cy_response_2d.pyx":199
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+ *             unstable = 0             # <<<<<<<<<<<<<<
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN
+*/
+      __pyx_v_unstable = 0;
+
+      /* "engine/cython/cy_response_2d.pyx":197
+ * 
+ *     if ground_like and closing < 2.5:
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:             # <<<<<<<<<<<<<<
+ *             face_support = 1
+ *             unstable = 0
+*/
+      goto __pyx_L26;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":200
+ *             face_support = 1
+ *             unstable = 0
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (             # <<<<<<<<<<<<<<
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN
+ *         ):
+*/
+    __pyx_t_3 = (__pyx_v_best_align < __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD);
+    if (__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L29_bool_binop_done;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":201
+ *             unstable = 0
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN             # <<<<<<<<<<<<<<
+ *         ):
+ *             face_support = 0
+*/
+    __pyx_t_3 = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_2d_UNSTABLE_SUPPORT_OFFSET);
+    if (!__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L29_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_best_align < __pyx_v_6engine_6cython_14cy_response_2d_FACE_REST_ALIGN);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L29_bool_binop_done:;
+
+    /* "engine/cython/cy_response_2d.pyx":200
+ *             face_support = 1
+ *             unstable = 0
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (             # <<<<<<<<<<<<<<
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN
+ *         ):
+*/
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":203
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN
+ *         ):
+ *             face_support = 0             # <<<<<<<<<<<<<<
+ *             unstable = 1
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:
+*/
+      __pyx_v_face_support = 0;
+
+      /* "engine/cython/cy_response_2d.pyx":204
+ *         ):
+ *             face_support = 0
+ *             unstable = 1             # <<<<<<<<<<<<<<
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                 tipx = -ny; tipy = nx
+*/
+      __pyx_v_unstable = 1;
+
+      /* "engine/cython/cy_response_2d.pyx":205
+ *             face_support = 0
+ *             unstable = 1
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                 tipx = -ny; tipy = nx
+ *                 tl = _len2(tipx, tipy)
+*/
+      __pyx_t_3 = (__pyx_v_support_off < 1e-3);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L33_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L33_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":206
+ *             unstable = 1
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                 tipx = -ny; tipy = nx             # <<<<<<<<<<<<<<
+ *                 tl = _len2(tipx, tipy)
+ *                 if tl > 1e-6:
+*/
+        __pyx_v_tipx = (-__pyx_v_ny);
+        __pyx_v_tipy = __pyx_v_nx;
+
+        /* "engine/cython/cy_response_2d.pyx":207
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                 tipx = -ny; tipy = nx
+ *                 tl = _len2(tipx, tipy)             # <<<<<<<<<<<<<<
+ *                 if tl > 1e-6:
+ *                     tipx /= tl; tipy /= tl
+*/
+        __pyx_v_tl = __pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_tipx, __pyx_v_tipy);
+
+        /* "engine/cython/cy_response_2d.pyx":208
+ *                 tipx = -ny; tipy = nx
+ *                 tl = _len2(tipx, tipy)
+ *                 if tl > 1e-6:             # <<<<<<<<<<<<<<
+ *                     tipx /= tl; tipy /= tl
+ *                     lean = rax * tipx + ray * tipy
+*/
+        __pyx_t_1 = (__pyx_v_tl > 1e-6);
+        if (__pyx_t_1) {
+
+          /* "engine/cython/cy_response_2d.pyx":209
+ *                 tl = _len2(tipx, tipy)
+ *                 if tl > 1e-6:
+ *                     tipx /= tl; tipy /= tl             # <<<<<<<<<<<<<<
+ *                     lean = rax * tipx + ray * tipy
+ *                     if fabs(lean) > 1e-6:
+*/
+          __pyx_v_tipx = (__pyx_v_tipx / __pyx_v_tl);
+          __pyx_v_tipy = (__pyx_v_tipy / __pyx_v_tl);
+
+          /* "engine/cython/cy_response_2d.pyx":210
+ *                 if tl > 1e-6:
+ *                     tipx /= tl; tipy /= tl
+ *                     lean = rax * tipx + ray * tipy             # <<<<<<<<<<<<<<
+ *                     if fabs(lean) > 1e-6:
+ *                         if lean < 0.0:
+*/
+          __pyx_v_lean = ((__pyx_v_rax * __pyx_v_tipx) + (__pyx_v_ray * __pyx_v_tipy));
+
+          /* "engine/cython/cy_response_2d.pyx":211
+ *                     tipx /= tl; tipy /= tl
+ *                     lean = rax * tipx + ray * tipy
+ *                     if fabs(lean) > 1e-6:             # <<<<<<<<<<<<<<
+ *                         if lean < 0.0:
+ *                             tipx = -tipx; tipy = -tipy
+*/
+          __pyx_t_1 = (fabs(__pyx_v_lean) > 1e-6);
+          if (__pyx_t_1) {
+
+            /* "engine/cython/cy_response_2d.pyx":212
+ *                     lean = rax * tipx + ray * tipy
+ *                     if fabs(lean) > 1e-6:
+ *                         if lean < 0.0:             # <<<<<<<<<<<<<<
+ *                             tipx = -tipx; tipy = -tipy
+ *                         rax += tipx * 0.03
+*/
+            __pyx_t_1 = (__pyx_v_lean < 0.0);
+            if (__pyx_t_1) {
+
+              /* "engine/cython/cy_response_2d.pyx":213
+ *                     if fabs(lean) > 1e-6:
+ *                         if lean < 0.0:
+ *                             tipx = -tipx; tipy = -tipy             # <<<<<<<<<<<<<<
+ *                         rax += tipx * 0.03
+ *                         ray += tipy * 0.03
+*/
+              __pyx_v_tipx = (-__pyx_v_tipx);
+              __pyx_v_tipy = (-__pyx_v_tipy);
+
+              /* "engine/cython/cy_response_2d.pyx":212
+ *                     lean = rax * tipx + ray * tipy
+ *                     if fabs(lean) > 1e-6:
+ *                         if lean < 0.0:             # <<<<<<<<<<<<<<
+ *                             tipx = -tipx; tipy = -tipy
+ *                         rax += tipx * 0.03
+*/
+            }
+
+            /* "engine/cython/cy_response_2d.pyx":214
+ *                         if lean < 0.0:
+ *                             tipx = -tipx; tipy = -tipy
+ *                         rax += tipx * 0.03             # <<<<<<<<<<<<<<
+ *                         ray += tipy * 0.03
+ *                         support_off = 0.03
+*/
+            __pyx_v_rax = (__pyx_v_rax + (__pyx_v_tipx * 0.03));
+
+            /* "engine/cython/cy_response_2d.pyx":215
+ *                             tipx = -tipx; tipy = -tipy
+ *                         rax += tipx * 0.03
+ *                         ray += tipy * 0.03             # <<<<<<<<<<<<<<
+ *                         support_off = 0.03
+ * 
+*/
+            __pyx_v_ray = (__pyx_v_ray + (__pyx_v_tipy * 0.03));
+
+            /* "engine/cython/cy_response_2d.pyx":216
+ *                         rax += tipx * 0.03
+ *                         ray += tipy * 0.03
+ *                         support_off = 0.03             # <<<<<<<<<<<<<<
+ * 
+ *     if face_support:
+*/
+            __pyx_v_support_off = 0.03;
+
+            /* "engine/cython/cy_response_2d.pyx":211
+ *                     tipx /= tl; tipy /= tl
+ *                     lean = rax * tipx + ray * tipy
+ *                     if fabs(lean) > 1e-6:             # <<<<<<<<<<<<<<
+ *                         if lean < 0.0:
+ *                             tipx = -tipx; tipy = -tipy
+*/
+          }
+
+          /* "engine/cython/cy_response_2d.pyx":208
+ *                 tipx = -ny; tipy = nx
+ *                 tl = _len2(tipx, tipy)
+ *                 if tl > 1e-6:             # <<<<<<<<<<<<<<
+ *                     tipx /= tl; tipy /= tl
+ *                     lean = rax * tipx + ray * tipy
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":205
+ *             face_support = 0
+ *             unstable = 1
+ *             if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                 tipx = -ny; tipy = nx
+ *                 tl = _len2(tipx, tipy)
+*/
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":200
+ *             face_support = 1
+ *             unstable = 0
+ *         elif best_align < FACE_ALIGN_THRESHOLD and (             # <<<<<<<<<<<<<<
+ *             support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN
+ *         ):
+*/
+    }
+    __pyx_L26:;
+
+    /* "engine/cython/cy_response_2d.pyx":196
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET or support_off > 1e-4
+ * 
+ *     if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         if best_align >= FACE_REST_ALIGN and support_off < FACE_TIP_OFFSET:
+ *             face_support = 1
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":218
+ *                         support_off = 0.03
+ * 
+ *     if face_support:             # <<<<<<<<<<<<<<
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05
+ *     elif unstable:
+*/
+  if (__pyx_v_face_support) {
+
+    /* "engine/cython/cy_response_2d.pyx":219
+ * 
+ *     if face_support:
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05             # <<<<<<<<<<<<<<
+ *     elif unstable:
+ *         tip = support_off if support_off > 0.02 else 0.02
+*/
+    __pyx_t_1 = (__pyx_v_closing < 2.0);
+    if (__pyx_t_1) {
+      __pyx_t_2 = 0.0;
+    } else {
+      __pyx_t_2 = (__pyx_v_w_impact * 0.05);
+    }
+    __pyx_v_w_n = __pyx_t_2;
+
+    /* "engine/cython/cy_response_2d.pyx":218
+ *                         support_off = 0.03
+ * 
+ *     if face_support:             # <<<<<<<<<<<<<<
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05
+ *     elif unstable:
+*/
+    goto __pyx_L38;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":220
+ *     if face_support:
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05
+ *     elif unstable:             # <<<<<<<<<<<<<<
+ *         tip = support_off if support_off > 0.02 else 0.02
+ *         if tip > 0.25:
+*/
+  if (__pyx_v_unstable) {
+
+    /* "engine/cython/cy_response_2d.pyx":221
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05
+ *     elif unstable:
+ *         tip = support_off if support_off > 0.02 else 0.02             # <<<<<<<<<<<<<<
+ *         if tip > 0.25:
+ *             tip = 0.25
+*/
+    __pyx_t_1 = (__pyx_v_support_off > 0.02);
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_support_off;
+    } else {
+      __pyx_t_2 = 0.02;
+    }
+    __pyx_v_tip = __pyx_t_2;
+
+    /* "engine/cython/cy_response_2d.pyx":222
+ *     elif unstable:
+ *         tip = support_off if support_off > 0.02 else 0.02
+ *         if tip > 0.25:             # <<<<<<<<<<<<<<
+ *             tip = 0.25
+ *         tip = tip / 0.25
+*/
+    __pyx_t_1 = (__pyx_v_tip > 0.25);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":223
+ *         tip = support_off if support_off > 0.02 else 0.02
+ *         if tip > 0.25:
+ *             tip = 0.25             # <<<<<<<<<<<<<<
+ *         tip = tip / 0.25
+ *         if tip > 1.0:
+*/
+      __pyx_v_tip = 0.25;
+
+      /* "engine/cython/cy_response_2d.pyx":222
+ *     elif unstable:
+ *         tip = support_off if support_off > 0.02 else 0.02
+ *         if tip > 0.25:             # <<<<<<<<<<<<<<
+ *             tip = 0.25
+ *         tip = tip / 0.25
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":224
+ *         if tip > 0.25:
+ *             tip = 0.25
+ *         tip = tip / 0.25             # <<<<<<<<<<<<<<
+ *         if tip > 1.0:
+ *             tip = 1.0
+*/
+    __pyx_v_tip = (__pyx_v_tip / 0.25);
+
+    /* "engine/cython/cy_response_2d.pyx":225
+ *             tip = 0.25
+ *         tip = tip / 0.25
+ *         if tip > 1.0:             # <<<<<<<<<<<<<<
+ *             tip = 1.0
+ *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+*/
+    __pyx_t_1 = (__pyx_v_tip > 1.0);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":226
+ *         tip = tip / 0.25
+ *         if tip > 1.0:
+ *             tip = 1.0             # <<<<<<<<<<<<<<
+ *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+ *     else:
+*/
+      __pyx_v_tip = 1.0;
+
+      /* "engine/cython/cy_response_2d.pyx":225
+ *             tip = 0.25
+ *         tip = tip / 0.25
+ *         if tip > 1.0:             # <<<<<<<<<<<<<<
+ *             tip = 1.0
+ *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":227
+ *         if tip > 1.0:
+ *             tip = 1.0
+ *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)             # <<<<<<<<<<<<<<
+ *     else:
+ *         w_n = w_impact
+*/
+    __pyx_t_1 = (__pyx_v_w_impact > (0.75 + (0.25 * __pyx_v_tip)));
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_w_impact;
+    } else {
+      __pyx_t_2 = (0.75 + (0.25 * __pyx_v_tip));
+    }
+    __pyx_v_w_n = __pyx_t_2;
+
+    /* "engine/cython/cy_response_2d.pyx":220
+ *     if face_support:
+ *         w_n = 0.0 if closing < 2.0 else w_impact * 0.05
+ *     elif unstable:             # <<<<<<<<<<<<<<
+ *         tip = support_off if support_off > 0.02 else 0.02
+ *         if tip > 0.25:
+*/
+    goto __pyx_L38;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":229
+ *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+ *     else:
+ *         w_n = w_impact             # <<<<<<<<<<<<<<
+ * 
+ *     # lever arms
+*/
+  /*else*/ {
+    __pyx_v_w_n = __pyx_v_w_impact;
+  }
+  __pyx_L38:;
+
+  /* "engine/cython/cy_response_2d.pyx":232
+ * 
+ *     # lever arms
+ *     dn = _dot2(rax, ray, nx, ny)             # <<<<<<<<<<<<<<
+ *     ra_cx = nx * dn; ra_cy = ny * dn
+ *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy
+*/
+  __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_rax, __pyx_v_ray, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":233
+ *     # lever arms
+ *     dn = _dot2(rax, ray, nx, ny)
+ *     ra_cx = nx * dn; ra_cy = ny * dn             # <<<<<<<<<<<<<<
+ *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy
+ *     _clamp_vec2(&ra_tx, &ra_ty, MAX_NORMAL_TANGENT_ARM)
+*/
+  __pyx_v_ra_cx = (__pyx_v_nx * __pyx_v_dn);
+  __pyx_v_ra_cy = (__pyx_v_ny * __pyx_v_dn);
+
+  /* "engine/cython/cy_response_2d.pyx":234
+ *     dn = _dot2(rax, ray, nx, ny)
+ *     ra_cx = nx * dn; ra_cy = ny * dn
+ *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy             # <<<<<<<<<<<<<<
+ *     _clamp_vec2(&ra_tx, &ra_ty, MAX_NORMAL_TANGENT_ARM)
+ *     ra_nx = ra_cx + w_n * ra_tx
+*/
+  __pyx_v_ra_tx = (__pyx_v_rax - __pyx_v_ra_cx);
+  __pyx_v_ra_ty = (__pyx_v_ray - __pyx_v_ra_cy);
+
+  /* "engine/cython/cy_response_2d.pyx":235
+ *     ra_cx = nx * dn; ra_cy = ny * dn
+ *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy
+ *     _clamp_vec2(&ra_tx, &ra_ty, MAX_NORMAL_TANGENT_ARM)             # <<<<<<<<<<<<<<
+ *     ra_nx = ra_cx + w_n * ra_tx
+ *     ra_ny = ra_cy + w_n * ra_ty
+*/
+  __pyx_f_6engine_6cython_14cy_response_2d__clamp_vec2((&__pyx_v_ra_tx), (&__pyx_v_ra_ty), __pyx_v_6engine_6cython_14cy_response_2d_MAX_NORMAL_TANGENT_ARM);
+
+  /* "engine/cython/cy_response_2d.pyx":236
+ *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy
+ *     _clamp_vec2(&ra_tx, &ra_ty, MAX_NORMAL_TANGENT_ARM)
+ *     ra_nx = ra_cx + w_n * ra_tx             # <<<<<<<<<<<<<<
+ *     ra_ny = ra_cy + w_n * ra_ty
+ * 
+*/
+  __pyx_v_ra_nx = (__pyx_v_ra_cx + (__pyx_v_w_n * __pyx_v_ra_tx));
+
+  /* "engine/cython/cy_response_2d.pyx":237
+ *     _clamp_vec2(&ra_tx, &ra_ty, MAX_NORMAL_TANGENT_ARM)
+ *     ra_nx = ra_cx + w_n * ra_tx
+ *     ra_ny = ra_cy + w_n * ra_ty             # <<<<<<<<<<<<<<
+ * 
+ *     dn = _dot2(rbx, rby, nx, ny)
+*/
+  __pyx_v_ra_ny = (__pyx_v_ra_cy + (__pyx_v_w_n * __pyx_v_ra_ty));
+
+  /* "engine/cython/cy_response_2d.pyx":239
+ *     ra_ny = ra_cy + w_n * ra_ty
+ * 
+ *     dn = _dot2(rbx, rby, nx, ny)             # <<<<<<<<<<<<<<
+ *     rb_cx = nx * dn; rb_cy = ny * dn
+ *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy
+*/
+  __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_rbx, __pyx_v_rby, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":240
+ * 
+ *     dn = _dot2(rbx, rby, nx, ny)
+ *     rb_cx = nx * dn; rb_cy = ny * dn             # <<<<<<<<<<<<<<
+ *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy
+ *     _clamp_vec2(&rb_tx, &rb_ty, MAX_NORMAL_TANGENT_ARM)
+*/
+  __pyx_v_rb_cx = (__pyx_v_nx * __pyx_v_dn);
+  __pyx_v_rb_cy = (__pyx_v_ny * __pyx_v_dn);
+
+  /* "engine/cython/cy_response_2d.pyx":241
+ *     dn = _dot2(rbx, rby, nx, ny)
+ *     rb_cx = nx * dn; rb_cy = ny * dn
+ *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy             # <<<<<<<<<<<<<<
+ *     _clamp_vec2(&rb_tx, &rb_ty, MAX_NORMAL_TANGENT_ARM)
+ *     rb_nx = rb_cx + w_n * rb_tx
+*/
+  __pyx_v_rb_tx = (__pyx_v_rbx - __pyx_v_rb_cx);
+  __pyx_v_rb_ty = (__pyx_v_rby - __pyx_v_rb_cy);
+
+  /* "engine/cython/cy_response_2d.pyx":242
+ *     rb_cx = nx * dn; rb_cy = ny * dn
+ *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy
+ *     _clamp_vec2(&rb_tx, &rb_ty, MAX_NORMAL_TANGENT_ARM)             # <<<<<<<<<<<<<<
+ *     rb_nx = rb_cx + w_n * rb_tx
+ *     rb_ny = rb_cy + w_n * rb_ty
+*/
+  __pyx_f_6engine_6cython_14cy_response_2d__clamp_vec2((&__pyx_v_rb_tx), (&__pyx_v_rb_ty), __pyx_v_6engine_6cython_14cy_response_2d_MAX_NORMAL_TANGENT_ARM);
+
+  /* "engine/cython/cy_response_2d.pyx":243
+ *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy
+ *     _clamp_vec2(&rb_tx, &rb_ty, MAX_NORMAL_TANGENT_ARM)
+ *     rb_nx = rb_cx + w_n * rb_tx             # <<<<<<<<<<<<<<
+ *     rb_ny = rb_cy + w_n * rb_ty
+ * 
+*/
+  __pyx_v_rb_nx = (__pyx_v_rb_cx + (__pyx_v_w_n * __pyx_v_rb_tx));
+
+  /* "engine/cython/cy_response_2d.pyx":244
+ *     _clamp_vec2(&rb_tx, &rb_ty, MAX_NORMAL_TANGENT_ARM)
+ *     rb_nx = rb_cx + w_n * rb_tx
+ *     rb_ny = rb_cy + w_n * rb_ty             # <<<<<<<<<<<<<<
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_ny)
+*/
+  __pyx_v_rb_ny = (__pyx_v_rb_cy + (__pyx_v_w_n * __pyx_v_rb_ty));
+
+  /* "engine/cython/cy_response_2d.pyx":246
+ *     rb_ny = rb_cy + w_n * rb_ty
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_ny)             # <<<<<<<<<<<<<<
+ *     vry = vay[0] + (oa[0] * ra_nx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_ny)
+*/
+  __pyx_v_vrx = ((__pyx_v_vax[0]) + ((-(__pyx_v_oa[0])) * __pyx_v_ra_ny));
+
+  /* "engine/cython/cy_response_2d.pyx":247
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_ny)
+ *     vry = vay[0] + (oa[0] * ra_nx)             # <<<<<<<<<<<<<<
+ *     vrx -= vbx[0] + (-ob[0] * rb_ny)
+ *     vry -= vby[0] + (ob[0] * rb_nx)
+*/
+  __pyx_v_vry = ((__pyx_v_vay[0]) + ((__pyx_v_oa[0]) * __pyx_v_ra_nx));
+
+  /* "engine/cython/cy_response_2d.pyx":248
+ *     vrx = vax[0] + (-oa[0] * ra_ny)
+ *     vry = vay[0] + (oa[0] * ra_nx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_ny)             # <<<<<<<<<<<<<<
+ *     vry -= vby[0] + (ob[0] * rb_nx)
+ *     v_n = _dot2(vrx, vry, nx, ny)
+*/
+  __pyx_v_vrx = (__pyx_v_vrx - ((__pyx_v_vbx[0]) + ((-(__pyx_v_ob[0])) * __pyx_v_rb_ny)));
+
+  /* "engine/cython/cy_response_2d.pyx":249
+ *     vry = vay[0] + (oa[0] * ra_nx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_ny)
+ *     vry -= vby[0] + (ob[0] * rb_nx)             # <<<<<<<<<<<<<<
+ *     v_n = _dot2(vrx, vry, nx, ny)
+ *     if v_n > 0.0:
+*/
+  __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + ((__pyx_v_ob[0]) * __pyx_v_rb_nx)));
+
+  /* "engine/cython/cy_response_2d.pyx":250
+ *     vrx -= vbx[0] + (-ob[0] * rb_ny)
+ *     vry -= vby[0] + (ob[0] * rb_nx)
+ *     v_n = _dot2(vrx, vry, nx, ny)             # <<<<<<<<<<<<<<
+ *     if v_n > 0.0:
+ *         out_unstable[0] = unstable
+*/
+  __pyx_v_v_n = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_vrx, __pyx_v_vry, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":251
+ *     vry -= vby[0] + (ob[0] * rb_nx)
+ *     v_n = _dot2(vrx, vry, nx, ny)
+ *     if v_n > 0.0:             # <<<<<<<<<<<<<<
+ *         out_unstable[0] = unstable
+ *         return
+*/
+  __pyx_t_1 = (__pyx_v_v_n > 0.0);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":252
+ *     v_n = _dot2(vrx, vry, nx, ny)
+ *     if v_n > 0.0:
+ *         out_unstable[0] = unstable             # <<<<<<<<<<<<<<
+ *         return
+ * 
+*/
+    (__pyx_v_out_unstable[0]) = __pyx_v_unstable;
+
+    /* "engine/cython/cy_response_2d.pyx":253
+ *     if v_n > 0.0:
+ *         out_unstable[0] = unstable
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     kn = _effective_mass(nx, ny, inv_mass_a, inv_mass_b,
+*/
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":251
+ *     vry -= vby[0] + (ob[0] * rb_nx)
+ *     v_n = _dot2(vrx, vry, nx, ny)
+ *     if v_n > 0.0:             # <<<<<<<<<<<<<<
+ *         out_unstable[0] = unstable
+ *         return
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":255
+ *         return
+ * 
+ *     kn = _effective_mass(nx, ny, inv_mass_a, inv_mass_b,             # <<<<<<<<<<<<<<
+ *                          ra_nx, ra_ny, rb_nx, rb_ny,
+ *                          has_ia, i_inv_a, has_ib, i_inv_b)
+*/
+  __pyx_v_kn = __pyx_f_6engine_6cython_14cy_response_2d__effective_mass(__pyx_v_nx, __pyx_v_ny, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_ra_nx, __pyx_v_ra_ny, __pyx_v_rb_nx, __pyx_v_rb_ny, __pyx_v_has_ia, __pyx_v_i_inv_a, __pyx_v_has_ib, __pyx_v_i_inv_b);
+
+  /* "engine/cython/cy_response_2d.pyx":258
+ *                          ra_nx, ra_ny, rb_nx, rb_ny,
+ *                          has_ia, i_inv_a, has_ib, i_inv_b)
+ *     if kn < 1e-12:             # <<<<<<<<<<<<<<
+ *         out_unstable[0] = unstable
+ *         return
+*/
+  __pyx_t_1 = (__pyx_v_kn < 1e-12);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":259
+ *                          has_ia, i_inv_a, has_ib, i_inv_b)
+ *     if kn < 1e-12:
+ *         out_unstable[0] = unstable             # <<<<<<<<<<<<<<
+ *         return
+ * 
+*/
+    (__pyx_v_out_unstable[0]) = __pyx_v_unstable;
+
+    /* "engine/cython/cy_response_2d.pyx":260
+ *     if kn < 1e-12:
+ *         out_unstable[0] = unstable
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     e = restitution
+*/
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_2d.pyx":258
+ *                          ra_nx, ra_ny, rb_nx, rb_ny,
+ *                          has_ia, i_inv_a, has_ib, i_inv_b)
+ *     if kn < 1e-12:             # <<<<<<<<<<<<<<
+ *         out_unstable[0] = unstable
+ *         return
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":262
+ *         return
+ * 
+ *     e = restitution             # <<<<<<<<<<<<<<
+ *     if e < 0.0:
+ *         e = 0.0
+*/
+  __pyx_v_e = __pyx_v_restitution;
+
+  /* "engine/cython/cy_response_2d.pyx":263
+ * 
+ *     e = restitution
+ *     if e < 0.0:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ *     if e > 1.0:
+*/
+  __pyx_t_1 = (__pyx_v_e < 0.0);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":264
+ *     e = restitution
+ *     if e < 0.0:
+ *         e = 0.0             # <<<<<<<<<<<<<<
+ *     if e > 1.0:
+ *         e = 1.0
+*/
+    __pyx_v_e = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":263
+ * 
+ *     e = restitution
+ *     if e < 0.0:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ *     if e > 1.0:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":265
+ *     if e < 0.0:
+ *         e = 0.0
+ *     if e > 1.0:             # <<<<<<<<<<<<<<
+ *         e = 1.0
+ *     if face_support and closing < 2.5:
+*/
+  __pyx_t_1 = (__pyx_v_e > 1.0);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":266
+ *         e = 0.0
+ *     if e > 1.0:
+ *         e = 1.0             # <<<<<<<<<<<<<<
+ *     if face_support and closing < 2.5:
+ *         e = 0.0
+*/
+    __pyx_v_e = 1.0;
+
+    /* "engine/cython/cy_response_2d.pyx":265
+ *     if e < 0.0:
+ *         e = 0.0
+ *     if e > 1.0:             # <<<<<<<<<<<<<<
+ *         e = 1.0
+ *     if face_support and closing < 2.5:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":267
+ *     if e > 1.0:
+ *         e = 1.0
+ *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ *     elif closing < RESTITUTION_THRESHOLD:
+*/
+  if (__pyx_v_face_support) {
+  } else {
+    __pyx_t_1 = __pyx_v_face_support;
+    goto __pyx_L46_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_closing < 2.5);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L46_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":268
+ *         e = 1.0
+ *     if face_support and closing < 2.5:
+ *         e = 0.0             # <<<<<<<<<<<<<<
+ *     elif closing < RESTITUTION_THRESHOLD:
+ *         e = 0.0
+*/
+    __pyx_v_e = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":267
+ *     if e > 1.0:
+ *         e = 1.0
+ *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ *     elif closing < RESTITUTION_THRESHOLD:
+*/
+    goto __pyx_L45;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":269
+ *     if face_support and closing < 2.5:
+ *         e = 0.0
+ *     elif closing < RESTITUTION_THRESHOLD:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ * 
+*/
+  __pyx_t_1 = (__pyx_v_closing < __pyx_v_6engine_6cython_14cy_response_2d_RESTITUTION_THRESHOLD);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":270
+ *         e = 0.0
+ *     elif closing < RESTITUTION_THRESHOLD:
+ *         e = 0.0             # <<<<<<<<<<<<<<
+ * 
+ *     jn = -(1.0 + e) * v_n / kn
+*/
+    __pyx_v_e = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":269
+ *     if face_support and closing < 2.5:
+ *         e = 0.0
+ *     elif closing < RESTITUTION_THRESHOLD:             # <<<<<<<<<<<<<<
+ *         e = 0.0
+ * 
+*/
+  }
+  __pyx_L45:;
+
+  /* "engine/cython/cy_response_2d.pyx":272
+ *         e = 0.0
+ * 
+ *     jn = -(1.0 + e) * v_n / kn             # <<<<<<<<<<<<<<
+ *     if jn < 0.0:
+ *         jn = 0.0
+*/
+  __pyx_v_jn = (((-(1.0 + __pyx_v_e)) * __pyx_v_v_n) / __pyx_v_kn);
+
+  /* "engine/cython/cy_response_2d.pyx":273
+ * 
+ *     jn = -(1.0 + e) * v_n / kn
+ *     if jn < 0.0:             # <<<<<<<<<<<<<<
+ *         jn = 0.0
+ *     jnx = nx * jn; jny = ny * jn
+*/
+  __pyx_t_1 = (__pyx_v_jn < 0.0);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":274
+ *     jn = -(1.0 + e) * v_n / kn
+ *     if jn < 0.0:
+ *         jn = 0.0             # <<<<<<<<<<<<<<
+ *     jnx = nx * jn; jny = ny * jn
+ *     _apply_impulse(vax, vay, oa, vbx, vby, ob,
+*/
+    __pyx_v_jn = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":273
+ * 
+ *     jn = -(1.0 + e) * v_n / kn
+ *     if jn < 0.0:             # <<<<<<<<<<<<<<
+ *         jn = 0.0
+ *     jnx = nx * jn; jny = ny * jn
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":275
+ *     if jn < 0.0:
+ *         jn = 0.0
+ *     jnx = nx * jn; jny = ny * jn             # <<<<<<<<<<<<<<
+ *     _apply_impulse(vax, vay, oa, vbx, vby, ob,
+ *                    inv_mass_a, inv_mass_b, has_ia, i_inv_a, has_ib, i_inv_b,
+*/
+  __pyx_v_jnx = (__pyx_v_nx * __pyx_v_jn);
+  __pyx_v_jny = (__pyx_v_ny * __pyx_v_jn);
+
+  /* "engine/cython/cy_response_2d.pyx":276
+ *         jn = 0.0
+ *     jnx = nx * jn; jny = ny * jn
+ *     _apply_impulse(vax, vay, oa, vbx, vby, ob,             # <<<<<<<<<<<<<<
+ *                    inv_mass_a, inv_mass_b, has_ia, i_inv_a, has_ib, i_inv_b,
+ *                    ra_nx, ra_ny, rb_nx, rb_ny, jnx, jny)
+*/
+  __pyx_f_6engine_6cython_14cy_response_2d__apply_impulse(__pyx_v_vax, __pyx_v_vay, __pyx_v_oa, __pyx_v_vbx, __pyx_v_vby, __pyx_v_ob, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_has_ia, __pyx_v_i_inv_a, __pyx_v_has_ib, __pyx_v_i_inv_b, __pyx_v_ra_nx, __pyx_v_ra_ny, __pyx_v_rb_nx, __pyx_v_rb_ny, __pyx_v_jnx, __pyx_v_jny);
+
+  /* "engine/cython/cy_response_2d.pyx":282
+ *     # Gravity tip: only true edge/corner (not face stacks)
+ *     allow_gravity_tip = (
+ *         unstable             # <<<<<<<<<<<<<<
+ *         and (not face_support)
+ *         and best_align < FACE_ALIGN_THRESHOLD
+*/
+  if (__pyx_v_unstable) {
+  } else {
+    __pyx_t_1 = __pyx_v_unstable;
+    goto __pyx_L49_bool_binop_done;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":283
+ *     allow_gravity_tip = (
+ *         unstable
+ *         and (not face_support)             # <<<<<<<<<<<<<<
+ *         and best_align < FACE_ALIGN_THRESHOLD
+ *         and ground_like
+*/
+  __pyx_t_3 = (!__pyx_v_face_support);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L49_bool_binop_done;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":284
+ *         unstable
+ *         and (not face_support)
+ *         and best_align < FACE_ALIGN_THRESHOLD             # <<<<<<<<<<<<<<
+ *         and ground_like
+ *         and closing < 3.0
+*/
+  __pyx_t_3 = (__pyx_v_best_align < __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L49_bool_binop_done;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":285
+ *         and (not face_support)
+ *         and best_align < FACE_ALIGN_THRESHOLD
+ *         and ground_like             # <<<<<<<<<<<<<<
+ *         and closing < 3.0
+ *     )
+*/
+  if (__pyx_v_ground_like) {
+  } else {
+    __pyx_t_1 = __pyx_v_ground_like;
+    goto __pyx_L49_bool_binop_done;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":286
+ *         and best_align < FACE_ALIGN_THRESHOLD
+ *         and ground_like
+ *         and closing < 3.0             # <<<<<<<<<<<<<<
+ *     )
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:
+*/
+  __pyx_t_3 = (__pyx_v_closing < 3.0);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L49_bool_binop_done:;
+  __pyx_v_allow_gravity_tip = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":288
+ *         and closing < 3.0
+ *     )
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+*/
+  if (__pyx_v_allow_gravity_tip) {
+  } else {
+    __pyx_t_1 = __pyx_v_allow_gravity_tip;
+    goto __pyx_L55_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L55_bool_binop_done;
+  }
+  __pyx_t_1 = __pyx_v_has_ia;
+  __pyx_L55_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":289
+ *     )
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:
+ *         if dt < 1e-5:             # <<<<<<<<<<<<<<
+ *             dt = 1e-5
+ *         if dt > 0.05:
+*/
+    __pyx_t_1 = (__pyx_v_dt < 1e-5);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":290
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:
+ *         if dt < 1e-5:
+ *             dt = 1e-5             # <<<<<<<<<<<<<<
+ *         if dt > 0.05:
+ *             dt = 0.05
+*/
+      __pyx_v_dt = 1e-5;
+
+      /* "engine/cython/cy_response_2d.pyx":289
+ *     )
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:
+ *         if dt < 1e-5:             # <<<<<<<<<<<<<<
+ *             dt = 1e-5
+ *         if dt > 0.05:
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":291
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+ *         if dt > 0.05:             # <<<<<<<<<<<<<<
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_a
+*/
+    __pyx_t_1 = (__pyx_v_dt > 0.05);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":292
+ *             dt = 1e-5
+ *         if dt > 0.05:
+ *             dt = 0.05             # <<<<<<<<<<<<<<
+ *         mass = 1.0 / inv_mass_a
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+*/
+      __pyx_v_dt = 0.05;
+
+      /* "engine/cython/cy_response_2d.pyx":291
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+ *         if dt > 0.05:             # <<<<<<<<<<<<<<
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_a
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":293
+ *         if dt > 0.05:
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_a             # <<<<<<<<<<<<<<
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+*/
+    __pyx_v_mass = (1.0 / __pyx_v_inv_mass_a);
+
+    /* "engine/cython/cy_response_2d.pyx":294
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_a
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:
+*/
+    __pyx_t_1 = (__pyx_v_ny > 0.0);
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_ny;
+    } else {
+      __pyx_t_2 = 0.0;
+    }
+    __pyx_v_sx = (__pyx_v_nx * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY) * __pyx_t_2));
+
+    /* "engine/cython/cy_response_2d.pyx":295
+ *         mass = 1.0 / inv_mass_a
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)
+*/
+    __pyx_t_1 = (__pyx_v_ny > 0.0);
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_ny;
+    } else {
+      __pyx_t_2 = 0.0;
+    }
+    __pyx_v_sy = (__pyx_v_ny * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY) * __pyx_t_2));
+
+    /* "engine/cython/cy_response_2d.pyx":296
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:             # <<<<<<<<<<<<<<
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+*/
+    __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_sx, __pyx_v_sy) < 1e-8);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":297
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)             # <<<<<<<<<<<<<<
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rax, ray, sx, sy) * dt
+*/
+      __pyx_v_sx = (__pyx_v_nx * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY));
+
+      /* "engine/cython/cy_response_2d.pyx":298
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)             # <<<<<<<<<<<<<<
+ *         tau = _cross_z(rax, ray, sx, sy) * dt
+ *         oa[0] += i_inv_a * tau
+*/
+      __pyx_v_sy = (__pyx_v_ny * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY));
+
+      /* "engine/cython/cy_response_2d.pyx":296
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:             # <<<<<<<<<<<<<<
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":299
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rax, ray, sx, sy) * dt             # <<<<<<<<<<<<<<
+ *         oa[0] += i_inv_a * tau
+ * 
+*/
+    __pyx_v_tau = (__pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rax, __pyx_v_ray, __pyx_v_sx, __pyx_v_sy) * __pyx_v_dt);
+
+    /* "engine/cython/cy_response_2d.pyx":300
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rax, ray, sx, sy) * dt
+ *         oa[0] += i_inv_a * tau             # <<<<<<<<<<<<<<
+ * 
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:
+*/
+    __pyx_t_4 = 0;
+    (__pyx_v_oa[__pyx_t_4]) = ((__pyx_v_oa[__pyx_t_4]) + (__pyx_v_i_inv_a * __pyx_v_tau));
+
+    /* "engine/cython/cy_response_2d.pyx":288
+ *         and closing < 3.0
+ *     )
+ *     if allow_gravity_tip and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":302
+ *         oa[0] += i_inv_a * tau
+ * 
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+*/
+  if (__pyx_v_allow_gravity_tip) {
+  } else {
+    __pyx_t_1 = __pyx_v_allow_gravity_tip;
+    goto __pyx_L62_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L62_bool_binop_done;
+  }
+  __pyx_t_1 = __pyx_v_has_ib;
+  __pyx_L62_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":303
+ * 
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:
+ *         if dt < 1e-5:             # <<<<<<<<<<<<<<
+ *             dt = 1e-5
+ *         if dt > 0.05:
+*/
+    __pyx_t_1 = (__pyx_v_dt < 1e-5);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":304
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:
+ *         if dt < 1e-5:
+ *             dt = 1e-5             # <<<<<<<<<<<<<<
+ *         if dt > 0.05:
+ *             dt = 0.05
+*/
+      __pyx_v_dt = 1e-5;
+
+      /* "engine/cython/cy_response_2d.pyx":303
+ * 
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:
+ *         if dt < 1e-5:             # <<<<<<<<<<<<<<
+ *             dt = 1e-5
+ *         if dt > 0.05:
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":305
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+ *         if dt > 0.05:             # <<<<<<<<<<<<<<
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_b
+*/
+    __pyx_t_1 = (__pyx_v_dt > 0.05);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":306
+ *             dt = 1e-5
+ *         if dt > 0.05:
+ *             dt = 0.05             # <<<<<<<<<<<<<<
+ *         mass = 1.0 / inv_mass_b
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+*/
+      __pyx_v_dt = 0.05;
+
+      /* "engine/cython/cy_response_2d.pyx":305
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+ *         if dt > 0.05:             # <<<<<<<<<<<<<<
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_b
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":307
+ *         if dt > 0.05:
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_b             # <<<<<<<<<<<<<<
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+*/
+    __pyx_v_mass = (1.0 / __pyx_v_inv_mass_b);
+
+    /* "engine/cython/cy_response_2d.pyx":308
+ *             dt = 0.05
+ *         mass = 1.0 / inv_mass_b
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:
+*/
+    __pyx_t_1 = (__pyx_v_ny > 0.0);
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_ny;
+    } else {
+      __pyx_t_2 = 0.0;
+    }
+    __pyx_v_sx = (__pyx_v_nx * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY) * __pyx_t_2));
+
+    /* "engine/cython/cy_response_2d.pyx":309
+ *         mass = 1.0 / inv_mass_b
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)
+*/
+    __pyx_t_1 = (__pyx_v_ny > 0.0);
+    if (__pyx_t_1) {
+      __pyx_t_2 = __pyx_v_ny;
+    } else {
+      __pyx_t_2 = 0.0;
+    }
+    __pyx_v_sy = (__pyx_v_ny * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY) * __pyx_t_2));
+
+    /* "engine/cython/cy_response_2d.pyx":310
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:             # <<<<<<<<<<<<<<
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+*/
+    __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_sx, __pyx_v_sy) < 1e-8);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":311
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)             # <<<<<<<<<<<<<<
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rbx, rby, sx, sy) * dt
+*/
+      __pyx_v_sx = (__pyx_v_nx * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY));
+
+      /* "engine/cython/cy_response_2d.pyx":312
+ *         if _len2(sx, sy) < 1e-8:
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)             # <<<<<<<<<<<<<<
+ *         tau = _cross_z(rbx, rby, sx, sy) * dt
+ *         ob[0] += i_inv_b * tau
+*/
+      __pyx_v_sy = (__pyx_v_ny * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY));
+
+      /* "engine/cython/cy_response_2d.pyx":310
+ *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
+ *         if _len2(sx, sy) < 1e-8:             # <<<<<<<<<<<<<<
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+*/
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":313
+ *             sx = nx * (mass * GRAVITY)
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rbx, rby, sx, sy) * dt             # <<<<<<<<<<<<<<
+ *         ob[0] += i_inv_b * tau
+ * 
+*/
+    __pyx_v_tau = (__pyx_f_6engine_6cython_14cy_response_2d__cross_z(__pyx_v_rbx, __pyx_v_rby, __pyx_v_sx, __pyx_v_sy) * __pyx_v_dt);
+
+    /* "engine/cython/cy_response_2d.pyx":314
+ *             sy = ny * (mass * GRAVITY)
+ *         tau = _cross_z(rbx, rby, sx, sy) * dt
+ *         ob[0] += i_inv_b * tau             # <<<<<<<<<<<<<<
+ * 
+ *     # Friction
+*/
+    __pyx_t_4 = 0;
+    (__pyx_v_ob[__pyx_t_4]) = ((__pyx_v_ob[__pyx_t_4]) + (__pyx_v_i_inv_b * __pyx_v_tau));
+
+    /* "engine/cython/cy_response_2d.pyx":302
+ *         oa[0] += i_inv_a * tau
+ * 
+ *     if allow_gravity_tip and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
+ *         if dt < 1e-5:
+ *             dt = 1e-5
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":317
+ * 
+ *     # Friction
+ *     if face_support:             # <<<<<<<<<<<<<<
+ *         ra_fx = ra_nx; ra_fy = ra_ny
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+*/
+  if (__pyx_v_face_support) {
+
+    /* "engine/cython/cy_response_2d.pyx":318
+ *     # Friction
+ *     if face_support:
+ *         ra_fx = ra_nx; ra_fy = ra_ny             # <<<<<<<<<<<<<<
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+ *         friction_angular = closing > 3.0
+*/
+    __pyx_v_ra_fx = __pyx_v_ra_nx;
+    __pyx_v_ra_fy = __pyx_v_ra_ny;
+
+    /* "engine/cython/cy_response_2d.pyx":319
+ *     if face_support:
+ *         ra_fx = ra_nx; ra_fy = ra_ny
+ *         rb_fx = rb_nx; rb_fy = rb_ny             # <<<<<<<<<<<<<<
+ *         friction_angular = closing > 3.0
+ *     elif unstable:
+*/
+    __pyx_v_rb_fx = __pyx_v_rb_nx;
+    __pyx_v_rb_fy = __pyx_v_rb_ny;
+
+    /* "engine/cython/cy_response_2d.pyx":320
+ *         ra_fx = ra_nx; ra_fy = ra_ny
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+ *         friction_angular = closing > 3.0             # <<<<<<<<<<<<<<
+ *     elif unstable:
+ *         ra_fx = rax; ra_fy = ray
+*/
+    __pyx_v_friction_angular = (__pyx_v_closing > 3.0);
+
+    /* "engine/cython/cy_response_2d.pyx":317
+ * 
+ *     # Friction
+ *     if face_support:             # <<<<<<<<<<<<<<
+ *         ra_fx = ra_nx; ra_fy = ra_ny
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+*/
+    goto __pyx_L68;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":321
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+ *         friction_angular = closing > 3.0
+ *     elif unstable:             # <<<<<<<<<<<<<<
+ *         ra_fx = rax; ra_fy = ray
+ *         rb_fx = rbx; rb_fy = rby
+*/
+  if (__pyx_v_unstable) {
+
+    /* "engine/cython/cy_response_2d.pyx":322
+ *         friction_angular = closing > 3.0
+ *     elif unstable:
+ *         ra_fx = rax; ra_fy = ray             # <<<<<<<<<<<<<<
+ *         rb_fx = rbx; rb_fy = rby
+ *         friction_angular = 1
+*/
+    __pyx_v_ra_fx = __pyx_v_rax;
+    __pyx_v_ra_fy = __pyx_v_ray;
+
+    /* "engine/cython/cy_response_2d.pyx":323
+ *     elif unstable:
+ *         ra_fx = rax; ra_fy = ray
+ *         rb_fx = rbx; rb_fy = rby             # <<<<<<<<<<<<<<
+ *         friction_angular = 1
+ *     else:
+*/
+    __pyx_v_rb_fx = __pyx_v_rbx;
+    __pyx_v_rb_fy = __pyx_v_rby;
+
+    /* "engine/cython/cy_response_2d.pyx":324
+ *         ra_fx = rax; ra_fy = ray
+ *         rb_fx = rbx; rb_fy = rby
+ *         friction_angular = 1             # <<<<<<<<<<<<<<
+ *     else:
+ *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)
+*/
+    __pyx_v_friction_angular = 1;
+
+    /* "engine/cython/cy_response_2d.pyx":321
+ *         rb_fx = rb_nx; rb_fy = rb_ny
+ *         friction_angular = closing > 3.0
+ *     elif unstable:             # <<<<<<<<<<<<<<
+ *         ra_fx = rax; ra_fy = ray
+ *         rb_fx = rbx; rb_fy = rby
+*/
+    goto __pyx_L68;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":326
+ *         friction_angular = 1
+ *     else:
+ *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)             # <<<<<<<<<<<<<<
+ *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)
+ *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
+*/
+  /*else*/ {
+    __pyx_v_ra_fx = ((__pyx_v_rax * __pyx_v_w_n) + (__pyx_v_ra_nx * (1.0 - __pyx_v_w_n)));
+
+    /* "engine/cython/cy_response_2d.pyx":327
+ *     else:
+ *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)
+ *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)             # <<<<<<<<<<<<<<
+ *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
+ *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)
+*/
+    __pyx_v_ra_fy = ((__pyx_v_ray * __pyx_v_w_n) + (__pyx_v_ra_ny * (1.0 - __pyx_v_w_n)));
+
+    /* "engine/cython/cy_response_2d.pyx":328
+ *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)
+ *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)
+ *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)             # <<<<<<<<<<<<<<
+ *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)
+ *         friction_angular = w_n > 0.2
+*/
+    __pyx_v_rb_fx = ((__pyx_v_rbx * __pyx_v_w_n) + (__pyx_v_rb_nx * (1.0 - __pyx_v_w_n)));
+
+    /* "engine/cython/cy_response_2d.pyx":329
+ *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)
+ *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
+ *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)             # <<<<<<<<<<<<<<
+ *         friction_angular = w_n > 0.2
+ * 
+*/
+    __pyx_v_rb_fy = ((__pyx_v_rby * __pyx_v_w_n) + (__pyx_v_rb_ny * (1.0 - __pyx_v_w_n)));
+
+    /* "engine/cython/cy_response_2d.pyx":330
+ *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
+ *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)
+ *         friction_angular = w_n > 0.2             # <<<<<<<<<<<<<<
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_fy)
+*/
+    __pyx_v_friction_angular = (__pyx_v_w_n > 0.2);
+  }
+  __pyx_L68:;
+
+  /* "engine/cython/cy_response_2d.pyx":332
+ *         friction_angular = w_n > 0.2
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_fy)             # <<<<<<<<<<<<<<
+ *     vry = vay[0] + (oa[0] * ra_fx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_fy)
+*/
+  __pyx_v_vrx = ((__pyx_v_vax[0]) + ((-(__pyx_v_oa[0])) * __pyx_v_ra_fy));
+
+  /* "engine/cython/cy_response_2d.pyx":333
+ * 
+ *     vrx = vax[0] + (-oa[0] * ra_fy)
+ *     vry = vay[0] + (oa[0] * ra_fx)             # <<<<<<<<<<<<<<
+ *     vrx -= vbx[0] + (-ob[0] * rb_fy)
+ *     vry -= vby[0] + (ob[0] * rb_fx)
+*/
+  __pyx_v_vry = ((__pyx_v_vay[0]) + ((__pyx_v_oa[0]) * __pyx_v_ra_fx));
+
+  /* "engine/cython/cy_response_2d.pyx":334
+ *     vrx = vax[0] + (-oa[0] * ra_fy)
+ *     vry = vay[0] + (oa[0] * ra_fx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_fy)             # <<<<<<<<<<<<<<
+ *     vry -= vby[0] + (ob[0] * rb_fx)
+ *     dn = _dot2(vrx, vry, nx, ny)
+*/
+  __pyx_v_vrx = (__pyx_v_vrx - ((__pyx_v_vbx[0]) + ((-(__pyx_v_ob[0])) * __pyx_v_rb_fy)));
+
+  /* "engine/cython/cy_response_2d.pyx":335
+ *     vry = vay[0] + (oa[0] * ra_fx)
+ *     vrx -= vbx[0] + (-ob[0] * rb_fy)
+ *     vry -= vby[0] + (ob[0] * rb_fx)             # <<<<<<<<<<<<<<
+ *     dn = _dot2(vrx, vry, nx, ny)
+ *     vtx = vrx - nx * dn; vty = vry - ny * dn
+*/
+  __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + ((__pyx_v_ob[0]) * __pyx_v_rb_fx)));
+
+  /* "engine/cython/cy_response_2d.pyx":336
+ *     vrx -= vbx[0] + (-ob[0] * rb_fy)
+ *     vry -= vby[0] + (ob[0] * rb_fx)
+ *     dn = _dot2(vrx, vry, nx, ny)             # <<<<<<<<<<<<<<
+ *     vtx = vrx - nx * dn; vty = vry - ny * dn
+ *     t_mag = _len2(vtx, vty)
+*/
+  __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_vrx, __pyx_v_vry, __pyx_v_nx, __pyx_v_ny);
+
+  /* "engine/cython/cy_response_2d.pyx":337
+ *     vry -= vby[0] + (ob[0] * rb_fx)
+ *     dn = _dot2(vrx, vry, nx, ny)
+ *     vtx = vrx - nx * dn; vty = vry - ny * dn             # <<<<<<<<<<<<<<
+ *     t_mag = _len2(vtx, vty)
+ *     mu_s = static_friction if static_friction > 0.0 else 0.0
+*/
+  __pyx_v_vtx = (__pyx_v_vrx - (__pyx_v_nx * __pyx_v_dn));
+  __pyx_v_vty = (__pyx_v_vry - (__pyx_v_ny * __pyx_v_dn));
+
+  /* "engine/cython/cy_response_2d.pyx":338
+ *     dn = _dot2(vrx, vry, nx, ny)
+ *     vtx = vrx - nx * dn; vty = vry - ny * dn
+ *     t_mag = _len2(vtx, vty)             # <<<<<<<<<<<<<<
+ *     mu_s = static_friction if static_friction > 0.0 else 0.0
+ *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
+*/
+  __pyx_v_t_mag = __pyx_f_6engine_6cython_14cy_response_2d__len2(__pyx_v_vtx, __pyx_v_vty);
+
+  /* "engine/cython/cy_response_2d.pyx":339
+ *     vtx = vrx - nx * dn; vty = vry - ny * dn
+ *     t_mag = _len2(vtx, vty)
+ *     mu_s = static_friction if static_friction > 0.0 else 0.0             # <<<<<<<<<<<<<<
+ *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
+ * 
+*/
+  __pyx_t_1 = (__pyx_v_static_friction > 0.0);
+  if (__pyx_t_1) {
+    __pyx_t_2 = __pyx_v_static_friction;
+  } else {
+    __pyx_t_2 = 0.0;
+  }
+  __pyx_v_mu_s = __pyx_t_2;
+
+  /* "engine/cython/cy_response_2d.pyx":340
+ *     t_mag = _len2(vtx, vty)
+ *     mu_s = static_friction if static_friction > 0.0 else 0.0
+ *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0             # <<<<<<<<<<<<<<
+ * 
+ *     if t_mag >= 1e-10:
+*/
+  __pyx_t_1 = (__pyx_v_dynamic_friction > 0.0);
+  if (__pyx_t_1) {
+    __pyx_t_2 = __pyx_v_dynamic_friction;
+  } else {
+    __pyx_t_2 = 0.0;
+  }
+  __pyx_v_mu_d = __pyx_t_2;
+
+  /* "engine/cython/cy_response_2d.pyx":342
+ *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
+ * 
+ *     if t_mag >= 1e-10:             # <<<<<<<<<<<<<<
+ *         tx = vtx / t_mag; ty = vty / t_mag
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+*/
+  __pyx_t_1 = (__pyx_v_t_mag >= 1e-10);
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":343
+ * 
+ *     if t_mag >= 1e-10:
+ *         tx = vtx / t_mag; ty = vty / t_mag             # <<<<<<<<<<<<<<
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+ *             kt_lin = inv_mass_a + inv_mass_b
+*/
+    __pyx_v_tx = (__pyx_v_vtx / __pyx_v_t_mag);
+    __pyx_v_ty = (__pyx_v_vty / __pyx_v_t_mag);
+
+    /* "engine/cython/cy_response_2d.pyx":344
+ *     if t_mag >= 1e-10:
+ *         tx = vtx / t_mag; ty = vty / t_mag
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:             # <<<<<<<<<<<<<<
+ *             kt_lin = inv_mass_a + inv_mass_b
+ *             if kt_lin > 1e-12:
+*/
+    __pyx_t_3 = (!__pyx_v_friction_angular);
+    if (!__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L71_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_t_mag < __pyx_v_6engine_6cython_14cy_response_2d_RESTING_TANGENTIAL_SPEED);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L71_bool_binop_done:;
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":345
+ *         tx = vtx / t_mag; ty = vty / t_mag
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+ *             kt_lin = inv_mass_a + inv_mass_b             # <<<<<<<<<<<<<<
+ *             if kt_lin > 1e-12:
+ *                 jt = -t_mag / kt_lin
+*/
+      __pyx_v_kt_lin = (__pyx_v_inv_mass_a + __pyx_v_inv_mass_b);
+
+      /* "engine/cython/cy_response_2d.pyx":346
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+ *             kt_lin = inv_mass_a + inv_mass_b
+ *             if kt_lin > 1e-12:             # <<<<<<<<<<<<<<
+ *                 jt = -t_mag / kt_lin
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+*/
+      __pyx_t_1 = (__pyx_v_kt_lin > 1e-12);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":347
+ *             kt_lin = inv_mass_a + inv_mass_b
+ *             if kt_lin > 1e-12:
+ *                 jt = -t_mag / kt_lin             # <<<<<<<<<<<<<<
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+ *                 if fabs(jt) > max_f:
+*/
+        __pyx_v_jt = ((-__pyx_v_t_mag) / __pyx_v_kt_lin);
+
+        /* "engine/cython/cy_response_2d.pyx":348
+ *             if kt_lin > 1e-12:
+ *                 jt = -t_mag / kt_lin
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)             # <<<<<<<<<<<<<<
+ *                 if fabs(jt) > max_f:
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
+*/
+        __pyx_t_1 = (__pyx_v_mu_s > __pyx_v_mu_d);
+        if (__pyx_t_1) {
+          __pyx_t_2 = __pyx_v_mu_s;
+        } else {
+          __pyx_t_2 = __pyx_v_mu_d;
+        }
+        __pyx_v_max_f = (fabs(__pyx_v_jn) * __pyx_t_2);
+
+        /* "engine/cython/cy_response_2d.pyx":349
+ *                 jt = -t_mag / kt_lin
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+ *                 if fabs(jt) > max_f:             # <<<<<<<<<<<<<<
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
+ *                 vax[0] += tx * jt * inv_mass_a
+*/
+        __pyx_t_1 = (fabs(__pyx_v_jt) > __pyx_v_max_f);
+        if (__pyx_t_1) {
+
+          /* "engine/cython/cy_response_2d.pyx":350
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+ *                 if fabs(jt) > max_f:
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0             # <<<<<<<<<<<<<<
+ *                 vax[0] += tx * jt * inv_mass_a
+ *                 vay[0] += ty * jt * inv_mass_a
+*/
+          __pyx_t_1 = (__pyx_v_max_f > 0.0);
+          if (__pyx_t_1) {
+            __pyx_t_2 = copysign(__pyx_v_max_f, __pyx_v_jt);
+          } else {
+            __pyx_t_2 = 0.0;
+          }
+          __pyx_v_jt = __pyx_t_2;
+
+          /* "engine/cython/cy_response_2d.pyx":349
+ *                 jt = -t_mag / kt_lin
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+ *                 if fabs(jt) > max_f:             # <<<<<<<<<<<<<<
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
+ *                 vax[0] += tx * jt * inv_mass_a
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":351
+ *                 if fabs(jt) > max_f:
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
+ *                 vax[0] += tx * jt * inv_mass_a             # <<<<<<<<<<<<<<
+ *                 vay[0] += ty * jt * inv_mass_a
+ *                 vbx[0] -= tx * jt * inv_mass_b
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vax[__pyx_t_4]) = ((__pyx_v_vax[__pyx_t_4]) + ((__pyx_v_tx * __pyx_v_jt) * __pyx_v_inv_mass_a));
+
+        /* "engine/cython/cy_response_2d.pyx":352
+ *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
+ *                 vax[0] += tx * jt * inv_mass_a
+ *                 vay[0] += ty * jt * inv_mass_a             # <<<<<<<<<<<<<<
+ *                 vbx[0] -= tx * jt * inv_mass_b
+ *                 vby[0] -= ty * jt * inv_mass_b
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vay[__pyx_t_4]) = ((__pyx_v_vay[__pyx_t_4]) + ((__pyx_v_ty * __pyx_v_jt) * __pyx_v_inv_mass_a));
+
+        /* "engine/cython/cy_response_2d.pyx":353
+ *                 vax[0] += tx * jt * inv_mass_a
+ *                 vay[0] += ty * jt * inv_mass_a
+ *                 vbx[0] -= tx * jt * inv_mass_b             # <<<<<<<<<<<<<<
+ *                 vby[0] -= ty * jt * inv_mass_b
+ *                 if face_support:
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vbx[__pyx_t_4]) = ((__pyx_v_vbx[__pyx_t_4]) - ((__pyx_v_tx * __pyx_v_jt) * __pyx_v_inv_mass_b));
+
+        /* "engine/cython/cy_response_2d.pyx":354
+ *                 vay[0] += ty * jt * inv_mass_a
+ *                 vbx[0] -= tx * jt * inv_mass_b
+ *                 vby[0] -= ty * jt * inv_mass_b             # <<<<<<<<<<<<<<
+ *                 if face_support:
+ *                     oa[0] *= 0.5
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vby[__pyx_t_4]) = ((__pyx_v_vby[__pyx_t_4]) - ((__pyx_v_ty * __pyx_v_jt) * __pyx_v_inv_mass_b));
+
+        /* "engine/cython/cy_response_2d.pyx":355
+ *                 vbx[0] -= tx * jt * inv_mass_b
+ *                 vby[0] -= ty * jt * inv_mass_b
+ *                 if face_support:             # <<<<<<<<<<<<<<
+ *                     oa[0] *= 0.5
+ *                     ob[0] *= 0.5
+*/
+        if (__pyx_v_face_support) {
+
+          /* "engine/cython/cy_response_2d.pyx":356
+ *                 vby[0] -= ty * jt * inv_mass_b
+ *                 if face_support:
+ *                     oa[0] *= 0.5             # <<<<<<<<<<<<<<
+ *                     ob[0] *= 0.5
+ *         else:
+*/
+          __pyx_t_4 = 0;
+          (__pyx_v_oa[__pyx_t_4]) = ((__pyx_v_oa[__pyx_t_4]) * 0.5);
+
+          /* "engine/cython/cy_response_2d.pyx":357
+ *                 if face_support:
+ *                     oa[0] *= 0.5
+ *                     ob[0] *= 0.5             # <<<<<<<<<<<<<<
+ *         else:
+ *             kt = _effective_mass(tx, ty, inv_mass_a, inv_mass_b,
+*/
+          __pyx_t_4 = 0;
+          (__pyx_v_ob[__pyx_t_4]) = ((__pyx_v_ob[__pyx_t_4]) * 0.5);
+
+          /* "engine/cython/cy_response_2d.pyx":355
+ *                 vbx[0] -= tx * jt * inv_mass_b
+ *                 vby[0] -= ty * jt * inv_mass_b
+ *                 if face_support:             # <<<<<<<<<<<<<<
+ *                     oa[0] *= 0.5
+ *                     ob[0] *= 0.5
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":346
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+ *             kt_lin = inv_mass_a + inv_mass_b
+ *             if kt_lin > 1e-12:             # <<<<<<<<<<<<<<
+ *                 jt = -t_mag / kt_lin
+ *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
+*/
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":344
+ *     if t_mag >= 1e-10:
+ *         tx = vtx / t_mag; ty = vty / t_mag
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:             # <<<<<<<<<<<<<<
+ *             kt_lin = inv_mass_a + inv_mass_b
+ *             if kt_lin > 1e-12:
+*/
+      goto __pyx_L70;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":359
+ *                     ob[0] *= 0.5
+ *         else:
+ *             kt = _effective_mass(tx, ty, inv_mass_a, inv_mass_b,             # <<<<<<<<<<<<<<
+ *                                  ra_fx, ra_fy, rb_fx, rb_fy,
+ *                                  has_ia, i_inv_a, has_ib, i_inv_b)
+*/
+    /*else*/ {
+
+      /* "engine/cython/cy_response_2d.pyx":361
+ *             kt = _effective_mass(tx, ty, inv_mass_a, inv_mass_b,
+ *                                  ra_fx, ra_fy, rb_fx, rb_fy,
+ *                                  has_ia, i_inv_a, has_ib, i_inv_b)             # <<<<<<<<<<<<<<
+ *             if kt > 1e-12:
+ *                 vt_along = _dot2(vrx, vry, tx, ty)
+*/
+      __pyx_v_kt = __pyx_f_6engine_6cython_14cy_response_2d__effective_mass(__pyx_v_tx, __pyx_v_ty, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_ra_fx, __pyx_v_ra_fy, __pyx_v_rb_fx, __pyx_v_rb_fy, __pyx_v_has_ia, __pyx_v_i_inv_a, __pyx_v_has_ib, __pyx_v_i_inv_b);
+
+      /* "engine/cython/cy_response_2d.pyx":362
+ *                                  ra_fx, ra_fy, rb_fx, rb_fy,
+ *                                  has_ia, i_inv_a, has_ib, i_inv_b)
+ *             if kt > 1e-12:             # <<<<<<<<<<<<<<
+ *                 vt_along = _dot2(vrx, vry, tx, ty)
+ *                 jt = -vt_along / kt
+*/
+      __pyx_t_1 = (__pyx_v_kt > 1e-12);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":363
+ *                                  has_ia, i_inv_a, has_ib, i_inv_b)
+ *             if kt > 1e-12:
+ *                 vt_along = _dot2(vrx, vry, tx, ty)             # <<<<<<<<<<<<<<
+ *                 jt = -vt_along / kt
+ *                 max_static = fabs(jn) * mu_s
+*/
+        __pyx_v_vt_along = __pyx_f_6engine_6cython_14cy_response_2d__dot2(__pyx_v_vrx, __pyx_v_vry, __pyx_v_tx, __pyx_v_ty);
+
+        /* "engine/cython/cy_response_2d.pyx":364
+ *             if kt > 1e-12:
+ *                 vt_along = _dot2(vrx, vry, tx, ty)
+ *                 jt = -vt_along / kt             # <<<<<<<<<<<<<<
+ *                 max_static = fabs(jn) * mu_s
+ *                 if fabs(jt) > max_static:
+*/
+        __pyx_v_jt = ((-__pyx_v_vt_along) / __pyx_v_kt);
+
+        /* "engine/cython/cy_response_2d.pyx":365
+ *                 vt_along = _dot2(vrx, vry, tx, ty)
+ *                 jt = -vt_along / kt
+ *                 max_static = fabs(jn) * mu_s             # <<<<<<<<<<<<<<
+ *                 if fabs(jt) > max_static:
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+*/
+        __pyx_v_max_static = (fabs(__pyx_v_jn) * __pyx_v_mu_s);
+
+        /* "engine/cython/cy_response_2d.pyx":366
+ *                 jt = -vt_along / kt
+ *                 max_static = fabs(jn) * mu_s
+ *                 if fabs(jt) > max_static:             # <<<<<<<<<<<<<<
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+ *                 if unstable:
+*/
+        __pyx_t_1 = (fabs(__pyx_v_jt) > __pyx_v_max_static);
+        if (__pyx_t_1) {
+
+          /* "engine/cython/cy_response_2d.pyx":367
+ *                 max_static = fabs(jn) * mu_s
+ *                 if fabs(jt) > max_static:
+ *                     jt = copysign(fabs(jn) * mu_d, jt)             # <<<<<<<<<<<<<<
+ *                 if unstable:
+ *                     jt *= 0.45
+*/
+          __pyx_v_jt = copysign((fabs(__pyx_v_jn) * __pyx_v_mu_d), __pyx_v_jt);
+
+          /* "engine/cython/cy_response_2d.pyx":366
+ *                 jt = -vt_along / kt
+ *                 max_static = fabs(jn) * mu_s
+ *                 if fabs(jt) > max_static:             # <<<<<<<<<<<<<<
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+ *                 if unstable:
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":368
+ *                 if fabs(jt) > max_static:
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+ *                 if unstable:             # <<<<<<<<<<<<<<
+ *                     jt *= 0.45
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:
+*/
+        if (__pyx_v_unstable) {
+
+          /* "engine/cython/cy_response_2d.pyx":369
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+ *                 if unstable:
+ *                     jt *= 0.45             # <<<<<<<<<<<<<<
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:
+ *                     jt = -vt_along / kt
+*/
+          __pyx_v_jt = (__pyx_v_jt * 0.45);
+
+          /* "engine/cython/cy_response_2d.pyx":368
+ *                 if fabs(jt) > max_static:
+ *                     jt = copysign(fabs(jn) * mu_d, jt)
+ *                 if unstable:             # <<<<<<<<<<<<<<
+ *                     jt *= 0.45
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":370
+ *                 if unstable:
+ *                     jt *= 0.45
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:             # <<<<<<<<<<<<<<
+ *                     jt = -vt_along / kt
+ *                 _apply_impulse(vax, vay, oa, vbx, vby, ob,
+*/
+        __pyx_t_1 = ((__pyx_v_vt_along * (__pyx_v_vt_along + (__pyx_v_jt * __pyx_v_kt))) < 0.0);
+        if (__pyx_t_1) {
+
+          /* "engine/cython/cy_response_2d.pyx":371
+ *                     jt *= 0.45
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:
+ *                     jt = -vt_along / kt             # <<<<<<<<<<<<<<
+ *                 _apply_impulse(vax, vay, oa, vbx, vby, ob,
+ *                                inv_mass_a, inv_mass_b, has_ia, i_inv_a, has_ib, i_inv_b,
+*/
+          __pyx_v_jt = ((-__pyx_v_vt_along) / __pyx_v_kt);
+
+          /* "engine/cython/cy_response_2d.pyx":370
+ *                 if unstable:
+ *                     jt *= 0.45
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:             # <<<<<<<<<<<<<<
+ *                     jt = -vt_along / kt
+ *                 _apply_impulse(vax, vay, oa, vbx, vby, ob,
+*/
+        }
+
+        /* "engine/cython/cy_response_2d.pyx":372
+ *                 if vt_along * (vt_along + jt * kt) < 0.0:
+ *                     jt = -vt_along / kt
+ *                 _apply_impulse(vax, vay, oa, vbx, vby, ob,             # <<<<<<<<<<<<<<
+ *                                inv_mass_a, inv_mass_b, has_ia, i_inv_a, has_ib, i_inv_b,
+ *                                ra_fx, ra_fy, rb_fx, rb_fy, tx * jt, ty * jt)
+*/
+        __pyx_f_6engine_6cython_14cy_response_2d__apply_impulse(__pyx_v_vax, __pyx_v_vay, __pyx_v_oa, __pyx_v_vbx, __pyx_v_vby, __pyx_v_ob, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_has_ia, __pyx_v_i_inv_a, __pyx_v_has_ib, __pyx_v_i_inv_b, __pyx_v_ra_fx, __pyx_v_ra_fy, __pyx_v_rb_fx, __pyx_v_rb_fy, (__pyx_v_tx * __pyx_v_jt), (__pyx_v_ty * __pyx_v_jt));
+
+        /* "engine/cython/cy_response_2d.pyx":362
+ *                                  ra_fx, ra_fy, rb_fx, rb_fy,
+ *                                  has_ia, i_inv_a, has_ib, i_inv_b)
+ *             if kt > 1e-12:             # <<<<<<<<<<<<<<
+ *                 vt_along = _dot2(vrx, vry, tx, ty)
+ *                 jt = -vt_along / kt
+*/
+      }
+    }
+    __pyx_L70:;
+
+    /* "engine/cython/cy_response_2d.pyx":342
+ *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
+ * 
+ *     if t_mag >= 1e-10:             # <<<<<<<<<<<<<<
+ *         tx = vtx / t_mag; ty = vty / t_mag
+ *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":377
+ * 
+ *     # Face settle: full snap only on immovable support (no mid-air freeze)
+ *     a_on_static = inv_mass_b < 1e-12 and inv_mass_a > 0.0             # <<<<<<<<<<<<<<
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0
+ *     if face_support and closing < 2.5:
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_b < 1e-12);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L80_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L80_bool_binop_done:;
+  __pyx_v_a_on_static = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":378
+ *     # Face settle: full snap only on immovable support (no mid-air freeze)
+ *     a_on_static = inv_mass_b < 1e-12 and inv_mass_a > 0.0
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0             # <<<<<<<<<<<<<<
+ *     if face_support and closing < 2.5:
+ *         if a_on_static:
+*/
+  __pyx_t_3 = (__pyx_v_inv_mass_a < 1e-12);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L82_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L82_bool_binop_done:;
+  __pyx_v_b_on_static = __pyx_t_1;
+
+  /* "engine/cython/cy_response_2d.pyx":379
+ *     a_on_static = inv_mass_b < 1e-12 and inv_mass_a > 0.0
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0
+ *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         if a_on_static:
+ *             if fabs(oa[0]) < 1.5:
+*/
+  if (__pyx_v_face_support) {
+  } else {
+    __pyx_t_1 = __pyx_v_face_support;
+    goto __pyx_L85_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_closing < 2.5);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L85_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":380
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0
+ *     if face_support and closing < 2.5:
+ *         if a_on_static:             # <<<<<<<<<<<<<<
+ *             if fabs(oa[0]) < 1.5:
+ *                 oa[0] = 0.0
+*/
+    if (__pyx_v_a_on_static) {
+
+      /* "engine/cython/cy_response_2d.pyx":381
+ *     if face_support and closing < 2.5:
+ *         if a_on_static:
+ *             if fabs(oa[0]) < 1.5:             # <<<<<<<<<<<<<<
+ *                 oa[0] = 0.0
+ *             else:
+*/
+      __pyx_t_1 = (fabs((__pyx_v_oa[0])) < 1.5);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":382
+ *         if a_on_static:
+ *             if fabs(oa[0]) < 1.5:
+ *                 oa[0] = 0.0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 oa[0] *= 0.15
+*/
+        (__pyx_v_oa[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":381
+ *     if face_support and closing < 2.5:
+ *         if a_on_static:
+ *             if fabs(oa[0]) < 1.5:             # <<<<<<<<<<<<<<
+ *                 oa[0] = 0.0
+ *             else:
+*/
+        goto __pyx_L88;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":384
+ *                 oa[0] = 0.0
+ *             else:
+ *                 oa[0] *= 0.15             # <<<<<<<<<<<<<<
+ *             speed = _len2(vax[0], vay[0])
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):
+*/
+      /*else*/ {
+        __pyx_t_4 = 0;
+        (__pyx_v_oa[__pyx_t_4]) = ((__pyx_v_oa[__pyx_t_4]) * 0.15);
+      }
+      __pyx_L88:;
+
+      /* "engine/cython/cy_response_2d.pyx":385
+ *             else:
+ *                 oa[0] *= 0.15
+ *             speed = _len2(vax[0], vay[0])             # <<<<<<<<<<<<<<
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):
+ *                 vax[0] = 0.0; vay[0] = 0.0
+*/
+      __pyx_v_speed = __pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vax[0]), (__pyx_v_vay[0]));
+
+      /* "engine/cython/cy_response_2d.pyx":386
+ *                 oa[0] *= 0.15
+ *             speed = _len2(vax[0], vay[0])
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):             # <<<<<<<<<<<<<<
+ *                 vax[0] = 0.0; vay[0] = 0.0
+ *             elif speed < 1.2 and mu_s > 1e-6:
+*/
+      __pyx_t_3 = (__pyx_v_speed < 0.15);
+      if (!__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L90_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_mu_s > 1e-6);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L90_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_speed < 0.75);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L90_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":387
+ *             speed = _len2(vax[0], vay[0])
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):
+ *                 vax[0] = 0.0; vay[0] = 0.0             # <<<<<<<<<<<<<<
+ *             elif speed < 1.2 and mu_s > 1e-6:
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+*/
+        (__pyx_v_vax[0]) = 0.0;
+        (__pyx_v_vay[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":386
+ *                 oa[0] *= 0.15
+ *             speed = _len2(vax[0], vay[0])
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):             # <<<<<<<<<<<<<<
+ *                 vax[0] = 0.0; vay[0] = 0.0
+ *             elif speed < 1.2 and mu_s > 1e-6:
+*/
+        goto __pyx_L89;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":388
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):
+ *                 vax[0] = 0.0; vay[0] = 0.0
+ *             elif speed < 1.2 and mu_s > 1e-6:             # <<<<<<<<<<<<<<
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:
+*/
+      __pyx_t_3 = (__pyx_v_speed < 1.2);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L93_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_mu_s > 1e-6);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L93_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":389
+ *                 vax[0] = 0.0; vay[0] = 0.0
+ *             elif speed < 1.2 and mu_s > 1e-6:
+ *                 vax[0] *= 0.35; vay[0] *= 0.35             # <<<<<<<<<<<<<<
+ *         elif inv_mass_a > 0.0:
+ *             if fabs(oa[0]) < 0.8:
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vax[__pyx_t_4]) = ((__pyx_v_vax[__pyx_t_4]) * 0.35);
+        __pyx_t_4 = 0;
+        (__pyx_v_vay[__pyx_t_4]) = ((__pyx_v_vay[__pyx_t_4]) * 0.35);
+
+        /* "engine/cython/cy_response_2d.pyx":388
+ *             if speed < 0.15 or (mu_s > 1e-6 and speed < 0.75):
+ *                 vax[0] = 0.0; vay[0] = 0.0
+ *             elif speed < 1.2 and mu_s > 1e-6:             # <<<<<<<<<<<<<<
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:
+*/
+      }
+      __pyx_L89:;
+
+      /* "engine/cython/cy_response_2d.pyx":380
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0
+ *     if face_support and closing < 2.5:
+ *         if a_on_static:             # <<<<<<<<<<<<<<
+ *             if fabs(oa[0]) < 1.5:
+ *                 oa[0] = 0.0
+*/
+      goto __pyx_L87;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":390
+ *             elif speed < 1.2 and mu_s > 1e-6:
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *             if fabs(oa[0]) < 0.8:
+ *                 oa[0] = 0.0
+*/
+    __pyx_t_1 = (__pyx_v_inv_mass_a > 0.0);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":391
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:
+ *             if fabs(oa[0]) < 0.8:             # <<<<<<<<<<<<<<
+ *                 oa[0] = 0.0
+ *             else:
+*/
+      __pyx_t_1 = (fabs((__pyx_v_oa[0])) < 0.8);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":392
+ *         elif inv_mass_a > 0.0:
+ *             if fabs(oa[0]) < 0.8:
+ *                 oa[0] = 0.0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 oa[0] *= 0.5
+*/
+        (__pyx_v_oa[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":391
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:
+ *             if fabs(oa[0]) < 0.8:             # <<<<<<<<<<<<<<
+ *                 oa[0] = 0.0
+ *             else:
+*/
+        goto __pyx_L95;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":394
+ *                 oa[0] = 0.0
+ *             else:
+ *                 oa[0] *= 0.5             # <<<<<<<<<<<<<<
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55
+*/
+      /*else*/ {
+        __pyx_t_4 = 0;
+        (__pyx_v_oa[__pyx_t_4]) = ((__pyx_v_oa[__pyx_t_4]) * 0.5);
+      }
+      __pyx_L95:;
+
+      /* "engine/cython/cy_response_2d.pyx":395
+ *             else:
+ *                 oa[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      if (__pyx_v_ground_like) {
+      } else {
+        __pyx_t_1 = __pyx_v_ground_like;
+        goto __pyx_L97_bool_binop_done;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":396
+ *                 oa[0] *= 0.5
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55             # <<<<<<<<<<<<<<
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+*/
+      __pyx_t_3 = (__pyx_v_closing < 0.8);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L97_bool_binop_done;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":397
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):             # <<<<<<<<<<<<<<
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+ *         if b_on_static:
+*/
+      __pyx_t_3 = (__pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vax[0]), (__pyx_v_vay[0])) < 0.55);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L97_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vbx[0]), (__pyx_v_vby[0])) < 0.55);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L97_bool_binop_done:;
+
+      /* "engine/cython/cy_response_2d.pyx":395
+ *             else:
+ *                 oa[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":398
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vax[0] *= 0.4; vay[0] *= 0.4             # <<<<<<<<<<<<<<
+ *         if b_on_static:
+ *             if fabs(ob[0]) < 1.5:
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vax[__pyx_t_4]) = ((__pyx_v_vax[__pyx_t_4]) * 0.4);
+        __pyx_t_4 = 0;
+        (__pyx_v_vay[__pyx_t_4]) = ((__pyx_v_vay[__pyx_t_4]) * 0.4);
+
+        /* "engine/cython/cy_response_2d.pyx":395
+ *             else:
+ *                 oa[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":390
+ *             elif speed < 1.2 and mu_s > 1e-6:
+ *                 vax[0] *= 0.35; vay[0] *= 0.35
+ *         elif inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *             if fabs(oa[0]) < 0.8:
+ *                 oa[0] = 0.0
+*/
+    }
+    __pyx_L87:;
+
+    /* "engine/cython/cy_response_2d.pyx":399
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+ *         if b_on_static:             # <<<<<<<<<<<<<<
+ *             if fabs(ob[0]) < 1.5:
+ *                 ob[0] = 0.0
+*/
+    if (__pyx_v_b_on_static) {
+
+      /* "engine/cython/cy_response_2d.pyx":400
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+ *         if b_on_static:
+ *             if fabs(ob[0]) < 1.5:             # <<<<<<<<<<<<<<
+ *                 ob[0] = 0.0
+ *             else:
+*/
+      __pyx_t_1 = (fabs((__pyx_v_ob[0])) < 1.5);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":401
+ *         if b_on_static:
+ *             if fabs(ob[0]) < 1.5:
+ *                 ob[0] = 0.0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 ob[0] *= 0.15
+*/
+        (__pyx_v_ob[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":400
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+ *         if b_on_static:
+ *             if fabs(ob[0]) < 1.5:             # <<<<<<<<<<<<<<
+ *                 ob[0] = 0.0
+ *             else:
+*/
+        goto __pyx_L102;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":403
+ *                 ob[0] = 0.0
+ *             else:
+ *                 ob[0] *= 0.15             # <<<<<<<<<<<<<<
+ *             speed_b = _len2(vbx[0], vby[0])
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):
+*/
+      /*else*/ {
+        __pyx_t_4 = 0;
+        (__pyx_v_ob[__pyx_t_4]) = ((__pyx_v_ob[__pyx_t_4]) * 0.15);
+      }
+      __pyx_L102:;
+
+      /* "engine/cython/cy_response_2d.pyx":404
+ *             else:
+ *                 ob[0] *= 0.15
+ *             speed_b = _len2(vbx[0], vby[0])             # <<<<<<<<<<<<<<
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+*/
+      __pyx_v_speed_b = __pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vbx[0]), (__pyx_v_vby[0]));
+
+      /* "engine/cython/cy_response_2d.pyx":405
+ *                 ob[0] *= 0.15
+ *             speed_b = _len2(vbx[0], vby[0])
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):             # <<<<<<<<<<<<<<
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+*/
+      __pyx_t_3 = (__pyx_v_speed_b < 0.15);
+      if (!__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L104_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_mu_s > 1e-6);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L104_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_speed_b < 0.75);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L104_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":406
+ *             speed_b = _len2(vbx[0], vby[0])
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):
+ *                 vbx[0] = 0.0; vby[0] = 0.0             # <<<<<<<<<<<<<<
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+*/
+        (__pyx_v_vbx[0]) = 0.0;
+        (__pyx_v_vby[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":405
+ *                 ob[0] *= 0.15
+ *             speed_b = _len2(vbx[0], vby[0])
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):             # <<<<<<<<<<<<<<
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+*/
+        goto __pyx_L103;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":407
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+ *             elif speed_b < 1.2 and mu_s > 1e-6:             # <<<<<<<<<<<<<<
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:
+*/
+      __pyx_t_3 = (__pyx_v_speed_b < 1.2);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L107_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_mu_s > 1e-6);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L107_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":408
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35             # <<<<<<<<<<<<<<
+ *         elif inv_mass_b > 0.0:
+ *             if fabs(ob[0]) < 0.8:
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vbx[__pyx_t_4]) = ((__pyx_v_vbx[__pyx_t_4]) * 0.35);
+        __pyx_t_4 = 0;
+        (__pyx_v_vby[__pyx_t_4]) = ((__pyx_v_vby[__pyx_t_4]) * 0.35);
+
+        /* "engine/cython/cy_response_2d.pyx":407
+ *             if speed_b < 0.15 or (mu_s > 1e-6 and speed_b < 0.75):
+ *                 vbx[0] = 0.0; vby[0] = 0.0
+ *             elif speed_b < 1.2 and mu_s > 1e-6:             # <<<<<<<<<<<<<<
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:
+*/
+      }
+      __pyx_L103:;
+
+      /* "engine/cython/cy_response_2d.pyx":399
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vax[0] *= 0.4; vay[0] *= 0.4
+ *         if b_on_static:             # <<<<<<<<<<<<<<
+ *             if fabs(ob[0]) < 1.5:
+ *                 ob[0] = 0.0
+*/
+      goto __pyx_L101;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":409
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *             if fabs(ob[0]) < 0.8:
+ *                 ob[0] = 0.0
+*/
+    __pyx_t_1 = (__pyx_v_inv_mass_b > 0.0);
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":410
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:
+ *             if fabs(ob[0]) < 0.8:             # <<<<<<<<<<<<<<
+ *                 ob[0] = 0.0
+ *             else:
+*/
+      __pyx_t_1 = (fabs((__pyx_v_ob[0])) < 0.8);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":411
+ *         elif inv_mass_b > 0.0:
+ *             if fabs(ob[0]) < 0.8:
+ *                 ob[0] = 0.0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 ob[0] *= 0.5
+*/
+        (__pyx_v_ob[0]) = 0.0;
+
+        /* "engine/cython/cy_response_2d.pyx":410
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:
+ *             if fabs(ob[0]) < 0.8:             # <<<<<<<<<<<<<<
+ *                 ob[0] = 0.0
+ *             else:
+*/
+        goto __pyx_L109;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":413
+ *                 ob[0] = 0.0
+ *             else:
+ *                 ob[0] *= 0.5             # <<<<<<<<<<<<<<
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55
+*/
+      /*else*/ {
+        __pyx_t_4 = 0;
+        (__pyx_v_ob[__pyx_t_4]) = ((__pyx_v_ob[__pyx_t_4]) * 0.5);
+      }
+      __pyx_L109:;
+
+      /* "engine/cython/cy_response_2d.pyx":414
+ *             else:
+ *                 ob[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      if (__pyx_v_ground_like) {
+      } else {
+        __pyx_t_1 = __pyx_v_ground_like;
+        goto __pyx_L111_bool_binop_done;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":415
+ *                 ob[0] *= 0.5
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55             # <<<<<<<<<<<<<<
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4
+*/
+      __pyx_t_3 = (__pyx_v_closing < 0.8);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L111_bool_binop_done;
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":416
+ *             if (ground_like and closing < 0.8
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):             # <<<<<<<<<<<<<<
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4
+ *     elif (not unstable) and w_n < 0.5:
+*/
+      __pyx_t_3 = (__pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vax[0]), (__pyx_v_vay[0])) < 0.55);
+      if (__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L111_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_f_6engine_6cython_14cy_response_2d__len2((__pyx_v_vbx[0]), (__pyx_v_vby[0])) < 0.55);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L111_bool_binop_done:;
+
+      /* "engine/cython/cy_response_2d.pyx":414
+ *             else:
+ *                 ob[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_2d.pyx":417
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4             # <<<<<<<<<<<<<<
+ *     elif (not unstable) and w_n < 0.5:
+ *         damp = 0.72 + 0.2 * w_n
+*/
+        __pyx_t_4 = 0;
+        (__pyx_v_vbx[__pyx_t_4]) = ((__pyx_v_vbx[__pyx_t_4]) * 0.4);
+        __pyx_t_4 = 0;
+        (__pyx_v_vby[__pyx_t_4]) = ((__pyx_v_vby[__pyx_t_4]) * 0.4);
+
+        /* "engine/cython/cy_response_2d.pyx":414
+ *             else:
+ *                 ob[0] *= 0.5
+ *             if (ground_like and closing < 0.8             # <<<<<<<<<<<<<<
+ *                     and _len2(vax[0], vay[0]) < 0.55
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+*/
+      }
+
+      /* "engine/cython/cy_response_2d.pyx":409
+ *             elif speed_b < 1.2 and mu_s > 1e-6:
+ *                 vbx[0] *= 0.35; vby[0] *= 0.35
+ *         elif inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *             if fabs(ob[0]) < 0.8:
+ *                 ob[0] = 0.0
+*/
+    }
+    __pyx_L101:;
+
+    /* "engine/cython/cy_response_2d.pyx":379
+ *     a_on_static = inv_mass_b < 1e-12 and inv_mass_a > 0.0
+ *     b_on_static = inv_mass_a < 1e-12 and inv_mass_b > 0.0
+ *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
+ *         if a_on_static:
+ *             if fabs(oa[0]) < 1.5:
+*/
+    goto __pyx_L84;
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":418
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4
+ *     elif (not unstable) and w_n < 0.5:             # <<<<<<<<<<<<<<
+ *         damp = 0.72 + 0.2 * w_n
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+*/
+  __pyx_t_3 = (!__pyx_v_unstable);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L115_bool_binop_done;
+  }
+  __pyx_t_3 = (__pyx_v_w_n < 0.5);
+  __pyx_t_1 = __pyx_t_3;
+  __pyx_L115_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "engine/cython/cy_response_2d.pyx":419
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4
+ *     elif (not unstable) and w_n < 0.5:
+ *         damp = 0.72 + 0.2 * w_n             # <<<<<<<<<<<<<<
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+ *             oa[0] *= damp
+*/
+    __pyx_v_damp = (0.72 + (0.2 * __pyx_v_w_n));
+
+    /* "engine/cython/cy_response_2d.pyx":420
+ *     elif (not unstable) and w_n < 0.5:
+ *         damp = 0.72 + 0.2 * w_n
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *             oa[0] *= damp
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
+*/
+    __pyx_t_3 = (__pyx_v_inv_mass_b < 1e-12);
+    if (__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L118_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L118_bool_binop_done:;
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":421
+ *         damp = 0.72 + 0.2 * w_n
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+ *             oa[0] *= damp             # <<<<<<<<<<<<<<
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
+ *             ob[0] *= damp
+*/
+      __pyx_t_4 = 0;
+      (__pyx_v_oa[__pyx_t_4]) = ((__pyx_v_oa[__pyx_t_4]) * __pyx_v_damp);
+
+      /* "engine/cython/cy_response_2d.pyx":420
+ *     elif (not unstable) and w_n < 0.5:
+ *         damp = 0.72 + 0.2 * w_n
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *             oa[0] *= damp
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
+*/
+      goto __pyx_L117;
+    }
+
+    /* "engine/cython/cy_response_2d.pyx":422
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+ *             oa[0] *= damp
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *             ob[0] *= damp
+ * 
+*/
+    __pyx_t_3 = (__pyx_v_inv_mass_a < 1e-12);
+    if (__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L120_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L120_bool_binop_done:;
+    if (__pyx_t_1) {
+
+      /* "engine/cython/cy_response_2d.pyx":423
+ *             oa[0] *= damp
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
+ *             ob[0] *= damp             # <<<<<<<<<<<<<<
+ * 
+ *     oa[0] = _clamp_omega(oa[0], MAX_ANGULAR_SPEED)
+*/
+      __pyx_t_4 = 0;
+      (__pyx_v_ob[__pyx_t_4]) = ((__pyx_v_ob[__pyx_t_4]) * __pyx_v_damp);
+
+      /* "engine/cython/cy_response_2d.pyx":422
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+ *             oa[0] *= damp
+ *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *             ob[0] *= damp
+ * 
+*/
+    }
+    __pyx_L117:;
+
+    /* "engine/cython/cy_response_2d.pyx":418
+ *                     and _len2(vbx[0], vby[0]) < 0.55):
+ *                 vbx[0] *= 0.4; vby[0] *= 0.4
+ *     elif (not unstable) and w_n < 0.5:             # <<<<<<<<<<<<<<
+ *         damp = 0.72 + 0.2 * w_n
+ *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
+*/
+  }
+  __pyx_L84:;
+
+  /* "engine/cython/cy_response_2d.pyx":425
+ *             ob[0] *= damp
+ * 
+ *     oa[0] = _clamp_omega(oa[0], MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
+ *     ob[0] = _clamp_omega(ob[0], MAX_ANGULAR_SPEED)
+ *     out_unstable[0] = unstable
+*/
+  (__pyx_v_oa[0]) = __pyx_f_6engine_6cython_14cy_response_2d__clamp_omega((__pyx_v_oa[0]), __pyx_v_6engine_6cython_14cy_response_2d_MAX_ANGULAR_SPEED);
+
+  /* "engine/cython/cy_response_2d.pyx":426
+ * 
+ *     oa[0] = _clamp_omega(oa[0], MAX_ANGULAR_SPEED)
+ *     ob[0] = _clamp_omega(ob[0], MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
+ *     out_unstable[0] = unstable
+ * 
+*/
+  (__pyx_v_ob[0]) = __pyx_f_6engine_6cython_14cy_response_2d__clamp_omega((__pyx_v_ob[0]), __pyx_v_6engine_6cython_14cy_response_2d_MAX_ANGULAR_SPEED);
+
+  /* "engine/cython/cy_response_2d.pyx":427
+ *     oa[0] = _clamp_omega(oa[0], MAX_ANGULAR_SPEED)
+ *     ob[0] = _clamp_omega(ob[0], MAX_ANGULAR_SPEED)
+ *     out_unstable[0] = unstable             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  (__pyx_v_out_unstable[0]) = __pyx_v_unstable;
+
+  /* "engine/cython/cy_response_2d.pyx":112
+ * 
+ * 
+ * cdef void _resolve_contact_core(             # <<<<<<<<<<<<<<
+ *     double pax, double pay,
+ *     double *vax, double *vay, double *oa,
+*/
+
+  /* function exit code */
+  __pyx_L0:;
+}
+
+/* "engine/cython/cy_response_2d.pyx":430
+ * 
+ * 
+ * def resolve_contact_2d_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double omega_a,
+ *     double inv_mass_a, double i_inv_a,
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_2d_1resolve_contact_2d_fast(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_2d_resolve_contact_2d_fast, "\n    Fast 2D contact solve.\n\n    i_inv_a / i_inv_b: scalar inverse inertia; pass < 0 to disable angular terms.\n\n    Returns (va, oa, vb, ob, unstable)\n    ");
+static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_2d_1resolve_contact_2d_fast = {"resolve_contact_2d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_2d_1resolve_contact_2d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_2d_resolve_contact_2d_fast};
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_2d_1resolve_contact_2d_fast(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  __Pyx_memviewslice __pyx_v_pos_a = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_vel_a = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_omega_a;
+  double __pyx_v_inv_mass_a;
+  double __pyx_v_i_inv_a;
+  __Pyx_memviewslice __pyx_v_pos_b = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_vel_b = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_omega_b;
+  double __pyx_v_inv_mass_b;
+  double __pyx_v_i_inv_b;
+  __Pyx_memviewslice __pyx_v_contact_point = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_normal = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_restitution;
+  double __pyx_v_static_friction;
+  double __pyx_v_dynamic_friction;
+  double __pyx_v_face_align_a;
+  double __pyx_v_face_align_b;
+  double __pyx_v_dt;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("ray_aabb_intersection_2d_fast", 0);
-
-  /* "engine/cython/cy_collision_2d.pyx":433
- * ):
- *     """Returns (t_min, t_max) or None."""
- *     cdef double t_min = 0.0             # <<<<<<<<<<<<<<
- *     cdef double t_max = 1e30
- *     cdef double inv_d, t0, t1, tmp
-*/
-  __pyx_v_t_min = 0.0;
-
-  /* "engine/cython/cy_collision_2d.pyx":434
- *     """Returns (t_min, t_max) or None."""
- *     cdef double t_min = 0.0
- *     cdef double t_max = 1e30             # <<<<<<<<<<<<<<
- *     cdef double inv_d, t0, t1, tmp
- * 
-*/
-  __pyx_v_t_max = 1e30;
-
-  /* "engine/cython/cy_collision_2d.pyx":438
- * 
- *     # X axis
- *     if fabs(dx) < 1e-12:             # <<<<<<<<<<<<<<
- *         if ox < min_x or ox > max_x:
- *             return None
-*/
-  __pyx_t_1 = (fabs(__pyx_v_dx) < 1e-12);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":439
- *     # X axis
- *     if fabs(dx) < 1e-12:
- *         if ox < min_x or ox > max_x:             # <<<<<<<<<<<<<<
- *             return None
- *     else:
-*/
-    __pyx_t_2 = (__pyx_v_ox < __pyx_v_min_x);
-    if (!__pyx_t_2) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("resolve_contact_2d_fast (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_SIZE
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_pos_a,&__pyx_mstate_global->__pyx_n_u_vel_a,&__pyx_mstate_global->__pyx_n_u_omega_a,&__pyx_mstate_global->__pyx_n_u_inv_mass_a,&__pyx_mstate_global->__pyx_n_u_i_inv_a,&__pyx_mstate_global->__pyx_n_u_pos_b,&__pyx_mstate_global->__pyx_n_u_vel_b,&__pyx_mstate_global->__pyx_n_u_omega_b,&__pyx_mstate_global->__pyx_n_u_inv_mass_b,&__pyx_mstate_global->__pyx_n_u_i_inv_b,&__pyx_mstate_global->__pyx_n_u_contact_point,&__pyx_mstate_global->__pyx_n_u_normal,&__pyx_mstate_global->__pyx_n_u_restitution,&__pyx_mstate_global->__pyx_n_u_static_friction,&__pyx_mstate_global->__pyx_n_u_dynamic_friction,&__pyx_mstate_global->__pyx_n_u_face_align_a,&__pyx_mstate_global->__pyx_n_u_face_align_b,&__pyx_mstate_global->__pyx_n_u_dt,0};
+    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 430, __pyx_L3_error)
+    if (__pyx_kwds_len > 0) {
+      switch (__pyx_nargs) {
+        case 18:
+        values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 17:
+        values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 16:
+        values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 15:
+        values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 14:
+        values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 13:
+        values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 12:
+        values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 11:
+        values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 10:
+        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  9:
+        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  8:
+        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  7:
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  6:
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  5:
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  4:
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  3:
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  2:
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  1:
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      const Py_ssize_t kwd_pos_args = __pyx_nargs;
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "resolve_contact_2d_fast", 0) < (0)) __PYX_ERR(0, 430, __pyx_L3_error)
+      for (Py_ssize_t i = __pyx_nargs; i < 15; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("resolve_contact_2d_fast", 0, 15, 18, i); __PYX_ERR(0, 430, __pyx_L3_error) }
+      }
     } else {
-      __pyx_t_1 = __pyx_t_2;
-      goto __pyx_L5_bool_binop_done;
+      switch (__pyx_nargs) {
+        case 18:
+        values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 17:
+        values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 16:
+        values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 430, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 15:
+        values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 430, __pyx_L3_error)
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 430, __pyx_L3_error)
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
-    __pyx_t_2 = (__pyx_v_ox > __pyx_v_max_x);
-    __pyx_t_1 = __pyx_t_2;
-    __pyx_L5_bool_binop_done:;
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":440
- *     if fabs(dx) < 1e-12:
- *         if ox < min_x or ox > max_x:
- *             return None             # <<<<<<<<<<<<<<
- *     else:
- *         inv_d = 1.0 / dx
-*/
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":439
- *     # X axis
- *     if fabs(dx) < 1e-12:
- *         if ox < min_x or ox > max_x:             # <<<<<<<<<<<<<<
- *             return None
- *     else:
-*/
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":438
- * 
- *     # X axis
- *     if fabs(dx) < 1e-12:             # <<<<<<<<<<<<<<
- *         if ox < min_x or ox > max_x:
- *             return None
-*/
-    goto __pyx_L3;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":442
- *             return None
- *     else:
- *         inv_d = 1.0 / dx             # <<<<<<<<<<<<<<
- *         t0 = (min_x - ox) * inv_d
- *         t1 = (max_x - ox) * inv_d
-*/
-  /*else*/ {
-    __pyx_v_inv_d = (1.0 / __pyx_v_dx);
-
-    /* "engine/cython/cy_collision_2d.pyx":443
- *     else:
- *         inv_d = 1.0 / dx
- *         t0 = (min_x - ox) * inv_d             # <<<<<<<<<<<<<<
- *         t1 = (max_x - ox) * inv_d
- *         if inv_d < 0.0:
-*/
-    __pyx_v_t0 = ((__pyx_v_min_x - __pyx_v_ox) * __pyx_v_inv_d);
-
-    /* "engine/cython/cy_collision_2d.pyx":444
- *         inv_d = 1.0 / dx
- *         t0 = (min_x - ox) * inv_d
- *         t1 = (max_x - ox) * inv_d             # <<<<<<<<<<<<<<
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp
-*/
-    __pyx_v_t1 = ((__pyx_v_max_x - __pyx_v_ox) * __pyx_v_inv_d);
-
-    /* "engine/cython/cy_collision_2d.pyx":445
- *         t0 = (min_x - ox) * inv_d
- *         t1 = (max_x - ox) * inv_d
- *         if inv_d < 0.0:             # <<<<<<<<<<<<<<
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
-*/
-    __pyx_t_1 = (__pyx_v_inv_d < 0.0);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":446
- *         t1 = (max_x - ox) * inv_d
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp             # <<<<<<<<<<<<<<
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
-*/
-      __pyx_v_tmp = __pyx_v_t0;
-      __pyx_v_t0 = __pyx_v_t1;
-      __pyx_v_t1 = __pyx_v_tmp;
-
-      /* "engine/cython/cy_collision_2d.pyx":445
- *         t0 = (min_x - ox) * inv_d
- *         t1 = (max_x - ox) * inv_d
- *         if inv_d < 0.0:             # <<<<<<<<<<<<<<
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
-*/
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":447
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0             # <<<<<<<<<<<<<<
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:
-*/
-    __pyx_t_1 = (__pyx_v_t0 > __pyx_v_t_min);
-    if (__pyx_t_1) {
-      __pyx_v_t_min = __pyx_v_t0;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":448
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1             # <<<<<<<<<<<<<<
- *         if t_max < t_min:
- *             return None
-*/
-    __pyx_t_1 = (__pyx_v_t1 < __pyx_v_t_max);
-    if (__pyx_t_1) {
-      __pyx_v_t_max = __pyx_v_t1;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":449
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:             # <<<<<<<<<<<<<<
- *             return None
- * 
-*/
-    __pyx_t_1 = (__pyx_v_t_max < __pyx_v_t_min);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":450
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:
- *             return None             # <<<<<<<<<<<<<<
- * 
- *     # Y axis
-*/
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":449
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:             # <<<<<<<<<<<<<<
- *             return None
- * 
-*/
-    }
-  }
-  __pyx_L3:;
-
-  /* "engine/cython/cy_collision_2d.pyx":453
- * 
- *     # Y axis
- *     if fabs(dy) < 1e-12:             # <<<<<<<<<<<<<<
- *         if oy < min_y or oy > max_y:
- *             return None
-*/
-  __pyx_t_1 = (fabs(__pyx_v_dy) < 1e-12);
-  if (__pyx_t_1) {
-
-    /* "engine/cython/cy_collision_2d.pyx":454
- *     # Y axis
- *     if fabs(dy) < 1e-12:
- *         if oy < min_y or oy > max_y:             # <<<<<<<<<<<<<<
- *             return None
- *     else:
-*/
-    __pyx_t_2 = (__pyx_v_oy < __pyx_v_min_y);
-    if (!__pyx_t_2) {
+    __pyx_v_pos_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_a.memview)) __PYX_ERR(0, 431, __pyx_L3_error)
+    __pyx_v_vel_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_a.memview)) __PYX_ERR(0, 431, __pyx_L3_error)
+    __pyx_v_omega_a = __Pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_omega_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 431, __pyx_L3_error)
+    __pyx_v_inv_mass_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_inv_mass_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    __pyx_v_i_inv_a = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_i_inv_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L3_error)
+    __pyx_v_pos_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[5], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_b.memview)) __PYX_ERR(0, 433, __pyx_L3_error)
+    __pyx_v_vel_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[6], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_b.memview)) __PYX_ERR(0, 433, __pyx_L3_error)
+    __pyx_v_omega_b = __Pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_omega_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 433, __pyx_L3_error)
+    __pyx_v_inv_mass_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_inv_mass_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 434, __pyx_L3_error)
+    __pyx_v_i_inv_b = __Pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_i_inv_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 434, __pyx_L3_error)
+    __pyx_v_contact_point = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[10], PyBUF_WRITABLE); if (unlikely(!__pyx_v_contact_point.memview)) __PYX_ERR(0, 435, __pyx_L3_error)
+    __pyx_v_normal = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[11], PyBUF_WRITABLE); if (unlikely(!__pyx_v_normal.memview)) __PYX_ERR(0, 435, __pyx_L3_error)
+    __pyx_v_restitution = __Pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_restitution == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L3_error)
+    __pyx_v_static_friction = __Pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_static_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L3_error)
+    __pyx_v_dynamic_friction = __Pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_dynamic_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L3_error)
+    if (values[15]) {
+      __pyx_v_face_align_a = __Pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_face_align_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 437, __pyx_L3_error)
     } else {
-      __pyx_t_1 = __pyx_t_2;
-      goto __pyx_L13_bool_binop_done;
+      __pyx_v_face_align_a = ((double)((double)0.0));
     }
-    __pyx_t_2 = (__pyx_v_oy > __pyx_v_max_y);
-    __pyx_t_1 = __pyx_t_2;
-    __pyx_L13_bool_binop_done:;
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":455
- *     if fabs(dy) < 1e-12:
- *         if oy < min_y or oy > max_y:
- *             return None             # <<<<<<<<<<<<<<
- *     else:
- *         inv_d = 1.0 / dy
-*/
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":454
- *     # Y axis
- *     if fabs(dy) < 1e-12:
- *         if oy < min_y or oy > max_y:             # <<<<<<<<<<<<<<
- *             return None
- *     else:
-*/
+    if (values[16]) {
+      __pyx_v_face_align_b = __Pyx_PyFloat_AsDouble(values[16]); if (unlikely((__pyx_v_face_align_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 437, __pyx_L3_error)
+    } else {
+      __pyx_v_face_align_b = ((double)((double)0.0));
     }
-
-    /* "engine/cython/cy_collision_2d.pyx":453
- * 
- *     # Y axis
- *     if fabs(dy) < 1e-12:             # <<<<<<<<<<<<<<
- *         if oy < min_y or oy > max_y:
- *             return None
-*/
-    goto __pyx_L11;
-  }
-
-  /* "engine/cython/cy_collision_2d.pyx":457
- *             return None
- *     else:
- *         inv_d = 1.0 / dy             # <<<<<<<<<<<<<<
- *         t0 = (min_y - oy) * inv_d
- *         t1 = (max_y - oy) * inv_d
-*/
-  /*else*/ {
-    __pyx_v_inv_d = (1.0 / __pyx_v_dy);
-
-    /* "engine/cython/cy_collision_2d.pyx":458
- *     else:
- *         inv_d = 1.0 / dy
- *         t0 = (min_y - oy) * inv_d             # <<<<<<<<<<<<<<
- *         t1 = (max_y - oy) * inv_d
- *         if inv_d < 0.0:
-*/
-    __pyx_v_t0 = ((__pyx_v_min_y - __pyx_v_oy) * __pyx_v_inv_d);
-
-    /* "engine/cython/cy_collision_2d.pyx":459
- *         inv_d = 1.0 / dy
- *         t0 = (min_y - oy) * inv_d
- *         t1 = (max_y - oy) * inv_d             # <<<<<<<<<<<<<<
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp
-*/
-    __pyx_v_t1 = ((__pyx_v_max_y - __pyx_v_oy) * __pyx_v_inv_d);
-
-    /* "engine/cython/cy_collision_2d.pyx":460
- *         t0 = (min_y - oy) * inv_d
- *         t1 = (max_y - oy) * inv_d
- *         if inv_d < 0.0:             # <<<<<<<<<<<<<<
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
-*/
-    __pyx_t_1 = (__pyx_v_inv_d < 0.0);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":461
- *         t1 = (max_y - oy) * inv_d
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp             # <<<<<<<<<<<<<<
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
-*/
-      __pyx_v_tmp = __pyx_v_t0;
-      __pyx_v_t0 = __pyx_v_t1;
-      __pyx_v_t1 = __pyx_v_tmp;
-
-      /* "engine/cython/cy_collision_2d.pyx":460
- *         t0 = (min_y - oy) * inv_d
- *         t1 = (max_y - oy) * inv_d
- *         if inv_d < 0.0:             # <<<<<<<<<<<<<<
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
-*/
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":462
- *         if inv_d < 0.0:
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0             # <<<<<<<<<<<<<<
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:
-*/
-    __pyx_t_1 = (__pyx_v_t0 > __pyx_v_t_min);
-    if (__pyx_t_1) {
-      __pyx_v_t_min = __pyx_v_t0;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":463
- *             tmp = t0; t0 = t1; t1 = tmp
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1             # <<<<<<<<<<<<<<
- *         if t_max < t_min:
- *             return None
-*/
-    __pyx_t_1 = (__pyx_v_t1 < __pyx_v_t_max);
-    if (__pyx_t_1) {
-      __pyx_v_t_max = __pyx_v_t1;
-    }
-
-    /* "engine/cython/cy_collision_2d.pyx":464
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:             # <<<<<<<<<<<<<<
- *             return None
- * 
-*/
-    __pyx_t_1 = (__pyx_v_t_max < __pyx_v_t_min);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_collision_2d.pyx":465
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:
- *             return None             # <<<<<<<<<<<<<<
- * 
- *     return (t_min, t_max)
-*/
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-      goto __pyx_L0;
-
-      /* "engine/cython/cy_collision_2d.pyx":464
- *         if t0 > t_min: t_min = t0
- *         if t1 < t_max: t_max = t1
- *         if t_max < t_min:             # <<<<<<<<<<<<<<
- *             return None
- * 
-*/
+    if (values[17]) {
+      __pyx_v_dt = __Pyx_PyFloat_AsDouble(values[17]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 438, __pyx_L3_error)
+    } else {
+      __pyx_v_dt = ((double)((double)0.016666666666666666));
     }
   }
-  __pyx_L11:;
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("resolve_contact_2d_fast", 0, 15, 18, __pyx_nargs); __PYX_ERR(0, 430, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_contact_point, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_normal, 1);
+  __Pyx_AddTraceback("engine.cython.cy_response_2d.resolve_contact_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_2d_resolve_contact_2d_fast(__pyx_self, __pyx_v_pos_a, __pyx_v_vel_a, __pyx_v_omega_a, __pyx_v_inv_mass_a, __pyx_v_i_inv_a, __pyx_v_pos_b, __pyx_v_vel_b, __pyx_v_omega_b, __pyx_v_inv_mass_b, __pyx_v_i_inv_b, __pyx_v_contact_point, __pyx_v_normal, __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt);
 
-  /* "engine/cython/cy_collision_2d.pyx":467
- *             return None
+  /* function exit code */
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_contact_point, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_normal, 1);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_2d_resolve_contact_2d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, double __pyx_v_omega_a, double __pyx_v_inv_mass_a, double __pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, double __pyx_v_omega_b, double __pyx_v_inv_mass_b, double __pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt) {
+  double __pyx_v_vax;
+  double __pyx_v_vay;
+  double __pyx_v_vbx;
+  double __pyx_v_vby;
+  double __pyx_v_oa;
+  double __pyx_v_ob;
+  int __pyx_v_has_ia;
+  int __pyx_v_has_ib;
+  int __pyx_v_unstable;
+  PyArrayObject *__pyx_v_va_out = 0;
+  PyArrayObject *__pyx_v_vb_out = 0;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_va_out;
+  __Pyx_Buffer __pyx_pybuffer_va_out;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_vb_out;
+  __Pyx_Buffer __pyx_pybuffer_vb_out;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *__pyx_t_14 = NULL;
+  size_t __pyx_t_15;
+  int __pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *__pyx_t_19 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("resolve_contact_2d_fast", 0);
+  __pyx_pybuffer_va_out.pybuffer.buf = NULL;
+  __pyx_pybuffer_va_out.refcount = 0;
+  __pyx_pybuffernd_va_out.data = NULL;
+  __pyx_pybuffernd_va_out.rcbuffer = &__pyx_pybuffer_va_out;
+  __pyx_pybuffer_vb_out.pybuffer.buf = NULL;
+  __pyx_pybuffer_vb_out.refcount = 0;
+  __pyx_pybuffernd_vb_out.data = NULL;
+  __pyx_pybuffernd_vb_out.rcbuffer = &__pyx_pybuffer_vb_out;
+
+  /* "engine/cython/cy_response_2d.pyx":447
+ *     Returns (va, oa, vb, ob, unstable)
+ *     """
+ *     cdef double vax = vel_a[0], vay = vel_a[1]             # <<<<<<<<<<<<<<
+ *     cdef double vbx = vel_b[0], vby = vel_b[1]
+ *     cdef double oa = omega_a, ob = omega_b
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_vax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_vay = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_2d.pyx":448
+ *     """
+ *     cdef double vax = vel_a[0], vay = vel_a[1]
+ *     cdef double vbx = vel_b[0], vby = vel_b[1]             # <<<<<<<<<<<<<<
+ *     cdef double oa = omega_a, ob = omega_b
+ *     cdef bint has_ia = i_inv_a >= 0.0
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_vbx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_vby = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_2d.pyx":449
+ *     cdef double vax = vel_a[0], vay = vel_a[1]
+ *     cdef double vbx = vel_b[0], vby = vel_b[1]
+ *     cdef double oa = omega_a, ob = omega_b             # <<<<<<<<<<<<<<
+ *     cdef bint has_ia = i_inv_a >= 0.0
+ *     cdef bint has_ib = i_inv_b >= 0.0
+*/
+  __pyx_v_oa = __pyx_v_omega_a;
+  __pyx_v_ob = __pyx_v_omega_b;
+
+  /* "engine/cython/cy_response_2d.pyx":450
+ *     cdef double vbx = vel_b[0], vby = vel_b[1]
+ *     cdef double oa = omega_a, ob = omega_b
+ *     cdef bint has_ia = i_inv_a >= 0.0             # <<<<<<<<<<<<<<
+ *     cdef bint has_ib = i_inv_b >= 0.0
+ *     cdef bint unstable = 0
+*/
+  __pyx_v_has_ia = (__pyx_v_i_inv_a >= 0.0);
+
+  /* "engine/cython/cy_response_2d.pyx":451
+ *     cdef double oa = omega_a, ob = omega_b
+ *     cdef bint has_ia = i_inv_a >= 0.0
+ *     cdef bint has_ib = i_inv_b >= 0.0             # <<<<<<<<<<<<<<
+ *     cdef bint unstable = 0
+ *     cdef cnp.ndarray[cnp.float64_t, ndim=1] va_out
+*/
+  __pyx_v_has_ib = (__pyx_v_i_inv_b >= 0.0);
+
+  /* "engine/cython/cy_response_2d.pyx":452
+ *     cdef bint has_ia = i_inv_a >= 0.0
+ *     cdef bint has_ib = i_inv_b >= 0.0
+ *     cdef bint unstable = 0             # <<<<<<<<<<<<<<
+ *     cdef cnp.ndarray[cnp.float64_t, ndim=1] va_out
+ *     cdef cnp.ndarray[cnp.float64_t, ndim=1] vb_out
+*/
+  __pyx_v_unstable = 0;
+
+  /* "engine/cython/cy_response_2d.pyx":456
+ *     cdef cnp.ndarray[cnp.float64_t, ndim=1] vb_out
  * 
- *     return (t_min, t_max)             # <<<<<<<<<<<<<<
+ *     if not has_ia:             # <<<<<<<<<<<<<<
+ *         i_inv_a = 0.0
+ *     if not has_ib:
+*/
+  __pyx_t_2 = (!__pyx_v_has_ia);
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_2d.pyx":457
+ * 
+ *     if not has_ia:
+ *         i_inv_a = 0.0             # <<<<<<<<<<<<<<
+ *     if not has_ib:
+ *         i_inv_b = 0.0
+*/
+    __pyx_v_i_inv_a = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":456
+ *     cdef cnp.ndarray[cnp.float64_t, ndim=1] vb_out
+ * 
+ *     if not has_ia:             # <<<<<<<<<<<<<<
+ *         i_inv_a = 0.0
+ *     if not has_ib:
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":458
+ *     if not has_ia:
+ *         i_inv_a = 0.0
+ *     if not has_ib:             # <<<<<<<<<<<<<<
+ *         i_inv_b = 0.0
+ * 
+*/
+  __pyx_t_2 = (!__pyx_v_has_ib);
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_2d.pyx":459
+ *         i_inv_a = 0.0
+ *     if not has_ib:
+ *         i_inv_b = 0.0             # <<<<<<<<<<<<<<
+ * 
+ *     _resolve_contact_core(
+*/
+    __pyx_v_i_inv_b = 0.0;
+
+    /* "engine/cython/cy_response_2d.pyx":458
+ *     if not has_ia:
+ *         i_inv_a = 0.0
+ *     if not has_ib:             # <<<<<<<<<<<<<<
+ *         i_inv_b = 0.0
+ * 
+*/
+  }
+
+  /* "engine/cython/cy_response_2d.pyx":462
+ * 
+ *     _resolve_contact_core(
+ *         pos_a[0], pos_a[1],             # <<<<<<<<<<<<<<
+ *         &vax, &vay, &oa, inv_mass_a, has_ia, i_inv_a,
+ *         pos_b[0], pos_b[1],
+*/
+  __pyx_t_1 = 0;
+  __pyx_t_3 = 1;
+
+  /* "engine/cython/cy_response_2d.pyx":464
+ *         pos_a[0], pos_a[1],
+ *         &vax, &vay, &oa, inv_mass_a, has_ia, i_inv_a,
+ *         pos_b[0], pos_b[1],             # <<<<<<<<<<<<<<
+ *         &vbx, &vby, &ob, inv_mass_b, has_ib, i_inv_b,
+ *         contact_point[0], contact_point[1],
+*/
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 1;
+
+  /* "engine/cython/cy_response_2d.pyx":466
+ *         pos_b[0], pos_b[1],
+ *         &vbx, &vby, &ob, inv_mass_b, has_ib, i_inv_b,
+ *         contact_point[0], contact_point[1],             # <<<<<<<<<<<<<<
+ *         normal[0], normal[1],
+ *         restitution, static_friction, dynamic_friction,
+*/
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 1;
+
+  /* "engine/cython/cy_response_2d.pyx":467
+ *         &vbx, &vby, &ob, inv_mass_b, has_ib, i_inv_b,
+ *         contact_point[0], contact_point[1],
+ *         normal[0], normal[1],             # <<<<<<<<<<<<<<
+ *         restitution, static_friction, dynamic_friction,
+ *         face_align_a, face_align_b, dt, &unstable,
+*/
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 1;
+
+  /* "engine/cython/cy_response_2d.pyx":461
+ *         i_inv_b = 0.0
+ * 
+ *     _resolve_contact_core(             # <<<<<<<<<<<<<<
+ *         pos_a[0], pos_a[1],
+ *         &vax, &vay, &oa, inv_mass_a, has_ia, i_inv_a,
+*/
+  __pyx_f_6engine_6cython_14cy_response_2d__resolve_contact_core((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_1)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_3)) ))), (&__pyx_v_vax), (&__pyx_v_vay), (&__pyx_v_oa), __pyx_v_inv_mass_a, __pyx_v_has_ia, __pyx_v_i_inv_a, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_4)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_5)) ))), (&__pyx_v_vbx), (&__pyx_v_vby), (&__pyx_v_ob), __pyx_v_inv_mass_b, __pyx_v_has_ib, __pyx_v_i_inv_b, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_6)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_7)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_8)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_9)) ))), __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt, (&__pyx_v_unstable));
+
+  /* "engine/cython/cy_response_2d.pyx":472
+ *     )
+ * 
+ *     va_out = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     vb_out = np.empty(2, dtype=np.float64)
+ *     va_out[0] = vax; va_out[1] = vay
+*/
+  __pyx_t_11 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __pyx_t_15 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_13))) {
+    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_13);
+    assert(__pyx_t_11);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_13);
+    __Pyx_INCREF(__pyx_t_11);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_13, __pyx__function);
+    __pyx_t_15 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_11, __pyx_mstate_global->__pyx_int_2};
+    __pyx_t_12 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 472, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_14, __pyx_t_12, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 472, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_13, __pyx_callargs+__pyx_t_15, (2-__pyx_t_15) | (__pyx_t_15*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_12);
+    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 472, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+  }
+  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 472, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_va_out.rcbuffer->pybuffer);
+    __pyx_t_16 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_va_out.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_10), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_16 < 0)) {
+      PyErr_Fetch(&__pyx_t_17, &__pyx_t_18, &__pyx_t_19);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_va_out.rcbuffer->pybuffer, (PyObject*)__pyx_v_va_out, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_17); Py_XDECREF(__pyx_t_18); Py_XDECREF(__pyx_t_19);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_17, __pyx_t_18, __pyx_t_19);
+      }
+      __pyx_t_17 = __pyx_t_18 = __pyx_t_19 = 0;
+    }
+    __pyx_pybuffernd_va_out.diminfo[0].strides = __pyx_pybuffernd_va_out.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_va_out.diminfo[0].shape = __pyx_pybuffernd_va_out.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 472, __pyx_L1_error)
+  }
+  __pyx_v_va_out = ((PyArrayObject *)__pyx_t_10);
+  __pyx_t_10 = 0;
+
+  /* "engine/cython/cy_response_2d.pyx":473
+ * 
+ *     va_out = np.empty(2, dtype=np.float64)
+ *     vb_out = np.empty(2, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     va_out[0] = vax; va_out[1] = vay
+ *     vb_out[0] = vbx; vb_out[1] = vby
+*/
+  __pyx_t_13 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __pyx_t_15 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    assert(__pyx_t_13);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_14);
+    __Pyx_INCREF(__pyx_t_13);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_14, __pyx__function);
+    __pyx_t_15 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_13, __pyx_mstate_global->__pyx_int_2};
+    __pyx_t_12 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 473, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_11, __pyx_t_12, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 473, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_14, __pyx_callargs+__pyx_t_15, (2-__pyx_t_15) | (__pyx_t_15*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_12);
+    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 473, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+  }
+  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 473, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_vb_out.rcbuffer->pybuffer);
+    __pyx_t_16 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vb_out.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_10), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_16 < 0)) {
+      PyErr_Fetch(&__pyx_t_19, &__pyx_t_18, &__pyx_t_17);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vb_out.rcbuffer->pybuffer, (PyObject*)__pyx_v_vb_out, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_19); Py_XDECREF(__pyx_t_18); Py_XDECREF(__pyx_t_17);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_19, __pyx_t_18, __pyx_t_17);
+      }
+      __pyx_t_19 = __pyx_t_18 = __pyx_t_17 = 0;
+    }
+    __pyx_pybuffernd_vb_out.diminfo[0].strides = __pyx_pybuffernd_vb_out.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vb_out.diminfo[0].shape = __pyx_pybuffernd_vb_out.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 473, __pyx_L1_error)
+  }
+  __pyx_v_vb_out = ((PyArrayObject *)__pyx_t_10);
+  __pyx_t_10 = 0;
+
+  /* "engine/cython/cy_response_2d.pyx":474
+ *     va_out = np.empty(2, dtype=np.float64)
+ *     vb_out = np.empty(2, dtype=np.float64)
+ *     va_out[0] = vax; va_out[1] = vay             # <<<<<<<<<<<<<<
+ *     vb_out[0] = vbx; vb_out[1] = vby
+ *     return (va_out, float(oa), vb_out, float(ob), bool(unstable))
+*/
+  __pyx_t_9 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_va_out.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_va_out.diminfo[0].strides) = __pyx_v_vax;
+  __pyx_t_9 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_va_out.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_va_out.diminfo[0].strides) = __pyx_v_vay;
+
+  /* "engine/cython/cy_response_2d.pyx":475
+ *     vb_out = np.empty(2, dtype=np.float64)
+ *     va_out[0] = vax; va_out[1] = vay
+ *     vb_out[0] = vbx; vb_out[1] = vby             # <<<<<<<<<<<<<<
+ *     return (va_out, float(oa), vb_out, float(ob), bool(unstable))
+*/
+  __pyx_t_9 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_vb_out.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_vb_out.diminfo[0].strides) = __pyx_v_vbx;
+  __pyx_t_9 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_vb_out.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_vb_out.diminfo[0].strides) = __pyx_v_vby;
+
+  /* "engine/cython/cy_response_2d.pyx":476
+ *     va_out[0] = vax; va_out[1] = vay
+ *     vb_out[0] = vbx; vb_out[1] = vby
+ *     return (va_out, float(oa), vb_out, float(ob), bool(unstable))             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_t_min); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_t_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3) != (0)) __PYX_ERR(0, 467, __pyx_L1_error);
-  __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4) != (0)) __PYX_ERR(0, 467, __pyx_L1_error);
-  __pyx_t_3 = 0;
-  __pyx_t_4 = 0;
-  __pyx_r = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_oa); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_ob); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_2 = __pyx_v_unstable;
+  __pyx_t_12 = __Pyx_PyBool_FromLong((!(!__pyx_t_2))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_11 = PyTuple_New(5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 476, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_INCREF((PyObject *)__pyx_v_va_out);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_va_out);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)__pyx_v_va_out)) != (0)) __PYX_ERR(0, 476, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_10);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_10) != (0)) __PYX_ERR(0, 476, __pyx_L1_error);
+  __Pyx_INCREF((PyObject *)__pyx_v_vb_out);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_vb_out);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 2, ((PyObject *)__pyx_v_vb_out)) != (0)) __PYX_ERR(0, 476, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_14);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 3, __pyx_t_14) != (0)) __PYX_ERR(0, 476, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_12);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_11, 4, __pyx_t_12) != (0)) __PYX_ERR(0, 476, __pyx_L1_error);
+  __pyx_t_10 = 0;
+  __pyx_t_14 = 0;
+  __pyx_t_12 = 0;
+  __pyx_r = __pyx_t_11;
+  __pyx_t_11 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_collision_2d.pyx":428
+  /* "engine/cython/cy_response_2d.pyx":430
  * 
  * 
- * def ray_aabb_intersection_2d_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double min_x, double min_y, double max_x, double max_y,
+ * def resolve_contact_2d_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double omega_a,
+ *     double inv_mass_a, double i_inv_a,
 */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("engine.cython.cy_collision_2d.ray_aabb_intersection_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_14);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_va_out.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_vb_out.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("engine.cython.cy_response_2d.resolve_contact_2d_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
+  goto __pyx_L2;
   __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_va_out.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_vb_out.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_va_out);
+  __Pyx_XDECREF((PyObject *)__pyx_v_vb_out);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -24920,7 +23423,7 @@ static PyType_Slot __pyx_type___pyx_array_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_array_spec = {
-  "engine.cython.cy_collision_2d.array",
+  "engine.cython.cy_response_2d.array",
   sizeof(struct __pyx_array_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_SEQUENCE,
@@ -24954,7 +23457,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "engine.cython.cy_collision_2d.""array", /*tp_name*/
+  "engine.cython.cy_response_2d.""array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -25099,7 +23602,7 @@ static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
-  "engine.cython.cy_collision_2d.Enum",
+  "engine.cython.cy_response_2d.Enum",
   sizeof(struct __pyx_MemviewEnum_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -25109,7 +23612,7 @@ static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "engine.cython.cy_collision_2d.""Enum", /*tp_name*/
+  "engine.cython.cy_response_2d.""Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -25376,7 +23879,7 @@ static PyType_Slot __pyx_type___pyx_memoryview_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryview_spec = {
-  "engine.cython.cy_collision_2d.memoryview",
+  "engine.cython.cy_response_2d.memoryview",
   sizeof(struct __pyx_memoryview_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -25410,7 +23913,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "engine.cython.cy_collision_2d.""memoryview", /*tp_name*/
+  "engine.cython.cy_response_2d.""memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -25553,7 +24056,7 @@ static PyType_Slot __pyx_type___pyx_memoryviewslice_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
-  "engine.cython.cy_collision_2d._memoryviewslice",
+  "engine.cython.cy_response_2d._memoryviewslice",
   sizeof(struct __pyx_memoryviewslice_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_SEQUENCE,
@@ -25563,7 +24066,7 @@ static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "engine.cython.cy_collision_2d.""_memoryviewslice", /*tp_name*/
+  "engine.cython.cy_response_2d.""_memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -26023,10 +24526,10 @@ static int __Pyx_modinit_function_import_code(__pyx_mstatetype *__pyx_mstate) {
 
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_cy_collision_2d(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_cy_response_2d(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_cy_collision_2d},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_cy_response_2d},
   #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
   {Py_mod_gil, __Pyx_FREETHREADING_COMPATIBLE},
   #endif
@@ -26045,8 +24548,8 @@ namespace {
   #endif
   {
       PyModuleDef_HEAD_INIT,
-      "cy_collision_2d",
-      __pyx_k_Cython_accelerated_2D_collision, /* m_doc */
+      "cy_response_2d",
+      __pyx_k_Cython_accelerated_2D_contact_r, /* m_doc */
     #if CYTHON_USE_MODULE_STATE
       sizeof(__pyx_mstatetype), /* m_size */
     #else
@@ -26083,8 +24586,8 @@ namespace {
   #endif
 #endif
 
-__Pyx_PyMODINIT_FUNC PyInit_cy_collision_2d(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_cy_collision_2d(void)
+__Pyx_PyMODINIT_FUNC PyInit_cy_response_2d(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_cy_response_2d(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -26191,7 +24694,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_collision_2d(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_response_2d(PyObject *__pyx_pyinit_module)
 #endif
 {
   int stringtab_initialized = 0;
@@ -26208,6 +24711,8 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_collision_2d(PyObject *__pyx_py
   static PyThread_type_lock __pyx_t_7[8];
   int __pyx_t_8;
   int __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -26215,7 +24720,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_collision_2d(PyObject *__pyx_py
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'cy_collision_2d' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'cy_response_2d' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #else
@@ -26231,7 +24736,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_collision_2d(PyObject *__pyx_py
   #if CYTHON_USE_MODULE_STATE
   {
     int add_module_result = __Pyx_State_AddModule(__pyx_t_1, &__pyx_moduledef);
-    __pyx_t_1 = 0; /* transfer ownership from __pyx_t_1 to "cy_collision_2d" pseudovariable */
+    __pyx_t_1 = 0; /* transfer ownership from __pyx_t_1 to "cy_response_2d" pseudovariable */
     if (unlikely((add_module_result < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     pystate_addmodule_run = 1;
   }
@@ -26259,7 +24764,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_collision_2d(PyObject *__pyx_py
   }
   #endif
   
-__Pyx_RefNannySetupContext("PyInit_cy_collision_2d", 0);
+__Pyx_RefNannySetupContext("PyInit_cy_response_2d", 0);
   __Pyx_init_runtime_version();
   if (__Pyx_check_binary_version(__PYX_LIMITED_VERSION_HEX, __Pyx_get_runtime_version(), CYTHON_COMPILING_IN_LIMITED_API) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_mstate->__pyx_empty_tuple)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -26270,13 +24775,13 @@ __Pyx_RefNannySetupContext("PyInit_cy_collision_2d", 0);
   if (__Pyx_InitConstants(__pyx_mstate) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   stringtab_initialized = 1;
   if (__Pyx_InitGlobals() < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__pyx_module_is_main_engine__cython__cy_collision_2d) {
+  if (__pyx_module_is_main_engine__cython__cy_response_2d) {
     if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_name_2, __pyx_mstate_global->__pyx_n_u_main) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "engine.cython.cy_collision_2d")) {
-      if (unlikely((PyDict_SetItemString(modules, "engine.cython.cy_collision_2d", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "engine.cython.cy_response_2d")) {
+      if (unlikely((PyDict_SetItemString(modules, "engine.cython.cy_response_2d", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   /*--- Builtin init code ---*/
@@ -26785,202 +25290,180 @@ __Pyx_RefNannySetupContext("PyInit_cy_collision_2d", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Enum, __pyx_t_4) < (0)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_2d.pyx":7
+  /* "engine/cython/cy_response_2d.pyx":11
  * 
- * from libc.math cimport sqrt, fabs, cos, sin
+ * from libc.math cimport sqrt, fabs, copysign
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as cnp
  * 
 */
-  __pyx_t_1 = __Pyx_Import(__pyx_mstate_global->__pyx_n_u_numpy, 0, 0, NULL, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_mstate_global->__pyx_n_u_numpy, 0, 0, NULL, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __pyx_t_4 = __pyx_t_1;
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_4) < (0)) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_4) < (0)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "engine/cython/cy_collision_2d.pyx":10
+  /* "engine/cython/cy_response_2d.pyx":14
  * cimport numpy as cnp
  * 
  * cnp.import_array()             # <<<<<<<<<<<<<<
  * 
- * 
+ * cdef double RESTITUTION_THRESHOLD = 1.0
 */
-  __pyx_t_9 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 14, __pyx_L1_error)
 
-  /* "engine/cython/cy_collision_2d.pyx":17
- * # =========================================================================
+  /* "engine/cython/cy_response_2d.pyx":16
+ * cnp.import_array()
  * 
- * cpdef bint aabb_overlap_2d_fast(             # <<<<<<<<<<<<<<
- *     double[::1] a_min, double[::1] a_max,
- *     double[::1] b_min, double[::1] b_max,
+ * cdef double RESTITUTION_THRESHOLD = 1.0             # <<<<<<<<<<<<<<
+ * cdef double IMPACT_BLEND_START = 1.2
+ * cdef double IMPACT_BLEND_END = 7.0
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_1aabb_overlap_2d_fast, 0, __pyx_mstate_global->__pyx_n_u_aabb_overlap_2d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_v_6engine_6cython_14cy_response_2d_RESTITUTION_THRESHOLD = 1.0;
+
+  /* "engine/cython/cy_response_2d.pyx":17
+ * 
+ * cdef double RESTITUTION_THRESHOLD = 1.0
+ * cdef double IMPACT_BLEND_START = 1.2             # <<<<<<<<<<<<<<
+ * cdef double IMPACT_BLEND_END = 7.0
+ * cdef double FACE_ALIGN_THRESHOLD = 0.82
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_START = 1.2;
+
+  /* "engine/cython/cy_response_2d.pyx":18
+ * cdef double RESTITUTION_THRESHOLD = 1.0
+ * cdef double IMPACT_BLEND_START = 1.2
+ * cdef double IMPACT_BLEND_END = 7.0             # <<<<<<<<<<<<<<
+ * cdef double FACE_ALIGN_THRESHOLD = 0.82
+ * cdef double FACE_REST_ALIGN = 0.985
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_IMPACT_BLEND_END = 7.0;
+
+  /* "engine/cython/cy_response_2d.pyx":19
+ * cdef double IMPACT_BLEND_START = 1.2
+ * cdef double IMPACT_BLEND_END = 7.0
+ * cdef double FACE_ALIGN_THRESHOLD = 0.82             # <<<<<<<<<<<<<<
+ * cdef double FACE_REST_ALIGN = 0.985
+ * cdef double UNSTABLE_SUPPORT_OFFSET = 0.06
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_FACE_ALIGN_THRESHOLD = 0.82;
+
+  /* "engine/cython/cy_response_2d.pyx":20
+ * cdef double IMPACT_BLEND_END = 7.0
+ * cdef double FACE_ALIGN_THRESHOLD = 0.82
+ * cdef double FACE_REST_ALIGN = 0.985             # <<<<<<<<<<<<<<
+ * cdef double UNSTABLE_SUPPORT_OFFSET = 0.06
+ * cdef double FACE_TIP_OFFSET = 0.40
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_FACE_REST_ALIGN = 0.985;
+
+  /* "engine/cython/cy_response_2d.pyx":21
+ * cdef double FACE_ALIGN_THRESHOLD = 0.82
+ * cdef double FACE_REST_ALIGN = 0.985
+ * cdef double UNSTABLE_SUPPORT_OFFSET = 0.06             # <<<<<<<<<<<<<<
+ * cdef double FACE_TIP_OFFSET = 0.40
+ * cdef double MAX_NORMAL_TANGENT_ARM = 0.35
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_UNSTABLE_SUPPORT_OFFSET = 0.06;
+
+  /* "engine/cython/cy_response_2d.pyx":22
+ * cdef double FACE_REST_ALIGN = 0.985
+ * cdef double UNSTABLE_SUPPORT_OFFSET = 0.06
+ * cdef double FACE_TIP_OFFSET = 0.40             # <<<<<<<<<<<<<<
+ * cdef double MAX_NORMAL_TANGENT_ARM = 0.35
+ * cdef double RESTING_TANGENTIAL_SPEED = 0.08
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_FACE_TIP_OFFSET = 0.40;
+
+  /* "engine/cython/cy_response_2d.pyx":23
+ * cdef double UNSTABLE_SUPPORT_OFFSET = 0.06
+ * cdef double FACE_TIP_OFFSET = 0.40
+ * cdef double MAX_NORMAL_TANGENT_ARM = 0.35             # <<<<<<<<<<<<<<
+ * cdef double RESTING_TANGENTIAL_SPEED = 0.08
+ * cdef double MAX_ANGULAR_SPEED = 20.0
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_MAX_NORMAL_TANGENT_ARM = 0.35;
+
+  /* "engine/cython/cy_response_2d.pyx":24
+ * cdef double FACE_TIP_OFFSET = 0.40
+ * cdef double MAX_NORMAL_TANGENT_ARM = 0.35
+ * cdef double RESTING_TANGENTIAL_SPEED = 0.08             # <<<<<<<<<<<<<<
+ * cdef double MAX_ANGULAR_SPEED = 20.0
+ * cdef double GRAVITY = 9.81
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_RESTING_TANGENTIAL_SPEED = 0.08;
+
+  /* "engine/cython/cy_response_2d.pyx":25
+ * cdef double MAX_NORMAL_TANGENT_ARM = 0.35
+ * cdef double RESTING_TANGENTIAL_SPEED = 0.08
+ * cdef double MAX_ANGULAR_SPEED = 20.0             # <<<<<<<<<<<<<<
+ * cdef double GRAVITY = 9.81
+ * 
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_MAX_ANGULAR_SPEED = 20.0;
+
+  /* "engine/cython/cy_response_2d.pyx":26
+ * cdef double RESTING_TANGENTIAL_SPEED = 0.08
+ * cdef double MAX_ANGULAR_SPEED = 20.0
+ * cdef double GRAVITY = 9.81             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __pyx_v_6engine_6cython_14cy_response_2d_GRAVITY = 9.81;
+
+  /* "engine/cython/cy_response_2d.pyx":437
+ *     double[::1] contact_point, double[::1] normal,
+ *     double restitution, double static_friction, double dynamic_friction,
+ *     double face_align_a=0.0, double face_align_b=0.0,             # <<<<<<<<<<<<<<
+ *     double dt=0.016666666666666666,
+ * ):
+*/
+  __pyx_t_4 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_aabb_overlap_2d_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_5 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 437, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
 
-  /* "engine/cython/cy_collision_2d.pyx":32
- * # =========================================================================
- * 
- * cpdef bint circle_vs_circle_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
+  /* "engine/cython/cy_response_2d.pyx":438
+ *     double restitution, double static_friction, double dynamic_friction,
+ *     double face_align_a=0.0, double face_align_b=0.0,
+ *     double dt=0.016666666666666666,             # <<<<<<<<<<<<<<
+ * ):
+ *     """
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_3circle_vs_circle_fast, 0, __pyx_mstate_global->__pyx_n_u_circle_vs_circle_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_circle_vs_circle_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_10 = PyFloat_FromDouble(((double)0.016666666666666666)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
 
-  /* "engine/cython/cy_collision_2d.pyx":43
+  /* "engine/cython/cy_response_2d.pyx":430
  * 
  * 
- * def circle_vs_circle_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double ra,
- *     double cx_b, double cy_b, double rb,
+ * def resolve_contact_2d_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double omega_a,
+ *     double inv_mass_a, double i_inv_a,
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_5circle_vs_circle_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_circle_vs_circle_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_circle_vs_circle_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_11 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 430, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":99
- * 
- * 
- * cpdef bint obb_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_7obb_vs_obb_2d_fast, 0, __pyx_mstate_global->__pyx_n_u_obb_vs_obb_2d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_2d_1resolve_contact_2d_fast, 0, __pyx_mstate_global->__pyx_n_u_resolve_contact_2d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 430, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
+  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_10);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_obb_vs_obb_2d_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 99, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_t_11);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_resolve_contact_2d_fast, __pyx_t_10) < (0)) __PYX_ERR(0, 430, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "engine/cython/cy_collision_2d.pyx":123
- * 
- * 
- * def obb_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cx_a, double cy_a, double aa, double ex_a, double ey_a,
- *     double cx_b, double cy_b, double ab, double ex_b, double ey_b,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_9obb_vs_obb_2d_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_obb_vs_obb_2d_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_obb_vs_obb_2d_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 123, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":252
- * # =========================================================================
- * 
- * cpdef bint circle_vs_obb_2d_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_11circle_vs_obb_2d_fast, 0, __pyx_mstate_global->__pyx_n_u_circle_vs_obb_2d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[5])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 252, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_circle_vs_obb_2d_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 252, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":273
- * 
- * 
- * def circle_vs_obb_2d_manifold_fast(             # <<<<<<<<<<<<<<
- *     double cs_x, double cs_y, double rs,
- *     double cb_x, double cb_y, double angle, double eb_x, double eb_y,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_13circle_vs_obb_2d_manifold_fast, 0, __pyx_mstate_global->__pyx_n_u_circle_vs_obb_2d_manifold_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[6])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_circle_vs_obb_2d_manifold_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 273, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":337
- * # =========================================================================
- * 
- * cpdef tuple closest_point_on_segment_fast(             # <<<<<<<<<<<<<<
- *     double px, double py,
- *     double ax, double ay,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_15closest_point_on_segment_fast, 0, __pyx_mstate_global->__pyx_n_u_closest_point_on_segment_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[7])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_closest_point_on_segment_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":353
- * 
- * 
- * cpdef double segment_segment_dist_sq_fast(             # <<<<<<<<<<<<<<
- *     double a1x, double a1y, double a2x, double a2y,
- *     double b1x, double b1y, double b2x, double b2y,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_17segment_segment_dist_sq_fast, 0, __pyx_mstate_global->__pyx_n_u_segment_segment_dist_sq_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[8])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 353, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_segment_segment_dist_sq_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 353, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":412
- * # =========================================================================
- * 
- * def ray_circle_intersection_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double cx, double cy, double radius,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_19ray_circle_intersection_fast, 0, __pyx_mstate_global->__pyx_n_u_ray_circle_intersection_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[9])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 412, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_ray_circle_intersection_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 412, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":428
- * 
- * 
- * def ray_aabb_intersection_2d_fast(             # <<<<<<<<<<<<<<
- *     double ox, double oy, double dx, double dy,
- *     double min_x, double min_y, double max_x, double max_y,
-*/
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_15cy_collision_2d_21ray_aabb_intersection_2d_fast, 0, __pyx_mstate_global->__pyx_n_u_ray_aabb_intersection_2d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_collision_2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[10])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 428, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
-  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
-  #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_ray_aabb_intersection_2d_fast, __pyx_t_4) < (0)) __PYX_ERR(0, 428, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "engine/cython/cy_collision_2d.pyx":1
+  /* "engine/cython/cy_response_2d.pyx":1
  * # cython: boundscheck=False, wraparound=False, cdivision=True, nonecheck=False             # <<<<<<<<<<<<<<
  * """
- * Cython-accelerated 2D collision detection (bool + manifold) and raycasting.
+ * Cython-accelerated 2D contact response (linear + angular impulses).
 */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_test, __pyx_t_4) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_test, __pyx_t_10) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -26988,9 +25471,11 @@ __Pyx_RefNannySetupContext("PyInit_cy_collision_2d", 0);
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
-      __Pyx_AddTraceback("init engine.cython.cy_collision_2d", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init engine.cython.cy_response_2d", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_USE_MODULE_STATE
     Py_CLEAR(__pyx_m);
@@ -27004,7 +25489,7 @@ __Pyx_RefNannySetupContext("PyInit_cy_collision_2d", 0);
     }
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init engine.cython.cy_collision_2d");
+    PyErr_SetString(PyExc_ImportError, "init engine.cython.cy_response_2d");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -27123,31 +25608,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 11; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{33},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{5},{8},{20},{8},{15},{3},{3},{3},{3},{5},{5},{2},{20},{2},{3},{7},{7},{15},{5},{12},{18},{2},{4},{2},{1},{3},{3},{3},{3},{5},{5},{4},{7},{7},{2},{2},{1},{4},{4},{4},{4},{21},{30},{21},{30},{9},{17},{18},{29},{7},{5},{6},{6},{6},{6},{5},{4},{4},{2},{4},{4},{4},{2},{4},{4},{4},{3},{3},{5},{8},{4},{4},{7},{5},{15},{2},{2},{2},{5},{2},{5},{4},{4},{5},{6},{29},{9},{5},{4},{4},{4},{4},{5},{5},{8},{5},{7},{6},{7},{8},{12},{2},{2},{2},{1},{2},{10},{5},{3},{5},{13},{5},{8},{4},{4},{2},{7},{7},{2},{2},{8},{5},{5},{7},{5},{11},{5},{5},{4},{10},{4},{8},{4},{7},{6},{2},{5},{2},{2},{18},{27},{3},{3},{3},{7},{2},{2},{4},{3},{3},{3},{3},{7},{3},{2},{2},{14},{11},{10},{19},{14},{12},{2},{6},{29},{28},{2},{10},{17},{13},{8},{2},{1},{28},{12},{10},{12},{19},{5},{5},{6},{6},{6},{6},{4},{5},{4},{4},{6},{2},{2},{2},{2},{5},{5},{4},{4},{8},{3},{6},{6},{6},{4},{4},{1},{185},{484},{1410},{273},{64},{287},{119},{128},{531},{88},{289},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2876 bytes) */
-const char* const cstring = "BZh91AY&SY\315\244_2\000\002\367\377\377\377\377\377\366\377\347\377\367\277\353\377\341\277\377\377\360@@@@@@@@@@@@@\000@\000`\014_\003+\323;f\262\251F\251]1\000:\266\242&\000\000\014\215\004\246\242\004\311\243M4\322\247\372&\321\242M\222\207\251\352z&G\265!\246F\002\000\000\000\000\000\000\tM\020&\200\204\311\220\247\2457\2454z\2324\321\243#@\006\200\000\000\000\032\000\000i\351\016\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000d\021O$\236\251\352d4\300\t\240\030\206\000&\206\200\000`\206F\000&\206\00224\310\003\200\000\000\000\000\000\000\000\000\000\000\000\000\000\000\031\002D!$*=\212\200\321\261\252\036Q\275\023OL\320\t\204MC@zG\265O\325\003G\250\036Q\3526\215'\246)\342\233,3KFIhpK!\313\"=H\347\347\027\314\007\375\3633\347Lq\000\340\033>qH\211\022\221y\327\245\036\253+$\254\026^\317`\206\333L`\330\330\r\2416\003\032L`\330\t\264\003vJ\326KQ!h\024\005\005\037\374D\245$\232\037] \244Qd\262\022Y\206\2060m\000\323m\261\037a+\201rPI))\260\020\202X\265Oj LL\007E\304a\210m\\\253\r\023p\220\221\307\006{N\032\t\t\304 \204\314q;]\321P\262\010\204\231\2075\302X\206l4\"F\317\345\220\3226f0\013\026a\2461P\240\325\251p5\265\223\203$,\201d\262Yd\006A\205\320Cy\031e\244\260Y\005J1F052\n\027\023\246\240P/\354\363\263S\316j\276B\013<\302\020D\000\200\2018\240\004\274=/\331\002\303\363nN#\243$\330y\212\362\203\374\"\222\204\200\262\216\"1\314\024\370\230]y\036\330yk\210\361)U\030\262\365\277\367\271\371\362\376\337\337\035\276\245\253\\\311\346E\264\314\215\035=\035bK\330\303\006U\305Ambg\374\264\356\367\023\330\2560\236 $*\275g-)\306Z>\313\352\375\263X5\222\373\202\352\233!\016\010\237q\214\225-K\207\330\213\224\n\020\212H\262\367L^\367\002\341\n\000:4\022\224\224\004\020k\360p\373\265^\016\274\356&%\t[n\207\230\261\277\354\316_\321\300\263f\221\303\341-P\021\255\217v\r\236\357\244E?\322T7$\300Q\331\271\2070\355\t\304\270\224N\223\311\022\223\252\032\006\345\250\313.\240\021\r\267\204Y%d\027\003\010\366\354\225\225\205b\301\374y\277\206\021q\\/\220t\302\311f\354V""\235%X\264\006\275(\314\007\332\212\213\256\017\203\222\370\336\313\245iF\274\3158\303\235\205\317\020\361\222(\020<J\324\2104\342$\212m\223RC\372VAa*\n\021u\177\262\037'KGX\360\313#&\014\214\230\363p\233\023`\230\323<?v\376\372\203V\245\334p\264\241\267x\202\033\017\325l\374os\257~9\317\361K\366D\214\201\250X\324\346\207Cl\334\323\205\013\220\342\013\0226\311&\\\352\322\nH\224\"\213\377\216\000\354`\302F\032\244\302\006\210\014;\003:\263P\032\237\320:\274\212LH,\0169A\207\026bCM-\177V\271\014z\032\275\233\245=(\023\352Iv\264\361\237<Z\335\031\325\252\nx\3478\220\225\263\316\222V\253\345\020\356)\304DBY\311L\234\023\232TwT\234'\034\356\"g\226e\240\317\312\235\020\232\363\252&\261y\250wO\350\312\256\357\t\265V\213\242\255\210\244\016  \322\312\325\223\275\233\311Y\270y:\340\250&I\345'-\245\366\235\315]-\365-0\254m\214\232Sd\262Q\217sz\225\342N\3709\261\373k\006\356W9{\033\216\261e\251\257\253_\343]\341\217\223S\0004{4\203_u.\005,\010\213m\310\246\270m\307\000\267\006bo\211\352v\365\362\026@\353R[\310\270\355\315Me\377\233\0142\261\034n\202\346.\033S\006\261\267r\203\370Y!(Q\023\204\210\240$\356\356\362G=q<\036\003%\020\375H\\R\350\253\337^a?\202\343\236\002\240\213d\232\003\2020\210\013\022 R\327\032\304\314\3253R\001Q\340\365n\311VJ\007\246\264\317M\333\216\3270\344\316\225\346I5,\323\344\271)\365\346sf\217-\364\202\376\211\320\206\361\343\353\252c\024\"\331\263\032\025q\323\033\245+m\301Dz\371p\246DKC\264\016\321\214\315\252\252\0011\364R\344\236\330J\235\007\023\322\022\231\034Pa\325%91\2212\213*\275\\&\206St\310L\231\037\002\n\337\\\251X\364\020RYt\323o?W\354\3461\315\203\306\314\233\003V-\277\225\001\2078\205\251\204T\231\005I\221Ru\372\240,\220HDNB\007-p2D\004\231\"TSN\202\241\303\215/\244\333\331B@\260\221iJ\3714\216\220\365\240e\024S\377pO\006\243\306\3526\247\371\023t\206}0\317}\034\23350\357w\367\336\356\023O\213\362i!gh\276U)NW\345\222b<x\234\336\032J\035\214\322\242jk\326\373\217\335O\005\305\3066\347\256.\326\373\304\354\304%\214T\024c\023Du\271\262>""\366\321\261Vg\203\231\346\004\232f\220\351V\366\226Vi\202U\200\021\022\340U&h\213]\320\323\372h\266\003\005\317bC\372I\tS\251\265\261\213a\347lv[4\334x \265.\306\263A7A\340eSm\335^\323\014\r\375\223\311\260HI^\031\264\030\231\233N\304\210\240\355\237\r'~\224\303\325\036T\223sj,\330\336\335\374*\322\016\r\024\017Mk\312\214\333\271\223l\262\t\315\257\361Q&\237\0274\224Q\274\226\246-\213\313\213^\3309J\234\267&N\364M\200rb\365\r\232\274\270\365^\355\206\017\2235\333{\332\354\355\351\255t\253\244'\215\"$\300\235\324 N\351-\357\253\273\253\037\366\306E\024\347,\325\300\221?l\341D\322\325\311\242\204\201\361g\032\324\247\001\304\223=\213\275[\000\2620P\364C\264l\251\266\372fU\363\271\276\241\232\032y\334+-\010y1\350[\270\344\273l\332\363i\265\271\347N\367\325\301\331\013E/\230;Y\213\353<E\"\367\224\024\0073f\206 \313\245\004\204\206\363\367\367W\243blN\374<9K\035\273\351%w\243\"\020\364rQ\030-\213\257\025\251^\235\274\224<,\231\207\240\216\236\201\325\307Q\006\241\3266\001\313\331\023\207Q\033%@AD\236\034x\224\221\245S&\3637\241\326nu\266ru\275\232\247Y\314\201\213\033\n\255qf\352\304):Z\020i\005\004\271\024\332\022\375\253U%\250\001\250\010\324\032\235\370\351,\0213\235>e\262\030\236\320%\013\3601\270{\334\016\312(\205\t\256\234fS\n\"\235rn~g\204\232T\303\324Yxld\"\376&\254`u[\006\272mQ\001q\335\214\215< rq2'\336\310z6)#\213]\255ik5\243\026\234\361\226fM\332 \216\007\031KD\376\327\322\2543j\272\326\034\243\024\334\317J\271D\2220U\361H\244\214\323.\301\303)\341\021\205\020\2233\344\345\330\302\223V0\243P\351\315\215\231\265\253-\305\313-\025\314\360\030\311\242\010\200<\212\364\253Q\351\220\255\346\216\375\006\350\307F\260k\013\003Xe\361\361\027\303\n\037\222\343\366D\025\232\344\257\215\007;\267O\226\267q7\017\014\2606\256\313\214\354\031\3038g(kj\275#@\355\005\315\222\014L\323\r0LZ\036\024\354\022\212\215\217\242\t\325\0279$\3663\035\r\316\034\347\0321mQ\336\035\014\227\234<\324\212\253\327;\324\356\334\362\253\333P\3426YTGb\3601=i\301)c-\266\315%\010\341\301(7lN\243""\346\203u1\307\252\334'a\257o\215A\266m\330\215\227sl\337i/\310}\224\230\301\266\322m\266\217\334\306\376 4\024\244\276%\340\350(\024j\007?\366\t\006\r\311\010_\030\325T\222(jv\207\344!\020\317\t\032h\006\036!\177@\351\214\371\031\035\372\"BO\336A-#\304\033\250\360\017\267\363P\3060\223\377\013\307P\014\006Ox\241u\032\357\265\0166\216`\265I\004\005\032\343l\031\375\372\307lp\337x\346<\301\004\224\345\245aHK)\204\325|!\260x\021\356'\0040b\370\311\212\007\326\354B\220\373\375\361\356\236\354\177\261\321\316XVd\321b\017$\006`g\243c\256`\330M\0207\ry(\360\2232B\213E\213HI/\256\303\262\036\026')\222D~\200\220\332(\265\212&\231L\"\307\244\316\371\216\312[X\357I\234\230\r\243\326\006\344X<\244\n\013\031\214\324A\001\203\312`<\371\321\200\335U\377*\"\346\351%\354\021l\027T\024\033\207+Y\367\233\246e\021D\251\252f\3310\245\251\010.\031\372\257\336\333[|\264\227\240\261sKt\310\r\312\266af\332\316\305\270\231\343\204\374\306D\225A\275R\217\177~\344\370\315\3431\2708\215\375\360$#\322IT8\261\0034C\204*\26015\202\373\234\006\370p\017\305G\001\036x\"\365\016\361\332\233\030 \371O\204\220$\365\234<a\307\3040c\023c\344\216JPB\251\tM\234\007\037\001\004zx\347\214\210\342\013\0221\234\214\253\017\034\201\027\220\355\001\311\3548\227+\250\345\361\267=\261\243\r\224\231\312r\237\214l\037\253\270\007p\367\313\237\005\373\244BC/\n\006q\007u>b\027s\360\224@\322\356\214\341\003\345`q\235\330;\214\3448{Mr1\234AC\343hg\300\006\341\302n'\2724\315\363\204+\326\006p\335\0327\r\344p2$\337\n\3343\363\356\355\222\230C;\323\274z8%FF\362\336\0327G\266=\221{l\362\347Y\331\331=\206\320ll\233\004u\327\233\267\357\007\345\374\226c6\027!\313\313\306\307!\310\337\360?q\306\312\3466\005\247\222#\254jm\343f\323]T\235\236`\243\tE\036\205\230'\r[\302\0359\330\301\343\005\374\273wW|4\351\2649\203\020m\214:\271\250\2140\033\332q\312\373\335\020\351\005\266\226\257\264\361\020\377I0.\205\210\203Dsf^qh$\253\333\026\264F\013b\356\255{\224[\030/\201\342\343\260\245\306\032p]b\005\027*\212(c\037j\330%`\202\344\0221""\326P2\262\275\355b\215X\220\352\212+Q\3138\207\2612B'Y\326\217AR\320\204\310x\211\273\202\326\222,\354\255$;\216\320^\343$x\230-\030\2475\027\213\221{\304\342\006`e5U\037@\273\222)\302\204\206m\"\371\220";
-    PyObject *data = __Pyx_DecompressString(cstring, 2876, 2);
+    const struct { const unsigned int length: 9; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{32},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{5},{8},{20},{8},{15},{3},{15},{12},{18},{4},{1},{9},{17},{18},{13},{5},{8},{2},{5},{15},{16},{5},{6},{28},{9},{5},{12},{12},{5},{7},{6},{7},{8},{12},{6},{6},{7},{7},{2},{10},{5},{10},{10},{13},{5},{8},{8},{7},{4},{10},{4},{8},{4},{7},{6},{2},{5},{2},{2},{3},{7},{7},{4},{3},{5},{5},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{23},{11},{12},{10},{12},{19},{5},{4},{5},{15},{4},{4},{6},{8},{6},{8},{6},{6},{6},{3},{3},{6},{3},{3},{5},{5},{1},{309},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (1397 bytes) */
+const char* const cstring = "BZh91AY&SY\230\014\344\\\000\000\232\377\373\347\3673\245g\347\367W\277s\377A\277\377\377\360@@@@@@@\000@@@\000@\000P\0056\254DmKm\n\002\315z\022\246\204i=\n<\t\224zL&\246M4\0314\320\006\200\017S bm@\r\r4\032jh\000ST\033(\033\3254h\032\0004\001\240\000\003\010\000\003\321\004\246\210\010F\244\3614\002jyF\321442\003F\200\000\001\243@a4\3048h\000\006\203A\2400@\r\r4\310\006\206\2152\000b\006\200\006\252d\000\320\0004\000\000\000i\240\320\000\000\000\000\r\007\272\325\360\"\177?`\376s\204\033f`\177E\267\thA\222\341\250Aj\254\306p\r\014\344y\274\243\331%2\320\016?\343\374\376c\367\374\035\336\337\206\222\355\307\177\264\375\354i\376J\330\330|\250\211\355(\177:S?\026FY\341@\305k`E\020\352\377\270\235\206\375~\324\303Z0\205\203\254\0267\261\032]=\035bK\307{\262\256*\013g\023<V\236\017\200\236\305q\204\361\001!9n\201\2621\321G\315\r\030\215n\201\211|\372K\031\273n<\3238U\222\246z\310\037e\364\252\253\313\031\tj4\2115\030\271\007\206\301Uf\025f\363fi=\272\271\344-\2647\365\342\025\351]\342eE\364\266\r3\004\027A^\017\214\266Kiz\270~\014\217Qp\224\314\366\3633\215\215#$TU\032\r8u\241-M<\252F\261b\004\260B\350\200#u\331\227\02472\352\254\245\350\334\244\366\303\302\tqK\305\022\025\262\254\250\350^\\\244h\350\207\365\\\245'I\332\255\034\005\234\201i\314\211$)/\031\234F\"\r\t\254\253\225g&m\202\014\226\227N\346s\353\230\347\251\261)\022D[\254*\227\374@Nrh\327R\357\027\326\311\205\222\027\366\341\371\3032\216\276Z\013\300,\037\256\335\246B\t\014\266\024\300W]3\010\250\251z\334G\202\375bH\013M\021\261\214\036=\374UD\t\252\255\314\216\033-\330\313\213!D\240\032\240IX\202$KL:V\335$\302\311&\352\006\002\016Z\006\254\014Ku\244\030\375&m\352\014\002\246;\365\024D\024\250\273\301\002H\375kA=\216\241\242\200\230\356\331\322\206\271\336y?.<\364\335(\312Y\2304HU\254(AB\204t\250\305j\300\200\330\256\210\275x\273\216\nx\3148\2518\303m\234\265\323>arAg^\203\325\261\264\346J\357B1wW\236\001\030e\r\346B@\247\204E\261i\032\241\351@\302(\247\376\301\240\245\026\202Ti\236\0215!\237-\025\303\232""\300\340\037#\253\250\302\215\323b\276\331\2507s\027f\t\275\226\202\341\024\344\022t\037\302D\231#\271.9R\343`\235[\265M\221\303\332_Q@Ke\016;\2334\274jRFt\231\262\322X\265\017O8k\206AyCp\2404\304\270\345\301\034\221\311\340\343\336j\230;\027<\211 K\254\361$\250\314\351\224\335\\\200\367\252\222\006\".\025\276\034\030\214\323m\304P\222\257\220\305\014\232v%\031m\321\027\333KvI\024\206\330\324Z\030\323\007\024\007Ja\330[5o\220\026\270Z{=\2511\214\231\356\327zjk\272%3fhOP\241\255\211\320'9j\235\231\250\331=Y7a^\364t\204\361\273\021!\223\271\003\275\017%\r87D\344\352\340X\2373\205\023iX)\242\242\206\250\326\2457\007\022L\361\023\202\t\001\026\251\"E\033s\014\331^\005\2044\334\005HG^\327\023\313\221\251\210\336\\5l\345\303\277\327\276\212\365\237q\330t\210\356\016\330\013\001\237\245>1H\306\362\202\200\346\226g\016\031\211\t\r\325\331\256\334-\201\272J\271N\275&G*\036o'\256\303\22734\255+\333\203_\023\331\214\030\351\366z\224\344:\326\204\3108\001\033\241\006\303i\240c,\031J\216Z\253\200L_\235\344J\216k\n3\214\363vop\331\221\254D\335\353\274\271gHi%8,'W\034\234\217:\204\347C<\333s\222\032%P\340\337l\202\026\000'Z\n\2421\225i~\323\"\021\304\247=B77\023m\020F\303d\245T\363L\334H\322\253\246\361\252\357i\364N\3020@\236\273mi\241&g\301\313\240\244\234w\216G\014\2104Q.\333#2\"\311/6VA\002\321B\252&\221\233\340\217\206G\224\214|\302\327\300m\321\336\320\034\021\243'\3259Pm%\321S\225\003\260\274r\314`^%Y\211\355W\205\006!Q\226Pr\020;\016\026/\005\366\322\346\351\215US\312H\240\200DI\244\307\312\236\342\005\274u\016}\022\021\232\343:g\30189\212rn\316\271\314n\335F\234\267\224\370\205T\253\371\270x\2162S\356rgW\031\276\177I\325\344?fsH\217h\376n\017\3408\202JA\323\251\030\301 \301\246\327`\370\036;\205\370\004\201\360\017J\303\360\262\032\240Dq\370\317`\377\242\343\375\266sNc\240\3471{\371\3662d\352j\003\213\314$\033\002\332-\256H\0102\377\305\334\221N\024$&\0039\027\000";
+    PyObject *data = __Pyx_DecompressString(cstring, 1397, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2806 bytes) */
-const char* const cstring = "x\332\325WKs\333\326\031\225d\311\246b9\266\236\2163\355\024\222\343H\231I\030\223\222]7\343\272C=\354z:yH\262\234dS\314\005pI\241!\001\020\270\240\201\256\274\304\022K,\261\344\222K-\265\364RK.\371\023\374\023z\276\013\200\022\245\310q3\231t\3521.\357\363{\236\357\334\253\257\224M\277^\347\256\3221\371+\305\260\271\247X\266Px\340\330\036W<\341\232\006\367\266\230\245\330V3Tt\2273\301\025\246h\331!q\310\204bz\212n[\302l\370\266\357)\246\245\264x\313v\3032N\221(\346yf\303R\204\255\340\260\361\205\224\223\355 \225\371\246\\\360+\327\024Lk\362|CfT\335\265[\357:kZ\006\017\224W\2468TD\350pe5\237\027.\263<\351\306\351\221l\033N\230.\327\205b\230-ny\246my\333EO\271g\220G$ \333\264\323rD\250x\207\014\242\205\357\300\270\272\355*z(\016m\253\314\\\227\205\317/\212\223\347=\337qlWp\343\271\325aM\323PZ\266\301?\247\330b37\224U}U\201\250U\310#[W?W\0328Ul\3164\"\234,\200=\217\277\226>\274$\037\354\272\362\215\215h\311\350oIC\310d\2037M\215\273\210#\242D\231\203\022\231\"K\371n\347\273/6\036m(\3142\020\311\177A\275\007\3534\275\211\344 \343\020\250\371fS@\031E\320++\317\353Jh\373\212\305a&2\347`\337\331\003\342\220[\212\307\005u\224U\031n&\340\267\212\343\246\325X\315Cgv8\235~\312\232\036/\177\353\013\251\310\366-\003*\255\002CL\3279\244\257I7\017,\231~\034\002\244:\334Ev\005o\321\330\326\310\354\362\223\325\317\376\306\014C\265(\000\344\216\202\030\334\017t\273\331$\205\010}\231i\372\3433\200\244M\2319O\316O\0278xb\230\036\351\345V\3266L\213\177\231e\030?*\t7)\255j\325(;a\320\320\2255\312TCb\204\234\200\317H\253\340\226\220\0050\304\001\322\222\3114\310\r\317\3747W\036\377U\271\177\001A\226\215\354\325\231\337\024\212\252\272\334\360u\256\252\212\341\313HX\266\365\005\262\3311Y\023\253\272i\231BU-\277\345\204e\230\346\362r\013\347L)G\2513\263\231\245\314l\021\366\316n\363[\014\330?\277#\017\354\223\307Y\255\033#\361\2728G\200\035\206md}8\353\017s\310\232M[\227\204!\2153\230`\345\237Y\315\220N2r\276)\327\366\267\236?\337A\324\035\317\364T\365\2730\300\267\r@\253\337 \314{\274\276""\317\333>\267tN\365P>-\rV\tX%d\325\200UC\246\266X\200\306\264\030\376i\232j\003OM\346 \211j\235y\340\031\000\005\225\326\260T\226\375h\205Ej\006Mf5\232\310C\016o\352y\241\245\233v\031\341\264}T\013\367\240!@\033jZ%\320*\241V\r\264j\250\221f\2154k\314\343\032\367\204\212\261\374\t\265@\013u\235\251B\327\344\027\340\013u\323\325\241\251\343\251y\217\354\2730\331b\226Y\267\233\306\271U\033\256U/\231\0349\002\354P\371\252j\321ipA\260\244!|QM\224\257\313t\2561\375'\275\t\336\304\021\3076-\241\002\371\036o\000\323\"S\203*b:~<\225\311\246*\333\254\257Q\253a\306\267\204\356\301?\017\376\005z\200\255\201\252\341\323\365\0205\305\360iT[\206\021\030FhpG\034\252\252A)F\353\351\370\004}\252\3276\210\223d\243\232\344\031\301\325\360\215\016\016B\252\206\303\020\247q\304\022_\310\211\256\001\rPmV\310\345\274\320\316\0252GiH\262\344\256\213\352\200$|\032\207(|Z\035q\270OM\205\032\225;^\275\311\032hl&\036n\240|QK9m\253j\335\267t\212*\342\351e@9d\207\332\241i\232\206\252fU\206_\272\245L\253\203\377\252A\216\014A\224QC\316\017MK\r\360\205M\233\240\330\304@\376\204\315\240\031\252\310'\222D\350R\003jB\\lt\253\265\240H\000n\005\304\251\033P\023\322\215\203\003\266\341\023\222-\326:mARh\371+4\344N\323r$YX\201\025\022zF\2215:3\002+$\304\326\003[\017s\345v`\207\016 \344\260\300a\241\243\005\216\026:M\006\200Y\216\3558\201\003?@\242\252~\310\365\237<\277\225\215\362\300QWfZ\366|\3131\365\237`\371\216U\354\353\310\367\001E\273\355\303f\351\212\313\\f\230\276\007\216Qe\245\003\263\334\365\262\373\240\360\200\026\363\372\030Y\226k\332)\353\016{\031l\316L\000\037\3506\000J@\306\363\212\212(~s\264\346\245\206\3131\0174z9\267\313~\356\350\231~\241H\322\240\207\2541\331Te\233\3655j\265*\001\004g\\\034\004\"\205\215\317\365q\227\007^(\356\213\212 d\010\342\035\301\254\000\037\"-\250\212\001\016\007\261DR|\007$\314\361\300\360\271\367\n \301\027\006'cJ:\376\26646u'\271\222T\222Z\177\362\243\242\263\030\037$+#\235\217\223\273\311^\322I\367R\257\273\322\225\023\313\311z\242\245WS\255{\245[\355\356""\366'\227b;\305\317\265\327\"\252F\273Q=~\212=\225\376\364\215h/\352\304/\321}\307\332\000\307\017!o\274\177\332\271\036mDn\274\020\357\305\"\251&/\322\371t+u\273\263\257\307\337~\360\333Y}\373\344\366j\332~;36Uz\355G\233\021\203=\337'\265d\267?\375a\244\305W\343F\"\235\272lm0\371A\264\026\257\304\220>\354|\030\031\350l'\023\311'\344\311\000\307\003x2\037o\306\254_\272\031\265\007\322\267v\014'\263\010\354\306z\262\224\270\351,\035&\311,\366\222O\323\211tyP\350\036\224n\305S2\026\344\355\350\340z\3640\236\213+\375\231\371\370\317\311Zz7\375\261\313h\200\231\205x+v\223\331A6\032Y/\226J\231\27552M\304\325x\367L\347V|\205:o\257\216M\315D\017\342\211\370Sxu/\263\364\372\371\211\017\242eL]\215\353\210\321A\272L;*\321N\274\030k\311T\262\237^I\253\351\213\356\\\267\362\216\205\231\350\357\361\263\244\222\345\370\343d\036\222\376\331]\357\262n\273?y\347\354p0Y\212\306\2439)\347\016\342\314\310\204\364^\212}\247\013\263\361\332eK\357{\206<_\243\035\037'_vgit\0076\357%mB\236\354\220%S\321A\274\214\000\227\226\220\271N\3622\335H;\335\227\275\215^\373h\342h\371h\343H\034W\2167\217\331\261xSy\363\354d\377\305\311\213\203\377zs#\371>}\332]\355\315R\302\037\311\374\310\254\236\216\200\357\376\314Rl\000\346\325d7a#\003\262\275$\201\270\204\264\177\224\316\245\017e\314Ks\231\351\362g0\371\240\267\327\353\034\355\036\351\307K\307\356\033d\365aO;\272z\304\216\274\343O\337L\274Y&\312\370CR!i\327e\276\247\201\334v:E\265?\035\335\211\357\3052f\037F?\304?\302\002\t\n\252\343\333\262N\267\t\323\305\244\007\215\217P\220,\021@@\316\035\225h\033\250\372,\331\300d%\335\356Nt\227\373\245\033\210/\004\023a\354\026`E\227\232\037\342}H\376KZ\203\200\321\345\263+\264{pq\356\354\020F\335\313\253\264\201\274z(\223\335\224]\234^Ik\203\311\033\205{\323\321<\252\263\201Z\3642\322\241\211-\324v\tuq7\003\312\377\213[\224\267\233P\264\034\257\2432\257\241\004\346\323\315T:\271\000\013t\354\256\305?\024\273\311//Z\211j\022:\031\353\375\232\223\005=.!\202k2\272D\221\240\267\027\250\367\014/\027'n!\2767\322""\234\227(\266\327\020Fi\302]l\233\223,?\t\023t@|\243\353\366\346{\233=\343h\345\250vj\322\034\270p%\331\312\250\353\022;\247\243\2170\265\025\007\224\306_}0#\312{\250\272\305\342f;71\035-\202\366\307\213\213F\227l.\341!/\224_X\246h\336\215$[OB\247\004\342 \037\370\311&\301\364\224p\257B\343\225\254\334~v\222\030\370\353t\366d\354\217\311\356/\2210\205\177\372\367\241\341\022i\372\035h6\273J\037\302\313\2472\223\222a)R\303\367\322\322%\357\014\312\274|\240\320\312>\252_^\200\217P\021:\000\231_i\357\177\230v\227~\203wC\037\327;\213\374xgH\323@\306\370\331\222\332\301UP\2710q\346Y\220\t\220\217\205s\203\374yP\034&\227\236\246\313\351:\352n\276\273\3315z+\275\332;\027\007\2437\376\355,V\364\010\314;\013\362\035E!\312\357\210\205\341\303\212\352\333\300\303\356Y\257\332\243\227\034L\232\303U\227Sn\356<tgg\306a/\224\325\0207WV\353\036\271\000\2653\205\332\257\322}I\313\300\370B\256/\177\225\\{\375J\326\237\254\251Za\335\006\002\277\2003\364\222|\321\233\353= \\\321f\027\030~ wN_\307{\367 \376\004\371\203\356-h\236C\274\016\244?.E\371d\3543\274*\244\347\006\342\363\217T\024\217\351\221\341\242$\265\257\n{Fc\300.\235\030\206\215p[\222v=\224\017j\231\274\233\270\200Wd&\347\211$\006\271\345\200\302\014Q\363\014\002(\235&\037\366\220s\304\260\177\343&|X\244GEF0\233\303H\314\026\033\333\375\031\002\0305\362\2451\333\237\271)\035\177\220L\002\360\263\3632\002\250\355\301\314y\2631\261\t6\232\220H\221\325G\017\321\n\360\201\027L\377\326\"\376R\250\312\310-\241T\010C\254\177\213\304\355\201\346\266\301\243\213\267%\245\032\200\377\255\005\204\177fVZ@\250\330\227\367FnI\245/\227\251\221\"w/\023\223Y\273\233o\317\364\177/M\275L\257\274\020\366\344\363\231\236\004gRr\351\302\365h\035\201\246B\222\205\1772\366\247\244\235%\314\007\\\367\345M\321\306}\276\236p<\035\210%\026%\027g\330\276\366^\273@`\305\337M\343\364r\035\317\024\024\357\222eJ\336\272d\020=C\203$\276\"\307\222D\352\350\030\222\263F\007\303?>\346\200s\016,\370i\255\020wM^\200\347\007\303?V*\331\233\364\177m\005\221\320""\263\270\362\355\177\000\371\337\301>";
-    PyObject *data = __Pyx_DecompressString(cstring, 2806, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1259 bytes) */
+const char* const cstring = "x\332\205U\317o\0345\024N\245\004\002\242\225R)\255\220\020r%\312\026\251]\232\252T\010\205\240\320\006\021$\332\246\245\025',\317\370\315\306t\306\236\214\355\311.\247\036\3678\307=\356q\217\375S8\356\221?!\177\002\237=\263\233M[\301a=\317\366\373\371\275\317o\277c?\372,\243\212\325\212N\2314d\2316\216\321\2604\226\230u\225\222d\037\n\315\214\316G,\255H8b\202%\255\221;\026\216)\313R\243\235\032x\343-S\232\025T\230j\324\207Up%\254U\003\315\234a0\226w\242\237V#\204\354\224:\307\247\225r\"\311\251Sh\223\312*S\374\227\255\322\222\206\354T\271c\346F%\261^w\356*\241m,\343\334\244U\203\205\252(uL\252\202\264UF\333G\013\211\335\224\241\242\340\240U:(J7b\366X\300\265\363%\222\313L\305\322\221;6\272/\252J\214\016\337u\027\355\255/KS9\222\207\272\026\271\222\2540\222n\007l\241L\222\365\322\036\203\253\036\374\205\\{\267\331\000V\013\3456\"\340\024C\344\263\373k\254\341e\250\301d\354\261\001Z\021\375\2071\221\220\262\244\\%T\001G\240\024:\207 \261E\232==xz\347\376\267\367\231\320\022H\376\211\360\026\331%i\216\346\240\343p\230x\225;\004\013\010\332>;\314\330\310x\246\ti\242s%\364V\r\3341if\311\005\201\365\"\334\302\241n\016s\245\007\275\016:US\260\376I\344\226\372O\274\213\201\214\327\022!\365\202C\"M\t\336o\3052_\350\330~\030\201R5U\350\256\243\"\354M\022\322\356\357\365\276\372AH\311u\000 \224\303\200\301\335aj\362<\004\004\364}\221\244\273+\204\014Jm:{o\037/x\260'\225\rqI\267\353@i\372\272\3550>\274\"\320H[\342\367d\277\034\r\007)\273\025\0325\210\024\t5\240dt\325\221v\221\377K\032\240+\255K\031\252\260\352/b\273\337\263\273\357\020H\0334/\023>w\214#\232\364)q\316\244\217@h\243\357\240\231\265\0229nS\245\225\343\\\373\242\034\365yj*\352\027\260S\321\017\313\204\312\333\216\251\"PoU\315\027\002\324\177[\243\303uo\267}\352\362\002\\\357\236\005\276.Q\273p\277<\365\313\026\212<7i\234\02719)\234\350\277\347\266%z\360\321\215\233\376\376\363\207\207\207\007y\256J\253,\347OGC\374\036\201\317\3741`~F\331s:\361\244S\n\317\241\177\3762\320\371\205W\336\262\213\363\216\234\000T\330""\221N\225\351\003\r\343\301u\262\211\260\224\002\323\300j\316\027\302\200\\hW\330B\211+\260\272\022)%\"}\025\370#\220Fi\224v)\230\214V\310\220\027\227N\206\247\023\027\216\244[X\345H\213B\245<\013\217\021\204\2400K\2208\346@\313\262~G\203\213,#\364->d\252*Se\010\3161\022\006\232\213\0259\311r1\260Yn\204{p\037\214B{\273A\302y\346u\032\nB)\266-\376XX\256D\\\023\205\232j.\332O\242$\347-\027\360\r\2434\234\026\001\010\261\224\222P\322\022\267\226\314\035\24394\000\021\307\214\r\0036\2148l\214\3649\276\250\376|\305\263\300J\247XB\266\271.#=\2150\t\3202\005\r\004\027\355')\001vi0>\221EX\022\316\361\362xzL\351+\353\213v\327\225\026\304\010{\224\274.U\372\n\301\017\364B\257\216\377)\001\217\023\217\2601\233\363w\266\224\332V\254\034\3200\210\003e1G\321\035\223\327P\352\030pO\362L\200\257dA\026\037g\037\307@\354j\205\324=\350(w\211\256\310\213X\221\373\001F\034W\361n\205-\210[Zg\360\253|\340\230\203\026\017\005\002\034\217\333P\225/\361\254\250\026\034\255\301\377\206'[\213a-Fu\022O\222a\235\214j\312\271\010K2|}\351\354\312\332\306\347\223\243\371\372\306\331\325\265\215\353\rMv&\277Li\2663\333\237\257_\273\270\335n\376\230\356\314\327\2577\303\211\235\336X\021>\235l\235m\256ml\276v\343\235\371\346\325\006G\037.\345\177\302\365|\363\362\370h,\233\233\315\311\344\322|\363\243\361\366X\214}\263\337\3746\371l\372\373\354\350\377\357\267\233\243FN\356LOf\270\277\202[\327<\230lMn\340\346\357\355/\247b\276y\255\321\323G\263K\263\255\263\017\3266\256\214\237\215k\230\244\223k\223j\2725_\277\374\366\301\307\343\033\343o\232\215\346%J<x\357\301'\343\237\233\003\304\2709\031N\375l\177\366\342\315\027o\304\233\223'\377\002\2113\210\320";
+    PyObject *data = __Pyx_DecompressString(cstring, 1259, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (6423 bytes) */
-const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_collision_2d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryViewa1xa1ya2xa2ya_maxa_minaaaabb_overlap_2d_fastababcalign_aalign_ballocate_bufferangle__annotate__asyncio.coroutinesaxaxesaybb1xb1yb2xb2yb_maxb_minbasebest_axbest_aybxbycca_tcb_tcb_xcb_ycircle_vs_circle_fastcircle_vs_circle_manifold_fastcircle_vs_obb_2d_fastcircle_vs_obb_2d_manifold_fast__class____class_getitem__cline_in_tracebackclosest_point_on_segment_fastcontactcos_acos_a2cos_aacos_abcos_b2countcs_xcs_ycxcx_acx_bcx_ccycy_acy_bcy_cddxddydepth__dict__discdistdist_sqdtypedtype_is_objectdudvdxdx_abdydy_abeb_xeb_yemptyencodeengine.cython.cy_collision_2denumerateerrorex_aex_bey_aey_bface0face1face_epsflagsfloat64formatfortran__func____getstate__hahbhiiid__import__indexinvinv_d_is_coroutineitemsitemsizeln_xln_ylolocal_xlocal_ylxly__main__max_xmax_ymemviewmid_tmin_ov""erlapmin_xmin_ymode__module__name__name__ndim__new__normalnpnumpynxnyobb_vs_obb_2d_fastobb_vs_obb_2d_manifold_fastobjocxocyoverlapoxoypackpaxpaypbxpbyplane_npoppxpy__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname__raradiusray_aabb_intersection_2d_fastray_circle_intersection_fastrb__reduce____reduce_cython____reduce_ex__registerrsssegment_segment_dist_sq_fast__set_name__setdefault__setstate____setstate_cython__shapesin_asin_a2sin_aasin_absin_b2sizestartstepstopstructsxsyt0t1t_maxt_mintanxtany__test__tmpunpackupdatevalueswn_xwn_yx\320\000 \240\001\360\010\000\005\031\230\003\2301\230A\330\004\030\230\003\2301\230A\330\004\025\220U\230\"\230A\330\004\025\220U\230\"\230A\330\004\032\230#\230R\230v\240R\240s\250\"\250A\330\004\032\230!\2303\230b\240\006\240b\250\003\2502\250Q\330\004\026\220o\240Q\330\004\007\200t\2102\210Q\210f\220F\230!\2301\330\t\r\210R\210v\220V\2301\330\004\007\200t\2102\210Q\210f\220F\230!\2301\330\t\r\210R\210v\220V\2301\340\004\026\220h\230b\240\001\330\004\026\220h\230b\240\001\330\004\013\2104\210r\220\024\220R\220t\2302\230T\240\023\240C\240r\250\021\200\001\360\n\000\005\031\230\003\2301\230A\330\004\030\230\003\2301\230A\330\004\025\220U\230\"\230A\330\004\025\220U\230\"\230A\330\004\032\230#\230R\230v\240R\240s\250\"\250A\330\004\032\230!\2303\230b\240\006\240b\250\003\2502\250Q\330\004\027\320\027'\240q\360\014\000\005\010\200u\210B\210a\210v\220W\230A\230Q\330\t\016\210b\220\006\220g\230Q\330\004\007\200u\210B\210a\210v\220W\230A\230Q\330\t\016\210b\220\006\220g\230Q\340\004\n\210(\220\"\220A\330\004\n\210(\220\"\220A\330\004\016\210d\220\"\220D\230\002\230$\230b\240\001\340\004\007\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\016\210b\220\006\220a\220s\230&\240\002\240!\340\004\007\200u\210B\210a\340\010\020\220\005\220R\220t\2301\230A\330\010\020\220\005\220R\220t\2301\230A\330\010\013\2106\220\022\2201\330\014\023\2207""\230(\240#\240Y\250a\330\014\023\2201\330\014\024\220C\220r\230\021\340\014\023\2201\330\014\023\2207\230(\240#\240Y\250a\330\014\024\220C\220r\230\021\340\010\016\210d\220\"\220A\330\010\017\210t\2202\220Q\330\010\017\210t\2202\220Q\330\010\020\220\003\2202\220Q\360\006\000\005\014\2105\220\002\220&\230\002\230%\230r\240\021\330\004\013\2105\220\002\220&\230\002\230%\230r\240\021\330\004\n\210!\2105\220\006\220f\230A\230U\240!\330\004\013\2101\210E\220\025\220b\230\005\230S\240\003\2402\240T\250\022\2501\330\004\013\2101\210E\220\025\220b\230\005\230S\240\003\2402\240T\250\022\2501\330\004\014\210H\220G\2301\200\001\360\n\000\005\032\230\023\230A\230^\2503\250a\250q\330\004\031\230\023\230A\230^\2503\250a\250q\340\004\010\210\001\210\022\2101\210E\220\031\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\021\220(\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\031\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\021\220(\230$\230a\230r\240\021\240%\240q\360\006\000\005(\240q\330\004\032\230/\250\021\360\006\000\005\031\230\005\230R\230q\330\004\030\230\005\230R\230q\340\004\010\210\005\210U\220!\2201\330\010\026\220a\220v\230V\2404\240v\250V\2604\260q\270\002\270!\2704\270t\3001\300B\300a\300t\3101\310G\320ST\320TU\330\010\026\220a\220v\230V\2404\240v\250V\2604\260q\270\002\270!\2704\270t\3001\300B\300a\300t\3101\310G\320ST\320TU\330\010\026\220g\230W\240F\250'\260\021\330\010\013\2108\2202\220Q\330\014\023\2201\330\010\013\2108\2202\220Q\330\014\032\230!\330\014\026\220d\230!\2302\230Q\230a\330\014\026\220d\230!\2302\230Q\230a\360\006\000\005\010\200x\210r\220\026\220r\230\030\240\022\2406\250\022\2501\330\010\022\220!\2201\330\010\022\220!\2201\340\0045\260R\260v\270Q\270c\300\026\300r\310\021\330\0046\260b\270\006\270a\270s\300&\310\002\310!\360\010\000\005\034\2301\360\006\000\005\013\210!\2105\220\t\230\026\230q\240\005\240Q\330\004\t\210\031\220%\220q\360\006\000\005\016\210X\220Y""\230a\330\004\n\210!\2104\210r\220\027\230\003\2301\230D\240\002\240!\330\004\n\210!\2104\210s\220!\2208\2303\230a\230t\2402\240Q\330\004\007\200t\2101\210D\220\002\220)\2304\230t\2401\240D\250\002\250!\330\010\r\210U\220%\220q\330\t\r\210Q\210d\220\"\220A\330\010\r\210Q\330\010\r\210X\220S\230\003\2309\240A\240Q\330\t\r\210Q\210d\220\"\220A\330\010\r\210X\220S\230\003\2309\240A\240Q\330\010\r\210Q\340\010\r\210X\220S\230\003\2309\240A\240Q\330\010\r\210X\220S\230\003\2309\240A\240Q\330\004\n\210%\210r\220\023\220B\220g\230R\230s\240#\240Q\240a\330\004\n\210%\210r\220\023\220B\220g\230R\230s\240\"\240A\340\004\r\210X\220Y\230a\330\004\t\210\023\210B\210g\220R\220s\230\"\230A\330\004\t\210\023\210C\210q\220\010\230\002\230#\230R\230q\330\004\007\200t\2101\210D\220\002\220)\2304\230t\2401\240D\250\002\250!\330\010\r\210U\220%\220q\330\t\r\210Q\210d\220\"\220A\330\010\r\210Q\330\010\r\210X\220S\230\003\2309\240A\240Q\330\t\r\210Q\210d\220\"\220A\330\010\r\210X\220S\230\003\2309\240A\240Q\330\010\r\210Q\340\010\r\210X\220S\230\003\2309\240A\240Q\330\010\r\210X\220S\230\003\2309\240A\240Q\330\004\n\210%\210r\220\023\220B\220g\230R\230s\240#\240Q\240a\330\004\n\210%\210r\220\023\220B\220g\230R\230s\240\"\240A\360\006\000\005\017\210d\220!\2203\220b\230\007\230r\240\023\240B\240a\330\004\t\210\024\210Q\210c\220\023\220A\220X\230R\230s\240\"\240A\330\004\007\200s\210\"\210A\330\010\022\220!\330\004\016\210d\220!\2203\220b\230\007\230r\240\023\240B\240a\330\004\t\210\024\210Q\210c\220\023\220A\220X\230R\230s\240\"\240A\330\004\007\200s\210\"\210A\330\010\022\220!\340\004\007\200x\210r\220\026\220s\230(\240\"\240A\340\010\017\210q\220\005\220T\230\023\230D\240\002\240!\330\010\017\210q\220\005\220T\230\023\230D\240\002\240!\330\010\020\220\010\230\r\240Q\360\006\000\005\014\2101\210D\220\007\220q\330\004\016\210d\220#\220T\230\022\2303\230b\240\004\240B\240c\250\022\2504\250r\260\023\260B\260d\270\"\270A\330\004\t\210\024\210Q\210c\220\022\2207\230\"\230C\230r\240\021\330""\004\t\210\024\210Q\210c\220\023\220A\220X\230R\230s\240\"\240A\330\004\t\210\030\220\023\220C\220x\230q\330\004\t\210\024\210Q\210c\220\022\2207\230\"\230C\230r\240\021\330\004\t\210\024\210Q\210c\220\023\220A\220X\230R\230s\240\"\240A\330\004\t\210\030\220\023\220C\220x\230q\330\004\013\2105\220\002\220%\220r\230\025\230b\240\001\330\004\013\2105\220\002\220%\220r\230\025\230b\240\001\330\004\t\210\025\210b\220\001\330\004\007\200u\210B\210c\220\022\2201\330\010\r\210U\220\"\220A\330\004\t\210\025\210b\220\001\330\004\007\200u\210B\210c\220\022\2201\330\010\r\210U\220\"\220A\330\004\007\200s\210#\210Q\330\010\020\220\004\220C\220s\230\"\230A\340\010\020\220\004\220C\220u\230B\230a\330\004\013\2101\210E\220\025\220b\230\006\230b\240\003\2402\240Q\330\004\013\2101\210E\220\025\220b\230\006\230b\240\003\2402\240Q\330\004\014\210H\220M\240\021\320\000\035\230Q\360\n\000\005\032\230\023\230A\230^\2503\250a\250q\330\004\031\230\023\230A\230^\2503\250a\250q\360\006\000\005\t\210\001\210\022\2101\210E\220\031\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\021\220(\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\031\230$\230a\230r\240\021\240%\240q\330\004\010\210\001\210\022\2101\210E\220\021\220(\230$\230a\230r\240\021\240%\240q\360\010\000\005\t\210\005\210U\220!\2201\330\010\026\220a\220v\230V\2404\240v\250V\2604\260q\270\002\270!\2704\270t\3001\300B\300a\300t\3101\310G\320ST\320TU\330\010\026\220a\220v\230V\2404\240v\250V\2604\260q\270\002\270!\2704\270t\3001\300B\300a\300t\3101\310G\320ST\320TU\330\010\013\2106\220\022\2206\230\023\230F\240\"\240A\330\014\023\2201\330\004\013\2101\320\000 \240\001\360\010\000\005\026\220U\230\"\230A\330\004\025\220U\230\"\230A\330\004\032\230#\230R\230s\240\"\240C\240r\250\021\330\004\025\220S\230\002\230!\330\004\013\2108\2203\220c\230\022\2301\200\001\360\n\000\005\026\220U\230\"\230A\330\004\025\220U\230\"\230A\330\004\032\230#\230R\230s\240\"\240C\240r\250\021\330\004\025""\220S\230\002\230!\360\n\000\005\010\200x\210r\220\023\220B\220a\330\010\017\210q\340\004\013\2104\210q\220\001\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\016\210b\220\006\220a\220s\230&\240\002\240!\340\004\007\200u\210B\210a\330\010\016\210a\210u\220E\230\026\230q\240\005\240Q\330\010\020\220\001\330\010\017\210q\220\005\220T\230\023\230E\240\022\2401\330\010\017\210q\220\005\220T\230\023\230E\240\022\2401\340\010\016\210d\220\"\220A\330\010\016\210a\210u\220C\220r\230\021\330\010\016\210a\210u\220C\220r\230\021\330\010\020\220\003\2202\220Q\330\010\017\210q\220\005\220U\230\"\230F\240!\2403\240c\250\023\250B\250d\260\"\260A\330\010\017\210q\220\005\220U\230\"\230F\240!\2403\240c\250\023\250B\250d\260\"\260A\340\004\014\210H\220G\2301\200\001\360\n\000\005\027\220c\230\022\2301\330\004\026\220c\230\022\2301\330\004\024\220D\230\002\230#\230R\230t\2402\240Q\330\004\024\220D\230\002\230$\230b\240\004\240B\240d\250\"\250G\2602\260Q\330\004\027\220r\230\022\2302\230R\230q\330\004\007\200u\210B\210a\330\010\017\210q\330\004\024\220D\230\001\230\021\330\004\014\210A\210R\210r\220\023\220A\220R\220r\230\021\200\001\360\014\000\005\027\220c\230\022\230:\240S\250\002\250!\330\004\031\230\024\230R\230t\2402\240T\250\022\2501\330\004\007\200w\210b\220\001\330\010\020\220\004\220A\330\004\026\220c\230\022\2304\230r\240\024\240S\250\003\2502\250T\260\022\2605\270\002\270!\330\004\007\200r\210\022\2105\220\004\220A\330\t\013\2102\210U\220$\220a\330\004\014\210C\210r\220\022\2202\220U\230#\230R\230r\240\022\2401\320\000)\250\021\360\n\000\005\027\220d\230\"\230K\240t\2502\250Q\330\004\026\220d\230\"\230K\240t\2502\250Q\330\004\025\220T\230\022\230:\240T\250\022\2501\330\004\024\220D\230\002\230$\230b\240\004\240B\240a\330\004\024\220D\230\002\230$\230b\240\004\240B\240a\330\004\024\220D\230\002\230#\230R\230t\2402\240Q\360\010\000\005\010\200r\210\022\2106\220\024\220R\220r\230\021\330\010\017\210s\220\"\220C\220r\230\023\230B\230a\340\004\007\200r\210\022\2101""\330\010\014\210A\330\010\014\210B\210b\220\001\330\010\013\2102\210R\210u\220D\230\001\330\r\017\210r\220\025\220d\230!\340\010\020\220\004\220B\220c\230\022\2304\230r\240\021\330\010\013\2102\210R\210q\330\014\020\220\001\330\014\020\220\001\220\026\220r\230\021\330\014\017\210r\220\022\2205\230\004\230A\330\021\023\2202\220U\230$\230a\340\014\024\220D\230\002\230$\230b\240\004\240B\240a\330\014\024\220B\220b\230\002\230\"\230F\240\"\240A\330\014\017\210t\2201\220G\2302\230Q\330\020\025\220V\2302\230R\230r\240\026\240r\250\023\250B\250a\330\020\023\2202\220R\220u\230D\240\001\330\025\027\220r\230\025\230d\240!\340\020\024\220A\330\014\021\220\026\220r\230\022\2302\230S\240\002\240!\330\014\017\210r\220\022\2201\330\020\024\220A\330\020\024\220A\220V\2302\230Q\330\020\023\2202\220R\220u\230D\240\001\330\025\027\220r\230\025\230d\240!\330\021\023\2202\220Q\330\020\024\220A\330\020\025\220V\2302\230W\240B\240a\330\020\023\2202\220R\220u\230D\240\001\330\025\027\220r\230\025\230d\240!\340\004\t\210\024\210R\210t\2202\220R\220s\230$\230b\240\004\240B\240a\330\004\t\210\024\210R\210t\2202\220R\220s\230$\230b\240\004\240B\240a\330\004\013\2103\210b\220\003\2202\220S\230\002\230!\320\000\037\230q\360\010\000\005\010\200u\210A\210S\220\002\220%\220q\230\003\2303\230e\2401\240C\240r\250\025\250a\250q\330\010\017\210q\330\004\007\200u\210A\210S\220\002\220%\220q\230\003\2303\230e\2401\240C\240r\250\025\250a\250q\330\010\017\210q\330\004\013\2101\200\001\360\n\000\005\031\230\001\330\004\030\230\001\360\010\000\005\010\200t\2101\210D\220\002\220!\330\010\013\2103\210b\220\006\220c\230\023\230B\230a\330\014\023\2201\340\010\020\220\004\220B\220a\330\010\016\210f\220B\220d\230\"\230A\330\010\016\210f\220B\220d\230\"\230A\330\010\013\2106\220\022\2201\330\014\022\220$\220e\2304\230u\240A\330\010\013\2103\210b\220\007\220x\230q\330\010\013\2103\210b\220\007\220x\230q\330\010\013\2106\220\022\2201\330\014\023\2201\360\006\000\005\010\200t\2101\210D\220\002\220!\330\010\013\2103""\210b\220\006\220c\230\023\230B\230a\330\014\023\2201\340\010\020\220\004\220B\220a\330\010\016\210f\220B\220d\230\"\230A\330\010\016\210f\220B\220d\230\"\230A\330\010\013\2106\220\022\2201\330\014\022\220$\220e\2304\230u\240A\330\010\013\2103\210b\220\007\220x\230q\330\010\013\2103\210b\220\007\220x\230q\330\010\013\2106\220\022\2201\330\014\023\2201\340\004\014\210G\2201O";
+    #else /* compression: none (2341 bytes) */
+const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_response_2d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsis__Pyx_PyDict_NextRefSequenceView.MemoryViewabcallocate_buffer__annotate__asyncio.coroutinesbasec__class____class_getitem__cline_in_tracebackcontact_pointcount__dict__dtdtypedtype_is_objectdynamic_frictionemptyencodeengine.cython.cy_response_2denumerateerrorface_align_aface_align_bflagsfloat64formatfortran__func____getstate__has_iahas_ibi_inv_ai_inv_bid__import__indexinv_mass_ainv_mass_b_is_coroutineitemsitemsize__main__memviewmode__module__name__name__ndim__new__normalnpnumpyoaobobjomega_aomega_bpackpoppos_apos_b__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__registerresolve_contact_2d_fastrestitution__set_name__setdefault__setstate____setstate_cython__shapesizestartstatic_frictionstepstopstruct__test__unpackunstableupdateva_outvalu""esvaxvayvb_outvbxvbyvel_avel_bx\200\001\360\016\000\005\036\230Q\330\004\005\360\022\000\005\027\220e\2301\230J\240e\2501\250A\330\004\026\220e\2301\230J\240e\2501\250A\330\004\025\220^\2401\330\004\027\220x\230s\240!\330\004\027\220x\230s\240!\330\004\031\230\021\360\010\000\005\010\200t\2101\330\010\022\220!\330\004\007\200t\2101\330\010\022\220!\340\004\031\230\021\330\010\r\210Q\210d\220%\220q\230\001\330\010\t\210\025\210a\210u\220A\220T\230\034\240X\250Q\330\010\r\210Q\210d\220%\220q\230\001\330\010\t\210\025\210a\210u\220A\220T\230\034\240X\250Q\330\010\025\220Q\220d\230-\240q\250\001\330\010\016\210a\210t\2206\230\021\230!\330\010\025\320\025&\240a\330\010\026\220n\240D\250\001\250\021\360\006\000\005\016\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\n\210!\2105\220\005\220V\2301\230E\240\021\330\004\n\210!\2105\220\005\220V\2301\230E\240\021\330\004\014\210H\220E\230\021\230%\230x\240u\250A\250U\260$\260a\260qO";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 249; i++) {
+    for (int i = 0; i < 147; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 44) PyUnicode_InternInPlace(&string);
@@ -27158,7 +25643,7 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 249; i < 261; i++) {
+    for (int i = 147; i < 149; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -27169,15 +25654,15 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 261; i++) {
+    for (Py_ssize_t i = 0; i < 149; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 249;
-      for (Py_ssize_t i=0; i<12; ++i) {
+      PyObject **table = stringtab + 147;
+      for (Py_ssize_t i=0; i<2; ++i) {
         #if PY_VERSION_HEX >= 0x030F0000
         PyUnstable_SetImmortal(table[i]);
         #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
@@ -27236,10 +25721,10 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
 }
 /* #### Code section: init_codeobjects ### */
 typedef struct {
-    unsigned int argcount : 4;
+    unsigned int argcount : 5;
     unsigned int num_posonly_args : 1;
     unsigned int num_kwonly_args : 1;
-    unsigned int nlocals : 6;
+    unsigned int nlocals : 5;
     unsigned int flags : 10;
     unsigned int first_line : 9;
 } __Pyx_PyCode_New_function_description;
@@ -27258,59 +25743,9 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {4, 0, 0, 4, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 17};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_a_min, __pyx_mstate->__pyx_n_u_a_max, __pyx_mstate->__pyx_n_u_b_min, __pyx_mstate->__pyx_n_u_b_max};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_aabb_overlap_2d_fast, __pyx_mstate->__pyx_kp_b_iso88591_q_uAS_q_3e1Cr_aq_q_uAS_q_3e1Cr, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 6, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 32};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cx_a, __pyx_mstate->__pyx_n_u_cy_a, __pyx_mstate->__pyx_n_u_ra, __pyx_mstate->__pyx_n_u_cx_b, __pyx_mstate->__pyx_n_u_cy_b, __pyx_mstate->__pyx_n_u_rb};
-    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_circle_vs_circle_fast, __pyx_mstate->__pyx_kp_b_iso88591_U_A_U_A_Rs_Cr_S_83c_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 15, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 43};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cx_a, __pyx_mstate->__pyx_n_u_cy_a, __pyx_mstate->__pyx_n_u_ra, __pyx_mstate->__pyx_n_u_cx_b, __pyx_mstate->__pyx_n_u_cy_b, __pyx_mstate->__pyx_n_u_rb, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_dist_sq, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_dist, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_contact};
-    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_circle_vs_circle_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_U_A_U_A_Rs_Cr_S_xr_Ba_q_4q_RvQc, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {10, 0, 0, 10, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 99};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cx_a, __pyx_mstate->__pyx_n_u_cy_a, __pyx_mstate->__pyx_n_u_aa, __pyx_mstate->__pyx_n_u_ex_a, __pyx_mstate->__pyx_n_u_ey_a, __pyx_mstate->__pyx_n_u_cx_b, __pyx_mstate->__pyx_n_u_cy_b, __pyx_mstate->__pyx_n_u_ab, __pyx_mstate->__pyx_n_u_ex_b, __pyx_mstate->__pyx_n_u_ey_b};
-    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_obb_vs_obb_2d_fast, __pyx_mstate->__pyx_kp_b_iso88591_Q_A_3aq_A_3aq_1E_ar_q_1E_ar_q_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {10, 0, 0, 57, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 123};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cx_a, __pyx_mstate->__pyx_n_u_cy_a, __pyx_mstate->__pyx_n_u_aa, __pyx_mstate->__pyx_n_u_ex_a, __pyx_mstate->__pyx_n_u_ey_a, __pyx_mstate->__pyx_n_u_cx_b, __pyx_mstate->__pyx_n_u_cy_b, __pyx_mstate->__pyx_n_u_ab, __pyx_mstate->__pyx_n_u_ex_b, __pyx_mstate->__pyx_n_u_ey_b, __pyx_mstate->__pyx_n_u_cos_aa, __pyx_mstate->__pyx_n_u_sin_aa, __pyx_mstate->__pyx_n_u_cos_ab, __pyx_mstate->__pyx_n_u_sin_ab, __pyx_mstate->__pyx_n_u_axes, __pyx_mstate->__pyx_n_u_a_min, __pyx_mstate->__pyx_n_u_a_max, __pyx_mstate->__pyx_n_u_b_min, __pyx_mstate->__pyx_n_u_b_max, __pyx_mstate->__pyx_n_u_overlap, __pyx_mstate->__pyx_n_u_min_overlap, __pyx_mstate->__pyx_n_u_best_ax, __pyx_mstate->__pyx_n_u_best_ay, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_dx_ab, __pyx_mstate->__pyx_n_u_dy_ab, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_contact, __pyx_mstate->__pyx_n_u_cos_a2, __pyx_mstate->__pyx_n_u_sin_a2, __pyx_mstate->__pyx_n_u_cos_b2, __pyx_mstate->__pyx_n_u_sin_b2, __pyx_mstate->__pyx_n_u_lx, __pyx_mstate->__pyx_n_u_ly, __pyx_mstate->__pyx_n_u_sx, __pyx_mstate->__pyx_n_u_sy, __pyx_mstate->__pyx_n_u_pax, __pyx_mstate->__pyx_n_u_pay, __pyx_mstate->__pyx_n_u_pbx, __pyx_mstate->__pyx_n_u_pby, __pyx_mstate->__pyx_n_u_face_eps, __pyx_mstate->__pyx_n_u_nx, __pyx_mstate->__pyx_n_u_ny, __pyx_mstate->__pyx_n_u_tanx, __pyx_mstate->__pyx_n_u_tany, __pyx_mstate->__pyx_n_u_plane_n, __pyx_mstate->__pyx_n_u_mid_t, __pyx_mstate->__pyx_n_u_ha, __pyx_mstate->__pyx_n_u_hb, __pyx_mstate->__pyx_n_u_ca_t, __pyx_mstate->__pyx_n_u_cb_t, __pyx_mstate->__pyx_n_u_lo, __pyx_mstate->__pyx_n_u_hi, __pyx_mstate->__pyx_n_u_du, __pyx_mstate->__pyx_n_u_dv, __pyx_mstate->__pyx_n_u_align_a, __pyx_mstate->__pyx_n_u_align_b};
-    __pyx_mstate_global->__pyx_codeobj_tab[4] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_obb_vs_obb_2d_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_A_3aq_A_3aq_1E_ar_q_1E_ar_q_1E, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[4])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 8, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 252};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cs_x, __pyx_mstate->__pyx_n_u_cs_y, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_cb_x, __pyx_mstate->__pyx_n_u_cb_y, __pyx_mstate->__pyx_n_u_angle, __pyx_mstate->__pyx_n_u_eb_x, __pyx_mstate->__pyx_n_u_eb_y};
-    __pyx_mstate_global->__pyx_codeobj_tab[5] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_circle_vs_obb_2d_fast, __pyx_mstate->__pyx_kp_b_iso88591_1A_1A_U_A_U_A_RvRs_A_3b_b_2Q_oQ, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[5])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 30, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 273};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_cs_x, __pyx_mstate->__pyx_n_u_cs_y, __pyx_mstate->__pyx_n_u_rs, __pyx_mstate->__pyx_n_u_cb_x, __pyx_mstate->__pyx_n_u_cb_y, __pyx_mstate->__pyx_n_u_angle, __pyx_mstate->__pyx_n_u_eb_x, __pyx_mstate->__pyx_n_u_eb_y, __pyx_mstate->__pyx_n_u_cos_a, __pyx_mstate->__pyx_n_u_sin_a, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_local_x, __pyx_mstate->__pyx_n_u_local_y, __pyx_mstate->__pyx_n_u_cx_c, __pyx_mstate->__pyx_n_u_cy_c, __pyx_mstate->__pyx_n_u_ddx, __pyx_mstate->__pyx_n_u_ddy, __pyx_mstate->__pyx_n_u_dist_sq, __pyx_mstate->__pyx_n_u_dist, __pyx_mstate->__pyx_n_u_depth, __pyx_mstate->__pyx_n_u_inv, __pyx_mstate->__pyx_n_u_ln_x, __pyx_mstate->__pyx_n_u_ln_y, __pyx_mstate->__pyx_n_u_wn_x, __pyx_mstate->__pyx_n_u_wn_y, __pyx_mstate->__pyx_n_u_face0, __pyx_mstate->__pyx_n_u_face1, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_contact};
-    __pyx_mstate_global->__pyx_codeobj_tab[6] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_circle_vs_obb_2d_manifold_fast, __pyx_mstate->__pyx_kp_b_iso88591_1A_1A_U_A_U_A_RvRs_A_3b_b_2Q_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[6])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {6, 0, 0, 6, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 337};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_px, __pyx_mstate->__pyx_n_u_py, __pyx_mstate->__pyx_n_u_ax, __pyx_mstate->__pyx_n_u_ay, __pyx_mstate->__pyx_n_u_bx, __pyx_mstate->__pyx_n_u_by};
-    __pyx_mstate_global->__pyx_codeobj_tab[7] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_closest_point_on_segment_fast, __pyx_mstate->__pyx_kp_b_iso88591_c_S_Rt2T_1_wb_A_c_4r_S_2T_5_r_5, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[7])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 8, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 353};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_a1x, __pyx_mstate->__pyx_n_u_a1y, __pyx_mstate->__pyx_n_u_a2x, __pyx_mstate->__pyx_n_u_a2y, __pyx_mstate->__pyx_n_u_b1x, __pyx_mstate->__pyx_n_u_b1y, __pyx_mstate->__pyx_n_u_b2x, __pyx_mstate->__pyx_n_u_b2y};
-    __pyx_mstate_global->__pyx_codeobj_tab[8] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_segment_segment_dist_sq_fast, __pyx_mstate->__pyx_kp_b_iso88591_d_Kt2Q_d_Kt2Q_T_T_1_D_b_Ba_D_b, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[8])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {7, 0, 0, 13, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 412};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_ox, __pyx_mstate->__pyx_n_u_oy, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_cx, __pyx_mstate->__pyx_n_u_cy, __pyx_mstate->__pyx_n_u_radius, __pyx_mstate->__pyx_n_u_ocx, __pyx_mstate->__pyx_n_u_ocy, __pyx_mstate->__pyx_n_u_b, __pyx_mstate->__pyx_n_u_c, __pyx_mstate->__pyx_n_u_disc, __pyx_mstate->__pyx_n_u_s};
-    __pyx_mstate_global->__pyx_codeobj_tab[9] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_ray_circle_intersection_fast, __pyx_mstate->__pyx_kp_b_iso88591_c_1_c_1_D_Rt2Q_D_b_Bd_G2Q_r_2Rq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[9])) goto bad;
-  }
-  {
-    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 14, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 428};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_ox, __pyx_mstate->__pyx_n_u_oy, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_min_x, __pyx_mstate->__pyx_n_u_min_y, __pyx_mstate->__pyx_n_u_max_x, __pyx_mstate->__pyx_n_u_max_y, __pyx_mstate->__pyx_n_u_t_min, __pyx_mstate->__pyx_n_u_t_max, __pyx_mstate->__pyx_n_u_inv_d, __pyx_mstate->__pyx_n_u_t0, __pyx_mstate->__pyx_n_u_t1, __pyx_mstate->__pyx_n_u_tmp};
-    __pyx_mstate_global->__pyx_codeobj_tab[10] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_collision_2d_py, __pyx_mstate->__pyx_n_u_ray_aabb_intersection_2d_fast, __pyx_mstate->__pyx_kp_b_iso88591_t1D_3b_c_Ba_1_Ba_fBd_A_fBd_A_6, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[10])) goto bad;
+    const __Pyx_PyCode_New_function_description descr = {18, 0, 0, 29, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 430};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_pos_a, __pyx_mstate->__pyx_n_u_vel_a, __pyx_mstate->__pyx_n_u_omega_a, __pyx_mstate->__pyx_n_u_inv_mass_a, __pyx_mstate->__pyx_n_u_i_inv_a, __pyx_mstate->__pyx_n_u_pos_b, __pyx_mstate->__pyx_n_u_vel_b, __pyx_mstate->__pyx_n_u_omega_b, __pyx_mstate->__pyx_n_u_inv_mass_b, __pyx_mstate->__pyx_n_u_i_inv_b, __pyx_mstate->__pyx_n_u_contact_point, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_restitution, __pyx_mstate->__pyx_n_u_static_friction, __pyx_mstate->__pyx_n_u_dynamic_friction, __pyx_mstate->__pyx_n_u_face_align_a, __pyx_mstate->__pyx_n_u_face_align_b, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_vax, __pyx_mstate->__pyx_n_u_vay, __pyx_mstate->__pyx_n_u_vbx, __pyx_mstate->__pyx_n_u_vby, __pyx_mstate->__pyx_n_u_oa, __pyx_mstate->__pyx_n_u_ob, __pyx_mstate->__pyx_n_u_has_ia, __pyx_mstate->__pyx_n_u_has_ib, __pyx_mstate->__pyx_n_u_unstable, __pyx_mstate->__pyx_n_u_va_out, __pyx_mstate->__pyx_n_u_vb_out};
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_2d_pyx, __pyx_mstate->__pyx_n_u_resolve_contact_2d_fast, __pyx_mstate->__pyx_kp_b_iso88591_Q_e1Je1A_e1Je1A_1_xs_xs_t1_t1_Q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;
@@ -33837,28 +32272,6 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       return result;
   }
   
-/* CIntFromPyVerify */
-  #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-      __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-  #define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-      __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-  #define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-      {\
-          func_type value = func_value;\
-          if (sizeof(target_type) < sizeof(func_type)) {\
-              if (unlikely(value != (func_type) (target_type) value)) {\
-                  func_type zero = 0;\
-                  if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                      return (target_type) -1;\
-                  if (is_unsigned && unlikely(value < zero))\
-                      goto raise_neg_overflow;\
-                  else\
-                      goto raise_overflow;\
-              }\
-          }\
-          return (target_type) value;\
-      }
-  
 /* Declarations */
   #if CYTHON_CCOMPLEX && (1) && (!0 || __cplusplus)
     #ifdef __cplusplus
@@ -34391,6 +32804,141 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       return new_mvs;
   }
   
+/* PyObjectCall2Args (used by PyObjectCallMethod1) */
+  static CYTHON_INLINE PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+      PyObject *args[3] = {NULL, arg1, arg2};
+      return __Pyx_PyObject_FastCall(function, args+1, 2 | __Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET);
+  }
+  
+/* PyObjectCallMethod1 (used by UpdateUnpickledDict) */
+  #if !(CYTHON_VECTORCALL && (__PYX_LIMITED_VERSION_HEX >= 0x030C0000 || (!CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x03090000)))
+  static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg) {
+      PyObject *result = __Pyx_PyObject_CallOneArg(method, arg);
+      Py_DECREF(method);
+      return result;
+  }
+  #endif
+  static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg) {
+  #if CYTHON_VECTORCALL && (__PYX_LIMITED_VERSION_HEX >= 0x030C0000 || (!CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x03090000))
+      PyObject *args[2] = {obj, arg};
+      (void) __Pyx_PyObject_CallOneArg;
+      (void) __Pyx_PyObject_Call2Args;
+      return PyObject_VectorcallMethod(method_name, args, 2 | PY_VECTORCALL_ARGUMENTS_OFFSET, NULL);
+  #else
+      PyObject *method = NULL, *result;
+      int is_method = __Pyx_PyObject_GetMethod(obj, method_name, &method);
+      if (likely(is_method)) {
+          result = __Pyx_PyObject_Call2Args(method, obj, arg);
+          Py_DECREF(method);
+          return result;
+      }
+      if (unlikely(!method)) return NULL;
+      return __Pyx__PyObject_CallMethod1(method, arg);
+  #endif
+  }
+  
+/* UpdateUnpickledDict */
+  static int __Pyx__UpdateUnpickledDict(PyObject *obj, PyObject *state, Py_ssize_t index) {
+      PyObject *state_dict = __Pyx_PySequence_ITEM(state, index);
+      if (unlikely(!state_dict)) {
+          return -1;
+      }
+      int non_empty = PyObject_IsTrue(state_dict);
+      if (non_empty == 0) {
+          Py_DECREF(state_dict);
+          return 0;
+      } else if (unlikely(non_empty == -1)) {
+          return -1;
+      }
+      PyObject *dict;
+      #if CYTHON_COMPILING_IN_LIMITED_API && __PYX_LIMITED_VERSION_HEX < 0x030A0000
+      dict = PyObject_GetAttrString(obj, "__dict__");
+      #else
+      dict = PyObject_GenericGetDict(obj, NULL);
+      #endif
+      if (unlikely(!dict)) {
+          Py_DECREF(state_dict);
+          return -1;
+      }
+      int result;
+      if (likely(PyDict_CheckExact(dict))) {
+          result = PyDict_Update(dict, state_dict);
+      } else {
+          PyObject *obj_result = __Pyx_PyObject_CallMethod1(dict, __pyx_mstate_global->__pyx_n_u_update, state_dict);
+          if (likely(obj_result)) {
+              Py_DECREF(obj_result);
+              result = 0;
+          } else {
+              result = -1;
+          }
+      }
+      Py_DECREF(state_dict);
+      Py_DECREF(dict);
+      return result;
+  }
+  static int __Pyx_UpdateUnpickledDict(PyObject *obj, PyObject *state, Py_ssize_t index) {
+      Py_ssize_t state_size = __Pyx_PyTuple_GET_SIZE(state);
+      #if !CYTHON_ASSUME_SAFE_SIZE
+      if (unlikely(state_size == -1)) return -1;
+      #endif
+      if (state_size <= index) {
+          return 0;
+      }
+      return __Pyx__UpdateUnpickledDict(obj, state, index);
+  }
+  
+/* CheckUnpickleChecksum */
+  static void __Pyx_RaiseUnpickleChecksumError(long checksum, long checksum1, long checksum2, long checksum3, const char *members) {
+      PyObject *pickle_module = PyImport_ImportModule("pickle");
+      if (unlikely(!pickle_module)) return;
+      PyObject *pickle_error = PyObject_GetAttrString(pickle_module, "PickleError");
+      Py_DECREF(pickle_module);
+      if (unlikely(!pickle_error)) return;
+      if (checksum2 == checksum1) {
+          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x) = (%s))",
+              checksum, checksum1, members);
+      } else if (checksum3 == checksum2) {
+          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x, 0x%x) = (%s))",
+              checksum, checksum1, checksum2, members);
+      } else {
+          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x, 0x%x, 0x%x) = (%s))",
+              checksum, checksum1, checksum2, checksum3, members);
+      }
+      Py_DECREF(pickle_error);
+  }
+  static int __Pyx_CheckUnpickleChecksum(long checksum, long checksum1, long checksum2, long checksum3, const char *members) {
+      int found = 0;
+      found |= checksum1 == checksum;
+      found |= checksum2 == checksum;
+      found |= checksum3 == checksum;
+      if (likely(found))
+          return 0;
+      __Pyx_RaiseUnpickleChecksumError(checksum, checksum1, checksum2, checksum3, members);
+      return -1;
+  }
+  
+/* CIntFromPyVerify (used by CIntFromPy) */
+  #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+      __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+  #define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+      __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+  #define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+      {\
+          func_type value = func_value;\
+          if (sizeof(target_type) < sizeof(func_type)) {\
+              if (unlikely(value != (func_type) (target_type) value)) {\
+                  func_type zero = 0;\
+                  if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                      return (target_type) -1;\
+                  if (is_unsigned && unlikely(value < zero))\
+                      goto raise_neg_overflow;\
+                  else\
+                      goto raise_overflow;\
+              }\
+          }\
+          return (target_type) value;\
+      }
+  
 /* CIntFromPy */
   static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *x) {
   #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
@@ -34639,119 +33187,6 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       PyErr_SetString(PyExc_OverflowError,
           "can't convert negative value to int");
       return (int) -1;
-  }
-  
-/* PyObjectCall2Args (used by PyObjectCallMethod1) */
-  static CYTHON_INLINE PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-      PyObject *args[3] = {NULL, arg1, arg2};
-      return __Pyx_PyObject_FastCall(function, args+1, 2 | __Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET);
-  }
-  
-/* PyObjectCallMethod1 (used by UpdateUnpickledDict) */
-  #if !(CYTHON_VECTORCALL && (__PYX_LIMITED_VERSION_HEX >= 0x030C0000 || (!CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x03090000)))
-  static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg) {
-      PyObject *result = __Pyx_PyObject_CallOneArg(method, arg);
-      Py_DECREF(method);
-      return result;
-  }
-  #endif
-  static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg) {
-  #if CYTHON_VECTORCALL && (__PYX_LIMITED_VERSION_HEX >= 0x030C0000 || (!CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x03090000))
-      PyObject *args[2] = {obj, arg};
-      (void) __Pyx_PyObject_CallOneArg;
-      (void) __Pyx_PyObject_Call2Args;
-      return PyObject_VectorcallMethod(method_name, args, 2 | PY_VECTORCALL_ARGUMENTS_OFFSET, NULL);
-  #else
-      PyObject *method = NULL, *result;
-      int is_method = __Pyx_PyObject_GetMethod(obj, method_name, &method);
-      if (likely(is_method)) {
-          result = __Pyx_PyObject_Call2Args(method, obj, arg);
-          Py_DECREF(method);
-          return result;
-      }
-      if (unlikely(!method)) return NULL;
-      return __Pyx__PyObject_CallMethod1(method, arg);
-  #endif
-  }
-  
-/* UpdateUnpickledDict */
-  static int __Pyx__UpdateUnpickledDict(PyObject *obj, PyObject *state, Py_ssize_t index) {
-      PyObject *state_dict = __Pyx_PySequence_ITEM(state, index);
-      if (unlikely(!state_dict)) {
-          return -1;
-      }
-      int non_empty = PyObject_IsTrue(state_dict);
-      if (non_empty == 0) {
-          Py_DECREF(state_dict);
-          return 0;
-      } else if (unlikely(non_empty == -1)) {
-          return -1;
-      }
-      PyObject *dict;
-      #if CYTHON_COMPILING_IN_LIMITED_API && __PYX_LIMITED_VERSION_HEX < 0x030A0000
-      dict = PyObject_GetAttrString(obj, "__dict__");
-      #else
-      dict = PyObject_GenericGetDict(obj, NULL);
-      #endif
-      if (unlikely(!dict)) {
-          Py_DECREF(state_dict);
-          return -1;
-      }
-      int result;
-      if (likely(PyDict_CheckExact(dict))) {
-          result = PyDict_Update(dict, state_dict);
-      } else {
-          PyObject *obj_result = __Pyx_PyObject_CallMethod1(dict, __pyx_mstate_global->__pyx_n_u_update, state_dict);
-          if (likely(obj_result)) {
-              Py_DECREF(obj_result);
-              result = 0;
-          } else {
-              result = -1;
-          }
-      }
-      Py_DECREF(state_dict);
-      Py_DECREF(dict);
-      return result;
-  }
-  static int __Pyx_UpdateUnpickledDict(PyObject *obj, PyObject *state, Py_ssize_t index) {
-      Py_ssize_t state_size = __Pyx_PyTuple_GET_SIZE(state);
-      #if !CYTHON_ASSUME_SAFE_SIZE
-      if (unlikely(state_size == -1)) return -1;
-      #endif
-      if (state_size <= index) {
-          return 0;
-      }
-      return __Pyx__UpdateUnpickledDict(obj, state, index);
-  }
-  
-/* CheckUnpickleChecksum */
-  static void __Pyx_RaiseUnpickleChecksumError(long checksum, long checksum1, long checksum2, long checksum3, const char *members) {
-      PyObject *pickle_module = PyImport_ImportModule("pickle");
-      if (unlikely(!pickle_module)) return;
-      PyObject *pickle_error = PyObject_GetAttrString(pickle_module, "PickleError");
-      Py_DECREF(pickle_module);
-      if (unlikely(!pickle_error)) return;
-      if (checksum2 == checksum1) {
-          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x) = (%s))",
-              checksum, checksum1, members);
-      } else if (checksum3 == checksum2) {
-          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x, 0x%x) = (%s))",
-              checksum, checksum1, checksum2, members);
-      } else {
-          PyErr_Format(pickle_error, "Incompatible checksums (0x%x vs (0x%x, 0x%x, 0x%x) = (%s))",
-              checksum, checksum1, checksum2, checksum3, members);
-      }
-      Py_DECREF(pickle_error);
-  }
-  static int __Pyx_CheckUnpickleChecksum(long checksum, long checksum1, long checksum2, long checksum3, const char *members) {
-      int found = 0;
-      found |= checksum1 == checksum;
-      found |= checksum2 == checksum;
-      found |= checksum3 == checksum;
-      if (likely(found))
-          return 0;
-      __Pyx_RaiseUnpickleChecksumError(checksum, checksum1, checksum2, checksum3, members);
-      return -1;
   }
   
 /* CIntFromPy */
