@@ -913,73 +913,139 @@ class Window3D(WindowBase):
                             col_a=None, col_b=None):
         """Separate overlapping objects and apply impulse-based collision response.
 
-        Uses physics-material properties (bounciness, friction) stored on the
-        colliders to compute proper bounce and friction impulses, matching
-        Unity's collision resolution model.
+        Uses physics-material properties (bounciness, friction) on the colliders
+        together with each rigidbody's mass **and** world-space inertia tensor
+        so off-center contacts produce correct spin (rotational response).
 
         Parameters
         ----------
         a, b : GameObjects involved in the collision.
-        manifold : CollisionManifold with *normal* (from B towards A) and *depth*.
+        manifold : CollisionManifold with *normal* (from B towards A), *depth*,
+            and optional *contact_point*.
         col_a, col_b : The Collider3D instances (optional; looked up if None).
         """
         from engine.d3.physics import Collider3D
         from engine.d3.physics.rigidbody import Rigidbody3D
         from engine.d3.physics.types import PhysicsMaterialCombine
+        from engine.d3.physics.response import (
+            resolve_contact_3d,
+            body_state_from_rigidbody,
+            apply_body_state,
+            estimate_contact_point,
+            stabilize_contact_point,
+            _as_np3,
+            _face_align_from_rotation,
+        )
         from engine.types import Vector3
 
         depth = getattr(manifold, 'depth', 0.0)
         if depth <= 0:
             return
-        push = depth + 1e-5
         normal = manifold.normal
 
-        rb_a = getattr(a, '_rigidbody', None)
-        if rb_a is not None and not isinstance(rb_a, Rigidbody3D):
-            rb_a = a.get_component(Rigidbody3D)
-        rb_b = getattr(b, '_rigidbody', None)
-        if rb_b is not None and not isinstance(rb_b, Rigidbody3D):
-            rb_b = b.get_component(Rigidbody3D)
-        a_static = (rb_a is not None and rb_a.is_static) or rb_a is None
-        b_static = (rb_b is not None and rb_b.is_static) or rb_b is None
-        # Collisions wake sleeping bodies
-        if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
-            rb_a.wake()
-        if rb_b is not None and getattr(rb_b, 'is_sleeping', False):
-            rb_b.wake()
+        def _rb_of(go):
+            rb = getattr(go, '_rigidbody', None)
+            if rb is not None and not isinstance(rb, Rigidbody3D):
+                rb = go.get_component(Rigidbody3D)
+            if rb is None:
+                rb = go.get_component(Rigidbody3D)
+            return rb
+
+        rb_a = _rb_of(a)
+        rb_b = _rb_of(b)
+
+        def _immovable(rb):
+            if rb is None:
+                return True
+            return bool(getattr(rb, 'is_static', False) or getattr(rb, 'is_kinematic', False))
+
+        a_static = _immovable(rb_a)
+        b_static = _immovable(rb_b)
+
+        # Depenetration: full separation against static geometry (CCD sliding
+        # tests and visible floor contact). Tiny slop only for two dynamic bodies
+        # to reduce jitter in stacks.
+        if a_static or b_static:
+            push = depth + 1e-6
+        else:
+            PENETRATION_SLOP = 0.001
+            push = max(0.0, depth - PENETRATION_SLOP) * 0.95
+            if push > 0.0:
+                push += 1e-6
 
         if a_static and b_static:
             return
 
-        # --- Positional separation ---
-        if a_static:
-            b.transform._local_position -= normal * push
-            b.transform._mark_dirty()
-            for c in b.get_components(Collider3D):
-                c.update_bounds()
-        elif b_static:
-            a.transform._local_position += normal * push
-            a.transform._mark_dirty()
-            for c in a.get_components(Collider3D):
-                c.update_bounds()
-        else:
-            a.transform._local_position += normal * (push * 0.5)
-            b.transform._local_position -= normal * (push * 0.5)
-            a.transform._mark_dirty()
-            b.transform._mark_dirty()
-            for c in a.get_components(Collider3D):
-                c.update_bounds()
-            for c in b.get_components(Collider3D):
-                c.update_bounds()
+        # Both asleep: only skip if already fully separated (no visible sink).
+        a_sleep = rb_a is not None and getattr(rb_a, 'is_sleeping', False)
+        b_sleep = rb_b is not None and getattr(rb_b, 'is_sleeping', False)
+        if a_sleep and (b_sleep or b_static) and depth < 0.002:
+            return
+        if b_sleep and (a_sleep or a_static) and depth < 0.002:
+            return
+        # Sleeping but still penetrating → wake and finish depenetration
+        if depth >= 0.002:
+            if a_sleep and not a_static:
+                rb_a.wake()
+                a_sleep = False
+            if b_sleep and not b_static:
+                rb_b.wake()
+                b_sleep = False
 
-        # --- Velocity impulse (bounce + friction) ---
-        # Look up colliders if not provided
+        # Wake only when something is still moving (true impact), never on
+        # resting floor contact — that was making bodies look weightless.
+        def _speed(rb):
+            if rb is None:
+                return 0.0
+            v = rb.velocity
+            w = rb.angular_velocity
+            return float(
+                (v.x * v.x + v.y * v.y + v.z * v.z) ** 0.5
+                + 0.25 * (w.x * w.x + w.y * w.y + w.z * w.z) ** 0.5
+            )
+
+        impact = max(_speed(rb_a) if not a_static else 0.0,
+                     _speed(rb_b) if not b_static else 0.0) > 0.25
+        if impact:
+            if a_sleep:
+                rb_a.wake()
+                a_sleep = False
+            if b_sleep:
+                rb_b.wake()
+                b_sleep = False
+
+        # --- Material combine (before separation so col_a/col_b are known) ---
         if col_a is None:
             col_a = a.get_component(Collider3D)
         if col_b is None:
             col_b = b.get_component(Collider3D)
 
-        # Combined material values
+        # --- Positional separation: update only the colliders we already have ---
+        if push > 0.0:
+            if a_static:
+                b.transform._local_position -= normal * push
+                b.transform._mark_dirty()
+                if col_b is not None:
+                    col_b._transform_dirty = True
+                    col_b.update_bounds()
+            elif b_static:
+                a.transform._local_position += normal * push
+                a.transform._mark_dirty()
+                if col_a is not None:
+                    col_a._transform_dirty = True
+                    col_a.update_bounds()
+            else:
+                a.transform._local_position += normal * (push * 0.5)
+                b.transform._local_position -= normal * (push * 0.5)
+                a.transform._mark_dirty()
+                b.transform._mark_dirty()
+                if col_a is not None:
+                    col_a._transform_dirty = True
+                    col_a.update_bounds()
+                if col_b is not None:
+                    col_b._transform_dirty = True
+                    col_b.update_bounds()
+
         bounciness_a = getattr(col_a, 'bounciness', 0.0) if col_a else 0.0
         bounciness_b = getattr(col_b, 'bounciness', 0.0) if col_b else 0.0
         bm_a = getattr(col_a, 'bounce_combine', PhysicsMaterialCombine.AVERAGE) if col_a else PhysicsMaterialCombine.AVERAGE
@@ -995,72 +1061,49 @@ class Window3D(WindowBase):
         static_fric = PhysicsMaterialCombine.combine(sf_a, sf_b, fc_a, fc_b)
         dynamic_fric = PhysicsMaterialCombine.combine(df_a, df_b, fc_a, fc_b)
 
-        # Inverse masses
-        inv_mass_a = 0.0 if a_static else (1.0 / max(rb_a.mass, 1e-10))
-        inv_mass_b = 0.0 if b_static else (1.0 / max(rb_b.mass, 1e-10))
+        # --- Contact point (required for torque arm) ---
+        n_arr = _as_np3(normal)
+        n_len = float(np.linalg.norm(n_arr))
+        if n_len > 1e-12:
+            n_arr = n_arr / n_len
+        face_align_a = 0.0 if a_static else _face_align_from_rotation(a, n_arr)
+        face_align_b = 0.0 if b_static else _face_align_from_rotation(b, n_arr)
 
-        vx_a = float(rb_a.velocity.x) if rb_a else 0.0
-        vy_a = float(rb_a.velocity.y) if rb_a else 0.0
-        vz_a = float(rb_a.velocity.z) if rb_a else 0.0
-        vx_b = float(rb_b.velocity.x) if rb_b else 0.0
-        vy_b = float(rb_b.velocity.y) if rb_b else 0.0
-        vz_b = float(rb_b.velocity.z) if rb_b else 0.0
-
-        nx = float(normal[0])
-        ny = float(normal[1])
-        nz = float(normal[2])
-
-        # Try Cython fast path
-        try:
-            from engine.cython import CYTHON_ENABLED
-            if not CYTHON_ENABLED:
-                raise ImportError
-            from engine.cython.cy_math import resolve_velocity_3d as _cy_rv3d
-            result = _cy_rv3d(
-                vx_a, vy_a, vz_a, vx_b, vy_b, vz_b,
-                nx, ny, nz, inv_mass_a, inv_mass_b,
-                restitution, static_fric, dynamic_fric,
-            )
-            new_vx_a, new_vy_a, new_vz_a, new_vx_b, new_vy_b, new_vz_b = result
-        except (ImportError, ModuleNotFoundError):
-            result = self._resolve_velocity_3d_py(
-                vx_a, vy_a, vz_a, vx_b, vy_b, vz_b,
-                nx, ny, nz, inv_mass_a, inv_mass_b,
-                restitution, static_fric, dynamic_fric,
-            )
-            new_vx_a, new_vy_a, new_vz_a, new_vx_b, new_vy_b, new_vz_b = result
-
-        if rb_a and not a_static:
-            rb_a.velocity = Vector3(new_vx_a, new_vy_a, new_vz_a)
-        if rb_b and not b_static:
-            rb_b.velocity = Vector3(new_vx_b, new_vy_b, new_vz_b)
-
-        # --- Angular impulse for off-center contacts ---
         cp = getattr(manifold, 'contact_point', None)
-        if cp is not None:
-            cp = np.asarray(cp, dtype=np.float32)
-            nrm = np.asarray(manifold.normal, dtype=np.float32)
-            for obj in (a, b):
-                rb = getattr(obj, '_rigidbody', None)
-                if rb is not None and not isinstance(rb, Rigidbody3D):
-                    rb = obj.get_component(Rigidbody3D)
-                if rb and not (getattr(rb, 'is_static', False) or getattr(rb, 'is_kinematic', False)):
-                    try:
-                        pos = obj.transform.position
-                        cpos = pos.to_numpy() if hasattr(pos, 'to_numpy') else (
-                            np.array(pos.to_tuple()) if hasattr(pos, 'to_tuple') else np.asarray(pos, dtype=np.float32))
-                    except Exception as exc:
-                        import logging
-                        logging.getLogger('pyengine').debug(
-                            "angular impulse: failed to read position: %s", exc
-                        )
-                        cpos = np.zeros(3, dtype=np.float32)
-                    r = cp - cpos
-                    j_ang = 0.5
-                    torque = np.cross(r, nrm * j_ang)
-                    delta_w = Vector3(float(torque[0]), float(torque[1]), float(torque[2]))
-                    cur_av = getattr(rb, 'angular_velocity', Vector3.zero())
-                    rb.angular_velocity = cur_av + delta_w
+        if cp is None:
+            cp = estimate_contact_point(
+                a.transform.position, b.transform.position, normal, depth
+            )
+        cp = stabilize_contact_point(
+            a.transform.position, b.transform.position, cp, normal, depth,
+            face_align_a=face_align_a, face_align_b=face_align_b,
+        )
+
+        pos_a, vel_a, omega_a, inv_mass_a, i_inv_a = body_state_from_rigidbody(
+            rb_a, a, a_static
+        )
+        pos_b, vel_b, omega_b, inv_mass_b, i_inv_b = body_state_from_rigidbody(
+            rb_b, b, b_static
+        )
+
+        result = resolve_contact_3d(
+            pos_a=pos_a, vel_a=vel_a, omega_a=omega_a,
+            inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
+            pos_b=pos_b, vel_b=vel_b, omega_b=omega_b,
+            inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
+            contact_point=cp, normal=normal,
+            restitution=restitution,
+            static_friction=static_fric,
+            dynamic_friction=dynamic_fric,
+            face_align_a=face_align_a,
+            face_align_b=face_align_b,
+        )
+        new_va, new_oa, new_vb, new_ob, unstable = result
+
+        if rb_a is not None and not a_static:
+            apply_body_state(rb_a, new_va, new_oa, allow_sleep=not unstable)
+        if rb_b is not None and not b_static:
+            apply_body_state(rb_b, new_vb, new_ob, allow_sleep=not unstable)
 
     # -- Pure-Python fallback for 3D velocity resolution -------------------
 
@@ -1191,10 +1234,14 @@ class Window3D(WindowBase):
                     bp_neighbors[i].add(j)
                     bp_neighbors[j].add(i)
 
-        # Check non-statics vs all (use ColliderGroup for relations; *all* pairs)
+        # Check non-statics vs all. Dynamic–dynamic pairs are processed once
+        # (idx_a < idx_b) to avoid double impulse / 2× SAT cost in stacks.
         for idx_a, ca in enumerate(all_cols):
             rb_a = _rb_of(ca.game_object)
             if (rb_a is not None and rb_a.is_static) or ca.collision_mode == CollisionMode.IGNORE:
+                continue
+            # Sleeping bodies stay frozen until something else hits them
+            if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
                 continue
             
             perform_final_check = True
@@ -1279,19 +1326,38 @@ class Window3D(WindowBase):
                     # Broadphase skip: if sweep-and-prune says no overlap, skip
                     if bp_candidates is not None and (idx_a, idx_b) not in bp_candidates:
                         continue
+                    # Unique dynamic–dynamic pairs (avoid resolving twice).
+                    # Only skip when *both* bodies would run as outer loops
+                    # (non-static, non-sleeping).  If B is sleeping it never
+                    # becomes outer, so A must still resolve A–B — otherwise
+                    # awake objects pass through sleeping ones.
+                    rb_b = _rb_of(cb.game_object)
+                    b_immovable = (
+                        rb_b is None
+                        or bool(getattr(rb_b, "is_static", False))
+                        or bool(getattr(rb_b, "is_kinematic", False))
+                    )
+                    if not b_immovable and idx_b < idx_a:
+                        b_sleeping = bool(getattr(rb_b, "is_sleeping", False))
+                        if not b_sleeping:
+                            continue
                     # ColliderGroup relation: IGNORE skip, TRIGGER detect/pass, SOLID block
                     relation = ca.group.get_relation(cb.group)
                     if relation == CollisionRelation.IGNORE:
                         continue
-                    if objects_collide(ca, cb):
+                    if relation == CollisionRelation.SOLID:
+                        # Manifold already does the SAT; skip separate bool check
+                        manifold = get_collision_manifold(ca, cb)
+                        if manifold:
+                            current_collisions[ca].add(cb)
+                            current_collisions[cb].add(ca)
+                            self._resolve_collision(
+                                a, cb.game_object, manifold, col_a=ca, col_b=cb
+                            )
+                    elif objects_collide(ca, cb):
+                        # TRIGGER: detect only, no response
                         current_collisions[ca].add(cb)
                         current_collisions[cb].add(ca)
-                        # block only on SOLID (Normal can't pass); TRIGGER pass thru
-                        if relation == CollisionRelation.SOLID:
-                            manifold = get_collision_manifold(ca, cb)
-                            if manifold:
-                                self._resolve_collision(a, cb.game_object, manifold,
-                                                        col_a=ca, col_b=cb)
         
         # Update collision events (per-collider _current_collisions)
         for c in all_cols:
@@ -1857,7 +1923,9 @@ class Window3D(WindowBase):
                     [0, 0, 0, 1],
                 ], dtype=np.float32)
                 R4 = np.eye(4, dtype=np.float32)
-                R4[:3, :3] = axes
+                # Physics OBB axes are columns of R (world = R @ local).
+                # Row-vector model needs R.T — same as Transform.get_model_matrix.
+                R4[:3, :3] = np.asarray(axes, dtype=np.float32).T
                 T = np.array([
                     [1, 0, 0, 0],
                     [0, 1, 0, 0],
@@ -1893,7 +1961,7 @@ class Window3D(WindowBase):
                     [0, 0, 0, 1],
                 ], dtype=np.float32)
                 R4 = np.eye(4, dtype=np.float32)
-                R4[:3, :3] = axes
+                R4[:3, :3] = np.asarray(axes, dtype=np.float32).T
                 T = np.array([
                     [1, 0, 0, 0],
                     [0, 1, 0, 0],
@@ -1915,7 +1983,7 @@ class Window3D(WindowBase):
                     [0, 0, 0, 1],
                 ], dtype=np.float32)
                 R4 = np.eye(4, dtype=np.float32)
-                R4[:3, :3] = axes
+                R4[:3, :3] = np.asarray(axes, dtype=np.float32).T
                 T = np.array([
                     [1, 0, 0, 0],
                     [0, 1, 0, 0],

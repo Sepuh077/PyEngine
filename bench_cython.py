@@ -33,6 +33,11 @@ N_GAMELOOP_OBJECTS = 5_000
 N_GAMELOOP_FRAMES = 2_000
 N_LIFECYCLE_OBJECTS = 5_000
 N_LIFECYCLE_FRAMES = 2_000
+# Multi-body contact (full resolve path: manifolds + rotational response)
+N_CONTACT_OBJECTS = 20
+N_CONTACT_FRAMES = 180
+N_CONTACT_OBJECTS_HEAVY = 40
+N_CONTACT_FRAMES_HEAVY = 120
 
 
 def timeit(fn, iterations, *args, **kwargs):
@@ -159,6 +164,119 @@ def bench_full_physics_like(n_pairs):
         for i in range(len(spheres)):
             for j in range(i + 1, len(spheres)):
                 _ = objects_collide_3d(spheres[i], spheres[j])
+
+
+def _make_headless_window():
+    """Window3D without display init — only the collision pipeline is used."""
+    from engine.d3.window import Window3D
+
+    class HeadlessWindow(Window3D):
+        def __init__(self):
+            self.objects = []
+            self._current_scene = None
+
+        def _active_objects(self):
+            return self.objects
+
+    return HeadlessWindow()
+
+
+def bench_multi_contact(n_objects, n_frames, *, warm_frames=30):
+    """Full multi-body contact: N boxes pile into each other under gravity.
+
+    Exercises the real production path used by the game loop:
+      rigidbody.update → update_bounds → _process_collisions
+        (broadphase, OBB manifold, resolve_contact_3d / Cython response)
+
+    This is the workload that tanks FPS when many cubes touch — the place
+    Cython ``cy_response_3d`` and bounds optimizations matter most.
+    """
+    from engine.component import Time
+    from engine.d3.object3d import create_cube
+    from engine.d3.physics.collider import BoxCollider3D, Collider3D
+    from engine.d3.physics.rigidbody import Rigidbody3D
+    from engine.types import Vector3
+
+    window = _make_headless_window()
+
+    # Floor
+    floor = create_cube(size=1.0, position=(0.0, -0.5, 0.0))
+    floor.transform.scale_xyz = (40.0, 1.0, 40.0)
+    rb_f = Rigidbody3D(use_gravity=False, is_static=True)
+    col_f = BoxCollider3D()
+    col_f.bounciness = 0.05
+    col_f.static_friction = 0.6
+    col_f.dynamic_friction = 0.5
+    floor.add_component(rb_f)
+    floor.add_component(col_f)
+    window.objects.append(floor)
+
+    # Grid / stack of dynamic cubes that will collide with floor and neighbours
+    # Layout: roughly sqrt(n) columns, remaining as height of the pile.
+    cols = max(2, int(np.ceil(np.sqrt(n_objects))))
+    for i in range(n_objects):
+        cx = (i % cols) * 1.05 - (cols - 1) * 0.525
+        cy = 0.55 + (i // cols) * 1.05
+        cz = ((i // cols) % 2) * 0.15  # slight stagger
+        box = create_cube(size=1.0, position=(cx, cy, cz))
+        rb = Rigidbody3D(use_gravity=True, is_static=False)
+        rb.mass = 1.0
+        rb.drag = 0.0
+        rb.angular_drag = 0.15
+        # Small random-ish velocity so they keep hitting after first settle
+        rb.velocity = Vector3(
+            0.3 * ((i % 5) - 2),
+            0.0,
+            0.2 * ((i % 3) - 1),
+        )
+        col = BoxCollider3D()
+        col.bounciness = 0.1
+        col.static_friction = 0.45
+        col.dynamic_friction = 0.35
+        box.add_component(rb)
+        box.add_component(col)
+        # Mild tilt so contacts use rotational response (not pure face rest)
+        box.transform.rotation = (3.0 * (i % 4), 5.0 * ((i + 1) % 3), -2.0 * (i % 5))
+        window.objects.append(box)
+
+    for obj in window.objects:
+        obj.transform._compute_world_transform()
+        obj.transform._update_prev_position()
+        for col in obj.get_components(Collider3D):
+            col._transform_dirty = True
+            col.update_bounds()
+        rb = obj.get_component(Rigidbody3D)
+        if rb is not None:
+            rb._inertia_dirty = True
+
+    prev_max = Time.maximum_delta_time
+    prev_skip = Time._skip_rigidbody_frame_update
+    Time.maximum_delta_time = 0.0
+    Time._skip_rigidbody_frame_update = False
+    dt = 1.0 / 60.0
+
+    def _step(frames):
+        for _ in range(frames):
+            Time.set(dt)
+            for obj in window.objects:
+                rb = obj.get_component(Rigidbody3D)
+                if rb is not None:
+                    rb.wake()
+                    rb.update()
+                for col in obj.get_components(Collider3D):
+                    col._transform_dirty = True
+                    col.update_bounds()
+            window._process_collisions()
+
+    try:
+        # Warm-up so first-frame imports / JIT-like costs don't dominate
+        _step(warm_frames)
+        start = perf_counter()
+        _step(n_frames)
+        return perf_counter() - start
+    finally:
+        Time.maximum_delta_time = prev_max
+        Time._skip_rigidbody_frame_update = prev_skip
 
 
 class _DummyScene:
@@ -423,6 +541,10 @@ BENCHMARKS = [
      f"{N_RAY:,} iterations"),
     ("Mini physics N-body", lambda: timeit(bench_full_physics_like, 500),
      "40 spheres x 500 frames"),
+    ("Multi-contact (20)",  lambda: bench_multi_contact(N_CONTACT_OBJECTS, N_CONTACT_FRAMES),
+     f"{N_CONTACT_OBJECTS} cubes pile x {N_CONTACT_FRAMES} frames"),
+    ("Multi-contact (40)",  lambda: bench_multi_contact(N_CONTACT_OBJECTS_HEAVY, N_CONTACT_FRAMES_HEAVY),
+     f"{N_CONTACT_OBJECTS_HEAVY} cubes pile x {N_CONTACT_FRAMES_HEAVY} frames"),
     ("Particles (~450)",    lambda: timeit(bench_particles, N_PARTICLE_FRAMES),
      f"{N_PARTICLE_FRAMES} frames"),
     ("Game loop (many objs)", lambda: bench_gameloop(N_GAMELOOP_OBJECTS, N_GAMELOOP_FRAMES),
@@ -513,6 +635,10 @@ def print_comparison(cy_results: dict, py_results: dict):
     print(sep)
     print()
     print("  Speedup = Pure Python time / Cython time  (higher = Cython helps more)")
+    print()
+    print("  Multi-contact benches run the full collision pipeline (broadphase,")
+    print("  OBB manifolds, impulse + rotational response). That is the path that")
+    print("  slows scenes when many rigidbodies touch — Cython cy_response_3d helps.")
     print(sep)
 
 
@@ -531,6 +657,18 @@ def main():
     print("=" * 70)
     print("PyEngine Cython Performance Benchmark")
     print("=" * 70)
+    try:
+        from engine.cython import get_cython_status
+        st = get_cython_status()
+        print(f"  CYTHON_ENABLED={st['enabled']}")
+        if st.get("failed_modules"):
+            print(f"  Failed modules: {st['failed_modules']}")
+        else:
+            loaded = st.get("loaded_modules") or []
+            print(f"  Loaded {len(loaded)} cy_* modules"
+                  + (" (incl. cy_response_3d)" if "cy_response_3d" in loaded else ""))
+    except Exception as exc:
+        print(f"  (could not query Cython status: {exc})")
     print()
     print("Running Cython-accelerated benchmarks ...")
     cy_results = _run_in_subprocess(pure_python=False)

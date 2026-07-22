@@ -25,15 +25,19 @@ class Rigidbody3D(Component):
     is_static = InspectorField(bool, default=False, tooltip="If true, this object never moves")
     mass = InspectorField(float, default=1.0, min_value=0.001, max_value=10000.0, step=0.1, decimals=2, tooltip="Mass of the rigidbody")
     drag = InspectorField(float, default=0.0, min_value=0.0, max_value=1000.0, step=0.1, decimals=2, tooltip="Drag coefficient")
-    angular_drag = InspectorField(float, default=0.0, min_value=0.0, max_value=1000.0, step=0.1, decimals=2, tooltip="Angular drag coefficient")
+    angular_drag = InspectorField(float, default=0.25, min_value=0.0, max_value=1000.0, step=0.05, decimals=2, tooltip="Angular drag coefficient")
     restitution = InspectorField(float, default=0.3, min_value=0.0, max_value=1.0, step=0.05, decimals=2, tooltip="Bounciness")
     friction = InspectorField(float, default=0.5, min_value=0.0, max_value=1.0, step=0.05, decimals=2, tooltip="Friction coefficient")
+    max_angular_velocity = InspectorField(
+        float, default=25.0, min_value=1.0, max_value=500.0, step=1.0, decimals=1,
+        tooltip="Hard cap on |angular velocity| (rad/s)",
+    )
     sleep_threshold = InspectorField(
-        float, default=0.05, min_value=0.0, max_value=10.0, step=0.01, decimals=3,
+        float, default=0.08, min_value=0.0, max_value=10.0, step=0.01, decimals=3,
         tooltip="Speed below which the body may fall asleep",
     )
     sleep_time = InspectorField(
-        float, default=0.5, min_value=0.0, max_value=10.0, step=0.05, decimals=2,
+        float, default=0.35, min_value=0.0, max_value=10.0, step=0.05, decimals=2,
         tooltip="Seconds at rest before sleeping",
     )
 
@@ -46,14 +50,15 @@ class Rigidbody3D(Component):
         self.mass = 1.0
         self.is_static = is_static
         self.drag = drag
-        self.angular_drag = 0.0
+        self.angular_drag = 0.25
         self.restitution = 0.3
         self.friction = 0.5
+        self.max_angular_velocity = 25.0
         self._inertia_dirty = True
         self._body_inertia_inv = np.array([1.0, 1.0, 1.0], dtype=np.float32)
         # Sleep state (static/kinematic never simulate)
-        self.sleep_threshold = 0.05
-        self.sleep_time = 0.5
+        self.sleep_threshold = 0.08
+        self.sleep_time = 0.35
         self._sleep_timer = 0.0
         self._is_sleeping = False
 
@@ -76,12 +81,11 @@ class Rigidbody3D(Component):
         self._angular_velocity = Vector3.zero()
 
     def _update_sleep(self, delta_time: float) -> None:
+        # Resting under gravity: sleep is decided *after* collision resolution
+        # (apply_body_state). Evaluating here runs *after* gravity has already
+        # kicked vy, so the timer never reaches sleep_time on the ground.
         if self.is_static or self.is_kinematic or self.use_gravity:
-            # Bodies under gravity stay awake (they would fall if unsupported);
-            # sleep is mainly useful for resting stacks / zero-gravity scenes.
-            # Still allow sleep when nearly still AND not accelerating from gravity
-            # only when velocity is tiny (resting on ground after collision zeros vy).
-            pass
+            return
         lin = self._velocity.magnitude if hasattr(self._velocity, 'magnitude') else float(
             np.linalg.norm([self._velocity.x, self._velocity.y, self._velocity.z])
         )
@@ -93,13 +97,23 @@ class Rigidbody3D(Component):
             ])
         )
         thr = float(self.sleep_threshold)
-        if lin < thr and ang < thr:
+        if lin < thr and ang < thr * 2.0:
             self._sleep_timer += delta_time
             if self._sleep_timer >= float(self.sleep_time):
                 self.sleep()
         else:
             self._sleep_timer = 0.0
             self._is_sleeping = False
+
+    def _clamp_angular_velocity(self) -> None:
+        max_w = float(getattr(self, "max_angular_velocity", 40.0))
+        w = self._angular_velocity
+        mag = w.magnitude if hasattr(w, "magnitude") else float(
+            np.linalg.norm([w.x, w.y, w.z])
+        )
+        if mag > max_w and mag > 1e-12:
+            scale = max_w / mag
+            self._angular_velocity = Vector3(w.x * scale, w.y * scale, w.z * scale)
 
     @property
     def velocity(self) -> Vector3:
@@ -154,14 +168,26 @@ class Rigidbody3D(Component):
         self.wake()
 
     def add_torque(self, torque, as_impulse: bool = True):
-        """Apply torque. Default is impulse; use as_impulse=False for continuous."""
+        """Apply world-space torque using the inverse inertia tensor.
+
+        Default is an angular impulse (``ω += I⁻¹ τ``). Pass
+        ``as_impulse=False`` for a continuous torque over the current step
+        (``ω += I⁻¹ τ * dt``).
+        """
         torque_vec = Vector3(torque) if not isinstance(torque, Vector3) else torque
-        m = self.mass if self.mass > 1e-10 else 1e-10
+        t = np.array(
+            [float(torque_vec.x), float(torque_vec.y), float(torque_vec.z)],
+            dtype=np.float64,
+        )
+        I_inv = self.get_world_inertia_inv_matrix()
         if as_impulse:
-            self._angular_velocity = self._angular_velocity + torque_vec / m
+            dw = I_inv @ t
         else:
             dt = Time.delta_time
-            self._angular_velocity = self._angular_velocity + torque_vec * (dt / m)
+            dw = I_inv @ (t * dt)
+        self._angular_velocity = self._angular_velocity + Vector3(
+            float(dw[0]), float(dw[1]), float(dw[2])
+        )
         self.wake()
 
     def update(self):
@@ -205,6 +231,7 @@ class Rigidbody3D(Component):
                 self.game_object.transform.set_rotation_quaternion(
                     Quaternion(nqw, nqx, nqy, nqz)
                 )
+            self._clamp_angular_velocity()
             self._update_sleep(delta_time)
             return
 
@@ -250,52 +277,136 @@ class Rigidbody3D(Component):
                 new_q = delta_q * current_q
                 self.game_object.transform.set_rotation_quaternion(new_q)
 
+        self._clamp_angular_velocity()
         self._update_sleep(delta_time)
 
     def _update_inertia(self):
         if not getattr(self, '_inertia_dirty', True):
             return
-        sx = sy = sz = 1.0
-        if self.game_object:
-            cols = self.game_object.get_components(BoxCollider3D)
-            sc = self.game_object.transform.scale_xyz
-            if cols:
-                csize = cols[0].size
-                if isinstance(csize, Vector3):
-                    sx, sy, sz = float(csize.x), float(csize.y), float(csize.z)
-                elif isinstance(csize, (list, tuple, np.ndarray)):
-                    sx, sy, sz = float(csize[0]), float(csize[1]), float(csize[2])
-                else:
-                    sx = sy = sz = float(csize)
-                # collider.size is multiplier on top of transform scale
-                sx *= float(sc.x)
-                sy *= float(sc.y)
-                sz *= float(sc.z)
-            else:
-                sx, sy, sz = float(sc.x), float(sc.y), float(sc.z)
         m = self.mass if self.mass > 1e-9 else 1.0
-        # Box inertia: Ixx = m/12 * (sy^2 + sz^2) etc. Then inv = 1/I
-        ixx = (m / 12.0) * (sy * sy + sz * sz)
-        iyy = (m / 12.0) * (sx * sx + sz * sz)
-        izz = (m / 12.0) * (sx * sx + sy * sy)
-        ixx = max(ixx, 1e-12)
-        iyy = max(iyy, 1e-12)
-        izz = max(izz, 1e-12)
-        self._body_inertia_inv = np.array([1.0 / ixx, 1.0 / iyy, 1.0 / izz], dtype=np.float32)
+        sx = sy = sz = 1.0
+        shape = "box"  # box | sphere | capsule
+        radius = 0.5
+        half_height = 0.5
+
+        if self.game_object:
+            from engine.d3.physics.collider import (
+                BoxCollider3D, SphereCollider3D, CapsuleCollider3D,
+            )
+            sc = self.game_object.transform.scale_xyz
+            scx, scy, scz = float(sc.x), float(sc.y), float(sc.z)
+
+            boxes = self.game_object.get_components(BoxCollider3D)
+            spheres = self.game_object.get_components(SphereCollider3D)
+            capsules = self.game_object.get_components(CapsuleCollider3D)
+
+            if boxes:
+                shape = "box"
+                # Prefer live OBB half-extents (×2 → full side lengths) so inertia
+                # matches the actual collision shape, not just transform scale.
+                box = boxes[0]
+                box.update_bounds()
+                obb = getattr(box, "obb", None)
+                if obb is not None:
+                    half = obb[2]
+                    sx = max(abs(float(half[0])) * 2.0, 1e-6)
+                    sy = max(abs(float(half[1])) * 2.0, 1e-6)
+                    sz = max(abs(float(half[2])) * 2.0, 1e-6)
+                else:
+                    csize = box.size
+                    if isinstance(csize, Vector3):
+                        sx, sy, sz = float(csize.x), float(csize.y), float(csize.z)
+                    elif isinstance(csize, (list, tuple, np.ndarray)):
+                        sx, sy, sz = float(csize[0]), float(csize[1]), float(csize[2])
+                    else:
+                        sx = sy = sz = float(csize)
+                    sx = max(abs(sx * scx), 1e-6)
+                    sy = max(abs(sy * scy), 1e-6)
+                    sz = max(abs(sz * scz), 1e-6)
+            elif spheres:
+                shape = "sphere"
+                spheres[0].update_bounds()
+                sph = getattr(spheres[0], "sphere", None)
+                if sph is not None:
+                    radius = max(float(sph[1]), 1e-6)
+                else:
+                    r_mul = float(getattr(spheres[0], "radius", 1.0))
+                    # Mesh unit sphere * transform scale * collider radius
+                    radius = max(abs(scx), abs(scy), abs(scz)) * r_mul
+                    radius = max(radius, 1e-6)
+            elif capsules:
+                shape = "capsule"
+                capsules[0].update_bounds()
+                cyl = getattr(capsules[0], "cylinder", None)
+                if cyl is not None:
+                    radius = max(float(cyl[1]), 1e-6)
+                    half_height = max(float(cyl[2]), 1e-6)
+                else:
+                    r_mul = float(getattr(capsules[0], "radius", 1.0))
+                    h_mul = float(getattr(capsules[0], "height", 1.0))
+                    radius = max(abs(scx), abs(scz)) * 0.5 * r_mul
+                    half_height = abs(scy) * 0.5 * h_mul
+                    radius = max(radius, 1e-6)
+                    half_height = max(half_height, 1e-6)
+            else:
+                sx, sy, sz = abs(scx), abs(scy), abs(scz)
+
+        if shape == "sphere":
+            # Solid sphere: I = 2/5 m r^2
+            i = (2.0 / 5.0) * m * radius * radius
+            i = max(i, 1e-12)
+            self._body_inertia_inv = np.array([1.0 / i, 1.0 / i, 1.0 / i], dtype=np.float32)
+        elif shape == "capsule":
+            # Approximate as solid cylinder (Y-up): Ixx=Izz = m(3r^2+h^2)/12, Iyy = m r^2 / 2
+            h = 2.0 * half_height
+            iyy = 0.5 * m * radius * radius
+            ixx = izz = (m / 12.0) * (3.0 * radius * radius + h * h)
+            ixx = max(ixx, 1e-12)
+            iyy = max(iyy, 1e-12)
+            izz = max(izz, 1e-12)
+            self._body_inertia_inv = np.array([1.0 / ixx, 1.0 / iyy, 1.0 / izz], dtype=np.float32)
+        else:
+            # Solid box of full extents (sx, sy, sz): Ixx = m/12 (sy^2 + sz^2)
+            ixx = (m / 12.0) * (sy * sy + sz * sz)
+            iyy = (m / 12.0) * (sx * sx + sz * sz)
+            izz = (m / 12.0) * (sx * sx + sy * sy)
+            ixx = max(ixx, 1e-12)
+            iyy = max(iyy, 1e-12)
+            izz = max(izz, 1e-12)
+            self._body_inertia_inv = np.array([1.0 / ixx, 1.0 / iyy, 1.0 / izz], dtype=np.float32)
         self._inertia_dirty = False
+        self._world_inertia_cache = None
 
     def get_inertia_inv_array(self):
         self._update_inertia()
-        return self._body_inertia_inv.copy()
+        # Callers must not mutate; return view to avoid per-contact copies.
+        return self._body_inertia_inv
 
     def get_world_inertia_inv_matrix(self):
         self._update_inertia()
-        I_body_inv = np.diag(self._body_inertia_inv)
         if not self.game_object:
-            return I_body_inv
+            return np.diag(self._body_inertia_inv)
+
+        # Cache while body rotation is unchanged (multi-contact stacks call this
+        # once per contact; rebuilding R@I@R.T dominated resolve cost).
         try:
             R = self.game_object.transform.rotation_matrix  # 3x3
-            I_world_inv = R @ I_body_inv @ R.T
-            return I_world_inv
         except Exception:
-            return I_body_inv
+            return np.diag(self._body_inertia_inv)
+
+        cache = getattr(self, "_world_inertia_cache", None)
+        if cache is not None:
+            R_cached, I_cached = cache
+            if R_cached is R or (
+                R_cached is not None
+                and R_cached.shape == R.shape
+                and np.array_equal(R_cached, R)
+            ):
+                return I_cached
+
+        R64 = np.asarray(R, dtype=np.float64)
+        I_body_inv = np.diag(np.asarray(self._body_inertia_inv, dtype=np.float64))
+        I_world_inv = R64 @ I_body_inv @ R64.T
+        # Keep reference to current R matrix object for fast identity checks
+        self._world_inertia_cache = (R, I_world_inv)
+        return I_world_inv

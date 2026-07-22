@@ -46,6 +46,7 @@ CYTHON_MODULES = [
     "cy_particles",
     "cy_quaternion",
     "cy_raycast_3d",
+    "cy_response_3d",
     "cy_transform",
     "cy_vector2",
     "cy_vector3",

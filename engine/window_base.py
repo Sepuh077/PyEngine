@@ -28,17 +28,19 @@ from engine.types import Color, ColorType
 from engine.input import Input
 from engine.component import Script, Time
 
-# Cython-accelerated game loop (falls back to pure-Python iteration)
+# Cython-accelerated game loop (falls back to pure-Python iteration).
+# Import the module directly — do not gate on global CYTHON_ENABLED, so a
+# partial Cython install still accelerates the loop when cy_gameloop loads.
 try:
-    from engine.cython import CYTHON_ENABLED
-    if not CYTHON_ENABLED:
+    import os as _os
+    if _os.environ.get("PYENGINE_PURE_PYTHON", "0").lower() in ("1", "true", "yes"):
         raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
     from engine.cython.cy_gameloop import (
         cy_update_objects as _cy_update_objects,
         cy_update_end_of_frame as _cy_update_end_of_frame,
     )
     _USE_CYTHON_GAMELOOP = True
-except (ImportError, ModuleNotFoundError):
+except Exception:
     _USE_CYTHON_GAMELOOP = False
 
 try:

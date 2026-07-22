@@ -84,6 +84,7 @@ class Collider3D(Component):
             return None
         obj = self.game_object
         from engine.d3.object3d import Object3D
+        from engine.d3.physics.types import ColliderType
         obj3d = obj.get_component(Object3D)
         if not obj3d or obj3d.mesh is None:
             self._transform_dirty = False
@@ -96,10 +97,13 @@ class Collider3D(Component):
         scale = obj.transform._world_scale.to_numpy()
         position = obj.transform._world_position.to_numpy()
 
-        local_extents = (obj3d._local_max - obj3d._local_min) * 0.5
+        # Prefer plain float arrays (avoid trimesh TrackedArray wrap overhead)
+        lmin = np.asarray(obj3d._local_min, dtype=np.float64)
+        lmax = np.asarray(obj3d._local_max, dtype=np.float64)
+        local_extents = (lmax - lmin) * 0.5
         extents = local_extents * scale
-        local_center = (obj3d._local_min + obj3d._local_max) * 0.5
-        center_offset = (local_center * scale) @ R
+        local_center = (lmin + lmax) * 0.5
+        center_offset = R @ (local_center * scale)
         base_center = position + center_offset
         absR = np.abs(R)
         half_extents = absR @ extents
@@ -108,20 +112,25 @@ class Collider3D(Component):
         # Collider-specific center offset (local offset scaled/rotated)
         center_vec = self.center if isinstance(self.center, Vector3) else Vector3(self.center)
         local_offset = local_extents * center_vec.to_numpy()
-        c_offset = (local_offset * scale) @ R
-        collider_center = base_center + c_offset
-
-        # Keep collision bounds in sync when no custom center set
-        if np.allclose(local_offset, 0.0):
+        # Fast zero-check (np.allclose is expensive in multi-contact stacks)
+        if (
+            abs(float(local_offset[0]))
+            + abs(float(local_offset[1]))
+            + abs(float(local_offset[2]))
+        ) < 1e-12:
             collider_center = base_center
+        else:
+            collider_center = base_center + (R @ (local_offset * scale))
 
-        # Mesh data if needed
-        if obj3d.mesh is not None:
+        # Mesh triangle data is only needed for MESH colliders. Building the
+        # model matrix every bounds update was the #1 cost with many cubes.
+        if int(getattr(self, "type", -1)) == int(ColliderType.MESH):
             model = obj.transform.get_model_matrix()
-            mesh_data = (obj3d.mesh.vertices, obj3d.mesh.faces, model)
-            self.mesh_data = mesh_data
+            self.mesh_data = (obj3d.mesh.vertices, obj3d.mesh.faces, model)
 
         self._transform_dirty = False
+        self._aabb64 = None
+        self._sphere64 = None
         return R, absR, extents, aabb_dims, collider_center
 
     def update_bounds(self):

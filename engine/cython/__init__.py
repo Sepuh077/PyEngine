@@ -19,60 +19,113 @@ Force pure-Python mode (for debugging or benchmarking):
 
     PYENGINE_PURE_PYTHON=1 python your_script.py
 """
-import os
+from __future__ import annotations
+
 import importlib
+import os
 import warnings
 
 # Respect explicit request for pure Python
-_FORCE_PURE_PYTHON = os.environ.get("PYENGINE_PURE_PYTHON", "0").lower() in ("1", "true", "yes")
+_FORCE_PURE_PYTHON = os.environ.get("PYENGINE_PURE_PYTHON", "0").lower() in (
+    "1", "true", "yes",
+)
 
 CYTHON_ENABLED = False
+_LOADED: list[str] = []
 _FAILED: list[tuple[str, str]] = []
 
+# Modules that must load for CYTHON_ENABLED (math / types / transform).
+# Optional modules (gameloop, entities, physics extras) are tried separately —
+# a single optional failure must NOT disable vectors/physics acceleration.
+_REQUIRED_MODULES = (
+    "cy_math",
+    "cy_vector2",
+    "cy_vector3",
+    "cy_transform",
+    "cy_quaternion",
+)
+
+_OPTIONAL_MODULES = (
+    "cy_gameloop",
+    "cy_entities",
+    "cy_collision_2d",
+    "cy_collision_bool_3d",
+    "cy_collision_manifold_3d",
+    "cy_raycast_3d",
+    "cy_particles",
+    "cy_response_3d",
+)
+
+
+def _try_import(mod_name: str) -> bool:
+    try:
+        importlib.import_module(f".{mod_name}", __package__)
+        _LOADED.append(mod_name)
+        return True
+    except Exception as exc:
+        # Keep short message + exception type for diagnosis
+        msg = f"{type(exc).__name__}: {exc}"
+        _FAILED.append((mod_name, msg))
+        return False
+
+
 if not _FORCE_PURE_PYTHON:
-    # These are the core modules that give us "Cython is working".
-    # If all of these load successfully, we consider acceleration available.
-    _CORE_MODULES = [
-        "cy_math",
-        "cy_transform",
-        "cy_gameloop",
-        "cy_entities",
-        "cy_vector2",
-        "cy_vector3",
-        "cy_quaternion",
-    ]
+    required_ok = True
+    for name in _REQUIRED_MODULES:
+        if not _try_import(name):
+            required_ok = False
 
-    all_loaded = True
-    for mod_name in _CORE_MODULES:
-        try:
-            importlib.import_module(f".{mod_name}", __package__)
-        except Exception as exc:
-            all_loaded = False
-            _FAILED.append((mod_name, str(exc)))
+    for name in _OPTIONAL_MODULES:
+        _try_import(name)
 
-    CYTHON_ENABLED = all_loaded
+    CYTHON_ENABLED = required_ok
 
-    # Helpful one-time warning for developers / power users
-    if not CYTHON_ENABLED and _FAILED:
+    required_failed = [n for n, _ in _FAILED if n in _REQUIRED_MODULES]
+    optional_failed = [n for n, _ in _FAILED if n in _OPTIONAL_MODULES]
+
+    if required_failed:
+        detail = "; ".join(f"{n} ({err})" for n, err in _FAILED if n in _REQUIRED_MODULES)
         warnings.warn(
             "PyEngine Cython acceleration is not available.\n"
-            f"  Failed modules: {', '.join(name for name, _ in _FAILED)}\n"
+            f"  Failed required modules: {', '.join(required_failed)}\n"
+            f"  Details: {detail}\n"
             "  Falling back to pure-Python (slower in hot paths).\n"
-            "  If you installed with `pip install pyengine`, this usually means\n"
-            "  no matching wheel was available for your platform/Python.\n"
-            "  Try building from source with a C compiler, or open an issue.",
+            "  From a source tree, rebuild with:\n"
+            "    pip install -e . \n"
+            "  (needs a C compiler: MSVC Build Tools on Windows, gcc on Linux).\n"
+            "  Or set PYENGINE_PURE_PYTHON=1 to silence this warning.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+    elif optional_failed:
+        # Core acceleration works; optional bits fall back individually.
+        detail = "; ".join(f"{n} ({err})" for n, err in _FAILED if n in _OPTIONAL_MODULES)
+        warnings.warn(
+            "PyEngine Cython: some optional modules failed to load "
+            f"({', '.join(optional_failed)}). "
+            "Core math/physics acceleration is still active.\n"
+            f"  Details: {detail}\n"
+            "  Rebuild with `pip install -e .` if you need those modules.",
             RuntimeWarning,
             stacklevel=2,
         )
 
-# Re-export for people who want detailed status
+
 def get_cython_status() -> dict:
     """Return detailed information about Cython acceleration availability."""
     return {
         "enabled": CYTHON_ENABLED,
         "forced_pure_python": _FORCE_PURE_PYTHON,
-        "failed_modules": _FAILED,
+        "loaded_modules": list(_LOADED),
+        "failed_modules": list(_FAILED),
+        "required_modules": list(_REQUIRED_MODULES),
+        "optional_modules": list(_OPTIONAL_MODULES),
     }
+
+
+def is_module_loaded(name: str) -> bool:
+    """True if the given cy_* module imported successfully."""
+    return name in _LOADED
 
 
 # The EntityContainer (cy_entities) is still exposed for advanced use.

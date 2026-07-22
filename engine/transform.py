@@ -579,16 +579,30 @@ class Transform(Component):
         # Compute world transform first
         self._compute_world_transform()
 
-        # Rotation matrix directly from quaternion (avoids Euler gimbal lock)
+        # Rotation matrix from quaternion: columns are local axes in world
+        # space (same convention as physics OBB axes / R @ local).
         R = self._world_quaternion.to_rotation_matrix()
         self._cached_rotation = R
 
         s_x, s_y, s_z = self._world_scale.to_tuple()
         tx, ty, tz = self._world_position.to_tuple()
-        S = np.array([[s_x, 0, 0, 0], [0, s_y, 0, 0], [0, 0, s_z, 0], [0, 0, 0, 1]], dtype=np.float32)
+
+        # Engine rendering uses *row-vector* matrices:
+        #   v_world = v_local @ M,  M = S @ R_row @ T
+        # with translation in the bottom row, uploaded to GL without an
+        # extra transpose.  Physics uses column-vector R (world = R @ v),
+        # so R_row must be R.T — otherwise meshes appear at −angle relative
+        # to colliders (classic ramp slope inversion).
+        S = np.array(
+            [[s_x, 0, 0, 0], [0, s_y, 0, 0], [0, 0, s_z, 0], [0, 0, 0, 1]],
+            dtype=np.float32,
+        )
         R4 = np.eye(4, dtype=np.float32)
-        R4[:3, :3] = R
-        T = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [tx, ty, tz, 1]], dtype=np.float32)
+        R4[:3, :3] = R.T
+        T = np.array(
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [tx, ty, tz, 1]],
+            dtype=np.float32,
+        )
         self._cached_model = S @ R4 @ T
         self._transform_dirty = False
         return self._cached_model

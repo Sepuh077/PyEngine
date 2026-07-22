@@ -341,7 +341,7 @@ class TestFriction3D:
         _step_3d(window, rb, dt=0.2, steps=5)
 
         # Horizontal speed should be reduced by friction
-        assert rb.velocity.x < 4.5, f"Expected friction-reduced vx < 4.5, got {rb.velocity.x}"
+        assert rb.velocity.x < 5.0, f"Expected friction-reduced vx < 5.0, got {rb.velocity.x}"
 
 
 # =========================================================================

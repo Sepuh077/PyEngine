@@ -195,6 +195,7 @@ class BuildSystem:
             "engine.cython.cy_raycast_3d",
             "engine.cython.cy_particles",
             "engine.cython.cy_quaternion",
+            "engine.cython.cy_response_3d",
         ]:
             args.extend(["--hidden-import", mod])
 

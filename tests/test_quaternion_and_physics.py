@@ -454,13 +454,19 @@ class TestTransformQuaternion:
         assert abs(go.transform.rotation_y - 45) < 0.5
 
     def test_model_matrix_uses_quaternion(self):
-        """Model matrix should match the quaternion's rotation matrix."""
+        """Model matrix rotation block is R.T (row-vector GPU convention)."""
         go = GameObject("test")
         go.transform.rotation = (30, 45, 60)
         M = go.transform.get_model_matrix()
         R_from_model = M[:3, :3]
         R_from_quat = go.transform._world_quaternion.to_rotation_matrix()
-        np.testing.assert_allclose(R_from_model, R_from_quat, atol=1e-5)
+        # Row-vector model stores R.T so that v @ M matches physics R @ v.
+        np.testing.assert_allclose(R_from_model, R_from_quat.T, atol=1e-5)
+        # Transformed unit X matches physics column convention.
+        local = np.array([1.0, 0.0, 0.0, 1.0], dtype=np.float32)
+        world_row = local @ M
+        world_phys = R_from_quat @ local[:3]
+        np.testing.assert_allclose(world_row[:3], world_phys, atol=1e-5)
 
     def test_parent_child_quaternion_composition(self):
         """World quaternion of child = parent_world * child_local."""

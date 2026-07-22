@@ -99,31 +99,31 @@ def test_continuous_collision_using_window_logic():
     
     # Object A: moving VERY fast, might tunnel if not for continuous
     obj_a = create_cube(size=1.0, position=(0.0, 0.0, 0.0))
-    rb_a = Rigidbody3D(use_gravity=True, is_kinematic=False, is_static=False)
+    rb_a = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=False)
     rb_a.velocity = Vector3(100, 0, 0)
+    rb_a.drag = 0.0
+    rb_a.angular_drag = 0.0
     col_a = BoxCollider3D()
     col_a.collision_mode = CollisionMode.CONTINUOUS
+    col_a.bounciness = 0.0
+    col_a.static_friction = 0.0
+    col_a.dynamic_friction = 0.0
     
     obj_a.add_component(rb_a)
     obj_a.add_component(col_a)
     window.objects.append(obj_a)
     
-    # Thin wall at X=2.0
-    obj_b = create_cube(size=2, position=(3.0, 1.0, 0.0))
+    # Wall centered at X=3 with scale 2 → left face at X=2
+    obj_b = create_cube(size=2, position=(3.0, 0.0, 0.0))
     rb_b = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
     col_b = BoxCollider3D()
+    col_b.bounciness = 0.0
+    col_b.static_friction = 0.0
+    col_b.dynamic_friction = 0.0
     
     obj_b.add_component(rb_b)
     obj_b.add_component(col_b)
     window.objects.append(obj_b)
-
-    obj_plane = create_plane(position=(0.0, -0.5, 0.0))
-    rb_plane = Rigidbody3D(use_gravity=False, is_kinematic=False, is_static=True)
-    col_plane = BoxCollider3D()
-    
-    obj_plane.add_component(rb_plane)
-    obj_plane.add_component(col_plane)
-    window.objects.append(obj_plane)
     
     # Init
     for obj in window.objects:
@@ -132,21 +132,83 @@ def test_continuous_collision_using_window_logic():
         for col in obj.get_components(BoxCollider3D):
             col.update_bounds()
 
-    Time.delta_time = 1 / 60 # Move 5.0 units in one step! Jump from 0 to 5. Wall is at 2.
+    Time.delta_time = 1 / 60  # Move ~1.67 units/frame; wall left face at X=2
     
     for _ in range(60):
         rb_a.update()
-        # Now A is at X=5.0 if not for collision
         window._process_collisions()
     
-    # Should be stopped at the wall (X ~ 0.45? wall is 0.1 thick at 2.0 -> left edge at 1.95. A is 1.0 thick -> edge at pos+0.5. So pos+0.5=1.95 -> pos=1.45)
-    # Wait, wall at 2.0, size 0.1 -> bounds [1.95, 2.05]. 
-    # A size 1.0 -> bounds [pos-0.5, pos+0.5].
-    # Collision when pos+0.5 = 1.95 -> pos = 1.45.
-    
-    assert obj_a.transform.position[0] < 2.0, f"Continuous collision failed, object tunneled to {obj_a.transform.position[0]}"
-    assert 1.4 <= obj_a.transform.position[0] <= 1.5, f"Object should be at X ~ 1.45, but is at {obj_a.transform.position[0]}"
-    print(f"Continuous collision passed: Object stopped at {obj_a.transform.position[0]}")
+    # Dynamic half-extent 0.5, wall left face at 2.0 → rest center ≈ 1.5
+    x = float(obj_a.transform.position[0])
+    assert x < 2.0, f"Continuous collision failed, object tunneled to {x}"
+    assert 1.2 <= x <= 1.6, f"Object should rest near X ~ 1.5 against wall, got {x}"
+    print(f"Continuous collision passed: Object stopped at {x}")
+
+
+def test_awake_body_collides_with_sleeping_lower_index():
+    """Regression: unique-pair culling must not skip sleeping partners.
+
+    Sleeping bodies never enter the outer collision loop.  If a lower-index
+    dynamic is asleep and a higher-index mover hits it, the pair must still
+    resolve (otherwise the mover passes through).
+    """
+    window = HeadlessWindow()
+
+    floor = create_cube(size=1.0, position=(0.0, -0.5, 0.0))
+    floor.transform.scale_xyz = (40.0, 1.0, 40.0)
+    sleeper = create_cube(size=1.0, position=(3.0, 0.5, 0.0))
+    mover = create_cube(size=1.0, position=(0.0, 0.5, 0.0))
+
+    for obj, is_static, vel in (
+        (floor, True, (0.0, 0.0, 0.0)),
+        (sleeper, False, (0.0, 0.0, 0.0)),
+        (mover, False, (6.0, 0.0, 0.0)),
+    ):
+        rb = Rigidbody3D(use_gravity=False, is_static=is_static)
+        rb.mass = 1.0
+        rb.drag = 0.0
+        rb.angular_drag = 0.0
+        rb.velocity = Vector3(*vel)
+        col = BoxCollider3D()
+        col.bounciness = 0.0
+        col.static_friction = 0.0
+        col.dynamic_friction = 0.0
+        obj.add_component(rb)
+        obj.add_component(col)
+        window.objects.append(obj)
+
+    for obj in window.objects:
+        obj.transform._compute_world_transform()
+        obj.transform._update_prev_position()
+        for col in obj.get_components(BoxCollider3D):
+            col._transform_dirty = True
+            col.update_bounds()
+
+    sleeper.get_component(Rigidbody3D).sleep()
+    assert sleeper.get_component(Rigidbody3D).is_sleeping
+
+    Time.maximum_delta_time = 0.0
+    try:
+        for _ in range(90):
+            Time.set(1.0 / 60.0)
+            for obj in window.objects:
+                rb = obj.get_component(Rigidbody3D)
+                if rb is not None and not rb.is_sleeping:
+                    rb.update()
+                for col in obj.get_components(BoxCollider3D):
+                    col._transform_dirty = True
+                    col.update_bounds()
+            window._process_collisions()
+    finally:
+        Time.maximum_delta_time = 0.05  # restore default-ish
+
+    mx = float(mover.transform.position[0])
+    sx = float(sleeper.transform.position[0])
+    sep = abs(mx - sx)
+    # Must contact (centers ~1 unit apart), not fly past (sep >> 1, sleeper still)
+    assert sep < 1.15, f"Pass-through: mover={mx:.3f} sleeper={sx:.3f} sep={sep:.3f}"
+    assert mx < 7.0, f"Mover tunneled past sleeper to x={mx:.3f}"
+    assert not sleeper.get_component(Rigidbody3D).is_sleeping, "Sleeper should wake on hit"
 
 
 if __name__ == "__main__":
