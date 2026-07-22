@@ -1,0 +1,55 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: pytest (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+        include:
+          - os: windows-latest
+            python-version: "3.12"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system deps (Linux OpenGL)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev libegl1-mesa-dev xvfb
+
+      - name: Install package (with Cython build)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run tests (Cython if available)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a python -m pytest tests/ -q --tb=short
+        env:
+          PYENGINE_PURE_PYTHON: "0"
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        run: python -m pytest tests/ -q --tb=short
+
+      - name: Run tests pure-Python fallback
+        if: runner.os == 'Linux'
+        run: xvfb-run -a python -m pytest tests/ -q --tb=short
+        env:
+          PYENGINE_PURE_PYTHON: "1"
