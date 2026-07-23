@@ -155,7 +155,7 @@ class GameObject:
                     "Remove the existing one with remove_component() first "
                     "if you intend to replace it."
                 )
-        elif cls_name == "ParticleSystem":
+        elif cls_name in ("ParticleSystem", "ParticleSystem2D"):
             existing = self._particle_system
             if existing is not None:
                 if existing is component:
@@ -191,7 +191,7 @@ class GameObject:
         elif cls_name == "Animator":
             self._animator = component
             self._refresh_updatable_registration()
-        elif cls_name == "ParticleSystem":
+        elif cls_name in ("ParticleSystem", "ParticleSystem2D"):
             self._particle_system = component
             self._refresh_updatable_registration()
 
@@ -622,7 +622,10 @@ class GameObject:
                 "_transform_dirty",
             })
 
-        is_particle_system = module_name in {"src.engine.particle", "engine.d3.particle"} and class_name == "ParticleSystem"
+        is_particle_system = (
+            (module_name in {"src.engine.particle", "engine.d3.particle"} and class_name == "ParticleSystem")
+            or (module_name in {"engine.d2.particle"} and class_name == "ParticleSystem2D")
+        )
         if is_particle_system:
             skip_keys = set(skip_keys)
             skip_keys.update({

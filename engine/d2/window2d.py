@@ -471,6 +471,9 @@ class Window2D(WindowBase):
 
         self._render_batched(renderables)
 
+        # Render lightweight 2D particles (instanced, no GameObjects)
+        self._render_particles_2d()
+
         self._ctx.enable(moderngl.DEPTH_TEST)
 
         # -- Editor gizmo overlay -----------------------------------------
@@ -622,6 +625,64 @@ class Window2D(WindowBase):
                 self._sprite_program_instanced['tex'].value = 0
             self._sprite_program_instanced['use_texture'].value = use_tex
             self._inst_vao.render(moderngl.TRIANGLES, instances=count)
+
+    def _render_particles_2d(self):
+        """Render all ParticleSystem2D instances as instanced quads.
+
+        Iterates active objects to find ParticleSystem2D components and
+        draws their lightweight particles using the instanced sprite
+        pipeline — no GameObject or Object2D is created per particle.
+        """
+        from engine.d2.particle import ParticleSystem2D
+
+        for obj in self._active_objects():
+            ps = obj.get_component(ParticleSystem2D)
+            if ps is None:
+                continue
+
+            render_data = ps.get_render_data()  # (N, 7): px, py, size, r, g, b, a
+            if len(render_data) == 0:
+                continue
+
+            num = len(render_data)
+            is_circle = 1.0 if ps.particle_shape_type == "circle" else 0.0
+
+            # Build instanced data: model(16) + rgba(4) + flags(1) = 21 floats
+            inst = np.zeros((num, 21), dtype=np.float32)
+            for i in range(num):
+                px, py, sz, r, g, b, a = render_data[i]
+                # Model matrix columns (scale + translate, no rotation)
+                # Y is flipped for 2D (same convention as _build_instance_data)
+                inst[i, 0] = sz      # col0.x
+                inst[i, 5] = -sz     # col1.y (negated for 2D)
+                inst[i, 10] = 1.0    # col2.z
+                inst[i, 12] = px     # col3.x (tx)
+                inst[i, 13] = py     # col3.y (ty)
+                inst[i, 15] = 1.0    # col3.w
+                inst[i, 16] = r
+                inst[i, 17] = g
+                inst[i, 18] = b
+                inst[i, 19] = a
+                inst[i, 20] = is_circle
+
+            # Resize GPU buffer if needed
+            if self._inst_capacity < num:
+                self._inst_capacity = max(num, self._inst_capacity * 2)
+                self._inst_vbo.orphan(self._inst_capacity * self._inst_bytes_per)
+                self._inst_vao.release()
+                self._inst_vao = self._ctx.vertex_array(
+                    self._sprite_program_instanced,
+                    [
+                        (self._quad_vbo, '2f 2f', 'in_position', 'in_texcoord'),
+                        (self._inst_vbo, '4f 4f 4f 4f 4f 1f /i',
+                         'in_model_0', 'in_model_1', 'in_model_2', 'in_model_3',
+                         'in_inst_color', 'in_inst_flags'),
+                    ],
+                )
+
+            self._inst_vbo.write(inst.tobytes())
+            self._sprite_program_instanced['use_texture'].value = False
+            self._inst_vao.render(moderngl.TRIANGLES, instances=num)
 
     def _build_instance_data(self, obj2d: Object2D) -> np.ndarray:
         """Return a flat float32 array (21 floats) for one sprite instance.

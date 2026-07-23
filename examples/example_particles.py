@@ -21,7 +21,7 @@ from engine.d3 import (
     ConeShape,
     BoxShape,
 )
-from engine.d3.physics import BoxCollider3D, SphereCollider3D, CollisionMode, Rigidbody3D
+from engine.d3.physics import BoxCollider3D, Rigidbody3D
 from engine.types import Color
 
 
@@ -45,8 +45,9 @@ class ParticleScene(Scene3D):
         self.color_curve = linear_color_over_lifetime(Color.CYAN, Color.PURPLE)
         self.velocity_curve = linear_velocity_over_lifetime(6.0, 1.0)
 
-        self.collider_template = SphereCollider3D(radius=0.4)
-        self.collider_template.collision_mode = CollisionMode.IGNORE
+        # Colliders force the slow GameObject-per-particle path.  Leave off by
+        # default so 1000 particles stay interactive (lightweight + instanced).
+        self.collider_template = None
         
         self.shape = SphereShape()
 
@@ -63,12 +64,15 @@ class ParticleScene(Scene3D):
             max_particles=100,
             burst=self.burst,
             gravity_scale=1.0,
-            collider=self.collider_template,
+            collider=None,
             shape=self.shape,
+            use_lightweight=True,
         )
-        self.ps_go = GameObject()
-        self.ps_go.add_component(self.ps)
+        # Add host to the scene before attaching ParticleSystem so the pool is
+        # built against this scene (Window3D only renders scene.objects).
+        self.ps_go = GameObject("ParticleEmitter")
         self.add_object(self.ps_go)
+        self.ps_go.add_component(self.ps)
         
         # UI state
         self.buttons = [
@@ -103,17 +107,20 @@ class ParticleScene(Scene3D):
         self.ps.burst.randomize = True
 
     def set_obj_cube(self):
-        self.ps.particle_object = None # Defaults to cube
-        self.rebuild_ps()
+        # Lightweight instanced cubes (fast)
+        self.ps.particle_object = None
+        self.collider_template = None
+        self.rebuild_ps(use_lightweight=True)
 
     def set_obj_sphere(self):
+        # Custom mesh requires GameObject-per-particle (slow at high counts)
         def set_obj(filename="Example/stairs_modular_right.obj"):
             obj = Object3D(filename)
             go = GameObject()
             go.add_component(obj)
             return go
         self.ps.particle_object = lambda: set_obj()
-        self.rebuild_ps()
+        self.rebuild_ps(use_lightweight=False)
 
     def set_grav_neg(self): self.ps.gravity_scale = -1.0
     def set_grav_zero(self): self.ps.gravity_scale = 0.0
@@ -187,11 +194,17 @@ class ParticleScene(Scene3D):
         self.shape = BoxShape(size=(1.0, 4.0, 4.0), direction=(1.0, 0.0, 0.0))
         self.rebuild_ps()
 
-    def rebuild_ps(self):
-        # We need to recreate the pool
+    def rebuild_ps(self, use_lightweight=None):
+        # Recreate the pool (needed when max count / mesh mode changes)
         old_ps = self.ps
         old_ps.destroy()
         self.remove_object(self.ps_go)
+
+        if use_lightweight is None:
+            # Keep previous mode unless custom mesh forces GameObjects
+            use_lightweight = bool(getattr(old_ps, 'use_lightweight', True))
+            if old_ps.particle_object is not None:
+                use_lightweight = False
 
         self.ps = ParticleSystem(
             position=old_ps._position,
@@ -207,15 +220,20 @@ class ParticleScene(Scene3D):
             max_particles=old_ps.max_particles,
             burst=old_ps.burst,
             gravity_scale=old_ps.gravity_scale,
-            collider=old_ps.collider,
+            collider=None if use_lightweight else self.collider_template,
             shape=self.shape,
+            use_lightweight=use_lightweight,
         )
-        self.ps_go = GameObject()
-        self.ps_go.add_component(self.ps)
+        self.ps_go = GameObject("ParticleEmitter")
         self.add_object(self.ps_go)
+        self.ps_go.add_component(self.ps)
 
     def on_update(self):
-        self.window.set_caption(f"Particle Test - {self.window.fps:.1f} FPS - Particles: {sum(1 for p in self.ps._particles if p.active)}")
+        mode = "light" if self.ps.use_lightweight else "GO"
+        self.window.set_caption(
+            f"Particle Test - {self.window.fps:.1f} FPS - "
+            f"Particles: {self.ps.active_count()} [{mode}]"
+        )
 
     def on_draw(self):
         super().on_draw()

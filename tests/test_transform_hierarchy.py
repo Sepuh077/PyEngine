@@ -51,3 +51,32 @@ def test_look_at_changes_forward():
     # Just ensure no exception and rotation is not zero-identity only
     r = go.transform.rotation
     assert r is not None
+
+
+def test_look_at_puts_target_on_optical_axis():
+    """Camera look_at must place the target on view-space -Z (on screen center).
+
+    A rows-vs-columns mixup in the look_at rotation matrix used to pitch the
+    camera the wrong way so the origin projected to NDC y ≈ -2 (off-screen).
+    Particles simulated fine but never appeared in the viewport.
+    """
+    import numpy as np
+    from engine.d3.camera import Camera3D
+
+    go = GameObject("cam")
+    cam = Camera3D()
+    go.add_component(cam)
+    cam.position = (0, 10, 20)
+    cam.look_at((0, 0, 0))
+
+    view = cam.get_view_matrix()
+    # World origin in camera space should be ~ (0, 0, -distance)
+    origin_cam = np.array([0.0, 0.0, 0.0, 1.0]) @ view
+    assert abs(origin_cam[0]) < 1e-3, f"target not centered in X: {origin_cam}"
+    assert abs(origin_cam[1]) < 1e-3, f"target not centered in Y: {origin_cam}"
+    assert origin_cam[2] < -1.0, f"target should be in front (-Z): {origin_cam}"
+
+    proj = cam.get_projection_matrix(1.25)
+    clip = origin_cam @ proj
+    ndc = clip[:3] / clip[3]
+    assert abs(ndc[0]) < 0.05 and abs(ndc[1]) < 0.05, f"target off screen center: {ndc}"

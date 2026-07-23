@@ -645,7 +645,17 @@ class Transform(Component):
         return -self.rotation_matrix[1, :]
 
     def look_at(self, target: 'Vector3Like', world_up: 'Vector3Like' = (0, 1, 0)):
-        """Look at a target position."""
+        """Look at a target position.
+
+        Builds a rotation whose **columns** are the local axes in world space
+        (right, up, -forward). That matches ``Quaternion.to_rotation_matrix``
+        and ``get_model_matrix`` (which uses ``R.T`` for row-vector math).
+
+        Using rows instead of columns inverted the pitch so a camera at
+        e.g. (0, 10, 20) looking at the origin pointed the wrong way — the
+        whole scene (including particles) projected off-screen while
+        simulation still ran.
+        """
         eye = self.world_position
         target = Vector3(target)
         world_up = Vector3(world_up)
@@ -664,8 +674,9 @@ class Transform(Component):
             
         u = Vector3.cross(r, f)
         
-        # Rotation matrix [r, u, -f]  (rows = local basis in world space)
-        R = np.vstack([r.to_numpy(), u.to_numpy(), (-f).to_numpy()])
+        # Columns = local axes in world: +X right, +Y up, +Z behind camera
+        # so local -Z (engine forward) points along f (toward the target).
+        R = np.column_stack([r.to_numpy(), u.to_numpy(), (-f).to_numpy()])
         
         # Convert to quaternion (robust, avoids gimbal lock)
         q = Quaternion.from_rotation_matrix(R)

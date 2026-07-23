@@ -59,9 +59,10 @@ class BasicScene(Scene3D):
             burst=burst,
             gravity_scale=0.3,
         )
-        ps_go = GameObject()
-        ps_go.add_component(self.particles)
+        # Scene first so the particle pool is owned by the scene (rendered).
+        ps_go = GameObject("Particles")
         self.add_object(ps_go)
+        ps_go.add_component(self.particles)
     
     def on_update(self):
         """Called every frame."""

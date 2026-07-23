@@ -705,6 +705,51 @@ class Window3D(WindowBase):
     # GPU init / cleanup  (called by WindowBase)
     # =========================================================================
 
+    # Lightweight particle instancing (ParticleSystem use_lightweight=True)
+    PARTICLE_VERTEX_SHADER = '''
+    #version 330 core
+    in vec3 in_position;
+    in vec3 in_inst_pos;
+    in float in_inst_size;
+    in vec4 in_inst_color;
+
+    uniform mat4 view;
+    uniform mat4 projection;
+
+    out vec4 v_color;
+    out vec3 v_normal;
+    out vec3 v_world;
+
+    void main() {
+        // Unit-cube vertex * size + world position
+        vec3 world = in_position * in_inst_size + in_inst_pos;
+        v_world = world;
+        v_normal = in_position;  // approximate outward normal for unit cube
+        v_color = in_inst_color;
+        // Engine matrices are row-form; upload without transpose → GL sees
+        // column-form, so projection * view * vec4 matches the non-instanced path.
+        gl_Position = projection * view * vec4(world, 1.0);
+    }
+    '''
+
+    PARTICLE_FRAGMENT_SHADER = '''
+    #version 330 core
+    in vec4 v_color;
+    in vec3 v_normal;
+    in vec3 v_world;
+    uniform vec3 light_dir;
+    uniform vec3 light_color;
+    uniform float ambient;
+    out vec4 frag_color;
+    void main() {
+        vec3 n = normalize(v_normal);
+        vec3 L = normalize(-light_dir);
+        float ndl = max(dot(n, L), 0.0);
+        vec3 lit = v_color.rgb * (ambient + (1.0 - ambient) * ndl * light_color);
+        frag_color = vec4(lit, v_color.a);
+    }
+    '''
+
     def _init_gpu(self):
         """Compile 3-D shaders and build debug wireframe VAOs."""
         self._program = self._ctx.program(
@@ -727,13 +772,74 @@ class Window3D(WindowBase):
             vertex_shader=self.SHADOW_VERTEX_SHADER_INSTANCED,
             fragment_shader=self.SHADOW_FRAGMENT_SHADER,
         )
+        self._particle_program = self._ctx.program(
+            vertex_shader=self.PARTICLE_VERTEX_SHADER,
+            fragment_shader=self.PARTICLE_FRAGMENT_SHADER,
+        )
+        self._init_particle_gpu()
 
         self._cube_vao = self._create_unit_cube_wire()
         self._sphere_vao = self._create_unit_sphere_wire(24)
         self._cylinder_vao = self._create_unit_cylinder_wire(24)
 
+    def _init_particle_gpu(self):
+        """Unit cube mesh + instanced particle buffers for lightweight systems."""
+        # 24 unique verts (per-face) matching create_cube winding, size 1 centered
+        s = 0.5
+        verts = np.array([
+            # +Z
+            [-s, -s,  s], [ s, -s,  s], [ s,  s,  s], [-s,  s,  s],
+            # -Z
+            [-s, -s, -s], [-s,  s, -s], [ s,  s, -s], [ s, -s, -s],
+            # +Y
+            [-s,  s, -s], [-s,  s,  s], [ s,  s,  s], [ s,  s, -s],
+            # -Y
+            [-s, -s, -s], [ s, -s, -s], [ s, -s,  s], [-s, -s,  s],
+            # +X
+            [ s, -s, -s], [ s,  s, -s], [ s,  s,  s], [ s, -s,  s],
+            # -X
+            [-s, -s, -s], [-s, -s,  s], [-s,  s,  s], [-s,  s, -s],
+        ], dtype=np.float32)
+        faces = np.array([
+            [0, 1, 2], [0, 2, 3],
+            [4, 5, 6], [4, 6, 7],
+            [8, 9, 10], [8, 10, 11],
+            [12, 13, 14], [12, 14, 15],
+            [16, 17, 18], [16, 18, 19],
+            [20, 21, 22], [20, 22, 23],
+        ], dtype=np.int32)
+        flat = verts[faces.reshape(-1)]
+        self._particle_cube_vbo = self._ctx.buffer(flat.tobytes())
+        self._particle_cube_count = len(flat)
+        self._particle_inst_capacity = 256
+        # 8 floats per instance: pos.xyz, size, rgba
+        self._particle_inst_bytes = 8 * 4
+        self._particle_inst_vbo = self._ctx.buffer(
+            reserve=self._particle_inst_capacity * self._particle_inst_bytes
+        )
+        self._particle_vao = self._ctx.vertex_array(
+            self._particle_program,
+            [
+                (self._particle_cube_vbo, '3f', 'in_position'),
+                (self._particle_inst_vbo, '3f 1f 4f /i',
+                 'in_inst_pos', 'in_inst_size', 'in_inst_color'),
+            ],
+        )
+
     def _cleanup_gpu(self):
         """Release 3-D GPU resources (called by WindowBase._cleanup)."""
+        for name in (
+            '_particle_vao', '_particle_inst_vbo', '_particle_cube_vbo',
+            '_particle_program',
+        ):
+            res = getattr(self, name, None)
+            if res is not None:
+                try:
+                    res.release()
+                except Exception:
+                    pass
+                setattr(self, name, None)
+
         for obj in self.objects:
             obj3d = obj.get_component(Object3D)
             if obj3d:
@@ -2919,6 +3025,11 @@ class Window3D(WindowBase):
         draw_objects(opaque_objects)
 
         # ------------------------------------------------------------
+        # Lightweight ParticleSystem (instanced unit cubes — no GameObjects)
+        # ------------------------------------------------------------
+        self._render_particles_3d(camera, view, projection, light)
+
+        # ------------------------------------------------------------
         # Draw Transparent (Depth Write OFF)
         # ------------------------------------------------------------
         if transparent_objects:
@@ -2929,6 +3040,72 @@ class Window3D(WindowBase):
         # Draw viewport border for non-fullscreen cameras (editor mode only)
         if self.show_editor_overlays and not self._is_fullscreen_viewport(camera.viewport):
             self._draw_viewport_border(vp_x, vp_y, vp_w, vp_h)
+
+    def _render_particles_3d(self, camera, view, projection, light):
+        """Instanced draw of lightweight ParticleSystem pools.
+
+        One draw call per emitter.  Simulation is pure data (Particle3DLight);
+        this only packs (pos, size, color) into a GPU buffer.
+        """
+        prog = getattr(self, '_particle_program', None)
+        vao = getattr(self, '_particle_vao', None)
+        if prog is None or vao is None:
+            return
+
+        from engine.d3.particle import ParticleSystem
+
+        scene = self._current_scene
+        if scene is None:
+            return
+
+        # Prefer updatables (emitters live there); fall back to full object list
+        candidates = getattr(scene, '_updatables', None) or scene.objects
+
+        prog['view'].write(view.astype(np.float32).tobytes())
+        prog['projection'].write(projection.astype(np.float32).tobytes())
+        if light is not None:
+            prog['light_dir'].value = tuple(light.direction)
+            prog['light_color'].value = (
+                light.color[0] * light.intensity,
+                light.color[1] * light.intensity,
+                light.color[2] * light.intensity,
+            )
+            prog['ambient'].value = float(light.ambient)
+        else:
+            prog['light_dir'].value = (0.3, -1.0, 0.2)
+            prog['light_color'].value = (1.0, 1.0, 1.0)
+            prog['ambient'].value = 0.35
+
+        for obj in candidates:
+            ps = getattr(obj, '_particle_system', None)
+            if ps is None or not getattr(ps, 'use_lightweight', False):
+                continue
+            if not isinstance(ps, ParticleSystem):
+                continue
+
+            data = ps.get_render_data()  # (N, 8) float32
+            n = len(data)
+            if n == 0:
+                continue
+
+            if n > self._particle_inst_capacity:
+                self._particle_inst_capacity = max(n, self._particle_inst_capacity * 2)
+                self._particle_inst_vbo.orphan(
+                    self._particle_inst_capacity * self._particle_inst_bytes
+                )
+                self._particle_vao.release()
+                self._particle_vao = self._ctx.vertex_array(
+                    self._particle_program,
+                    [
+                        (self._particle_cube_vbo, '3f', 'in_position'),
+                        (self._particle_inst_vbo, '3f 1f 4f /i',
+                         'in_inst_pos', 'in_inst_size', 'in_inst_color'),
+                    ],
+                )
+                vao = self._particle_vao
+
+            self._particle_inst_vbo.write(data.tobytes())
+            vao.render(moderngl.TRIANGLES, vertices=self._particle_cube_count, instances=n)
     
     def _apply_clear_flags(self, camera: Camera3D, vp_x: int, vp_y: int, vp_w: int, vp_h: int):
         """Apply clear flags for a camera's viewport."""

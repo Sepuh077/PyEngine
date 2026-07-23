@@ -41,9 +41,10 @@ from engine.graphics.material import (
     SkyboxMaterial,
     MATERIAL_FILE_EXT,
 )
-from engine.d3.particle import (  # particle system (3D-specific)
+from engine.d3.particle import (  # particle system (3D)
     ParticleSystem,
     ParticleBurst,
+    Particle3DLight,
     linear_size_over_lifetime,
     linear_color_over_lifetime,
     linear_velocity_over_lifetime,
@@ -155,6 +156,7 @@ __all__ = [
     'MATERIAL_FILE_EXT',
     'ParticleSystem',
     'ParticleBurst',
+    'Particle3DLight',
     'linear_size_over_lifetime',
     'linear_color_over_lifetime',
     'linear_velocity_over_lifetime',

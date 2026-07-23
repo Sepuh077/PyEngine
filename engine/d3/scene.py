@@ -331,12 +331,26 @@ class Scene3D(Scene):
         
         # Set scene reference on the GameObject for components like ParticleSystem
         go._scene = self
+
+        # ParticleSystem needs the scene to own its pooled particle GameObjects.
+        # If the component was attached before add_object, on_attach had no scene
+        # and may have failed to build the pool (or built it on the Window, which
+        # is never rendered — Window3D draws current_scene.objects only).
+        ps = getattr(go, "_particle_system", None)
+        if ps is not None and hasattr(ps, "_on_host_added_to_scene"):
+            ps._on_host_added_to_scene(self)
         
         # Initialize GPU if window is available
         if self.window and self.window._ctx:
             obj3d_comp = go.get_component(Object3D)
             if obj3d_comp:
                 self.window._ensure_mesh(obj3d_comp)
+            # Also ensure meshes for any particle pool objects just added
+            if ps is not None:
+                for particle in getattr(ps, "_particles", []) or []:
+                    p3d = particle.obj.get_component(Object3D) if particle.obj else None
+                    if p3d and not getattr(p3d, "_gpu_initialized", False):
+                        self.window._ensure_mesh(p3d)
         
         # Note: awake_components() and start_components() should NOT be called here
         # They should only be called when play mode begins

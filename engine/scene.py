@@ -40,6 +40,9 @@ class Scene:
         self._setup_done = False
         # Lazy-init canvas to avoid import issues at module level
         self._canvas: Optional['UIManager'] = None
+        # Scene-level physics settings (gravity, solver, warm-start, islands)
+        from engine.physics.world import PhysicsWorld
+        self.physics = PhysicsWorld()
 
     # -- UI canvas (lazy) ---------------------------------------------------
 
@@ -84,6 +87,11 @@ class Scene:
 
         self.objects.append(obj)
         obj._scene = self
+        # ParticleSystem needs the scene to build its GameObject pool. If the
+        # component was attached before add_object, on_attach had no scene yet.
+        ps = getattr(obj, "_particle_system", None)
+        if ps is not None and hasattr(ps, "_on_host_added_to_scene"):
+            ps._on_host_added_to_scene(self)
         # Register for fast simulation path if this object carries behavior
         self._register_updatable_if_needed(obj)
         return obj

@@ -194,6 +194,8 @@ def resolve_contact_3d(
     face_align_b: float = 0.0,
     dt: Optional[float] = None,
     multi_point: bool = False,
+    warm_jn: float = 0.0,
+    impulse_out: Optional[list] = None,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, bool]:
     """Resolve one 3D contact.
 
@@ -202,14 +204,26 @@ def resolve_contact_3d(
     multi_point : bool
         When True, this contact is one of several manifold points on a face.
         Uses full geometric lever arms and skips single-point face/tip heuristics.
+    warm_jn : float
+        Accumulated normal impulse from the previous step (warm-start).  Applied
+        first so the residual solve only adds what is still needed.
+    impulse_out : list, optional
+        If provided, ``impulse_out[0]`` is set to the total normal impulse
+        applied this call (warm + new).
 
     Returns
     -------
     (vel_a, omega_a, vel_b, omega_b, unstable_support)
     """
-    # Use Cython for single-point solves. Multi-point needs the multi_point
-    # flag (newer extension) or pure-Python arms — old .so has no multi_point kw.
-    if _USE_CYTHON and _cy_resolve_contact is not None and not multi_point:
+    # Use Cython for single-point solves without warm-start.  Warm-start and
+    # multi-point need the pure-Python path (older .so may lack these kwargs).
+    use_warm = float(warm_jn) > 1e-12 or impulse_out is not None
+    if (
+        _USE_CYTHON
+        and _cy_resolve_contact is not None
+        and not multi_point
+        and not use_warm
+    ):
         from engine.component import Time
         if dt is None:
             dt = float(getattr(Time, "delta_time", 0.0) or (1.0 / 60.0))
@@ -234,6 +248,8 @@ def resolve_contact_3d(
     n = _as_np3(normal)
     n_len = float(np.linalg.norm(n))
     if n_len < 1e-12:
+        if impulse_out is not None:
+            impulse_out[0] = 0.0
         return (
             _as_np3(vel_a), _as_np3(omega_a),
             _as_np3(vel_b), _as_np3(omega_b),
@@ -254,7 +270,10 @@ def resolve_contact_3d(
 
     v_rel0 = (va + _cross(oa, ra_full)) - (vb + _cross(ob, rb_full))
     v_n0 = float(np.dot(v_rel0, n))
-    if v_n0 > 0.0:
+    # Separating before any impulse: skip unless warm-start still has residual
+    if v_n0 > 0.0 and float(warm_jn) <= 1e-12:
+        if impulse_out is not None:
+            impulse_out[0] = 0.0
         return va, oa, vb, ob, False
 
     closing = -v_n0
@@ -326,13 +345,27 @@ def resolve_contact_3d(
 
     ra_n, rb_n = _normal_lever_arms(ra_full, rb_full, n, w_n)
 
+    kn = _effective_mass(n, inv_mass_a, inv_mass_b, ra_n, rb_n, i_inv_a, i_inv_b)
+    if kn < 1e-12:
+        if impulse_out is not None:
+            impulse_out[0] = 0.0
+        return va, oa, vb, ob, unstable
+
+    # Warm-start: re-apply previous normal impulse, then solve residual only.
+    jn_acc = max(0.0, float(warm_jn))
+    if jn_acc > 0.0:
+        jn_vec_warm = n * jn_acc
+        va, oa, vb, ob = _apply_impulse(
+            va, oa, vb, ob,
+            inv_mass_a, inv_mass_b, i_inv_a, i_inv_b,
+            ra_n, rb_n, jn_vec_warm,
+        )
+
     v_rel_n = (va + _cross(oa, ra_n)) - (vb + _cross(ob, rb_n))
     v_n = float(np.dot(v_rel_n, n))
     if v_n > 0.0:
-        return va, oa, vb, ob, unstable
-
-    kn = _effective_mass(n, inv_mass_a, inv_mass_b, ra_n, rb_n, i_inv_a, i_inv_b)
-    if kn < 1e-12:
+        if impulse_out is not None:
+            impulse_out[0] = jn_acc
         return va, oa, vb, ob, unstable
 
     e = max(0.0, min(1.0, float(restitution)))
@@ -343,16 +376,23 @@ def resolve_contact_3d(
         elif closing < RESTITUTION_THRESHOLD:
             e = 0.0
 
-    jn = -(1.0 + e) * v_n / kn
-    if jn < 0.0:
-        jn = 0.0
+    jn_delta = -(1.0 + e) * v_n / kn
+    if jn_delta < 0.0:
+        jn_delta = 0.0
+    jn_acc += jn_delta
 
-    jn_vec = n * jn
-    va, oa, vb, ob = _apply_impulse(
-        va, oa, vb, ob,
-        inv_mass_a, inv_mass_b, i_inv_a, i_inv_b,
-        ra_n, rb_n, jn_vec,
-    )
+    if jn_delta > 0.0:
+        jn_vec = n * jn_delta
+        va, oa, vb, ob = _apply_impulse(
+            va, oa, vb, ob,
+            inv_mass_a, inv_mass_b, i_inv_a, i_inv_b,
+            ra_n, rb_n, jn_vec,
+        )
+
+    # Expose total normal impulse for warm-start caching / tests
+    jn = jn_acc
+    if impulse_out is not None:
+        impulse_out[0] = jn_acc
 
     # Gravity tipping on edges/vertices: continuous support torque about COM.
     # Discrete jn only cancels g*dt vertically; without this, balanced edges sleep.

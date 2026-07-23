@@ -200,7 +200,15 @@ class Rigidbody3D(Component):
         delta_time = Time.delta_time
         has_go = self.game_object is not None
 
-        if _USE_CYTHON:
+        from engine.physics.world import get_physics_world
+        world = get_physics_world(self)
+        gx = world.gravity_x
+        gy = world.gravity_y
+        gz = world.gravity_z
+        default_g = world.is_default_gravity()
+
+        # Cython path hardcodes −9.81 on Y; only use it for default gravity.
+        if _USE_CYTHON and default_g:
             qw = qx = qy = qz = 1.0, 0.0, 0.0, 0.0
             if has_go:
                 cq = self.game_object.transform._local_quaternion
@@ -235,7 +243,7 @@ class Rigidbody3D(Component):
             self._update_sleep(delta_time)
             return
 
-        # Pure-Python fallback
+        # Pure-Python path (also used for non-default scene gravity)
         if self.drag > 0.0:
             # Apply drag to gradually decrease velocity
             drag_factor = max(0.0, 1.0 - self.drag * delta_time)
@@ -248,11 +256,11 @@ class Rigidbody3D(Component):
             self._velocity = Vector3(new_x, new_y, new_z)
 
         if self.use_gravity:
-            # Simple gravity: 9.81 m/s^2 downwards
+            # Scene PhysicsWorld gravity (default Earth-like −Y)
             self._velocity = Vector3(
-                self._velocity.x,
-                self._velocity.y - 9.81 * delta_time,
-                self._velocity.z
+                self._velocity.x + gx * delta_time,
+                self._velocity.y + gy * delta_time,
+                self._velocity.z + gz * delta_time,
             )
 
         if has_go and (self._velocity.x != 0 or self._velocity.y != 0 or self._velocity.z != 0):
