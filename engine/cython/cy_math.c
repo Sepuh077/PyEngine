@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
+            "/tmp/pip-build-env-_iiy885v/overlay/lib/python3.12/site-packages/numpy/_core/include"
         ],
         "name": "engine.cython.cy_math",
         "sources": [

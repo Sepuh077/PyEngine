@@ -1298,6 +1298,9 @@ class Window2D(WindowBase):
         circ_idxs = np.where(circ_mask)[0]
         nc = len(circ_idxs)
 
+        # Collect solid contacts for multi-iteration solving
+        solid_contacts_2d = []
+
         if nc > 1 and np.any(circ_cands):
             c_centers = np.array(
                 [all_cols[k].circle[0] for k in circ_idxs], dtype=np.float64,
@@ -1329,10 +1332,7 @@ class Window2D(WindowBase):
                 if pair_rel[i_g, j_g] == CollisionRelation.SOLID.value:
                     manifold = get_collision_manifold_2d(ca, cb)
                     if manifold:
-                        self._resolve_collision_2d(
-                            ca.game_object, cb.game_object, manifold,
-                            col_a=ca, col_b=cb,
-                        )
+                        solid_contacts_2d.append((ca.game_object, cb.game_object, manifold, ca, cb))
 
         # =============================================================
         # Non-circle-circle pairs — per-pair narrowphase
@@ -1353,9 +1353,26 @@ class Window2D(WindowBase):
                 if pair_rel[i, j] == CollisionRelation.SOLID.value:
                     manifold = get_collision_manifold_2d(ca, cb)
                     if manifold:
+                        solid_contacts_2d.append((ca.game_object, cb.game_object, manifold, ca, cb))
+
+        # =============================================================
+        # Multi-iteration sequential-impulse solver (2D)
+        # =============================================================
+        SOLVER_ITERATIONS_2D = 4
+        if solid_contacts_2d:
+            # Iteration 0: full resolve (depenetration + impulse)
+            for go_a, go_b, manifold, ca, cb in solid_contacts_2d:
+                self._resolve_collision_2d(go_a, go_b, manifold, col_a=ca, col_b=cb)
+
+            # Iterations 1..N-1: velocity-only re-solve
+            n_iters = max(1, SOLVER_ITERATIONS_2D) - 1
+            # Re-solve even for a single pair (helps multi-body *and* multi-contact).
+            if n_iters > 0 and solid_contacts_2d:
+                for _iter in range(n_iters):
+                    for go_a, go_b, manifold, ca, cb in solid_contacts_2d:
                         self._resolve_collision_2d(
-                            ca.game_object, cb.game_object, manifold,
-                            col_a=ca, col_b=cb,
+                            go_a, go_b, manifold, col_a=ca, col_b=cb,
+                            velocity_only=True,
                         )
 
         # =============================================================
@@ -1421,12 +1438,16 @@ class Window2D(WindowBase):
                 rb.wake()
 
     def _resolve_collision_2d(self, a: GameObject, b: GameObject, manifold,
-                              col_a=None, col_b=None):
+                              col_a=None, col_b=None, velocity_only=False):
         """Separate overlapping objects and apply linear+angular collision response.
 
         Uses physics-material properties (bounciness, friction) on the colliders
         together with each rigidbody's mass **and** scalar inverse inertia so
         off-center contacts produce correct spin (same model as 3D, reduced to Z).
+
+        When *velocity_only* is True, skip positional depenetration and sleep
+        logic — only re-solve impulses with the current body velocities.  This
+        is used by the multi-iteration solver on passes 1…N-1.
 
         Parameters
         ----------
@@ -1434,6 +1455,7 @@ class Window2D(WindowBase):
         manifold : CollisionManifold2D with *normal* (from B towards A), *depth*,
             and optional *contact_point*.
         col_a, col_b : The Collider2D instances (optional; looked up if None).
+        velocity_only : bool — when True skip depenetration + sleep (iteration passes).
         """
         from engine.d2.physics.rigidbody import Rigidbody2D
         from engine.d2.physics.collider import Collider2D
@@ -1476,93 +1498,95 @@ class Window2D(WindowBase):
         if a_static and b_static:
             return
 
-        if a_static or b_static:
-            push = depth + 1e-6
-        else:
-            PENETRATION_SLOP = 0.001
-            push = max(0.0, depth - PENETRATION_SLOP) * 0.95
-            if push > 0.0:
-                push += 1e-6
+        if not velocity_only:
+            if a_static or b_static:
+                push = depth + 1e-6
+            else:
+                PENETRATION_SLOP = 0.001
+                push = max(0.0, depth - PENETRATION_SLOP) * 0.95
+                if push > 0.0:
+                    push += 1e-6
 
-        a_sleep = rb_a is not None and getattr(rb_a, "is_sleeping", False)
-        b_sleep = rb_b is not None and getattr(rb_b, "is_sleeping", False)
+            a_sleep = rb_a is not None and getattr(rb_a, "is_sleeping", False)
+            b_sleep = rb_b is not None and getattr(rb_b, "is_sleeping", False)
 
-        def _speed(rb):
-            if rb is None:
-                return 0.0
-            v = rb.velocity
-            w = float(rb.angular_velocity)
-            return float((v.x * v.x + v.y * v.y) ** 0.5 + 0.25 * abs(w))
+            def _speed(rb):
+                if rb is None:
+                    return 0.0
+                v = rb.velocity
+                w = float(rb.angular_velocity)
+                return float((v.x * v.x + v.y * v.y) ** 0.5 + 0.25 * abs(w))
 
-        sa = 0.0 if a_static else _speed(rb_a)
-        sb = 0.0 if b_static else _speed(rb_b)
-        both_resting = sa < 0.12 and sb < 0.12
+            sa = 0.0 if a_static else _speed(rb_a)
+            sb = 0.0 if b_static else _speed(rb_b)
+            both_resting = sa < 0.12 and sb < 0.12
 
-        # Sleeping stacks: skip micro-penetration contacts entirely so piles
-        # don't wake and accumulate phantom spin every frame.
-        if a_sleep and (b_sleep or b_static) and depth < 0.05 and both_resting:
-            return
-        if b_sleep and (a_sleep or a_static) and depth < 0.05 and both_resting:
-            return
+            # Sleeping stacks: skip micro-penetration contacts entirely so piles
+            # don't wake and accumulate phantom spin every frame.
+            if a_sleep and (b_sleep or b_static) and depth < 0.05 and both_resting:
+                return
+            if b_sleep and (a_sleep or a_static) and depth < 0.05 and both_resting:
+                return
 
-        # Only wake for deep sinks or real impacts — not resting overlap.
-        deep = depth >= 0.05
-        impact = max(sa, sb) > 0.25
-        if deep or impact:
-            if a_sleep and not a_static:
-                rb_a.wake()
-                a_sleep = False
-            if b_sleep and not b_static:
-                rb_b.wake()
-                b_sleep = False
-        elif both_resting and depth < 0.03 and not impact:
-            # Soft rest contact: still resolve once for depenetration, but keep
-            # sleep timers intact (do not wake).
-            pass
+            # Only wake for deep sinks or real impacts — not resting overlap.
+            deep = depth >= 0.05
+            impact = max(sa, sb) > 0.25
+            if deep or impact:
+                if a_sleep and not a_static:
+                    rb_a.wake()
+                    a_sleep = False
+                if b_sleep and not b_static:
+                    rb_b.wake()
+                    b_sleep = False
+            elif both_resting and depth < 0.03 and not impact:
+                # Soft rest contact: still resolve once for depenetration, but keep
+                # sleep timers intact (do not wake).
+                pass
 
         if col_a is None:
             col_a = a.get_component(Collider2D)
         if col_b is None:
             col_b = b.get_component(Collider2D)
 
-        nx, ny = float(normal[0]), float(normal[1])
-        if push > 0.0:
-            if a_static:
-                b.transform.position = Vector3(
-                    b.transform.position.x - nx * push,
-                    b.transform.position.y - ny * push,
-                    b.transform.position.z,
-                )
-                if col_b is not None:
-                    col_b._transform_dirty = True
-                    col_b.update_bounds()
-            elif b_static:
-                a.transform.position = Vector3(
-                    a.transform.position.x + nx * push,
-                    a.transform.position.y + ny * push,
-                    a.transform.position.z,
-                )
-                if col_a is not None:
-                    col_a._transform_dirty = True
-                    col_a.update_bounds()
-            else:
-                half = push * 0.5
-                a.transform.position = Vector3(
-                    a.transform.position.x + nx * half,
-                    a.transform.position.y + ny * half,
-                    a.transform.position.z,
-                )
-                b.transform.position = Vector3(
-                    b.transform.position.x - nx * half,
-                    b.transform.position.y - ny * half,
-                    b.transform.position.z,
-                )
-                if col_a is not None:
-                    col_a._transform_dirty = True
-                    col_a.update_bounds()
-                if col_b is not None:
-                    col_b._transform_dirty = True
-                    col_b.update_bounds()
+        if not velocity_only:
+            nx, ny = float(normal[0]), float(normal[1])
+            if push > 0.0:
+                if a_static:
+                    b.transform.position = Vector3(
+                        b.transform.position.x - nx * push,
+                        b.transform.position.y - ny * push,
+                        b.transform.position.z,
+                    )
+                    if col_b is not None:
+                        col_b._transform_dirty = True
+                        col_b.update_bounds()
+                elif b_static:
+                    a.transform.position = Vector3(
+                        a.transform.position.x + nx * push,
+                        a.transform.position.y + ny * push,
+                        a.transform.position.z,
+                    )
+                    if col_a is not None:
+                        col_a._transform_dirty = True
+                        col_a.update_bounds()
+                else:
+                    half = push * 0.5
+                    a.transform.position = Vector3(
+                        a.transform.position.x + nx * half,
+                        a.transform.position.y + ny * half,
+                        a.transform.position.z,
+                    )
+                    b.transform.position = Vector3(
+                        b.transform.position.x - nx * half,
+                        b.transform.position.y - ny * half,
+                        b.transform.position.z,
+                    )
+                    if col_a is not None:
+                        col_a._transform_dirty = True
+                        col_a.update_bounds()
+                    if col_b is not None:
+                        col_b._transform_dirty = True
+                        col_b.update_bounds()
 
         bounciness_a = getattr(col_a, "bounciness", 0.0) if col_a else 0.0
         bounciness_b = getattr(col_b, "bounciness", 0.0) if col_b else 0.0

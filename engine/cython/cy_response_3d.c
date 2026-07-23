@@ -10,14 +10,14 @@
             ]
         ],
         "depends": [
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\arrayobject.h",
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\arrayscalars.h",
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ndarrayobject.h",
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ndarraytypes.h",
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ufuncobject.h"
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\arrayobject.h",
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\arrayscalars.h",
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ndarrayobject.h",
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ndarraytypes.h",
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include\\numpy\\ufuncobject.h"
         ],
         "include_dirs": [
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include"
         ],
         "name": "engine.cython.cy_response_3d",
         "sources": [
@@ -1398,8 +1398,8 @@ static const char *__pyx_filename;
 static const char* const __pyx_f[] = {
   "engine/cython/cy_response_3d.pyx",
   "<stringsource>",
-  "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd",
-  "cpython/type.pxd",
+  "venv/Lib/site-packages/numpy/__init__.cython-30.pxd",
+  "venv/Lib/site-packages/Cython/Includes/cpython/type.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* Atomics.proto (used by UnpackUnboundCMethod) */
@@ -1651,7 +1651,7 @@ typedef struct {
 
 /* #### Code section: numeric_typedefs ### */
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":761
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":761
  * # in Cython to enable them only on the right systems.
  * 
  * ctypedef npy_int8       int8_t             # <<<<<<<<<<<<<<
@@ -1660,7 +1660,7 @@ typedef struct {
 */
 typedef npy_int8 __pyx_t_5numpy_int8_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":762
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":762
  * 
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t             # <<<<<<<<<<<<<<
@@ -1669,7 +1669,7 @@ typedef npy_int8 __pyx_t_5numpy_int8_t;
 */
 typedef npy_int16 __pyx_t_5numpy_int16_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":763
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":763
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t             # <<<<<<<<<<<<<<
@@ -1678,7 +1678,7 @@ typedef npy_int16 __pyx_t_5numpy_int16_t;
 */
 typedef npy_int32 __pyx_t_5numpy_int32_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":764
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":764
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t
  * ctypedef npy_int64      int64_t             # <<<<<<<<<<<<<<
@@ -1687,7 +1687,7 @@ typedef npy_int32 __pyx_t_5numpy_int32_t;
 */
 typedef npy_int64 __pyx_t_5numpy_int64_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":766
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":766
  * ctypedef npy_int64      int64_t
  * 
  * ctypedef npy_uint8      uint8_t             # <<<<<<<<<<<<<<
@@ -1696,7 +1696,7 @@ typedef npy_int64 __pyx_t_5numpy_int64_t;
 */
 typedef npy_uint8 __pyx_t_5numpy_uint8_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":767
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":767
  * 
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t             # <<<<<<<<<<<<<<
@@ -1705,7 +1705,7 @@ typedef npy_uint8 __pyx_t_5numpy_uint8_t;
 */
 typedef npy_uint16 __pyx_t_5numpy_uint16_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":768
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":768
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t             # <<<<<<<<<<<<<<
@@ -1714,7 +1714,7 @@ typedef npy_uint16 __pyx_t_5numpy_uint16_t;
 */
 typedef npy_uint32 __pyx_t_5numpy_uint32_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":769
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":769
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t
  * ctypedef npy_uint64     uint64_t             # <<<<<<<<<<<<<<
@@ -1723,7 +1723,7 @@ typedef npy_uint32 __pyx_t_5numpy_uint32_t;
 */
 typedef npy_uint64 __pyx_t_5numpy_uint64_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":771
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":771
  * ctypedef npy_uint64     uint64_t
  * 
  * ctypedef npy_float32    float32_t             # <<<<<<<<<<<<<<
@@ -1732,7 +1732,7 @@ typedef npy_uint64 __pyx_t_5numpy_uint64_t;
 */
 typedef npy_float32 __pyx_t_5numpy_float32_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":772
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":772
  * 
  * ctypedef npy_float32    float32_t
  * ctypedef npy_float64    float64_t             # <<<<<<<<<<<<<<
@@ -1741,7 +1741,7 @@ typedef npy_float32 __pyx_t_5numpy_float32_t;
 */
 typedef npy_float64 __pyx_t_5numpy_float64_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":779
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":779
  * ctypedef double complex complex128_t
  * 
  * ctypedef npy_longlong   longlong_t             # <<<<<<<<<<<<<<
@@ -1750,7 +1750,7 @@ typedef npy_float64 __pyx_t_5numpy_float64_t;
 */
 typedef npy_longlong __pyx_t_5numpy_longlong_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":780
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":780
  * 
  * ctypedef npy_longlong   longlong_t
  * ctypedef npy_ulonglong  ulonglong_t             # <<<<<<<<<<<<<<
@@ -1759,7 +1759,7 @@ typedef npy_longlong __pyx_t_5numpy_longlong_t;
 */
 typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":782
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":782
  * ctypedef npy_ulonglong  ulonglong_t
  * 
  * ctypedef npy_intp       intp_t             # <<<<<<<<<<<<<<
@@ -1768,7 +1768,7 @@ typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
 */
 typedef npy_intp __pyx_t_5numpy_intp_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":783
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":783
  * 
  * ctypedef npy_intp       intp_t
  * ctypedef npy_uintp      uintp_t             # <<<<<<<<<<<<<<
@@ -1777,7 +1777,7 @@ typedef npy_intp __pyx_t_5numpy_intp_t;
 */
 typedef npy_uintp __pyx_t_5numpy_uintp_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":785
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":785
  * ctypedef npy_uintp      uintp_t
  * 
  * ctypedef npy_double     float_t             # <<<<<<<<<<<<<<
@@ -1786,7 +1786,7 @@ typedef npy_uintp __pyx_t_5numpy_uintp_t;
 */
 typedef npy_double __pyx_t_5numpy_float_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":786
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":786
  * 
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t             # <<<<<<<<<<<<<<
@@ -1795,7 +1795,7 @@ typedef npy_double __pyx_t_5numpy_float_t;
 */
 typedef npy_double __pyx_t_5numpy_double_t;
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":787
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":787
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t
  * ctypedef npy_longdouble longdouble_t             # <<<<<<<<<<<<<<
@@ -3023,6 +3023,10 @@ static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_dou
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
 
+/* MemviewDtypeToObject.proto */
+static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_double(char *itemp, PyObject *obj);
+
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -3166,6 +3170,9 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
                                  size_t sizeof_dtype, int contig_flag,
                                  int dtype_is_object);
 
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value);
+
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *);
 
@@ -3183,9 +3190,6 @@ static CYTHON_INLINE int __Pyx_CheckUnpickleChecksum(long checksum, long checksu
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyLong_As_long(PyObject *);
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyLong_From_long(long value);
@@ -3371,7 +3375,7 @@ static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_3d__mat_vec_do
 static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_3d__mat_mul_vec(__Pyx_memviewslice, double, double, double, double *, double *, double *); /*proto*/
 static CYTHON_INLINE double __pyx_f_6engine_6cython_14cy_response_3d__effective_mass(double, double, double, double, double, double, double, double, double, double, double, int, __Pyx_memviewslice, int, __Pyx_memviewslice); /*proto*/
 static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_3d__apply_impulse(double *, double *, double *, double *, double *, double *, double *, double *, double *, double *, double *, double *, double, double, int, __Pyx_memviewslice, int, __Pyx_memviewslice, double, double, double, double, double, double, double, double, double); /*proto*/
-static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(double, double, double, double *, double *, double *, double *, double *, double *, double, int, __Pyx_memviewslice, double, double, double, double *, double *, double *, double *, double *, double *, double, int, __Pyx_memviewslice, double, double, double, double, double, double, double, double, double, double, double, double, int *); /*proto*/
+static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(double, double, double, double *, double *, double *, double *, double *, double *, double, int, __Pyx_memviewslice, double, double, double, double *, double *, double *, double *, double *, double *, double, int, __Pyx_memviewslice, double, double, double, double, double, double, double, double, double, double, double, double, int, int *); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char const *, char *); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo const *); /*proto*/
@@ -3466,9 +3470,10 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matrix_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_R, __Pyx_memviewslice __pyx_v_n); /* proto */
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_centroid_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_C, __Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_E, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_dz, double __pyx_v_tol); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt, int __pyx_v_multi_point); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2resolve_contacts_3d_multi_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_points, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4face_align_from_matrix_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_R, __Pyx_memviewslice __pyx_v_n); /* proto */
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_6obb_support_feature_centroid_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_C, __Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_E, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_dz, double __pyx_v_tol); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3522,8 +3527,8 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_slice[1];
   PyObject *__pyx_tuple[2];
-  PyObject *__pyx_codeobj_tab[3];
-  PyObject *__pyx_string_tab[200];
+  PyObject *__pyx_codeobj_tab[4];
+  PyObject *__pyx_string_tab[221];
   PyObject *__pyx_number_tab[6];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
@@ -3621,150 +3626,171 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_abc __pyx_string_tab[53]
 #define __pyx_n_u_allocate_buffer __pyx_string_tab[54]
 #define __pyx_n_u_annotate __pyx_string_tab[55]
-#define __pyx_n_u_ascontiguousarray __pyx_string_tab[56]
-#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[57]
-#define __pyx_n_u_base __pyx_string_tab[58]
-#define __pyx_n_u_best __pyx_string_tab[59]
-#define __pyx_n_u_c __pyx_string_tab[60]
-#define __pyx_n_u_class __pyx_string_tab[61]
-#define __pyx_n_u_class_getitem __pyx_string_tab[62]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[63]
-#define __pyx_n_u_contact_point __pyx_string_tab[64]
-#define __pyx_n_u_count __pyx_string_tab[65]
-#define __pyx_n_u_d __pyx_string_tab[66]
-#define __pyx_n_u_dict __pyx_string_tab[67]
-#define __pyx_n_u_dlen __pyx_string_tab[68]
-#define __pyx_n_u_dt __pyx_string_tab[69]
-#define __pyx_n_u_dtype __pyx_string_tab[70]
-#define __pyx_n_u_dtype_is_object __pyx_string_tab[71]
-#define __pyx_n_u_dx __pyx_string_tab[72]
-#define __pyx_n_u_dy __pyx_string_tab[73]
-#define __pyx_n_u_dynamic_friction __pyx_string_tab[74]
-#define __pyx_n_u_dz __pyx_string_tab[75]
-#define __pyx_n_u_emax __pyx_string_tab[76]
-#define __pyx_n_u_empty __pyx_string_tab[77]
-#define __pyx_n_u_encode __pyx_string_tab[78]
-#define __pyx_n_u_engine_cython_cy_response_3d __pyx_string_tab[79]
-#define __pyx_n_u_enumerate __pyx_string_tab[80]
-#define __pyx_n_u_error __pyx_string_tab[81]
-#define __pyx_n_u_face_align_a __pyx_string_tab[82]
-#define __pyx_n_u_face_align_b __pyx_string_tab[83]
-#define __pyx_n_u_face_align_from_matrix_fast __pyx_string_tab[84]
-#define __pyx_n_u_flags __pyx_string_tab[85]
-#define __pyx_n_u_float64 __pyx_string_tab[86]
-#define __pyx_n_u_format __pyx_string_tab[87]
-#define __pyx_n_u_fortran __pyx_string_tab[88]
-#define __pyx_n_u_func __pyx_string_tab[89]
-#define __pyx_n_u_getstate __pyx_string_tab[90]
-#define __pyx_n_u_has_ia __pyx_string_tab[91]
-#define __pyx_n_u_has_ib __pyx_string_tab[92]
-#define __pyx_n_u_i __pyx_string_tab[93]
-#define __pyx_n_u_i_inv_a __pyx_string_tab[94]
-#define __pyx_n_u_i_inv_b __pyx_string_tab[95]
-#define __pyx_n_u_ia __pyx_string_tab[96]
-#define __pyx_n_u_ia_arr __pyx_string_tab[97]
-#define __pyx_n_u_ib __pyx_string_tab[98]
-#define __pyx_n_u_ib_arr __pyx_string_tab[99]
-#define __pyx_n_u_id __pyx_string_tab[100]
-#define __pyx_n_u_import __pyx_string_tab[101]
-#define __pyx_n_u_index __pyx_string_tab[102]
-#define __pyx_n_u_inv_mass_a __pyx_string_tab[103]
-#define __pyx_n_u_inv_mass_b __pyx_string_tab[104]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[105]
-#define __pyx_n_u_items __pyx_string_tab[106]
-#define __pyx_n_u_itemsize __pyx_string_tab[107]
-#define __pyx_n_u_ix __pyx_string_tab[108]
-#define __pyx_n_u_iy __pyx_string_tab[109]
-#define __pyx_n_u_iz __pyx_string_tab[110]
-#define __pyx_n_u_main __pyx_string_tab[111]
-#define __pyx_n_u_memview __pyx_string_tab[112]
-#define __pyx_n_u_mode __pyx_string_tab[113]
-#define __pyx_n_u_module __pyx_string_tab[114]
-#define __pyx_n_u_n __pyx_string_tab[115]
-#define __pyx_n_u_name __pyx_string_tab[116]
-#define __pyx_n_u_name_2 __pyx_string_tab[117]
-#define __pyx_n_u_ndim __pyx_string_tab[118]
-#define __pyx_n_u_new __pyx_string_tab[119]
-#define __pyx_n_u_nlen __pyx_string_tab[120]
-#define __pyx_n_u_normal __pyx_string_tab[121]
-#define __pyx_n_u_np __pyx_string_tab[122]
-#define __pyx_n_u_numpy __pyx_string_tab[123]
-#define __pyx_n_u_nx __pyx_string_tab[124]
-#define __pyx_n_u_ny __pyx_string_tab[125]
-#define __pyx_n_u_nz __pyx_string_tab[126]
-#define __pyx_n_u_oax __pyx_string_tab[127]
-#define __pyx_n_u_oay __pyx_string_tab[128]
-#define __pyx_n_u_oaz __pyx_string_tab[129]
-#define __pyx_n_u_obb_support_feature_centroid_fas __pyx_string_tab[130]
-#define __pyx_n_u_obj __pyx_string_tab[131]
-#define __pyx_n_u_obx __pyx_string_tab[132]
-#define __pyx_n_u_oby __pyx_string_tab[133]
-#define __pyx_n_u_obz __pyx_string_tab[134]
-#define __pyx_n_u_omega_a __pyx_string_tab[135]
-#define __pyx_n_u_omega_b __pyx_string_tab[136]
-#define __pyx_n_u_out __pyx_string_tab[137]
-#define __pyx_n_u_out_oa __pyx_string_tab[138]
-#define __pyx_n_u_out_ob __pyx_string_tab[139]
-#define __pyx_n_u_out_va __pyx_string_tab[140]
-#define __pyx_n_u_out_vb __pyx_string_tab[141]
-#define __pyx_n_u_pack __pyx_string_tab[142]
-#define __pyx_n_u_pop __pyx_string_tab[143]
-#define __pyx_n_u_pos_a __pyx_string_tab[144]
-#define __pyx_n_u_pos_b __pyx_string_tab[145]
-#define __pyx_n_u_pyx_checksum __pyx_string_tab[146]
-#define __pyx_n_u_pyx_state __pyx_string_tab[147]
-#define __pyx_n_u_pyx_type __pyx_string_tab[148]
-#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[149]
-#define __pyx_n_u_pyx_vtable __pyx_string_tab[150]
-#define __pyx_n_u_qualname __pyx_string_tab[151]
-#define __pyx_n_u_reduce __pyx_string_tab[152]
-#define __pyx_n_u_reduce_cython __pyx_string_tab[153]
-#define __pyx_n_u_reduce_ex __pyx_string_tab[154]
-#define __pyx_n_u_register __pyx_string_tab[155]
-#define __pyx_n_u_resolve_contact_3d_fast __pyx_string_tab[156]
-#define __pyx_n_u_restitution __pyx_string_tab[157]
-#define __pyx_n_u_s __pyx_string_tab[158]
-#define __pyx_n_u_set_name __pyx_string_tab[159]
-#define __pyx_n_u_setdefault __pyx_string_tab[160]
-#define __pyx_n_u_setstate __pyx_string_tab[161]
-#define __pyx_n_u_setstate_cython __pyx_string_tab[162]
-#define __pyx_n_u_shape __pyx_string_tab[163]
-#define __pyx_n_u_size __pyx_string_tab[164]
-#define __pyx_n_u_start __pyx_string_tab[165]
-#define __pyx_n_u_static_friction __pyx_string_tab[166]
-#define __pyx_n_u_step __pyx_string_tab[167]
-#define __pyx_n_u_stop __pyx_string_tab[168]
-#define __pyx_n_u_struct __pyx_string_tab[169]
-#define __pyx_n_u_sumx __pyx_string_tab[170]
-#define __pyx_n_u_sumy __pyx_string_tab[171]
-#define __pyx_n_u_sumz __pyx_string_tab[172]
-#define __pyx_n_u_sx __pyx_string_tab[173]
-#define __pyx_n_u_sy __pyx_string_tab[174]
-#define __pyx_n_u_sz __pyx_string_tab[175]
-#define __pyx_n_u_t __pyx_string_tab[176]
-#define __pyx_n_u_test __pyx_string_tab[177]
-#define __pyx_n_u_tol __pyx_string_tab[178]
-#define __pyx_n_u_unpack __pyx_string_tab[179]
-#define __pyx_n_u_unstable __pyx_string_tab[180]
-#define __pyx_n_u_update __pyx_string_tab[181]
-#define __pyx_n_u_values __pyx_string_tab[182]
-#define __pyx_n_u_vax __pyx_string_tab[183]
-#define __pyx_n_u_vay __pyx_string_tab[184]
-#define __pyx_n_u_vaz __pyx_string_tab[185]
-#define __pyx_n_u_vbx __pyx_string_tab[186]
-#define __pyx_n_u_vby __pyx_string_tab[187]
-#define __pyx_n_u_vbz __pyx_string_tab[188]
-#define __pyx_n_u_vel_a __pyx_string_tab[189]
-#define __pyx_n_u_vel_b __pyx_string_tab[190]
-#define __pyx_n_u_vx __pyx_string_tab[191]
-#define __pyx_n_u_vy __pyx_string_tab[192]
-#define __pyx_n_u_vz __pyx_string_tab[193]
-#define __pyx_n_u_x __pyx_string_tab[194]
-#define __pyx_n_u_zeros __pyx_string_tab[195]
-#define __pyx_kp_b_iso88591_Q_e1Je1Je1A_gQj_q_e1Je1Je1A_gQj __pyx_string_tab[196]
-#define __pyx_kp_b_iso88591_Qay_1AQ_uAT_Q_q_uBa_q_fF_U_1_D __pyx_string_tab[197]
-#define __pyx_kp_b_iso88591_uAT_Q_q_q_Q_F_3fBa_uBa_1E_4s_5 __pyx_string_tab[198]
-#define __pyx_n_b_O __pyx_string_tab[199]
+#define __pyx_n_u_any_unstable __pyx_string_tab[56]
+#define __pyx_n_u_ascontiguousarray __pyx_string_tab[57]
+#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[58]
+#define __pyx_n_u_base __pyx_string_tab[59]
+#define __pyx_n_u_best __pyx_string_tab[60]
+#define __pyx_n_u_best_align __pyx_string_tab[61]
+#define __pyx_n_u_c __pyx_string_tab[62]
+#define __pyx_n_u_class __pyx_string_tab[63]
+#define __pyx_n_u_class_getitem __pyx_string_tab[64]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[65]
+#define __pyx_n_u_contact_point __pyx_string_tab[66]
+#define __pyx_n_u_contact_points __pyx_string_tab[67]
+#define __pyx_n_u_count __pyx_string_tab[68]
+#define __pyx_n_u_d __pyx_string_tab[69]
+#define __pyx_n_u_dict __pyx_string_tab[70]
+#define __pyx_n_u_dlen __pyx_string_tab[71]
+#define __pyx_n_u_dt __pyx_string_tab[72]
+#define __pyx_n_u_dtype __pyx_string_tab[73]
+#define __pyx_n_u_dtype_is_object __pyx_string_tab[74]
+#define __pyx_n_u_dx __pyx_string_tab[75]
+#define __pyx_n_u_dy __pyx_string_tab[76]
+#define __pyx_n_u_dynamic_friction __pyx_string_tab[77]
+#define __pyx_n_u_dz __pyx_string_tab[78]
+#define __pyx_n_u_e_use __pyx_string_tab[79]
+#define __pyx_n_u_emax __pyx_string_tab[80]
+#define __pyx_n_u_empty __pyx_string_tab[81]
+#define __pyx_n_u_encode __pyx_string_tab[82]
+#define __pyx_n_u_engine_cython_cy_response_3d __pyx_string_tab[83]
+#define __pyx_n_u_enumerate __pyx_string_tab[84]
+#define __pyx_n_u_error __pyx_string_tab[85]
+#define __pyx_n_u_face_align_a __pyx_string_tab[86]
+#define __pyx_n_u_face_align_b __pyx_string_tab[87]
+#define __pyx_n_u_face_align_from_matrix_fast __pyx_string_tab[88]
+#define __pyx_n_u_flags __pyx_string_tab[89]
+#define __pyx_n_u_float64 __pyx_string_tab[90]
+#define __pyx_n_u_format __pyx_string_tab[91]
+#define __pyx_n_u_fortran __pyx_string_tab[92]
+#define __pyx_n_u_func __pyx_string_tab[93]
+#define __pyx_n_u_getstate __pyx_string_tab[94]
+#define __pyx_n_u_has_ia __pyx_string_tab[95]
+#define __pyx_n_u_has_ib __pyx_string_tab[96]
+#define __pyx_n_u_i __pyx_string_tab[97]
+#define __pyx_n_u_i_inv_a __pyx_string_tab[98]
+#define __pyx_n_u_i_inv_b __pyx_string_tab[99]
+#define __pyx_n_u_ia __pyx_string_tab[100]
+#define __pyx_n_u_ia_arr __pyx_string_tab[101]
+#define __pyx_n_u_ib __pyx_string_tab[102]
+#define __pyx_n_u_ib_arr __pyx_string_tab[103]
+#define __pyx_n_u_id __pyx_string_tab[104]
+#define __pyx_n_u_import __pyx_string_tab[105]
+#define __pyx_n_u_index __pyx_string_tab[106]
+#define __pyx_n_u_inner __pyx_string_tab[107]
+#define __pyx_n_u_inv_mass_a __pyx_string_tab[108]
+#define __pyx_n_u_inv_mass_b __pyx_string_tab[109]
+#define __pyx_n_u_inv_n __pyx_string_tab[110]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[111]
+#define __pyx_n_u_items __pyx_string_tab[112]
+#define __pyx_n_u_itemsize __pyx_string_tab[113]
+#define __pyx_n_u_ix __pyx_string_tab[114]
+#define __pyx_n_u_iy __pyx_string_tab[115]
+#define __pyx_n_u_iz __pyx_string_tab[116]
+#define __pyx_n_u_main __pyx_string_tab[117]
+#define __pyx_n_u_memview __pyx_string_tab[118]
+#define __pyx_n_u_mode __pyx_string_tab[119]
+#define __pyx_n_u_module __pyx_string_tab[120]
+#define __pyx_n_u_multi __pyx_string_tab[121]
+#define __pyx_n_u_multi_point __pyx_string_tab[122]
+#define __pyx_n_u_n __pyx_string_tab[123]
+#define __pyx_n_u_n_inner __pyx_string_tab[124]
+#define __pyx_n_u_name __pyx_string_tab[125]
+#define __pyx_n_u_name_2 __pyx_string_tab[126]
+#define __pyx_n_u_ndim __pyx_string_tab[127]
+#define __pyx_n_u_new __pyx_string_tab[128]
+#define __pyx_n_u_nlen __pyx_string_tab[129]
+#define __pyx_n_u_nnx __pyx_string_tab[130]
+#define __pyx_n_u_nny __pyx_string_tab[131]
+#define __pyx_n_u_nnz __pyx_string_tab[132]
+#define __pyx_n_u_normal __pyx_string_tab[133]
+#define __pyx_n_u_np __pyx_string_tab[134]
+#define __pyx_n_u_numpy __pyx_string_tab[135]
+#define __pyx_n_u_nx __pyx_string_tab[136]
+#define __pyx_n_u_ny __pyx_string_tab[137]
+#define __pyx_n_u_nz __pyx_string_tab[138]
+#define __pyx_n_u_oax __pyx_string_tab[139]
+#define __pyx_n_u_oay __pyx_string_tab[140]
+#define __pyx_n_u_oaz __pyx_string_tab[141]
+#define __pyx_n_u_obb_support_feature_centroid_fas __pyx_string_tab[142]
+#define __pyx_n_u_obj __pyx_string_tab[143]
+#define __pyx_n_u_obx __pyx_string_tab[144]
+#define __pyx_n_u_oby __pyx_string_tab[145]
+#define __pyx_n_u_obz __pyx_string_tab[146]
+#define __pyx_n_u_omega_a __pyx_string_tab[147]
+#define __pyx_n_u_omega_b __pyx_string_tab[148]
+#define __pyx_n_u_out __pyx_string_tab[149]
+#define __pyx_n_u_out_oa __pyx_string_tab[150]
+#define __pyx_n_u_out_ob __pyx_string_tab[151]
+#define __pyx_n_u_out_va __pyx_string_tab[152]
+#define __pyx_n_u_out_vb __pyx_string_tab[153]
+#define __pyx_n_u_pack __pyx_string_tab[154]
+#define __pyx_n_u_pop __pyx_string_tab[155]
+#define __pyx_n_u_pos_a __pyx_string_tab[156]
+#define __pyx_n_u_pos_b __pyx_string_tab[157]
+#define __pyx_n_u_pyx_checksum __pyx_string_tab[158]
+#define __pyx_n_u_pyx_state __pyx_string_tab[159]
+#define __pyx_n_u_pyx_type __pyx_string_tab[160]
+#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[161]
+#define __pyx_n_u_pyx_vtable __pyx_string_tab[162]
+#define __pyx_n_u_qualname __pyx_string_tab[163]
+#define __pyx_n_u_reduce __pyx_string_tab[164]
+#define __pyx_n_u_reduce_cython __pyx_string_tab[165]
+#define __pyx_n_u_reduce_ex __pyx_string_tab[166]
+#define __pyx_n_u_register __pyx_string_tab[167]
+#define __pyx_n_u_resolve_contact_3d_fast __pyx_string_tab[168]
+#define __pyx_n_u_resolve_contacts_3d_multi_fast __pyx_string_tab[169]
+#define __pyx_n_u_restitution __pyx_string_tab[170]
+#define __pyx_n_u_s __pyx_string_tab[171]
+#define __pyx_n_u_set_name __pyx_string_tab[172]
+#define __pyx_n_u_setdefault __pyx_string_tab[173]
+#define __pyx_n_u_setstate __pyx_string_tab[174]
+#define __pyx_n_u_setstate_cython __pyx_string_tab[175]
+#define __pyx_n_u_shape __pyx_string_tab[176]
+#define __pyx_n_u_size __pyx_string_tab[177]
+#define __pyx_n_u_speed_a __pyx_string_tab[178]
+#define __pyx_n_u_speed_b __pyx_string_tab[179]
+#define __pyx_n_u_start __pyx_string_tab[180]
+#define __pyx_n_u_static_friction __pyx_string_tab[181]
+#define __pyx_n_u_step __pyx_string_tab[182]
+#define __pyx_n_u_stop __pyx_string_tab[183]
+#define __pyx_n_u_struct __pyx_string_tab[184]
+#define __pyx_n_u_sumx __pyx_string_tab[185]
+#define __pyx_n_u_sumy __pyx_string_tab[186]
+#define __pyx_n_u_sumz __pyx_string_tab[187]
+#define __pyx_n_u_sx __pyx_string_tab[188]
+#define __pyx_n_u_sy __pyx_string_tab[189]
+#define __pyx_n_u_sz __pyx_string_tab[190]
+#define __pyx_n_u_t __pyx_string_tab[191]
+#define __pyx_n_u_test __pyx_string_tab[192]
+#define __pyx_n_u_tmag __pyx_string_tab[193]
+#define __pyx_n_u_tol __pyx_string_tab[194]
+#define __pyx_n_u_unpack __pyx_string_tab[195]
+#define __pyx_n_u_unstable __pyx_string_tab[196]
+#define __pyx_n_u_update __pyx_string_tab[197]
+#define __pyx_n_u_values __pyx_string_tab[198]
+#define __pyx_n_u_vax __pyx_string_tab[199]
+#define __pyx_n_u_vay __pyx_string_tab[200]
+#define __pyx_n_u_vaz __pyx_string_tab[201]
+#define __pyx_n_u_vbx __pyx_string_tab[202]
+#define __pyx_n_u_vby __pyx_string_tab[203]
+#define __pyx_n_u_vbz __pyx_string_tab[204]
+#define __pyx_n_u_vel_a __pyx_string_tab[205]
+#define __pyx_n_u_vel_b __pyx_string_tab[206]
+#define __pyx_n_u_vn __pyx_string_tab[207]
+#define __pyx_n_u_vtx2 __pyx_string_tab[208]
+#define __pyx_n_u_vty2 __pyx_string_tab[209]
+#define __pyx_n_u_vtz2 __pyx_string_tab[210]
+#define __pyx_n_u_vx __pyx_string_tab[211]
+#define __pyx_n_u_vy __pyx_string_tab[212]
+#define __pyx_n_u_vz __pyx_string_tab[213]
+#define __pyx_n_u_x __pyx_string_tab[214]
+#define __pyx_n_u_zeros __pyx_string_tab[215]
+#define __pyx_kp_b_iso88591_Q_e1Je1Je1A_gQj_q_e1Je1Je1A_gQj __pyx_string_tab[216]
+#define __pyx_kp_b_iso88591_Q_e1Je1Je1A_gQj_q_e1Je1Je1A_gQj_2 __pyx_string_tab[217]
+#define __pyx_kp_b_iso88591_Qay_1AQ_uAT_Q_q_uBa_q_fF_U_1_D __pyx_string_tab[218]
+#define __pyx_kp_b_iso88591_uAT_Q_q_q_Q_F_3fBa_uBa_1E_4s_5 __pyx_string_tab[219]
+#define __pyx_n_b_O __pyx_string_tab[220]
 #define __pyx_float_0_0 __pyx_number_tab[0]
 #define __pyx_int_0 __pyx_number_tab[1]
 #define __pyx_int_neg_1 __pyx_number_tab[2]
@@ -3811,8 +3837,8 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_slice[i]); }
   for (int i=0; i<2; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<3; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<200; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<4; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<221; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<6; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
@@ -3862,8 +3888,8 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   Py_VISIT(traverse_module_state->__pyx_type___pyx_memoryviewslice);
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_slice[i]); }
   for (int i=0; i<2; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
-  for (int i=0; i<3; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<200; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<4; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
+  for (int i=0; i<221; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<6; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
@@ -16365,7 +16391,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":230
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":230
  * 
  *     ctypedef class numpy.dtype [object PyArray_Descr, check_size ignore]:
  *         @property             # <<<<<<<<<<<<<<
@@ -16376,7 +16402,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 static CYTHON_INLINE PyTypeObject *__pyx_f_5numpy_5dtype_7typeobj_typeobj(PyArray_Descr *__pyx_v_self) {
   PyTypeObject *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":232
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":232
  *         @property
  *         cdef inline PyTypeObject* typeobj(self) noexcept nogil:
  *             return PyDataType_TYPEOBJ(self)             # <<<<<<<<<<<<<<
@@ -16386,7 +16412,7 @@ static CYTHON_INLINE PyTypeObject *__pyx_f_5numpy_5dtype_7typeobj_typeobj(PyArra
   __pyx_r = PyDataType_TYPEOBJ(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":230
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":230
  * 
  *     ctypedef class numpy.dtype [object PyArray_Descr, check_size ignore]:
  *         @property             # <<<<<<<<<<<<<<
@@ -16399,7 +16425,7 @@ static CYTHON_INLINE PyTypeObject *__pyx_f_5numpy_5dtype_7typeobj_typeobj(PyArra
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":234
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":234
  *             return PyDataType_TYPEOBJ(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16410,7 +16436,7 @@ static CYTHON_INLINE PyTypeObject *__pyx_f_5numpy_5dtype_7typeobj_typeobj(PyArra
 static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4kind_kind(PyArray_Descr *__pyx_v_self) {
   char __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":236
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":236
  *         @property
  *         cdef inline char kind(self) noexcept nogil:
  *             return PyDataType_KIND(self)             # <<<<<<<<<<<<<<
@@ -16420,7 +16446,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4kind_kind(PyArray_Descr *__pyx_
   __pyx_r = PyDataType_KIND(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":234
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":234
  *             return PyDataType_TYPEOBJ(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16433,7 +16459,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4kind_kind(PyArray_Descr *__pyx_
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":238
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":238
  *             return PyDataType_KIND(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16444,7 +16470,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4kind_kind(PyArray_Descr *__pyx_
 static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4type_type(PyArray_Descr *__pyx_v_self) {
   char __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":240
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":240
  *         @property
  *         cdef inline char type(self) noexcept nogil:
  *             return PyDataType_TYPE(self)             # <<<<<<<<<<<<<<
@@ -16454,7 +16480,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4type_type(PyArray_Descr *__pyx_
   __pyx_r = PyDataType_TYPE(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":238
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":238
  *             return PyDataType_KIND(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16467,7 +16493,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4type_type(PyArray_Descr *__pyx_
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":247
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":247
  *         # PyArray_IsNativeByteOrder(dtype.byteorder) instead of
  *         # directly accessing this field.
  *         @property             # <<<<<<<<<<<<<<
@@ -16478,7 +16504,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_4type_type(PyArray_Descr *__pyx_
 static CYTHON_INLINE char __pyx_f_5numpy_5dtype_9byteorder_byteorder(PyArray_Descr *__pyx_v_self) {
   char __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":249
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":249
  *         @property
  *         cdef inline char byteorder(self) noexcept nogil:
  *             return PyDataType_BYTEORDER(self)             # <<<<<<<<<<<<<<
@@ -16488,7 +16514,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_9byteorder_byteorder(PyArray_Des
   __pyx_r = PyDataType_BYTEORDER(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":247
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":247
  *         # PyArray_IsNativeByteOrder(dtype.byteorder) instead of
  *         # directly accessing this field.
  *         @property             # <<<<<<<<<<<<<<
@@ -16501,7 +16527,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_9byteorder_byteorder(PyArray_Des
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":251
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":251
  *             return PyDataType_BYTEORDER(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16512,7 +16538,7 @@ static CYTHON_INLINE char __pyx_f_5numpy_5dtype_9byteorder_byteorder(PyArray_Des
 static CYTHON_INLINE int __pyx_f_5numpy_5dtype_8type_num_type_num(PyArray_Descr *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":253
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":253
  *         @property
  *         cdef inline int type_num(self) noexcept nogil:
  *             return PyDataType_TYPENUM(self)             # <<<<<<<<<<<<<<
@@ -16522,7 +16548,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5dtype_8type_num_type_num(PyArray_Descr 
   __pyx_r = PyDataType_TYPENUM(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":251
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":251
  *             return PyDataType_BYTEORDER(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16535,7 +16561,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5dtype_8type_num_type_num(PyArray_Descr 
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":255
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":255
  *             return PyDataType_TYPENUM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16546,7 +16572,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5dtype_8type_num_type_num(PyArray_Descr 
 static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_8itemsize_itemsize(PyArray_Descr *__pyx_v_self) {
   npy_intp __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":257
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":257
  *         @property
  *         cdef inline npy_intp itemsize(self) noexcept nogil:
  *             return PyDataType_ELSIZE(self)             # <<<<<<<<<<<<<<
@@ -16556,7 +16582,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_8itemsize_itemsize(PyArray_D
   __pyx_r = PyDataType_ELSIZE(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":255
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":255
  *             return PyDataType_TYPENUM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16569,7 +16595,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_8itemsize_itemsize(PyArray_D
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":259
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":259
  *             return PyDataType_ELSIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16580,7 +16606,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_8itemsize_itemsize(PyArray_D
 static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_9alignment_alignment(PyArray_Descr *__pyx_v_self) {
   npy_intp __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":261
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":261
  *         @property
  *         cdef inline npy_intp alignment(self) noexcept nogil:
  *             return PyDataType_ALIGNMENT(self)             # <<<<<<<<<<<<<<
@@ -16590,7 +16616,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_9alignment_alignment(PyArray
   __pyx_r = PyDataType_ALIGNMENT(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":259
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":259
  *             return PyDataType_ELSIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16603,7 +16629,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_5dtype_9alignment_alignment(PyArray
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":265
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":265
  *         # Use fields/names with care as they may be NULL.  You must check
  *         # for this using PyDataType_HASFIELDS.
  *         @property             # <<<<<<<<<<<<<<
@@ -16617,7 +16643,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_6fields_fields(PyArray_Desc
   PyObject *__pyx_t_1;
   __Pyx_RefNannySetupContext("fields", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":267
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":267
  *         @property
  *         cdef inline object fields(self):
  *             return <object>PyDataType_FIELDS(self)             # <<<<<<<<<<<<<<
@@ -16630,7 +16656,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_6fields_fields(PyArray_Desc
   __pyx_r = ((PyObject *)__pyx_t_1);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":265
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":265
  *         # Use fields/names with care as they may be NULL.  You must check
  *         # for this using PyDataType_HASFIELDS.
  *         @property             # <<<<<<<<<<<<<<
@@ -16645,7 +16671,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_6fields_fields(PyArray_Desc
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":269
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":269
  *             return <object>PyDataType_FIELDS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16659,7 +16685,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_5names_names(PyArray_Descr 
   PyObject *__pyx_t_1;
   __Pyx_RefNannySetupContext("names", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":271
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":271
  *         @property
  *         cdef inline tuple names(self):
  *             return <tuple>PyDataType_NAMES(self)             # <<<<<<<<<<<<<<
@@ -16672,7 +16698,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_5names_names(PyArray_Descr 
   __pyx_r = ((PyObject*)__pyx_t_1);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":269
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":269
  *             return <object>PyDataType_FIELDS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16687,7 +16713,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_5names_names(PyArray_Descr 
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":276
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":276
  *         # valid (the pointer can be NULL). Most users should access
  *         # this field via the inline helper method PyDataType_SHAPE.
  *         @property             # <<<<<<<<<<<<<<
@@ -16698,7 +16724,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5dtype_5names_names(PyArray_Descr 
 static CYTHON_INLINE PyArray_ArrayDescr *__pyx_f_5numpy_5dtype_8subarray_subarray(PyArray_Descr *__pyx_v_self) {
   PyArray_ArrayDescr *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":278
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":278
  *         @property
  *         cdef inline PyArray_ArrayDescr* subarray(self) noexcept nogil:
  *             return PyDataType_SUBARRAY(self)             # <<<<<<<<<<<<<<
@@ -16708,7 +16734,7 @@ static CYTHON_INLINE PyArray_ArrayDescr *__pyx_f_5numpy_5dtype_8subarray_subarra
   __pyx_r = PyDataType_SUBARRAY(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":276
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":276
  *         # valid (the pointer can be NULL). Most users should access
  *         # this field via the inline helper method PyDataType_SHAPE.
  *         @property             # <<<<<<<<<<<<<<
@@ -16721,7 +16747,7 @@ static CYTHON_INLINE PyArray_ArrayDescr *__pyx_f_5numpy_5dtype_8subarray_subarra
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":280
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":280
  *             return PyDataType_SUBARRAY(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16732,7 +16758,7 @@ static CYTHON_INLINE PyArray_ArrayDescr *__pyx_f_5numpy_5dtype_8subarray_subarra
 static CYTHON_INLINE npy_uint64 __pyx_f_5numpy_5dtype_5flags_flags(PyArray_Descr *__pyx_v_self) {
   npy_uint64 __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":283
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":283
  *         cdef inline npy_uint64 flags(self) noexcept nogil:
  *             """The data types flags."""
  *             return PyDataType_FLAGS(self)             # <<<<<<<<<<<<<<
@@ -16742,7 +16768,7 @@ static CYTHON_INLINE npy_uint64 __pyx_f_5numpy_5dtype_5flags_flags(PyArray_Descr
   __pyx_r = PyDataType_FLAGS(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":280
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":280
  *             return PyDataType_SUBARRAY(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16755,7 +16781,7 @@ static CYTHON_INLINE npy_uint64 __pyx_f_5numpy_5dtype_5flags_flags(PyArray_Descr
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":292
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":292
  *     ctypedef class numpy.broadcast [object PyArrayMultiIterObject, check_size ignore]:
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16766,7 +16792,7 @@ static CYTHON_INLINE npy_uint64 __pyx_f_5numpy_5dtype_5flags_flags(PyArray_Descr
 static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_7numiter_numiter(PyArrayMultiIterObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":295
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":295
  *         cdef inline int numiter(self) noexcept nogil:
  *             """The number of arrays that need to be broadcast to the same shape."""
  *             return PyArray_MultiIter_NUMITER(self)             # <<<<<<<<<<<<<<
@@ -16776,7 +16802,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_7numiter_numiter(PyArrayMulti
   __pyx_r = PyArray_MultiIter_NUMITER(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":292
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":292
  *     ctypedef class numpy.broadcast [object PyArrayMultiIterObject, check_size ignore]:
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16789,7 +16815,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_7numiter_numiter(PyArrayMulti
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":297
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":297
  *             return PyArray_MultiIter_NUMITER(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16800,7 +16826,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_7numiter_numiter(PyArrayMulti
 static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_4size_size(PyArrayMultiIterObject *__pyx_v_self) {
   npy_intp __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":300
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":300
  *         cdef inline npy_intp size(self) noexcept nogil:
  *             """The total broadcasted size."""
  *             return PyArray_MultiIter_SIZE(self)             # <<<<<<<<<<<<<<
@@ -16810,7 +16836,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_4size_size(PyArrayMultiI
   __pyx_r = PyArray_MultiIter_SIZE(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":297
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":297
  *             return PyArray_MultiIter_NUMITER(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16823,7 +16849,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_4size_size(PyArrayMultiI
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":302
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":302
  *             return PyArray_MultiIter_SIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16834,7 +16860,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_4size_size(PyArrayMultiI
 static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_5index_index(PyArrayMultiIterObject *__pyx_v_self) {
   npy_intp __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":305
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":305
  *         cdef inline npy_intp index(self) noexcept nogil:
  *             """The current (1-d) index into the broadcasted result."""
  *             return PyArray_MultiIter_INDEX(self)             # <<<<<<<<<<<<<<
@@ -16844,7 +16870,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_5index_index(PyArrayMult
   __pyx_r = PyArray_MultiIter_INDEX(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":302
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":302
  *             return PyArray_MultiIter_SIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16857,7 +16883,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_5index_index(PyArrayMult
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":307
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":307
  *             return PyArray_MultiIter_INDEX(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16868,7 +16894,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_9broadcast_5index_index(PyArrayMult
 static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_2nd_nd(PyArrayMultiIterObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":310
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":310
  *         cdef inline int nd(self) noexcept nogil:
  *             """The number of dimensions in the broadcasted result."""
  *             return PyArray_MultiIter_NDIM(self)             # <<<<<<<<<<<<<<
@@ -16878,7 +16904,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_2nd_nd(PyArrayMultiIterObject
   __pyx_r = PyArray_MultiIter_NDIM(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":307
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":307
  *             return PyArray_MultiIter_INDEX(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16891,7 +16917,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_2nd_nd(PyArrayMultiIterObject
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":312
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":312
  *             return PyArray_MultiIter_NDIM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16902,7 +16928,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_9broadcast_2nd_nd(PyArrayMultiIterObject
 static CYTHON_INLINE npy_intp *__pyx_f_5numpy_9broadcast_10dimensions_dimensions(PyArrayMultiIterObject *__pyx_v_self) {
   npy_intp *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":315
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":315
  *         cdef inline npy_intp* dimensions(self) noexcept nogil:
  *             """The shape of the broadcasted result."""
  *             return PyArray_MultiIter_DIMS(self)             # <<<<<<<<<<<<<<
@@ -16912,7 +16938,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_9broadcast_10dimensions_dimensions
   __pyx_r = PyArray_MultiIter_DIMS(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":312
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":312
  *             return PyArray_MultiIter_NDIM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16925,7 +16951,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_9broadcast_10dimensions_dimensions
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":317
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":317
  *             return PyArray_MultiIter_DIMS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16936,7 +16962,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_9broadcast_10dimensions_dimensions
 static CYTHON_INLINE void **__pyx_f_5numpy_9broadcast_5iters_iters(PyArrayMultiIterObject *__pyx_v_self) {
   void **__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":321
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":321
  *             """An array of iterator objects that holds the iterators for the arrays to be broadcast together.
  *             On return, the iterators are adjusted for broadcasting."""
  *             return PyArray_MultiIter_ITERS(self)             # <<<<<<<<<<<<<<
@@ -16946,7 +16972,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_9broadcast_5iters_iters(PyArrayMultiI
   __pyx_r = PyArray_MultiIter_ITERS(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":317
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":317
  *             return PyArray_MultiIter_DIMS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16959,7 +16985,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_9broadcast_5iters_iters(PyArrayMultiI
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":335
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":335
  *         # Instead, we use properties that map to the corresponding C-API functions.
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16970,7 +16996,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_9broadcast_5iters_iters(PyArrayMultiI
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject *__pyx_v_self) {
   PyObject *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":339
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":339
  *             """Returns a borrowed reference to the object owning the data/memory.
  *             """
  *             return PyArray_BASE(self)             # <<<<<<<<<<<<<<
@@ -16980,7 +17006,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject 
   __pyx_r = PyArray_BASE(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":335
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":335
  *         # Instead, we use properties that map to the corresponding C-API functions.
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -16993,7 +17019,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject 
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":341
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":341
  *             return PyArray_BASE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17007,7 +17033,7 @@ static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArray
   PyArray_Descr *__pyx_t_1;
   __Pyx_RefNannySetupContext("descr", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":345
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":345
  *             """Returns an owned reference to the dtype of the array.
  *             """
  *             return <dtype>PyArray_DESCR(self)             # <<<<<<<<<<<<<<
@@ -17020,7 +17046,7 @@ static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArray
   __pyx_r = ((PyArray_Descr *)__pyx_t_1);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":341
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":341
  *             return PyArray_BASE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17035,7 +17061,7 @@ static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArray
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":347
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":347
  *             return <dtype>PyArray_DESCR(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17046,7 +17072,7 @@ static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArray
 static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":351
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":351
  *             """Returns the number of dimensions in the array.
  *             """
  *             return PyArray_NDIM(self)             # <<<<<<<<<<<<<<
@@ -17056,7 +17082,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx
   __pyx_r = PyArray_NDIM(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":347
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":347
  *             return <dtype>PyArray_DESCR(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17069,7 +17095,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":353
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":353
  *             return PyArray_NDIM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17080,7 +17106,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx
 static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_5shape_shape(PyArrayObject *__pyx_v_self) {
   npy_intp *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":359
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":359
  *             Can return NULL for 0-dimensional arrays.
  *             """
  *             return PyArray_DIMS(self)             # <<<<<<<<<<<<<<
@@ -17090,7 +17116,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_5shape_shape(PyArrayObjec
   __pyx_r = PyArray_DIMS(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":353
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":353
  *             return PyArray_NDIM(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17103,7 +17129,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_5shape_shape(PyArrayObjec
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":361
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":361
  *             return PyArray_DIMS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17114,7 +17140,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_5shape_shape(PyArrayObjec
 static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_7strides_strides(PyArrayObject *__pyx_v_self) {
   npy_intp *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":366
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":366
  *             The number of elements matches the number of dimensions of the array (ndim).
  *             """
  *             return PyArray_STRIDES(self)             # <<<<<<<<<<<<<<
@@ -17124,7 +17150,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_7strides_strides(PyArrayO
   __pyx_r = PyArray_STRIDES(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":361
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":361
  *             return PyArray_DIMS(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17137,7 +17163,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_7strides_strides(PyArrayO
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":368
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":368
  *             return PyArray_STRIDES(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17148,7 +17174,7 @@ static CYTHON_INLINE npy_intp *__pyx_f_5numpy_7ndarray_7strides_strides(PyArrayO
 static CYTHON_INLINE npy_intp __pyx_f_5numpy_7ndarray_4size_size(PyArrayObject *__pyx_v_self) {
   npy_intp __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":372
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":372
  *             """Returns the total size (in number of elements) of the array.
  *             """
  *             return PyArray_SIZE(self)             # <<<<<<<<<<<<<<
@@ -17158,7 +17184,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_7ndarray_4size_size(PyArrayObject *
   __pyx_r = PyArray_SIZE(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":368
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":368
  *             return PyArray_STRIDES(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17171,7 +17197,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_7ndarray_4size_size(PyArrayObject *
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":374
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":374
  *             return PyArray_SIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17182,7 +17208,7 @@ static CYTHON_INLINE npy_intp __pyx_f_5numpy_7ndarray_4size_size(PyArrayObject *
 static CYTHON_INLINE char *__pyx_f_5numpy_7ndarray_4data_data(PyArrayObject *__pyx_v_self) {
   char *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":381
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":381
  *             of `PyArray_DATA()` instead, which returns a 'void*'.
  *             """
  *             return PyArray_BYTES(self)             # <<<<<<<<<<<<<<
@@ -17192,7 +17218,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy_7ndarray_4data_data(PyArrayObject *__p
   __pyx_r = PyArray_BYTES(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":374
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":374
  *             return PyArray_SIZE(self)
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17205,7 +17231,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy_7ndarray_4data_data(PyArrayObject *__p
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":794
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":794
  * ctypedef long double complex clongdouble_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -17222,7 +17248,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":795
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":795
  * 
  * cdef inline object PyArray_MultiIterNew1(a):
  *     return PyArray_MultiIterNew(1, <void*>a)             # <<<<<<<<<<<<<<
@@ -17236,7 +17262,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":794
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":794
  * ctypedef long double complex clongdouble_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -17255,7 +17281,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":797
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":797
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -17272,7 +17298,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":798
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":798
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)             # <<<<<<<<<<<<<<
@@ -17286,7 +17312,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":797
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":797
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -17305,7 +17331,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":800
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":800
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -17322,7 +17348,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":801
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":801
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)             # <<<<<<<<<<<<<<
@@ -17336,7 +17362,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":800
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":800
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -17355,7 +17381,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":803
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":803
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -17372,7 +17398,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":804
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":804
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)             # <<<<<<<<<<<<<<
@@ -17386,7 +17412,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":803
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":803
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -17405,7 +17431,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":806
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":806
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -17422,7 +17448,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":807
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":807
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)             # <<<<<<<<<<<<<<
@@ -17436,7 +17462,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":806
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":806
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -17455,7 +17481,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":809
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":809
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):             # <<<<<<<<<<<<<<
@@ -17470,7 +17496,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   PyObject *__pyx_t_2;
   __Pyx_RefNannySetupContext("PyDataType_SHAPE", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":810
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":810
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):             # <<<<<<<<<<<<<<
@@ -17480,7 +17506,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   __pyx_t_1 = PyDataType_HASSUBARRAY(__pyx_v_d);
   if (__pyx_t_1) {
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":811
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":811
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):
  *         return <tuple>d.subarray.shape             # <<<<<<<<<<<<<<
@@ -17493,7 +17519,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
     __pyx_r = ((PyObject*)__pyx_t_2);
     goto __pyx_L0;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":810
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":810
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):             # <<<<<<<<<<<<<<
@@ -17502,7 +17528,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
 */
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":813
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":813
  *         return <tuple>d.subarray.shape
  *     else:
  *         return ()             # <<<<<<<<<<<<<<
@@ -17516,7 +17542,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
     goto __pyx_L0;
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":809
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":809
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):             # <<<<<<<<<<<<<<
@@ -17531,7 +17557,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":947
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":947
  * 
  *     ctypedef class numpy.ufunc [object PyUFuncObject, check_size ignore]:
  *         @property             # <<<<<<<<<<<<<<
@@ -17542,7 +17568,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
 static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_3nin_nin(PyUFuncObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":949
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":949
  *         @property
  *         cdef inline int nin(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nin             # <<<<<<<<<<<<<<
@@ -17552,7 +17578,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_3nin_nin(PyUFuncObject *__pyx_v_s
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->nin;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":947
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":947
  * 
  *     ctypedef class numpy.ufunc [object PyUFuncObject, check_size ignore]:
  *         @property             # <<<<<<<<<<<<<<
@@ -17565,7 +17591,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_3nin_nin(PyUFuncObject *__pyx_v_s
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":951
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":951
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nin
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17576,7 +17602,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_3nin_nin(PyUFuncObject *__pyx_v_s
 static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_4nout_nout(PyUFuncObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":953
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":953
  *         @property
  *         cdef inline int nout(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nout             # <<<<<<<<<<<<<<
@@ -17586,7 +17612,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_4nout_nout(PyUFuncObject *__pyx_v
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->nout;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":951
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":951
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nin
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17599,7 +17625,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_4nout_nout(PyUFuncObject *__pyx_v
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":955
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":955
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nout
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17610,7 +17636,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_4nout_nout(PyUFuncObject *__pyx_v
 static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_5nargs_nargs(PyUFuncObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":957
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":957
  *         @property
  *         cdef inline int nargs(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nargs             # <<<<<<<<<<<<<<
@@ -17620,7 +17646,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_5nargs_nargs(PyUFuncObject *__pyx
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->nargs;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":955
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":955
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nout
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17633,7 +17659,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_5nargs_nargs(PyUFuncObject *__pyx
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":959
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":959
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nargs
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17644,7 +17670,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_5nargs_nargs(PyUFuncObject *__pyx
 static CYTHON_INLINE PyUFuncGenericFunction *__pyx_f_5numpy_5ufunc_9functions_functions(PyUFuncObject *__pyx_v_self) {
   PyUFuncGenericFunction *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":961
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":961
  *         @property
  *         cdef inline PyUFuncGenericFunction* functions(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).functions             # <<<<<<<<<<<<<<
@@ -17654,7 +17680,7 @@ static CYTHON_INLINE PyUFuncGenericFunction *__pyx_f_5numpy_5ufunc_9functions_fu
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->functions;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":959
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":959
  *             return _PyUFuncObject_GET_ITEM_DATA(self).nargs
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17667,7 +17693,7 @@ static CYTHON_INLINE PyUFuncGenericFunction *__pyx_f_5numpy_5ufunc_9functions_fu
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":963
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":963
  *             return _PyUFuncObject_GET_ITEM_DATA(self).functions
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17678,7 +17704,7 @@ static CYTHON_INLINE PyUFuncGenericFunction *__pyx_f_5numpy_5ufunc_9functions_fu
 static CYTHON_INLINE void **__pyx_f_5numpy_5ufunc_4data_data(PyUFuncObject *__pyx_v_self) {
   void **__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":965
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":965
  *         @property
  *         cdef inline void ** data(self) noexcept nogil:
  *             return <void **>_PyUFuncObject_GET_ITEM_DATA(self).data             # <<<<<<<<<<<<<<
@@ -17688,7 +17714,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_5ufunc_4data_data(PyUFuncObject *__py
   __pyx_r = ((void **)_PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->data);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":963
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":963
  *             return _PyUFuncObject_GET_ITEM_DATA(self).functions
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17701,7 +17727,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_5ufunc_4data_data(PyUFuncObject *__py
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":967
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":967
  *             return <void **>_PyUFuncObject_GET_ITEM_DATA(self).data
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17712,7 +17738,7 @@ static CYTHON_INLINE void **__pyx_f_5numpy_5ufunc_4data_data(PyUFuncObject *__py
 static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_6ntypes_ntypes(PyUFuncObject *__pyx_v_self) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":969
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":969
  *         @property
  *         cdef inline int ntypes(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ntypes             # <<<<<<<<<<<<<<
@@ -17722,7 +17748,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_6ntypes_ntypes(PyUFuncObject *__p
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->ntypes;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":967
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":967
  *             return <void **>_PyUFuncObject_GET_ITEM_DATA(self).data
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17735,7 +17761,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_6ntypes_ntypes(PyUFuncObject *__p
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":971
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":971
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ntypes
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17746,7 +17772,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_5ufunc_6ntypes_ntypes(PyUFuncObject *__p
 static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_4name_name(PyUFuncObject *__pyx_v_self) {
   char const *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":973
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":973
  *         @property
  *         cdef inline const char* name(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).name             # <<<<<<<<<<<<<<
@@ -17756,7 +17782,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_4name_name(PyUFuncObject 
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->name;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":971
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":971
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ntypes
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17769,7 +17795,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_4name_name(PyUFuncObject 
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":975
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":975
  *             return _PyUFuncObject_GET_ITEM_DATA(self).name
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17780,7 +17806,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_4name_name(PyUFuncObject 
 static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_3doc_doc(PyUFuncObject *__pyx_v_self) {
   char const *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":977
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":977
  *         @property
  *         cdef inline const char* doc(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).doc             # <<<<<<<<<<<<<<
@@ -17790,7 +17816,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_3doc_doc(PyUFuncObject *_
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->doc;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":975
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":975
  *             return _PyUFuncObject_GET_ITEM_DATA(self).name
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17803,7 +17829,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_3doc_doc(PyUFuncObject *_
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":979
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":979
  *             return _PyUFuncObject_GET_ITEM_DATA(self).doc
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17814,7 +17840,7 @@ static CYTHON_INLINE char const *__pyx_f_5numpy_5ufunc_3doc_doc(PyUFuncObject *_
 static CYTHON_INLINE void *__pyx_f_5numpy_5ufunc_3ptr_ptr(PyUFuncObject *__pyx_v_self) {
   void *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":981
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":981
  *         @property
  *         cdef inline void* ptr(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ptr             # <<<<<<<<<<<<<<
@@ -17824,7 +17850,7 @@ static CYTHON_INLINE void *__pyx_f_5numpy_5ufunc_3ptr_ptr(PyUFuncObject *__pyx_v
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->ptr;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":979
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":979
  *             return _PyUFuncObject_GET_ITEM_DATA(self).doc
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17837,7 +17863,7 @@ static CYTHON_INLINE void *__pyx_f_5numpy_5ufunc_3ptr_ptr(PyUFuncObject *__pyx_v
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":983
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":983
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ptr
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17848,7 +17874,7 @@ static CYTHON_INLINE void *__pyx_f_5numpy_5ufunc_3ptr_ptr(PyUFuncObject *__pyx_v
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_3obj_obj(PyUFuncObject *__pyx_v_self) {
   PyObject *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":985
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":985
  *         @property
  *         cdef inline PyObject* obj(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).obj             # <<<<<<<<<<<<<<
@@ -17858,7 +17884,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_3obj_obj(PyUFuncObject *__p
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->obj;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":983
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":983
  *             return _PyUFuncObject_GET_ITEM_DATA(self).ptr
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17871,7 +17897,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_3obj_obj(PyUFuncObject *__p
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":987
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":987
  *             return _PyUFuncObject_GET_ITEM_DATA(self).obj
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17882,7 +17908,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_3obj_obj(PyUFuncObject *__p
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_9userloops_userloops(PyUFuncObject *__pyx_v_self) {
   PyObject *__pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":989
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":989
  *         @property
  *         cdef inline PyObject* userloops(self) noexcept nogil:
  *             return _PyUFuncObject_GET_ITEM_DATA(self).userloops             # <<<<<<<<<<<<<<
@@ -17892,7 +17918,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_9userloops_userloops(PyUFun
   __pyx_r = _PyUFuncObject_GET_ITEM_DATA(__pyx_v_self)->userloops;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":987
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":987
  *             return _PyUFuncObject_GET_ITEM_DATA(self).obj
  * 
  *         @property             # <<<<<<<<<<<<<<
@@ -17905,7 +17931,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_5ufunc_9userloops_userloops(PyUFun
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1065
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1065
  *     int _import_umath() except -1
  * 
  * cdef inline void set_array_base(ndarray arr, object base) except *:             # <<<<<<<<<<<<<<
@@ -17919,7 +17945,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1066
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1066
  * 
  * cdef inline void set_array_base(ndarray arr, object base) except *:
  *     Py_INCREF(base) # important to do this before stealing the reference below!             # <<<<<<<<<<<<<<
@@ -17928,7 +17954,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 */
   Py_INCREF(__pyx_v_base);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1067
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1067
  * cdef inline void set_array_base(ndarray arr, object base) except *:
  *     Py_INCREF(base) # important to do this before stealing the reference below!
  *     PyArray_SetBaseObject(arr, base)             # <<<<<<<<<<<<<<
@@ -17937,7 +17963,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 */
   __pyx_t_1 = PyArray_SetBaseObject(__pyx_v_arr, __pyx_v_base); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(2, 1067, __pyx_L1_error)
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1065
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1065
  *     int _import_umath() except -1
  * 
  * cdef inline void set_array_base(ndarray arr, object base) except *:             # <<<<<<<<<<<<<<
@@ -17952,7 +17978,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   __pyx_L0:;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1069
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1069
  *     PyArray_SetBaseObject(arr, base)
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -17967,7 +17993,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("get_array_base", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1070
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1070
  * 
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)             # <<<<<<<<<<<<<<
@@ -17976,7 +18002,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 */
   __pyx_v_base = PyArray_BASE(__pyx_v_arr);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1071
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1071
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)
  *     if base is NULL:             # <<<<<<<<<<<<<<
@@ -17986,7 +18012,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __pyx_t_1 = (__pyx_v_base == NULL);
   if (__pyx_t_1) {
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1072
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1072
  *     base = PyArray_BASE(arr)
  *     if base is NULL:
  *         return None             # <<<<<<<<<<<<<<
@@ -17997,7 +18023,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1071
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1071
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)
  *     if base is NULL:             # <<<<<<<<<<<<<<
@@ -18006,7 +18032,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 */
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1073
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1073
  *     if base is NULL:
  *         return None
  *     return <object>base             # <<<<<<<<<<<<<<
@@ -18018,7 +18044,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __pyx_r = ((PyObject *)__pyx_v_base);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1069
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1069
  *     PyArray_SetBaseObject(arr, base)
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -18033,7 +18059,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1077
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1077
  * # Versions of the import_* functions which are more suitable for
  * # Cython code.
  * cdef inline int import_array() except -1:             # <<<<<<<<<<<<<<
@@ -18059,7 +18085,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_array", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18075,7 +18101,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1079
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1079
  * cdef inline int import_array() except -1:
  *     try:
  *         __pyx_import_array()             # <<<<<<<<<<<<<<
@@ -18084,7 +18110,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
 */
       __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1079, __pyx_L3_error)
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18098,7 +18124,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1080
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1080
  *     try:
  *         __pyx_import_array()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -18113,7 +18139,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
       __Pyx_XGOTREF(__pyx_t_6);
       __Pyx_XGOTREF(__pyx_t_7);
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1081
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1081
  *         __pyx_import_array()
  *     except Exception:
  *         raise ImportError("numpy._core.multiarray failed to import")             # <<<<<<<<<<<<<<
@@ -18135,7 +18161,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     }
     goto __pyx_L5_except_error;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1078
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18151,7 +18177,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1077
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1077
  * # Versions of the import_* functions which are more suitable for
  * # Cython code.
  * cdef inline int import_array() except -1:             # <<<<<<<<<<<<<<
@@ -18175,7 +18201,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1083
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1083
  *         raise ImportError("numpy._core.multiarray failed to import")
  * 
  * cdef inline int import_umath() except -1:             # <<<<<<<<<<<<<<
@@ -18201,7 +18227,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_umath", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18217,7 +18243,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1085
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1085
  * cdef inline int import_umath() except -1:
  *     try:
  *         _import_umath()             # <<<<<<<<<<<<<<
@@ -18226,7 +18252,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
 */
       __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1085, __pyx_L3_error)
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18240,7 +18266,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1086
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1086
  *     try:
  *         _import_umath()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -18255,7 +18281,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
       __Pyx_XGOTREF(__pyx_t_6);
       __Pyx_XGOTREF(__pyx_t_7);
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1087
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1087
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy._core.umath failed to import")             # <<<<<<<<<<<<<<
@@ -18277,7 +18303,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     }
     goto __pyx_L5_except_error;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1084
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18293,7 +18319,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1083
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1083
  *         raise ImportError("numpy._core.multiarray failed to import")
  * 
  * cdef inline int import_umath() except -1:             # <<<<<<<<<<<<<<
@@ -18317,7 +18343,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1089
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1089
  *         raise ImportError("numpy._core.umath failed to import")
  * 
  * cdef inline int import_ufunc() except -1:             # <<<<<<<<<<<<<<
@@ -18343,7 +18369,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_ufunc", 0);
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18359,7 +18385,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1091
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1091
  * cdef inline int import_ufunc() except -1:
  *     try:
  *         _import_umath()             # <<<<<<<<<<<<<<
@@ -18368,7 +18394,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
 */
       __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1091, __pyx_L3_error)
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18382,7 +18408,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1092
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1092
  *     try:
  *         _import_umath()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -18397,7 +18423,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
       __Pyx_XGOTREF(__pyx_t_6);
       __Pyx_XGOTREF(__pyx_t_7);
 
-      /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1093
+      /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1093
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy._core.umath failed to import")             # <<<<<<<<<<<<<<
@@ -18419,7 +18445,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     }
     goto __pyx_L5_except_error;
 
-    /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
+    /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1090
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -18435,7 +18461,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1089
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1089
  *         raise ImportError("numpy._core.umath failed to import")
  * 
  * cdef inline int import_ufunc() except -1:             # <<<<<<<<<<<<<<
@@ -18459,7 +18485,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1096
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1096
  * 
  * 
  * cdef inline bint is_timedelta64_object(object obj) noexcept:             # <<<<<<<<<<<<<<
@@ -18470,7 +18496,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
 static CYTHON_INLINE int __pyx_f_5numpy_is_timedelta64_object(PyObject *__pyx_v_obj) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1108
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1108
  *     bool
  *     """
  *     return PyObject_TypeCheck(obj, &PyTimedeltaArrType_Type)             # <<<<<<<<<<<<<<
@@ -18480,7 +18506,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_timedelta64_object(PyObject *__pyx_v_
   __pyx_r = PyObject_TypeCheck(__pyx_v_obj, (&PyTimedeltaArrType_Type));
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1096
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1096
  * 
  * 
  * cdef inline bint is_timedelta64_object(object obj) noexcept:             # <<<<<<<<<<<<<<
@@ -18493,7 +18519,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_timedelta64_object(PyObject *__pyx_v_
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1111
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1111
  * 
  * 
  * cdef inline bint is_datetime64_object(object obj) noexcept:             # <<<<<<<<<<<<<<
@@ -18504,7 +18530,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_timedelta64_object(PyObject *__pyx_v_
 static CYTHON_INLINE int __pyx_f_5numpy_is_datetime64_object(PyObject *__pyx_v_obj) {
   int __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1123
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1123
  *     bool
  *     """
  *     return PyObject_TypeCheck(obj, &PyDatetimeArrType_Type)             # <<<<<<<<<<<<<<
@@ -18514,7 +18540,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_datetime64_object(PyObject *__pyx_v_o
   __pyx_r = PyObject_TypeCheck(__pyx_v_obj, (&PyDatetimeArrType_Type));
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1111
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1111
  * 
  * 
  * cdef inline bint is_datetime64_object(object obj) noexcept:             # <<<<<<<<<<<<<<
@@ -18527,7 +18553,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_datetime64_object(PyObject *__pyx_v_o
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1126
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1126
  * 
  * 
  * cdef inline npy_datetime get_datetime64_value(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -18538,7 +18564,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_is_datetime64_object(PyObject *__pyx_v_o
 static CYTHON_INLINE npy_datetime __pyx_f_5numpy_get_datetime64_value(PyObject *__pyx_v_obj) {
   npy_datetime __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1133
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1133
  *     also needed.  That can be found using `get_datetime64_unit`.
  *     """
  *     return _PyDatetimeScalarObject_GetValue(obj)             # <<<<<<<<<<<<<<
@@ -18548,7 +18574,7 @@ static CYTHON_INLINE npy_datetime __pyx_f_5numpy_get_datetime64_value(PyObject *
   __pyx_r = _PyDatetimeScalarObject_GetValue(__pyx_v_obj);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1126
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1126
  * 
  * 
  * cdef inline npy_datetime get_datetime64_value(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -18561,7 +18587,7 @@ static CYTHON_INLINE npy_datetime __pyx_f_5numpy_get_datetime64_value(PyObject *
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1136
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1136
  * 
  * 
  * cdef inline npy_timedelta get_timedelta64_value(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -18572,7 +18598,7 @@ static CYTHON_INLINE npy_datetime __pyx_f_5numpy_get_datetime64_value(PyObject *
 static CYTHON_INLINE npy_timedelta __pyx_f_5numpy_get_timedelta64_value(PyObject *__pyx_v_obj) {
   npy_timedelta __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1140
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1140
  *     returns the int64 value underlying scalar numpy timedelta64 object
  *     """
  *     return _PyTimedeltaScalarObject_GetValue(obj)             # <<<<<<<<<<<<<<
@@ -18582,7 +18608,7 @@ static CYTHON_INLINE npy_timedelta __pyx_f_5numpy_get_timedelta64_value(PyObject
   __pyx_r = _PyTimedeltaScalarObject_GetValue(__pyx_v_obj);
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1136
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1136
  * 
  * 
  * cdef inline npy_timedelta get_timedelta64_value(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -18595,7 +18621,7 @@ static CYTHON_INLINE npy_timedelta __pyx_f_5numpy_get_timedelta64_value(PyObject
   return __pyx_r;
 }
 
-/* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1143
+/* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1143
  * 
  * 
  * cdef inline NPY_DATETIMEUNIT get_datetime64_unit(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -18606,7 +18632,7 @@ static CYTHON_INLINE npy_timedelta __pyx_f_5numpy_get_timedelta64_value(PyObject
 static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObject *__pyx_v_obj) {
   NPY_DATETIMEUNIT __pyx_r;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1147
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1147
  *     returns the unit part of the dtype for a numpy datetime64 object.
  *     """
  *     return _PyDatetimeScalarObject_GetMetadata(obj).base             # <<<<<<<<<<<<<<
@@ -18616,7 +18642,7 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
   __pyx_r = _PyDatetimeScalarObject_GetMetadata(__pyx_v_obj).base;
   goto __pyx_L0;
 
-  /* "C:/Users/sepuh/AppData/Local/Temp/pip-build-env-t7iiy9vw/overlay/Lib/site-packages/numpy/__init__.cython-30.pxd":1143
+  /* "venv/Lib/site-packages/numpy/__init__.cython-30.pxd":1143
  * 
  * 
  * cdef inline NPY_DATETIMEUNIT get_datetime64_unit(object obj) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -19667,7 +19693,7 @@ static CYTHON_INLINE void __pyx_f_6engine_6cython_14cy_response_3d__apply_impuls
  *     double *vax, double *vay, double *vaz,
 */
 
-static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(double __pyx_v_pax, double __pyx_v_pay, double __pyx_v_paz, double *__pyx_v_vax, double *__pyx_v_vay, double *__pyx_v_vaz, double *__pyx_v_oax, double *__pyx_v_oay, double *__pyx_v_oaz, double __pyx_v_inv_mass_a, int __pyx_v_has_ia, __Pyx_memviewslice __pyx_v_ia, double __pyx_v_pbx, double __pyx_v_pby, double __pyx_v_pbz, double *__pyx_v_vbx, double *__pyx_v_vby, double *__pyx_v_vbz, double *__pyx_v_obx, double *__pyx_v_oby, double *__pyx_v_obz, double __pyx_v_inv_mass_b, int __pyx_v_has_ib, __Pyx_memviewslice __pyx_v_ib, double __pyx_v_cpx, double __pyx_v_cpy, double __pyx_v_cpz, double __pyx_v_nx, double __pyx_v_ny, double __pyx_v_nz, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt, int *__pyx_v_out_unstable) {
+static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(double __pyx_v_pax, double __pyx_v_pay, double __pyx_v_paz, double *__pyx_v_vax, double *__pyx_v_vay, double *__pyx_v_vaz, double *__pyx_v_oax, double *__pyx_v_oay, double *__pyx_v_oaz, double __pyx_v_inv_mass_a, int __pyx_v_has_ia, __Pyx_memviewslice __pyx_v_ia, double __pyx_v_pbx, double __pyx_v_pby, double __pyx_v_pbz, double *__pyx_v_vbx, double *__pyx_v_vby, double *__pyx_v_vbz, double *__pyx_v_obx, double *__pyx_v_oby, double *__pyx_v_obz, double __pyx_v_inv_mass_b, int __pyx_v_has_ib, __Pyx_memviewslice __pyx_v_ib, double __pyx_v_cpx, double __pyx_v_cpy, double __pyx_v_cpz, double __pyx_v_nx, double __pyx_v_ny, double __pyx_v_nz, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt, int __pyx_v_multi_point, int *__pyx_v_out_unstable) {
   double __pyx_v_n_len;
   double __pyx_v_inv_n;
   double __pyx_v_rax;
@@ -19767,7 +19793,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   int __pyx_t_3;
   long __pyx_t_4;
 
-  /* "engine/cython/cy_response_3d.pyx":168
+  /* "engine/cython/cy_response_3d.pyx":169
  *     bint *out_unstable,
  * ) noexcept nogil:
  *     cdef double n_len = _len3(nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -19776,7 +19802,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_n_len = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":188
+  /* "engine/cython/cy_response_3d.pyx":189
  *     cdef double ra_cx, ra_cy, ra_cz, rb_cx, rb_cy, rb_cz
  * 
  *     out_unstable[0] = 0             # <<<<<<<<<<<<<<
@@ -19785,7 +19811,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   (__pyx_v_out_unstable[0]) = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":189
+  /* "engine/cython/cy_response_3d.pyx":190
  * 
  *     out_unstable[0] = 0
  *     if n_len < 1e-12:             # <<<<<<<<<<<<<<
@@ -19795,7 +19821,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_n_len < 1e-12);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":190
+    /* "engine/cython/cy_response_3d.pyx":191
  *     out_unstable[0] = 0
  *     if n_len < 1e-12:
  *         return             # <<<<<<<<<<<<<<
@@ -19804,7 +19830,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":189
+    /* "engine/cython/cy_response_3d.pyx":190
  * 
  *     out_unstable[0] = 0
  *     if n_len < 1e-12:             # <<<<<<<<<<<<<<
@@ -19813,7 +19839,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":191
+  /* "engine/cython/cy_response_3d.pyx":192
  *     if n_len < 1e-12:
  *         return
  *     inv_n = 1.0 / n_len             # <<<<<<<<<<<<<<
@@ -19822,7 +19848,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_inv_n = (1.0 / __pyx_v_n_len);
 
-  /* "engine/cython/cy_response_3d.pyx":192
+  /* "engine/cython/cy_response_3d.pyx":193
  *         return
  *     inv_n = 1.0 / n_len
  *     nx *= inv_n             # <<<<<<<<<<<<<<
@@ -19831,7 +19857,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_nx = (__pyx_v_nx * __pyx_v_inv_n);
 
-  /* "engine/cython/cy_response_3d.pyx":193
+  /* "engine/cython/cy_response_3d.pyx":194
  *     inv_n = 1.0 / n_len
  *     nx *= inv_n
  *     ny *= inv_n             # <<<<<<<<<<<<<<
@@ -19840,7 +19866,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_ny = (__pyx_v_ny * __pyx_v_inv_n);
 
-  /* "engine/cython/cy_response_3d.pyx":194
+  /* "engine/cython/cy_response_3d.pyx":195
  *     nx *= inv_n
  *     ny *= inv_n
  *     nz *= inv_n             # <<<<<<<<<<<<<<
@@ -19849,7 +19875,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_nz = (__pyx_v_nz * __pyx_v_inv_n);
 
-  /* "engine/cython/cy_response_3d.pyx":196
+  /* "engine/cython/cy_response_3d.pyx":197
  *     nz *= inv_n
  * 
  *     rax = cpx - pax; ray = cpy - pay; raz = cpz - paz             # <<<<<<<<<<<<<<
@@ -19860,7 +19886,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_ray = (__pyx_v_cpy - __pyx_v_pay);
   __pyx_v_raz = (__pyx_v_cpz - __pyx_v_paz);
 
-  /* "engine/cython/cy_response_3d.pyx":197
+  /* "engine/cython/cy_response_3d.pyx":198
  * 
  *     rax = cpx - pax; ray = cpy - pay; raz = cpz - paz
  *     rbx = cpx - pbx; rby = cpy - pby; rbz = cpz - pbz             # <<<<<<<<<<<<<<
@@ -19871,7 +19897,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_rby = (__pyx_v_cpy - __pyx_v_pby);
   __pyx_v_rbz = (__pyx_v_cpz - __pyx_v_pbz);
 
-  /* "engine/cython/cy_response_3d.pyx":200
+  /* "engine/cython/cy_response_3d.pyx":201
  * 
  *     # v_rel at contact
  *     _cross3(oax[0], oay[0], oaz[0], rax, ray, raz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -19880,7 +19906,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_oax[0]), (__pyx_v_oay[0]), (__pyx_v_oaz[0]), __pyx_v_rax, __pyx_v_ray, __pyx_v_raz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":201
+  /* "engine/cython/cy_response_3d.pyx":202
  *     # v_rel at contact
  *     _cross3(oax[0], oay[0], oaz[0], rax, ray, raz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox             # <<<<<<<<<<<<<<
@@ -19889,7 +19915,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vrx = ((__pyx_v_vax[0]) + __pyx_v_ox);
 
-  /* "engine/cython/cy_response_3d.pyx":202
+  /* "engine/cython/cy_response_3d.pyx":203
  *     _cross3(oax[0], oay[0], oaz[0], rax, ray, raz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox
  *     vry = vay[0] + oy             # <<<<<<<<<<<<<<
@@ -19898,7 +19924,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vry = ((__pyx_v_vay[0]) + __pyx_v_oy);
 
-  /* "engine/cython/cy_response_3d.pyx":203
+  /* "engine/cython/cy_response_3d.pyx":204
  *     vrx = vax[0] + ox
  *     vry = vay[0] + oy
  *     vrz = vaz[0] + oz             # <<<<<<<<<<<<<<
@@ -19907,7 +19933,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vrz = ((__pyx_v_vaz[0]) + __pyx_v_oz);
 
-  /* "engine/cython/cy_response_3d.pyx":204
+  /* "engine/cython/cy_response_3d.pyx":205
  *     vry = vay[0] + oy
  *     vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rbx, rby, rbz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -19916,7 +19942,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_obx[0]), (__pyx_v_oby[0]), (__pyx_v_obz[0]), __pyx_v_rbx, __pyx_v_rby, __pyx_v_rbz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":205
+  /* "engine/cython/cy_response_3d.pyx":206
  *     vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rbx, rby, rbz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox             # <<<<<<<<<<<<<<
@@ -19925,7 +19951,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vrx = (__pyx_v_vrx - ((__pyx_v_vbx[0]) + __pyx_v_ox));
 
-  /* "engine/cython/cy_response_3d.pyx":206
+  /* "engine/cython/cy_response_3d.pyx":207
  *     _cross3(obx[0], oby[0], obz[0], rbx, rby, rbz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox
  *     vry -= vby[0] + oy             # <<<<<<<<<<<<<<
@@ -19934,7 +19960,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + __pyx_v_oy));
 
-  /* "engine/cython/cy_response_3d.pyx":207
+  /* "engine/cython/cy_response_3d.pyx":208
  *     vrx -= vbx[0] + ox
  *     vry -= vby[0] + oy
  *     vrz -= vbz[0] + oz             # <<<<<<<<<<<<<<
@@ -19943,7 +19969,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_vrz = (__pyx_v_vrz - ((__pyx_v_vbz[0]) + __pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":209
+  /* "engine/cython/cy_response_3d.pyx":210
  *     vrz -= vbz[0] + oz
  * 
  *     v_n0 = _dot3(vrx, vry, vrz, nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -19952,7 +19978,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_v_n0 = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_vrx, __pyx_v_vry, __pyx_v_vrz, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":210
+  /* "engine/cython/cy_response_3d.pyx":211
  * 
  *     v_n0 = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n0 > 0.0:             # <<<<<<<<<<<<<<
@@ -19962,7 +19988,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_v_n0 > 0.0);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":211
+    /* "engine/cython/cy_response_3d.pyx":212
  *     v_n0 = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n0 > 0.0:
  *         return             # <<<<<<<<<<<<<<
@@ -19971,7 +19997,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":210
+    /* "engine/cython/cy_response_3d.pyx":211
  * 
  *     v_n0 = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n0 > 0.0:             # <<<<<<<<<<<<<<
@@ -19980,7 +20006,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":213
+  /* "engine/cython/cy_response_3d.pyx":214
  *         return
  * 
  *     closing = -v_n0             # <<<<<<<<<<<<<<
@@ -19989,7 +20015,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_closing = (-__pyx_v_v_n0);
 
-  /* "engine/cython/cy_response_3d.pyx":214
+  /* "engine/cython/cy_response_3d.pyx":215
  * 
  *     closing = -v_n0
  *     w_impact = _impact_weight(closing)             # <<<<<<<<<<<<<<
@@ -19998,7 +20024,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_w_impact = __pyx_f_6engine_6cython_14cy_response_3d__impact_weight(__pyx_v_closing);
 
-  /* "engine/cython/cy_response_3d.pyx":216
+  /* "engine/cython/cy_response_3d.pyx":217
  *     w_impact = _impact_weight(closing)
  * 
  *     off_a = _support_offset(rax, ray, raz, nx, ny, nz) if inv_mass_a > 0.0 else 0.0             # <<<<<<<<<<<<<<
@@ -20013,7 +20039,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   }
   __pyx_v_off_a = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":217
+  /* "engine/cython/cy_response_3d.pyx":218
  * 
  *     off_a = _support_offset(rax, ray, raz, nx, ny, nz) if inv_mass_a > 0.0 else 0.0
  *     off_b = _support_offset(rbx, rby, rbz, nx, ny, nz) if inv_mass_b > 0.0 else 0.0             # <<<<<<<<<<<<<<
@@ -20028,7 +20054,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   }
   __pyx_v_off_b = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":218
+  /* "engine/cython/cy_response_3d.pyx":219
  *     off_a = _support_offset(rax, ray, raz, nx, ny, nz) if inv_mass_a > 0.0 else 0.0
  *     off_b = _support_offset(rbx, rby, rbz, nx, ny, nz) if inv_mass_b > 0.0 else 0.0
  *     support_off = off_a if off_a > off_b else off_b             # <<<<<<<<<<<<<<
@@ -20043,7 +20069,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   }
   __pyx_v_support_off = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":220
+  /* "engine/cython/cy_response_3d.pyx":221
  *     support_off = off_a if off_a > off_b else off_b
  * 
  *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD             # <<<<<<<<<<<<<<
@@ -20061,7 +20087,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L5_bool_binop_done:;
   __pyx_v_aligned_a = __pyx_t_1;
 
-  /* "engine/cython/cy_response_3d.pyx":221
+  /* "engine/cython/cy_response_3d.pyx":222
  * 
  *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD
  *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD             # <<<<<<<<<<<<<<
@@ -20079,7 +20105,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L7_bool_binop_done:;
   __pyx_v_aligned_b = __pyx_t_1;
 
-  /* "engine/cython/cy_response_3d.pyx":222
+  /* "engine/cython/cy_response_3d.pyx":223
  *     aligned_a = inv_mass_a > 0.0 and face_align_a >= FACE_ALIGN_THRESHOLD
  *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD
  *     face_aligned = aligned_a or aligned_b             # <<<<<<<<<<<<<<
@@ -20095,7 +20121,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L9_bool_binop_done:;
   __pyx_v_face_aligned = __pyx_t_1;
 
-  /* "engine/cython/cy_response_3d.pyx":223
+  /* "engine/cython/cy_response_3d.pyx":224
  *     aligned_b = inv_mass_b > 0.0 and face_align_b >= FACE_ALIGN_THRESHOLD
  *     face_aligned = aligned_a or aligned_b
  *     best_align = 0.0             # <<<<<<<<<<<<<<
@@ -20104,7 +20130,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_best_align = 0.0;
 
-  /* "engine/cython/cy_response_3d.pyx":224
+  /* "engine/cython/cy_response_3d.pyx":225
  *     face_aligned = aligned_a or aligned_b
  *     best_align = 0.0
  *     if inv_mass_a > 0.0 and face_align_a > best_align:             # <<<<<<<<<<<<<<
@@ -20122,7 +20148,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L12_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":225
+    /* "engine/cython/cy_response_3d.pyx":226
  *     best_align = 0.0
  *     if inv_mass_a > 0.0 and face_align_a > best_align:
  *         best_align = face_align_a             # <<<<<<<<<<<<<<
@@ -20131,7 +20157,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_best_align = __pyx_v_face_align_a;
 
-    /* "engine/cython/cy_response_3d.pyx":224
+    /* "engine/cython/cy_response_3d.pyx":225
  *     face_aligned = aligned_a or aligned_b
  *     best_align = 0.0
  *     if inv_mass_a > 0.0 and face_align_a > best_align:             # <<<<<<<<<<<<<<
@@ -20140,7 +20166,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":226
+  /* "engine/cython/cy_response_3d.pyx":227
  *     if inv_mass_a > 0.0 and face_align_a > best_align:
  *         best_align = face_align_a
  *     if inv_mass_b > 0.0 and face_align_b > best_align:             # <<<<<<<<<<<<<<
@@ -20158,16 +20184,16 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L15_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":227
+    /* "engine/cython/cy_response_3d.pyx":228
  *         best_align = face_align_a
  *     if inv_mass_b > 0.0 and face_align_b > best_align:
  *         best_align = face_align_b             # <<<<<<<<<<<<<<
  * 
- *     face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
+ *     # Multi-point manifold contacts: use full geometric lever arms at each
 */
     __pyx_v_best_align = __pyx_v_face_align_b;
 
-    /* "engine/cython/cy_response_3d.pyx":226
+    /* "engine/cython/cy_response_3d.pyx":227
  *     if inv_mass_a > 0.0 and face_align_a > best_align:
  *         best_align = face_align_a
  *     if inv_mass_b > 0.0 and face_align_b > best_align:             # <<<<<<<<<<<<<<
@@ -20176,551 +20202,609 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":229
- *         best_align = face_align_b
- * 
- *     face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET             # <<<<<<<<<<<<<<
- *     unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
- * 
-*/
-  if (__pyx_v_face_aligned) {
-  } else {
-    __pyx_t_1 = __pyx_v_face_aligned;
-    goto __pyx_L17_bool_binop_done;
-  }
-  __pyx_t_3 = (__pyx_v_support_off < __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
-  __pyx_t_1 = __pyx_t_3;
-  __pyx_L17_bool_binop_done:;
-  __pyx_v_face_support = __pyx_t_1;
-
-  /* "engine/cython/cy_response_3d.pyx":230
- * 
- *     face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
- *     unstable = support_off >= UNSTABLE_SUPPORT_OFFSET             # <<<<<<<<<<<<<<
- * 
- *     ground_like = fabs(ny) > 0.88
-*/
-  __pyx_v_unstable = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
-
-  /* "engine/cython/cy_response_3d.pyx":232
- *     unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
- * 
- *     ground_like = fabs(ny) > 0.88             # <<<<<<<<<<<<<<
- *     if ground_like and closing < 2.5:
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:
-*/
-  __pyx_v_ground_like = (fabs(__pyx_v_ny) > 0.88);
-
   /* "engine/cython/cy_response_3d.pyx":233
- * 
- *     ground_like = fabs(ny) > 0.88
- *     if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:
- *             face_support = 1
+ *     # point so face corners share load.  Skip single-point face_support /
+ *     # tip heuristics (those assume one smart contact near the COM).
+ *     if multi_point:             # <<<<<<<<<<<<<<
+ *         face_support = 0
+ *         unstable = 0
 */
-  if (__pyx_v_ground_like) {
-  } else {
-    __pyx_t_1 = __pyx_v_ground_like;
-    goto __pyx_L20_bool_binop_done;
-  }
-  __pyx_t_3 = (__pyx_v_closing < 2.5);
-  __pyx_t_1 = __pyx_t_3;
-  __pyx_L20_bool_binop_done:;
-  if (__pyx_t_1) {
+  if (__pyx_v_multi_point) {
 
     /* "engine/cython/cy_response_3d.pyx":234
- *     ground_like = fabs(ny) > 0.88
- *     if ground_like and closing < 2.5:
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:             # <<<<<<<<<<<<<<
- *             face_support = 1
- *             unstable = 0
+ *     # tip heuristics (those assume one smart contact near the COM).
+ *     if multi_point:
+ *         face_support = 0             # <<<<<<<<<<<<<<
+ *         unstable = 0
+ *         w_n = 1.0
 */
-    __pyx_t_3 = (__pyx_v_best_align >= __pyx_v_6engine_6cython_14cy_response_3d_FACE_REST_ALIGN);
-    if (__pyx_t_3) {
-    } else {
-      __pyx_t_1 = __pyx_t_3;
-      goto __pyx_L23_bool_binop_done;
-    }
-    __pyx_t_3 = (__pyx_v_support_off < 0.08);
-    __pyx_t_1 = __pyx_t_3;
-    __pyx_L23_bool_binop_done:;
-    if (__pyx_t_1) {
+    __pyx_v_face_support = 0;
 
-      /* "engine/cython/cy_response_3d.pyx":235
- *     if ground_like and closing < 2.5:
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:
- *             face_support = 1             # <<<<<<<<<<<<<<
- *             unstable = 0
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
+    /* "engine/cython/cy_response_3d.pyx":235
+ *     if multi_point:
+ *         face_support = 0
+ *         unstable = 0             # <<<<<<<<<<<<<<
+ *         w_n = 1.0
+ *         ground_like = fabs(ny) > 0.88
 */
-      __pyx_v_face_support = 1;
+    __pyx_v_unstable = 0;
 
-      /* "engine/cython/cy_response_3d.pyx":236
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:
- *             face_support = 1
- *             unstable = 0             # <<<<<<<<<<<<<<
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
- *             face_support = 0
+    /* "engine/cython/cy_response_3d.pyx":236
+ *         face_support = 0
+ *         unstable = 0
+ *         w_n = 1.0             # <<<<<<<<<<<<<<
+ *         ground_like = fabs(ny) > 0.88
+ *     else:
 */
-      __pyx_v_unstable = 0;
-
-      /* "engine/cython/cy_response_3d.pyx":234
- *     ground_like = fabs(ny) > 0.88
- *     if ground_like and closing < 2.5:
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:             # <<<<<<<<<<<<<<
- *             face_support = 1
- *             unstable = 0
-*/
-      goto __pyx_L22;
-    }
+    __pyx_v_w_n = 1.0;
 
     /* "engine/cython/cy_response_3d.pyx":237
- *             face_support = 1
- *             unstable = 0
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:             # <<<<<<<<<<<<<<
- *             face_support = 0
- *             unstable = 1
+ *         unstable = 0
+ *         w_n = 1.0
+ *         ground_like = fabs(ny) > 0.88             # <<<<<<<<<<<<<<
+ *     else:
+ *         face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
 */
-    __pyx_t_3 = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
-    if (!__pyx_t_3) {
+    __pyx_v_ground_like = (fabs(__pyx_v_ny) > 0.88);
+
+    /* "engine/cython/cy_response_3d.pyx":233
+ *     # point so face corners share load.  Skip single-point face_support /
+ *     # tip heuristics (those assume one smart contact near the COM).
+ *     if multi_point:             # <<<<<<<<<<<<<<
+ *         face_support = 0
+ *         unstable = 0
+*/
+    goto __pyx_L17;
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":239
+ *         ground_like = fabs(ny) > 0.88
+ *     else:
+ *         face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET             # <<<<<<<<<<<<<<
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
+ * 
+*/
+  /*else*/ {
+    if (__pyx_v_face_aligned) {
     } else {
-      __pyx_t_1 = __pyx_t_3;
-      goto __pyx_L25_bool_binop_done;
+      __pyx_t_1 = __pyx_v_face_aligned;
+      goto __pyx_L18_bool_binop_done;
     }
-    __pyx_t_3 = (__pyx_v_best_align < __pyx_v_6engine_6cython_14cy_response_3d_FACE_REST_ALIGN);
+    __pyx_t_3 = (__pyx_v_support_off < __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
     __pyx_t_1 = __pyx_t_3;
-    __pyx_L25_bool_binop_done:;
+    __pyx_L18_bool_binop_done:;
+    __pyx_v_face_support = __pyx_t_1;
+
+    /* "engine/cython/cy_response_3d.pyx":240
+ *     else:
+ *         face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET             # <<<<<<<<<<<<<<
+ * 
+ *         ground_like = fabs(ny) > 0.88
+*/
+    __pyx_v_unstable = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
+
+    /* "engine/cython/cy_response_3d.pyx":242
+ *         unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
+ * 
+ *         ground_like = fabs(ny) > 0.88             # <<<<<<<<<<<<<<
+ *         if ground_like and closing < 2.5:
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+*/
+    __pyx_v_ground_like = (fabs(__pyx_v_ny) > 0.88);
+
+    /* "engine/cython/cy_response_3d.pyx":243
+ * 
+ *         ground_like = fabs(ny) > 0.88
+ *         if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+ *                 face_support = 1
+*/
+    if (__pyx_v_ground_like) {
+    } else {
+      __pyx_t_1 = __pyx_v_ground_like;
+      goto __pyx_L21_bool_binop_done;
+    }
+    __pyx_t_3 = (__pyx_v_closing < 2.5);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L21_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":238
- *             unstable = 0
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
- *             face_support = 0             # <<<<<<<<<<<<<<
- *             unstable = 1
- *             if support_off < 1e-3 and inv_mass_a > 0.0:
+      /* "engine/cython/cy_response_3d.pyx":244
+ *         ground_like = fabs(ny) > 0.88
+ *         if ground_like and closing < 2.5:
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:             # <<<<<<<<<<<<<<
+ *                 face_support = 1
+ *                 unstable = 0
 */
-      __pyx_v_face_support = 0;
-
-      /* "engine/cython/cy_response_3d.pyx":239
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
- *             face_support = 0
- *             unstable = 1             # <<<<<<<<<<<<<<
- *             if support_off < 1e-3 and inv_mass_a > 0.0:
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
-*/
-      __pyx_v_unstable = 1;
-
-      /* "engine/cython/cy_response_3d.pyx":240
- *             face_support = 0
- *             unstable = 1
- *             if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
-*/
-      __pyx_t_3 = (__pyx_v_support_off < 1e-3);
+      __pyx_t_3 = (__pyx_v_best_align >= __pyx_v_6engine_6cython_14cy_response_3d_FACE_REST_ALIGN);
       if (__pyx_t_3) {
       } else {
         __pyx_t_1 = __pyx_t_3;
-        goto __pyx_L28_bool_binop_done;
+        goto __pyx_L24_bool_binop_done;
       }
-      __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+      __pyx_t_3 = (__pyx_v_support_off < 0.08);
       __pyx_t_1 = __pyx_t_3;
-      __pyx_L28_bool_binop_done:;
+      __pyx_L24_bool_binop_done:;
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":241
- *             unstable = 1
- *             if support_off < 1e-3 and inv_mass_a > 0.0:
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0             # <<<<<<<<<<<<<<
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+        /* "engine/cython/cy_response_3d.pyx":245
+ *         if ground_like and closing < 2.5:
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+ *                 face_support = 1             # <<<<<<<<<<<<<<
+ *                 unstable = 0
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
 */
-        __pyx_v_edge_x = 1.0;
-        __pyx_v_edge_y = 0.0;
-        __pyx_v_edge_z = 0.0;
+        __pyx_v_face_support = 1;
 
-        /* "engine/cython/cy_response_3d.pyx":242
- *             if support_off < 1e-3 and inv_mass_a > 0.0:
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)             # <<<<<<<<<<<<<<
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:
+        /* "engine/cython/cy_response_3d.pyx":246
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+ *                 face_support = 1
+ *                 unstable = 0             # <<<<<<<<<<<<<<
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
+ *                 face_support = 0
 */
-        __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
-
-        /* "engine/cython/cy_response_3d.pyx":243
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn             # <<<<<<<<<<<<<<
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
-*/
-        __pyx_v_edge_x = (__pyx_v_edge_x - (__pyx_v_nx * __pyx_v_dn));
-        __pyx_v_edge_y = (__pyx_v_edge_y - (__pyx_v_ny * __pyx_v_dn));
-        __pyx_v_edge_z = (__pyx_v_edge_z - (__pyx_v_nz * __pyx_v_dn));
+        __pyx_v_unstable = 0;
 
         /* "engine/cython/cy_response_3d.pyx":244
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:             # <<<<<<<<<<<<<<
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+ *         ground_like = fabs(ny) > 0.88
+ *         if ground_like and closing < 2.5:
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:             # <<<<<<<<<<<<<<
+ *                 face_support = 1
+ *                 unstable = 0
+*/
+        goto __pyx_L23;
+      }
+
+      /* "engine/cython/cy_response_3d.pyx":247
+ *                 face_support = 1
+ *                 unstable = 0
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:             # <<<<<<<<<<<<<<
+ *                 face_support = 0
+ *                 unstable = 1
+*/
+      __pyx_t_3 = (__pyx_v_support_off >= __pyx_v_6engine_6cython_14cy_response_3d_UNSTABLE_SUPPORT_OFFSET);
+      if (!__pyx_t_3) {
+      } else {
+        __pyx_t_1 = __pyx_t_3;
+        goto __pyx_L26_bool_binop_done;
+      }
+      __pyx_t_3 = (__pyx_v_best_align < __pyx_v_6engine_6cython_14cy_response_3d_FACE_REST_ALIGN);
+      __pyx_t_1 = __pyx_t_3;
+      __pyx_L26_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_3d.pyx":248
+ *                 unstable = 0
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
+ *                 face_support = 0             # <<<<<<<<<<<<<<
+ *                 unstable = 1
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:
+*/
+        __pyx_v_face_support = 0;
+
+        /* "engine/cython/cy_response_3d.pyx":249
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
+ *                 face_support = 0
+ *                 unstable = 1             # <<<<<<<<<<<<<<
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
+*/
+        __pyx_v_unstable = 1;
+
+        /* "engine/cython/cy_response_3d.pyx":250
+ *                 face_support = 0
+ *                 unstable = 1
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
  *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
 */
-        __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z) < 1e-6);
+        __pyx_t_3 = (__pyx_v_support_off < 1e-3);
+        if (__pyx_t_3) {
+        } else {
+          __pyx_t_1 = __pyx_t_3;
+          goto __pyx_L29_bool_binop_done;
+        }
+        __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
+        __pyx_t_1 = __pyx_t_3;
+        __pyx_L29_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "engine/cython/cy_response_3d.pyx":245
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0             # <<<<<<<<<<<<<<
+          /* "engine/cython/cy_response_3d.pyx":251
+ *                 unstable = 1
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0             # <<<<<<<<<<<<<<
  *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
  *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
 */
-          __pyx_v_edge_x = 0.0;
+          __pyx_v_edge_x = 1.0;
           __pyx_v_edge_y = 0.0;
-          __pyx_v_edge_z = 1.0;
+          __pyx_v_edge_z = 0.0;
 
-          /* "engine/cython/cy_response_3d.pyx":246
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+          /* "engine/cython/cy_response_3d.pyx":252
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
  *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)             # <<<<<<<<<<<<<<
  *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 el = _len3(edge_x, edge_y, edge_z)
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:
 */
           __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-          /* "engine/cython/cy_response_3d.pyx":247
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+          /* "engine/cython/cy_response_3d.pyx":253
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
  *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
  *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn             # <<<<<<<<<<<<<<
- *                 el = _len3(edge_x, edge_y, edge_z)
- *                 if el > 1e-6:
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
 */
           __pyx_v_edge_x = (__pyx_v_edge_x - (__pyx_v_nx * __pyx_v_dn));
           __pyx_v_edge_y = (__pyx_v_edge_y - (__pyx_v_ny * __pyx_v_dn));
           __pyx_v_edge_z = (__pyx_v_edge_z - (__pyx_v_nz * __pyx_v_dn));
 
-          /* "engine/cython/cy_response_3d.pyx":244
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
- *                 edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 if _len3(edge_x, edge_y, edge_z) < 1e-6:             # <<<<<<<<<<<<<<
- *                     edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
- *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
-*/
-        }
-
-        /* "engine/cython/cy_response_3d.pyx":248
+          /* "engine/cython/cy_response_3d.pyx":254
  *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
  *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 el = _len3(edge_x, edge_y, edge_z)             # <<<<<<<<<<<<<<
- *                 if el > 1e-6:
- *                     edge_x /= el; edge_y /= el; edge_z /= el
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:             # <<<<<<<<<<<<<<
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
 */
-        __pyx_v_el = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z);
-
-        /* "engine/cython/cy_response_3d.pyx":249
- *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 el = _len3(edge_x, edge_y, edge_z)
- *                 if el > 1e-6:             # <<<<<<<<<<<<<<
- *                     edge_x /= el; edge_y /= el; edge_z /= el
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
-*/
-        __pyx_t_1 = (__pyx_v_el > 1e-6);
-        if (__pyx_t_1) {
-
-          /* "engine/cython/cy_response_3d.pyx":250
- *                 el = _len3(edge_x, edge_y, edge_z)
- *                 if el > 1e-6:
- *                     edge_x /= el; edge_y /= el; edge_z /= el             # <<<<<<<<<<<<<<
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
- *                     tl = _len3(tip_x, tip_y, tip_z)
-*/
-          __pyx_v_edge_x = (__pyx_v_edge_x / __pyx_v_el);
-          __pyx_v_edge_y = (__pyx_v_edge_y / __pyx_v_el);
-          __pyx_v_edge_z = (__pyx_v_edge_z / __pyx_v_el);
-
-          /* "engine/cython/cy_response_3d.pyx":251
- *                 if el > 1e-6:
- *                     edge_x /= el; edge_y /= el; edge_z /= el
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)             # <<<<<<<<<<<<<<
- *                     tl = _len3(tip_x, tip_y, tip_z)
- *                     if tl > 1e-6:
-*/
-          __pyx_f_6engine_6cython_14cy_response_3d__cross3(__pyx_v_nx, __pyx_v_ny, __pyx_v_nz, __pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z, (&__pyx_v_tip_x), (&__pyx_v_tip_y), (&__pyx_v_tip_z));
-
-          /* "engine/cython/cy_response_3d.pyx":252
- *                     edge_x /= el; edge_y /= el; edge_z /= el
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
- *                     tl = _len3(tip_x, tip_y, tip_z)             # <<<<<<<<<<<<<<
- *                     if tl > 1e-6:
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl
-*/
-          __pyx_v_tl = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_tip_x, __pyx_v_tip_y, __pyx_v_tip_z);
-
-          /* "engine/cython/cy_response_3d.pyx":253
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
- *                     tl = _len3(tip_x, tip_y, tip_z)
- *                     if tl > 1e-6:             # <<<<<<<<<<<<<<
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl
- *                         rax += tip_x * 0.03
-*/
-          __pyx_t_1 = (__pyx_v_tl > 1e-6);
+          __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z) < 1e-6);
           if (__pyx_t_1) {
 
-            /* "engine/cython/cy_response_3d.pyx":254
- *                     tl = _len3(tip_x, tip_y, tip_z)
- *                     if tl > 1e-6:
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl             # <<<<<<<<<<<<<<
- *                         rax += tip_x * 0.03
- *                         ray += tip_y * 0.03
-*/
-            __pyx_v_tip_x = (__pyx_v_tip_x / __pyx_v_tl);
-            __pyx_v_tip_y = (__pyx_v_tip_y / __pyx_v_tl);
-            __pyx_v_tip_z = (__pyx_v_tip_z / __pyx_v_tl);
-
             /* "engine/cython/cy_response_3d.pyx":255
- *                     if tl > 1e-6:
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl
- *                         rax += tip_x * 0.03             # <<<<<<<<<<<<<<
- *                         ray += tip_y * 0.03
- *                         raz += tip_z * 0.03
+ *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0             # <<<<<<<<<<<<<<
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
 */
-            __pyx_v_rax = (__pyx_v_rax + (__pyx_v_tip_x * 0.03));
+            __pyx_v_edge_x = 0.0;
+            __pyx_v_edge_y = 0.0;
+            __pyx_v_edge_z = 1.0;
 
             /* "engine/cython/cy_response_3d.pyx":256
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl
- *                         rax += tip_x * 0.03
- *                         ray += tip_y * 0.03             # <<<<<<<<<<<<<<
- *                         raz += tip_z * 0.03
- *                         support_off = 0.03
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)             # <<<<<<<<<<<<<<
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     el = _len3(edge_x, edge_y, edge_z)
 */
-            __pyx_v_ray = (__pyx_v_ray + (__pyx_v_tip_y * 0.03));
+            __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
             /* "engine/cython/cy_response_3d.pyx":257
- *                         rax += tip_x * 0.03
- *                         ray += tip_y * 0.03
- *                         raz += tip_z * 0.03             # <<<<<<<<<<<<<<
- *                         support_off = 0.03
- * 
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn             # <<<<<<<<<<<<<<
+ *                     el = _len3(edge_x, edge_y, edge_z)
+ *                     if el > 1e-6:
 */
-            __pyx_v_raz = (__pyx_v_raz + (__pyx_v_tip_z * 0.03));
+            __pyx_v_edge_x = (__pyx_v_edge_x - (__pyx_v_nx * __pyx_v_dn));
+            __pyx_v_edge_y = (__pyx_v_edge_y - (__pyx_v_ny * __pyx_v_dn));
+            __pyx_v_edge_z = (__pyx_v_edge_z - (__pyx_v_nz * __pyx_v_dn));
 
-            /* "engine/cython/cy_response_3d.pyx":258
- *                         ray += tip_y * 0.03
- *                         raz += tip_z * 0.03
- *                         support_off = 0.03             # <<<<<<<<<<<<<<
- * 
- *     if face_support:
-*/
-            __pyx_v_support_off = 0.03;
-
-            /* "engine/cython/cy_response_3d.pyx":253
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
- *                     tl = _len3(tip_x, tip_y, tip_z)
- *                     if tl > 1e-6:             # <<<<<<<<<<<<<<
- *                         tip_x /= tl; tip_y /= tl; tip_z /= tl
- *                         rax += tip_x * 0.03
+            /* "engine/cython/cy_response_3d.pyx":254
+ *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+ *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     if _len3(edge_x, edge_y, edge_z) < 1e-6:             # <<<<<<<<<<<<<<
+ *                         edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
 */
           }
 
-          /* "engine/cython/cy_response_3d.pyx":249
- *                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
- *                 el = _len3(edge_x, edge_y, edge_z)
- *                 if el > 1e-6:             # <<<<<<<<<<<<<<
- *                     edge_x /= el; edge_y /= el; edge_z /= el
- *                     _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+          /* "engine/cython/cy_response_3d.pyx":258
+ *                         dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     el = _len3(edge_x, edge_y, edge_z)             # <<<<<<<<<<<<<<
+ *                     if el > 1e-6:
+ *                         edge_x /= el; edge_y /= el; edge_z /= el
+*/
+          __pyx_v_el = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z);
+
+          /* "engine/cython/cy_response_3d.pyx":259
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     el = _len3(edge_x, edge_y, edge_z)
+ *                     if el > 1e-6:             # <<<<<<<<<<<<<<
+ *                         edge_x /= el; edge_y /= el; edge_z /= el
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+*/
+          __pyx_t_1 = (__pyx_v_el > 1e-6);
+          if (__pyx_t_1) {
+
+            /* "engine/cython/cy_response_3d.pyx":260
+ *                     el = _len3(edge_x, edge_y, edge_z)
+ *                     if el > 1e-6:
+ *                         edge_x /= el; edge_y /= el; edge_z /= el             # <<<<<<<<<<<<<<
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+ *                         tl = _len3(tip_x, tip_y, tip_z)
+*/
+            __pyx_v_edge_x = (__pyx_v_edge_x / __pyx_v_el);
+            __pyx_v_edge_y = (__pyx_v_edge_y / __pyx_v_el);
+            __pyx_v_edge_z = (__pyx_v_edge_z / __pyx_v_el);
+
+            /* "engine/cython/cy_response_3d.pyx":261
+ *                     if el > 1e-6:
+ *                         edge_x /= el; edge_y /= el; edge_z /= el
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)             # <<<<<<<<<<<<<<
+ *                         tl = _len3(tip_x, tip_y, tip_z)
+ *                         if tl > 1e-6:
+*/
+            __pyx_f_6engine_6cython_14cy_response_3d__cross3(__pyx_v_nx, __pyx_v_ny, __pyx_v_nz, __pyx_v_edge_x, __pyx_v_edge_y, __pyx_v_edge_z, (&__pyx_v_tip_x), (&__pyx_v_tip_y), (&__pyx_v_tip_z));
+
+            /* "engine/cython/cy_response_3d.pyx":262
+ *                         edge_x /= el; edge_y /= el; edge_z /= el
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+ *                         tl = _len3(tip_x, tip_y, tip_z)             # <<<<<<<<<<<<<<
+ *                         if tl > 1e-6:
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl
+*/
+            __pyx_v_tl = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_tip_x, __pyx_v_tip_y, __pyx_v_tip_z);
+
+            /* "engine/cython/cy_response_3d.pyx":263
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+ *                         tl = _len3(tip_x, tip_y, tip_z)
+ *                         if tl > 1e-6:             # <<<<<<<<<<<<<<
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl
+ *                             rax += tip_x * 0.03
+*/
+            __pyx_t_1 = (__pyx_v_tl > 1e-6);
+            if (__pyx_t_1) {
+
+              /* "engine/cython/cy_response_3d.pyx":264
+ *                         tl = _len3(tip_x, tip_y, tip_z)
+ *                         if tl > 1e-6:
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl             # <<<<<<<<<<<<<<
+ *                             rax += tip_x * 0.03
+ *                             ray += tip_y * 0.03
+*/
+              __pyx_v_tip_x = (__pyx_v_tip_x / __pyx_v_tl);
+              __pyx_v_tip_y = (__pyx_v_tip_y / __pyx_v_tl);
+              __pyx_v_tip_z = (__pyx_v_tip_z / __pyx_v_tl);
+
+              /* "engine/cython/cy_response_3d.pyx":265
+ *                         if tl > 1e-6:
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl
+ *                             rax += tip_x * 0.03             # <<<<<<<<<<<<<<
+ *                             ray += tip_y * 0.03
+ *                             raz += tip_z * 0.03
+*/
+              __pyx_v_rax = (__pyx_v_rax + (__pyx_v_tip_x * 0.03));
+
+              /* "engine/cython/cy_response_3d.pyx":266
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl
+ *                             rax += tip_x * 0.03
+ *                             ray += tip_y * 0.03             # <<<<<<<<<<<<<<
+ *                             raz += tip_z * 0.03
+ *                             support_off = 0.03
+*/
+              __pyx_v_ray = (__pyx_v_ray + (__pyx_v_tip_y * 0.03));
+
+              /* "engine/cython/cy_response_3d.pyx":267
+ *                             rax += tip_x * 0.03
+ *                             ray += tip_y * 0.03
+ *                             raz += tip_z * 0.03             # <<<<<<<<<<<<<<
+ *                             support_off = 0.03
+ * 
+*/
+              __pyx_v_raz = (__pyx_v_raz + (__pyx_v_tip_z * 0.03));
+
+              /* "engine/cython/cy_response_3d.pyx":268
+ *                             ray += tip_y * 0.03
+ *                             raz += tip_z * 0.03
+ *                             support_off = 0.03             # <<<<<<<<<<<<<<
+ * 
+ *         if face_support:
+*/
+              __pyx_v_support_off = 0.03;
+
+              /* "engine/cython/cy_response_3d.pyx":263
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+ *                         tl = _len3(tip_x, tip_y, tip_z)
+ *                         if tl > 1e-6:             # <<<<<<<<<<<<<<
+ *                             tip_x /= tl; tip_y /= tl; tip_z /= tl
+ *                             rax += tip_x * 0.03
+*/
+            }
+
+            /* "engine/cython/cy_response_3d.pyx":259
+ *                         edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+ *                     el = _len3(edge_x, edge_y, edge_z)
+ *                     if el > 1e-6:             # <<<<<<<<<<<<<<
+ *                         edge_x /= el; edge_y /= el; edge_z /= el
+ *                         _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+*/
+          }
+
+          /* "engine/cython/cy_response_3d.pyx":250
+ *                 face_support = 0
+ *                 unstable = 1
+ *                 if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                     edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
+ *                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":240
- *             face_support = 0
- *             unstable = 1
- *             if support_off < 1e-3 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
- *                 edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
- *                 dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+        /* "engine/cython/cy_response_3d.pyx":247
+ *                 face_support = 1
+ *                 unstable = 0
+ *             elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:             # <<<<<<<<<<<<<<
+ *                 face_support = 0
+ *                 unstable = 1
+*/
+      }
+      __pyx_L23:;
+
+      /* "engine/cython/cy_response_3d.pyx":243
+ * 
+ *         ground_like = fabs(ny) > 0.88
+ *         if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
+ *             if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+ *                 face_support = 1
+*/
+    }
+
+    /* "engine/cython/cy_response_3d.pyx":270
+ *                             support_off = 0.03
+ * 
+ *         if face_support:             # <<<<<<<<<<<<<<
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+ *         elif unstable:
+*/
+    if (__pyx_v_face_support) {
+
+      /* "engine/cython/cy_response_3d.pyx":271
+ * 
+ *         if face_support:
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1             # <<<<<<<<<<<<<<
+ *         elif unstable:
+ *             tip = support_off if support_off > 0.02 else 0.02
+*/
+      __pyx_t_1 = (__pyx_v_closing < 1.5);
+      if (__pyx_t_1) {
+        __pyx_t_2 = 0.0;
+      } else {
+        __pyx_t_2 = (__pyx_v_w_impact * 0.1);
+      }
+      __pyx_v_w_n = __pyx_t_2;
+
+      /* "engine/cython/cy_response_3d.pyx":270
+ *                             support_off = 0.03
+ * 
+ *         if face_support:             # <<<<<<<<<<<<<<
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+ *         elif unstable:
+*/
+      goto __pyx_L34;
+    }
+
+    /* "engine/cython/cy_response_3d.pyx":272
+ *         if face_support:
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+ *         elif unstable:             # <<<<<<<<<<<<<<
+ *             tip = support_off if support_off > 0.02 else 0.02
+ *             if tip > 0.25:
+*/
+    if (__pyx_v_unstable) {
+
+      /* "engine/cython/cy_response_3d.pyx":273
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+ *         elif unstable:
+ *             tip = support_off if support_off > 0.02 else 0.02             # <<<<<<<<<<<<<<
+ *             if tip > 0.25:
+ *                 tip = 0.25
+*/
+      __pyx_t_1 = (__pyx_v_support_off > 0.02);
+      if (__pyx_t_1) {
+        __pyx_t_2 = __pyx_v_support_off;
+      } else {
+        __pyx_t_2 = 0.02;
+      }
+      __pyx_v_tip = __pyx_t_2;
+
+      /* "engine/cython/cy_response_3d.pyx":274
+ *         elif unstable:
+ *             tip = support_off if support_off > 0.02 else 0.02
+ *             if tip > 0.25:             # <<<<<<<<<<<<<<
+ *                 tip = 0.25
+ *             tip = tip / 0.25
+*/
+      __pyx_t_1 = (__pyx_v_tip > 0.25);
+      if (__pyx_t_1) {
+
+        /* "engine/cython/cy_response_3d.pyx":275
+ *             tip = support_off if support_off > 0.02 else 0.02
+ *             if tip > 0.25:
+ *                 tip = 0.25             # <<<<<<<<<<<<<<
+ *             tip = tip / 0.25
+ *             if tip > 1.0:
+*/
+        __pyx_v_tip = 0.25;
+
+        /* "engine/cython/cy_response_3d.pyx":274
+ *         elif unstable:
+ *             tip = support_off if support_off > 0.02 else 0.02
+ *             if tip > 0.25:             # <<<<<<<<<<<<<<
+ *                 tip = 0.25
+ *             tip = tip / 0.25
 */
       }
 
-      /* "engine/cython/cy_response_3d.pyx":237
- *             face_support = 1
- *             unstable = 0
- *         elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:             # <<<<<<<<<<<<<<
- *             face_support = 0
- *             unstable = 1
+      /* "engine/cython/cy_response_3d.pyx":276
+ *             if tip > 0.25:
+ *                 tip = 0.25
+ *             tip = tip / 0.25             # <<<<<<<<<<<<<<
+ *             if tip > 1.0:
+ *                 tip = 1.0
 */
-    }
-    __pyx_L22:;
+      __pyx_v_tip = (__pyx_v_tip / 0.25);
 
-    /* "engine/cython/cy_response_3d.pyx":233
- * 
- *     ground_like = fabs(ny) > 0.88
- *     if ground_like and closing < 2.5:             # <<<<<<<<<<<<<<
- *         if best_align >= FACE_REST_ALIGN and support_off < 0.08:
- *             face_support = 1
+      /* "engine/cython/cy_response_3d.pyx":277
+ *                 tip = 0.25
+ *             tip = tip / 0.25
+ *             if tip > 1.0:             # <<<<<<<<<<<<<<
+ *                 tip = 1.0
+ *             w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
 */
-  }
+      __pyx_t_1 = (__pyx_v_tip > 1.0);
+      if (__pyx_t_1) {
 
-  /* "engine/cython/cy_response_3d.pyx":260
- *                         support_off = 0.03
- * 
- *     if face_support:             # <<<<<<<<<<<<<<
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1
- *     elif unstable:
+        /* "engine/cython/cy_response_3d.pyx":278
+ *             tip = tip / 0.25
+ *             if tip > 1.0:
+ *                 tip = 1.0             # <<<<<<<<<<<<<<
+ *             w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+ *         else:
 */
-  if (__pyx_v_face_support) {
+        __pyx_v_tip = 1.0;
 
-    /* "engine/cython/cy_response_3d.pyx":261
- * 
- *     if face_support:
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1             # <<<<<<<<<<<<<<
- *     elif unstable:
- *         tip = support_off if support_off > 0.02 else 0.02
+        /* "engine/cython/cy_response_3d.pyx":277
+ *                 tip = 0.25
+ *             tip = tip / 0.25
+ *             if tip > 1.0:             # <<<<<<<<<<<<<<
+ *                 tip = 1.0
+ *             w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
 */
-    __pyx_t_1 = (__pyx_v_closing < 1.5);
-    if (__pyx_t_1) {
-      __pyx_t_2 = 0.0;
-    } else {
-      __pyx_t_2 = (__pyx_v_w_impact * 0.1);
-    }
-    __pyx_v_w_n = __pyx_t_2;
+      }
 
-    /* "engine/cython/cy_response_3d.pyx":260
- *                         support_off = 0.03
- * 
- *     if face_support:             # <<<<<<<<<<<<<<
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1
- *     elif unstable:
+      /* "engine/cython/cy_response_3d.pyx":279
+ *             if tip > 1.0:
+ *                 tip = 1.0
+ *             w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)             # <<<<<<<<<<<<<<
+ *         else:
+ *             w_n = w_impact
 */
-    goto __pyx_L33;
-  }
+      __pyx_t_1 = (__pyx_v_w_impact > (0.75 + (0.25 * __pyx_v_tip)));
+      if (__pyx_t_1) {
+        __pyx_t_2 = __pyx_v_w_impact;
+      } else {
+        __pyx_t_2 = (0.75 + (0.25 * __pyx_v_tip));
+      }
+      __pyx_v_w_n = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":262
- *     if face_support:
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1
- *     elif unstable:             # <<<<<<<<<<<<<<
- *         tip = support_off if support_off > 0.02 else 0.02
- *         if tip > 0.25:
+      /* "engine/cython/cy_response_3d.pyx":272
+ *         if face_support:
+ *             w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+ *         elif unstable:             # <<<<<<<<<<<<<<
+ *             tip = support_off if support_off > 0.02 else 0.02
+ *             if tip > 0.25:
 */
-  if (__pyx_v_unstable) {
-
-    /* "engine/cython/cy_response_3d.pyx":263
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1
- *     elif unstable:
- *         tip = support_off if support_off > 0.02 else 0.02             # <<<<<<<<<<<<<<
- *         if tip > 0.25:
- *             tip = 0.25
-*/
-    __pyx_t_1 = (__pyx_v_support_off > 0.02);
-    if (__pyx_t_1) {
-      __pyx_t_2 = __pyx_v_support_off;
-    } else {
-      __pyx_t_2 = 0.02;
-    }
-    __pyx_v_tip = __pyx_t_2;
-
-    /* "engine/cython/cy_response_3d.pyx":264
- *     elif unstable:
- *         tip = support_off if support_off > 0.02 else 0.02
- *         if tip > 0.25:             # <<<<<<<<<<<<<<
- *             tip = 0.25
- *         tip = tip / 0.25
-*/
-    __pyx_t_1 = (__pyx_v_tip > 0.25);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_response_3d.pyx":265
- *         tip = support_off if support_off > 0.02 else 0.02
- *         if tip > 0.25:
- *             tip = 0.25             # <<<<<<<<<<<<<<
- *         tip = tip / 0.25
- *         if tip > 1.0:
-*/
-      __pyx_v_tip = 0.25;
-
-      /* "engine/cython/cy_response_3d.pyx":264
- *     elif unstable:
- *         tip = support_off if support_off > 0.02 else 0.02
- *         if tip > 0.25:             # <<<<<<<<<<<<<<
- *             tip = 0.25
- *         tip = tip / 0.25
-*/
+      goto __pyx_L34;
     }
 
-    /* "engine/cython/cy_response_3d.pyx":266
- *         if tip > 0.25:
- *             tip = 0.25
- *         tip = tip / 0.25             # <<<<<<<<<<<<<<
- *         if tip > 1.0:
- *             tip = 1.0
-*/
-    __pyx_v_tip = (__pyx_v_tip / 0.25);
-
-    /* "engine/cython/cy_response_3d.pyx":267
- *             tip = 0.25
- *         tip = tip / 0.25
- *         if tip > 1.0:             # <<<<<<<<<<<<<<
- *             tip = 1.0
- *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
-*/
-    __pyx_t_1 = (__pyx_v_tip > 1.0);
-    if (__pyx_t_1) {
-
-      /* "engine/cython/cy_response_3d.pyx":268
- *         tip = tip / 0.25
- *         if tip > 1.0:
- *             tip = 1.0             # <<<<<<<<<<<<<<
- *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
- *     else:
-*/
-      __pyx_v_tip = 1.0;
-
-      /* "engine/cython/cy_response_3d.pyx":267
- *             tip = 0.25
- *         tip = tip / 0.25
- *         if tip > 1.0:             # <<<<<<<<<<<<<<
- *             tip = 1.0
- *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
-*/
-    }
-
-    /* "engine/cython/cy_response_3d.pyx":269
- *         if tip > 1.0:
- *             tip = 1.0
- *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)             # <<<<<<<<<<<<<<
- *     else:
- *         w_n = w_impact
-*/
-    __pyx_t_1 = (__pyx_v_w_impact > (0.75 + (0.25 * __pyx_v_tip)));
-    if (__pyx_t_1) {
-      __pyx_t_2 = __pyx_v_w_impact;
-    } else {
-      __pyx_t_2 = (0.75 + (0.25 * __pyx_v_tip));
-    }
-    __pyx_v_w_n = __pyx_t_2;
-
-    /* "engine/cython/cy_response_3d.pyx":262
- *     if face_support:
- *         w_n = 0.0 if closing < 1.5 else w_impact * 0.1
- *     elif unstable:             # <<<<<<<<<<<<<<
- *         tip = support_off if support_off > 0.02 else 0.02
- *         if tip > 0.25:
-*/
-    goto __pyx_L33;
-  }
-
-  /* "engine/cython/cy_response_3d.pyx":271
- *         w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
- *     else:
- *         w_n = w_impact             # <<<<<<<<<<<<<<
+    /* "engine/cython/cy_response_3d.pyx":281
+ *             w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+ *         else:
+ *             w_n = w_impact             # <<<<<<<<<<<<<<
  * 
  *     # lever arms
 */
-  /*else*/ {
-    __pyx_v_w_n = __pyx_v_w_impact;
+    /*else*/ {
+      __pyx_v_w_n = __pyx_v_w_impact;
+    }
+    __pyx_L34:;
   }
-  __pyx_L33:;
+  __pyx_L17:;
 
-  /* "engine/cython/cy_response_3d.pyx":274
+  /* "engine/cython/cy_response_3d.pyx":284
  * 
  *     # lever arms
  *     dn = _dot3(rax, ray, raz, nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -20729,7 +20813,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_rax, __pyx_v_ray, __pyx_v_raz, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":275
+  /* "engine/cython/cy_response_3d.pyx":285
  *     # lever arms
  *     dn = _dot3(rax, ray, raz, nx, ny, nz)
  *     ra_cx = nx * dn; ra_cy = ny * dn; ra_cz = nz * dn             # <<<<<<<<<<<<<<
@@ -20740,7 +20824,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_ra_cy = (__pyx_v_ny * __pyx_v_dn);
   __pyx_v_ra_cz = (__pyx_v_nz * __pyx_v_dn);
 
-  /* "engine/cython/cy_response_3d.pyx":276
+  /* "engine/cython/cy_response_3d.pyx":286
  *     dn = _dot3(rax, ray, raz, nx, ny, nz)
  *     ra_cx = nx * dn; ra_cy = ny * dn; ra_cz = nz * dn
  *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy; ra_tz = raz - ra_cz             # <<<<<<<<<<<<<<
@@ -20751,7 +20835,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_ra_ty = (__pyx_v_ray - __pyx_v_ra_cy);
   __pyx_v_ra_tz = (__pyx_v_raz - __pyx_v_ra_cz);
 
-  /* "engine/cython/cy_response_3d.pyx":277
+  /* "engine/cython/cy_response_3d.pyx":287
  *     ra_cx = nx * dn; ra_cy = ny * dn; ra_cz = nz * dn
  *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy; ra_tz = raz - ra_cz
  *     _clamp_vec3(&ra_tx, &ra_ty, &ra_tz, MAX_NORMAL_TANGENT_ARM)             # <<<<<<<<<<<<<<
@@ -20760,7 +20844,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__clamp_vec3((&__pyx_v_ra_tx), (&__pyx_v_ra_ty), (&__pyx_v_ra_tz), __pyx_v_6engine_6cython_14cy_response_3d_MAX_NORMAL_TANGENT_ARM);
 
-  /* "engine/cython/cy_response_3d.pyx":278
+  /* "engine/cython/cy_response_3d.pyx":288
  *     ra_tx = rax - ra_cx; ra_ty = ray - ra_cy; ra_tz = raz - ra_cz
  *     _clamp_vec3(&ra_tx, &ra_ty, &ra_tz, MAX_NORMAL_TANGENT_ARM)
  *     ra_nx = ra_cx + w_n * ra_tx             # <<<<<<<<<<<<<<
@@ -20769,7 +20853,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_ra_nx = (__pyx_v_ra_cx + (__pyx_v_w_n * __pyx_v_ra_tx));
 
-  /* "engine/cython/cy_response_3d.pyx":279
+  /* "engine/cython/cy_response_3d.pyx":289
  *     _clamp_vec3(&ra_tx, &ra_ty, &ra_tz, MAX_NORMAL_TANGENT_ARM)
  *     ra_nx = ra_cx + w_n * ra_tx
  *     ra_ny = ra_cy + w_n * ra_ty             # <<<<<<<<<<<<<<
@@ -20778,7 +20862,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_ra_ny = (__pyx_v_ra_cy + (__pyx_v_w_n * __pyx_v_ra_ty));
 
-  /* "engine/cython/cy_response_3d.pyx":280
+  /* "engine/cython/cy_response_3d.pyx":290
  *     ra_nx = ra_cx + w_n * ra_tx
  *     ra_ny = ra_cy + w_n * ra_ty
  *     ra_nz = ra_cz + w_n * ra_tz             # <<<<<<<<<<<<<<
@@ -20787,7 +20871,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_ra_nz = (__pyx_v_ra_cz + (__pyx_v_w_n * __pyx_v_ra_tz));
 
-  /* "engine/cython/cy_response_3d.pyx":282
+  /* "engine/cython/cy_response_3d.pyx":292
  *     ra_nz = ra_cz + w_n * ra_tz
  * 
  *     dn = _dot3(rbx, rby, rbz, nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -20796,7 +20880,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_rbx, __pyx_v_rby, __pyx_v_rbz, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":283
+  /* "engine/cython/cy_response_3d.pyx":293
  * 
  *     dn = _dot3(rbx, rby, rbz, nx, ny, nz)
  *     rb_cx = nx * dn; rb_cy = ny * dn; rb_cz = nz * dn             # <<<<<<<<<<<<<<
@@ -20807,7 +20891,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_rb_cy = (__pyx_v_ny * __pyx_v_dn);
   __pyx_v_rb_cz = (__pyx_v_nz * __pyx_v_dn);
 
-  /* "engine/cython/cy_response_3d.pyx":284
+  /* "engine/cython/cy_response_3d.pyx":294
  *     dn = _dot3(rbx, rby, rbz, nx, ny, nz)
  *     rb_cx = nx * dn; rb_cy = ny * dn; rb_cz = nz * dn
  *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy; rb_tz = rbz - rb_cz             # <<<<<<<<<<<<<<
@@ -20818,7 +20902,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_rb_ty = (__pyx_v_rby - __pyx_v_rb_cy);
   __pyx_v_rb_tz = (__pyx_v_rbz - __pyx_v_rb_cz);
 
-  /* "engine/cython/cy_response_3d.pyx":285
+  /* "engine/cython/cy_response_3d.pyx":295
  *     rb_cx = nx * dn; rb_cy = ny * dn; rb_cz = nz * dn
  *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy; rb_tz = rbz - rb_cz
  *     _clamp_vec3(&rb_tx, &rb_ty, &rb_tz, MAX_NORMAL_TANGENT_ARM)             # <<<<<<<<<<<<<<
@@ -20827,7 +20911,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__clamp_vec3((&__pyx_v_rb_tx), (&__pyx_v_rb_ty), (&__pyx_v_rb_tz), __pyx_v_6engine_6cython_14cy_response_3d_MAX_NORMAL_TANGENT_ARM);
 
-  /* "engine/cython/cy_response_3d.pyx":286
+  /* "engine/cython/cy_response_3d.pyx":296
  *     rb_tx = rbx - rb_cx; rb_ty = rby - rb_cy; rb_tz = rbz - rb_cz
  *     _clamp_vec3(&rb_tx, &rb_ty, &rb_tz, MAX_NORMAL_TANGENT_ARM)
  *     rb_nx = rb_cx + w_n * rb_tx             # <<<<<<<<<<<<<<
@@ -20836,7 +20920,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_rb_nx = (__pyx_v_rb_cx + (__pyx_v_w_n * __pyx_v_rb_tx));
 
-  /* "engine/cython/cy_response_3d.pyx":287
+  /* "engine/cython/cy_response_3d.pyx":297
  *     _clamp_vec3(&rb_tx, &rb_ty, &rb_tz, MAX_NORMAL_TANGENT_ARM)
  *     rb_nx = rb_cx + w_n * rb_tx
  *     rb_ny = rb_cy + w_n * rb_ty             # <<<<<<<<<<<<<<
@@ -20845,7 +20929,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_rb_ny = (__pyx_v_rb_cy + (__pyx_v_w_n * __pyx_v_rb_ty));
 
-  /* "engine/cython/cy_response_3d.pyx":288
+  /* "engine/cython/cy_response_3d.pyx":298
  *     rb_nx = rb_cx + w_n * rb_tx
  *     rb_ny = rb_cy + w_n * rb_ty
  *     rb_nz = rb_cz + w_n * rb_tz             # <<<<<<<<<<<<<<
@@ -20854,7 +20938,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_rb_nz = (__pyx_v_rb_cz + (__pyx_v_w_n * __pyx_v_rb_tz));
 
-  /* "engine/cython/cy_response_3d.pyx":290
+  /* "engine/cython/cy_response_3d.pyx":300
  *     rb_nz = rb_cz + w_n * rb_tz
  * 
  *     _cross3(oax[0], oay[0], oaz[0], ra_nx, ra_ny, ra_nz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -20863,7 +20947,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_oax[0]), (__pyx_v_oay[0]), (__pyx_v_oaz[0]), __pyx_v_ra_nx, __pyx_v_ra_ny, __pyx_v_ra_nz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":291
+  /* "engine/cython/cy_response_3d.pyx":301
  * 
  *     _cross3(oax[0], oay[0], oaz[0], ra_nx, ra_ny, ra_nz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz             # <<<<<<<<<<<<<<
@@ -20874,7 +20958,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_vry = ((__pyx_v_vay[0]) + __pyx_v_oy);
   __pyx_v_vrz = ((__pyx_v_vaz[0]) + __pyx_v_oz);
 
-  /* "engine/cython/cy_response_3d.pyx":292
+  /* "engine/cython/cy_response_3d.pyx":302
  *     _cross3(oax[0], oay[0], oaz[0], ra_nx, ra_ny, ra_nz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rb_nx, rb_ny, rb_nz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -20883,7 +20967,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_obx[0]), (__pyx_v_oby[0]), (__pyx_v_obz[0]), __pyx_v_rb_nx, __pyx_v_rb_ny, __pyx_v_rb_nz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":293
+  /* "engine/cython/cy_response_3d.pyx":303
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rb_nx, rb_ny, rb_nz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz             # <<<<<<<<<<<<<<
@@ -20894,7 +20978,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + __pyx_v_oy));
   __pyx_v_vrz = (__pyx_v_vrz - ((__pyx_v_vbz[0]) + __pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":294
+  /* "engine/cython/cy_response_3d.pyx":304
  *     _cross3(obx[0], oby[0], obz[0], rb_nx, rb_ny, rb_nz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz
  *     v_n = _dot3(vrx, vry, vrz, nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -20903,7 +20987,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_v_n = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_vrx, __pyx_v_vry, __pyx_v_vrz, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":295
+  /* "engine/cython/cy_response_3d.pyx":305
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz
  *     v_n = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n > 0.0:             # <<<<<<<<<<<<<<
@@ -20913,7 +20997,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_v_n > 0.0);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":296
+    /* "engine/cython/cy_response_3d.pyx":306
  *     v_n = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n > 0.0:
  *         out_unstable[0] = unstable             # <<<<<<<<<<<<<<
@@ -20922,7 +21006,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     (__pyx_v_out_unstable[0]) = __pyx_v_unstable;
 
-    /* "engine/cython/cy_response_3d.pyx":297
+    /* "engine/cython/cy_response_3d.pyx":307
  *     if v_n > 0.0:
  *         out_unstable[0] = unstable
  *         return             # <<<<<<<<<<<<<<
@@ -20931,7 +21015,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":295
+    /* "engine/cython/cy_response_3d.pyx":305
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz
  *     v_n = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     if v_n > 0.0:             # <<<<<<<<<<<<<<
@@ -20940,7 +21024,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":299
+  /* "engine/cython/cy_response_3d.pyx":309
  *         return
  * 
  *     kn = _effective_mass(nx, ny, nz, inv_mass_a, inv_mass_b,             # <<<<<<<<<<<<<<
@@ -20949,7 +21033,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_kn = __pyx_f_6engine_6cython_14cy_response_3d__effective_mass(__pyx_v_nx, __pyx_v_ny, __pyx_v_nz, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_ra_nx, __pyx_v_ra_ny, __pyx_v_ra_nz, __pyx_v_rb_nx, __pyx_v_rb_ny, __pyx_v_rb_nz, __pyx_v_has_ia, __pyx_v_ia, __pyx_v_has_ib, __pyx_v_ib);
 
-  /* "engine/cython/cy_response_3d.pyx":302
+  /* "engine/cython/cy_response_3d.pyx":312
  *                          ra_nx, ra_ny, ra_nz, rb_nx, rb_ny, rb_nz,
  *                          has_ia, ia, has_ib, ib)
  *     if kn < 1e-12:             # <<<<<<<<<<<<<<
@@ -20959,7 +21043,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_kn < 1e-12);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":303
+    /* "engine/cython/cy_response_3d.pyx":313
  *                          has_ia, ia, has_ib, ib)
  *     if kn < 1e-12:
  *         out_unstable[0] = unstable             # <<<<<<<<<<<<<<
@@ -20968,7 +21052,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     (__pyx_v_out_unstable[0]) = __pyx_v_unstable;
 
-    /* "engine/cython/cy_response_3d.pyx":304
+    /* "engine/cython/cy_response_3d.pyx":314
  *     if kn < 1e-12:
  *         out_unstable[0] = unstable
  *         return             # <<<<<<<<<<<<<<
@@ -20977,7 +21061,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":302
+    /* "engine/cython/cy_response_3d.pyx":312
  *                          ra_nx, ra_ny, ra_nz, rb_nx, rb_ny, rb_nz,
  *                          has_ia, ia, has_ib, ib)
  *     if kn < 1e-12:             # <<<<<<<<<<<<<<
@@ -20986,7 +21070,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":306
+  /* "engine/cython/cy_response_3d.pyx":316
  *         return
  * 
  *     e = restitution             # <<<<<<<<<<<<<<
@@ -20995,7 +21079,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_e = __pyx_v_restitution;
 
-  /* "engine/cython/cy_response_3d.pyx":307
+  /* "engine/cython/cy_response_3d.pyx":317
  * 
  *     e = restitution
  *     if e < 0.0:             # <<<<<<<<<<<<<<
@@ -21005,7 +21089,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_e < 0.0);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":308
+    /* "engine/cython/cy_response_3d.pyx":318
  *     e = restitution
  *     if e < 0.0:
  *         e = 0.0             # <<<<<<<<<<<<<<
@@ -21014,7 +21098,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_e = 0.0;
 
-    /* "engine/cython/cy_response_3d.pyx":307
+    /* "engine/cython/cy_response_3d.pyx":317
  * 
  *     e = restitution
  *     if e < 0.0:             # <<<<<<<<<<<<<<
@@ -21023,7 +21107,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":309
+  /* "engine/cython/cy_response_3d.pyx":319
  *     if e < 0.0:
  *         e = 0.0
  *     if e > 1.0:             # <<<<<<<<<<<<<<
@@ -21033,7 +21117,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_e > 1.0);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":310
+    /* "engine/cython/cy_response_3d.pyx":320
  *         e = 0.0
  *     if e > 1.0:
  *         e = 1.0             # <<<<<<<<<<<<<<
@@ -21042,7 +21126,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_e = 1.0;
 
-    /* "engine/cython/cy_response_3d.pyx":309
+    /* "engine/cython/cy_response_3d.pyx":319
  *     if e < 0.0:
  *         e = 0.0
  *     if e > 1.0:             # <<<<<<<<<<<<<<
@@ -21051,7 +21135,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":311
+  /* "engine/cython/cy_response_3d.pyx":321
  *     if e > 1.0:
  *         e = 1.0
  *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
@@ -21061,14 +21145,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   if (__pyx_v_face_support) {
   } else {
     __pyx_t_1 = __pyx_v_face_support;
-    goto __pyx_L41_bool_binop_done;
+    goto __pyx_L42_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_closing < 2.5);
   __pyx_t_1 = __pyx_t_3;
-  __pyx_L41_bool_binop_done:;
+  __pyx_L42_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":312
+    /* "engine/cython/cy_response_3d.pyx":322
  *         e = 1.0
  *     if face_support and closing < 2.5:
  *         e = 0.0             # <<<<<<<<<<<<<<
@@ -21077,17 +21161,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_e = 0.0;
 
-    /* "engine/cython/cy_response_3d.pyx":311
+    /* "engine/cython/cy_response_3d.pyx":321
  *     if e > 1.0:
  *         e = 1.0
  *     if face_support and closing < 2.5:             # <<<<<<<<<<<<<<
  *         e = 0.0
  *     elif closing < RESTITUTION_THRESHOLD:
 */
-    goto __pyx_L40;
+    goto __pyx_L41;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":313
+  /* "engine/cython/cy_response_3d.pyx":323
  *     if face_support and closing < 2.5:
  *         e = 0.0
  *     elif closing < RESTITUTION_THRESHOLD:             # <<<<<<<<<<<<<<
@@ -21097,7 +21181,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_closing < __pyx_v_6engine_6cython_14cy_response_3d_RESTITUTION_THRESHOLD);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":314
+    /* "engine/cython/cy_response_3d.pyx":324
  *         e = 0.0
  *     elif closing < RESTITUTION_THRESHOLD:
  *         e = 0.0             # <<<<<<<<<<<<<<
@@ -21106,7 +21190,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_e = 0.0;
 
-    /* "engine/cython/cy_response_3d.pyx":313
+    /* "engine/cython/cy_response_3d.pyx":323
  *     if face_support and closing < 2.5:
  *         e = 0.0
  *     elif closing < RESTITUTION_THRESHOLD:             # <<<<<<<<<<<<<<
@@ -21114,9 +21198,9 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
  * 
 */
   }
-  __pyx_L40:;
+  __pyx_L41:;
 
-  /* "engine/cython/cy_response_3d.pyx":316
+  /* "engine/cython/cy_response_3d.pyx":326
  *         e = 0.0
  * 
  *     jn = -(1.0 + e) * v_n / kn             # <<<<<<<<<<<<<<
@@ -21125,7 +21209,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_jn = (((-(1.0 + __pyx_v_e)) * __pyx_v_v_n) / __pyx_v_kn);
 
-  /* "engine/cython/cy_response_3d.pyx":317
+  /* "engine/cython/cy_response_3d.pyx":327
  * 
  *     jn = -(1.0 + e) * v_n / kn
  *     if jn < 0.0:             # <<<<<<<<<<<<<<
@@ -21135,7 +21219,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_jn < 0.0);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":318
+    /* "engine/cython/cy_response_3d.pyx":328
  *     jn = -(1.0 + e) * v_n / kn
  *     if jn < 0.0:
  *         jn = 0.0             # <<<<<<<<<<<<<<
@@ -21144,7 +21228,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_jn = 0.0;
 
-    /* "engine/cython/cy_response_3d.pyx":317
+    /* "engine/cython/cy_response_3d.pyx":327
  * 
  *     jn = -(1.0 + e) * v_n / kn
  *     if jn < 0.0:             # <<<<<<<<<<<<<<
@@ -21153,7 +21237,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":319
+  /* "engine/cython/cy_response_3d.pyx":329
  *     if jn < 0.0:
  *         jn = 0.0
  *     jnx = nx * jn; jny = ny * jn; jnz = nz * jn             # <<<<<<<<<<<<<<
@@ -21164,7 +21248,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_jny = (__pyx_v_ny * __pyx_v_jn);
   __pyx_v_jnz = (__pyx_v_nz * __pyx_v_jn);
 
-  /* "engine/cython/cy_response_3d.pyx":320
+  /* "engine/cython/cy_response_3d.pyx":330
  *         jn = 0.0
  *     jnx = nx * jn; jny = ny * jn; jnz = nz * jn
  *     _apply_impulse(vax, vay, vaz, oax, oay, oaz,             # <<<<<<<<<<<<<<
@@ -21173,42 +21257,48 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__apply_impulse(__pyx_v_vax, __pyx_v_vay, __pyx_v_vaz, __pyx_v_oax, __pyx_v_oay, __pyx_v_oaz, __pyx_v_vbx, __pyx_v_vby, __pyx_v_vbz, __pyx_v_obx, __pyx_v_oby, __pyx_v_obz, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_has_ia, __pyx_v_ia, __pyx_v_has_ib, __pyx_v_ib, __pyx_v_ra_nx, __pyx_v_ra_ny, __pyx_v_ra_nz, __pyx_v_rb_nx, __pyx_v_rb_ny, __pyx_v_rb_nz, __pyx_v_jnx, __pyx_v_jny, __pyx_v_jnz);
 
-  /* "engine/cython/cy_response_3d.pyx":327
+  /* "engine/cython/cy_response_3d.pyx":337
  * 
- *     # Gravity tip torque
- *     if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
+ *     # Gravity tip torque (single-point only  multi-point faces share load)
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
  *         if dt < 1e-5:
  *             dt = 1e-5
 */
+  __pyx_t_3 = (!__pyx_v_multi_point);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L46_bool_binop_done;
+  }
   if (__pyx_v_unstable) {
   } else {
     __pyx_t_1 = __pyx_v_unstable;
-    goto __pyx_L45_bool_binop_done;
+    goto __pyx_L46_bool_binop_done;
   }
   if (__pyx_v_ground_like) {
   } else {
     __pyx_t_1 = __pyx_v_ground_like;
-    goto __pyx_L45_bool_binop_done;
+    goto __pyx_L46_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_closing < 3.0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L45_bool_binop_done;
+    goto __pyx_L46_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L45_bool_binop_done;
+    goto __pyx_L46_bool_binop_done;
   }
   __pyx_t_1 = __pyx_v_has_ia;
-  __pyx_L45_bool_binop_done:;
+  __pyx_L46_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":328
- *     # Gravity tip torque
- *     if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
+    /* "engine/cython/cy_response_3d.pyx":338
+ *     # Gravity tip torque (single-point only  multi-point faces share load)
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
  *         if dt < 1e-5:             # <<<<<<<<<<<<<<
  *             dt = 1e-5
  *         if dt > 0.05:
@@ -21216,8 +21306,8 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_dt < 1e-5);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":329
- *     if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
+      /* "engine/cython/cy_response_3d.pyx":339
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
  *         if dt < 1e-5:
  *             dt = 1e-5             # <<<<<<<<<<<<<<
  *         if dt > 0.05:
@@ -21225,16 +21315,16 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_dt = 1e-5;
 
-      /* "engine/cython/cy_response_3d.pyx":328
- *     # Gravity tip torque
- *     if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
+      /* "engine/cython/cy_response_3d.pyx":338
+ *     # Gravity tip torque (single-point only  multi-point faces share load)
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
  *         if dt < 1e-5:             # <<<<<<<<<<<<<<
  *             dt = 1e-5
  *         if dt > 0.05:
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":330
+    /* "engine/cython/cy_response_3d.pyx":340
  *         if dt < 1e-5:
  *             dt = 1e-5
  *         if dt > 0.05:             # <<<<<<<<<<<<<<
@@ -21244,7 +21334,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_dt > 0.05);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":331
+      /* "engine/cython/cy_response_3d.pyx":341
  *             dt = 1e-5
  *         if dt > 0.05:
  *             dt = 0.05             # <<<<<<<<<<<<<<
@@ -21253,7 +21343,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_dt = 0.05;
 
-      /* "engine/cython/cy_response_3d.pyx":330
+      /* "engine/cython/cy_response_3d.pyx":340
  *         if dt < 1e-5:
  *             dt = 1e-5
  *         if dt > 0.05:             # <<<<<<<<<<<<<<
@@ -21262,7 +21352,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":332
+    /* "engine/cython/cy_response_3d.pyx":342
  *         if dt > 0.05:
  *             dt = 0.05
  *         mass = 1.0 / inv_mass_a             # <<<<<<<<<<<<<<
@@ -21271,7 +21361,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_mass = (1.0 / __pyx_v_inv_mass_a);
 
-    /* "engine/cython/cy_response_3d.pyx":333
+    /* "engine/cython/cy_response_3d.pyx":343
  *             dt = 0.05
  *         mass = 1.0 / inv_mass_a
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21286,7 +21376,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sx = (__pyx_v_nx * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":334
+    /* "engine/cython/cy_response_3d.pyx":344
  *         mass = 1.0 / inv_mass_a
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21301,7 +21391,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sy = (__pyx_v_ny * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":335
+    /* "engine/cython/cy_response_3d.pyx":345
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21316,7 +21406,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sz = (__pyx_v_nz * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":336
+    /* "engine/cython/cy_response_3d.pyx":346
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:             # <<<<<<<<<<<<<<
@@ -21326,7 +21416,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_sx, __pyx_v_sy, __pyx_v_sz) < 1e-8);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":337
+      /* "engine/cython/cy_response_3d.pyx":347
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:
  *             sx = nx * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21335,7 +21425,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sx = (__pyx_v_nx * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":338
+      /* "engine/cython/cy_response_3d.pyx":348
  *         if _len3(sx, sy, sz) < 1e-8:
  *             sx = nx * (mass * GRAVITY)
  *             sy = ny * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21344,7 +21434,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sy = (__pyx_v_ny * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":339
+      /* "engine/cython/cy_response_3d.pyx":349
  *             sx = nx * (mass * GRAVITY)
  *             sy = ny * (mass * GRAVITY)
  *             sz = nz * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21353,7 +21443,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sz = (__pyx_v_nz * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":336
+      /* "engine/cython/cy_response_3d.pyx":346
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:             # <<<<<<<<<<<<<<
@@ -21362,7 +21452,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":340
+    /* "engine/cython/cy_response_3d.pyx":350
  *             sy = ny * (mass * GRAVITY)
  *             sz = nz * (mass * GRAVITY)
  *         _cross3(rax, ray, raz, sx, sy, sz, &tau_x, &tau_y, &tau_z)             # <<<<<<<<<<<<<<
@@ -21371,7 +21461,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_f_6engine_6cython_14cy_response_3d__cross3(__pyx_v_rax, __pyx_v_ray, __pyx_v_raz, __pyx_v_sx, __pyx_v_sy, __pyx_v_sz, (&__pyx_v_tau_x), (&__pyx_v_tau_y), (&__pyx_v_tau_z));
 
-    /* "engine/cython/cy_response_3d.pyx":341
+    /* "engine/cython/cy_response_3d.pyx":351
  *             sz = nz * (mass * GRAVITY)
  *         _cross3(rax, ray, raz, sx, sy, sz, &tau_x, &tau_y, &tau_z)
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt             # <<<<<<<<<<<<<<
@@ -21382,7 +21472,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_tau_y = (__pyx_v_tau_y * __pyx_v_dt);
     __pyx_v_tau_z = (__pyx_v_tau_z * __pyx_v_dt);
 
-    /* "engine/cython/cy_response_3d.pyx":342
+    /* "engine/cython/cy_response_3d.pyx":352
  *         _cross3(rax, ray, raz, sx, sy, sz, &tau_x, &tau_y, &tau_z)
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt
  *         _mat_mul_vec(ia, tau_x, tau_y, tau_z, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -21391,7 +21481,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_f_6engine_6cython_14cy_response_3d__mat_mul_vec(__pyx_v_ia, __pyx_v_tau_x, __pyx_v_tau_y, __pyx_v_tau_z, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-    /* "engine/cython/cy_response_3d.pyx":343
+    /* "engine/cython/cy_response_3d.pyx":353
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt
  *         _mat_mul_vec(ia, tau_x, tau_y, tau_z, &ox, &oy, &oz)
  *         oax[0] += ox; oay[0] += oy; oaz[0] += oz             # <<<<<<<<<<<<<<
@@ -21405,7 +21495,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_4 = 0;
     (__pyx_v_oaz[__pyx_t_4]) = ((__pyx_v_oaz[__pyx_t_4]) + __pyx_v_oz);
 
-    /* "engine/cython/cy_response_3d.pyx":344
+    /* "engine/cython/cy_response_3d.pyx":354
  *         _mat_mul_vec(ia, tau_x, tau_y, tau_z, &ox, &oy, &oz)
  *         oax[0] += ox; oay[0] += oy; oaz[0] += oz
  *         if _len3(oax[0], oay[0], oaz[0]) < 0.15:             # <<<<<<<<<<<<<<
@@ -21415,12 +21505,12 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3((__pyx_v_oax[0]), (__pyx_v_oay[0]), (__pyx_v_oaz[0])) < 0.15);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":345
+      /* "engine/cython/cy_response_3d.pyx":355
  *         oax[0] += ox; oay[0] += oy; oaz[0] += oz
  *         if _len3(oax[0], oay[0], oaz[0]) < 0.15:
  *             oax[0] += ox; oay[0] += oy; oaz[0] += oz             # <<<<<<<<<<<<<<
  * 
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
 */
       __pyx_t_4 = 0;
       (__pyx_v_oax[__pyx_t_4]) = ((__pyx_v_oax[__pyx_t_4]) + __pyx_v_ox);
@@ -21429,7 +21519,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_4 = 0;
       (__pyx_v_oaz[__pyx_t_4]) = ((__pyx_v_oaz[__pyx_t_4]) + __pyx_v_oz);
 
-      /* "engine/cython/cy_response_3d.pyx":344
+      /* "engine/cython/cy_response_3d.pyx":354
  *         _mat_mul_vec(ia, tau_x, tau_y, tau_z, &ox, &oy, &oz)
  *         oax[0] += ox; oay[0] += oy; oaz[0] += oz
  *         if _len3(oax[0], oay[0], oaz[0]) < 0.15:             # <<<<<<<<<<<<<<
@@ -21438,51 +21528,57 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":327
+    /* "engine/cython/cy_response_3d.pyx":337
  * 
- *     # Gravity tip torque
- *     if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
+ *     # Gravity tip torque (single-point only  multi-point faces share load)
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:             # <<<<<<<<<<<<<<
  *         if dt < 1e-5:
  *             dt = 1e-5
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":347
+  /* "engine/cython/cy_response_3d.pyx":357
  *             oax[0] += ox; oay[0] += oy; oaz[0] += oz
  * 
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
  *         if dt < 1e-5:
  *             dt = 1e-5
 */
+  __pyx_t_3 = (!__pyx_v_multi_point);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L57_bool_binop_done;
+  }
   if (__pyx_v_unstable) {
   } else {
     __pyx_t_1 = __pyx_v_unstable;
-    goto __pyx_L55_bool_binop_done;
+    goto __pyx_L57_bool_binop_done;
   }
   if (__pyx_v_ground_like) {
   } else {
     __pyx_t_1 = __pyx_v_ground_like;
-    goto __pyx_L55_bool_binop_done;
+    goto __pyx_L57_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_closing < 3.0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L55_bool_binop_done;
+    goto __pyx_L57_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L55_bool_binop_done;
+    goto __pyx_L57_bool_binop_done;
   }
   __pyx_t_1 = __pyx_v_has_ib;
-  __pyx_L55_bool_binop_done:;
+  __pyx_L57_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":348
+    /* "engine/cython/cy_response_3d.pyx":358
  * 
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
  *         if dt < 1e-5:             # <<<<<<<<<<<<<<
  *             dt = 1e-5
  *         if dt > 0.05:
@@ -21490,8 +21586,8 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_dt < 1e-5);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":349
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
+      /* "engine/cython/cy_response_3d.pyx":359
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
  *         if dt < 1e-5:
  *             dt = 1e-5             # <<<<<<<<<<<<<<
  *         if dt > 0.05:
@@ -21499,16 +21595,16 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_dt = 1e-5;
 
-      /* "engine/cython/cy_response_3d.pyx":348
+      /* "engine/cython/cy_response_3d.pyx":358
  * 
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
  *         if dt < 1e-5:             # <<<<<<<<<<<<<<
  *             dt = 1e-5
  *         if dt > 0.05:
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":350
+    /* "engine/cython/cy_response_3d.pyx":360
  *         if dt < 1e-5:
  *             dt = 1e-5
  *         if dt > 0.05:             # <<<<<<<<<<<<<<
@@ -21518,7 +21614,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_dt > 0.05);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":351
+      /* "engine/cython/cy_response_3d.pyx":361
  *             dt = 1e-5
  *         if dt > 0.05:
  *             dt = 0.05             # <<<<<<<<<<<<<<
@@ -21527,7 +21623,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_dt = 0.05;
 
-      /* "engine/cython/cy_response_3d.pyx":350
+      /* "engine/cython/cy_response_3d.pyx":360
  *         if dt < 1e-5:
  *             dt = 1e-5
  *         if dt > 0.05:             # <<<<<<<<<<<<<<
@@ -21536,7 +21632,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":352
+    /* "engine/cython/cy_response_3d.pyx":362
  *         if dt > 0.05:
  *             dt = 0.05
  *         mass = 1.0 / inv_mass_b             # <<<<<<<<<<<<<<
@@ -21545,7 +21641,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_mass = (1.0 / __pyx_v_inv_mass_b);
 
-    /* "engine/cython/cy_response_3d.pyx":353
+    /* "engine/cython/cy_response_3d.pyx":363
  *             dt = 0.05
  *         mass = 1.0 / inv_mass_b
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21560,7 +21656,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sx = (__pyx_v_nx * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":354
+    /* "engine/cython/cy_response_3d.pyx":364
  *         mass = 1.0 / inv_mass_b
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21575,7 +21671,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sy = (__pyx_v_ny * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":355
+    /* "engine/cython/cy_response_3d.pyx":365
  *         sx = nx * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))             # <<<<<<<<<<<<<<
@@ -21590,7 +21686,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     }
     __pyx_v_sz = (__pyx_v_nz * ((__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY) * __pyx_t_2));
 
-    /* "engine/cython/cy_response_3d.pyx":356
+    /* "engine/cython/cy_response_3d.pyx":366
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:             # <<<<<<<<<<<<<<
@@ -21600,7 +21696,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_sx, __pyx_v_sy, __pyx_v_sz) < 1e-8);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":357
+      /* "engine/cython/cy_response_3d.pyx":367
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:
  *             sx = nx * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21609,7 +21705,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sx = (__pyx_v_nx * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":358
+      /* "engine/cython/cy_response_3d.pyx":368
  *         if _len3(sx, sy, sz) < 1e-8:
  *             sx = nx * (mass * GRAVITY)
  *             sy = ny * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21618,7 +21714,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sy = (__pyx_v_ny * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":359
+      /* "engine/cython/cy_response_3d.pyx":369
  *             sx = nx * (mass * GRAVITY)
  *             sy = ny * (mass * GRAVITY)
  *             sz = nz * (mass * GRAVITY)             # <<<<<<<<<<<<<<
@@ -21627,7 +21723,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_sz = (__pyx_v_nz * (__pyx_v_mass * __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY));
 
-      /* "engine/cython/cy_response_3d.pyx":356
+      /* "engine/cython/cy_response_3d.pyx":366
  *         sy = ny * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         sz = nz * (mass * GRAVITY * (ny if ny > 0.0 else 0.0))
  *         if _len3(sx, sy, sz) < 1e-8:             # <<<<<<<<<<<<<<
@@ -21636,7 +21732,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":360
+    /* "engine/cython/cy_response_3d.pyx":370
  *             sy = ny * (mass * GRAVITY)
  *             sz = nz * (mass * GRAVITY)
  *         _cross3(rbx, rby, rbz, sx, sy, sz, &tau_x, &tau_y, &tau_z)             # <<<<<<<<<<<<<<
@@ -21645,7 +21741,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_f_6engine_6cython_14cy_response_3d__cross3(__pyx_v_rbx, __pyx_v_rby, __pyx_v_rbz, __pyx_v_sx, __pyx_v_sy, __pyx_v_sz, (&__pyx_v_tau_x), (&__pyx_v_tau_y), (&__pyx_v_tau_z));
 
-    /* "engine/cython/cy_response_3d.pyx":361
+    /* "engine/cython/cy_response_3d.pyx":371
  *             sz = nz * (mass * GRAVITY)
  *         _cross3(rbx, rby, rbz, sx, sy, sz, &tau_x, &tau_y, &tau_z)
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt             # <<<<<<<<<<<<<<
@@ -21656,7 +21752,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_tau_y = (__pyx_v_tau_y * __pyx_v_dt);
     __pyx_v_tau_z = (__pyx_v_tau_z * __pyx_v_dt);
 
-    /* "engine/cython/cy_response_3d.pyx":362
+    /* "engine/cython/cy_response_3d.pyx":372
  *         _cross3(rbx, rby, rbz, sx, sy, sz, &tau_x, &tau_y, &tau_z)
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt
  *         _mat_mul_vec(ib, tau_x, tau_y, tau_z, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -21665,7 +21761,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_f_6engine_6cython_14cy_response_3d__mat_mul_vec(__pyx_v_ib, __pyx_v_tau_x, __pyx_v_tau_y, __pyx_v_tau_z, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-    /* "engine/cython/cy_response_3d.pyx":363
+    /* "engine/cython/cy_response_3d.pyx":373
  *         tau_x *= dt; tau_y *= dt; tau_z *= dt
  *         _mat_mul_vec(ib, tau_x, tau_y, tau_z, &ox, &oy, &oz)
  *         obx[0] += ox; oby[0] += oy; obz[0] += oz             # <<<<<<<<<<<<<<
@@ -21679,27 +21775,77 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_4 = 0;
     (__pyx_v_obz[__pyx_t_4]) = ((__pyx_v_obz[__pyx_t_4]) + __pyx_v_oz);
 
-    /* "engine/cython/cy_response_3d.pyx":347
+    /* "engine/cython/cy_response_3d.pyx":357
  *             oax[0] += ox; oay[0] += oy; oaz[0] += oz
  * 
- *     if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
+ *     if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:             # <<<<<<<<<<<<<<
  *         if dt < 1e-5:
  *             dt = 1e-5
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":366
+  /* "engine/cython/cy_response_3d.pyx":376
  * 
  *     # Friction
- *     if face_support:             # <<<<<<<<<<<<<<
+ *     if multi_point:             # <<<<<<<<<<<<<<
+ *         # Full geometric arms for friction at each manifold point
+ *         ra_fx = rax; ra_fy = ray; ra_fz = raz
+*/
+  if (__pyx_v_multi_point) {
+
+    /* "engine/cython/cy_response_3d.pyx":378
+ *     if multi_point:
+ *         # Full geometric arms for friction at each manifold point
+ *         ra_fx = rax; ra_fy = ray; ra_fz = raz             # <<<<<<<<<<<<<<
+ *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
+ *         friction_angular = 1
+*/
+    __pyx_v_ra_fx = __pyx_v_rax;
+    __pyx_v_ra_fy = __pyx_v_ray;
+    __pyx_v_ra_fz = __pyx_v_raz;
+
+    /* "engine/cython/cy_response_3d.pyx":379
+ *         # Full geometric arms for friction at each manifold point
+ *         ra_fx = rax; ra_fy = ray; ra_fz = raz
+ *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz             # <<<<<<<<<<<<<<
+ *         friction_angular = 1
+ *     elif face_support:
+*/
+    __pyx_v_rb_fx = __pyx_v_rbx;
+    __pyx_v_rb_fy = __pyx_v_rby;
+    __pyx_v_rb_fz = __pyx_v_rbz;
+
+    /* "engine/cython/cy_response_3d.pyx":380
+ *         ra_fx = rax; ra_fy = ray; ra_fz = raz
+ *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
+ *         friction_angular = 1             # <<<<<<<<<<<<<<
+ *     elif face_support:
+ *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
+*/
+    __pyx_v_friction_angular = 1;
+
+    /* "engine/cython/cy_response_3d.pyx":376
+ * 
+ *     # Friction
+ *     if multi_point:             # <<<<<<<<<<<<<<
+ *         # Full geometric arms for friction at each manifold point
+ *         ra_fx = rax; ra_fy = ray; ra_fz = raz
+*/
+    goto __pyx_L66;
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":381
+ *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
+ *         friction_angular = 1
+ *     elif face_support:             # <<<<<<<<<<<<<<
  *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
 */
   if (__pyx_v_face_support) {
 
-    /* "engine/cython/cy_response_3d.pyx":367
- *     # Friction
- *     if face_support:
+    /* "engine/cython/cy_response_3d.pyx":382
+ *         friction_angular = 1
+ *     elif face_support:
  *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz             # <<<<<<<<<<<<<<
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
  *         friction_angular = closing > 2.0
@@ -21708,8 +21854,8 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_ra_fy = __pyx_v_ra_ny;
     __pyx_v_ra_fz = __pyx_v_ra_nz;
 
-    /* "engine/cython/cy_response_3d.pyx":368
- *     if face_support:
+    /* "engine/cython/cy_response_3d.pyx":383
+ *     elif face_support:
  *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz             # <<<<<<<<<<<<<<
  *         friction_angular = closing > 2.0
@@ -21719,7 +21865,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_rb_fy = __pyx_v_rb_ny;
     __pyx_v_rb_fz = __pyx_v_rb_nz;
 
-    /* "engine/cython/cy_response_3d.pyx":369
+    /* "engine/cython/cy_response_3d.pyx":384
  *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
  *         friction_angular = closing > 2.0             # <<<<<<<<<<<<<<
@@ -21728,17 +21874,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_friction_angular = (__pyx_v_closing > 2.0);
 
-    /* "engine/cython/cy_response_3d.pyx":366
- * 
- *     # Friction
- *     if face_support:             # <<<<<<<<<<<<<<
+    /* "engine/cython/cy_response_3d.pyx":381
+ *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
+ *         friction_angular = 1
+ *     elif face_support:             # <<<<<<<<<<<<<<
  *         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
 */
-    goto __pyx_L63;
+    goto __pyx_L66;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":370
+  /* "engine/cython/cy_response_3d.pyx":385
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
  *         friction_angular = closing > 2.0
  *     elif unstable:             # <<<<<<<<<<<<<<
@@ -21747,7 +21893,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   if (__pyx_v_unstable) {
 
-    /* "engine/cython/cy_response_3d.pyx":371
+    /* "engine/cython/cy_response_3d.pyx":386
  *         friction_angular = closing > 2.0
  *     elif unstable:
  *         ra_fx = rax; ra_fy = ray; ra_fz = raz             # <<<<<<<<<<<<<<
@@ -21758,7 +21904,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_ra_fy = __pyx_v_ray;
     __pyx_v_ra_fz = __pyx_v_raz;
 
-    /* "engine/cython/cy_response_3d.pyx":372
+    /* "engine/cython/cy_response_3d.pyx":387
  *     elif unstable:
  *         ra_fx = rax; ra_fy = ray; ra_fz = raz
  *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz             # <<<<<<<<<<<<<<
@@ -21769,7 +21915,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_rb_fy = __pyx_v_rby;
     __pyx_v_rb_fz = __pyx_v_rbz;
 
-    /* "engine/cython/cy_response_3d.pyx":373
+    /* "engine/cython/cy_response_3d.pyx":388
  *         ra_fx = rax; ra_fy = ray; ra_fz = raz
  *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
  *         friction_angular = 1             # <<<<<<<<<<<<<<
@@ -21778,17 +21924,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_friction_angular = 1;
 
-    /* "engine/cython/cy_response_3d.pyx":370
+    /* "engine/cython/cy_response_3d.pyx":385
  *         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
  *         friction_angular = closing > 2.0
  *     elif unstable:             # <<<<<<<<<<<<<<
  *         ra_fx = rax; ra_fy = ray; ra_fz = raz
  *         rb_fx = rbx; rb_fy = rby; rb_fz = rbz
 */
-    goto __pyx_L63;
+    goto __pyx_L66;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":375
+  /* "engine/cython/cy_response_3d.pyx":390
  *         friction_angular = 1
  *     else:
  *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21798,7 +21944,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   /*else*/ {
     __pyx_v_ra_fx = ((__pyx_v_rax * __pyx_v_w_n) + (__pyx_v_ra_nx * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":376
+    /* "engine/cython/cy_response_3d.pyx":391
  *     else:
  *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)
  *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21807,7 +21953,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_ra_fy = ((__pyx_v_ray * __pyx_v_w_n) + (__pyx_v_ra_ny * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":377
+    /* "engine/cython/cy_response_3d.pyx":392
  *         ra_fx = rax * w_n + ra_nx * (1.0 - w_n)
  *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)
  *         ra_fz = raz * w_n + ra_nz * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21816,7 +21962,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_ra_fz = ((__pyx_v_raz * __pyx_v_w_n) + (__pyx_v_ra_nz * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":378
+    /* "engine/cython/cy_response_3d.pyx":393
  *         ra_fy = ray * w_n + ra_ny * (1.0 - w_n)
  *         ra_fz = raz * w_n + ra_nz * (1.0 - w_n)
  *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21825,7 +21971,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_rb_fx = ((__pyx_v_rbx * __pyx_v_w_n) + (__pyx_v_rb_nx * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":379
+    /* "engine/cython/cy_response_3d.pyx":394
  *         ra_fz = raz * w_n + ra_nz * (1.0 - w_n)
  *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
  *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21834,7 +21980,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_rb_fy = ((__pyx_v_rby * __pyx_v_w_n) + (__pyx_v_rb_ny * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":380
+    /* "engine/cython/cy_response_3d.pyx":395
  *         rb_fx = rbx * w_n + rb_nx * (1.0 - w_n)
  *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)
  *         rb_fz = rbz * w_n + rb_nz * (1.0 - w_n)             # <<<<<<<<<<<<<<
@@ -21843,7 +21989,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_rb_fz = ((__pyx_v_rbz * __pyx_v_w_n) + (__pyx_v_rb_nz * (1.0 - __pyx_v_w_n)));
 
-    /* "engine/cython/cy_response_3d.pyx":381
+    /* "engine/cython/cy_response_3d.pyx":396
  *         rb_fy = rby * w_n + rb_ny * (1.0 - w_n)
  *         rb_fz = rbz * w_n + rb_nz * (1.0 - w_n)
  *         friction_angular = w_n > 0.2             # <<<<<<<<<<<<<<
@@ -21852,9 +21998,9 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_friction_angular = (__pyx_v_w_n > 0.2);
   }
-  __pyx_L63:;
+  __pyx_L66:;
 
-  /* "engine/cython/cy_response_3d.pyx":383
+  /* "engine/cython/cy_response_3d.pyx":398
  *         friction_angular = w_n > 0.2
  * 
  *     _cross3(oax[0], oay[0], oaz[0], ra_fx, ra_fy, ra_fz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -21863,7 +22009,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_oax[0]), (__pyx_v_oay[0]), (__pyx_v_oaz[0]), __pyx_v_ra_fx, __pyx_v_ra_fy, __pyx_v_ra_fz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":384
+  /* "engine/cython/cy_response_3d.pyx":399
  * 
  *     _cross3(oax[0], oay[0], oaz[0], ra_fx, ra_fy, ra_fz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz             # <<<<<<<<<<<<<<
@@ -21874,7 +22020,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_vry = ((__pyx_v_vay[0]) + __pyx_v_oy);
   __pyx_v_vrz = ((__pyx_v_vaz[0]) + __pyx_v_oz);
 
-  /* "engine/cython/cy_response_3d.pyx":385
+  /* "engine/cython/cy_response_3d.pyx":400
  *     _cross3(oax[0], oay[0], oaz[0], ra_fx, ra_fy, ra_fz, &ox, &oy, &oz)
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rb_fx, rb_fy, rb_fz, &ox, &oy, &oz)             # <<<<<<<<<<<<<<
@@ -21883,7 +22029,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__cross3((__pyx_v_obx[0]), (__pyx_v_oby[0]), (__pyx_v_obz[0]), __pyx_v_rb_fx, __pyx_v_rb_fy, __pyx_v_rb_fz, (&__pyx_v_ox), (&__pyx_v_oy), (&__pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":386
+  /* "engine/cython/cy_response_3d.pyx":401
  *     vrx = vax[0] + ox; vry = vay[0] + oy; vrz = vaz[0] + oz
  *     _cross3(obx[0], oby[0], obz[0], rb_fx, rb_fy, rb_fz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz             # <<<<<<<<<<<<<<
@@ -21894,7 +22040,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_vry = (__pyx_v_vry - ((__pyx_v_vby[0]) + __pyx_v_oy));
   __pyx_v_vrz = (__pyx_v_vrz - ((__pyx_v_vbz[0]) + __pyx_v_oz));
 
-  /* "engine/cython/cy_response_3d.pyx":387
+  /* "engine/cython/cy_response_3d.pyx":402
  *     _cross3(obx[0], oby[0], obz[0], rb_fx, rb_fy, rb_fz, &ox, &oy, &oz)
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz
  *     dn = _dot3(vrx, vry, vrz, nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -21903,7 +22049,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_dn = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_vrx, __pyx_v_vry, __pyx_v_vrz, __pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":388
+  /* "engine/cython/cy_response_3d.pyx":403
  *     vrx -= vbx[0] + ox; vry -= vby[0] + oy; vrz -= vbz[0] + oz
  *     dn = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     vtx = vrx - nx * dn; vty = vry - ny * dn; vtz = vrz - nz * dn             # <<<<<<<<<<<<<<
@@ -21914,7 +22060,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_v_vty = (__pyx_v_vry - (__pyx_v_ny * __pyx_v_dn));
   __pyx_v_vtz = (__pyx_v_vrz - (__pyx_v_nz * __pyx_v_dn));
 
-  /* "engine/cython/cy_response_3d.pyx":389
+  /* "engine/cython/cy_response_3d.pyx":404
  *     dn = _dot3(vrx, vry, vrz, nx, ny, nz)
  *     vtx = vrx - nx * dn; vty = vry - ny * dn; vtz = vrz - nz * dn
  *     t_mag = _len3(vtx, vty, vtz)             # <<<<<<<<<<<<<<
@@ -21923,7 +22069,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_v_t_mag = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_vtx, __pyx_v_vty, __pyx_v_vtz);
 
-  /* "engine/cython/cy_response_3d.pyx":390
+  /* "engine/cython/cy_response_3d.pyx":405
  *     vtx = vrx - nx * dn; vty = vry - ny * dn; vtz = vrz - nz * dn
  *     t_mag = _len3(vtx, vty, vtz)
  *     mu_s = static_friction if static_friction > 0.0 else 0.0             # <<<<<<<<<<<<<<
@@ -21938,7 +22084,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   }
   __pyx_v_mu_s = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":391
+  /* "engine/cython/cy_response_3d.pyx":406
  *     t_mag = _len3(vtx, vty, vtz)
  *     mu_s = static_friction if static_friction > 0.0 else 0.0
  *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0             # <<<<<<<<<<<<<<
@@ -21953,7 +22099,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   }
   __pyx_v_mu_d = __pyx_t_2;
 
-  /* "engine/cython/cy_response_3d.pyx":393
+  /* "engine/cython/cy_response_3d.pyx":408
  *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
  * 
  *     if t_mag >= 1e-10:             # <<<<<<<<<<<<<<
@@ -21963,7 +22109,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_t_1 = (__pyx_v_t_mag >= 1e-10);
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":394
+    /* "engine/cython/cy_response_3d.pyx":409
  * 
  *     if t_mag >= 1e-10:
  *         tx = vtx / t_mag; ty = vty / t_mag; tz = vtz / t_mag             # <<<<<<<<<<<<<<
@@ -21974,7 +22120,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_v_ty = (__pyx_v_vty / __pyx_v_t_mag);
     __pyx_v_tz = (__pyx_v_vtz / __pyx_v_t_mag);
 
-    /* "engine/cython/cy_response_3d.pyx":395
+    /* "engine/cython/cy_response_3d.pyx":410
  *     if t_mag >= 1e-10:
  *         tx = vtx / t_mag; ty = vty / t_mag; tz = vtz / t_mag
  *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:             # <<<<<<<<<<<<<<
@@ -21985,14 +22131,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     if (!__pyx_t_3) {
     } else {
       __pyx_t_1 = __pyx_t_3;
-      goto __pyx_L66_bool_binop_done;
+      goto __pyx_L69_bool_binop_done;
     }
     __pyx_t_3 = (__pyx_v_t_mag < __pyx_v_6engine_6cython_14cy_response_3d_RESTING_TANGENTIAL_SPEED);
     __pyx_t_1 = __pyx_t_3;
-    __pyx_L66_bool_binop_done:;
+    __pyx_L69_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":396
+      /* "engine/cython/cy_response_3d.pyx":411
  *         tx = vtx / t_mag; ty = vty / t_mag; tz = vtz / t_mag
  *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
  *             kt_lin = inv_mass_a + inv_mass_b             # <<<<<<<<<<<<<<
@@ -22001,7 +22147,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_kt_lin = (__pyx_v_inv_mass_a + __pyx_v_inv_mass_b);
 
-      /* "engine/cython/cy_response_3d.pyx":397
+      /* "engine/cython/cy_response_3d.pyx":412
  *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
  *             kt_lin = inv_mass_a + inv_mass_b
  *             if kt_lin > 1e-12:             # <<<<<<<<<<<<<<
@@ -22011,7 +22157,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_1 = (__pyx_v_kt_lin > 1e-12);
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":398
+        /* "engine/cython/cy_response_3d.pyx":413
  *             kt_lin = inv_mass_a + inv_mass_b
  *             if kt_lin > 1e-12:
  *                 jt = -t_mag / kt_lin             # <<<<<<<<<<<<<<
@@ -22020,7 +22166,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         __pyx_v_jt = ((-__pyx_v_t_mag) / __pyx_v_kt_lin);
 
-        /* "engine/cython/cy_response_3d.pyx":399
+        /* "engine/cython/cy_response_3d.pyx":414
  *             if kt_lin > 1e-12:
  *                 jt = -t_mag / kt_lin
  *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)             # <<<<<<<<<<<<<<
@@ -22035,7 +22181,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         }
         __pyx_v_max_f = (fabs(__pyx_v_jn) * __pyx_t_2);
 
-        /* "engine/cython/cy_response_3d.pyx":400
+        /* "engine/cython/cy_response_3d.pyx":415
  *                 jt = -t_mag / kt_lin
  *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
  *                 if fabs(jt) > max_f:             # <<<<<<<<<<<<<<
@@ -22045,7 +22191,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_1 = (fabs(__pyx_v_jt) > __pyx_v_max_f);
         if (__pyx_t_1) {
 
-          /* "engine/cython/cy_response_3d.pyx":401
+          /* "engine/cython/cy_response_3d.pyx":416
  *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
  *                 if fabs(jt) > max_f:
  *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0             # <<<<<<<<<<<<<<
@@ -22060,7 +22206,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
           }
           __pyx_v_jt = __pyx_t_2;
 
-          /* "engine/cython/cy_response_3d.pyx":400
+          /* "engine/cython/cy_response_3d.pyx":415
  *                 jt = -t_mag / kt_lin
  *                 max_f = fabs(jn) * (mu_s if mu_s > mu_d else mu_d)
  *                 if fabs(jt) > max_f:             # <<<<<<<<<<<<<<
@@ -22069,7 +22215,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":402
+        /* "engine/cython/cy_response_3d.pyx":417
  *                 if fabs(jt) > max_f:
  *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
  *                 vax[0] += tx * jt * inv_mass_a             # <<<<<<<<<<<<<<
@@ -22079,7 +22225,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vax[__pyx_t_4]) = ((__pyx_v_vax[__pyx_t_4]) + ((__pyx_v_tx * __pyx_v_jt) * __pyx_v_inv_mass_a));
 
-        /* "engine/cython/cy_response_3d.pyx":403
+        /* "engine/cython/cy_response_3d.pyx":418
  *                     jt = copysign(max_f, jt) if max_f > 0.0 else 0.0
  *                 vax[0] += tx * jt * inv_mass_a
  *                 vay[0] += ty * jt * inv_mass_a             # <<<<<<<<<<<<<<
@@ -22089,7 +22235,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vay[__pyx_t_4]) = ((__pyx_v_vay[__pyx_t_4]) + ((__pyx_v_ty * __pyx_v_jt) * __pyx_v_inv_mass_a));
 
-        /* "engine/cython/cy_response_3d.pyx":404
+        /* "engine/cython/cy_response_3d.pyx":419
  *                 vax[0] += tx * jt * inv_mass_a
  *                 vay[0] += ty * jt * inv_mass_a
  *                 vaz[0] += tz * jt * inv_mass_a             # <<<<<<<<<<<<<<
@@ -22099,7 +22245,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vaz[__pyx_t_4]) = ((__pyx_v_vaz[__pyx_t_4]) + ((__pyx_v_tz * __pyx_v_jt) * __pyx_v_inv_mass_a));
 
-        /* "engine/cython/cy_response_3d.pyx":405
+        /* "engine/cython/cy_response_3d.pyx":420
  *                 vay[0] += ty * jt * inv_mass_a
  *                 vaz[0] += tz * jt * inv_mass_a
  *                 vbx[0] -= tx * jt * inv_mass_b             # <<<<<<<<<<<<<<
@@ -22109,7 +22255,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vbx[__pyx_t_4]) = ((__pyx_v_vbx[__pyx_t_4]) - ((__pyx_v_tx * __pyx_v_jt) * __pyx_v_inv_mass_b));
 
-        /* "engine/cython/cy_response_3d.pyx":406
+        /* "engine/cython/cy_response_3d.pyx":421
  *                 vaz[0] += tz * jt * inv_mass_a
  *                 vbx[0] -= tx * jt * inv_mass_b
  *                 vby[0] -= ty * jt * inv_mass_b             # <<<<<<<<<<<<<<
@@ -22119,7 +22265,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vby[__pyx_t_4]) = ((__pyx_v_vby[__pyx_t_4]) - ((__pyx_v_ty * __pyx_v_jt) * __pyx_v_inv_mass_b));
 
-        /* "engine/cython/cy_response_3d.pyx":407
+        /* "engine/cython/cy_response_3d.pyx":422
  *                 vbx[0] -= tx * jt * inv_mass_b
  *                 vby[0] -= ty * jt * inv_mass_b
  *                 vbz[0] -= tz * jt * inv_mass_b             # <<<<<<<<<<<<<<
@@ -22129,7 +22275,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_4 = 0;
         (__pyx_v_vbz[__pyx_t_4]) = ((__pyx_v_vbz[__pyx_t_4]) - ((__pyx_v_tz * __pyx_v_jt) * __pyx_v_inv_mass_b));
 
-        /* "engine/cython/cy_response_3d.pyx":408
+        /* "engine/cython/cy_response_3d.pyx":423
  *                 vby[0] -= ty * jt * inv_mass_b
  *                 vbz[0] -= tz * jt * inv_mass_b
  *                 if face_support:             # <<<<<<<<<<<<<<
@@ -22138,7 +22284,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         if (__pyx_v_face_support) {
 
-          /* "engine/cython/cy_response_3d.pyx":409
+          /* "engine/cython/cy_response_3d.pyx":424
  *                 vbz[0] -= tz * jt * inv_mass_b
  *                 if face_support:
  *                     oax[0] *= 0.5; oay[0] *= 0.5; oaz[0] *= 0.5             # <<<<<<<<<<<<<<
@@ -22152,7 +22298,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
           __pyx_t_4 = 0;
           (__pyx_v_oaz[__pyx_t_4]) = ((__pyx_v_oaz[__pyx_t_4]) * 0.5);
 
-          /* "engine/cython/cy_response_3d.pyx":410
+          /* "engine/cython/cy_response_3d.pyx":425
  *                 if face_support:
  *                     oax[0] *= 0.5; oay[0] *= 0.5; oaz[0] *= 0.5
  *                     obx[0] *= 0.5; oby[0] *= 0.5; obz[0] *= 0.5             # <<<<<<<<<<<<<<
@@ -22166,7 +22312,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
           __pyx_t_4 = 0;
           (__pyx_v_obz[__pyx_t_4]) = ((__pyx_v_obz[__pyx_t_4]) * 0.5);
 
-          /* "engine/cython/cy_response_3d.pyx":408
+          /* "engine/cython/cy_response_3d.pyx":423
  *                 vby[0] -= ty * jt * inv_mass_b
  *                 vbz[0] -= tz * jt * inv_mass_b
  *                 if face_support:             # <<<<<<<<<<<<<<
@@ -22175,7 +22321,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":397
+        /* "engine/cython/cy_response_3d.pyx":412
  *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:
  *             kt_lin = inv_mass_a + inv_mass_b
  *             if kt_lin > 1e-12:             # <<<<<<<<<<<<<<
@@ -22184,17 +22330,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       }
 
-      /* "engine/cython/cy_response_3d.pyx":395
+      /* "engine/cython/cy_response_3d.pyx":410
  *     if t_mag >= 1e-10:
  *         tx = vtx / t_mag; ty = vty / t_mag; tz = vtz / t_mag
  *         if (not friction_angular) or t_mag < RESTING_TANGENTIAL_SPEED:             # <<<<<<<<<<<<<<
  *             kt_lin = inv_mass_a + inv_mass_b
  *             if kt_lin > 1e-12:
 */
-      goto __pyx_L65;
+      goto __pyx_L68;
     }
 
-    /* "engine/cython/cy_response_3d.pyx":412
+    /* "engine/cython/cy_response_3d.pyx":427
  *                     obx[0] *= 0.5; oby[0] *= 0.5; obz[0] *= 0.5
  *         else:
  *             kt = _effective_mass(tx, ty, tz, inv_mass_a, inv_mass_b,             # <<<<<<<<<<<<<<
@@ -22203,7 +22349,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     /*else*/ {
 
-      /* "engine/cython/cy_response_3d.pyx":414
+      /* "engine/cython/cy_response_3d.pyx":429
  *             kt = _effective_mass(tx, ty, tz, inv_mass_a, inv_mass_b,
  *                                  ra_fx, ra_fy, ra_fz, rb_fx, rb_fy, rb_fz,
  *                                  has_ia, ia, has_ib, ib)             # <<<<<<<<<<<<<<
@@ -22212,7 +22358,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_kt = __pyx_f_6engine_6cython_14cy_response_3d__effective_mass(__pyx_v_tx, __pyx_v_ty, __pyx_v_tz, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_ra_fx, __pyx_v_ra_fy, __pyx_v_ra_fz, __pyx_v_rb_fx, __pyx_v_rb_fy, __pyx_v_rb_fz, __pyx_v_has_ia, __pyx_v_ia, __pyx_v_has_ib, __pyx_v_ib);
 
-      /* "engine/cython/cy_response_3d.pyx":415
+      /* "engine/cython/cy_response_3d.pyx":430
  *                                  ra_fx, ra_fy, ra_fz, rb_fx, rb_fy, rb_fz,
  *                                  has_ia, ia, has_ib, ib)
  *             if kt > 1e-12:             # <<<<<<<<<<<<<<
@@ -22222,7 +22368,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_1 = (__pyx_v_kt > 1e-12);
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":416
+        /* "engine/cython/cy_response_3d.pyx":431
  *                                  has_ia, ia, has_ib, ib)
  *             if kt > 1e-12:
  *                 vt_along = _dot3(vrx, vry, vrz, tx, ty, tz)             # <<<<<<<<<<<<<<
@@ -22231,7 +22377,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         __pyx_v_vt_along = __pyx_f_6engine_6cython_14cy_response_3d__dot3(__pyx_v_vrx, __pyx_v_vry, __pyx_v_vrz, __pyx_v_tx, __pyx_v_ty, __pyx_v_tz);
 
-        /* "engine/cython/cy_response_3d.pyx":417
+        /* "engine/cython/cy_response_3d.pyx":432
  *             if kt > 1e-12:
  *                 vt_along = _dot3(vrx, vry, vrz, tx, ty, tz)
  *                 jt = -vt_along / kt             # <<<<<<<<<<<<<<
@@ -22240,7 +22386,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         __pyx_v_jt = ((-__pyx_v_vt_along) / __pyx_v_kt);
 
-        /* "engine/cython/cy_response_3d.pyx":418
+        /* "engine/cython/cy_response_3d.pyx":433
  *                 vt_along = _dot3(vrx, vry, vrz, tx, ty, tz)
  *                 jt = -vt_along / kt
  *                 max_static = fabs(jn) * mu_s             # <<<<<<<<<<<<<<
@@ -22249,7 +22395,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         __pyx_v_max_static = (fabs(__pyx_v_jn) * __pyx_v_mu_s);
 
-        /* "engine/cython/cy_response_3d.pyx":419
+        /* "engine/cython/cy_response_3d.pyx":434
  *                 jt = -vt_along / kt
  *                 max_static = fabs(jn) * mu_s
  *                 if fabs(jt) > max_static:             # <<<<<<<<<<<<<<
@@ -22259,7 +22405,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_1 = (fabs(__pyx_v_jt) > __pyx_v_max_static);
         if (__pyx_t_1) {
 
-          /* "engine/cython/cy_response_3d.pyx":420
+          /* "engine/cython/cy_response_3d.pyx":435
  *                 max_static = fabs(jn) * mu_s
  *                 if fabs(jt) > max_static:
  *                     jt = copysign(fabs(jn) * mu_d, jt)             # <<<<<<<<<<<<<<
@@ -22268,7 +22414,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
           __pyx_v_jt = copysign((fabs(__pyx_v_jn) * __pyx_v_mu_d), __pyx_v_jt);
 
-          /* "engine/cython/cy_response_3d.pyx":419
+          /* "engine/cython/cy_response_3d.pyx":434
  *                 jt = -vt_along / kt
  *                 max_static = fabs(jn) * mu_s
  *                 if fabs(jt) > max_static:             # <<<<<<<<<<<<<<
@@ -22277,7 +22423,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":421
+        /* "engine/cython/cy_response_3d.pyx":436
  *                 if fabs(jt) > max_static:
  *                     jt = copysign(fabs(jn) * mu_d, jt)
  *                 if unstable:             # <<<<<<<<<<<<<<
@@ -22286,7 +22432,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         if (__pyx_v_unstable) {
 
-          /* "engine/cython/cy_response_3d.pyx":422
+          /* "engine/cython/cy_response_3d.pyx":437
  *                     jt = copysign(fabs(jn) * mu_d, jt)
  *                 if unstable:
  *                     jt *= 0.45             # <<<<<<<<<<<<<<
@@ -22295,7 +22441,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
           __pyx_v_jt = (__pyx_v_jt * 0.45);
 
-          /* "engine/cython/cy_response_3d.pyx":421
+          /* "engine/cython/cy_response_3d.pyx":436
  *                 if fabs(jt) > max_static:
  *                     jt = copysign(fabs(jn) * mu_d, jt)
  *                 if unstable:             # <<<<<<<<<<<<<<
@@ -22304,7 +22450,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":423
+        /* "engine/cython/cy_response_3d.pyx":438
  *                 if unstable:
  *                     jt *= 0.45
  *                 if vt_along * (vt_along + jt * kt) < 0.0:             # <<<<<<<<<<<<<<
@@ -22314,7 +22460,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         __pyx_t_1 = ((__pyx_v_vt_along * (__pyx_v_vt_along + (__pyx_v_jt * __pyx_v_kt))) < 0.0);
         if (__pyx_t_1) {
 
-          /* "engine/cython/cy_response_3d.pyx":424
+          /* "engine/cython/cy_response_3d.pyx":439
  *                     jt *= 0.45
  *                 if vt_along * (vt_along + jt * kt) < 0.0:
  *                     jt = -vt_along / kt             # <<<<<<<<<<<<<<
@@ -22323,7 +22469,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
           __pyx_v_jt = ((-__pyx_v_vt_along) / __pyx_v_kt);
 
-          /* "engine/cython/cy_response_3d.pyx":423
+          /* "engine/cython/cy_response_3d.pyx":438
  *                 if unstable:
  *                     jt *= 0.45
  *                 if vt_along * (vt_along + jt * kt) < 0.0:             # <<<<<<<<<<<<<<
@@ -22332,7 +22478,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         }
 
-        /* "engine/cython/cy_response_3d.pyx":425
+        /* "engine/cython/cy_response_3d.pyx":440
  *                 if vt_along * (vt_along + jt * kt) < 0.0:
  *                     jt = -vt_along / kt
  *                 _apply_impulse(vax, vay, vaz, oax, oay, oaz,             # <<<<<<<<<<<<<<
@@ -22341,7 +22487,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
         __pyx_f_6engine_6cython_14cy_response_3d__apply_impulse(__pyx_v_vax, __pyx_v_vay, __pyx_v_vaz, __pyx_v_oax, __pyx_v_oay, __pyx_v_oaz, __pyx_v_vbx, __pyx_v_vby, __pyx_v_vbz, __pyx_v_obx, __pyx_v_oby, __pyx_v_obz, __pyx_v_inv_mass_a, __pyx_v_inv_mass_b, __pyx_v_has_ia, __pyx_v_ia, __pyx_v_has_ib, __pyx_v_ib, __pyx_v_ra_fx, __pyx_v_ra_fy, __pyx_v_ra_fz, __pyx_v_rb_fx, __pyx_v_rb_fy, __pyx_v_rb_fz, (__pyx_v_tx * __pyx_v_jt), (__pyx_v_ty * __pyx_v_jt), (__pyx_v_tz * __pyx_v_jt));
 
-        /* "engine/cython/cy_response_3d.pyx":415
+        /* "engine/cython/cy_response_3d.pyx":430
  *                                  ra_fx, ra_fy, ra_fz, rb_fx, rb_fy, rb_fz,
  *                                  has_ia, ia, has_ib, ib)
  *             if kt > 1e-12:             # <<<<<<<<<<<<<<
@@ -22350,9 +22496,9 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       }
     }
-    __pyx_L65:;
+    __pyx_L68:;
 
-    /* "engine/cython/cy_response_3d.pyx":393
+    /* "engine/cython/cy_response_3d.pyx":408
  *     mu_d = dynamic_friction if dynamic_friction > 0.0 else 0.0
  * 
  *     if t_mag >= 1e-10:             # <<<<<<<<<<<<<<
@@ -22361,26 +22507,32 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":432
+  /* "engine/cython/cy_response_3d.pyx":447
  * 
- *     # Face settle
- *     if face_support and closing < 2.0:             # <<<<<<<<<<<<<<
+ *     # Face settle (single-point only; multi-point settles after all points)
+ *     if (not multi_point) and face_support and closing < 2.0:             # <<<<<<<<<<<<<<
  *         if inv_mass_a > 0.0:
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
 */
+  __pyx_t_3 = (!__pyx_v_multi_point);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L79_bool_binop_done;
+  }
   if (__pyx_v_face_support) {
   } else {
     __pyx_t_1 = __pyx_v_face_support;
-    goto __pyx_L76_bool_binop_done;
+    goto __pyx_L79_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_closing < 2.0);
   __pyx_t_1 = __pyx_t_3;
-  __pyx_L76_bool_binop_done:;
+  __pyx_L79_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":433
- *     # Face settle
- *     if face_support and closing < 2.0:
+    /* "engine/cython/cy_response_3d.pyx":448
+ *     # Face settle (single-point only; multi-point settles after all points)
+ *     if (not multi_point) and face_support and closing < 2.0:
  *         if inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
@@ -22388,8 +22540,8 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_inv_mass_a > 0.0);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":434
- *     if face_support and closing < 2.0:
+      /* "engine/cython/cy_response_3d.pyx":449
+ *     if (not multi_point) and face_support and closing < 2.0:
  *         if inv_mass_a > 0.0:
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25             # <<<<<<<<<<<<<<
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
@@ -22402,7 +22554,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_4 = 0;
       (__pyx_v_oaz[__pyx_t_4]) = ((__pyx_v_oaz[__pyx_t_4]) * 0.25);
 
-      /* "engine/cython/cy_response_3d.pyx":435
+      /* "engine/cython/cy_response_3d.pyx":450
  *         if inv_mass_a > 0.0:
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:             # <<<<<<<<<<<<<<
@@ -22412,7 +22564,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3((__pyx_v_oax[0]), (__pyx_v_oay[0]), (__pyx_v_oaz[0])) < 0.5);
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":436
+        /* "engine/cython/cy_response_3d.pyx":451
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
  *                 oax[0] = 0.0; oay[0] = 0.0; oaz[0] = 0.0             # <<<<<<<<<<<<<<
@@ -22423,7 +22575,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         (__pyx_v_oay[0]) = 0.0;
         (__pyx_v_oaz[0]) = 0.0;
 
-        /* "engine/cython/cy_response_3d.pyx":435
+        /* "engine/cython/cy_response_3d.pyx":450
  *         if inv_mass_a > 0.0:
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:             # <<<<<<<<<<<<<<
@@ -22432,7 +22584,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       }
 
-      /* "engine/cython/cy_response_3d.pyx":437
+      /* "engine/cython/cy_response_3d.pyx":452
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
  *                 oax[0] = 0.0; oay[0] = 0.0; oaz[0] = 0.0
  *             speed = _len3(vax[0], vay[0], vaz[0])             # <<<<<<<<<<<<<<
@@ -22441,7 +22593,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       __pyx_v_speed = __pyx_f_6engine_6cython_14cy_response_3d__len3((__pyx_v_vax[0]), (__pyx_v_vay[0]), (__pyx_v_vaz[0]));
 
-      /* "engine/cython/cy_response_3d.pyx":438
+      /* "engine/cython/cy_response_3d.pyx":453
  *                 oax[0] = 0.0; oay[0] = 0.0; oaz[0] = 0.0
  *             speed = _len3(vax[0], vay[0], vaz[0])
  *             if speed < 0.08:             # <<<<<<<<<<<<<<
@@ -22451,7 +22603,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_1 = (__pyx_v_speed < 0.08);
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":439
+        /* "engine/cython/cy_response_3d.pyx":454
  *             speed = _len3(vax[0], vay[0], vaz[0])
  *             if speed < 0.08:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0             # <<<<<<<<<<<<<<
@@ -22462,17 +22614,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         (__pyx_v_vay[0]) = 0.0;
         (__pyx_v_vaz[0]) = 0.0;
 
-        /* "engine/cython/cy_response_3d.pyx":438
+        /* "engine/cython/cy_response_3d.pyx":453
  *                 oax[0] = 0.0; oay[0] = 0.0; oaz[0] = 0.0
  *             speed = _len3(vax[0], vay[0], vaz[0])
  *             if speed < 0.08:             # <<<<<<<<<<<<<<
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *             elif mu_s > 1e-6 and speed < 0.35:
 */
-        goto __pyx_L80;
+        goto __pyx_L84;
       }
 
-      /* "engine/cython/cy_response_3d.pyx":440
+      /* "engine/cython/cy_response_3d.pyx":455
  *             if speed < 0.08:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *             elif mu_s > 1e-6 and speed < 0.35:             # <<<<<<<<<<<<<<
@@ -22483,14 +22635,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       if (__pyx_t_3) {
       } else {
         __pyx_t_1 = __pyx_t_3;
-        goto __pyx_L81_bool_binop_done;
+        goto __pyx_L85_bool_binop_done;
       }
       __pyx_t_3 = (__pyx_v_speed < 0.35);
       __pyx_t_1 = __pyx_t_3;
-      __pyx_L81_bool_binop_done:;
+      __pyx_L85_bool_binop_done:;
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":441
+        /* "engine/cython/cy_response_3d.pyx":456
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *             elif mu_s > 1e-6 and speed < 0.35:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0             # <<<<<<<<<<<<<<
@@ -22501,7 +22653,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         (__pyx_v_vay[0]) = 0.0;
         (__pyx_v_vaz[0]) = 0.0;
 
-        /* "engine/cython/cy_response_3d.pyx":440
+        /* "engine/cython/cy_response_3d.pyx":455
  *             if speed < 0.08:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *             elif mu_s > 1e-6 and speed < 0.35:             # <<<<<<<<<<<<<<
@@ -22509,18 +22661,18 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
  *         if inv_mass_b > 0.0:
 */
       }
-      __pyx_L80:;
+      __pyx_L84:;
 
-      /* "engine/cython/cy_response_3d.pyx":433
- *     # Face settle
- *     if face_support and closing < 2.0:
+      /* "engine/cython/cy_response_3d.pyx":448
+ *     # Face settle (single-point only; multi-point settles after all points)
+ *     if (not multi_point) and face_support and closing < 2.0:
  *         if inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
  *             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":442
+    /* "engine/cython/cy_response_3d.pyx":457
  *             elif mu_s > 1e-6 and speed < 0.35:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *         if inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
@@ -22530,7 +22682,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     __pyx_t_1 = (__pyx_v_inv_mass_b > 0.0);
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":443
+      /* "engine/cython/cy_response_3d.pyx":458
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *         if inv_mass_b > 0.0:
  *             obx[0] *= 0.25; oby[0] *= 0.25; obz[0] *= 0.25             # <<<<<<<<<<<<<<
@@ -22544,7 +22696,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_4 = 0;
       (__pyx_v_obz[__pyx_t_4]) = ((__pyx_v_obz[__pyx_t_4]) * 0.25);
 
-      /* "engine/cython/cy_response_3d.pyx":444
+      /* "engine/cython/cy_response_3d.pyx":459
  *         if inv_mass_b > 0.0:
  *             obx[0] *= 0.25; oby[0] *= 0.25; obz[0] *= 0.25
  *             if _len3(obx[0], oby[0], obz[0]) < 0.5:             # <<<<<<<<<<<<<<
@@ -22554,7 +22706,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_1 = (__pyx_f_6engine_6cython_14cy_response_3d__len3((__pyx_v_obx[0]), (__pyx_v_oby[0]), (__pyx_v_obz[0])) < 0.5);
       if (__pyx_t_1) {
 
-        /* "engine/cython/cy_response_3d.pyx":445
+        /* "engine/cython/cy_response_3d.pyx":460
  *             obx[0] *= 0.25; oby[0] *= 0.25; obz[0] *= 0.25
  *             if _len3(obx[0], oby[0], obz[0]) < 0.5:
  *                 obx[0] = 0.0; oby[0] = 0.0; obz[0] = 0.0             # <<<<<<<<<<<<<<
@@ -22565,7 +22717,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
         (__pyx_v_oby[0]) = 0.0;
         (__pyx_v_obz[0]) = 0.0;
 
-        /* "engine/cython/cy_response_3d.pyx":444
+        /* "engine/cython/cy_response_3d.pyx":459
  *         if inv_mass_b > 0.0:
  *             obx[0] *= 0.25; oby[0] *= 0.25; obz[0] *= 0.25
  *             if _len3(obx[0], oby[0], obz[0]) < 0.5:             # <<<<<<<<<<<<<<
@@ -22574,7 +22726,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
       }
 
-      /* "engine/cython/cy_response_3d.pyx":442
+      /* "engine/cython/cy_response_3d.pyx":457
  *             elif mu_s > 1e-6 and speed < 0.35:
  *                 vax[0] = 0.0; vay[0] = 0.0; vaz[0] = 0.0
  *         if inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
@@ -22583,17 +22735,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":432
+    /* "engine/cython/cy_response_3d.pyx":447
  * 
- *     # Face settle
- *     if face_support and closing < 2.0:             # <<<<<<<<<<<<<<
+ *     # Face settle (single-point only; multi-point settles after all points)
+ *     if (not multi_point) and face_support and closing < 2.0:             # <<<<<<<<<<<<<<
  *         if inv_mass_a > 0.0:
  *             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
 */
-    goto __pyx_L75;
+    goto __pyx_L78;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":446
+  /* "engine/cython/cy_response_3d.pyx":461
  *             if _len3(obx[0], oby[0], obz[0]) < 0.5:
  *                 obx[0] = 0.0; oby[0] = 0.0; obz[0] = 0.0
  *     elif (not unstable) and w_n < 0.5:             # <<<<<<<<<<<<<<
@@ -22604,14 +22756,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L85_bool_binop_done;
+    goto __pyx_L89_bool_binop_done;
   }
   __pyx_t_3 = (__pyx_v_w_n < 0.5);
   __pyx_t_1 = __pyx_t_3;
-  __pyx_L85_bool_binop_done:;
+  __pyx_L89_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "engine/cython/cy_response_3d.pyx":447
+    /* "engine/cython/cy_response_3d.pyx":462
  *                 obx[0] = 0.0; oby[0] = 0.0; obz[0] = 0.0
  *     elif (not unstable) and w_n < 0.5:
  *         damp = 0.72 + 0.2 * w_n             # <<<<<<<<<<<<<<
@@ -22620,7 +22772,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
     __pyx_v_damp = (0.72 + (0.2 * __pyx_v_w_n));
 
-    /* "engine/cython/cy_response_3d.pyx":448
+    /* "engine/cython/cy_response_3d.pyx":463
  *     elif (not unstable) and w_n < 0.5:
  *         damp = 0.72 + 0.2 * w_n
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
@@ -22631,14 +22783,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     if (__pyx_t_3) {
     } else {
       __pyx_t_1 = __pyx_t_3;
-      goto __pyx_L88_bool_binop_done;
+      goto __pyx_L92_bool_binop_done;
     }
     __pyx_t_3 = (__pyx_v_inv_mass_a > 0.0);
     __pyx_t_1 = __pyx_t_3;
-    __pyx_L88_bool_binop_done:;
+    __pyx_L92_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":449
+      /* "engine/cython/cy_response_3d.pyx":464
  *         damp = 0.72 + 0.2 * w_n
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
  *             oax[0] *= damp; oay[0] *= damp; oaz[0] *= damp             # <<<<<<<<<<<<<<
@@ -22652,17 +22804,17 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_4 = 0;
       (__pyx_v_oaz[__pyx_t_4]) = ((__pyx_v_oaz[__pyx_t_4]) * __pyx_v_damp);
 
-      /* "engine/cython/cy_response_3d.pyx":448
+      /* "engine/cython/cy_response_3d.pyx":463
  *     elif (not unstable) and w_n < 0.5:
  *         damp = 0.72 + 0.2 * w_n
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
  *             oax[0] *= damp; oay[0] *= damp; oaz[0] *= damp
  *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
 */
-      goto __pyx_L87;
+      goto __pyx_L91;
     }
 
-    /* "engine/cython/cy_response_3d.pyx":450
+    /* "engine/cython/cy_response_3d.pyx":465
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
  *             oax[0] *= damp; oay[0] *= damp; oaz[0] *= damp
  *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
@@ -22673,14 +22825,14 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
     if (__pyx_t_3) {
     } else {
       __pyx_t_1 = __pyx_t_3;
-      goto __pyx_L90_bool_binop_done;
+      goto __pyx_L94_bool_binop_done;
     }
     __pyx_t_3 = (__pyx_v_inv_mass_b > 0.0);
     __pyx_t_1 = __pyx_t_3;
-    __pyx_L90_bool_binop_done:;
+    __pyx_L94_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "engine/cython/cy_response_3d.pyx":451
+      /* "engine/cython/cy_response_3d.pyx":466
  *             oax[0] *= damp; oay[0] *= damp; oaz[0] *= damp
  *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:
  *             obx[0] *= damp; oby[0] *= damp; obz[0] *= damp             # <<<<<<<<<<<<<<
@@ -22694,7 +22846,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
       __pyx_t_4 = 0;
       (__pyx_v_obz[__pyx_t_4]) = ((__pyx_v_obz[__pyx_t_4]) * __pyx_v_damp);
 
-      /* "engine/cython/cy_response_3d.pyx":450
+      /* "engine/cython/cy_response_3d.pyx":465
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
  *             oax[0] *= damp; oay[0] *= damp; oaz[0] *= damp
  *         elif inv_mass_a < 1e-12 and inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
@@ -22702,9 +22854,9 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
  * 
 */
     }
-    __pyx_L87:;
+    __pyx_L91:;
 
-    /* "engine/cython/cy_response_3d.pyx":446
+    /* "engine/cython/cy_response_3d.pyx":461
  *             if _len3(obx[0], oby[0], obz[0]) < 0.5:
  *                 obx[0] = 0.0; oby[0] = 0.0; obz[0] = 0.0
  *     elif (not unstable) and w_n < 0.5:             # <<<<<<<<<<<<<<
@@ -22712,9 +22864,9 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
  *         if inv_mass_b < 1e-12 and inv_mass_a > 0.0:
 */
   }
-  __pyx_L75:;
+  __pyx_L78:;
 
-  /* "engine/cython/cy_response_3d.pyx":453
+  /* "engine/cython/cy_response_3d.pyx":468
  *             obx[0] *= damp; oby[0] *= damp; obz[0] *= damp
  * 
  *     _clamp_omega3(oax, oay, oaz, MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
@@ -22723,7 +22875,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__clamp_omega3(__pyx_v_oax, __pyx_v_oay, __pyx_v_oaz, __pyx_v_6engine_6cython_14cy_response_3d_MAX_ANGULAR_SPEED);
 
-  /* "engine/cython/cy_response_3d.pyx":454
+  /* "engine/cython/cy_response_3d.pyx":469
  * 
  *     _clamp_omega3(oax, oay, oaz, MAX_ANGULAR_SPEED)
  *     _clamp_omega3(obx, oby, obz, MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
@@ -22732,7 +22884,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
 */
   __pyx_f_6engine_6cython_14cy_response_3d__clamp_omega3(__pyx_v_obx, __pyx_v_oby, __pyx_v_obz, __pyx_v_6engine_6cython_14cy_response_3d_MAX_ANGULAR_SPEED);
 
-  /* "engine/cython/cy_response_3d.pyx":455
+  /* "engine/cython/cy_response_3d.pyx":470
  *     _clamp_omega3(oax, oay, oaz, MAX_ANGULAR_SPEED)
  *     _clamp_omega3(obx, oby, obz, MAX_ANGULAR_SPEED)
  *     out_unstable[0] = unstable             # <<<<<<<<<<<<<<
@@ -22753,7 +22905,7 @@ static void __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core(doubl
   __pyx_L0:;
 }
 
-/* "engine/cython/cy_response_3d.pyx":458
+/* "engine/cython/cy_response_3d.pyx":473
  * 
  * 
  * def resolve_contact_3d_fast(             # <<<<<<<<<<<<<<
@@ -22769,7 +22921,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast, "\n    Fast contact solve. Returns (va, oa, vb, ob, unstable) as float64 arrays / bool.\n    i_inv_* may be None or a contiguous (3,3) float64 matrix.\n    ");
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast, "\n    Fast contact solve. Returns (va, oa, vb, ob, unstable) as float64 arrays / bool.\n    i_inv_* may be None or a contiguous (3,3) float64 matrix.\n    multi_point: use full geometric arms (for multi-point manifold points).\n    ");
 static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_1resolve_contact_3d_fast = {"resolve_contact_3d_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_1resolve_contact_3d_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast};
 static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_1resolve_contact_3d_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -22796,11 +22948,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   double __pyx_v_face_align_a;
   double __pyx_v_face_align_b;
   double __pyx_v_dt;
+  int __pyx_v_multi_point;
   #if !CYTHON_METH_FASTCALL
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   #endif
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  PyObject* values[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -22816,174 +22969,187 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
   {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_pos_a,&__pyx_mstate_global->__pyx_n_u_vel_a,&__pyx_mstate_global->__pyx_n_u_omega_a,&__pyx_mstate_global->__pyx_n_u_inv_mass_a,&__pyx_mstate_global->__pyx_n_u_i_inv_a,&__pyx_mstate_global->__pyx_n_u_pos_b,&__pyx_mstate_global->__pyx_n_u_vel_b,&__pyx_mstate_global->__pyx_n_u_omega_b,&__pyx_mstate_global->__pyx_n_u_inv_mass_b,&__pyx_mstate_global->__pyx_n_u_i_inv_b,&__pyx_mstate_global->__pyx_n_u_contact_point,&__pyx_mstate_global->__pyx_n_u_normal,&__pyx_mstate_global->__pyx_n_u_restitution,&__pyx_mstate_global->__pyx_n_u_static_friction,&__pyx_mstate_global->__pyx_n_u_dynamic_friction,&__pyx_mstate_global->__pyx_n_u_face_align_a,&__pyx_mstate_global->__pyx_n_u_face_align_b,&__pyx_mstate_global->__pyx_n_u_dt,0};
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_pos_a,&__pyx_mstate_global->__pyx_n_u_vel_a,&__pyx_mstate_global->__pyx_n_u_omega_a,&__pyx_mstate_global->__pyx_n_u_inv_mass_a,&__pyx_mstate_global->__pyx_n_u_i_inv_a,&__pyx_mstate_global->__pyx_n_u_pos_b,&__pyx_mstate_global->__pyx_n_u_vel_b,&__pyx_mstate_global->__pyx_n_u_omega_b,&__pyx_mstate_global->__pyx_n_u_inv_mass_b,&__pyx_mstate_global->__pyx_n_u_i_inv_b,&__pyx_mstate_global->__pyx_n_u_contact_point,&__pyx_mstate_global->__pyx_n_u_normal,&__pyx_mstate_global->__pyx_n_u_restitution,&__pyx_mstate_global->__pyx_n_u_static_friction,&__pyx_mstate_global->__pyx_n_u_dynamic_friction,&__pyx_mstate_global->__pyx_n_u_face_align_a,&__pyx_mstate_global->__pyx_n_u_face_align_b,&__pyx_mstate_global->__pyx_n_u_dt,&__pyx_mstate_global->__pyx_n_u_multi_point,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 458, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 473, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
+        case 19:
+        values[18] = __Pyx_ArgRef_FASTCALL(__pyx_args, 18);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[18])) __PYX_ERR(0, 473, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
         case 18:
         values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 17:
         values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 16:
         values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 15:
         values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 14:
         values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 13:
         values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 12:
         values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 11:
         values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 10:
         values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  9:
         values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  8:
         values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  7:
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "resolve_contact_3d_fast", 0) < (0)) __PYX_ERR(0, 458, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "resolve_contact_3d_fast", 0) < (0)) __PYX_ERR(0, 473, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 15; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("resolve_contact_3d_fast", 0, 15, 18, i); __PYX_ERR(0, 458, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("resolve_contact_3d_fast", 0, 15, 19, i); __PYX_ERR(0, 473, __pyx_L3_error) }
       }
     } else {
       switch (__pyx_nargs) {
+        case 19:
+        values[18] = __Pyx_ArgRef_FASTCALL(__pyx_args, 18);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[18])) __PYX_ERR(0, 473, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
         case 18:
         values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 17:
         values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 16:
         values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 473, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case 15:
         values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 473, __pyx_L3_error)
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 473, __pyx_L3_error)
         break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_pos_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_a.memview)) __PYX_ERR(0, 459, __pyx_L3_error)
-    __pyx_v_vel_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_a.memview)) __PYX_ERR(0, 459, __pyx_L3_error)
-    __pyx_v_omega_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_a.memview)) __PYX_ERR(0, 459, __pyx_L3_error)
-    __pyx_v_inv_mass_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_inv_mass_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 460, __pyx_L3_error)
+    __pyx_v_pos_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_a.memview)) __PYX_ERR(0, 474, __pyx_L3_error)
+    __pyx_v_vel_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_a.memview)) __PYX_ERR(0, 474, __pyx_L3_error)
+    __pyx_v_omega_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_a.memview)) __PYX_ERR(0, 474, __pyx_L3_error)
+    __pyx_v_inv_mass_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_inv_mass_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 475, __pyx_L3_error)
     __pyx_v_i_inv_a = values[4];
-    __pyx_v_pos_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[5], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_b.memview)) __PYX_ERR(0, 461, __pyx_L3_error)
-    __pyx_v_vel_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[6], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_b.memview)) __PYX_ERR(0, 461, __pyx_L3_error)
-    __pyx_v_omega_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[7], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_b.memview)) __PYX_ERR(0, 461, __pyx_L3_error)
-    __pyx_v_inv_mass_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_inv_mass_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 462, __pyx_L3_error)
+    __pyx_v_pos_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[5], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_b.memview)) __PYX_ERR(0, 476, __pyx_L3_error)
+    __pyx_v_vel_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[6], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_b.memview)) __PYX_ERR(0, 476, __pyx_L3_error)
+    __pyx_v_omega_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[7], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_b.memview)) __PYX_ERR(0, 476, __pyx_L3_error)
+    __pyx_v_inv_mass_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_inv_mass_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 477, __pyx_L3_error)
     __pyx_v_i_inv_b = values[9];
-    __pyx_v_contact_point = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[10], PyBUF_WRITABLE); if (unlikely(!__pyx_v_contact_point.memview)) __PYX_ERR(0, 463, __pyx_L3_error)
-    __pyx_v_normal = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[11], PyBUF_WRITABLE); if (unlikely(!__pyx_v_normal.memview)) __PYX_ERR(0, 463, __pyx_L3_error)
-    __pyx_v_restitution = __Pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_restitution == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 464, __pyx_L3_error)
-    __pyx_v_static_friction = __Pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_static_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 464, __pyx_L3_error)
-    __pyx_v_dynamic_friction = __Pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_dynamic_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 464, __pyx_L3_error)
+    __pyx_v_contact_point = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[10], PyBUF_WRITABLE); if (unlikely(!__pyx_v_contact_point.memview)) __PYX_ERR(0, 478, __pyx_L3_error)
+    __pyx_v_normal = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[11], PyBUF_WRITABLE); if (unlikely(!__pyx_v_normal.memview)) __PYX_ERR(0, 478, __pyx_L3_error)
+    __pyx_v_restitution = __Pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_restitution == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 479, __pyx_L3_error)
+    __pyx_v_static_friction = __Pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_static_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 479, __pyx_L3_error)
+    __pyx_v_dynamic_friction = __Pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_dynamic_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 479, __pyx_L3_error)
     if (values[15]) {
-      __pyx_v_face_align_a = __Pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_face_align_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 465, __pyx_L3_error)
+      __pyx_v_face_align_a = __Pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_face_align_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 480, __pyx_L3_error)
     } else {
       __pyx_v_face_align_a = ((double)((double)0.0));
     }
     if (values[16]) {
-      __pyx_v_face_align_b = __Pyx_PyFloat_AsDouble(values[16]); if (unlikely((__pyx_v_face_align_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 465, __pyx_L3_error)
+      __pyx_v_face_align_b = __Pyx_PyFloat_AsDouble(values[16]); if (unlikely((__pyx_v_face_align_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 480, __pyx_L3_error)
     } else {
       __pyx_v_face_align_b = ((double)((double)0.0));
     }
     if (values[17]) {
-      __pyx_v_dt = __Pyx_PyFloat_AsDouble(values[17]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 466, __pyx_L3_error)
+      __pyx_v_dt = __Pyx_PyFloat_AsDouble(values[17]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 481, __pyx_L3_error)
     } else {
       __pyx_v_dt = ((double)((double)0.016666666666666666));
+    }
+    if (values[18]) {
+      __pyx_v_multi_point = __Pyx_PyObject_IsTrue(values[18]); if (unlikely((__pyx_v_multi_point == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 482, __pyx_L3_error)
+    } else {
+      __pyx_v_multi_point = ((int)((int)0));
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("resolve_contact_3d_fast", 0, 15, 18, __pyx_nargs); __PYX_ERR(0, 458, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("resolve_contact_3d_fast", 0, 15, 19, __pyx_nargs); __PYX_ERR(0, 473, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -23002,7 +23168,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(__pyx_self, __pyx_v_pos_a, __pyx_v_vel_a, __pyx_v_omega_a, __pyx_v_inv_mass_a, __pyx_v_i_inv_a, __pyx_v_pos_b, __pyx_v_vel_b, __pyx_v_omega_b, __pyx_v_inv_mass_b, __pyx_v_i_inv_b, __pyx_v_contact_point, __pyx_v_normal, __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt);
+  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(__pyx_self, __pyx_v_pos_a, __pyx_v_vel_a, __pyx_v_omega_a, __pyx_v_inv_mass_a, __pyx_v_i_inv_a, __pyx_v_pos_b, __pyx_v_vel_b, __pyx_v_omega_b, __pyx_v_inv_mass_b, __pyx_v_i_inv_b, __pyx_v_contact_point, __pyx_v_normal, __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt, __pyx_v_multi_point);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -23020,7 +23186,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt) {
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_point, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt, int __pyx_v_multi_point) {
   double __pyx_v_vax;
   double __pyx_v_vay;
   double __pyx_v_vaz;
@@ -23112,8 +23278,8 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_pybuffernd_out_ob.data = NULL;
   __pyx_pybuffernd_out_ob.rcbuffer = &__pyx_pybuffer_out_ob;
 
-  /* "engine/cython/cy_response_3d.pyx":472
- *     i_inv_* may be None or a contiguous (3,3) float64 matrix.
+  /* "engine/cython/cy_response_3d.pyx":489
+ *     multi_point: use full geometric arms (for multi-point manifold points).
  *     """
  *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]             # <<<<<<<<<<<<<<
  *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
@@ -23126,7 +23292,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_1 = 2;
   __pyx_v_vaz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":473
+  /* "engine/cython/cy_response_3d.pyx":490
  *     """
  *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
  *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]             # <<<<<<<<<<<<<<
@@ -23140,7 +23306,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_1 = 2;
   __pyx_v_oaz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_a.data) + __pyx_t_1)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":474
+  /* "engine/cython/cy_response_3d.pyx":491
  *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
  *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
  *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]             # <<<<<<<<<<<<<<
@@ -23154,7 +23320,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_1 = 2;
   __pyx_v_vbz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":475
+  /* "engine/cython/cy_response_3d.pyx":492
  *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
  *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
  *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]             # <<<<<<<<<<<<<<
@@ -23168,7 +23334,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_1 = 2;
   __pyx_v_obz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_b.data) + __pyx_t_1)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":476
+  /* "engine/cython/cy_response_3d.pyx":493
  *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
  *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
  *     cdef bint has_ia = 0, has_ib = 0             # <<<<<<<<<<<<<<
@@ -23178,7 +23344,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_v_has_ia = 0;
   __pyx_v_has_ib = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":477
+  /* "engine/cython/cy_response_3d.pyx":494
  *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
  *     cdef bint has_ia = 0, has_ib = 0
  *     cdef bint unstable = 0             # <<<<<<<<<<<<<<
@@ -23187,7 +23353,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
   __pyx_v_unstable = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":485
+  /* "engine/cython/cy_response_3d.pyx":502
  * 
  *     # Dummy matrices when absent (never read if has_* is false)
  *     ia_arr = np.zeros((3, 3), dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23195,14 +23361,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     ia = ia_arr
 */
   __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 485, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 485, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 485, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 485, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23219,18 +23385,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_mstate_global->__pyx_tuple[1]};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 485, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 502, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 485, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 502, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 485, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 502, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 485, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 502, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
@@ -23246,12 +23412,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
     }
     __pyx_pybuffernd_ia_arr.diminfo[0].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ia_arr.diminfo[0].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ia_arr.diminfo[1].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ia_arr.diminfo[1].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[1];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 485, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 502, __pyx_L1_error)
   }
   __pyx_v_ia_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":486
+  /* "engine/cython/cy_response_3d.pyx":503
  *     # Dummy matrices when absent (never read if has_* is false)
  *     ia_arr = np.zeros((3, 3), dtype=np.float64)
  *     ib_arr = np.zeros((3, 3), dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23259,14 +23425,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     ib = ib_arr
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 503, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23283,18 +23449,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_tuple[1]};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 486, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 503, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 486, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 503, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 503, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 486, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 503, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
@@ -23310,36 +23476,36 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
     }
     __pyx_pybuffernd_ib_arr.diminfo[0].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ib_arr.diminfo[0].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ib_arr.diminfo[1].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ib_arr.diminfo[1].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[1];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 486, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 503, __pyx_L1_error)
   }
   __pyx_v_ib_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":487
+  /* "engine/cython/cy_response_3d.pyx":504
  *     ia_arr = np.zeros((3, 3), dtype=np.float64)
  *     ib_arr = np.zeros((3, 3), dtype=np.float64)
  *     ia = ia_arr             # <<<<<<<<<<<<<<
  *     ib = ib_arr
  * 
 */
-  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 504, __pyx_L1_error)
   __pyx_v_ia = __pyx_t_12;
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "engine/cython/cy_response_3d.pyx":488
+  /* "engine/cython/cy_response_3d.pyx":505
  *     ib_arr = np.zeros((3, 3), dtype=np.float64)
  *     ia = ia_arr
  *     ib = ib_arr             # <<<<<<<<<<<<<<
  * 
  *     if i_inv_a is not None:
 */
-  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 488, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 505, __pyx_L1_error)
   __pyx_v_ib = __pyx_t_12;
   __pyx_t_12.memview = NULL;
   __pyx_t_12.data = NULL;
 
-  /* "engine/cython/cy_response_3d.pyx":490
+  /* "engine/cython/cy_response_3d.pyx":507
  *     ib = ib_arr
  * 
  *     if i_inv_a is not None:             # <<<<<<<<<<<<<<
@@ -23349,7 +23515,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_13 = (__pyx_v_i_inv_a != Py_None);
   if (__pyx_t_13) {
 
-    /* "engine/cython/cy_response_3d.pyx":491
+    /* "engine/cython/cy_response_3d.pyx":508
  * 
  *     if i_inv_a is not None:
  *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23357,14 +23523,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *             ia = ia_arr
 */
     __pyx_t_6 = NULL;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 491, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 491, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 491, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 491, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_7 = 1;
@@ -23381,18 +23547,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
     #endif
     {
       PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_v_i_inv_a};
-      __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 491, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 508, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 491, __pyx_L1_error)
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 508, __pyx_L1_error)
       __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_3, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 491, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 508, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     }
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 491, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 508, __pyx_L1_error)
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
       __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
@@ -23408,12 +23574,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
         __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
       }
       __pyx_pybuffernd_ia_arr.diminfo[0].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ia_arr.diminfo[0].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ia_arr.diminfo[1].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ia_arr.diminfo[1].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[1];
-      if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 491, __pyx_L1_error)
+      if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 508, __pyx_L1_error)
     }
     __Pyx_DECREF_SET(__pyx_v_ia_arr, ((PyArrayObject *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "engine/cython/cy_response_3d.pyx":492
+    /* "engine/cython/cy_response_3d.pyx":509
  *     if i_inv_a is not None:
  *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
  *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
@@ -23431,20 +23597,20 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
     __pyx_L5_bool_binop_done:;
     if (__pyx_t_13) {
 
-      /* "engine/cython/cy_response_3d.pyx":493
+      /* "engine/cython/cy_response_3d.pyx":510
  *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
  *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
  *             ia = ia_arr             # <<<<<<<<<<<<<<
  *             has_ia = 1
  *     if i_inv_b is not None:
 */
-      __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 493, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 510, __pyx_L1_error)
       __PYX_XCLEAR_MEMVIEW(&__pyx_v_ia, 1);
       __pyx_v_ia = __pyx_t_12;
       __pyx_t_12.memview = NULL;
       __pyx_t_12.data = NULL;
 
-      /* "engine/cython/cy_response_3d.pyx":494
+      /* "engine/cython/cy_response_3d.pyx":511
  *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
  *             ia = ia_arr
  *             has_ia = 1             # <<<<<<<<<<<<<<
@@ -23453,7 +23619,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
       __pyx_v_has_ia = 1;
 
-      /* "engine/cython/cy_response_3d.pyx":492
+      /* "engine/cython/cy_response_3d.pyx":509
  *     if i_inv_a is not None:
  *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
  *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
@@ -23462,7 +23628,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":490
+    /* "engine/cython/cy_response_3d.pyx":507
  *     ib = ib_arr
  * 
  *     if i_inv_a is not None:             # <<<<<<<<<<<<<<
@@ -23471,7 +23637,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":495
+  /* "engine/cython/cy_response_3d.pyx":512
  *             ia = ia_arr
  *             has_ia = 1
  *     if i_inv_b is not None:             # <<<<<<<<<<<<<<
@@ -23481,7 +23647,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_13 = (__pyx_v_i_inv_b != Py_None);
   if (__pyx_t_13) {
 
-    /* "engine/cython/cy_response_3d.pyx":496
+    /* "engine/cython/cy_response_3d.pyx":513
  *             has_ia = 1
  *     if i_inv_b is not None:
  *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23489,14 +23655,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *             ib = ib_arr
 */
     __pyx_t_3 = NULL;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_7 = 1;
@@ -23513,18 +23679,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
     #endif
     {
       PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_v_i_inv_b};
-      __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 496, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 496, __pyx_L1_error)
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 513, __pyx_L1_error)
       __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 496, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 513, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     }
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 496, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 513, __pyx_L1_error)
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
       __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
@@ -23540,12 +23706,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
         __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
       }
       __pyx_pybuffernd_ib_arr.diminfo[0].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ib_arr.diminfo[0].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ib_arr.diminfo[1].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ib_arr.diminfo[1].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[1];
-      if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 496, __pyx_L1_error)
+      if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 513, __pyx_L1_error)
     }
     __Pyx_DECREF_SET(__pyx_v_ib_arr, ((PyArrayObject *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "engine/cython/cy_response_3d.pyx":497
+    /* "engine/cython/cy_response_3d.pyx":514
  *     if i_inv_b is not None:
  *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
  *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
@@ -23563,20 +23729,20 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_13) {
 
-      /* "engine/cython/cy_response_3d.pyx":498
+      /* "engine/cython/cy_response_3d.pyx":515
  *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
  *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
  *             ib = ib_arr             # <<<<<<<<<<<<<<
  *             has_ib = 1
  * 
 */
-      __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 498, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 515, __pyx_L1_error)
       __PYX_XCLEAR_MEMVIEW(&__pyx_v_ib, 1);
       __pyx_v_ib = __pyx_t_12;
       __pyx_t_12.memview = NULL;
       __pyx_t_12.data = NULL;
 
-      /* "engine/cython/cy_response_3d.pyx":499
+      /* "engine/cython/cy_response_3d.pyx":516
  *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
  *             ib = ib_arr
  *             has_ib = 1             # <<<<<<<<<<<<<<
@@ -23585,7 +23751,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
       __pyx_v_has_ib = 1;
 
-      /* "engine/cython/cy_response_3d.pyx":497
+      /* "engine/cython/cy_response_3d.pyx":514
  *     if i_inv_b is not None:
  *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
  *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
@@ -23594,7 +23760,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":495
+    /* "engine/cython/cy_response_3d.pyx":512
  *             ia = ia_arr
  *             has_ia = 1
  *     if i_inv_b is not None:             # <<<<<<<<<<<<<<
@@ -23603,7 +23769,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":502
+  /* "engine/cython/cy_response_3d.pyx":519
  * 
  *     _resolve_contact_core(
  *         pos_a[0], pos_a[1], pos_a[2],             # <<<<<<<<<<<<<<
@@ -23614,7 +23780,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_15 = 1;
   __pyx_t_16 = 2;
 
-  /* "engine/cython/cy_response_3d.pyx":505
+  /* "engine/cython/cy_response_3d.pyx":522
  *         &vax, &vay, &vaz, &oax, &oay, &oaz,
  *         inv_mass_a, has_ia, ia,
  *         pos_b[0], pos_b[1], pos_b[2],             # <<<<<<<<<<<<<<
@@ -23625,7 +23791,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_18 = 1;
   __pyx_t_19 = 2;
 
-  /* "engine/cython/cy_response_3d.pyx":508
+  /* "engine/cython/cy_response_3d.pyx":525
  *         &vbx, &vby, &vbz, &obx, &oby, &obz,
  *         inv_mass_b, has_ib, ib,
  *         contact_point[0], contact_point[1], contact_point[2],             # <<<<<<<<<<<<<<
@@ -23636,27 +23802,27 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_21 = 1;
   __pyx_t_22 = 2;
 
-  /* "engine/cython/cy_response_3d.pyx":509
+  /* "engine/cython/cy_response_3d.pyx":526
  *         inv_mass_b, has_ib, ib,
  *         contact_point[0], contact_point[1], contact_point[2],
  *         normal[0], normal[1], normal[2],             # <<<<<<<<<<<<<<
  *         restitution, static_friction, dynamic_friction,
- *         face_align_a, face_align_b, dt, &unstable,
+ *         face_align_a, face_align_b, dt, multi_point, &unstable,
 */
   __pyx_t_23 = 0;
   __pyx_t_24 = 1;
   __pyx_t_25 = 2;
 
-  /* "engine/cython/cy_response_3d.pyx":501
+  /* "engine/cython/cy_response_3d.pyx":518
  *             has_ib = 1
  * 
  *     _resolve_contact_core(             # <<<<<<<<<<<<<<
  *         pos_a[0], pos_a[1], pos_a[2],
  *         &vax, &vay, &vaz, &oax, &oay, &oaz,
 */
-  __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_1)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_15)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_16)) ))), (&__pyx_v_vax), (&__pyx_v_vay), (&__pyx_v_vaz), (&__pyx_v_oax), (&__pyx_v_oay), (&__pyx_v_oaz), __pyx_v_inv_mass_a, __pyx_v_has_ia, __pyx_v_ia, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_17)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_18)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_19)) ))), (&__pyx_v_vbx), (&__pyx_v_vby), (&__pyx_v_vbz), (&__pyx_v_obx), (&__pyx_v_oby), (&__pyx_v_obz), __pyx_v_inv_mass_b, __pyx_v_has_ib, __pyx_v_ib, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_20)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_21)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_22)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_23)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_24)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_25)) ))), __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt, (&__pyx_v_unstable));
+  __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_1)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_15)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_16)) ))), (&__pyx_v_vax), (&__pyx_v_vay), (&__pyx_v_vaz), (&__pyx_v_oax), (&__pyx_v_oay), (&__pyx_v_oaz), __pyx_v_inv_mass_a, __pyx_v_has_ia, __pyx_v_ia, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_17)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_18)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_19)) ))), (&__pyx_v_vbx), (&__pyx_v_vby), (&__pyx_v_vbz), (&__pyx_v_obx), (&__pyx_v_oby), (&__pyx_v_obz), __pyx_v_inv_mass_b, __pyx_v_has_ib, __pyx_v_ib, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_20)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_21)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_contact_point.data) + __pyx_t_22)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_23)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_24)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_25)) ))), __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt, __pyx_v_multi_point, (&__pyx_v_unstable));
 
-  /* "engine/cython/cy_response_3d.pyx":514
+  /* "engine/cython/cy_response_3d.pyx":531
  *     )
  * 
  *     out_va = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23664,14 +23830,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     out_vb = np.empty(3, dtype=np.float64)
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23688,18 +23854,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 514, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 531, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 514, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 531, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 514, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 531, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer);
@@ -23715,12 +23881,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
     }
     __pyx_pybuffernd_out_va.diminfo[0].strides = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_va.diminfo[0].shape = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 514, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 531, __pyx_L1_error)
   }
   __pyx_v_out_va = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":515
+  /* "engine/cython/cy_response_3d.pyx":532
  * 
  *     out_va = np.empty(3, dtype=np.float64)
  *     out_oa = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23728,14 +23894,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     out_ob = np.empty(3, dtype=np.float64)
 */
   __pyx_t_6 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23752,18 +23918,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 532, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_3, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 532, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 532, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer);
@@ -23779,12 +23945,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
     }
     __pyx_pybuffernd_out_oa.diminfo[0].strides = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_oa.diminfo[0].shape = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 532, __pyx_L1_error)
   }
   __pyx_v_out_oa = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":516
+  /* "engine/cython/cy_response_3d.pyx":533
  *     out_va = np.empty(3, dtype=np.float64)
  *     out_oa = np.empty(3, dtype=np.float64)
  *     out_vb = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23792,14 +23958,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
 */
   __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23816,18 +23982,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 516, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 533, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 516, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 533, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 516, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 533, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer);
@@ -23843,12 +24009,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
     }
     __pyx_pybuffernd_out_vb.diminfo[0].strides = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_vb.diminfo[0].shape = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 516, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 533, __pyx_L1_error)
   }
   __pyx_v_out_vb = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":517
+  /* "engine/cython/cy_response_3d.pyx":534
  *     out_oa = np.empty(3, dtype=np.float64)
  *     out_vb = np.empty(3, dtype=np.float64)
  *     out_ob = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -23856,14 +24022,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
  *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -23880,18 +24046,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 517, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_3, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 534, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 517, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 534, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 517, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 534, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer);
@@ -23907,12 +24073,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
       __pyx_t_11 = __pyx_t_10 = __pyx_t_9 = 0;
     }
     __pyx_pybuffernd_out_ob.diminfo[0].strides = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_ob.diminfo[0].shape = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 517, __pyx_L1_error)
+    if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 534, __pyx_L1_error)
   }
   __pyx_v_out_ob = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":518
+  /* "engine/cython/cy_response_3d.pyx":535
  *     out_vb = np.empty(3, dtype=np.float64)
  *     out_ob = np.empty(3, dtype=np.float64)
  *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz             # <<<<<<<<<<<<<<
@@ -23926,7 +24092,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_25 = 2;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_va.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_out_va.diminfo[0].strides) = __pyx_v_vaz;
 
-  /* "engine/cython/cy_response_3d.pyx":519
+  /* "engine/cython/cy_response_3d.pyx":536
  *     out_ob = np.empty(3, dtype=np.float64)
  *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
  *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz             # <<<<<<<<<<<<<<
@@ -23940,7 +24106,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_25 = 2;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_out_oa.diminfo[0].strides) = __pyx_v_oaz;
 
-  /* "engine/cython/cy_response_3d.pyx":520
+  /* "engine/cython/cy_response_3d.pyx":537
  *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
  *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
  *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz             # <<<<<<<<<<<<<<
@@ -23954,7 +24120,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_25 = 2;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_out_vb.diminfo[0].strides) = __pyx_v_vbz;
 
-  /* "engine/cython/cy_response_3d.pyx":521
+  /* "engine/cython/cy_response_3d.pyx":538
  *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
  *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
  *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz             # <<<<<<<<<<<<<<
@@ -23968,7 +24134,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   __pyx_t_25 = 2;
   *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_out_ob.diminfo[0].strides) = __pyx_v_obz;
 
-  /* "engine/cython/cy_response_3d.pyx":522
+  /* "engine/cython/cy_response_3d.pyx":539
  *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
  *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
  *     return out_va, out_oa, out_vb, out_ob, bool(unstable)             # <<<<<<<<<<<<<<
@@ -23977,30 +24143,30 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_13 = __pyx_v_unstable;
-  __pyx_t_2 = __Pyx_PyBool_FromLong((!(!__pyx_t_13))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 522, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyBool_FromLong((!(!__pyx_t_13))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 522, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF((PyObject *)__pyx_v_out_va);
   __Pyx_GIVEREF((PyObject *)__pyx_v_out_va);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, ((PyObject *)__pyx_v_out_va)) != (0)) __PYX_ERR(0, 522, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, ((PyObject *)__pyx_v_out_va)) != (0)) __PYX_ERR(0, 539, __pyx_L1_error);
   __Pyx_INCREF((PyObject *)__pyx_v_out_oa);
   __Pyx_GIVEREF((PyObject *)__pyx_v_out_oa);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, ((PyObject *)__pyx_v_out_oa)) != (0)) __PYX_ERR(0, 522, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, ((PyObject *)__pyx_v_out_oa)) != (0)) __PYX_ERR(0, 539, __pyx_L1_error);
   __Pyx_INCREF((PyObject *)__pyx_v_out_vb);
   __Pyx_GIVEREF((PyObject *)__pyx_v_out_vb);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, ((PyObject *)__pyx_v_out_vb)) != (0)) __PYX_ERR(0, 522, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, ((PyObject *)__pyx_v_out_vb)) != (0)) __PYX_ERR(0, 539, __pyx_L1_error);
   __Pyx_INCREF((PyObject *)__pyx_v_out_ob);
   __Pyx_GIVEREF((PyObject *)__pyx_v_out_ob);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 3, ((PyObject *)__pyx_v_out_ob)) != (0)) __PYX_ERR(0, 522, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 3, ((PyObject *)__pyx_v_out_ob)) != (0)) __PYX_ERR(0, 539, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 4, __pyx_t_2) != (0)) __PYX_ERR(0, 522, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 4, __pyx_t_2) != (0)) __PYX_ERR(0, 539, __pyx_L1_error);
   __pyx_t_2 = 0;
   __pyx_r = __pyx_t_6;
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_response_3d.pyx":458
+  /* "engine/cython/cy_response_3d.pyx":473
  * 
  * 
  * def resolve_contact_3d_fast(             # <<<<<<<<<<<<<<
@@ -24051,7 +24217,2287 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
   return __pyx_r;
 }
 
-/* "engine/cython/cy_response_3d.pyx":525
+/* "engine/cython/cy_response_3d.pyx":542
+ * 
+ * 
+ * def resolve_contacts_3d_multi_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double[::1] omega_a,
+ *     double inv_mass_a, object i_inv_a,
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_3resolve_contacts_3d_multi_fast(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_2resolve_contacts_3d_multi_fast, "Sequential-impulse solve over multiple manifold contact points.\n\n    *contact_points* is (N, 3) float64.  Velocities are chained across points.\n    Returns (va, oa, vb, ob, unstable) like resolve_contact_3d_fast.\n    ");
+static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_3resolve_contacts_3d_multi_fast = {"resolve_contacts_3d_multi_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_3resolve_contacts_3d_multi_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_2resolve_contacts_3d_multi_fast};
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_3resolve_contacts_3d_multi_fast(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  __Pyx_memviewslice __pyx_v_pos_a = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_vel_a = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_omega_a = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_inv_mass_a;
+  PyObject *__pyx_v_i_inv_a = 0;
+  __Pyx_memviewslice __pyx_v_pos_b = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_vel_b = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_omega_b = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_inv_mass_b;
+  PyObject *__pyx_v_i_inv_b = 0;
+  __Pyx_memviewslice __pyx_v_contact_points = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_normal = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_restitution;
+  double __pyx_v_static_friction;
+  double __pyx_v_dynamic_friction;
+  double __pyx_v_face_align_a;
+  double __pyx_v_face_align_b;
+  double __pyx_v_dt;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("resolve_contacts_3d_multi_fast (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_SIZE
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_pos_a,&__pyx_mstate_global->__pyx_n_u_vel_a,&__pyx_mstate_global->__pyx_n_u_omega_a,&__pyx_mstate_global->__pyx_n_u_inv_mass_a,&__pyx_mstate_global->__pyx_n_u_i_inv_a,&__pyx_mstate_global->__pyx_n_u_pos_b,&__pyx_mstate_global->__pyx_n_u_vel_b,&__pyx_mstate_global->__pyx_n_u_omega_b,&__pyx_mstate_global->__pyx_n_u_inv_mass_b,&__pyx_mstate_global->__pyx_n_u_i_inv_b,&__pyx_mstate_global->__pyx_n_u_contact_points,&__pyx_mstate_global->__pyx_n_u_normal,&__pyx_mstate_global->__pyx_n_u_restitution,&__pyx_mstate_global->__pyx_n_u_static_friction,&__pyx_mstate_global->__pyx_n_u_dynamic_friction,&__pyx_mstate_global->__pyx_n_u_face_align_a,&__pyx_mstate_global->__pyx_n_u_face_align_b,&__pyx_mstate_global->__pyx_n_u_dt,0};
+    const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 542, __pyx_L3_error)
+    if (__pyx_kwds_len > 0) {
+      switch (__pyx_nargs) {
+        case 18:
+        values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 17:
+        values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 16:
+        values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 15:
+        values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 14:
+        values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 13:
+        values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 12:
+        values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 11:
+        values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 10:
+        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  9:
+        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  8:
+        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  7:
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  6:
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  5:
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  4:
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  3:
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  2:
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  1:
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      const Py_ssize_t kwd_pos_args = __pyx_nargs;
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "resolve_contacts_3d_multi_fast", 0) < (0)) __PYX_ERR(0, 542, __pyx_L3_error)
+      for (Py_ssize_t i = __pyx_nargs; i < 15; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("resolve_contacts_3d_multi_fast", 0, 15, 18, i); __PYX_ERR(0, 542, __pyx_L3_error) }
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case 18:
+        values[17] = __Pyx_ArgRef_FASTCALL(__pyx_args, 17);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[17])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 17:
+        values[16] = __Pyx_ArgRef_FASTCALL(__pyx_args, 16);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[16])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 16:
+        values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 542, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
+        case 15:
+        values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[13] = __Pyx_ArgRef_FASTCALL(__pyx_args, 13);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[12] = __Pyx_ArgRef_FASTCALL(__pyx_args, 12);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[12])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[11] = __Pyx_ArgRef_FASTCALL(__pyx_args, 11);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[11])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[10] = __Pyx_ArgRef_FASTCALL(__pyx_args, 10);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[10])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[9] = __Pyx_ArgRef_FASTCALL(__pyx_args, 9);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[9])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 542, __pyx_L3_error)
+        values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 542, __pyx_L3_error)
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_pos_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_a.memview)) __PYX_ERR(0, 543, __pyx_L3_error)
+    __pyx_v_vel_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_a.memview)) __PYX_ERR(0, 543, __pyx_L3_error)
+    __pyx_v_omega_a = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_a.memview)) __PYX_ERR(0, 543, __pyx_L3_error)
+    __pyx_v_inv_mass_a = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_inv_mass_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 544, __pyx_L3_error)
+    __pyx_v_i_inv_a = values[4];
+    __pyx_v_pos_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[5], PyBUF_WRITABLE); if (unlikely(!__pyx_v_pos_b.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
+    __pyx_v_vel_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[6], PyBUF_WRITABLE); if (unlikely(!__pyx_v_vel_b.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
+    __pyx_v_omega_b = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[7], PyBUF_WRITABLE); if (unlikely(!__pyx_v_omega_b.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
+    __pyx_v_inv_mass_b = __Pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_inv_mass_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L3_error)
+    __pyx_v_i_inv_b = values[9];
+    __pyx_v_contact_points = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[10], PyBUF_WRITABLE); if (unlikely(!__pyx_v_contact_points.memview)) __PYX_ERR(0, 547, __pyx_L3_error)
+    __pyx_v_normal = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[11], PyBUF_WRITABLE); if (unlikely(!__pyx_v_normal.memview)) __PYX_ERR(0, 548, __pyx_L3_error)
+    __pyx_v_restitution = __Pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_restitution == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 549, __pyx_L3_error)
+    __pyx_v_static_friction = __Pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_static_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 549, __pyx_L3_error)
+    __pyx_v_dynamic_friction = __Pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_dynamic_friction == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 549, __pyx_L3_error)
+    if (values[15]) {
+      __pyx_v_face_align_a = __Pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_face_align_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 550, __pyx_L3_error)
+    } else {
+      __pyx_v_face_align_a = ((double)((double)0.0));
+    }
+    if (values[16]) {
+      __pyx_v_face_align_b = __Pyx_PyFloat_AsDouble(values[16]); if (unlikely((__pyx_v_face_align_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 550, __pyx_L3_error)
+    } else {
+      __pyx_v_face_align_b = ((double)((double)0.0));
+    }
+    if (values[17]) {
+      __pyx_v_dt = __Pyx_PyFloat_AsDouble(values[17]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 551, __pyx_L3_error)
+    } else {
+      __pyx_v_dt = ((double)((double)0.016666666666666666));
+    }
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("resolve_contacts_3d_multi_fast", 0, 15, 18, __pyx_nargs); __PYX_ERR(0, 542, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_omega_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_omega_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_contact_points, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_normal, 1);
+  __Pyx_AddTraceback("engine.cython.cy_response_3d.resolve_contacts_3d_multi_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_2resolve_contacts_3d_multi_fast(__pyx_self, __pyx_v_pos_a, __pyx_v_vel_a, __pyx_v_omega_a, __pyx_v_inv_mass_a, __pyx_v_i_inv_a, __pyx_v_pos_b, __pyx_v_vel_b, __pyx_v_omega_b, __pyx_v_inv_mass_b, __pyx_v_i_inv_b, __pyx_v_contact_points, __pyx_v_normal, __pyx_v_restitution, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt);
+
+  /* function exit code */
+  for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+    Py_XDECREF(values[__pyx_temp]);
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_omega_a, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_pos_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_vel_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_omega_b, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_contact_points, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_normal, 1);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2resolve_contacts_3d_multi_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_pos_a, __Pyx_memviewslice __pyx_v_vel_a, __Pyx_memviewslice __pyx_v_omega_a, double __pyx_v_inv_mass_a, PyObject *__pyx_v_i_inv_a, __Pyx_memviewslice __pyx_v_pos_b, __Pyx_memviewslice __pyx_v_vel_b, __Pyx_memviewslice __pyx_v_omega_b, double __pyx_v_inv_mass_b, PyObject *__pyx_v_i_inv_b, __Pyx_memviewslice __pyx_v_contact_points, __Pyx_memviewslice __pyx_v_normal, double __pyx_v_restitution, double __pyx_v_static_friction, double __pyx_v_dynamic_friction, double __pyx_v_face_align_a, double __pyx_v_face_align_b, double __pyx_v_dt) {
+  double __pyx_v_vax;
+  double __pyx_v_vay;
+  double __pyx_v_vaz;
+  double __pyx_v_oax;
+  double __pyx_v_oay;
+  double __pyx_v_oaz;
+  double __pyx_v_vbx;
+  double __pyx_v_vby;
+  double __pyx_v_vbz;
+  double __pyx_v_obx;
+  double __pyx_v_oby;
+  double __pyx_v_obz;
+  int __pyx_v_has_ia;
+  int __pyx_v_has_ib;
+  int __pyx_v_unstable;
+  int __pyx_v_any_unstable;
+  __Pyx_memviewslice __pyx_v_ia = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_ib = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyArrayObject *__pyx_v_ia_arr = 0;
+  PyArrayObject *__pyx_v_ib_arr = 0;
+  PyArrayObject *__pyx_v_out_va = 0;
+  PyArrayObject *__pyx_v_out_oa = 0;
+  PyArrayObject *__pyx_v_out_vb = 0;
+  PyArrayObject *__pyx_v_out_ob = 0;
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_n;
+  int __pyx_v_multi;
+  double __pyx_v_best_align;
+  int __pyx_v_n_inner;
+  int __pyx_v_inner;
+  double __pyx_v_e_use;
+  double __pyx_v_nnx;
+  double __pyx_v_nny;
+  double __pyx_v_nnz;
+  double __pyx_v_nlen;
+  double __pyx_v_inv_n;
+  double __pyx_v_vn;
+  double __pyx_v_vtx2;
+  double __pyx_v_vty2;
+  double __pyx_v_vtz2;
+  double __pyx_v_tmag;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_ia_arr;
+  __Pyx_Buffer __pyx_pybuffer_ia_arr;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_ib_arr;
+  __Pyx_Buffer __pyx_pybuffer_ib_arr;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out_oa;
+  __Pyx_Buffer __pyx_pybuffer_out_oa;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out_ob;
+  __Pyx_Buffer __pyx_pybuffer_out_ob;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out_va;
+  __Pyx_Buffer __pyx_pybuffer_out_va;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out_vb;
+  __Pyx_Buffer __pyx_pybuffer_out_vb;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  size_t __pyx_t_9;
+  int __pyx_t_10;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  PyObject *__pyx_t_13 = NULL;
+  __Pyx_memviewslice __pyx_t_14 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_15;
+  int __pyx_t_16;
+  int __pyx_t_17;
+  double __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("resolve_contacts_3d_multi_fast", 0);
+  __pyx_pybuffer_ia_arr.pybuffer.buf = NULL;
+  __pyx_pybuffer_ia_arr.refcount = 0;
+  __pyx_pybuffernd_ia_arr.data = NULL;
+  __pyx_pybuffernd_ia_arr.rcbuffer = &__pyx_pybuffer_ia_arr;
+  __pyx_pybuffer_ib_arr.pybuffer.buf = NULL;
+  __pyx_pybuffer_ib_arr.refcount = 0;
+  __pyx_pybuffernd_ib_arr.data = NULL;
+  __pyx_pybuffernd_ib_arr.rcbuffer = &__pyx_pybuffer_ib_arr;
+  __pyx_pybuffer_out_va.pybuffer.buf = NULL;
+  __pyx_pybuffer_out_va.refcount = 0;
+  __pyx_pybuffernd_out_va.data = NULL;
+  __pyx_pybuffernd_out_va.rcbuffer = &__pyx_pybuffer_out_va;
+  __pyx_pybuffer_out_oa.pybuffer.buf = NULL;
+  __pyx_pybuffer_out_oa.refcount = 0;
+  __pyx_pybuffernd_out_oa.data = NULL;
+  __pyx_pybuffernd_out_oa.rcbuffer = &__pyx_pybuffer_out_oa;
+  __pyx_pybuffer_out_vb.pybuffer.buf = NULL;
+  __pyx_pybuffer_out_vb.refcount = 0;
+  __pyx_pybuffernd_out_vb.data = NULL;
+  __pyx_pybuffernd_out_vb.rcbuffer = &__pyx_pybuffer_out_vb;
+  __pyx_pybuffer_out_ob.pybuffer.buf = NULL;
+  __pyx_pybuffer_out_ob.refcount = 0;
+  __pyx_pybuffernd_out_ob.data = NULL;
+  __pyx_pybuffernd_out_ob.rcbuffer = &__pyx_pybuffer_out_ob;
+
+  /* "engine/cython/cy_response_3d.pyx":558
+ *     Returns (va, oa, vb, ob, unstable) like resolve_contact_3d_fast.
+ *     """
+ *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]             # <<<<<<<<<<<<<<
+ *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
+ *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_vax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_vay = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 2;
+  __pyx_v_vaz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_a.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_3d.pyx":559
+ *     """
+ *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
+ *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]             # <<<<<<<<<<<<<<
+ *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
+ *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_oax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_a.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_oay = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_a.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 2;
+  __pyx_v_oaz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_a.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_3d.pyx":560
+ *     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
+ *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
+ *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]             # <<<<<<<<<<<<<<
+ *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
+ *     cdef bint has_ia = 0, has_ib = 0
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_vbx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_vby = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 2;
+  __pyx_v_vbz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vel_b.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_3d.pyx":561
+ *     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
+ *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
+ *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]             # <<<<<<<<<<<<<<
+ *     cdef bint has_ia = 0, has_ib = 0
+ *     cdef bint unstable = 0, any_unstable = 0
+*/
+  __pyx_t_1 = 0;
+  __pyx_v_obx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_b.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 1;
+  __pyx_v_oby = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_b.data) + __pyx_t_1)) )));
+  __pyx_t_1 = 2;
+  __pyx_v_obz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_omega_b.data) + __pyx_t_1)) )));
+
+  /* "engine/cython/cy_response_3d.pyx":562
+ *     cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
+ *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
+ *     cdef bint has_ia = 0, has_ib = 0             # <<<<<<<<<<<<<<
+ *     cdef bint unstable = 0, any_unstable = 0
+ *     cdef double[:, ::1] ia
+*/
+  __pyx_v_has_ia = 0;
+  __pyx_v_has_ib = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":563
+ *     cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
+ *     cdef bint has_ia = 0, has_ib = 0
+ *     cdef bint unstable = 0, any_unstable = 0             # <<<<<<<<<<<<<<
+ *     cdef double[:, ::1] ia
+ *     cdef double[:, ::1] ib
+*/
+  __pyx_v_unstable = 0;
+  __pyx_v_any_unstable = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":573
+ *     cdef double best_align, speed_a, speed_b
+ * 
+ *     n = contact_points.shape[0]             # <<<<<<<<<<<<<<
+ *     if n <= 0:
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+*/
+  __pyx_v_n = (__pyx_v_contact_points.shape[0]);
+
+  /* "engine/cython/cy_response_3d.pyx":574
+ * 
+ *     n = contact_points.shape[0]
+ *     if n <= 0:             # <<<<<<<<<<<<<<
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+*/
+  __pyx_t_2 = (__pyx_v_n <= 0);
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_3d.pyx":575
+ *     n = contact_points.shape[0]
+ *     if n <= 0:
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+ *         out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)
+*/
+    __pyx_t_4 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_vel_a, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      assert(__pyx_t_4);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_4, __pyx_t_5};
+      __pyx_t_7 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_7, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_7);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 575, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_va, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+        }
+        __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+      }
+      __pyx_pybuffernd_out_va.diminfo[0].strides = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_va.diminfo[0].shape = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.shape[0];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 575, __pyx_L1_error)
+    }
+    __pyx_v_out_va = ((PyArrayObject *)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":576
+ *     if n <= 0:
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)
+ *         out_ob = np.ascontiguousarray(omega_b, dtype=np.float64)
+*/
+    __pyx_t_6 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_omega_a, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_8))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
+      assert(__pyx_t_6);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_8);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_8, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_4, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_8, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 576, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_oa, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+        }
+        __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+      }
+      __pyx_pybuffernd_out_oa.diminfo[0].strides = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_oa.diminfo[0].shape = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.shape[0];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 576, __pyx_L1_error)
+    }
+    __pyx_v_out_oa = ((PyArrayObject *)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":577
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+ *         out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         out_ob = np.ascontiguousarray(omega_b, dtype=np.float64)
+ *         return out_va, out_oa, out_vb, out_ob, False
+*/
+    __pyx_t_8 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_vel_b, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_4);
+      assert(__pyx_t_8);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_8);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_4, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_8, __pyx_t_5};
+      __pyx_t_7 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 577, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_7, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 577, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_4, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_7);
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 577, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 577, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_vb, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+        }
+        __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+      }
+      __pyx_pybuffernd_out_vb.diminfo[0].strides = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_vb.diminfo[0].shape = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.shape[0];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 577, __pyx_L1_error)
+    }
+    __pyx_v_out_vb = ((PyArrayObject *)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":578
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+ *         out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)
+ *         out_ob = np.ascontiguousarray(omega_b, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         return out_va, out_oa, out_vb, out_ob, False
+ * 
+*/
+    __pyx_t_4 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_omega_b, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      assert(__pyx_t_4);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_4, __pyx_t_7};
+      __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 578, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_ob, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+        }
+        __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+      }
+      __pyx_pybuffernd_out_ob.diminfo[0].strides = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_ob.diminfo[0].shape = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.shape[0];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 578, __pyx_L1_error)
+    }
+    __pyx_v_out_ob = ((PyArrayObject *)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":579
+ *         out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)
+ *         out_ob = np.ascontiguousarray(omega_b, dtype=np.float64)
+ *         return out_va, out_oa, out_vb, out_ob, False             # <<<<<<<<<<<<<<
+ * 
+ *     ia_arr = np.zeros((3, 3), dtype=np.float64)
+*/
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = PyTuple_New(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 579, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF((PyObject *)__pyx_v_out_va);
+    __Pyx_GIVEREF((PyObject *)__pyx_v_out_va);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)__pyx_v_out_va)) != (0)) __PYX_ERR(0, 579, __pyx_L1_error);
+    __Pyx_INCREF((PyObject *)__pyx_v_out_oa);
+    __Pyx_GIVEREF((PyObject *)__pyx_v_out_oa);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)__pyx_v_out_oa)) != (0)) __PYX_ERR(0, 579, __pyx_L1_error);
+    __Pyx_INCREF((PyObject *)__pyx_v_out_vb);
+    __Pyx_GIVEREF((PyObject *)__pyx_v_out_vb);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 2, ((PyObject *)__pyx_v_out_vb)) != (0)) __PYX_ERR(0, 579, __pyx_L1_error);
+    __Pyx_INCREF((PyObject *)__pyx_v_out_ob);
+    __Pyx_GIVEREF((PyObject *)__pyx_v_out_ob);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 3, ((PyObject *)__pyx_v_out_ob)) != (0)) __PYX_ERR(0, 579, __pyx_L1_error);
+    __Pyx_INCREF(Py_False);
+    __Pyx_GIVEREF(Py_False);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 4, Py_False) != (0)) __PYX_ERR(0, 579, __pyx_L1_error);
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "engine/cython/cy_response_3d.pyx":574
+ * 
+ *     n = contact_points.shape[0]
+ *     if n <= 0:             # <<<<<<<<<<<<<<
+ *         out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+ *         out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+*/
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":581
+ *         return out_va, out_oa, out_vb, out_ob, False
+ * 
+ *     ia_arr = np.zeros((3, 3), dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     ib_arr = np.zeros((3, 3), dtype=np.float64)
+ *     ia = ia_arr
+*/
+  __pyx_t_6 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
+    assert(__pyx_t_6);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_8);
+    __Pyx_INCREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_8, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_mstate_global->__pyx_tuple[1]};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_7, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 581, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_8, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 581, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 581, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_ia_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+      }
+      __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+    }
+    __pyx_pybuffernd_ia_arr.diminfo[0].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ia_arr.diminfo[0].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ia_arr.diminfo[1].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ia_arr.diminfo[1].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[1];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 581, __pyx_L1_error)
+  }
+  __pyx_v_ia_arr = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":582
+ * 
+ *     ia_arr = np.zeros((3, 3), dtype=np.float64)
+ *     ib_arr = np.zeros((3, 3), dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     ia = ia_arr
+ *     ib = ib_arr
+*/
+  __pyx_t_8 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+    assert(__pyx_t_8);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_7);
+    __Pyx_INCREF(__pyx_t_8);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_7, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_8, __pyx_mstate_global->__pyx_tuple[1]};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 582, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_7, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 582, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 582, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_ib_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+      }
+      __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+    }
+    __pyx_pybuffernd_ib_arr.diminfo[0].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ib_arr.diminfo[0].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ib_arr.diminfo[1].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ib_arr.diminfo[1].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[1];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 582, __pyx_L1_error)
+  }
+  __pyx_v_ib_arr = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":583
+ *     ia_arr = np.zeros((3, 3), dtype=np.float64)
+ *     ib_arr = np.zeros((3, 3), dtype=np.float64)
+ *     ia = ia_arr             # <<<<<<<<<<<<<<
+ *     ib = ib_arr
+ * 
+*/
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 583, __pyx_L1_error)
+  __pyx_v_ia = __pyx_t_14;
+  __pyx_t_14.memview = NULL;
+  __pyx_t_14.data = NULL;
+
+  /* "engine/cython/cy_response_3d.pyx":584
+ *     ib_arr = np.zeros((3, 3), dtype=np.float64)
+ *     ia = ia_arr
+ *     ib = ib_arr             # <<<<<<<<<<<<<<
+ * 
+ *     if i_inv_a is not None:
+*/
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 584, __pyx_L1_error)
+  __pyx_v_ib = __pyx_t_14;
+  __pyx_t_14.memview = NULL;
+  __pyx_t_14.data = NULL;
+
+  /* "engine/cython/cy_response_3d.pyx":586
+ *     ib = ib_arr
+ * 
+ *     if i_inv_a is not None:             # <<<<<<<<<<<<<<
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+*/
+  __pyx_t_2 = (__pyx_v_i_inv_a != Py_None);
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_3d.pyx":587
+ * 
+ *     if i_inv_a is not None:
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+ *             ia = ia_arr
+*/
+    __pyx_t_7 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 587, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 587, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      assert(__pyx_t_7);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_7, __pyx_v_i_inv_a};
+      __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 587, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 587, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 587, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_ia_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+        }
+        __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+      }
+      __pyx_pybuffernd_ia_arr.diminfo[0].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ia_arr.diminfo[0].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ia_arr.diminfo[1].strides = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ia_arr.diminfo[1].shape = __pyx_pybuffernd_ia_arr.rcbuffer->pybuffer.shape[1];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 587, __pyx_L1_error)
+    }
+    __Pyx_DECREF_SET(__pyx_v_ia_arr, ((PyArrayObject *)__pyx_t_3));
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":588
+ *     if i_inv_a is not None:
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
+ *             ia = ia_arr
+ *             has_ia = 1
+*/
+    __pyx_t_15 = ((__pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_ia_arr))[0]) == 3);
+    if (__pyx_t_15) {
+    } else {
+      __pyx_t_2 = __pyx_t_15;
+      goto __pyx_L6_bool_binop_done;
+    }
+    __pyx_t_15 = ((__pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_ia_arr))[1]) == 3);
+    __pyx_t_2 = __pyx_t_15;
+    __pyx_L6_bool_binop_done:;
+    if (__pyx_t_2) {
+
+      /* "engine/cython/cy_response_3d.pyx":589
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+ *             ia = ia_arr             # <<<<<<<<<<<<<<
+ *             has_ia = 1
+ *     if i_inv_b is not None:
+*/
+      __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ia_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 589, __pyx_L1_error)
+      __PYX_XCLEAR_MEMVIEW(&__pyx_v_ia, 1);
+      __pyx_v_ia = __pyx_t_14;
+      __pyx_t_14.memview = NULL;
+      __pyx_t_14.data = NULL;
+
+      /* "engine/cython/cy_response_3d.pyx":590
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+ *             ia = ia_arr
+ *             has_ia = 1             # <<<<<<<<<<<<<<
+ *     if i_inv_b is not None:
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+*/
+      __pyx_v_has_ia = 1;
+
+      /* "engine/cython/cy_response_3d.pyx":588
+ *     if i_inv_a is not None:
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
+ *             ia = ia_arr
+ *             has_ia = 1
+*/
+    }
+
+    /* "engine/cython/cy_response_3d.pyx":586
+ *     ib = ib_arr
+ * 
+ *     if i_inv_a is not None:             # <<<<<<<<<<<<<<
+ *         ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+ *         if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+*/
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":591
+ *             ia = ia_arr
+ *             has_ia = 1
+ *     if i_inv_b is not None:             # <<<<<<<<<<<<<<
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+*/
+  __pyx_t_2 = (__pyx_v_i_inv_b != Py_None);
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_3d.pyx":592
+ *             has_ia = 1
+ *     if i_inv_b is not None:
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+ *             ib = ib_arr
+*/
+    __pyx_t_6 = NULL;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_9 = 1;
+    #if CYTHON_UNPACK_METHODS
+    if (unlikely(PyMethod_Check(__pyx_t_8))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
+      assert(__pyx_t_6);
+      PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_8);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx__function);
+      __Pyx_DECREF_SET(__pyx_t_8, __pyx__function);
+      __pyx_t_9 = 0;
+    }
+    #endif
+    {
+      PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_v_i_inv_b};
+      __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_7, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 592, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_8, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 592, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 592, __pyx_L1_error)
+    {
+      __Pyx_BufFmt_StackElem __pyx_stack[1];
+      __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
+      __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+      if (unlikely(__pyx_t_10 < 0)) {
+        PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+        if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_ib_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+          Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+          __Pyx_RaiseBufferFallbackError();
+        } else {
+          PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+        }
+        __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+      }
+      __pyx_pybuffernd_ib_arr.diminfo[0].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ib_arr.diminfo[0].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ib_arr.diminfo[1].strides = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ib_arr.diminfo[1].shape = __pyx_pybuffernd_ib_arr.rcbuffer->pybuffer.shape[1];
+      if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 592, __pyx_L1_error)
+    }
+    __Pyx_DECREF_SET(__pyx_v_ib_arr, ((PyArrayObject *)__pyx_t_3));
+    __pyx_t_3 = 0;
+
+    /* "engine/cython/cy_response_3d.pyx":593
+ *     if i_inv_b is not None:
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
+ *             ib = ib_arr
+ *             has_ib = 1
+*/
+    __pyx_t_15 = ((__pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_ib_arr))[0]) == 3);
+    if (__pyx_t_15) {
+    } else {
+      __pyx_t_2 = __pyx_t_15;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_t_15 = ((__pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_ib_arr))[1]) == 3);
+    __pyx_t_2 = __pyx_t_15;
+    __pyx_L10_bool_binop_done:;
+    if (__pyx_t_2) {
+
+      /* "engine/cython/cy_response_3d.pyx":594
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+ *             ib = ib_arr             # <<<<<<<<<<<<<<
+ *             has_ib = 1
+ * 
+*/
+      __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(((PyObject *)__pyx_v_ib_arr), PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 594, __pyx_L1_error)
+      __PYX_XCLEAR_MEMVIEW(&__pyx_v_ib, 1);
+      __pyx_v_ib = __pyx_t_14;
+      __pyx_t_14.memview = NULL;
+      __pyx_t_14.data = NULL;
+
+      /* "engine/cython/cy_response_3d.pyx":595
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+ *             ib = ib_arr
+ *             has_ib = 1             # <<<<<<<<<<<<<<
+ * 
+ *     multi = 1 if n > 1 else 0
+*/
+      __pyx_v_has_ib = 1;
+
+      /* "engine/cython/cy_response_3d.pyx":593
+ *     if i_inv_b is not None:
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:             # <<<<<<<<<<<<<<
+ *             ib = ib_arr
+ *             has_ib = 1
+*/
+    }
+
+    /* "engine/cython/cy_response_3d.pyx":591
+ *             ia = ia_arr
+ *             has_ia = 1
+ *     if i_inv_b is not None:             # <<<<<<<<<<<<<<
+ *         ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+ *         if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+*/
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":597
+ *             has_ib = 1
+ * 
+ *     multi = 1 if n > 1 else 0             # <<<<<<<<<<<<<<
+ *     cdef int n_inner = 4 if multi else 1
+ *     cdef int inner
+*/
+  __pyx_t_15 = (__pyx_v_n > 1);
+  if (__pyx_t_15) {
+    __pyx_t_2 = 1;
+  } else {
+    __pyx_t_2 = 0;
+  }
+  __pyx_v_multi = __pyx_t_2;
+
+  /* "engine/cython/cy_response_3d.pyx":598
+ * 
+ *     multi = 1 if n > 1 else 0
+ *     cdef int n_inner = 4 if multi else 1             # <<<<<<<<<<<<<<
+ *     cdef int inner
+ *     cdef double e_use
+*/
+  if (__pyx_v_multi) {
+    __pyx_t_10 = 4;
+  } else {
+    __pyx_t_10 = 1;
+  }
+  __pyx_v_n_inner = __pyx_t_10;
+
+  /* "engine/cython/cy_response_3d.pyx":601
+ *     cdef int inner
+ *     cdef double e_use
+ *     for inner in range(n_inner):             # <<<<<<<<<<<<<<
+ *         e_use = restitution if inner == 0 else 0.0
+ *         for i in range(n):
+*/
+  __pyx_t_10 = __pyx_v_n_inner;
+  __pyx_t_16 = __pyx_t_10;
+  for (__pyx_t_17 = 0; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
+    __pyx_v_inner = __pyx_t_17;
+
+    /* "engine/cython/cy_response_3d.pyx":602
+ *     cdef double e_use
+ *     for inner in range(n_inner):
+ *         e_use = restitution if inner == 0 else 0.0             # <<<<<<<<<<<<<<
+ *         for i in range(n):
+ *             unstable = 0
+*/
+    __pyx_t_2 = (__pyx_v_inner == 0);
+    if (__pyx_t_2) {
+      __pyx_t_18 = __pyx_v_restitution;
+    } else {
+      __pyx_t_18 = 0.0;
+    }
+    __pyx_v_e_use = __pyx_t_18;
+
+    /* "engine/cython/cy_response_3d.pyx":603
+ *     for inner in range(n_inner):
+ *         e_use = restitution if inner == 0 else 0.0
+ *         for i in range(n):             # <<<<<<<<<<<<<<
+ *             unstable = 0
+ *             _resolve_contact_core(
+*/
+    __pyx_t_19 = __pyx_v_n;
+    __pyx_t_20 = __pyx_t_19;
+    for (__pyx_t_21 = 0; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
+      __pyx_v_i = __pyx_t_21;
+
+      /* "engine/cython/cy_response_3d.pyx":604
+ *         e_use = restitution if inner == 0 else 0.0
+ *         for i in range(n):
+ *             unstable = 0             # <<<<<<<<<<<<<<
+ *             _resolve_contact_core(
+ *                 pos_a[0], pos_a[1], pos_a[2],
+*/
+      __pyx_v_unstable = 0;
+
+      /* "engine/cython/cy_response_3d.pyx":606
+ *             unstable = 0
+ *             _resolve_contact_core(
+ *                 pos_a[0], pos_a[1], pos_a[2],             # <<<<<<<<<<<<<<
+ *                 &vax, &vay, &vaz, &oax, &oay, &oaz,
+ *                 inv_mass_a, has_ia, ia,
+*/
+      __pyx_t_1 = 0;
+      __pyx_t_22 = 1;
+      __pyx_t_23 = 2;
+
+      /* "engine/cython/cy_response_3d.pyx":609
+ *                 &vax, &vay, &vaz, &oax, &oay, &oaz,
+ *                 inv_mass_a, has_ia, ia,
+ *                 pos_b[0], pos_b[1], pos_b[2],             # <<<<<<<<<<<<<<
+ *                 &vbx, &vby, &vbz, &obx, &oby, &obz,
+ *                 inv_mass_b, has_ib, ib,
+*/
+      __pyx_t_24 = 0;
+      __pyx_t_25 = 1;
+      __pyx_t_26 = 2;
+
+      /* "engine/cython/cy_response_3d.pyx":612
+ *                 &vbx, &vby, &vbz, &obx, &oby, &obz,
+ *                 inv_mass_b, has_ib, ib,
+ *                 contact_points[i, 0], contact_points[i, 1], contact_points[i, 2],             # <<<<<<<<<<<<<<
+ *                 normal[0], normal[1], normal[2],
+ *                 e_use, static_friction, dynamic_friction,
+*/
+      __pyx_t_27 = __pyx_v_i;
+      __pyx_t_28 = 0;
+      __pyx_t_29 = __pyx_v_i;
+      __pyx_t_30 = 1;
+      __pyx_t_31 = __pyx_v_i;
+      __pyx_t_32 = 2;
+
+      /* "engine/cython/cy_response_3d.pyx":613
+ *                 inv_mass_b, has_ib, ib,
+ *                 contact_points[i, 0], contact_points[i, 1], contact_points[i, 2],
+ *                 normal[0], normal[1], normal[2],             # <<<<<<<<<<<<<<
+ *                 e_use, static_friction, dynamic_friction,
+ *                 face_align_a, face_align_b, dt, multi, &unstable,
+*/
+      __pyx_t_33 = 0;
+      __pyx_t_34 = 1;
+      __pyx_t_35 = 2;
+
+      /* "engine/cython/cy_response_3d.pyx":605
+ *         for i in range(n):
+ *             unstable = 0
+ *             _resolve_contact_core(             # <<<<<<<<<<<<<<
+ *                 pos_a[0], pos_a[1], pos_a[2],
+ *                 &vax, &vay, &vaz, &oax, &oay, &oaz,
+*/
+      __pyx_f_6engine_6cython_14cy_response_3d__resolve_contact_core((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_1)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_22)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_a.data) + __pyx_t_23)) ))), (&__pyx_v_vax), (&__pyx_v_vay), (&__pyx_v_vaz), (&__pyx_v_oax), (&__pyx_v_oay), (&__pyx_v_oaz), __pyx_v_inv_mass_a, __pyx_v_has_ia, __pyx_v_ia, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_24)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_25)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_pos_b.data) + __pyx_t_26)) ))), (&__pyx_v_vbx), (&__pyx_v_vby), (&__pyx_v_vbz), (&__pyx_v_obx), (&__pyx_v_oby), (&__pyx_v_obz), __pyx_v_inv_mass_b, __pyx_v_has_ib, __pyx_v_ib, (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_contact_points.data + __pyx_t_27 * __pyx_v_contact_points.strides[0]) )) + __pyx_t_28)) ))), (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_contact_points.data + __pyx_t_29 * __pyx_v_contact_points.strides[0]) )) + __pyx_t_30)) ))), (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_contact_points.data + __pyx_t_31 * __pyx_v_contact_points.strides[0]) )) + __pyx_t_32)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_33)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_34)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_35)) ))), __pyx_v_e_use, __pyx_v_static_friction, __pyx_v_dynamic_friction, __pyx_v_face_align_a, __pyx_v_face_align_b, __pyx_v_dt, __pyx_v_multi, (&__pyx_v_unstable));
+
+      /* "engine/cython/cy_response_3d.pyx":617
+ *                 face_align_a, face_align_b, dt, multi, &unstable,
+ *             )
+ *             if unstable:             # <<<<<<<<<<<<<<
+ *                 any_unstable = 1
+ * 
+*/
+      if (__pyx_v_unstable) {
+
+        /* "engine/cython/cy_response_3d.pyx":618
+ *             )
+ *             if unstable:
+ *                 any_unstable = 1             # <<<<<<<<<<<<<<
+ * 
+ *     # Face settle after multi-point: kill residual corner spin / slide.
+*/
+        __pyx_v_any_unstable = 1;
+
+        /* "engine/cython/cy_response_3d.pyx":617
+ *                 face_align_a, face_align_b, dt, multi, &unstable,
+ *             )
+ *             if unstable:             # <<<<<<<<<<<<<<
+ *                 any_unstable = 1
+ * 
+*/
+      }
+    }
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":622
+ *     # Face settle after multi-point: kill residual corner spin / slide.
+ *     cdef double nnx, nny, nnz, nlen, inv_n, vn, vtx2, vty2, vtz2, tmag
+ *     if multi and not any_unstable:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b
+ *         if best_align >= FACE_ALIGN_THRESHOLD:
+*/
+  if (__pyx_v_multi) {
+  } else {
+    __pyx_t_2 = __pyx_v_multi;
+    goto __pyx_L18_bool_binop_done;
+  }
+  __pyx_t_15 = (!__pyx_v_any_unstable);
+  __pyx_t_2 = __pyx_t_15;
+  __pyx_L18_bool_binop_done:;
+  if (__pyx_t_2) {
+
+    /* "engine/cython/cy_response_3d.pyx":623
+ *     cdef double nnx, nny, nnz, nlen, inv_n, vn, vtx2, vty2, vtz2, tmag
+ *     if multi and not any_unstable:
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b             # <<<<<<<<<<<<<<
+ *         if best_align >= FACE_ALIGN_THRESHOLD:
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+*/
+    __pyx_t_2 = (__pyx_v_face_align_a > __pyx_v_face_align_b);
+    if (__pyx_t_2) {
+      __pyx_t_18 = __pyx_v_face_align_a;
+    } else {
+      __pyx_t_18 = __pyx_v_face_align_b;
+    }
+    __pyx_v_best_align = __pyx_t_18;
+
+    /* "engine/cython/cy_response_3d.pyx":624
+ *     if multi and not any_unstable:
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b
+ *         if best_align >= FACE_ALIGN_THRESHOLD:             # <<<<<<<<<<<<<<
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+ *             nlen = _len3(nnx, nny, nnz)
+*/
+    __pyx_t_2 = (__pyx_v_best_align >= __pyx_v_6engine_6cython_14cy_response_3d_FACE_ALIGN_THRESHOLD);
+    if (__pyx_t_2) {
+
+      /* "engine/cython/cy_response_3d.pyx":625
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b
+ *         if best_align >= FACE_ALIGN_THRESHOLD:
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]             # <<<<<<<<<<<<<<
+ *             nlen = _len3(nnx, nny, nnz)
+ *             if nlen > 1e-12:
+*/
+      __pyx_t_35 = 0;
+      __pyx_v_nnx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_35)) )));
+      __pyx_t_35 = 1;
+      __pyx_v_nny = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_35)) )));
+      __pyx_t_35 = 2;
+      __pyx_v_nnz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_normal.data) + __pyx_t_35)) )));
+
+      /* "engine/cython/cy_response_3d.pyx":626
+ *         if best_align >= FACE_ALIGN_THRESHOLD:
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+ *             nlen = _len3(nnx, nny, nnz)             # <<<<<<<<<<<<<<
+ *             if nlen > 1e-12:
+ *                 inv_n = 1.0 / nlen
+*/
+      __pyx_v_nlen = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_nnx, __pyx_v_nny, __pyx_v_nnz);
+
+      /* "engine/cython/cy_response_3d.pyx":627
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+ *             nlen = _len3(nnx, nny, nnz)
+ *             if nlen > 1e-12:             # <<<<<<<<<<<<<<
+ *                 inv_n = 1.0 / nlen
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+*/
+      __pyx_t_2 = (__pyx_v_nlen > 1e-12);
+      if (__pyx_t_2) {
+
+        /* "engine/cython/cy_response_3d.pyx":628
+ *             nlen = _len3(nnx, nny, nnz)
+ *             if nlen > 1e-12:
+ *                 inv_n = 1.0 / nlen             # <<<<<<<<<<<<<<
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+ *             if inv_mass_a > 0.0:
+*/
+        __pyx_v_inv_n = (1.0 / __pyx_v_nlen);
+
+        /* "engine/cython/cy_response_3d.pyx":629
+ *             if nlen > 1e-12:
+ *                 inv_n = 1.0 / nlen
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n             # <<<<<<<<<<<<<<
+ *             if inv_mass_a > 0.0:
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+*/
+        __pyx_v_nnx = (__pyx_v_nnx * __pyx_v_inv_n);
+        __pyx_v_nny = (__pyx_v_nny * __pyx_v_inv_n);
+        __pyx_v_nnz = (__pyx_v_nnz * __pyx_v_inv_n);
+
+        /* "engine/cython/cy_response_3d.pyx":627
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+ *             nlen = _len3(nnx, nny, nnz)
+ *             if nlen > 1e-12:             # <<<<<<<<<<<<<<
+ *                 inv_n = 1.0 / nlen
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+*/
+      }
+
+      /* "engine/cython/cy_response_3d.pyx":630
+ *                 inv_n = 1.0 / nlen
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+ *             if inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+ *                 if _len3(oax, oay, oaz) < 1.0:
+*/
+      __pyx_t_2 = (__pyx_v_inv_mass_a > 0.0);
+      if (__pyx_t_2) {
+
+        /* "engine/cython/cy_response_3d.pyx":631
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+ *             if inv_mass_a > 0.0:
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12             # <<<<<<<<<<<<<<
+ *                 if _len3(oax, oay, oaz) < 1.0:
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0
+*/
+        __pyx_v_oax = (__pyx_v_oax * 0.12);
+        __pyx_v_oay = (__pyx_v_oay * 0.12);
+        __pyx_v_oaz = (__pyx_v_oaz * 0.12);
+
+        /* "engine/cython/cy_response_3d.pyx":632
+ *             if inv_mass_a > 0.0:
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+ *                 if _len3(oax, oay, oaz) < 1.0:             # <<<<<<<<<<<<<<
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0
+ *                 vn = vax * nnx + vay * nny + vaz * nnz
+*/
+        __pyx_t_2 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_oax, __pyx_v_oay, __pyx_v_oaz) < 1.0);
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":633
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+ *                 if _len3(oax, oay, oaz) < 1.0:
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0             # <<<<<<<<<<<<<<
+ *                 vn = vax * nnx + vay * nny + vaz * nnz
+ *                 vtx2 = vax - nnx * vn
+*/
+          __pyx_v_oax = 0.0;
+          __pyx_v_oay = 0.0;
+          __pyx_v_oaz = 0.0;
+
+          /* "engine/cython/cy_response_3d.pyx":632
+ *             if inv_mass_a > 0.0:
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+ *                 if _len3(oax, oay, oaz) < 1.0:             # <<<<<<<<<<<<<<
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0
+ *                 vn = vax * nnx + vay * nny + vaz * nnz
+*/
+        }
+
+        /* "engine/cython/cy_response_3d.pyx":634
+ *                 if _len3(oax, oay, oaz) < 1.0:
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0
+ *                 vn = vax * nnx + vay * nny + vaz * nnz             # <<<<<<<<<<<<<<
+ *                 vtx2 = vax - nnx * vn
+ *                 vty2 = vay - nny * vn
+*/
+        __pyx_v_vn = (((__pyx_v_vax * __pyx_v_nnx) + (__pyx_v_vay * __pyx_v_nny)) + (__pyx_v_vaz * __pyx_v_nnz));
+
+        /* "engine/cython/cy_response_3d.pyx":635
+ *                     oax = 0.0; oay = 0.0; oaz = 0.0
+ *                 vn = vax * nnx + vay * nny + vaz * nnz
+ *                 vtx2 = vax - nnx * vn             # <<<<<<<<<<<<<<
+ *                 vty2 = vay - nny * vn
+ *                 vtz2 = vaz - nnz * vn
+*/
+        __pyx_v_vtx2 = (__pyx_v_vax - (__pyx_v_nnx * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":636
+ *                 vn = vax * nnx + vay * nny + vaz * nnz
+ *                 vtx2 = vax - nnx * vn
+ *                 vty2 = vay - nny * vn             # <<<<<<<<<<<<<<
+ *                 vtz2 = vaz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+*/
+        __pyx_v_vty2 = (__pyx_v_vay - (__pyx_v_nny * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":637
+ *                 vtx2 = vax - nnx * vn
+ *                 vty2 = vay - nny * vn
+ *                 vtz2 = vaz - nnz * vn             # <<<<<<<<<<<<<<
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+*/
+        __pyx_v_vtz2 = (__pyx_v_vaz - (__pyx_v_nnz * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":638
+ *                 vty2 = vay - nny * vn
+ *                 vtz2 = vaz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)             # <<<<<<<<<<<<<<
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+*/
+        __pyx_v_tmag = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_vtx2, __pyx_v_vty2, __pyx_v_vtz2);
+
+        /* "engine/cython/cy_response_3d.pyx":639
+ *                 vtz2 = vaz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:             # <<<<<<<<<<<<<<
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+*/
+        __pyx_t_15 = (__pyx_v_tmag < 0.08);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L25_bool_binop_done;
+        }
+        __pyx_t_15 = (fabs(__pyx_v_vn) < 0.35);
+        __pyx_t_2 = __pyx_t_15;
+        __pyx_L25_bool_binop_done:;
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":640
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0             # <<<<<<<<<<<<<<
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+*/
+          __pyx_v_vax = 0.0;
+          __pyx_v_vay = 0.0;
+          __pyx_v_vaz = 0.0;
+
+          /* "engine/cython/cy_response_3d.pyx":639
+ *                 vtz2 = vaz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:             # <<<<<<<<<<<<<<
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+*/
+          goto __pyx_L24;
+        }
+
+        /* "engine/cython/cy_response_3d.pyx":641
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:             # <<<<<<<<<<<<<<
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+ *             if inv_mass_b > 0.0:
+*/
+        __pyx_t_15 = (fabs(__pyx_v_vn) < 0.12);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L27_bool_binop_done;
+        }
+        __pyx_t_15 = (__pyx_v_vn < 0.0);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L27_bool_binop_done;
+        }
+        __pyx_t_15 = (__pyx_v_tmag < 0.5);
+        __pyx_t_2 = __pyx_t_15;
+        __pyx_L27_bool_binop_done:;
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":642
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vax = vtx2; vay = vty2; vaz = vtz2             # <<<<<<<<<<<<<<
+ *             if inv_mass_b > 0.0:
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+*/
+          __pyx_v_vax = __pyx_v_vtx2;
+          __pyx_v_vay = __pyx_v_vty2;
+          __pyx_v_vaz = __pyx_v_vtz2;
+
+          /* "engine/cython/cy_response_3d.pyx":641
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vax = 0.0; vay = 0.0; vaz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:             # <<<<<<<<<<<<<<
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+ *             if inv_mass_b > 0.0:
+*/
+        }
+        __pyx_L24:;
+
+        /* "engine/cython/cy_response_3d.pyx":630
+ *                 inv_n = 1.0 / nlen
+ *                 nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+ *             if inv_mass_a > 0.0:             # <<<<<<<<<<<<<<
+ *                 oax *= 0.12; oay *= 0.12; oaz *= 0.12
+ *                 if _len3(oax, oay, oaz) < 1.0:
+*/
+      }
+
+      /* "engine/cython/cy_response_3d.pyx":643
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+ *             if inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+ *                 if _len3(obx, oby, obz) < 1.0:
+*/
+      __pyx_t_2 = (__pyx_v_inv_mass_b > 0.0);
+      if (__pyx_t_2) {
+
+        /* "engine/cython/cy_response_3d.pyx":644
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+ *             if inv_mass_b > 0.0:
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12             # <<<<<<<<<<<<<<
+ *                 if _len3(obx, oby, obz) < 1.0:
+ *                     obx = 0.0; oby = 0.0; obz = 0.0
+*/
+        __pyx_v_obx = (__pyx_v_obx * 0.12);
+        __pyx_v_oby = (__pyx_v_oby * 0.12);
+        __pyx_v_obz = (__pyx_v_obz * 0.12);
+
+        /* "engine/cython/cy_response_3d.pyx":645
+ *             if inv_mass_b > 0.0:
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+ *                 if _len3(obx, oby, obz) < 1.0:             # <<<<<<<<<<<<<<
+ *                     obx = 0.0; oby = 0.0; obz = 0.0
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz
+*/
+        __pyx_t_2 = (__pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_obx, __pyx_v_oby, __pyx_v_obz) < 1.0);
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":646
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+ *                 if _len3(obx, oby, obz) < 1.0:
+ *                     obx = 0.0; oby = 0.0; obz = 0.0             # <<<<<<<<<<<<<<
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz
+ *                 vtx2 = vbx - nnx * vn
+*/
+          __pyx_v_obx = 0.0;
+          __pyx_v_oby = 0.0;
+          __pyx_v_obz = 0.0;
+
+          /* "engine/cython/cy_response_3d.pyx":645
+ *             if inv_mass_b > 0.0:
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+ *                 if _len3(obx, oby, obz) < 1.0:             # <<<<<<<<<<<<<<
+ *                     obx = 0.0; oby = 0.0; obz = 0.0
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz
+*/
+        }
+
+        /* "engine/cython/cy_response_3d.pyx":647
+ *                 if _len3(obx, oby, obz) < 1.0:
+ *                     obx = 0.0; oby = 0.0; obz = 0.0
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz             # <<<<<<<<<<<<<<
+ *                 vtx2 = vbx - nnx * vn
+ *                 vty2 = vby - nny * vn
+*/
+        __pyx_v_vn = (((__pyx_v_vbx * __pyx_v_nnx) + (__pyx_v_vby * __pyx_v_nny)) + (__pyx_v_vbz * __pyx_v_nnz));
+
+        /* "engine/cython/cy_response_3d.pyx":648
+ *                     obx = 0.0; oby = 0.0; obz = 0.0
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz
+ *                 vtx2 = vbx - nnx * vn             # <<<<<<<<<<<<<<
+ *                 vty2 = vby - nny * vn
+ *                 vtz2 = vbz - nnz * vn
+*/
+        __pyx_v_vtx2 = (__pyx_v_vbx - (__pyx_v_nnx * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":649
+ *                 vn = vbx * nnx + vby * nny + vbz * nnz
+ *                 vtx2 = vbx - nnx * vn
+ *                 vty2 = vby - nny * vn             # <<<<<<<<<<<<<<
+ *                 vtz2 = vbz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+*/
+        __pyx_v_vty2 = (__pyx_v_vby - (__pyx_v_nny * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":650
+ *                 vtx2 = vbx - nnx * vn
+ *                 vty2 = vby - nny * vn
+ *                 vtz2 = vbz - nnz * vn             # <<<<<<<<<<<<<<
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+*/
+        __pyx_v_vtz2 = (__pyx_v_vbz - (__pyx_v_nnz * __pyx_v_vn));
+
+        /* "engine/cython/cy_response_3d.pyx":651
+ *                 vty2 = vby - nny * vn
+ *                 vtz2 = vbz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)             # <<<<<<<<<<<<<<
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+*/
+        __pyx_v_tmag = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_vtx2, __pyx_v_vty2, __pyx_v_vtz2);
+
+        /* "engine/cython/cy_response_3d.pyx":652
+ *                 vtz2 = vbz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:             # <<<<<<<<<<<<<<
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+*/
+        __pyx_t_15 = (__pyx_v_tmag < 0.08);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L33_bool_binop_done;
+        }
+        __pyx_t_15 = (fabs(__pyx_v_vn) < 0.35);
+        __pyx_t_2 = __pyx_t_15;
+        __pyx_L33_bool_binop_done:;
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":653
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0             # <<<<<<<<<<<<<<
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vbx = vtx2; vby = vty2; vbz = vtz2
+*/
+          __pyx_v_vbx = 0.0;
+          __pyx_v_vby = 0.0;
+          __pyx_v_vbz = 0.0;
+
+          /* "engine/cython/cy_response_3d.pyx":652
+ *                 vtz2 = vbz - nnz * vn
+ *                 tmag = _len3(vtx2, vty2, vtz2)
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:             # <<<<<<<<<<<<<<
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+*/
+          goto __pyx_L32;
+        }
+
+        /* "engine/cython/cy_response_3d.pyx":654
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:             # <<<<<<<<<<<<<<
+ *                     vbx = vtx2; vby = vty2; vbz = vtz2
+ * 
+*/
+        __pyx_t_15 = (fabs(__pyx_v_vn) < 0.12);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L35_bool_binop_done;
+        }
+        __pyx_t_15 = (__pyx_v_vn < 0.0);
+        if (__pyx_t_15) {
+        } else {
+          __pyx_t_2 = __pyx_t_15;
+          goto __pyx_L35_bool_binop_done;
+        }
+        __pyx_t_15 = (__pyx_v_tmag < 0.5);
+        __pyx_t_2 = __pyx_t_15;
+        __pyx_L35_bool_binop_done:;
+        if (__pyx_t_2) {
+
+          /* "engine/cython/cy_response_3d.pyx":655
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vbx = vtx2; vby = vty2; vbz = vtz2             # <<<<<<<<<<<<<<
+ * 
+ *     _clamp_omega3(&oax, &oay, &oaz, MAX_ANGULAR_SPEED)
+*/
+          __pyx_v_vbx = __pyx_v_vtx2;
+          __pyx_v_vby = __pyx_v_vty2;
+          __pyx_v_vbz = __pyx_v_vtz2;
+
+          /* "engine/cython/cy_response_3d.pyx":654
+ *                 if tmag < 0.08 and fabs(vn) < 0.35:
+ *                     vbx = 0.0; vby = 0.0; vbz = 0.0
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:             # <<<<<<<<<<<<<<
+ *                     vbx = vtx2; vby = vty2; vbz = vtz2
+ * 
+*/
+        }
+        __pyx_L32:;
+
+        /* "engine/cython/cy_response_3d.pyx":643
+ *                 elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+ *                     vax = vtx2; vay = vty2; vaz = vtz2
+ *             if inv_mass_b > 0.0:             # <<<<<<<<<<<<<<
+ *                 obx *= 0.12; oby *= 0.12; obz *= 0.12
+ *                 if _len3(obx, oby, obz) < 1.0:
+*/
+      }
+
+      /* "engine/cython/cy_response_3d.pyx":624
+ *     if multi and not any_unstable:
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b
+ *         if best_align >= FACE_ALIGN_THRESHOLD:             # <<<<<<<<<<<<<<
+ *             nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+ *             nlen = _len3(nnx, nny, nnz)
+*/
+    }
+
+    /* "engine/cython/cy_response_3d.pyx":622
+ *     # Face settle after multi-point: kill residual corner spin / slide.
+ *     cdef double nnx, nny, nnz, nlen, inv_n, vn, vtx2, vty2, vtz2, tmag
+ *     if multi and not any_unstable:             # <<<<<<<<<<<<<<
+ *         best_align = face_align_a if face_align_a > face_align_b else face_align_b
+ *         if best_align >= FACE_ALIGN_THRESHOLD:
+*/
+  }
+
+  /* "engine/cython/cy_response_3d.pyx":657
+ *                     vbx = vtx2; vby = vty2; vbz = vtz2
+ * 
+ *     _clamp_omega3(&oax, &oay, &oaz, MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
+ *     _clamp_omega3(&obx, &oby, &obz, MAX_ANGULAR_SPEED)
+ * 
+*/
+  __pyx_f_6engine_6cython_14cy_response_3d__clamp_omega3((&__pyx_v_oax), (&__pyx_v_oay), (&__pyx_v_oaz), __pyx_v_6engine_6cython_14cy_response_3d_MAX_ANGULAR_SPEED);
+
+  /* "engine/cython/cy_response_3d.pyx":658
+ * 
+ *     _clamp_omega3(&oax, &oay, &oaz, MAX_ANGULAR_SPEED)
+ *     _clamp_omega3(&obx, &oby, &obz, MAX_ANGULAR_SPEED)             # <<<<<<<<<<<<<<
+ * 
+ *     out_va = np.empty(3, dtype=np.float64)
+*/
+  __pyx_f_6engine_6cython_14cy_response_3d__clamp_omega3((&__pyx_v_obx), (&__pyx_v_oby), (&__pyx_v_obz), __pyx_v_6engine_6cython_14cy_response_3d_MAX_ANGULAR_SPEED);
+
+  /* "engine/cython/cy_response_3d.pyx":660
+ *     _clamp_omega3(&obx, &oby, &obz, MAX_ANGULAR_SPEED)
+ * 
+ *     out_va = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     out_oa = np.empty(3, dtype=np.float64)
+ *     out_vb = np.empty(3, dtype=np.float64)
+*/
+  __pyx_t_8 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 660, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+    assert(__pyx_t_8);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_7);
+    __Pyx_INCREF(__pyx_t_8);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_7, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_8, __pyx_mstate_global->__pyx_int_3};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_7, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 660, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_va, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+      }
+      __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+    }
+    __pyx_pybuffernd_out_va.diminfo[0].strides = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_va.diminfo[0].shape = __pyx_pybuffernd_out_va.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 660, __pyx_L1_error)
+  }
+  __pyx_v_out_va = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":661
+ * 
+ *     out_va = np.empty(3, dtype=np.float64)
+ *     out_oa = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     out_vb = np.empty(3, dtype=np.float64)
+ *     out_ob = np.empty(3, dtype=np.float64)
+*/
+  __pyx_t_7 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 661, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 661, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 661, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 661, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+    assert(__pyx_t_7);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_6);
+    __Pyx_INCREF(__pyx_t_7);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_6, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_7, __pyx_mstate_global->__pyx_int_3};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 661, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_oa, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+      }
+      __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+    }
+    __pyx_pybuffernd_out_oa.diminfo[0].strides = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_oa.diminfo[0].shape = __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 661, __pyx_L1_error)
+  }
+  __pyx_v_out_oa = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":662
+ *     out_va = np.empty(3, dtype=np.float64)
+ *     out_oa = np.empty(3, dtype=np.float64)
+ *     out_vb = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     out_ob = np.empty(3, dtype=np.float64)
+ *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
+*/
+  __pyx_t_6 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
+    assert(__pyx_t_6);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_8);
+    __Pyx_INCREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_8, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_6, __pyx_mstate_global->__pyx_int_3};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 662, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_7, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 662, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_8, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 662, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 662, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_11, &__pyx_t_12, &__pyx_t_13);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_vb, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_11); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_13);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_11, __pyx_t_12, __pyx_t_13);
+      }
+      __pyx_t_11 = __pyx_t_12 = __pyx_t_13 = 0;
+    }
+    __pyx_pybuffernd_out_vb.diminfo[0].strides = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_vb.diminfo[0].shape = __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 662, __pyx_L1_error)
+  }
+  __pyx_v_out_vb = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":663
+ *     out_oa = np.empty(3, dtype=np.float64)
+ *     out_vb = np.empty(3, dtype=np.float64)
+ *     out_ob = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
+ *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
+ *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
+*/
+  __pyx_t_8 = NULL;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 663, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 663, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 663, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 663, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_9 = 1;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+    assert(__pyx_t_8);
+    PyObject* __pyx__function = PyMethod_GET_FUNCTION(__pyx_t_7);
+    __Pyx_INCREF(__pyx_t_8);
+    __Pyx_INCREF(__pyx__function);
+    __Pyx_DECREF_SET(__pyx_t_7, __pyx__function);
+    __pyx_t_9 = 0;
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_8, __pyx_mstate_global->__pyx_int_3};
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 663, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 663, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_7, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 663, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+  }
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 663, __pyx_L1_error)
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer);
+    __pyx_t_10 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_3), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_10 < 0)) {
+      PyErr_Fetch(&__pyx_t_13, &__pyx_t_12, &__pyx_t_11);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer, (PyObject*)__pyx_v_out_ob, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_13); Py_XDECREF(__pyx_t_12); Py_XDECREF(__pyx_t_11);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_13, __pyx_t_12, __pyx_t_11);
+      }
+      __pyx_t_13 = __pyx_t_12 = __pyx_t_11 = 0;
+    }
+    __pyx_pybuffernd_out_ob.diminfo[0].strides = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_ob.diminfo[0].shape = __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.shape[0];
+    if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 663, __pyx_L1_error)
+  }
+  __pyx_v_out_ob = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":664
+ *     out_vb = np.empty(3, dtype=np.float64)
+ *     out_ob = np.empty(3, dtype=np.float64)
+ *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz             # <<<<<<<<<<<<<<
+ *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
+ *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
+*/
+  __pyx_t_35 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_va.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_va.diminfo[0].strides) = __pyx_v_vax;
+  __pyx_t_35 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_va.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_va.diminfo[0].strides) = __pyx_v_vay;
+  __pyx_t_35 = 2;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_va.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_va.diminfo[0].strides) = __pyx_v_vaz;
+
+  /* "engine/cython/cy_response_3d.pyx":665
+ *     out_ob = np.empty(3, dtype=np.float64)
+ *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
+ *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz             # <<<<<<<<<<<<<<
+ *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
+ *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
+*/
+  __pyx_t_35 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_oa.diminfo[0].strides) = __pyx_v_oax;
+  __pyx_t_35 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_oa.diminfo[0].strides) = __pyx_v_oay;
+  __pyx_t_35 = 2;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_oa.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_oa.diminfo[0].strides) = __pyx_v_oaz;
+
+  /* "engine/cython/cy_response_3d.pyx":666
+ *     out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
+ *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
+ *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz             # <<<<<<<<<<<<<<
+ *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
+ *     return out_va, out_oa, out_vb, out_ob, bool(any_unstable)
+*/
+  __pyx_t_35 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_vb.diminfo[0].strides) = __pyx_v_vbx;
+  __pyx_t_35 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_vb.diminfo[0].strides) = __pyx_v_vby;
+  __pyx_t_35 = 2;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_vb.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_vb.diminfo[0].strides) = __pyx_v_vbz;
+
+  /* "engine/cython/cy_response_3d.pyx":667
+ *     out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
+ *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
+ *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz             # <<<<<<<<<<<<<<
+ *     return out_va, out_oa, out_vb, out_ob, bool(any_unstable)
+ * 
+*/
+  __pyx_t_35 = 0;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_ob.diminfo[0].strides) = __pyx_v_obx;
+  __pyx_t_35 = 1;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_ob.diminfo[0].strides) = __pyx_v_oby;
+  __pyx_t_35 = 2;
+  *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out_ob.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_out_ob.diminfo[0].strides) = __pyx_v_obz;
+
+  /* "engine/cython/cy_response_3d.pyx":668
+ *     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
+ *     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
+ *     return out_va, out_oa, out_vb, out_ob, bool(any_unstable)             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __pyx_v_any_unstable;
+  __pyx_t_3 = __Pyx_PyBool_FromLong((!(!__pyx_t_2))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_7 = PyTuple_New(5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 668, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_INCREF((PyObject *)__pyx_v_out_va);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_out_va);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)__pyx_v_out_va)) != (0)) __PYX_ERR(0, 668, __pyx_L1_error);
+  __Pyx_INCREF((PyObject *)__pyx_v_out_oa);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_out_oa);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, ((PyObject *)__pyx_v_out_oa)) != (0)) __PYX_ERR(0, 668, __pyx_L1_error);
+  __Pyx_INCREF((PyObject *)__pyx_v_out_vb);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_out_vb);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 2, ((PyObject *)__pyx_v_out_vb)) != (0)) __PYX_ERR(0, 668, __pyx_L1_error);
+  __Pyx_INCREF((PyObject *)__pyx_v_out_ob);
+  __Pyx_GIVEREF((PyObject *)__pyx_v_out_ob);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 3, ((PyObject *)__pyx_v_out_ob)) != (0)) __PYX_ERR(0, 668, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_3);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 4, __pyx_t_3) != (0)) __PYX_ERR(0, 668, __pyx_L1_error);
+  __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_7;
+  __pyx_t_7 = 0;
+  goto __pyx_L0;
+
+  /* "engine/cython/cy_response_3d.pyx":542
+ * 
+ * 
+ * def resolve_contacts_3d_multi_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double[::1] omega_a,
+ *     double inv_mass_a, object i_inv_a,
+*/
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_14, 1);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("engine.cython.cy_response_3d.resolve_contacts_3d_multi_fast", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ia_arr.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_ib_arr.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_oa.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_ob.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_va.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_vb.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_ia, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_ib, 1);
+  __Pyx_XDECREF((PyObject *)__pyx_v_ia_arr);
+  __Pyx_XDECREF((PyObject *)__pyx_v_ib_arr);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out_va);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out_oa);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out_vb);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out_ob);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "engine/cython/cy_response_3d.pyx":671
  * 
  * 
  * def face_align_from_matrix_fast(double[:, ::1] R, double[::1] n):             # <<<<<<<<<<<<<<
@@ -24060,16 +26506,16 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_resolve_contact_3d_fa
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_3face_align_from_matrix_fast(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_5face_align_from_matrix_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_2face_align_from_matrix_fast, "Max |dot| of body axes (rows and columns) with contact normal.");
-static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_3face_align_from_matrix_fast = {"face_align_from_matrix_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_3face_align_from_matrix_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_2face_align_from_matrix_fast};
-static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_3face_align_from_matrix_fast(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_4face_align_from_matrix_fast, "Max |dot| of body axes (rows and columns) with contact normal.");
+static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_5face_align_from_matrix_fast = {"face_align_from_matrix_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_5face_align_from_matrix_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_4face_align_from_matrix_fast};
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_5face_align_from_matrix_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -24100,39 +26546,39 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_R,&__pyx_mstate_global->__pyx_n_u_n,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 525, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 671, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 525, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 671, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 525, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 671, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "face_align_from_matrix_fast", 0) < (0)) __PYX_ERR(0, 525, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "face_align_from_matrix_fast", 0) < (0)) __PYX_ERR(0, 671, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 2; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("face_align_from_matrix_fast", 1, 2, 2, i); __PYX_ERR(0, 525, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("face_align_from_matrix_fast", 1, 2, 2, i); __PYX_ERR(0, 671, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 525, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 671, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 525, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 671, __pyx_L3_error)
     }
-    __pyx_v_R = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_R.memview)) __PYX_ERR(0, 525, __pyx_L3_error)
-    __pyx_v_n = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_n.memview)) __PYX_ERR(0, 525, __pyx_L3_error)
+    __pyx_v_R = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_R.memview)) __PYX_ERR(0, 671, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_n.memview)) __PYX_ERR(0, 671, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("face_align_from_matrix_fast", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 525, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("face_align_from_matrix_fast", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 671, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -24145,7 +26591,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matrix_fast(__pyx_self, __pyx_v_R, __pyx_v_n);
+  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_4face_align_from_matrix_fast(__pyx_self, __pyx_v_R, __pyx_v_n);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -24157,7 +26603,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matrix_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_R, __Pyx_memviewslice __pyx_v_n) {
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4face_align_from_matrix_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_R, __Pyx_memviewslice __pyx_v_n) {
   double __pyx_v_nx;
   double __pyx_v_ny;
   double __pyx_v_nz;
@@ -24181,7 +26627,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("face_align_from_matrix_fast", 0);
 
-  /* "engine/cython/cy_response_3d.pyx":527
+  /* "engine/cython/cy_response_3d.pyx":673
  * def face_align_from_matrix_fast(double[:, ::1] R, double[::1] n):
  *     """Max |dot| of body axes (rows and columns) with contact normal."""
  *     cdef double nx = n[0], ny = n[1], nz = n[2]             # <<<<<<<<<<<<<<
@@ -24195,7 +26641,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   __pyx_t_1 = 2;
   __pyx_v_nz = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_n.data) + __pyx_t_1)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":528
+  /* "engine/cython/cy_response_3d.pyx":674
  *     """Max |dot| of body axes (rows and columns) with contact normal."""
  *     cdef double nx = n[0], ny = n[1], nz = n[2]
  *     cdef double nlen = _len3(nx, ny, nz)             # <<<<<<<<<<<<<<
@@ -24204,7 +26650,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
   __pyx_v_nlen = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_nx, __pyx_v_ny, __pyx_v_nz);
 
-  /* "engine/cython/cy_response_3d.pyx":529
+  /* "engine/cython/cy_response_3d.pyx":675
  *     cdef double nx = n[0], ny = n[1], nz = n[2]
  *     cdef double nlen = _len3(nx, ny, nz)
  *     cdef double best = 0.0, d             # <<<<<<<<<<<<<<
@@ -24213,7 +26659,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
   __pyx_v_best = 0.0;
 
-  /* "engine/cython/cy_response_3d.pyx":531
+  /* "engine/cython/cy_response_3d.pyx":677
  *     cdef double best = 0.0, d
  *     cdef int i
  *     if nlen < 1e-12:             # <<<<<<<<<<<<<<
@@ -24223,7 +26669,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   __pyx_t_2 = (__pyx_v_nlen < 1e-12);
   if (__pyx_t_2) {
 
-    /* "engine/cython/cy_response_3d.pyx":532
+    /* "engine/cython/cy_response_3d.pyx":678
  *     cdef int i
  *     if nlen < 1e-12:
  *         return 0.0             # <<<<<<<<<<<<<<
@@ -24235,7 +26681,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     __pyx_r = __pyx_mstate_global->__pyx_float_0_0;
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":531
+    /* "engine/cython/cy_response_3d.pyx":677
  *     cdef double best = 0.0, d
  *     cdef int i
  *     if nlen < 1e-12:             # <<<<<<<<<<<<<<
@@ -24244,7 +26690,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":533
+  /* "engine/cython/cy_response_3d.pyx":679
  *     if nlen < 1e-12:
  *         return 0.0
  *     nx /= nlen; ny /= nlen; nz /= nlen             # <<<<<<<<<<<<<<
@@ -24255,7 +26701,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   __pyx_v_ny = (__pyx_v_ny / __pyx_v_nlen);
   __pyx_v_nz = (__pyx_v_nz / __pyx_v_nlen);
 
-  /* "engine/cython/cy_response_3d.pyx":534
+  /* "engine/cython/cy_response_3d.pyx":680
  *         return 0.0
  *     nx /= nlen; ny /= nlen; nz /= nlen
  *     for i in range(3):             # <<<<<<<<<<<<<<
@@ -24265,7 +26711,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   for (__pyx_t_3 = 0; __pyx_t_3 < 3; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "engine/cython/cy_response_3d.pyx":535
+    /* "engine/cython/cy_response_3d.pyx":681
  *     nx /= nlen; ny /= nlen; nz /= nlen
  *     for i in range(3):
  *         d = fabs(R[0, i] * nx + R[1, i] * ny + R[2, i] * nz)             # <<<<<<<<<<<<<<
@@ -24280,7 +26726,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     __pyx_t_8 = __pyx_v_i;
     __pyx_v_d = fabs(((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_1 * __pyx_v_R.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_nx) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_5 * __pyx_v_R.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_ny)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_7 * __pyx_v_R.strides[0]) )) + __pyx_t_8)) ))) * __pyx_v_nz)));
 
-    /* "engine/cython/cy_response_3d.pyx":536
+    /* "engine/cython/cy_response_3d.pyx":682
  *     for i in range(3):
  *         d = fabs(R[0, i] * nx + R[1, i] * ny + R[2, i] * nz)
  *         if d > best:             # <<<<<<<<<<<<<<
@@ -24290,7 +26736,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     __pyx_t_2 = (__pyx_v_d > __pyx_v_best);
     if (__pyx_t_2) {
 
-      /* "engine/cython/cy_response_3d.pyx":537
+      /* "engine/cython/cy_response_3d.pyx":683
  *         d = fabs(R[0, i] * nx + R[1, i] * ny + R[2, i] * nz)
  *         if d > best:
  *             best = d             # <<<<<<<<<<<<<<
@@ -24299,7 +26745,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
       __pyx_v_best = __pyx_v_d;
 
-      /* "engine/cython/cy_response_3d.pyx":536
+      /* "engine/cython/cy_response_3d.pyx":682
  *     for i in range(3):
  *         d = fabs(R[0, i] * nx + R[1, i] * ny + R[2, i] * nz)
  *         if d > best:             # <<<<<<<<<<<<<<
@@ -24308,7 +26754,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":538
+    /* "engine/cython/cy_response_3d.pyx":684
  *         if d > best:
  *             best = d
  *         d = fabs(R[i, 0] * nx + R[i, 1] * ny + R[i, 2] * nz)             # <<<<<<<<<<<<<<
@@ -24323,7 +26769,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     __pyx_t_1 = 2;
     __pyx_v_d = fabs(((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_8 * __pyx_v_R.strides[0]) )) + __pyx_t_7)) ))) * __pyx_v_nx) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_6 * __pyx_v_R.strides[0]) )) + __pyx_t_5)) ))) * __pyx_v_ny)) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_R.data + __pyx_t_4 * __pyx_v_R.strides[0]) )) + __pyx_t_1)) ))) * __pyx_v_nz)));
 
-    /* "engine/cython/cy_response_3d.pyx":539
+    /* "engine/cython/cy_response_3d.pyx":685
  *             best = d
  *         d = fabs(R[i, 0] * nx + R[i, 1] * ny + R[i, 2] * nz)
  *         if d > best:             # <<<<<<<<<<<<<<
@@ -24333,7 +26779,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     __pyx_t_2 = (__pyx_v_d > __pyx_v_best);
     if (__pyx_t_2) {
 
-      /* "engine/cython/cy_response_3d.pyx":540
+      /* "engine/cython/cy_response_3d.pyx":686
  *         d = fabs(R[i, 0] * nx + R[i, 1] * ny + R[i, 2] * nz)
  *         if d > best:
  *             best = d             # <<<<<<<<<<<<<<
@@ -24342,7 +26788,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
       __pyx_v_best = __pyx_v_d;
 
-      /* "engine/cython/cy_response_3d.pyx":539
+      /* "engine/cython/cy_response_3d.pyx":685
  *             best = d
  *         d = fabs(R[i, 0] * nx + R[i, 1] * ny + R[i, 2] * nz)
  *         if d > best:             # <<<<<<<<<<<<<<
@@ -24352,7 +26798,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
     }
   }
 
-  /* "engine/cython/cy_response_3d.pyx":541
+  /* "engine/cython/cy_response_3d.pyx":687
  *         if d > best:
  *             best = d
  *     return best             # <<<<<<<<<<<<<<
@@ -24360,13 +26806,13 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
  * 
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_best); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 541, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_best); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 687, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_r = __pyx_t_9;
   __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "engine/cython/cy_response_3d.pyx":525
+  /* "engine/cython/cy_response_3d.pyx":671
  * 
  * 
  * def face_align_from_matrix_fast(double[:, ::1] R, double[::1] n):             # <<<<<<<<<<<<<<
@@ -24385,7 +26831,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
   return __pyx_r;
 }
 
-/* "engine/cython/cy_response_3d.pyx":544
+/* "engine/cython/cy_response_3d.pyx":690
  * 
  * 
  * def obb_support_feature_centroid_fast(             # <<<<<<<<<<<<<<
@@ -24394,16 +26840,16 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_2face_align_from_matr
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_5obb_support_feature_centroid_fast(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_7obb_support_feature_centroid_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_4obb_support_feature_centroid_fast, "Centroid of OBB support feature in direction d. Returns float64[3].");
-static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_5obb_support_feature_centroid_fast = {"obb_support_feature_centroid_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_5obb_support_feature_centroid_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_4obb_support_feature_centroid_fast};
-static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_5obb_support_feature_centroid_fast(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_6engine_6cython_14cy_response_3d_6obb_support_feature_centroid_fast, "Centroid of OBB support feature in direction d. Returns float64[3].");
+static PyMethodDef __pyx_mdef_6engine_6cython_14cy_response_3d_7obb_support_feature_centroid_fast = {"obb_support_feature_centroid_fast", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6engine_6cython_14cy_response_3d_7obb_support_feature_centroid_fast, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6engine_6cython_14cy_response_3d_6obb_support_feature_centroid_fast};
+static PyObject *__pyx_pw_6engine_6cython_14cy_response_3d_7obb_support_feature_centroid_fast(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -24439,83 +26885,83 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_C,&__pyx_mstate_global->__pyx_n_u_A,&__pyx_mstate_global->__pyx_n_u_E,&__pyx_mstate_global->__pyx_n_u_dx,&__pyx_mstate_global->__pyx_n_u_dy,&__pyx_mstate_global->__pyx_n_u_dz,&__pyx_mstate_global->__pyx_n_u_tol,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 544, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len < 0)) __PYX_ERR(0, 690, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  7:
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "obb_support_feature_centroid_fast", 0) < (0)) __PYX_ERR(0, 544, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "obb_support_feature_centroid_fast", 0) < (0)) __PYX_ERR(0, 690, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 6; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("obb_support_feature_centroid_fast", 0, 6, 7, i); __PYX_ERR(0, 544, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("obb_support_feature_centroid_fast", 0, 6, 7, i); __PYX_ERR(0, 690, __pyx_L3_error) }
       }
     } else {
       switch (__pyx_nargs) {
         case  7:
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 690, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 690, __pyx_L3_error)
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 690, __pyx_L3_error)
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 690, __pyx_L3_error)
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 690, __pyx_L3_error)
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 690, __pyx_L3_error)
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 544, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 690, __pyx_L3_error)
         break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_C = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_C.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
-    __pyx_v_A = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_A.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
-    __pyx_v_E = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_E.memview)) __PYX_ERR(0, 545, __pyx_L3_error)
-    __pyx_v_dx = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_dx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L3_error)
-    __pyx_v_dy = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_dy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L3_error)
-    __pyx_v_dz = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_dz == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L3_error)
+    __pyx_v_C = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_C.memview)) __PYX_ERR(0, 691, __pyx_L3_error)
+    __pyx_v_A = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_A.memview)) __PYX_ERR(0, 691, __pyx_L3_error)
+    __pyx_v_E = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_E.memview)) __PYX_ERR(0, 691, __pyx_L3_error)
+    __pyx_v_dx = __Pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_dx == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 692, __pyx_L3_error)
+    __pyx_v_dy = __Pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_dy == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 692, __pyx_L3_error)
+    __pyx_v_dz = __Pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_dz == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 692, __pyx_L3_error)
     if (values[6]) {
-      __pyx_v_tol = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 547, __pyx_L3_error)
+      __pyx_v_tol = __Pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 693, __pyx_L3_error)
     } else {
       __pyx_v_tol = ((double)((double)-1.0));
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("obb_support_feature_centroid_fast", 0, 6, 7, __pyx_nargs); __PYX_ERR(0, 544, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("obb_support_feature_centroid_fast", 0, 6, 7, __pyx_nargs); __PYX_ERR(0, 690, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -24529,7 +26975,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_centroid_fast(__pyx_self, __pyx_v_C, __pyx_v_A, __pyx_v_E, __pyx_v_dx, __pyx_v_dy, __pyx_v_dz, __pyx_v_tol);
+  __pyx_r = __pyx_pf_6engine_6cython_14cy_response_3d_6obb_support_feature_centroid_fast(__pyx_self, __pyx_v_C, __pyx_v_A, __pyx_v_E, __pyx_v_dx, __pyx_v_dy, __pyx_v_dz, __pyx_v_tol);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -24542,7 +26988,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_centroid_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_C, __Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_E, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_dz, double __pyx_v_tol) {
+static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_6obb_support_feature_centroid_fast(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_C, __Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_E, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_dz, double __pyx_v_tol) {
   double __pyx_v_dlen;
   double __pyx_v_best;
   double __pyx_v_sx;
@@ -24599,7 +27045,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_pybuffernd_out.data = NULL;
   __pyx_pybuffernd_out.rcbuffer = &__pyx_pybuffer_out;
 
-  /* "engine/cython/cy_response_3d.pyx":550
+  /* "engine/cython/cy_response_3d.pyx":696
  * ):
  *     """Centroid of OBB support feature in direction d. Returns float64[3]."""
  *     cdef double dlen = _len3(dx, dy, dz)             # <<<<<<<<<<<<<<
@@ -24608,7 +27054,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   __pyx_v_dlen = __pyx_f_6engine_6cython_14cy_response_3d__len3(__pyx_v_dx, __pyx_v_dy, __pyx_v_dz);
 
-  /* "engine/cython/cy_response_3d.pyx":551
+  /* "engine/cython/cy_response_3d.pyx":697
  *     """Centroid of OBB support feature in direction d. Returns float64[3]."""
  *     cdef double dlen = _len3(dx, dy, dz)
  *     cdef double best = -1e300             # <<<<<<<<<<<<<<
@@ -24617,7 +27063,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   __pyx_v_best = -1e300;
 
-  /* "engine/cython/cy_response_3d.pyx":553
+  /* "engine/cython/cy_response_3d.pyx":699
  *     cdef double best = -1e300
  *     cdef double sx, sy, sz, vx, vy, vz, s
  *     cdef double sumx = 0.0, sumy = 0.0, sumz = 0.0             # <<<<<<<<<<<<<<
@@ -24628,7 +27074,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_v_sumy = 0.0;
   __pyx_v_sumz = 0.0;
 
-  /* "engine/cython/cy_response_3d.pyx":554
+  /* "engine/cython/cy_response_3d.pyx":700
  *     cdef double sx, sy, sz, vx, vy, vz, s
  *     cdef double sumx = 0.0, sumy = 0.0, sumz = 0.0
  *     cdef int count = 0             # <<<<<<<<<<<<<<
@@ -24637,7 +27083,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   __pyx_v_count = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":559
+  /* "engine/cython/cy_response_3d.pyx":705
  *     cdef int ix, iy, iz
  * 
  *     out = np.empty(3, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -24645,14 +27091,14 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]
 */
   __pyx_t_2 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = 1;
@@ -24669,18 +27115,18 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_2, __pyx_mstate_global->__pyx_int_3};
-    __pyx_t_3 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 559, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_3, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 559, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_3, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 705, __pyx_L1_error)
     __pyx_t_1 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_4, __pyx_callargs+__pyx_t_6, (2-__pyx_t_6) | (__pyx_t_6*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_3);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 559, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 705, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   }
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 559, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 705, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out.rcbuffer->pybuffer);
@@ -24696,12 +27142,12 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
       __pyx_t_8 = __pyx_t_9 = __pyx_t_10 = 0;
     }
     __pyx_pybuffernd_out.diminfo[0].strides = __pyx_pybuffernd_out.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out.diminfo[0].shape = __pyx_pybuffernd_out.rcbuffer->pybuffer.shape[0];
-    if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 559, __pyx_L1_error)
+    if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 705, __pyx_L1_error)
   }
   __pyx_v_out = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":560
+  /* "engine/cython/cy_response_3d.pyx":706
  * 
  *     out = np.empty(3, dtype=np.float64)
  *     if dlen < 1e-12:             # <<<<<<<<<<<<<<
@@ -24711,7 +27157,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_11 = (__pyx_v_dlen < 1e-12);
   if (__pyx_t_11) {
 
-    /* "engine/cython/cy_response_3d.pyx":561
+    /* "engine/cython/cy_response_3d.pyx":707
  *     out = np.empty(3, dtype=np.float64)
  *     if dlen < 1e-12:
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]             # <<<<<<<<<<<<<<
@@ -24728,7 +27174,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_13 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_out.diminfo[0].strides) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_C.data) + __pyx_t_12)) )));
 
-    /* "engine/cython/cy_response_3d.pyx":562
+    /* "engine/cython/cy_response_3d.pyx":708
  *     if dlen < 1e-12:
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]
  *         return out             # <<<<<<<<<<<<<<
@@ -24740,7 +27186,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_r = ((PyObject *)__pyx_v_out);
     goto __pyx_L0;
 
-    /* "engine/cython/cy_response_3d.pyx":560
+    /* "engine/cython/cy_response_3d.pyx":706
  * 
  *     out = np.empty(3, dtype=np.float64)
  *     if dlen < 1e-12:             # <<<<<<<<<<<<<<
@@ -24749,7 +27195,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":563
+  /* "engine/cython/cy_response_3d.pyx":709
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]
  *         return out
  *     dx /= dlen; dy /= dlen; dz /= dlen             # <<<<<<<<<<<<<<
@@ -24760,7 +27206,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_v_dy = (__pyx_v_dy / __pyx_v_dlen);
   __pyx_v_dz = (__pyx_v_dz / __pyx_v_dlen);
 
-  /* "engine/cython/cy_response_3d.pyx":565
+  /* "engine/cython/cy_response_3d.pyx":711
  *     dx /= dlen; dy /= dlen; dz /= dlen
  * 
  *     emax = E[0]             # <<<<<<<<<<<<<<
@@ -24770,7 +27216,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_12 = 0;
   __pyx_v_emax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) )));
 
-  /* "engine/cython/cy_response_3d.pyx":566
+  /* "engine/cython/cy_response_3d.pyx":712
  * 
  *     emax = E[0]
  *     if E[1] > emax:             # <<<<<<<<<<<<<<
@@ -24781,7 +27227,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_11 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) ))) > __pyx_v_emax);
   if (__pyx_t_11) {
 
-    /* "engine/cython/cy_response_3d.pyx":567
+    /* "engine/cython/cy_response_3d.pyx":713
  *     emax = E[0]
  *     if E[1] > emax:
  *         emax = E[1]             # <<<<<<<<<<<<<<
@@ -24791,7 +27237,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_12 = 1;
     __pyx_v_emax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) )));
 
-    /* "engine/cython/cy_response_3d.pyx":566
+    /* "engine/cython/cy_response_3d.pyx":712
  * 
  *     emax = E[0]
  *     if E[1] > emax:             # <<<<<<<<<<<<<<
@@ -24800,7 +27246,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":568
+  /* "engine/cython/cy_response_3d.pyx":714
  *     if E[1] > emax:
  *         emax = E[1]
  *     if E[2] > emax:             # <<<<<<<<<<<<<<
@@ -24811,7 +27257,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_11 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) ))) > __pyx_v_emax);
   if (__pyx_t_11) {
 
-    /* "engine/cython/cy_response_3d.pyx":569
+    /* "engine/cython/cy_response_3d.pyx":715
  *         emax = E[1]
  *     if E[2] > emax:
  *         emax = E[2]             # <<<<<<<<<<<<<<
@@ -24821,7 +27267,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_12 = 2;
     __pyx_v_emax = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) )));
 
-    /* "engine/cython/cy_response_3d.pyx":568
+    /* "engine/cython/cy_response_3d.pyx":714
  *     if E[1] > emax:
  *         emax = E[1]
  *     if E[2] > emax:             # <<<<<<<<<<<<<<
@@ -24830,7 +27276,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
   }
 
-  /* "engine/cython/cy_response_3d.pyx":570
+  /* "engine/cython/cy_response_3d.pyx":716
  *     if E[2] > emax:
  *         emax = E[2]
  *     if tol < 0.0:             # <<<<<<<<<<<<<<
@@ -24840,7 +27286,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_11 = (__pyx_v_tol < 0.0);
   if (__pyx_t_11) {
 
-    /* "engine/cython/cy_response_3d.pyx":571
+    /* "engine/cython/cy_response_3d.pyx":717
  *         emax = E[2]
  *     if tol < 0.0:
  *         t = 0.02 * emax             # <<<<<<<<<<<<<<
@@ -24849,7 +27295,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
     __pyx_v_t = (0.02 * __pyx_v_emax);
 
-    /* "engine/cython/cy_response_3d.pyx":572
+    /* "engine/cython/cy_response_3d.pyx":718
  *     if tol < 0.0:
  *         t = 0.02 * emax
  *         if t < 1e-4:             # <<<<<<<<<<<<<<
@@ -24859,7 +27305,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_11 = (__pyx_v_t < 1e-4);
     if (__pyx_t_11) {
 
-      /* "engine/cython/cy_response_3d.pyx":573
+      /* "engine/cython/cy_response_3d.pyx":719
  *         t = 0.02 * emax
  *         if t < 1e-4:
  *             t = 1e-4             # <<<<<<<<<<<<<<
@@ -24868,7 +27314,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
       __pyx_v_t = 1e-4;
 
-      /* "engine/cython/cy_response_3d.pyx":572
+      /* "engine/cython/cy_response_3d.pyx":718
  *     if tol < 0.0:
  *         t = 0.02 * emax
  *         if t < 1e-4:             # <<<<<<<<<<<<<<
@@ -24877,7 +27323,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
     }
 
-    /* "engine/cython/cy_response_3d.pyx":570
+    /* "engine/cython/cy_response_3d.pyx":716
  *     if E[2] > emax:
  *         emax = E[2]
  *     if tol < 0.0:             # <<<<<<<<<<<<<<
@@ -24887,7 +27333,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     goto __pyx_L6;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":575
+  /* "engine/cython/cy_response_3d.pyx":721
  *             t = 1e-4
  *     else:
  *         t = tol             # <<<<<<<<<<<<<<
@@ -24899,7 +27345,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   }
   __pyx_L6:;
 
-  /* "engine/cython/cy_response_3d.pyx":577
+  /* "engine/cython/cy_response_3d.pyx":723
  *         t = tol
  * 
  *     for ix in range(2):             # <<<<<<<<<<<<<<
@@ -24909,7 +27355,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   for (__pyx_t_7 = 0; __pyx_t_7 < 2; __pyx_t_7+=1) {
     __pyx_v_ix = __pyx_t_7;
 
-    /* "engine/cython/cy_response_3d.pyx":578
+    /* "engine/cython/cy_response_3d.pyx":724
  * 
  *     for ix in range(2):
  *         sx = -1.0 if ix == 0 else 1.0             # <<<<<<<<<<<<<<
@@ -24924,7 +27370,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     }
     __pyx_v_sx = __pyx_t_14;
 
-    /* "engine/cython/cy_response_3d.pyx":579
+    /* "engine/cython/cy_response_3d.pyx":725
  *     for ix in range(2):
  *         sx = -1.0 if ix == 0 else 1.0
  *         for iy in range(2):             # <<<<<<<<<<<<<<
@@ -24934,7 +27380,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     for (__pyx_t_15 = 0; __pyx_t_15 < 2; __pyx_t_15+=1) {
       __pyx_v_iy = __pyx_t_15;
 
-      /* "engine/cython/cy_response_3d.pyx":580
+      /* "engine/cython/cy_response_3d.pyx":726
  *         sx = -1.0 if ix == 0 else 1.0
  *         for iy in range(2):
  *             sy = -1.0 if iy == 0 else 1.0             # <<<<<<<<<<<<<<
@@ -24949,7 +27395,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
       }
       __pyx_v_sy = __pyx_t_14;
 
-      /* "engine/cython/cy_response_3d.pyx":581
+      /* "engine/cython/cy_response_3d.pyx":727
  *         for iy in range(2):
  *             sy = -1.0 if iy == 0 else 1.0
  *             for iz in range(2):             # <<<<<<<<<<<<<<
@@ -24959,7 +27405,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
       for (__pyx_t_16 = 0; __pyx_t_16 < 2; __pyx_t_16+=1) {
         __pyx_v_iz = __pyx_t_16;
 
-        /* "engine/cython/cy_response_3d.pyx":582
+        /* "engine/cython/cy_response_3d.pyx":728
  *             sy = -1.0 if iy == 0 else 1.0
  *             for iz in range(2):
  *                 sz = -1.0 if iz == 0 else 1.0             # <<<<<<<<<<<<<<
@@ -24974,7 +27420,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         }
         __pyx_v_sz = __pyx_t_14;
 
-        /* "engine/cython/cy_response_3d.pyx":584
+        /* "engine/cython/cy_response_3d.pyx":730
  *                 sz = -1.0 if iz == 0 else 1.0
  *                 # v = C + A @ (s * E)
  *                 vx = C[0] + A[0, 0] * (sx * E[0]) + A[0, 1] * (sy * E[1]) + A[0, 2] * (sz * E[2])             # <<<<<<<<<<<<<<
@@ -24993,7 +27439,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         __pyx_t_24 = 2;
         __pyx_v_vx = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_C.data) + __pyx_t_12)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_13 * __pyx_v_A.strides[0]) )) + __pyx_t_17)) ))) * (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_18)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_19 * __pyx_v_A.strides[0]) )) + __pyx_t_20)) ))) * (__pyx_v_sy * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_21)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_22 * __pyx_v_A.strides[0]) )) + __pyx_t_23)) ))) * (__pyx_v_sz * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_24)) ))))));
 
-        /* "engine/cython/cy_response_3d.pyx":585
+        /* "engine/cython/cy_response_3d.pyx":731
  *                 # v = C + A @ (s * E)
  *                 vx = C[0] + A[0, 0] * (sx * E[0]) + A[0, 1] * (sy * E[1]) + A[0, 2] * (sz * E[2])
  *                 vy = C[1] + A[1, 0] * (sx * E[0]) + A[1, 1] * (sy * E[1]) + A[1, 2] * (sz * E[2])             # <<<<<<<<<<<<<<
@@ -25012,7 +27458,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         __pyx_t_12 = 2;
         __pyx_v_vy = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_C.data) + __pyx_t_24)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_23 * __pyx_v_A.strides[0]) )) + __pyx_t_22)) ))) * (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_21)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_20 * __pyx_v_A.strides[0]) )) + __pyx_t_19)) ))) * (__pyx_v_sy * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_18)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_17 * __pyx_v_A.strides[0]) )) + __pyx_t_13)) ))) * (__pyx_v_sz * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_12)) ))))));
 
-        /* "engine/cython/cy_response_3d.pyx":586
+        /* "engine/cython/cy_response_3d.pyx":732
  *                 vx = C[0] + A[0, 0] * (sx * E[0]) + A[0, 1] * (sy * E[1]) + A[0, 2] * (sz * E[2])
  *                 vy = C[1] + A[1, 0] * (sx * E[0]) + A[1, 1] * (sy * E[1]) + A[1, 2] * (sz * E[2])
  *                 vz = C[2] + A[2, 0] * (sx * E[0]) + A[2, 1] * (sy * E[1]) + A[2, 2] * (sz * E[2])             # <<<<<<<<<<<<<<
@@ -25031,7 +27477,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         __pyx_t_24 = 2;
         __pyx_v_vz = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_C.data) + __pyx_t_12)) ))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_13 * __pyx_v_A.strides[0]) )) + __pyx_t_17)) ))) * (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_18)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_19 * __pyx_v_A.strides[0]) )) + __pyx_t_20)) ))) * (__pyx_v_sy * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_21)) )))))) + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_22 * __pyx_v_A.strides[0]) )) + __pyx_t_23)) ))) * (__pyx_v_sz * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_E.data) + __pyx_t_24)) ))))));
 
-        /* "engine/cython/cy_response_3d.pyx":587
+        /* "engine/cython/cy_response_3d.pyx":733
  *                 vy = C[1] + A[1, 0] * (sx * E[0]) + A[1, 1] * (sy * E[1]) + A[1, 2] * (sz * E[2])
  *                 vz = C[2] + A[2, 0] * (sx * E[0]) + A[2, 1] * (sy * E[1]) + A[2, 2] * (sz * E[2])
  *                 s = vx * dx + vy * dy + vz * dz             # <<<<<<<<<<<<<<
@@ -25040,7 +27486,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
         __pyx_v_s = (((__pyx_v_vx * __pyx_v_dx) + (__pyx_v_vy * __pyx_v_dy)) + (__pyx_v_vz * __pyx_v_dz));
 
-        /* "engine/cython/cy_response_3d.pyx":588
+        /* "engine/cython/cy_response_3d.pyx":734
  *                 vz = C[2] + A[2, 0] * (sx * E[0]) + A[2, 1] * (sy * E[1]) + A[2, 2] * (sz * E[2])
  *                 s = vx * dx + vy * dy + vz * dz
  *                 if s > best + t:             # <<<<<<<<<<<<<<
@@ -25050,7 +27496,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         __pyx_t_11 = (__pyx_v_s > (__pyx_v_best + __pyx_v_t));
         if (__pyx_t_11) {
 
-          /* "engine/cython/cy_response_3d.pyx":589
+          /* "engine/cython/cy_response_3d.pyx":735
  *                 s = vx * dx + vy * dy + vz * dz
  *                 if s > best + t:
  *                     best = s             # <<<<<<<<<<<<<<
@@ -25059,7 +27505,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
           __pyx_v_best = __pyx_v_s;
 
-          /* "engine/cython/cy_response_3d.pyx":590
+          /* "engine/cython/cy_response_3d.pyx":736
  *                 if s > best + t:
  *                     best = s
  *                     sumx = vx; sumy = vy; sumz = vz             # <<<<<<<<<<<<<<
@@ -25070,7 +27516,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
           __pyx_v_sumy = __pyx_v_vy;
           __pyx_v_sumz = __pyx_v_vz;
 
-          /* "engine/cython/cy_response_3d.pyx":591
+          /* "engine/cython/cy_response_3d.pyx":737
  *                     best = s
  *                     sumx = vx; sumy = vy; sumz = vz
  *                     count = 1             # <<<<<<<<<<<<<<
@@ -25079,7 +27525,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
           __pyx_v_count = 1;
 
-          /* "engine/cython/cy_response_3d.pyx":588
+          /* "engine/cython/cy_response_3d.pyx":734
  *                 vz = C[2] + A[2, 0] * (sx * E[0]) + A[2, 1] * (sy * E[1]) + A[2, 2] * (sz * E[2])
  *                 s = vx * dx + vy * dy + vz * dz
  *                 if s > best + t:             # <<<<<<<<<<<<<<
@@ -25089,7 +27535,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
           goto __pyx_L14;
         }
 
-        /* "engine/cython/cy_response_3d.pyx":592
+        /* "engine/cython/cy_response_3d.pyx":738
  *                     sumx = vx; sumy = vy; sumz = vz
  *                     count = 1
  *                 elif s >= best - t:             # <<<<<<<<<<<<<<
@@ -25099,7 +27545,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
         __pyx_t_11 = (__pyx_v_s >= (__pyx_v_best - __pyx_v_t));
         if (__pyx_t_11) {
 
-          /* "engine/cython/cy_response_3d.pyx":593
+          /* "engine/cython/cy_response_3d.pyx":739
  *                     count = 1
  *                 elif s >= best - t:
  *                     sumx += vx; sumy += vy; sumz += vz             # <<<<<<<<<<<<<<
@@ -25110,7 +27556,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
           __pyx_v_sumy = (__pyx_v_sumy + __pyx_v_vy);
           __pyx_v_sumz = (__pyx_v_sumz + __pyx_v_vz);
 
-          /* "engine/cython/cy_response_3d.pyx":594
+          /* "engine/cython/cy_response_3d.pyx":740
  *                 elif s >= best - t:
  *                     sumx += vx; sumy += vy; sumz += vz
  *                     count += 1             # <<<<<<<<<<<<<<
@@ -25119,7 +27565,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
 */
           __pyx_v_count = (__pyx_v_count + 1);
 
-          /* "engine/cython/cy_response_3d.pyx":592
+          /* "engine/cython/cy_response_3d.pyx":738
  *                     sumx = vx; sumy = vy; sumz = vz
  *                     count = 1
  *                 elif s >= best - t:             # <<<<<<<<<<<<<<
@@ -25132,7 +27578,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     }
   }
 
-  /* "engine/cython/cy_response_3d.pyx":596
+  /* "engine/cython/cy_response_3d.pyx":742
  *                     count += 1
  * 
  *     if count <= 0:             # <<<<<<<<<<<<<<
@@ -25142,7 +27588,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_t_11 = (__pyx_v_count <= 0);
   if (__pyx_t_11) {
 
-    /* "engine/cython/cy_response_3d.pyx":597
+    /* "engine/cython/cy_response_3d.pyx":743
  * 
  *     if count <= 0:
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]             # <<<<<<<<<<<<<<
@@ -25159,7 +27605,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_23 = 2;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_out.diminfo[0].strides) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_C.data) + __pyx_t_24)) )));
 
-    /* "engine/cython/cy_response_3d.pyx":596
+    /* "engine/cython/cy_response_3d.pyx":742
  *                     count += 1
  * 
  *     if count <= 0:             # <<<<<<<<<<<<<<
@@ -25169,7 +27615,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     goto __pyx_L15;
   }
 
-  /* "engine/cython/cy_response_3d.pyx":599
+  /* "engine/cython/cy_response_3d.pyx":745
  *         out[0] = C[0]; out[1] = C[1]; out[2] = C[2]
  *     else:
  *         out[0] = sumx / count             # <<<<<<<<<<<<<<
@@ -25180,7 +27626,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_24 = 0;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_out.diminfo[0].strides) = (__pyx_v_sumx / ((double)__pyx_v_count));
 
-    /* "engine/cython/cy_response_3d.pyx":600
+    /* "engine/cython/cy_response_3d.pyx":746
  *     else:
  *         out[0] = sumx / count
  *         out[1] = sumy / count             # <<<<<<<<<<<<<<
@@ -25190,7 +27636,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
     __pyx_t_24 = 1;
     *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_out.diminfo[0].strides) = (__pyx_v_sumy / ((double)__pyx_v_count));
 
-    /* "engine/cython/cy_response_3d.pyx":601
+    /* "engine/cython/cy_response_3d.pyx":747
  *         out[0] = sumx / count
  *         out[1] = sumy / count
  *         out[2] = sumz / count             # <<<<<<<<<<<<<<
@@ -25201,7 +27647,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   }
   __pyx_L15:;
 
-  /* "engine/cython/cy_response_3d.pyx":602
+  /* "engine/cython/cy_response_3d.pyx":748
  *         out[1] = sumy / count
  *         out[2] = sumz / count
  *     return out             # <<<<<<<<<<<<<<
@@ -25211,7 +27657,7 @@ static PyObject *__pyx_pf_6engine_6cython_14cy_response_3d_4obb_support_feature_
   __pyx_r = ((PyObject *)__pyx_v_out);
   goto __pyx_L0;
 
-  /* "engine/cython/cy_response_3d.pyx":544
+  /* "engine/cython/cy_response_3d.pyx":690
  * 
  * 
  * def obb_support_feature_centroid_fast(             # <<<<<<<<<<<<<<
@@ -26660,6 +29106,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_cy_response_3d(PyObject *__pyx_pyi
   int __pyx_t_9;
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -27349,93 +29796,148 @@ __Pyx_RefNannySetupContext("PyInit_cy_response_3d", 0);
 */
   __pyx_v_6engine_6cython_14cy_response_3d_GRAVITY = 9.81;
 
-  /* "engine/cython/cy_response_3d.pyx":465
+  /* "engine/cython/cy_response_3d.pyx":480
  *     double[::1] contact_point, double[::1] normal,
  *     double restitution, double static_friction, double dynamic_friction,
  *     double face_align_a=0.0, double face_align_b=0.0,             # <<<<<<<<<<<<<<
  *     double dt=0.016666666666666666,
- * ):
+ *     bint multi_point=0,
 */
-  __pyx_t_4 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 465, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 465, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "engine/cython/cy_response_3d.pyx":466
+  /* "engine/cython/cy_response_3d.pyx":481
  *     double restitution, double static_friction, double dynamic_friction,
  *     double face_align_a=0.0, double face_align_b=0.0,
  *     double dt=0.016666666666666666,             # <<<<<<<<<<<<<<
+ *     bint multi_point=0,
+ * ):
+*/
+  __pyx_t_10 = PyFloat_FromDouble(((double)0.016666666666666666)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 481, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+
+  /* "engine/cython/cy_response_3d.pyx":482
+ *     double face_align_a=0.0, double face_align_b=0.0,
+ *     double dt=0.016666666666666666,
+ *     bint multi_point=0,             # <<<<<<<<<<<<<<
  * ):
  *     """
 */
-  __pyx_t_10 = PyFloat_FromDouble(((double)0.016666666666666666)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 466, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_11 = __Pyx_PyBool_FromLong(((int)0)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 482, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
 
-  /* "engine/cython/cy_response_3d.pyx":458
+  /* "engine/cython/cy_response_3d.pyx":473
  * 
  * 
  * def resolve_contact_3d_fast(             # <<<<<<<<<<<<<<
  *     double[::1] pos_a, double[::1] vel_a, double[::1] omega_a,
  *     double inv_mass_a, object i_inv_a,
 */
-  __pyx_t_11 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 458, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_12 = PyTuple_Pack(4, __pyx_t_4, __pyx_t_5, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_1resolve_contact_3d_fast, 0, __pyx_mstate_global->__pyx_n_u_resolve_contact_3d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __pyx_t_11 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_1resolve_contact_3d_fast, 0, __pyx_mstate_global->__pyx_n_u_resolve_contact_3d_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
+  PyUnstable_Object_EnableDeferredRefcount(__pyx_t_11);
+  #endif
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_11, __pyx_t_12);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_resolve_contact_3d_fast, __pyx_t_11) < (0)) __PYX_ERR(0, 473, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+  /* "engine/cython/cy_response_3d.pyx":550
+ *     double[::1] normal,
+ *     double restitution, double static_friction, double dynamic_friction,
+ *     double face_align_a=0.0, double face_align_b=0.0,             # <<<<<<<<<<<<<<
+ *     double dt=0.016666666666666666,
+ * ):
+*/
+  __pyx_t_11 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_12 = PyFloat_FromDouble(((double)0.0)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+
+  /* "engine/cython/cy_response_3d.pyx":551
+ *     double restitution, double static_friction, double dynamic_friction,
+ *     double face_align_a=0.0, double face_align_b=0.0,
+ *     double dt=0.016666666666666666,             # <<<<<<<<<<<<<<
+ * ):
+ *     """Sequential-impulse solve over multiple manifold contact points.
+*/
+  __pyx_t_10 = PyFloat_FromDouble(((double)0.016666666666666666)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 551, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+
+  /* "engine/cython/cy_response_3d.pyx":542
+ * 
+ * 
+ * def resolve_contacts_3d_multi_fast(             # <<<<<<<<<<<<<<
+ *     double[::1] pos_a, double[::1] vel_a, double[::1] omega_a,
+ *     double inv_mass_a, object i_inv_a,
+*/
+  __pyx_t_5 = PyTuple_Pack(3, __pyx_t_11, __pyx_t_12, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 542, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_3resolve_contacts_3d_multi_fast, 0, __pyx_mstate_global->__pyx_n_u_resolve_contacts_3d_multi_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 542, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_10);
   #endif
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_t_11);
-  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_resolve_contact_3d_fast, __pyx_t_10) < (0)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_t_5);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_resolve_contacts_3d_multi_fast, __pyx_t_10) < (0)) __PYX_ERR(0, 542, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":525
+  /* "engine/cython/cy_response_3d.pyx":671
  * 
  * 
  * def face_align_from_matrix_fast(double[:, ::1] R, double[::1] n):             # <<<<<<<<<<<<<<
  *     """Max |dot| of body axes (rows and columns) with contact normal."""
  *     cdef double nx = n[0], ny = n[1], nz = n[2]
 */
-  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_3face_align_from_matrix_fast, 0, __pyx_mstate_global->__pyx_n_u_face_align_from_matrix_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 525, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_5face_align_from_matrix_fast, 0, __pyx_mstate_global->__pyx_n_u_face_align_from_matrix_fast, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 671, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_10);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_face_align_from_matrix_fast, __pyx_t_10) < (0)) __PYX_ERR(0, 525, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_face_align_from_matrix_fast, __pyx_t_10) < (0)) __PYX_ERR(0, 671, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "engine/cython/cy_response_3d.pyx":547
+  /* "engine/cython/cy_response_3d.pyx":693
  *     double[::1] C, double[:, ::1] A, double[::1] E,
  *     double dx, double dy, double dz,
  *     double tol=-1.0,             # <<<<<<<<<<<<<<
  * ):
  *     """Centroid of OBB support feature in direction d. Returns float64[3]."""
 */
-  __pyx_t_10 = PyFloat_FromDouble(((double)-1.0)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_10 = PyFloat_FromDouble(((double)-1.0)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 693, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
 
-  /* "engine/cython/cy_response_3d.pyx":544
+  /* "engine/cython/cy_response_3d.pyx":690
  * 
  * 
  * def obb_support_feature_centroid_fast(             # <<<<<<<<<<<<<<
  *     double[::1] C, double[:, ::1] A, double[::1] E,
  *     double dx, double dy, double dz,
 */
-  __pyx_t_11 = PyTuple_Pack(1, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 544, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_5 = PyTuple_Pack(1, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 690, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_5obb_support_feature_centroid_fast, 0, __pyx_mstate_global->__pyx_n_u_obb_support_feature_centroid_fas, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_6engine_6cython_14cy_response_3d_7obb_support_feature_centroid_fast, 0, __pyx_mstate_global->__pyx_n_u_obb_support_feature_centroid_fas, NULL, __pyx_mstate_global->__pyx_n_u_engine_cython_cy_response_3d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 690, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_10);
   #endif
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_t_11);
-  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_obb_support_feature_centroid_fas, __pyx_t_10) < (0)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_t_5);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_obb_support_feature_centroid_fas, __pyx_t_10) < (0)) __PYX_ERR(0, 690, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
   /* "engine/cython/cy_response_3d.pyx":1
@@ -27456,6 +29958,7 @@ __Pyx_RefNannySetupContext("PyInit_cy_response_3d", 0);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
       __Pyx_AddTraceback("init engine.cython.cy_response_3d", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -27535,14 +30038,14 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_slice[0]);
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_slice[0]);
 
-  /* "engine/cython/cy_response_3d.pyx":485
+  /* "engine/cython/cy_response_3d.pyx":502
  * 
  *     # Dummy matrices when absent (never read if has_* is false)
  *     ia_arr = np.zeros((3, 3), dtype=np.float64)             # <<<<<<<<<<<<<<
  *     ib_arr = np.zeros((3, 3), dtype=np.float64)
  *     ia = ia_arr
 */
-  __pyx_mstate_global->__pyx_tuple[1] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_int_3, __pyx_mstate_global->__pyx_int_3); if (unlikely(!__pyx_mstate_global->__pyx_tuple[1])) __PYX_ERR(0, 485, __pyx_L1_error)
+  __pyx_mstate_global->__pyx_tuple[1] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_int_3, __pyx_mstate_global->__pyx_int_3); if (unlikely(!__pyx_mstate_global->__pyx_tuple[1])) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[1]);
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[1]);
   #if CYTHON_IMMORTAL_CONSTANTS
@@ -27602,31 +30105,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{32},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{1},{5},{1},{1},{8},{20},{1},{8},{15},{3},{15},{12},{17},{18},{4},{4},{1},{9},{17},{18},{13},{5},{1},{8},{4},{2},{5},{15},{2},{2},{16},{2},{4},{5},{6},{28},{9},{5},{12},{12},{27},{5},{7},{6},{7},{8},{12},{6},{6},{1},{7},{7},{2},{6},{2},{6},{2},{10},{5},{10},{10},{13},{5},{8},{2},{2},{2},{8},{7},{4},{10},{1},{4},{8},{4},{7},{4},{6},{2},{5},{2},{2},{2},{3},{3},{3},{33},{3},{3},{3},{3},{7},{7},{3},{6},{6},{6},{6},{4},{3},{5},{5},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{23},{11},{1},{12},{10},{12},{19},{5},{4},{5},{15},{4},{4},{6},{4},{4},{4},{2},{2},{2},{1},{8},{3},{6},{8},{6},{6},{3},{3},{3},{3},{3},{3},{5},{5},{2},{2},{2},{1},{5},{643},{206},{712},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2119 bytes) */
-const char* const cstring = "BZh91AY&SYU\336\177\316\000\001T\377\377\377\377\377\357\177\347\377\327\277s\377\327\277\377\377\364@@@@@@@@@@@@@\000@\000`\010\037<\274^\322\335\256J\021\321\212\265\232\300\360\007x%\021%\006\232\032\003\324d\364\323\300\324j\236\243A\236\247\252~\244\332\232\003G\250\332\207\250\014\232h\032d\032\036DmFj\tB&\231\r\t\246\232MO*{#T\362\232d2\006\200d\000h\000\000\r2\000\000\006\200\320\023H\324\323J\032\017P=@\320\001\246\200h\320\001\223@\000\006\232i\246\203@h\r\000\224\321\004i2\231\023b\247\265OQ\350\233\021=@mC@\000\000\000\000\000\000\0004\310\034\000\000\000\000\000\000\000\r\000\000\000\000\000\000\000\000\t$\nm\"\233)\265=F\215\223H\364@\320\000\3204\001\240\000\003@\000\032\003#\364\240i*Z\326\251\326{\211U\244i\207\345*\240*\240\312\2471\001\352.\376\243\374\230f\020\314\206`\030h\020 YJt\005\275D\367\253\220\002D\305K!\231 \202\364j/q\261.v\220\302\225\030!\232\001D\207a\344\025Z\002B\260cfl\016\257X\231\224\302E2\230\2457\254\346\211\271\377\024/7hQ\256\t\253\010\215\202#\3472*\324\251\034\372\352\201F\t\236W\013P02t\034`B\347|\263\302h\375\275\271_y6R\350\363\323B\222\372\264\3510\227$f}U\022\306\252\263\320I\325\245\024\010\254\320b\204}\017\336\347\250\337?\245/u\247\021`{\002\316\355\201n\241\244\220\350\033\365UDqCQ;U\307\342oZV\r&\"\212h\252\003\003\204\207k\213\023\246\224\264\370``\005\261\014\033`\314\034\266\355\231ZI\312JKQH\201\024\342\364\323\371\004I\233W\027\262\364.T\024\\1\262x7\325\314#v\315k\253T\230t\016\321^Ex\334\3231\003+\0213&`\272c&p\021\366\204\204\300?\217\271\342p\3610\020\rB\006Y\355\331\231\275\226\013\367\300\177\303\316\254Om\276;,,B6\201\2757\246\364\310\205*P\261\275A\222Gc\355\341\267q\307*\345$\254,N*\246B\035m\375|\266\322%\"M\206\"L\321\236\272g\275\242@\325\213\\\1773Z\2541\212\321t\200\254\205\242\262\302+\345|\236\"\004*#0\335\341H\200Rrf>\214cD\313\t\306\212\263)\024\205\315\233<(_%'\275}S/\272e\244\231i\266\220-\270\205\322\200#\201\331\227\0347j\271V\334\273\276m\253H\217\366Ri\364\036\177\324\240UYq\2453""\007\375f+\274%:\327\224\302\"P\347T\022a\211\240Pmh\245\341IA\241Uu\014b16\235\257Ad\367!\331\266\0103^\346\020\224\305\324m\021\336\344\267\347|QV\305jy\023)\366J\014\347\343~W2\310\305\316\3202Xe\323\207\351\013\320\352tp$\003\005]\363\333\306\215 \352g\247%y\214\006\313,s\n\225b\232\332%\27384\2130u\266K\002\005;\031E\276\373nY\207t\270\233\2109\016D@@\344[R\335\313U\271\306\371Y\324ra6\r\247\2260:Q\t%\231\260\014\334\0332\337\335\304\213$\350\270dQg\245G\272\225\275_\352Hhon\317~c\241^\233\257qb!d\305a\304\221\265\370\326\202{\215#i\r'I\271[o\000L~\030\272P\331\037\233\347\231\034\334\3745\336(\312UU\221y\236N\231\t\223#\303\302Q\"*\202.\215|4\3409\233\234\255\323m\034}\266\004.\213\255\370K\206\033\260\234\265\323.!s\340\271\327A\352\325\202QtM\242\353D+\3510\350\312\330\311\272\310H\0250\210\2773H\327\017J\006\021E>\234\031\020\205\355qE(\370\037\310\251\300\364kn\267\016\013\234,\003\010\330\275LYR\216\335\256|\257\327i\242\263\026\305-\225V?4\223\270U\\\324\356D\255K6\256\323\372]\333\223q\312b\235=8rcQ4\240]Hh\013\360\306\223\312\350>#\324\314\234\344\3002&qC\240\361\363\t\035\034\034\025\313\001d)\213\325\346\002O!n\374]w[\034\230\344\325~J\260\327Y\024\237\306f\025h\272\t \262f\270V\251\236\345\n`\347*\207\021*\t\335\205\3618*}\304EURV\010@\261(\210\367Y\246n\226\230G\244<\201E\\\220Mf)B\354/C3\315\256\014`\035\352\351\321\254ra\213UZ\025S\247\307z\023z5i[@\251$\312>\2025\363\020\241\347P\231\251\211T)9j\235Y\250\331\236\254\233\225;_}\035!<\272\350\211\014\235\341\235\346uhe\226\006\272M\325\200\274\237=\302\223\2646\322(\211\t\344\312*5\324\275\220\222i\334Z\341\256\013\245\r{\270H\311Wf\252\204\312g\255wR\026\250\224\312\336lb\327\224R\275\314!Jq\232\227\\\223Vj+\332\362y]\036{\350q\234\2174p\300X3>\023\337\024\214/\224\024a\314\231\234'\262\202B\250\234\3746\313`Y{\326C\021\234#\004SB\215C=\264\342n\274\274U\213\345\023an\353\250E(\277\264\216\201\270/\243/z\223\306\334\217\036\341\210\025\3532`\306\0068\020qv\223Q\230B\373\221_K\022\213\233`\314""\205\\\254P-\005\024<\311\006Q\016\314\363vlx\330\316j\310\316\"\256\367\357.t\351\r$\247\016\254(X\016]H\231\331T\212T\321\241\266\370!\242U\016\277cf\010V\001:\310\252\0360\2345f\236ja\354dQ\221~\274g\225L\245\213\256\002\362\317R!q\225\341\201\370\3464!a\236i\233\004\324\334\273\0352\276\305Q}\334\225\322#2\004\234\273z\373\250\204\231\236\316I\t\312\205\317C)A\235\014\350\227\276`\327\016\220\313l\232\311\010:\265\203<{\3219#S\2262JZ\230Y\244uW\214\334|X\177\266\224\205\212\354\334\207\366\243\3558c\207*\203'I\334\223\256\375\316\343\r<U\n\360\352\250\214\272\r\007\032\\$k\227\017\013\2679\333/~\211?Y\004\312\\\025>\353\204\346\227 HUq\333\016\202\255j\036\266\273\235C\024\\\323yv\014=\373\360\274\317@\246K\264\334uhq\3066jok_\033\332\335\021\0235=:\304\246\233\0235\266\t\314\271.\324\327\325U\266\271\325\310\371}\030|\340r\236\361\327 )\326\016\302\212\0055K\300\251\205\253\321\365\n\301\242\252m3`\364n\003\023\346\253\311\3675\272\206Xi\032\377P\321J\210\242>h\030\307\213Z\370-\363\034\264)\2621EO\200\315\025=j-\202l\217\302\302\252\204_(\210\266\022\240>\n\nA\275\021\020R|-\214M!\250Cv\353\315\030\232\212(\361\233\2469\034<^cZL\216G)\006\321d\263\204\300\234\220T\221R8\364\301M\267\033c\034\014\222dq\272V\376\\z\300\333\305 \244)Y.\027\357\330x\240\256\013*\177\221IBYeq9mJ\355(\314'B\272\025\202\350\321\340\353W7X\3040:8\333U KP\024\314\323\037x\234\252Y\242\010\006`7\301\t\253A\022U|~\325\032\344$\017\346&\002\002\022}\311\310\343\231:\262\004L\026\000\355B09\311\223!\236[5\256\030\311XP\305\373\252\031\341M9\t\235\222\030\211\240q\222S\020pl\314D\217\371L\202\241\303J\025\262FR\325\253J\312\305OOO\\\023u\210\263V\025\205aU*\224\314C~\354\367<q`\0305J\304\356\267\204\022H\303\301,\010\010%&\200\220JbA\235T\314A\207\r\234R\224\334(\224\225g7wV4\3547e\233\376.\344\212p\241 \253\274\377\234";
-    PyObject *data = __Pyx_DecompressString(cstring, 2119, 2);
+    const struct { const unsigned int length: 11; } index[] = {{2},{35},{54},{37},{60},{24},{52},{26},{34},{33},{45},{22},{15},{179},{37},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{32},{2},{6},{35},{9},{30},{50},{39},{34},{8},{20},{32},{22},{30},{37},{1},{5},{1},{1},{8},{20},{1},{8},{15},{3},{15},{12},{12},{17},{18},{4},{4},{10},{1},{9},{17},{18},{13},{14},{5},{1},{8},{4},{2},{5},{15},{2},{2},{16},{2},{5},{4},{5},{6},{28},{9},{5},{12},{12},{27},{5},{7},{6},{7},{8},{12},{6},{6},{1},{7},{7},{2},{6},{2},{6},{2},{10},{5},{5},{10},{10},{5},{13},{5},{8},{2},{2},{2},{8},{7},{4},{10},{5},{11},{1},{7},{4},{8},{4},{7},{4},{3},{3},{3},{6},{2},{5},{2},{2},{2},{3},{3},{3},{33},{3},{3},{3},{3},{7},{7},{3},{6},{6},{6},{6},{4},{3},{5},{5},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{23},{30},{11},{1},{12},{10},{12},{19},{5},{4},{7},{7},{5},{15},{4},{4},{6},{4},{4},{4},{2},{2},{2},{1},{8},{4},{3},{6},{8},{6},{6},{3},{3},{3},{3},{3},{3},{5},{5},{2},{4},{4},{4},{2},{2},{2},{1},{5},{648},{1381},{206},{712},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (2594 bytes) */
+const char* const cstring = "BZh91AY&SY\311U\331\020\000\002<\377\377\377\377\377\377\377\357\377\337\277\373\377\327\277\377\377\374@@@@@@@@@@@@@\000@\000`\n\237\014^&Q\030\315\033X\006\326U\n$q\225\000#\t\"\222z\223A\2401\006\230OM#&=SO\324\364\364\232H\0144\200\001\246\324\000\000\r\003C&M\031\004\241\000\215\032M\032&\231\031\020\322#M\250\030 f\240\000\000\001\243M\r\000\320\00046\240\203\000\004\300\000L\023\000\000\000\000\004\300&\002\030\000\0020\000\000\032hS\t\251\221 \032\000\r2\000h\001\240\032\000h\000\000\000\001\352\003F\232h\0100\000L\000\004\3010\000\000\000\000L\002`!\200\000#\000\000\001$\020\202\232S\332\0235L\233F\3242dh\230\215\000\320\000\000\0004\000\000\321\241\223#!\246\225\271\265q|\272C\263\373\351v\016\261\327\017\344_\322]\202\200D\262r\030\354Oe\325\n\003\"\257\332\003\376\006L\300\014\3030\231\206\031\231\t\206%H\244+\224\026\027\201C|\273a2\244\327\242E\310\311lE\240\3003!*\324\263\216\032\246\026\201\027\005\035P\023\ru\300\207\010`a\r}\224GMC\200\252_\002b\024P\021\344(00\032\206\220\226L\000\252\026\362\004\014\010\000\3626X\003\022 \313\021\2418\214\020Dx\340?\360\021H\227*\204\211$\311\211D\266(\204\260+J\004\022\245I&*O\000\210W\245z/\021\220\261J\211\352\025\002\375\"\372\234K\204\3543&M-\030T*M\000AP0\n\236\257\237\260.O\337\335\221\370\203\363\333'\035o\322\037g\225$\026\344\t<\346\020\337\316\263}e<\310\320+;\304\212!\307\375a\362\337\351\365\245\354\211F6\n\254\r+l\rj\225\202\232\007\313\234\320\306\205\204\256\265C*UV\265\202\262\021\243\025f\001\301\212\306\223\241\026\273\037\362\272{`g\003\212\034]\263w\266\374\2207\201\324\307 !\336\373\220\352\025U\223\324\222\2118<\033\030* \350\001\273S\002\224&@\330\332\370\265\260\010%\201\217\037]\2766\216\375\235E\326\345\326\274x\321\207D\346\257&\276\0075\215\300n\252\t\255\r`\354\305E\336\345\030HC\256\336J\005\010\211\024\231C\270 \220\022\356\257W\354\363z6,\254bh\001)HHf\220\231\224\315\310\222I$\351N\241\303\341\204=o\025\342}\266\365\351R\242\023\305\004\332\036Rh\217\334\021%6z\242\311\234\354""\230 \360xP?O\357\355\307\274x/\272\353\222\242`\235wbF8\373\035\337\237o9\2011\t\230\270p\341(a\305\254@m\230R\335\315\020\210/N\216\306\032\375hf\370\034\3232\310\211zZ`b\264\303~\267\352\205\232\305\213M\211\2314J\312\345\353\\\222\204X\261p\273\256\235k}\225r*P\240\024.:kJ\265*T*\006\267\035\250\005\024\227\250\202\277\252\272h\272\211\227\360\231W\254\235u\326\270\03156\\}\351\002%\322n<-\221\335\034\343\35755\306\014\333Gp*\304\253)\234\031\331q\341\"\017\361\335\036\321\212\346\2738/9\254*\234\rsE\030B*\030\027\200\313\271\200.FD\203\"\320\005\232\340\272\242e\214\3121Y\021\"\310\232P@\245\325\024b^\220\r\226\230\r\275\254\336\315\275hA\260\264\274\t\266\336\331\000\304\376\032\266\351\223\226\341\316v\203\005M\2768\3778\344\207\305\367\231\224\001\202\3579\354|9\310\035,7mW\233\"l\332\375\272f*_\240pj\026\343~\341p\006]2q j`d\214?\03450C\2736\332\333A\270\266\215\321\334'\230\312\201\0072\016\210\336n<7\347\303\036\343\260\216\330\314p\261\010\210lgf\256\025U\316UU\3050\003.\377+v\025\032\211W\330dQk\301G\272Ke\177\323\240\321\360\267\267\255\274\363f\212\344\357\271\305Q\n\340(\303\n\2525\277l\242+L\332\210m\r\247Bt\246u\005A\355\265Id\264_\\\325J\013\rU\355lt\"\010^F.&/:\224 \241B<\\f$\2130E\321\233n\273&\252\324\331Fu\227o\225\211\r\270\355\301\206n4-\212Nj\350\341\003\253a%8k\024\213\270i-H\322\2543\031\302\220\022#\022\024\261\323\366A ,\344\347]\202<\350r\215\030\205X\243\344\262\364\034X\234\361k\020\222_#\332\025:\036\215l#\237E\234,C9\336\276\246\306T\207\226\331\231\302\355\\,iRm\260\242\230\335Q\332\250\236b\252\352\2174K\324\257%\344\177\245\347\315\017\nv\007\204M\023\323\350\327\335\245\346!\001zP\332\032\265\351#\324\361>c\324\3143C4C\273q\211\333/\023\307\342\205\307\273\3268*\025\251\200d\025\223\223\251P&\346W\354\346\366\352\335\016\310v\177~qI\013\324\250\\\177\305U\025ah\205\002\270\034cz\246\226Y*,\\\345P\355)\003\013g\323=H\244.\3066(*\252\227`!q\202B\341\356\303}]M\361\237\236<\211\013\273\242\235\002Y \273\303$5<\346\340\331\020\367""\313\271t\3402g\261\256\274K\245\273\306\3640z5\342b\365X+\335\211\241\032\271\267\3144\275n\n\232\350\233\202\264\235zY*\254\217d\310\357\212\254\3519\301I\005_\005\231\302\025VK\"\357\021\231!v\330\214\030W\0064\001\201^3\205\251\214-&\3105\230\240\317E\226\t\274U\340b_\271#\214\314\260\274\265D\270.x\344/f\006x\271\264\260\337\004,K\256\266\253d\256\354\343\325P\202\211~\032\265\335sk!%\363c\031'i\305z\350\233\364H_\314y\206\273O\314mL#\016\371c\206#b\201\361\247\014i1\276`\252\034\321I\302\234\032\214\3030\271:y\357\344\025\311\353A\211\341\031\305\024\321u\212\350\264\033r@\357dd*\315\364\231\325\257\223M\030#>\335>\023x\331Kd\331[\2427\250;\2035\032Ipb\t\035\335\237\n\315QCx)\275\007\031t\035&b\032\262E|\250\341f\346\352\031\220\270\362\230\200\346\201\007<\334\203(\243\"4\031\023^VD5\233\254j\024\2335\335+\333\010\271\036\252\350=\313x\256Z\214NN\224N\364\307\306S3\3155\363r9\363\016<\023\020\275G\253\000\243\034\254MG\276\261r\315K\275\004Q\312r\237.w\302\235\373\243\035\\\3023l/)X\246f\\!\2028&\376g#=\031-\006U\325\273G17\340Xb\223\360\310\334\nUAU\211\361\244\342\242\252#\\\305\020\302\220]\220e lCb&H\374\001\213\016\240\313\215\032\351V\341\010pY\306\004\036\007\202\351\271h-\311'J8j\336\252\373\363\031\237\313\275\275\023y\274\335\344\314\2742Wm\353=\245\037\231\314'\267i\201\327>8\3311\3253\307\0048\031\360\032B\276\203\212\0331\231f\0031\244\226\027\341\263\263\031\3428YI\326\276v\n\255~\347\n\365\3265\312e\005\224\312\215\301i\240\3103P)\001\373&\313e\017\257\3077A\210XmO3\321\207\277\263L\303,\262\354\335AL\327\260\355\035\363\240\363\276f\355#\261\265\302\024f\317t\304\322^\235\342JUM1\250\231\337b\313\322\271\027\337k9\325\330^\236\277\317\223~TOUC\313\030\366\004\331\001\217\310\007\346Q@\330\251\374\200d\266\326{\330\3563\221\014\231i?\270\317\303\007K\326\311\256O4Qx\212\241d\366{\303\250\232\3653\202\246\016\254\027gO\321\250\003i\215xtO\220\343\003\214\007\216\376(\206^P~\253\026X\032CF\2757j\214\356\223\243\007\316`\230-\355W\241L\006C\262p""\342\366\240\3326\200\230\\E\323q\375`\332\205\331\350\224H\343\375\305\306\355$\204|l\014r\n\256\207D\205\274\022\223\267\354\343\220\301\312\207[\233\250\360V\363\214\033\326\316{\214&\3473\030\244#\220T\200\240\306\031l\022'\014a\276\306\220\242\344x\300`\352\362\305\315:\240\304s\202g\232xk\334\347\013\245\376\234\372\035j\365-\340\023\005@\241\003\205\245Ud5\007\324\242\260\242\014\2262H\353\024(\013Xz\025%\0222b\010\3475h\001\353\020q\214\267\n\364\250\234\234\320b\265b\220\25032\210\006KP\006+W\025\000\303\224\210\300\240\312\240\327wEv\331'\235(\026\344Ee<\345\254\270\360\031\302\252\354@U\214\0009'%\215r[\003\004\361\312d\006\004\263L>\300<`f\220\002,s\3231\2632\316*\314h\261T\232\251\331o\220R\236Ry\306' JX!U9\022\200N\014f\376\340\033\020\240\234\260\263`\202b\004\"!J\320\032\001\226\320\034p&$2\t\023\022HLb\031\341\360lrN\370\261\002pa\203\216\341\305\372\246\302\030U\000\250TZll\345\231E5\304\347\340\013\003B\371_\234\321=\360r\302\370\273\274\025qp*\351X \270\022\370\002P\316b@\271R\\\026\352\230[\004\025\332\272[\213\245\366\277[\230\324k25~\007 \356\367mnV\022\231k-e\206\265V\337\244\305\3034\256o\034\210\034Y\316^\304\022*\033\352\310\341d\316Tb\226Qb\3010Z+K\017U\022\246\002\204\020\344T\255!\202\326r\216\016P\254\007I5\326\032\353\200q\352\327\021G\270\222\203V\305\213\026\254\223hy\212<\322\ti\267\242\365\270\204\226\237\374]\311\024\341BC%Wd@";
+    PyObject *data = __Pyx_DecompressString(cstring, 2594, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1930 bytes) */
-const char* const cstring = "x\332\325UMo\334F\022\365\254%G\261\035\307cIv\026\373\201\226\022Y\t\020\317F\226\342\030\013\257\027cYF\024 \211G\262\223 H\322h\222=\243\2169\335#6I\221\203=\370\310#\217<\362\310\343\034u\324\321G\035\347\250\237\340\237\260\257\233#Y\216\262\213|\354e\001\251\331lVU\327{\365\252\346\357\344A\324\355\362\200\304\202\357\021OqM\244\n\tO\006Js\242\303@x\\\2573I\224\364S\342\006\234\205\2340\342\324N\341\016\013\211\320\304U2\024\275HE\232\010I\372\274\257\202\264\005/\023\212i-z\222\204\212\300\331\273e\343\324\026\346\312\211\321$\360^ B\346\370|bP'\325\rT\377\277\371\n\351\361\204\354\211p\207\204\351\200\223\345\311y\0300\251-\214W.\265\031<D\300\335\220x\242\317\245\026J\352\207\307;\262\344\031D&@m\264\321\037\204)\321;\014\241\303h\200\344\272* n\032\356(\331bA\300\322\315\263\341\254\277\216\006\003\025\204\334\333\2241\363\205G\372\312\343\037\032na\314=\262\354.\023\204ZF<\223\353\362\207\244\007\257c\343\372F\320\311\022\344s\357s\213\341+\203Au\311\027\nlY\366\327m\"&e\217\373\302\341\001x\004K\246r\270\304\226H\222\307\033\217o\255\335]#Lz`\362G\\\257\221\235\343\372(\016*\216\200N$\374\020\227\031\006u\213lvI\252\"\"9\322D\345\006\260;\355\020\356pI4\017\315\206,[\272Y\010\334\024\356B\366\226'\324\211\230\033\357G\314\327\274\365e\024\332\213T$=\\)\2175\304\\\227#\372\373\026\346Si\313\017'H*\346\001\252\033\362\276yW\216I\273u\177\371\203\1772\317\243\322\020`\340\020p\360Q\342*\3377\027\202\372\026s\334{\247\004i\214\352t\356\377\364\370X\007\367=\241\315\275\\\326kOH\376\267\272\302x\320\200CFRs\272\352\265\006i\322s\311\373\246P=+\021\203\001\220Q\325\220\313\320\352\377D\006\250J\035\3223(\264\030rr\357\037\344\2433\002\222\n\305\353\262\310\017\t\305m^\344rJ\211\027Y\"\244\222\267P\314X0\037_]!EH\251\214\372\203\264E]\025\360V\037~\302\306!]&\374\272b\242o\244w\332,\3523H\377\247\026\023^\357\337\253[\335{\215\256\263gF\257'\254\275\366\375\3444:)!\363}\345\332ya\223\363X\310Z?\363\265\026\272\2111\0317\255v{{}ss}c\303\367\305@\013M\351\3434""\301\377CH\232~\001\246\267xwk\233\357F\\\272\334\264D\353Uw\240\372\307\221i\2550J'\002\005\251L\277\222\200\315\212\351T\272B\265@\221\212\320\000\\;Ls\207\353\320\005\331F\356\224\036oz<4u4\2570\244\002r\017\230\313\035\346>3Q\031\222\033(!C\027\022\017=J=\223.\365|.\275\3203\215e\027\n<5\351^\342\245^*Y_\270\264k\332\025\222\361\206\274\317\022nf\016\300a^\324jlM\344\362\272\0329\352k\033\236\007\201\n\272\310\205bt\364$e\247\366\316\251\275\031\245\024:\010DB\273L\207]\237\365t\327W,\274\263\006Q\342\313d\026Q\332\215\244k\240\003\264\256\271\333a\232\nfWG\010\300\217)\253\037\216`\202Q\360\211\017\216}\002}\255/<\315x6V}\303!;\3319\206\210\023\332\353\006\231t\211HD*\206\024v\340\230bz\233\321m\206'^\224\027\371xJ\320f\036\365\212\216\303\312\367\260\200mi\220\370r`\325/\023\231\312\241b\211b\251bC\3458t2\227i\027\2779Q\300\251\213\306\r\024r6\224\2404\312I\224\223*g\250\372\274\007\\\365\003\203+\304\037U\314\256\346\225\306v\037;\003H`\240\020\025\000\315\342P\212AA\335\035\356>\323Q\277~\233\320h\266V\007v\027\311\201p\237\001\321\206<\266\213\355O\240\341~7\002\014\213\360\325X8\331\325\2128u\300\023\263\355\t\215\261\017\221(?\206\321D\227\25358\034C\302\221\235\223\224b\200O\010\304n2\200\354~\222\351\251\375\361e\266WM\211p\034\330o\247\264\213\213\007 \020\377A\204_\230\250\237\340?\305\377P':\325C\004\017\341\210U\371\300\r\316\"\370\030\260\321\000\303\201\343w/\342:fI\314\322\230\rc'\211\2354v\2061\367)3\213\023'q\032\017\223!\017\224~\336xy\345\334\364_\213\316xj\372\345\345s\3237r^\254\024\237\225\274Z\251>\033\361\375\225\375\366x\352z\336+:\305\217\325\033\325\356\350\342\376\362A\363`\301\034\376R\313\033\371\277\312\225\361\324\037\213\346\313\253\347\246\257d[Y\234o\345\272x\257\350\226\017J6\236z\353\354\321\233Y\323.GSo<O\262\275\234\215g\232\371\265\303\331\245\262S\212*\036m\215v\3073\227\262;\371\365|\2678_\254\026N9U>\252n\216\032\243\331\321:>^n\346\315\361\345\371\034\300~o\204#\223\372x\346\255\254\223y\371\022\254\247\212\215\262Y.""\214g\336\314\3463\226Ey;\177Z,\024\037\227\215r\276d%\342\316\345\237\026\355\337\344\202\373r\257\270U\356VS\325\347\373\315}\270\\\201C\230\337)\232\226\236v\331\201\325\341\374M\3204s=\227\345\303\252Q5_^8f\266\223\273\305\365\"(\233\307\274\376\252\203\213\331B\366q>\235\177\205\332n \265n\325\256\236\216\026\376\247\037.ew\363\273\305\335\362n\265\006\2314\2367\216\246\014j\226\247`\243Y~\000A\265\253\216\321MT\264\213'\345\\i_v\215\026\242\354A\006\334og\273\346\202\233\371\205\274[<\002\257S3\331t\3664_\310W\3063\227\263\207y#o\342e\025\300\256\331\322\232\300\357\226\333\325\037\252w\253-s\253-r\260\3374\032\270\r\026P\357\331\337\353\014d+h(\224\342\202Y\3369\223\277\351\204{\025R\007\336\227\027\317M_\312\026\263G\366\252n\361\240`\343W\000\021)\333\260i\254\241-j\2414\313\367J\267jVK6\205\346Y\026\216L\002Y;\263\232\337\315\032\331\354\t[\006\323\177>\r\201\242c\260o\344\327\014\t'\250\256\346\215#\034\267\217\300\357\205\214\347+\271U\3657\3716Z\346\023\243\347\313\000`\004\3360\375\362N1[\254\027{P&</\330\001\321\036_\235\317\277)\266\313\363\345'\325\302\321\325\272\322\272X\0045\235\302-g\313\365RW\213\246\342\2257Z\034\265G\235\221\273?\273\277\276\257\017\026\017\332\007\235\003\357\305\342\213\366\213\316\013\367\260\363\344\360\311\327\207_\177{\370\355w\207\337}\177\370\375\017\207?\320\361\377E\304\271|=\017@\316\003D\273V\256\226Nu\276\272\r\215_\235\315oc\360E\266\372s\177*V\314\262\006\006\275j\031\025\236\3733\370\233\277\201T\226l{\342\375a9\203\311\360\351\250=\236\373K\3211-\021g\333y\343\027)\346hb4\237;\305\211\307\317\274\030\031}\371o\245\002\335?";
-    PyObject *data = __Pyx_DecompressString(cstring, 1930, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (2405 bytes) */
+const char* const cstring = "x\332\335V\317s\333\306\0256\023\312\221\023\305\021\365\303J\3324\201\024\313J\2461\033\311\262\343i]w(Yj\234N\234P\222\355L&\311\316\002XRH\310\005\211_\002\330\036r\304q\217{\304\021G\036y\324QG\035y\324\237\340?\241\337.HY\216\334\326M\332\231\2643\342b\261x\373\366\275\357}\357[\375\336\330\010\033\r\346\031\221\303\016\014\333e\276\301\335\300`q\307\365\231\341\007\236c3\177\223r\303\345\255\304\260<F\003fP\303,6\005\37340\034\337\260\\\0368\315\320\r}\303\341F\233\265]/\251b\227rE}\337ir#p\rl\266\257k?\205\205:rd4r|\3409\0015[ldP\004\325\360\334\366?\333\353p\233\305\306\201\023\354\033A\322a\306\312h=\360(\367u\032O\267\024f\330\341x\314\n\014\333i3\356;.\367\357\215g\306\262\2552R\016\n\243\255v'H\014\177\237\302u\020v\020\\\303\365\014+\t\366]^\245\236G\223\373\347\335\351\375~\330\351\270^\300\354\373<\242-\3076\332\256\315>T\330\302\230\331\306\212\265b\300\325\n\374\251XW>4\232\33056.N\004\2344F<w>\3239<R9\270\r\343\201\013\2644\372\233:\020\025\262\315Z\216\311<\340\010\224T\345p\210.\0217\276\330\372\342\372\372\355u\203r\033H~\207\343}DgZ-\024\007\025\207C3tZ\001\016S\010\372U\343~\303H\334\320\340\014a\242r\035\330\235\335\020\3543n\370,P\023cE\303M\003\344M\260\335\341\315\225\021tN\304\324\356m\332\362Y\365\3630\320\007\271!\267q$\037s\210Z\026\203\367\367u\232\017\271.?6\201R\021\363P\335\200\265\325\273k\252\260\253wW>\370\023\265m\302\025\000*\035\003\030|\024[n\253\245\016\004\364UjZw\316\020R\031\025\341\334\375\361\362\230\007wm\307W\3472^\214M\207\263\337\025\025\306\203x\0144\342>#7\354j'\211\233\226\361\276*TSSD\345\200\224Q\325\200\361@\363\377\224\006\250J\341\322VY\370N\217\031w\376h|t\216@\334E\361\0324l\005\006\301ivh1B\014;\324@p\227_G1#\207\266\360\325r\270\023\020\302\303v'\251\022\313\365X\265\215}\216\366c4\250\323**\346\264\025\365\316\232\205m\n\352\377\330b\204\353\335;E\253\333\317\300u~M\361\365\024\265g\276\237\256\206\247%\244\255\226ki\275\320\301\3314\240\325\347|-\210\256|\214\344\246Z\253\355n\336\277\277\271\265\325j""9\035\337\361\t\371\"\211\361\273\007J\223\007@z\2075vvY7d\334b\252%\252O\273\003\325\037{&\005\303\010\031\021\224\251YBB\356k\221\241\376S:\350\010\251\237p\313q\253\200\313\r\321\014\3147\251\317L\346\007\352G\320\225Mn\241\004\252\t\010\031O\232,P\325U\257\330B\0344\201G-fR\353{\345\237\"\344\216\353\360\340\231\027\034\035\362\300&\304V)\021\273\305\270\035\330\252\371\364@\220sQ\030;\266\023;\341\264\355X\244\241Z\032\264\262{\214\204>cm\0323%N@\001\302R\320\266:\342\325\263\264e \202V\006\346y\256\327@xE6\204\236\231\233g\346Js\t\010\34391iP?h\264h\323o\264\\\032\334Z\007{\361e$Z\2044B\005\nQ8\370\005\310\373\324'\016\325\243\3518@$\"\264x\230\016u(\001\330\370`\352' (\210\210\247\322q\207s\325O\021\016\007\266\364tf\252\031W\270\234V\247\350\251Qc9\261\2238=\002c\024\200@\360\225\332+\275\305\213k\207-\365T}\242\207\242\006\034\356\324i\000\027_G#z\027#;\300\200\232p\036s\236p\336\343*\347\026\357\350\206\302b\302{.\215]\232\270\264\347\232&\031I=i\340\032\013=F,h\201\347\";\005\036*\351\232\261k&\256\331s\333\254\t\004\212\007\2640\300\037q\251\036\325+\211\364<2;\340O\307\205W\240\240\006\223\020h\017\261\366\231\365\275\037\266\213\267\021\340j\252i\243g!\3578\326\367\310x\213\217\355\"MxU\245n\2104t\252O\225\346tVp\347\314\002\213\325\264\351\370\270I@'\267\025\301h\304\343\033Er?Z\366\325z\001\362\350+\272#\324\302L\010n\214\021\316\230\215\024O\317Gy\234\231\217C\321\342\240\n\354wp\027\021Z<L\030y\332\362L[ \310\016\300\306\317\013\021H\330\216\361K\360\353\371\261\237\370=\034\025\250>&A\2336\003\267\005\234\200\361X\r\302\016\364\211\341\352\r\231\037\3218\242ID{\221\031Gf\022\231\275\210\265\010U\203\031\361(\210\327\242 \301\257\267\026\305Q\022\365\342\036\363\\\377\207\322\223\313\027&\336\221\365ay\002\177\352eA0\271*?\315X\276\232\177\332g\203\325AmX\276\"\232\262.\277\313_\311\273\375W\007+\207\225\303E\265\370\242\226\013\342o\331\352\260\374\226\254<\231\2760q9\335I#\261#|yU6\262\215\214\016\313\257\237_\272\224V\364pR~\345\2078=\020t8Y""\0213\307\263\313Y=s\362\250\277\323\357\016'_Ko\211+\242+_\2267\244\231\225\263\355\374Z\277\324\237\355o\342\343TET\206S\363\002\271\375\\\017'*\364\341\344\353i=\265\3052\254\313r+\253d\213\303\311K\351|J\323P\324\304C\271(of\245l>\243\031\374\316\211Od\355'm\301y\302\226\327\263n^\316?\033T\006\330r\031\033\002qKV4<\265\254\016\253\343\371k\200i\362\212\340\331\275\374\365~\275O\237\\\034c[\027\226\274\"\275\2542F\366\337Zx5]Lo\212\t\361\010\325\335Bp\215\274\226?\354/\376G?\274\226\336\026\267\345\355\354v\276\016\242\224\300\303\3511\017\377\333$<~\353\267\371\352\223\271\013\023\227\322\313\242!kR\023\304Kg\323\332\031\2024\363G\375\265~\375y\224y\021\2337\322X\3042\316\342\274{\362<v\377\342\t?\225n\211\031\261&\036\203\222\200.\224\177\311\272\212`\227\322Kb^P\001O\323\342\r\031e\273\n\345\341\244\262/\326\247\026\324\260\010&M\027T^\226]\234\263\225W\362\305\341tE[\205\200\375a\266\230\335\314K\371|N\341`\372m\371IV\373I[\336\221T\372\331\325\214\367k\375\335Ay\360\340h\361\350\306\021\035N_\301\266@\336B\333]\325\314\253\017\247\027\216\027\336\317Kj\017\317\357\365_\351w\007\245\223\2517R8{Wv\237L^\230\230\374!J\367\304\234(Zl9\373\246\277t\274\276}H\025p\177@\217\000\237\031qM\226\344\234|\224\335B\200W\363F\177{\2608X\035N\315\212\233\3700/\031x\006\247\241\330@\t\246\337D\353oHL\026\304\201lf\217\363?\367\365\347\277\312%`\213\325H>F\025V\372\000\354\251\207\233\371K\310}\356W\200\"\312\036\252\032)l\366\344\214\\G\227\316e;Y\220\257\345{\375\0318\203\217@\256\311\275l&\373\027/\nD\035vq\324K\360\036d\353Zj6r\372\354q\363oi\2751\263\211l/\237\305w\273\177\025\r\2666\250+\273k\331E`\272\215^\376\377I\345\244\014\376\213\305Q\340T\206`\327\371\245\223\237\242\251\277\014\221=)\253\366\242\"\301\245S\311>\200d\252\246(\027`\356\241\024\372\245\253\024(L7R\252t\254\253\016\270&.B*\267q}\225'\323\211\364!\020YU=\177O\2244<7\220\330\214\026\024\345\370=\210\302K\371{\371\216:UK\2137\250\250\006Z\003\n]\325'?s32[\305\225\0019\272\250\2067\317\305\257\264""\376\016$B\345\373\344\325\013\023\257\245K\351\266>\252\241{\361i\202\360\004\345Ra\254C\214\213\373X\351\205\205\326^\326!T\316\243p\242\002Hk\251V\332nZ\302\3351FK\345\364\217W\003dQ/\304rF\201p\232\325\264(\235`\031\344\232L/\246L\254\n\375\317\303\227b\027B\375\261\372\267a\n\t\250\377#JJ\245\337\224\263rS\036\340\332\300\316\213\372\n\324\332\371\245\334\315^\316>\316\027O\246\213J\373\2523q\027Z\331l\266\231\371\371\222\2528\350\277\004\255\254\367\255\301\354`s\340\037.\035\326\016\353\207\366\321\322Q\355\250~d\035\327\367\216\367\036\037?\376\352\370\253\257\217\277\376\346\370\233o\217\277%\303\377\t\217sbSx\000g\003\336f\262\033\231\231\277\014m\251+\215X\303u\033\352\352\317\375Z\256\252a\035\010\332Z\255\346\336\006~\363\013\010eY\267'\336\357e\223\220\222O\372\265\341\334od]\265D\224\356\212\322\0131\346dd4/Ly\272\3439/\212F\237\377\035\263-J\354";
+    PyObject *data = __Pyx_DecompressString(cstring, 2405, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (3796 bytes) */
-const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_response_3d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.AASCIICEEllipsis__Pyx_PyDict_NextRefRSequenceView.MemoryViewabcallocate_buffer__annotate__ascontiguousarrayasyncio.coroutinesbasebestc__class____class_getitem__cline_in_tracebackcontact_pointcountd__dict__dlendtdtypedtype_is_objectdxdydynamic_frictiondzemaxemptyencodeengine.cython.cy_response_3denumerateerrorface_align_aface_align_bface_align_from_matrix_fastflagsfloat64formatfortran__func____getstate__has_iahas_ibii_inv_ai_inv_biaia_arribib_arrid__import__indexinv_mass_ainv_mass_b_is_coroutineitemsitemsizeixiyiz__main__memviewmode__module__nname__name__ndim__new__nlennormalnpnumpynxnynzoaxoayoazobb_support_feature_centroid_fastobjobxobyobzomega_aomega_boutout_oaout_obout_vaout_vbpackpoppos_apos_b__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__r""egisterresolve_contact_3d_fastrestitutions__set_name__setdefault__setstate____setstate_cython__shapesizestartstatic_frictionstepstopstructsumxsumysumzsxsyszt__test__tolunpackunstableupdatevaluesvaxvayvazvbxvbyvbzvel_avel_bvxvyvzxzeros\200\001\360\016\000\005\036\230Q\330\004\005\360\014\000\005\027\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\026\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\027\220|\2401\330\004\031\230\021\360\020\000\005\016\210R\210v\220R\220s\230$\230f\240B\240a\330\004\r\210R\210v\220R\220s\230$\230f\240B\240a\330\004\t\210\021\330\004\t\210\021\340\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\330\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\340\004\031\230\021\330\010\r\210Q\210d\220%\220q\230\004\230E\240\021\240!\330\010\t\210\025\210a\210u\220A\220U\230!\2305\240\001\240\025\240a\240q\330\010\024\220H\230A\330\010\r\210Q\210d\220%\220q\230\004\230E\240\021\240!\330\010\t\210\025\210a\210u\220A\220U\230!\2305\240\001\240\025\240a\240q\330\010\024\220H\230A\330\010\025\220Q\220d\230-\240q\250\004\250M\270\021\270!\330\010\016\210a\210t\2206\230\021\230$\230f\240A\240Q\330\010\025\320\025&\240a\330\010\026\220n\240D\250\001\250\021\360\006\000\005\016\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330""\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\013\2108\2208\2308\2408\2504\250q\260\001\200\001\340\004\025\220Q\220a\220y\240\001\240\021\240)\2501\250A\250Q\330\004\027\220u\230A\230T\240\024\240Q\330\004\027\220q\340\004\007\200u\210B\210a\330\010\017\210q\330\004\n\210&\220\006\220f\230F\240!\330\004\010\210\005\210U\220!\2201\330\010\014\210D\220\001\220\021\220!\2203\220c\230\022\2303\230b\240\001\240\021\240#\240S\250\002\250#\250R\250q\260\001\260\023\260C\260r\270\021\330\010\013\2102\210R\210q\330\014\023\2201\330\010\014\210D\220\001\220\021\220!\2203\220c\230\022\2303\230b\240\001\240\021\240#\240S\250\002\250#\250R\250q\260\001\260\023\260C\260r\270\021\330\010\013\2102\210R\210q\330\014\023\2201\330\004\013\2101\200\001\360\006\000\005\006\360\006\000\005\030\220u\230A\230T\240\024\240Q\330\004\027\220q\340\004\027\220|\240<\250q\330\004\025\220Q\360\n\000\005\013\210\"\210F\220!\2203\220f\230B\230a\330\004\007\200u\210B\210a\330\010\013\2101\210E\220\021\220!\2204\220s\230!\2305\240\001\240\021\240$\240c\250\021\250%\250q\260\001\260\021\330\010\017\210q\330\004\n\210&\220\006\220f\230F\240!\340\004\013\2101\210A\210Q\330\004\007\200q\210\001\210\023\210B\210a\330\010\017\210q\220\001\220\021\330\004\007\200q\210\001\210\023\210B\210a\330\010\017\210q\220\001\220\021\330\004\007\200t\2102\210Q\330\010\014\210E\220\022\2201\330\010\013\2102\210R\210q\330\014\020\220\001\340\010\014\210A\340\004\010\210\006\210e\2201\220A\330\010\r\210X\220S\230\003\2307\240!\330\010\014\210F\220%\220q\230\001\330\014\021\220\030\230\023\230C\230w\240a\330\014\020\220\006\220e\2301\230A\330\020\025\220X\230S\240\003\2407\250!\340\020\025\220Q\220a\220s\230\"\230A\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\025\220Q\220a\220s\230\"\230A""\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\025\220Q\220a\220s\230\"\230A\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\024\220C\220r\230\023\230B\230c\240\022\2403\240b\250\003\2502\250Q\330\020\023\2202\220R\220u\230B\230a\330\024\033\2301\330\024\033\2304\230w\240d\250'\260\021\330\024\034\230A\330\025\027\220s\230%\230r\240\021\330\024\034\230D\240\010\250\004\250H\260A\330\024\035\230Q\340\004\007\200v\210S\220\001\330\010\013\2101\210E\220\021\220!\2204\220s\230!\2305\240\001\240\021\240$\240c\250\021\250%\250q\260\001\260\021\340\010\013\2101\210E\220\025\220b\230\001\330\010\013\2101\210E\220\025\220b\230\001\330\010\013\2101\210E\220\025\220b\230\001\330\004\013\2101O";
+    #else /* compression: none (5327 bytes) */
+const char* const bytes = ": Buffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Unable to convert item to object.>')?add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenableengine/cython/cy_response_3d.pyxgc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object><strided and direct><strided and direct or indirect><strided and indirect>unable to allocate array data.unable to allocate shape and strides.AASCIICEEllipsis__Pyx_PyDict_NextRefRSequenceView.MemoryViewabcallocate_buffer__annotate__any_unstableascontiguousarrayasyncio.coroutinesbasebestbest_alignc__class____class_getitem__cline_in_tracebackcontact_pointcontact_pointscountd__dict__dlendtdtypedtype_is_objectdxdydynamic_frictiondze_useemaxemptyencodeengine.cython.cy_response_3denumerateerrorface_align_aface_align_bface_align_from_matrix_fastflagsfloat64formatfortran__func____getstate__has_iahas_ibii_inv_ai_inv_biaia_arribib_arrid__import__indexinnerinv_mass_ainv_mass_binv_n_is_coroutineitemsitemsizeixiyiz__main__memviewmode__module__multimulti_pointnn_innername__name__ndim__new__nlennnxnnynnznormalnpnumpynxnynzoaxoayoazobb_support_feature_centroid_fastobjobxobyobzomega_aomega_boutout_oaout_obout_vaout_vbpackpoppos_apos_b__pyx_checksum__pyx_state__pyx_type__p""yx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__registerresolve_contact_3d_fastresolve_contacts_3d_multi_fastrestitutions__set_name__setdefault__setstate____setstate_cython__shapesizespeed_aspeed_bstartstatic_frictionstepstopstructsumxsumysumzsxsyszt__test__tmagtolunpackunstableupdatevaluesvaxvayvazvbxvbyvbzvel_avel_bvnvtx2vty2vtz2vxvyvzxzeros\200\001\360\016\000\005\036\230Q\330\004\005\330\004\005\360\016\000\005\027\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\026\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\027\220|\2401\330\004\031\230\021\360\020\000\005\016\210R\210v\220R\220s\230$\230f\240B\240a\330\004\r\210R\210v\220R\220s\230$\230f\240B\240a\330\004\t\210\021\330\004\t\210\021\340\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\330\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\340\004\031\230\021\330\010\r\210Q\210d\220%\220q\230\004\230E\240\021\240!\330\010\t\210\025\210a\210u\220A\220U\230!\2305\240\001\240\025\240a\240q\330\010\024\220H\230A\330\010\r\210Q\210d\220%\220q\230\004\230E\240\021\240!\330\010\t\210\025\210a\210u\220A\220U\230!\2305\240\001\240\025\240a\240q\330\010\024\220H\230A\330\010\025\220Q\220d\230-\240q\250\004\250M\270\021\270!\330\010\016\210a\210t\2206\230\021\230$\230f\240A\240Q\330\010\025\320\025&\240a\330\010\026\220n\240D\250\r\260Q\260a\360\006\000\005\016\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026""\230r\240\021\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\013\2108\2208\2308\2408\2504\250q\260\001\200\001\360\020\000\005\036\230Q\330\004\005\360\016\000\005\027\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\026\220e\2301\230J\240e\2501\250J\260e\2701\270A\330\004\026\220g\230Q\230j\250\007\250q\260\n\270'\300\021\300!\330\004\027\220|\2401\330\004\031\320\031+\2501\360\024\000\005\t\210\016\220f\230A\230Q\330\004\007\200r\210\023\210A\330\010\021\220\022\320\023%\240Q\240g\250V\2602\260Q\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\021\220\022\320\023%\240Q\240g\250V\2602\260Q\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\017\210x\220x\230x\240x\250q\340\004\r\210R\210v\220R\220s\230$\230f\240B\240a\330\004\r\210R\210v\220R\220s\230$\230f\240B\240a\330\004\t\210\021\330\004\t\210\021\340\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\330\004\007\200x\210w\220a\330\010\021\220\022\320\023%\240Q\240i\250v\260R\260q\330\010\013\2106\220\026\220q\230\003\2303\230b\240\004\240F\250&\260\001\260\023\260C\260q\330\014\021\220\021\330\014\025\220Q\340\004\014\210E\220\022\2202\220W\230A\330\004\027\220u\230K\240q\360\006\000\005\t\210\t\220\025\220a\220q\330\010\020\220\017\230v\240S\250\007\250q\330\010\014\210E\220\025\220a\220q\330\014\027\220q\330\014!\240\021\330\020\025\220Q\220d\230%\230q\240\004\240E\250\021\250!\330\020\021\220\025\220a\220u\230A\230U\240!\2405\250\001\250\025\250a\250q\330\020\034\230H\240A\330\020\025\220Q\220d\230%\230q\240\004\240E\250""\021\250!\330\020\021\220\025\220a\220u\230A\230U\240!\2405\250\001\250\025\250a\250q\330\020\034\230H\240A\330\020\036\230a\230s\240$\240n\260A\260S\270\004\270N\310!\3103\310a\330\020\026\220a\220t\2306\240\021\240$\240f\250A\250Q\330\020\027\320\027(\250\001\330\020\036\230n\250D\260\007\260q\270\001\340\014\017\210q\330\020\037\230q\360\010\000\005\010\200v\210T\220\024\220Q\330\010\025\320\025%\240]\260\"\3204F\300a\330\010\013\210;\220c\230\021\330\014\022\220&\230\001\230\024\230V\2406\250\021\250$\250f\260F\270!\2701\330\014\023\2205\230\001\230\025\230e\2401\330\014\017\210u\220B\220a\330\020\030\230\004\230B\230a\330\020\027\220w\230g\240W\250G\2601\330\014\017\210{\230\"\230A\330\020\027\220v\230W\240F\250'\260\021\330\020\023\2205\230\001\230\025\230e\2405\250\002\250!\330\024\032\230%\230v\240U\250&\260\001\330\020\025\220T\230\022\2304\230r\240\024\240R\240t\2502\250T\260\022\2601\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220u\230A\230V\2406\250\021\330\020\023\2205\230\002\230%\230t\2404\240q\250\004\250B\250a\330\024\032\230%\230v\240U\250&\260\001\330\025\031\230\021\230$\230b\240\005\240T\250\023\250B\250d\260$\260e\2702\270Q\330\024\032\230&\240\006\240f\250F\260!\330\014\017\210{\230\"\230A\330\020\027\220v\230W\240F\250'\260\021\330\020\023\2205\230\001\230\025\230e\2405\250\002\250!\330\024\032\230%\230v\240U\250&\260\001\330\020\025\220T\230\022\2304\230r\240\024\240R\240t\2502\250T\260\022\2601\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220t\2302\230T\240\022\2401\330\020\027\220u\230A\230V\2406\250\021\330\020\023\2205\230\002\230%\230t\2404\240q\250\004\250B\250a\330\024\032\230%\230v\240U\250&\260\001\330\025\031\230\021\230$\230b\240\005\240T\250\023\250B\250d\260$\260e\2702\270Q\330\024\032\230&\240\006\240f\250F\260!\340\004\021\220\021\220!\2205\230\001\230\025\230a\230u\240A\330\004\021\220\021""\220!\2205\230\001\230\025\230a\230u\240A\340\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\r\210R\210v\220Q\220c\230\026\230r\240\021\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\n\210!\2105\220\005\220V\2301\230E\240\025\240f\250A\250U\260!\330\004\013\2108\2208\2308\2408\2504\250q\260\001\200\001\340\004\025\220Q\220a\220y\240\001\240\021\240)\2501\250A\250Q\330\004\027\220u\230A\230T\240\024\240Q\330\004\027\220q\340\004\007\200u\210B\210a\330\010\017\210q\330\004\n\210&\220\006\220f\230F\240!\330\004\010\210\005\210U\220!\2201\330\010\014\210D\220\001\220\021\220!\2203\220c\230\022\2303\230b\240\001\240\021\240#\240S\250\002\250#\250R\250q\260\001\260\023\260C\260r\270\021\330\010\013\2102\210R\210q\330\014\023\2201\330\010\014\210D\220\001\220\021\220!\2203\220c\230\022\2303\230b\240\001\240\021\240#\240S\250\002\250#\250R\250q\260\001\260\023\260C\260r\270\021\330\010\013\2102\210R\210q\330\014\023\2201\330\004\013\2101\200\001\360\006\000\005\006\360\006\000\005\030\220u\230A\230T\240\024\240Q\330\004\027\220q\340\004\027\220|\240<\250q\330\004\025\220Q\360\n\000\005\013\210\"\210F\220!\2203\220f\230B\230a\330\004\007\200u\210B\210a\330\010\013\2101\210E\220\021\220!\2204\220s\230!\2305\240\001\240\021\240$\240c\250\021\250%\250q\260\001\260\021\330\010\017\210q\330\004\n\210&\220\006\220f\230F\240!\340\004\013\2101\210A\210Q\330\004\007\200q\210\001\210\023\210B\210a\330\010\017\210q\220\001\220\021\330\004\007\200q\210\001\210\023\210B\210a\330\010\017\210q\220\001\220\021\330\004\007\200t\2102\210Q\330\010\014\210E\220\022\2201\330\010\013\2102\210R\210q\330\014\020\220\001\340\010\014\210A\340\004\010\210\006\210e\2201\220A\330\010\r\210X\220S\230\003\2307\240!\330\010""\014\210F\220%\220q\230\001\330\014\021\220\030\230\023\230C\230w\240a\330\014\020\220\006\220e\2301\230A\330\020\025\220X\230S\240\003\2407\250!\340\020\025\220Q\220a\220s\230\"\230A\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\025\220Q\220a\220s\230\"\230A\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\025\220Q\220a\220s\230\"\230A\230Q\230c\240\023\240C\240s\250\"\250A\250Q\250d\260\"\260A\260Q\260c\270\023\270C\270s\300\"\300A\300Q\300d\310\"\310A\310Q\310c\320QT\320TW\320WZ\320Z\\\320\\]\320]^\320^_\330\020\024\220C\220r\230\023\230B\230c\240\022\2403\240b\250\003\2502\250Q\330\020\023\2202\220R\220u\230B\230a\330\024\033\2301\330\024\033\2304\230w\240d\250'\260\021\330\024\034\230A\330\025\027\220s\230%\230r\240\021\330\024\034\230D\240\010\250\004\250H\260A\330\024\035\230Q\340\004\007\200v\210S\220\001\330\010\013\2101\210E\220\021\220!\2204\220s\230!\2305\240\001\240\021\240$\240c\250\021\250%\250q\260\001\260\021\340\010\013\2101\210E\220\025\220b\230\001\330\010\013\2101\210E\220\025\220b\230\001\330\010\013\2101\210E\220\025\220b\230\001\330\004\013\2101O";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 196; i++) {
+    for (int i = 0; i < 216; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 44) PyUnicode_InternInPlace(&string);
@@ -27637,7 +30140,7 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 196; i < 200; i++) {
+    for (int i = 216; i < 221; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -27648,15 +30151,15 @@ const char* const bytes = ": Buffer view does not expose stridesCan only create 
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 200; i++) {
+    for (Py_ssize_t i = 0; i < 221; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 196;
-      for (Py_ssize_t i=0; i<4; ++i) {
+      PyObject **table = stringtab + 216;
+      for (Py_ssize_t i=0; i<5; ++i) {
         #if PY_VERSION_HEX >= 0x030F0000
         PyUnstable_SetImmortal(table[i]);
         #elif CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
@@ -27745,19 +30248,24 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {18, 0, 0, 41, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 458};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_pos_a, __pyx_mstate->__pyx_n_u_vel_a, __pyx_mstate->__pyx_n_u_omega_a, __pyx_mstate->__pyx_n_u_inv_mass_a, __pyx_mstate->__pyx_n_u_i_inv_a, __pyx_mstate->__pyx_n_u_pos_b, __pyx_mstate->__pyx_n_u_vel_b, __pyx_mstate->__pyx_n_u_omega_b, __pyx_mstate->__pyx_n_u_inv_mass_b, __pyx_mstate->__pyx_n_u_i_inv_b, __pyx_mstate->__pyx_n_u_contact_point, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_restitution, __pyx_mstate->__pyx_n_u_static_friction, __pyx_mstate->__pyx_n_u_dynamic_friction, __pyx_mstate->__pyx_n_u_face_align_a, __pyx_mstate->__pyx_n_u_face_align_b, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_vax, __pyx_mstate->__pyx_n_u_vay, __pyx_mstate->__pyx_n_u_vaz, __pyx_mstate->__pyx_n_u_oax, __pyx_mstate->__pyx_n_u_oay, __pyx_mstate->__pyx_n_u_oaz, __pyx_mstate->__pyx_n_u_vbx, __pyx_mstate->__pyx_n_u_vby, __pyx_mstate->__pyx_n_u_vbz, __pyx_mstate->__pyx_n_u_obx, __pyx_mstate->__pyx_n_u_oby, __pyx_mstate->__pyx_n_u_obz, __pyx_mstate->__pyx_n_u_has_ia, __pyx_mstate->__pyx_n_u_has_ib, __pyx_mstate->__pyx_n_u_unstable, __pyx_mstate->__pyx_n_u_ia, __pyx_mstate->__pyx_n_u_ib, __pyx_mstate->__pyx_n_u_ia_arr, __pyx_mstate->__pyx_n_u_ib_arr, __pyx_mstate->__pyx_n_u_out_va, __pyx_mstate->__pyx_n_u_out_oa, __pyx_mstate->__pyx_n_u_out_vb, __pyx_mstate->__pyx_n_u_out_ob};
+    const __Pyx_PyCode_New_function_description descr = {19, 0, 0, 42, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 473};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_pos_a, __pyx_mstate->__pyx_n_u_vel_a, __pyx_mstate->__pyx_n_u_omega_a, __pyx_mstate->__pyx_n_u_inv_mass_a, __pyx_mstate->__pyx_n_u_i_inv_a, __pyx_mstate->__pyx_n_u_pos_b, __pyx_mstate->__pyx_n_u_vel_b, __pyx_mstate->__pyx_n_u_omega_b, __pyx_mstate->__pyx_n_u_inv_mass_b, __pyx_mstate->__pyx_n_u_i_inv_b, __pyx_mstate->__pyx_n_u_contact_point, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_restitution, __pyx_mstate->__pyx_n_u_static_friction, __pyx_mstate->__pyx_n_u_dynamic_friction, __pyx_mstate->__pyx_n_u_face_align_a, __pyx_mstate->__pyx_n_u_face_align_b, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_multi_point, __pyx_mstate->__pyx_n_u_vax, __pyx_mstate->__pyx_n_u_vay, __pyx_mstate->__pyx_n_u_vaz, __pyx_mstate->__pyx_n_u_oax, __pyx_mstate->__pyx_n_u_oay, __pyx_mstate->__pyx_n_u_oaz, __pyx_mstate->__pyx_n_u_vbx, __pyx_mstate->__pyx_n_u_vby, __pyx_mstate->__pyx_n_u_vbz, __pyx_mstate->__pyx_n_u_obx, __pyx_mstate->__pyx_n_u_oby, __pyx_mstate->__pyx_n_u_obz, __pyx_mstate->__pyx_n_u_has_ia, __pyx_mstate->__pyx_n_u_has_ib, __pyx_mstate->__pyx_n_u_unstable, __pyx_mstate->__pyx_n_u_ia, __pyx_mstate->__pyx_n_u_ib, __pyx_mstate->__pyx_n_u_ia_arr, __pyx_mstate->__pyx_n_u_ib_arr, __pyx_mstate->__pyx_n_u_out_va, __pyx_mstate->__pyx_n_u_out_oa, __pyx_mstate->__pyx_n_u_out_vb, __pyx_mstate->__pyx_n_u_out_ob};
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_resolve_contact_3d_fast, __pyx_mstate->__pyx_kp_b_iso88591_Q_e1Je1Je1A_gQj_q_e1Je1Je1A_gQj, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 9, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 525};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_R, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_nx, __pyx_mstate->__pyx_n_u_ny, __pyx_mstate->__pyx_n_u_nz, __pyx_mstate->__pyx_n_u_nlen, __pyx_mstate->__pyx_n_u_best, __pyx_mstate->__pyx_n_u_d, __pyx_mstate->__pyx_n_u_i};
-    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_face_align_from_matrix_fast, __pyx_mstate->__pyx_kp_b_iso88591_Qay_1AQ_uAT_Q_q_uBa_q_fF_U_1_D, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
+    const __Pyx_PyCode_New_function_description descr = {18, 0, 0, 61, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 542};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_pos_a, __pyx_mstate->__pyx_n_u_vel_a, __pyx_mstate->__pyx_n_u_omega_a, __pyx_mstate->__pyx_n_u_inv_mass_a, __pyx_mstate->__pyx_n_u_i_inv_a, __pyx_mstate->__pyx_n_u_pos_b, __pyx_mstate->__pyx_n_u_vel_b, __pyx_mstate->__pyx_n_u_omega_b, __pyx_mstate->__pyx_n_u_inv_mass_b, __pyx_mstate->__pyx_n_u_i_inv_b, __pyx_mstate->__pyx_n_u_contact_points, __pyx_mstate->__pyx_n_u_normal, __pyx_mstate->__pyx_n_u_restitution, __pyx_mstate->__pyx_n_u_static_friction, __pyx_mstate->__pyx_n_u_dynamic_friction, __pyx_mstate->__pyx_n_u_face_align_a, __pyx_mstate->__pyx_n_u_face_align_b, __pyx_mstate->__pyx_n_u_dt, __pyx_mstate->__pyx_n_u_vax, __pyx_mstate->__pyx_n_u_vay, __pyx_mstate->__pyx_n_u_vaz, __pyx_mstate->__pyx_n_u_oax, __pyx_mstate->__pyx_n_u_oay, __pyx_mstate->__pyx_n_u_oaz, __pyx_mstate->__pyx_n_u_vbx, __pyx_mstate->__pyx_n_u_vby, __pyx_mstate->__pyx_n_u_vbz, __pyx_mstate->__pyx_n_u_obx, __pyx_mstate->__pyx_n_u_oby, __pyx_mstate->__pyx_n_u_obz, __pyx_mstate->__pyx_n_u_has_ia, __pyx_mstate->__pyx_n_u_has_ib, __pyx_mstate->__pyx_n_u_unstable, __pyx_mstate->__pyx_n_u_any_unstable, __pyx_mstate->__pyx_n_u_ia, __pyx_mstate->__pyx_n_u_ib, __pyx_mstate->__pyx_n_u_ia_arr, __pyx_mstate->__pyx_n_u_ib_arr, __pyx_mstate->__pyx_n_u_out_va, __pyx_mstate->__pyx_n_u_out_oa, __pyx_mstate->__pyx_n_u_out_vb, __pyx_mstate->__pyx_n_u_out_ob, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_multi, __pyx_mstate->__pyx_n_u_best_align, __pyx_mstate->__pyx_n_u_speed_a, __pyx_mstate->__pyx_n_u_speed_b, __pyx_mstate->__pyx_n_u_n_inner, __pyx_mstate->__pyx_n_u_inner, __pyx_mstate->__pyx_n_u_e_use, __pyx_mstate->__pyx_n_u_nnx, __pyx_mstate->__pyx_n_u_nny, __pyx_mstate->__pyx_n_u_nnz, __pyx_mstate->__pyx_n_u_nlen, __pyx_mstate->__pyx_n_u_inv_n, __pyx_mstate->__pyx_n_u_vn, __pyx_mstate->__pyx_n_u_vtx2, __pyx_mstate->__pyx_n_u_vty2, __pyx_mstate->__pyx_n_u_vtz2, __pyx_mstate->__pyx_n_u_tmag};
+    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_resolve_contacts_3d_multi_fast, __pyx_mstate->__pyx_kp_b_iso88591_Q_e1Je1Je1A_gQj_q_e1Je1Je1A_gQj_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {7, 0, 0, 26, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 544};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 9, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 671};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_R, __pyx_mstate->__pyx_n_u_n, __pyx_mstate->__pyx_n_u_nx, __pyx_mstate->__pyx_n_u_ny, __pyx_mstate->__pyx_n_u_nz, __pyx_mstate->__pyx_n_u_nlen, __pyx_mstate->__pyx_n_u_best, __pyx_mstate->__pyx_n_u_d, __pyx_mstate->__pyx_n_u_i};
+    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_face_align_from_matrix_fast, __pyx_mstate->__pyx_kp_b_iso88591_Qay_1AQ_uAT_Q_q_uBa_q_fF_U_1_D, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
+  }
+  {
+    const __Pyx_PyCode_New_function_description descr = {7, 0, 0, 26, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 690};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_C, __pyx_mstate->__pyx_n_u_A, __pyx_mstate->__pyx_n_u_E, __pyx_mstate->__pyx_n_u_dx, __pyx_mstate->__pyx_n_u_dy, __pyx_mstate->__pyx_n_u_dz, __pyx_mstate->__pyx_n_u_tol, __pyx_mstate->__pyx_n_u_dlen, __pyx_mstate->__pyx_n_u_best, __pyx_mstate->__pyx_n_u_sx, __pyx_mstate->__pyx_n_u_sy, __pyx_mstate->__pyx_n_u_sz, __pyx_mstate->__pyx_n_u_vx, __pyx_mstate->__pyx_n_u_vy, __pyx_mstate->__pyx_n_u_vz, __pyx_mstate->__pyx_n_u_s, __pyx_mstate->__pyx_n_u_sumx, __pyx_mstate->__pyx_n_u_sumy, __pyx_mstate->__pyx_n_u_sumz, __pyx_mstate->__pyx_n_u_count, __pyx_mstate->__pyx_n_u_emax, __pyx_mstate->__pyx_n_u_t, __pyx_mstate->__pyx_n_u_out, __pyx_mstate->__pyx_n_u_ix, __pyx_mstate->__pyx_n_u_iy, __pyx_mstate->__pyx_n_u_iz};
-    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_obb_support_feature_centroid_fas, __pyx_mstate->__pyx_kp_b_iso88591_uAT_Q_q_q_Q_F_3fBa_uBa_1E_4s_5, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_engine_cython_cy_response_3d_pyx, __pyx_mstate->__pyx_n_u_obb_support_feature_centroid_fas, __pyx_mstate->__pyx_kp_b_iso88591_uAT_Q_q_q_Q_F_3fBa_uBa_1E_4s_5, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;
@@ -34307,6 +36815,18 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       return result;
   }
   
+/* MemviewDtypeToObject */
+  static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
+      return (PyObject *) PyFloat_FromDouble(*(double const *) itemp);
+  }
+  static CYTHON_INLINE int __pyx_memview_set_double(char *itemp, PyObject *obj) {
+      double value = __Pyx_PyFloat_AsDouble(obj);
+      if (unlikely((value == (double)-1) && PyErr_Occurred()))
+          return 0;
+      *(double *) itemp = value;
+      return 1;
+  }
+  
 /* CIntFromPyVerify */
   #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
       __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
@@ -34859,6 +37379,75 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       __Pyx_XDECREF((PyObject *) array_obj);
       __Pyx_RefNannyFinishContext();
       return new_mvs;
+  }
+  
+/* CIntToPy */
+  static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value) {
+  #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wconversion"
+  #endif
+      const int neg_one = (int) -1, const_zero = (int) 0;
+  #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+  #pragma GCC diagnostic pop
+  #endif
+      const int is_unsigned = neg_one > const_zero;
+      if (is_unsigned) {
+          if (sizeof(int) < sizeof(long)) {
+              return PyLong_FromLong((long) value);
+          } else if (sizeof(int) <= sizeof(unsigned long)) {
+              return PyLong_FromUnsignedLong((unsigned long) value);
+  #if !CYTHON_COMPILING_IN_PYPY
+          } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+              return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+  #endif
+          }
+      } else {
+          if (sizeof(int) <= sizeof(long)) {
+              return PyLong_FromLong((long) value);
+          } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+              return PyLong_FromLongLong((PY_LONG_LONG) value);
+          }
+      }
+      {
+          unsigned char *bytes = (unsigned char *)&value;
+  #if !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x030d00A4
+          if (is_unsigned) {
+              return PyLong_FromUnsignedNativeBytes(bytes, sizeof(value), -1);
+          } else {
+              return PyLong_FromNativeBytes(bytes, sizeof(value), -1);
+          }
+  #elif !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX < 0x030d0000
+          int one = 1; int little = (int)*(unsigned char *)&one;
+          return _PyLong_FromByteArray(bytes, sizeof(int),
+                                       little, !is_unsigned);
+  #else
+          int one = 1; int little = (int)*(unsigned char *)&one;
+          PyObject *from_bytes, *result = NULL, *kwds = NULL;
+          PyObject *py_bytes = NULL, *order_str = NULL;
+          from_bytes = PyObject_GetAttrString((PyObject*)&PyLong_Type, "from_bytes");
+          if (!from_bytes) return NULL;
+          py_bytes = PyBytes_FromStringAndSize((char*)bytes, sizeof(int));
+          if (!py_bytes) goto limited_bad;
+          order_str = PyUnicode_FromString(little ? "little" : "big");
+          if (!order_str) goto limited_bad;
+          {
+              PyObject *args[3+(CYTHON_VECTORCALL ? 1 : 0)] = { NULL, py_bytes, order_str };
+              if (!is_unsigned) {
+                  kwds = __Pyx_MakeVectorcallBuilderKwds(1);
+                  if (!kwds) goto limited_bad;
+                  if (__Pyx_VectorcallBuilder_AddArgStr("signed", __Pyx_NewRef(Py_True), kwds, args+3, 0) < 0) goto limited_bad;
+              }
+              result = __Pyx_Object_Vectorcall_CallFromBuilder(from_bytes, args+1, 2 | __Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET, kwds);
+          }
+          limited_bad:
+          Py_XDECREF(kwds);
+          Py_XDECREF(order_str);
+          Py_XDECREF(py_bytes);
+          Py_XDECREF(from_bytes);
+          return result;
+  #endif
+      }
   }
   
 /* CIntFromPy */
@@ -35472,75 +38061,6 @@ static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const cha
       PyErr_SetString(PyExc_OverflowError,
           "can't convert negative value to long");
       return (long) -1;
-  }
-  
-/* CIntToPy */
-  static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value) {
-  #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wconversion"
-  #endif
-      const int neg_one = (int) -1, const_zero = (int) 0;
-  #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-  #pragma GCC diagnostic pop
-  #endif
-      const int is_unsigned = neg_one > const_zero;
-      if (is_unsigned) {
-          if (sizeof(int) < sizeof(long)) {
-              return PyLong_FromLong((long) value);
-          } else if (sizeof(int) <= sizeof(unsigned long)) {
-              return PyLong_FromUnsignedLong((unsigned long) value);
-  #if !CYTHON_COMPILING_IN_PYPY
-          } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-              return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-  #endif
-          }
-      } else {
-          if (sizeof(int) <= sizeof(long)) {
-              return PyLong_FromLong((long) value);
-          } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-              return PyLong_FromLongLong((PY_LONG_LONG) value);
-          }
-      }
-      {
-          unsigned char *bytes = (unsigned char *)&value;
-  #if !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x030d00A4
-          if (is_unsigned) {
-              return PyLong_FromUnsignedNativeBytes(bytes, sizeof(value), -1);
-          } else {
-              return PyLong_FromNativeBytes(bytes, sizeof(value), -1);
-          }
-  #elif !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX < 0x030d0000
-          int one = 1; int little = (int)*(unsigned char *)&one;
-          return _PyLong_FromByteArray(bytes, sizeof(int),
-                                       little, !is_unsigned);
-  #else
-          int one = 1; int little = (int)*(unsigned char *)&one;
-          PyObject *from_bytes, *result = NULL, *kwds = NULL;
-          PyObject *py_bytes = NULL, *order_str = NULL;
-          from_bytes = PyObject_GetAttrString((PyObject*)&PyLong_Type, "from_bytes");
-          if (!from_bytes) return NULL;
-          py_bytes = PyBytes_FromStringAndSize((char*)bytes, sizeof(int));
-          if (!py_bytes) goto limited_bad;
-          order_str = PyUnicode_FromString(little ? "little" : "big");
-          if (!order_str) goto limited_bad;
-          {
-              PyObject *args[3+(CYTHON_VECTORCALL ? 1 : 0)] = { NULL, py_bytes, order_str };
-              if (!is_unsigned) {
-                  kwds = __Pyx_MakeVectorcallBuilderKwds(1);
-                  if (!kwds) goto limited_bad;
-                  if (__Pyx_VectorcallBuilder_AddArgStr("signed", __Pyx_NewRef(Py_True), kwds, args+3, 0) < 0) goto limited_bad;
-              }
-              result = __Pyx_Object_Vectorcall_CallFromBuilder(from_bytes, args+1, 2 | __Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET, kwds);
-          }
-          limited_bad:
-          Py_XDECREF(kwds);
-          Py_XDECREF(order_str);
-          Py_XDECREF(py_bytes);
-          Py_XDECREF(from_bytes);
-          return result;
-  #endif
-      }
   }
   
 /* CIntToPy */

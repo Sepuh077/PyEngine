@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "C:\\Users\\sepuh\\AppData\\Local\\Temp\\pip-build-env-t7iiy9vw\\overlay\\Lib\\site-packages\\numpy\\_core\\include"
+            "/tmp/pip-build-env-_iiy885v/overlay/lib/python3.12/site-packages/numpy/_core/include"
         ],
         "name": "engine.cython.cy_entities",
         "sources": [

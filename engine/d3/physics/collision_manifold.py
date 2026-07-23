@@ -16,6 +16,12 @@ try:
         cylinder_vs_cylinder_manifold_fast as _cy_cyl_cyl_m,
         cylinder_vs_sphere_manifold_fast as _cy_cyl_sph_m,
     )
+    try:
+        from engine.cython.cy_collision_manifold_3d import (
+            obb_multi_contact_points_fast as _cy_obb_multi,
+        )
+    except ImportError:
+        _cy_obb_multi = None
     from engine.cython.cy_math import (
         obb_vs_obb_manifold_c as _cy_obb_obb_m,
         cylinder_vs_obb_manifold_c as _cy_cyl_obb_m,
@@ -25,6 +31,7 @@ except Exception:
     _USE_CYTHON = False
     _cy_sph_sph_m = _cy_sph_obb_m = _cy_cyl_cyl_m = _cy_cyl_sph_m = None
     _cy_obb_obb_m = _cy_cyl_obb_m = None
+    _cy_obb_multi = None
 
 try:
     import os as _os2
@@ -42,8 +49,13 @@ class CollisionManifold:
     normal: np.ndarray  # Normal pointing from B to A
     depth: float        # Penetration depth
     contact_point: Optional[np.ndarray] = None
+    # Multi-point manifold: list of (contact_point, depth) tuples.
+    # When present, the solver iterates over each contact for more stable
+    # resting contacts (e.g. a box face sitting on a floor produces 4 points).
+    # Falls back to the single contact_point / depth when empty.
+    contact_points: Optional[list] = None
 
-def _make_manifold(normal, depth, contact_point=None) -> CollisionManifold:
+def _make_manifold(normal, depth, contact_point=None, contact_points=None) -> CollisionManifold:
     """Build a manifold with float32 normal/contact and guaranteed unit normal."""
     n = np.asarray(normal, dtype=np.float32).reshape(3)
     nlen = float(np.linalg.norm(n))
@@ -54,7 +66,12 @@ def _make_manifold(normal, depth, contact_point=None) -> CollisionManifold:
     cp = None
     if contact_point is not None:
         cp = np.asarray(contact_point, dtype=np.float32).reshape(3)
-    return CollisionManifold(n, float(depth), cp)
+    cps = None
+    if contact_points is not None and len(contact_points) > 0:
+        cps = []
+        for pt, d in contact_points:
+            cps.append((np.asarray(pt, dtype=np.float32).reshape(3), float(d)))
+    return CollisionManifold(n, float(depth), cp, cps)
 
 
 def _obb_world_aabb(C, A, E):
@@ -163,6 +180,273 @@ def _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth):
     return mid - n * (0.5 * float(depth))
 
 
+def _obb_support_feature_vertices(C, A, E, direction, tol=None):
+    """Return the list of OBB vertices that form the support feature in *direction*.
+
+    Same grouping logic as _obb_support_feature_centroid but returns all the
+    individual vertices instead of their average.
+    """
+    C = np.asarray(C, dtype=np.float64).reshape(3)
+    A = np.asarray(A, dtype=np.float64).reshape(3, 3)
+    E = np.asarray(E, dtype=np.float64).reshape(3)
+    d = np.asarray(direction, dtype=np.float64).reshape(3)
+    dlen = float(np.linalg.norm(d))
+    if dlen < 1e-12:
+        return [C.copy()]
+    d = d / dlen
+    if tol is None:
+        tol = max(1e-4, 0.02 * float(np.max(E)))
+
+    best = -1e300
+    feature = []
+    for sx in (-1.0, 1.0):
+        for sy in (-1.0, 1.0):
+            for sz in (-1.0, 1.0):
+                v = C + A @ (np.array([sx, sy, sz], dtype=np.float64) * E)
+                s = float(np.dot(v, d))
+                if s > best + tol:
+                    best = s
+                    feature = [v]
+                elif s >= best - tol:
+                    feature.append(v)
+    return feature if feature else [C.copy()]
+
+
+def _clip_polygon_by_plane(vertices, plane_normal, plane_d):
+    """Sutherland-Hodgman clip of a convex polygon by a half-space.
+
+    Keeps vertices where dot(v, plane_normal) <= plane_d.
+    Returns the clipped polygon as a list of np arrays.
+    """
+    if not vertices:
+        return []
+    output = []
+    n = len(vertices)
+    for i in range(n):
+        cur = vertices[i]
+        nxt = vertices[(i + 1) % n]
+        d_cur = float(np.dot(cur, plane_normal)) - plane_d
+        d_nxt = float(np.dot(nxt, plane_normal)) - plane_d
+        if d_cur <= 0:
+            output.append(cur)
+            if d_nxt > 0:
+                t = d_cur / (d_cur - d_nxt)
+                output.append(cur + t * (nxt - cur))
+        elif d_nxt <= 0:
+            t = d_cur / (d_cur - d_nxt)
+            output.append(cur + t * (nxt - cur))
+    return output
+
+
+def _obb_face_vertices(C, A, E, face_axis_idx, face_sign):
+    """Return the 4 vertices of an OBB face in winding order.
+
+    face_axis_idx: which local axis (0,1,2) is the face normal
+    face_sign: +1 or -1, which side of that axis
+    """
+    C = np.asarray(C, dtype=np.float64).reshape(3)
+    A = np.asarray(A, dtype=np.float64).reshape(3, 3)
+    E = np.asarray(E, dtype=np.float64).reshape(3)
+    # The two tangent axes
+    axes = [i for i in range(3) if i != face_axis_idx]
+    verts = []
+    for s0 in (-1.0, 1.0):
+        for s1 in (-1.0, 1.0):
+            local = np.zeros(3, dtype=np.float64)
+            local[face_axis_idx] = face_sign * E[face_axis_idx]
+            local[axes[0]] = s0 * E[axes[0]]
+            local[axes[1]] = s1 * E[axes[1]]
+            verts.append(C + A @ local)
+    # Sort into winding order (convex hull in the face plane)
+    center = sum(verts) / len(verts)
+    t0 = A[:, axes[0]]
+    t1 = A[:, axes[1]]
+    import math
+    def angle(v):
+        d = v - center
+        return math.atan2(float(np.dot(d, t1)), float(np.dot(d, t0)))
+    verts.sort(key=angle)
+    return verts
+
+
+def _obb_multi_contact_points(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth):
+    """Generate multi-point contacts for OBB vs OBB.
+
+    Uses Sutherland-Hodgman clipping to find the contact polygon between a
+    reference face and an incident face, then computes per-point penetration
+    depths. Returns a list of ``(contact_point, per_point_depth)`` tuples.
+
+    Contact normal convention: *normal* points from B towards A.
+
+    * **Reference face** — the face on B whose outward normal best aligns
+      with +n (B's face facing toward A).  This face supplies the clipping
+      side planes.
+    * **Incident face** — the face on A whose outward normal is most anti-
+      aligned with +n (A's face facing toward B / into the contact).
+
+    Falls back to the single centroid contact when the geometry is an edge or
+    vertex contact (≤2 clip vertices).
+    """
+    n = np.asarray(normal, dtype=np.float64).reshape(3)
+    nlen = float(np.linalg.norm(n))
+    if nlen < 1e-12:
+        cp = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
+        return [(cp, depth)]
+    n = n / nlen
+
+    Ca = np.ascontiguousarray(Ca, dtype=np.float64).reshape(3)
+    Aa = np.ascontiguousarray(Aa, dtype=np.float64).reshape(3, 3)
+    Ea = np.ascontiguousarray(Ea, dtype=np.float64).reshape(3)
+    Cb = np.ascontiguousarray(Cb, dtype=np.float64).reshape(3)
+    Ab = np.ascontiguousarray(Ab, dtype=np.float64).reshape(3, 3)
+    Eb = np.ascontiguousarray(Eb, dtype=np.float64).reshape(3)
+
+    # Fast Cython path (face clip + per-point depths)
+    if _USE_CYTHON and _cy_obb_multi is not None:
+        try:
+            return _cy_obb_multi(Ca, Aa, Ea, Cb, Ab, Eb, n, float(depth))
+        except Exception:
+            pass
+
+    # -----------------------------------------------------------------
+    # Reference face on B: face whose outward normal best matches +n.
+    # -----------------------------------------------------------------
+    best_b = -1.0
+    ref_idx = 0
+    ref_sign = 1.0
+    for i in range(3):
+        d = float(np.dot(Ab[:, i], n))
+        if d > best_b:
+            best_b = d
+            ref_idx = i
+            ref_sign = 1.0
+        if -d > best_b:
+            best_b = -d
+            ref_idx = i
+            ref_sign = -1.0
+    # best_b now holds the max alignment. Use the signed dot to pick the
+    # correct side: the face whose outward normal dot with n is positive.
+    d_check = float(np.dot(Ab[:, ref_idx], n))
+    ref_sign = 1.0 if d_check >= 0 else -1.0
+
+    # -----------------------------------------------------------------
+    # Incident face on A: face whose outward normal is most anti-aligned
+    # with +n (the face of A that faces toward B / into the contact).
+    # -----------------------------------------------------------------
+    worst_a = 1e300
+    inc_idx = 0
+    inc_sign = 1.0
+    for i in range(3):
+        d = float(np.dot(Aa[:, i], n))
+        # We want the most negative dot product for A's face facing B
+        if d < worst_a:
+            worst_a = d
+            inc_idx = i
+            inc_sign = 1.0
+        if -d < worst_a:
+            worst_a = -d
+            inc_idx = i
+            inc_sign = -1.0
+    # Pick the side: the face whose outward normal dot with n is most negative
+    d_check = float(np.dot(Aa[:, inc_idx], n))
+    # The face on the -n side of A
+    inc_sign = 1.0 if d_check < 0 else -1.0
+
+    # If neither face is well-aligned (edge/vertex contact), fall back.
+    if best_b < 0.7:
+        cp = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
+        return [(cp, depth)]
+
+    # Reference face plane (on B)
+    ref_normal = Ab[:, ref_idx] * ref_sign
+    ref_center = Cb + ref_normal * Eb[ref_idx]
+    ref_plane_d = float(np.dot(ref_center, ref_normal))
+
+    # Incident face vertices (on A)
+    inc_verts = _obb_face_vertices(Ca, Aa, Ea, inc_idx, inc_sign)
+
+    # Clip incident polygon against the 4 side planes of the reference face
+    ref_tangent_axes = [i for i in range(3) if i != ref_idx]
+    clipped = list(inc_verts)
+    for ti in ref_tangent_axes:
+        tangent = Ab[:, ti]
+        extent = Eb[ti]
+        # Plane: dot(v, tangent) <= ref_center·tangent + extent
+        pd = float(np.dot(ref_center, tangent)) + extent
+        clipped = _clip_polygon_by_plane(clipped, tangent, pd)
+        if not clipped:
+            break
+        # Opposite side: dot(v, -tangent) <= -ref_center·tangent + extent
+        pd_neg = -float(np.dot(ref_center, tangent)) + extent
+        clipped = _clip_polygon_by_plane(clipped, -tangent, pd_neg)
+        if not clipped:
+            break
+
+    if len(clipped) < 2:
+        cp = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
+        return [(cp, depth)]
+
+    # Project clipped points onto the reference plane; compute per-point depth.
+    contacts = []
+    for v in clipped:
+        # Signed distance above the reference plane (positive = outside B)
+        sep = float(np.dot(ref_normal, v)) - ref_plane_d
+        point_depth = -sep  # positive when v is below the reference plane
+        if point_depth < -0.001:
+            continue  # above the plane → not in contact
+        point_depth = max(point_depth, 0.0)
+        # Project onto the reference plane
+        proj = v - ref_normal * sep
+        contacts.append((proj, point_depth))
+
+    if not contacts:
+        cp = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
+        return [(cp, depth)]
+
+    return contacts
+
+
+def _cylinder_face_contact_points(Cc, rc, hc, normal, num_points=4):
+    """Generate multi-point contacts for a cylinder's circular face.
+
+    When a cylinder sits on a surface (normal ≈ ±Y), generate *num_points*
+    evenly spaced around the contact circle rim.
+    """
+    Cc = np.asarray(Cc, dtype=np.float64).reshape(3)
+    n = np.asarray(normal, dtype=np.float64).reshape(3)
+    nlen = float(np.linalg.norm(n))
+    if nlen < 1e-12:
+        return None
+    n = n / nlen
+    # Cylinder axis is always world Y in this engine
+    cyl_axis = np.array([0.0, 1.0, 0.0], dtype=np.float64)
+    alignment = abs(float(np.dot(n, cyl_axis)))
+    # Only generate face contacts when the contact is on a flat end
+    if alignment < 0.7:
+        return None
+    # Which end?
+    face_sign = -1.0 if float(np.dot(n, cyl_axis)) > 0 else 1.0
+    face_center = Cc + cyl_axis * (face_sign * hc)
+    # Build tangent frame on the face
+    if abs(float(n[0])) < 0.9:
+        up = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+    else:
+        up = np.array([0.0, 0.0, 1.0], dtype=np.float64)
+    t0 = np.cross(cyl_axis, up)
+    t0_len = float(np.linalg.norm(t0))
+    if t0_len < 1e-12:
+        return None
+    t0 = t0 / t0_len
+    t1 = np.cross(cyl_axis, t0)
+    import math
+    contacts = []
+    for i in range(num_points):
+        angle = 2.0 * math.pi * i / num_points
+        pt = face_center + rc * (math.cos(angle) * t0 + math.sin(angle) * t1)
+        contacts.append(pt)
+    return contacts
+
+
 # =========================================================================
 # Manifold Generators (Expensive, Detailed)
 # =========================================================================
@@ -257,7 +541,8 @@ def _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb) -> Optional[CollisionManifold]:
         best_axis = -best_axis
 
     contact = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, best_axis, min_overlap)
-    return _make_manifold(best_axis, min_overlap, contact)
+    multi = _obb_multi_contact_points(Ca, Aa, Ea, Cb, Ab, Eb, best_axis, min_overlap)
+    return _make_manifold(best_axis, min_overlap, contact, multi)
 
 def obb_vs_obb_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManifold]:
     Ca, Aa, Ea = a.get_world_obb()
@@ -281,7 +566,8 @@ def obb_vs_obb_manifold(a: Collider3D, b: Collider3D) -> Optional[CollisionManif
         nx, ny, nz, depth = result
         normal = np.array([nx, ny, nz], dtype=np.float32)
         contact = _obb_contact_point(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
-        return _make_manifold(normal, depth, contact)
+        multi = _obb_multi_contact_points(Ca, Aa, Ea, Cb, Ab, Eb, normal, depth)
+        return _make_manifold(normal, depth, contact, multi)
 
     return _obb_manifold(Ca, Aa, Ea, Cb, Ab, Eb)
 
@@ -390,7 +676,12 @@ def cylinder_vs_cylinder_manifold(a: Collider3D, b: Collider3D) -> Optional[Coll
             return None
         normal, depth = result[0], result[1]
         contact = 0.5 * (Ca + Cb)
-        return _make_manifold(normal, depth, contact)
+        # Generate multi-point for vertical (face) contacts
+        multi = None
+        face_pts = _cylinder_face_contact_points(Ca, ra, ha, normal)
+        if face_pts is not None:
+            multi = [(pt, depth) for pt in face_pts]
+        return _make_manifold(normal, depth, contact, multi)
 
     # 1. Vertical Check (Y-axis SAT)
     dy = Ca[1] - Cb[1]
@@ -421,7 +712,12 @@ def cylinder_vs_cylinder_manifold(a: Collider3D, b: Collider3D) -> Optional[Coll
         depth = horizontal_overlap
 
     contact = 0.5 * (Ca + Cb) - normal * (0.5 * depth)
-    return _make_manifold(normal, depth, contact)
+    # Generate multi-point for vertical (face) contacts
+    multi = None
+    face_pts = _cylinder_face_contact_points(Ca, ra, ha, normal)
+    if face_pts is not None:
+        multi = [(pt, depth) for pt in face_pts]
+    return _make_manifold(normal, depth, contact, multi)
 
 def cylinder_vs_obb_manifold(cyl: Collider3D, obb: Collider3D) -> Optional[CollisionManifold]:
     Cc, rc, hc = cyl.get_world_cylinder()
@@ -441,7 +737,11 @@ def cylinder_vs_obb_manifold(cyl: Collider3D, obb: Collider3D) -> Optional[Colli
         nx, ny, nz, depth = result
         normal = np.array([nx, ny, nz], dtype=np.float32)
         contact = Cc - normal * (0.5 * float(depth))
-        return _make_manifold(normal, depth, contact)
+        multi = None
+        face_pts = _cylinder_face_contact_points(Cc, rc, hc, normal)
+        if face_pts is not None:
+            multi = [(pt, depth) for pt in face_pts]
+        return _make_manifold(normal, depth, contact, multi)
     
     cyl_axis = np.array([0, 1, 0], dtype=np.float32)
     
@@ -480,7 +780,11 @@ def cylinder_vs_obb_manifold(cyl: Collider3D, obb: Collider3D) -> Optional[Colli
         best_axis = -best_axis
 
     contact = Cc - best_axis * (0.5 * min_overlap)
-    return _make_manifold(best_axis, min_overlap, contact)
+    multi = None
+    face_pts = _cylinder_face_contact_points(Cc, rc, hc, best_axis)
+    if face_pts is not None:
+        multi = [(pt, min_overlap) for pt in face_pts]
+    return _make_manifold(best_axis, min_overlap, contact, multi)
 
 def sphere_vs_mesh_manifold(sph: Collider3D, mesh: Collider3D) -> Optional[CollisionManifold]:
     if mesh.mesh_data is None:

@@ -10,7 +10,7 @@
             ]
         ],
         "include_dirs": [
-            "/mnt/d/workspace/3D-engine/venv_linux/lib/python3.12/site-packages/numpy/_core/include"
+            "D:\\workspace\\3D-engine\\venv\\Lib\\site-packages\\numpy\\_core\\include"
         ],
         "name": "engine.cython.cy_gameloop",
         "sources": [

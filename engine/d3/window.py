@@ -910,36 +910,46 @@ class Window3D(WindowBase):
         return obj.transform.move(*delta)
 
     def _resolve_collision(self, a: GameObject, b: GameObject, manifold,
-                            col_a=None, col_b=None):
+                            col_a=None, col_b=None, velocity_only=False):
         """Separate overlapping objects and apply impulse-based collision response.
 
         Uses physics-material properties (bounciness, friction) on the colliders
         together with each rigidbody's mass **and** world-space inertia tensor
         so off-center contacts produce correct spin (rotational response).
 
+        When *velocity_only* is True, skip positional depenetration and sleep
+        logic — only re-solve impulses with the current body velocities.  This
+        is used by the multi-iteration solver on passes 1…N-1.
+
         Parameters
         ----------
         a, b : GameObjects involved in the collision.
         manifold : CollisionManifold with *normal* (from B towards A), *depth*,
-            and optional *contact_point*.
+            and optional *contact_point* / *contact_points*.
         col_a, col_b : The Collider3D instances (optional; looked up if None).
+        velocity_only : bool — when True skip depenetration + sleep (iteration passes).
         """
         from engine.d3.physics import Collider3D
         from engine.d3.physics.rigidbody import Rigidbody3D
         from engine.d3.physics.types import PhysicsMaterialCombine
         from engine.d3.physics.response import (
             resolve_contact_3d,
+            resolve_contacts_3d_multi,
             body_state_from_rigidbody,
             apply_body_state,
             estimate_contact_point,
             stabilize_contact_point,
             _as_np3,
             _face_align_from_rotation,
+            MAX_MANIFOLD_POINTS,
         )
         from engine.types import Vector3
 
         depth = getattr(manifold, 'depth', 0.0)
-        if depth <= 0:
+        # First pass needs positive penetration to depenetrate. Velocity-only
+        # re-solves (solver iterations) must still run when barely touching
+        # (depth ~ 0) so multi-point / stacked contacts can converge.
+        if depth <= 0 and not velocity_only:
             return
         normal = manifold.normal
 
@@ -962,57 +972,58 @@ class Window3D(WindowBase):
         a_static = _immovable(rb_a)
         b_static = _immovable(rb_b)
 
-        # Depenetration: full separation against static geometry (CCD sliding
-        # tests and visible floor contact). Tiny slop only for two dynamic bodies
-        # to reduce jitter in stacks.
-        if a_static or b_static:
-            push = depth + 1e-6
-        else:
-            PENETRATION_SLOP = 0.001
-            push = max(0.0, depth - PENETRATION_SLOP) * 0.95
-            if push > 0.0:
-                push += 1e-6
-
         if a_static and b_static:
             return
 
-        # Both asleep: only skip if already fully separated (no visible sink).
-        a_sleep = rb_a is not None and getattr(rb_a, 'is_sleeping', False)
-        b_sleep = rb_b is not None and getattr(rb_b, 'is_sleeping', False)
-        if a_sleep and (b_sleep or b_static) and depth < 0.002:
-            return
-        if b_sleep and (a_sleep or a_static) and depth < 0.002:
-            return
-        # Sleeping but still penetrating → wake and finish depenetration
-        if depth >= 0.002:
-            if a_sleep and not a_static:
-                rb_a.wake()
-                a_sleep = False
-            if b_sleep and not b_static:
-                rb_b.wake()
-                b_sleep = False
+        if not velocity_only:
+            # Depenetration: full separation against static geometry (CCD sliding
+            # tests and visible floor contact). Tiny slop only for two dynamic bodies
+            # to reduce jitter in stacks.
+            if a_static or b_static:
+                push = depth + 1e-6
+            else:
+                PENETRATION_SLOP = 0.001
+                push = max(0.0, depth - PENETRATION_SLOP) * 0.95
+                if push > 0.0:
+                    push += 1e-6
 
-        # Wake only when something is still moving (true impact), never on
-        # resting floor contact — that was making bodies look weightless.
-        def _speed(rb):
-            if rb is None:
-                return 0.0
-            v = rb.velocity
-            w = rb.angular_velocity
-            return float(
-                (v.x * v.x + v.y * v.y + v.z * v.z) ** 0.5
-                + 0.25 * (w.x * w.x + w.y * w.y + w.z * w.z) ** 0.5
-            )
+            # Both asleep: only skip if already fully separated (no visible sink).
+            a_sleep = rb_a is not None and getattr(rb_a, 'is_sleeping', False)
+            b_sleep = rb_b is not None and getattr(rb_b, 'is_sleeping', False)
+            if a_sleep and (b_sleep or b_static) and depth < 0.002:
+                return
+            if b_sleep and (a_sleep or a_static) and depth < 0.002:
+                return
+            # Sleeping but still penetrating → wake and finish depenetration
+            if depth >= 0.002:
+                if a_sleep and not a_static:
+                    rb_a.wake()
+                    a_sleep = False
+                if b_sleep and not b_static:
+                    rb_b.wake()
+                    b_sleep = False
 
-        impact = max(_speed(rb_a) if not a_static else 0.0,
-                     _speed(rb_b) if not b_static else 0.0) > 0.25
-        if impact:
-            if a_sleep:
-                rb_a.wake()
-                a_sleep = False
-            if b_sleep:
-                rb_b.wake()
-                b_sleep = False
+            # Wake only when something is still moving (true impact), never on
+            # resting floor contact — that was making bodies look weightless.
+            def _speed(rb):
+                if rb is None:
+                    return 0.0
+                v = rb.velocity
+                w = rb.angular_velocity
+                return float(
+                    (v.x * v.x + v.y * v.y + v.z * v.z) ** 0.5
+                    + 0.25 * (w.x * w.x + w.y * w.y + w.z * w.z) ** 0.5
+                )
+
+            impact = max(_speed(rb_a) if not a_static else 0.0,
+                         _speed(rb_b) if not b_static else 0.0) > 0.25
+            if impact:
+                if a_sleep:
+                    rb_a.wake()
+                    a_sleep = False
+                if b_sleep:
+                    rb_b.wake()
+                    b_sleep = False
 
         # --- Material combine (before separation so col_a/col_b are known) ---
         if col_a is None:
@@ -1020,31 +1031,32 @@ class Window3D(WindowBase):
         if col_b is None:
             col_b = b.get_component(Collider3D)
 
-        # --- Positional separation: update only the colliders we already have ---
-        if push > 0.0:
-            if a_static:
-                b.transform._local_position -= normal * push
-                b.transform._mark_dirty()
-                if col_b is not None:
-                    col_b._transform_dirty = True
-                    col_b.update_bounds()
-            elif b_static:
-                a.transform._local_position += normal * push
-                a.transform._mark_dirty()
-                if col_a is not None:
-                    col_a._transform_dirty = True
-                    col_a.update_bounds()
-            else:
-                a.transform._local_position += normal * (push * 0.5)
-                b.transform._local_position -= normal * (push * 0.5)
-                a.transform._mark_dirty()
-                b.transform._mark_dirty()
-                if col_a is not None:
-                    col_a._transform_dirty = True
-                    col_a.update_bounds()
-                if col_b is not None:
-                    col_b._transform_dirty = True
-                    col_b.update_bounds()
+        if not velocity_only:
+            # --- Positional separation: update only the colliders we already have ---
+            if push > 0.0:
+                if a_static:
+                    b.transform._local_position -= normal * push
+                    b.transform._mark_dirty()
+                    if col_b is not None:
+                        col_b._transform_dirty = True
+                        col_b.update_bounds()
+                elif b_static:
+                    a.transform._local_position += normal * push
+                    a.transform._mark_dirty()
+                    if col_a is not None:
+                        col_a._transform_dirty = True
+                        col_a.update_bounds()
+                else:
+                    a.transform._local_position += normal * (push * 0.5)
+                    b.transform._local_position -= normal * (push * 0.5)
+                    a.transform._mark_dirty()
+                    b.transform._mark_dirty()
+                    if col_a is not None:
+                        col_a._transform_dirty = True
+                        col_a.update_bounds()
+                    if col_b is not None:
+                        col_b._transform_dirty = True
+                        col_b.update_bounds()
 
         bounciness_a = getattr(col_a, 'bounciness', 0.0) if col_a else 0.0
         bounciness_b = getattr(col_b, 'bounciness', 0.0) if col_b else 0.0
@@ -1061,7 +1073,7 @@ class Window3D(WindowBase):
         static_fric = PhysicsMaterialCombine.combine(sf_a, sf_b, fc_a, fc_b)
         dynamic_fric = PhysicsMaterialCombine.combine(df_a, df_b, fc_a, fc_b)
 
-        # --- Contact point (required for torque arm) ---
+        # --- Contact normal ---
         n_arr = _as_np3(normal)
         n_len = float(np.linalg.norm(n_arr))
         if n_len > 1e-12:
@@ -1069,15 +1081,37 @@ class Window3D(WindowBase):
         face_align_a = 0.0 if a_static else _face_align_from_rotation(a, n_arr)
         face_align_b = 0.0 if b_static else _face_align_from_rotation(b, n_arr)
 
-        cp = getattr(manifold, 'contact_point', None)
-        if cp is None:
-            cp = estimate_contact_point(
-                a.transform.position, b.transform.position, normal, depth
+        # --- Contact points (true multi-point sequential impulses) ---
+        # Use multi-point only for well-aligned *face* contacts. Edge/vertex
+        # contacts keep the single smart point + tip heuristics so stacked
+        # faces stay stable without freezing tipped boxes.
+        from engine.d3.physics.response import FACE_REST_ALIGN
+        contact_list = getattr(manifold, 'contact_points', None)
+        multi_pts = None
+        # Multi-point sequential impulses are most valuable for *floor-like*
+        # resting faces (share load across corners, no rock).  Vertical wall
+        # face hits stay on the single-point path — full geometric arms at
+        # four corners inject residual spin under one-pass / high closing
+        # speed.  Mildly tilted boxes also stay single-point so tip heuristics
+        # still work.
+        n_arr = _as_np3(normal)
+        n_len = float(np.linalg.norm(n_arr))
+        if n_len > 1e-12:
+            n_arr = n_arr / n_len
+        face_like = max(face_align_a, face_align_b) >= FACE_REST_ALIGN
+        floor_like = abs(float(n_arr[1])) > 0.7
+        if face_like and floor_like and contact_list and len(contact_list) > 1:
+            ordered = sorted(
+                contact_list,
+                key=lambda item: -float(item[1]),
             )
-        cp = stabilize_contact_point(
-            a.transform.position, b.transform.position, cp, normal, depth,
-            face_align_a=face_align_a, face_align_b=face_align_b,
-        )
+            pts = []
+            for cp_pt, cp_d in ordered[:MAX_MANIFOLD_POINTS]:
+                if float(cp_d) < -1e-4:
+                    continue
+                pts.append(np.asarray(cp_pt, dtype=np.float64).reshape(3))
+            if len(pts) > 1:
+                multi_pts = np.ascontiguousarray(pts, dtype=np.float64)
 
         pos_a, vel_a, omega_a, inv_mass_a, i_inv_a = body_state_from_rigidbody(
             rb_a, a, a_static
@@ -1086,18 +1120,50 @@ class Window3D(WindowBase):
             rb_b, b, b_static
         )
 
-        result = resolve_contact_3d(
-            pos_a=pos_a, vel_a=vel_a, omega_a=omega_a,
-            inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
-            pos_b=pos_b, vel_b=vel_b, omega_b=omega_b,
-            inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
-            contact_point=cp, normal=normal,
-            restitution=restitution,
-            static_friction=static_fric,
-            dynamic_friction=dynamic_fric,
-            face_align_a=face_align_a,
-            face_align_b=face_align_b,
-        )
+        if multi_pts is not None:
+            result = resolve_contacts_3d_multi(
+                pos_a=pos_a, vel_a=vel_a, omega_a=omega_a,
+                inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
+                pos_b=pos_b, vel_b=vel_b, omega_b=omega_b,
+                inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
+                contact_points=multi_pts, normal=normal,
+                restitution=restitution,
+                static_friction=static_fric,
+                dynamic_friction=dynamic_fric,
+                face_align_a=face_align_a,
+                face_align_b=face_align_b,
+            )
+        else:
+            cp = getattr(manifold, 'contact_point', None)
+            if cp is None and contact_list:
+                # Prefer centroid of multi-point list for edge fallback
+                if len(contact_list) > 1:
+                    acc = np.zeros(3, dtype=np.float64)
+                    for cp_pt, _d in contact_list:
+                        acc += np.asarray(cp_pt, dtype=np.float64).reshape(3)
+                    cp = acc / float(len(contact_list))
+                else:
+                    cp = contact_list[0][0]
+            if cp is None:
+                cp = estimate_contact_point(
+                    a.transform.position, b.transform.position, normal, depth
+                )
+            cp = stabilize_contact_point(
+                a.transform.position, b.transform.position, cp, normal, depth,
+                face_align_a=face_align_a, face_align_b=face_align_b,
+            )
+            result = resolve_contact_3d(
+                pos_a=pos_a, vel_a=vel_a, omega_a=omega_a,
+                inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
+                pos_b=pos_b, vel_b=vel_b, omega_b=omega_b,
+                inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
+                contact_point=cp, normal=normal,
+                restitution=restitution,
+                static_friction=static_fric,
+                dynamic_friction=dynamic_fric,
+                face_align_a=face_align_a,
+                face_align_b=face_align_b,
+            )
         new_va, new_oa, new_vb, new_ob, unstable = result
 
         if rb_a is not None and not a_static:
@@ -1171,6 +1237,13 @@ class Window3D(WindowBase):
 
         return (vx_a, vy_a, vz_a, vx_b, vy_b, vz_b)
 
+    # Number of sequential-impulse iterations for the contact solver.
+    # More iterations let stacked / multi-body contacts converge better
+    # (reduces jitter, leftover penetration, wrong velocities) without
+    # running extra broadphase / narrow-phase passes.  Keep small to avoid
+    # heavy work — 4 is a good balance between quality and performance.
+    SOLVER_ITERATIONS: int = 4
+
     def _process_collisions(self):
         from engine.d3.physics import Collider3D, CollisionMode, CollisionRelation
         from engine.d3.physics.rigidbody import Rigidbody3D
@@ -1233,6 +1306,10 @@ class Window3D(WindowBase):
                     bp_candidates.add((j, i))
                     bp_neighbors[i].add(j)
                     bp_neighbors[j].add(i)
+
+        # Collect contacts for the multi-iteration solver (populated during
+        # inline first-pass resolution below).
+        solid_contacts = []
 
         # Check non-statics vs all. Dynamic–dynamic pairs are processed once
         # (idx_a < idx_b) to avoid double impulse / 2× SAT cost in stacks.
@@ -1318,7 +1395,8 @@ class Window3D(WindowBase):
                         else:
                             perform_final_check = False
             
-            # Normal snapshot
+            # Normal snapshot — resolve inline (first iteration) and collect
+            # the manifold for subsequent velocity-only passes.
             if perform_final_check:
                 for idx_b, cb in enumerate(all_cols):
                     if cb is ca or cb.game_object is a:
@@ -1351,14 +1429,36 @@ class Window3D(WindowBase):
                         if manifold:
                             current_collisions[ca].add(cb)
                             current_collisions[cb].add(ca)
+                            # Resolve inline (first iteration — depenetration + impulse)
                             self._resolve_collision(
                                 a, cb.game_object, manifold, col_a=ca, col_b=cb
                             )
+                            # Remember for subsequent velocity-only iterations
+                            solid_contacts.append((a, cb.game_object, manifold, ca, cb))
                     elif objects_collide(ca, cb):
                         # TRIGGER: detect only, no response
                         current_collisions[ca].add(cb)
                         current_collisions[cb].add(ca)
-        
+
+        # =====================================================================
+        # Multi-iteration sequential-impulse solver (passes 1..N-1)
+        # =====================================================================
+        # The first pass (above) resolved each contact inline with full
+        # depenetration + impulse.  Additional velocity-only passes let impulses
+        # propagate through multi-body stacks without re-running broadphase or
+        # narrow-phase — just re-solving with current velocities.
+        n_iters = max(1, int(self.SOLVER_ITERATIONS)) - 1
+        # Always re-solve when we have contacts — multi-point face manifolds
+        # and single pairs both benefit from extra velocity iterations.
+        if n_iters > 0 and solid_contacts:
+            for _iter in range(n_iters):
+                for go_a, go_b, manifold, ca, cb in solid_contacts:
+                    self._resolve_collision(
+                        go_a, go_b, manifold,
+                        col_a=ca, col_b=cb,
+                        velocity_only=True,
+                    )
+
         # Update collision events (per-collider _current_collisions)
         for c in all_cols:
             prev = c._current_collisions

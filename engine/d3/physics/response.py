@@ -26,12 +26,22 @@ try:
         face_align_from_matrix_fast as _cy_face_align,
         obb_support_feature_centroid_fast as _cy_obb_support,
     )
+    try:
+        from engine.cython.cy_response_3d import (
+            resolve_contacts_3d_multi_fast as _cy_resolve_multi,
+        )
+    except ImportError:
+        _cy_resolve_multi = None
     _USE_CYTHON = True
 except Exception:
     _USE_CYTHON = False
     _cy_resolve_contact = None
+    _cy_resolve_multi = None
     _cy_face_align = None
     _cy_obb_support = None
+
+# Max contact points solved per manifold (clip excess by depth).
+MAX_MANIFOLD_POINTS = 4
 
 RESTITUTION_THRESHOLD = 1.0
 IMPACT_BLEND_START = 1.2
@@ -183,14 +193,23 @@ def resolve_contact_3d(
     face_align_a: float = 0.0,
     face_align_b: float = 0.0,
     dt: Optional[float] = None,
+    multi_point: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, bool]:
     """Resolve one 3D contact.
+
+    Parameters
+    ----------
+    multi_point : bool
+        When True, this contact is one of several manifold points on a face.
+        Uses full geometric lever arms and skips single-point face/tip heuristics.
 
     Returns
     -------
     (vel_a, omega_a, vel_b, omega_b, unstable_support)
     """
-    if _USE_CYTHON and _cy_resolve_contact is not None:
+    # Use Cython for single-point solves. Multi-point needs the multi_point
+    # flag (newer extension) or pure-Python arms — old .so has no multi_point kw.
+    if _USE_CYTHON and _cy_resolve_contact is not None and not multi_point:
         from engine.component import Time
         if dt is None:
             dt = float(getattr(Time, "delta_time", 0.0) or (1.0 / 60.0))
@@ -252,51 +271,58 @@ def resolve_contact_3d(
     best_align = max(face_align_a if inv_mass_a > 0.0 else 0.0,
                      face_align_b if inv_mass_b > 0.0 else 0.0)
 
-    # Stable face rest: face well aligned AND contact near COM projection.
-    face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
-    unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
-
-    # Floor contacts: settle only when *nearly flat* on a face.
-    # Too-low align threshold left cubes frozen at ~15–25° with a corner sunk in.
-    ground_like = abs(float(n[1])) > 0.88
-    if ground_like and closing < 2.5:
-        if best_align >= FACE_REST_ALIGN and support_off < 0.08:
-            # Truly face-down on floor → stable rest
-            face_support = True
-            unstable = False
-        elif (
-            support_off >= UNSTABLE_SUPPORT_OFFSET
-            or best_align < FACE_REST_ALIGN
-        ):
-            # Edge / vertex / residual tilt → keep tipping under gravity
-            face_support = False
-            unstable = True
-            # Exact 45° knife-edge can put COM above the edge (off≈0).
-            # Nudge a virtual offset *perpendicular to the edge* so gravity tips.
-            if support_off < 1e-3 and inv_mass_a > 0.0:
-                edge = np.array([1.0, 0.0, 0.0], dtype=np.float64)
-                edge = edge - n * float(np.dot(edge, n))
-                if float(np.linalg.norm(edge)) < 1e-6:
-                    edge = np.array([0.0, 0.0, 1.0], dtype=np.float64)
-                    edge = edge - n * float(np.dot(edge, n))
-                el = float(np.linalg.norm(edge))
-                if el > 1e-6:
-                    edge /= el
-                    tip_dir = _cross(n, edge)
-                    tl = float(np.linalg.norm(tip_dir))
-                    if tl > 1e-6:
-                        tip_dir /= tl
-                        ra_full = ra_full + tip_dir * 0.03
-                        support_off = 0.03
-
-    if face_support:
-        # Resting face: pure COM normal (no phantom floor spin)
-        w_n = 0.0 if closing < 1.5 else w_impact * 0.1
-    elif unstable:
-        tip = min(1.0, max(support_off, 0.02) / 0.25)
-        w_n = max(w_impact, 0.75 + 0.25 * tip)
+    # Multi-point manifold: full geometric arms, no single-point face/tip hacks.
+    if multi_point:
+        face_support = False
+        unstable = False
+        w_n = 1.0
+        ground_like = abs(float(n[1])) > 0.88
     else:
-        w_n = w_impact
+        # Stable face rest: face well aligned AND contact near COM projection.
+        face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
+        unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
+
+        # Floor contacts: settle only when *nearly flat* on a face.
+        # Too-low align threshold left cubes frozen at ~15–25° with a corner sunk in.
+        ground_like = abs(float(n[1])) > 0.88
+        if ground_like and closing < 2.5:
+            if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+                # Truly face-down on floor → stable rest
+                face_support = True
+                unstable = False
+            elif (
+                support_off >= UNSTABLE_SUPPORT_OFFSET
+                or best_align < FACE_REST_ALIGN
+            ):
+                # Edge / vertex / residual tilt → keep tipping under gravity
+                face_support = False
+                unstable = True
+                # Exact 45° knife-edge can put COM above the edge (off≈0).
+                # Nudge a virtual offset *perpendicular to the edge* so gravity tips.
+                if support_off < 1e-3 and inv_mass_a > 0.0:
+                    edge = np.array([1.0, 0.0, 0.0], dtype=np.float64)
+                    edge = edge - n * float(np.dot(edge, n))
+                    if float(np.linalg.norm(edge)) < 1e-6:
+                        edge = np.array([0.0, 0.0, 1.0], dtype=np.float64)
+                        edge = edge - n * float(np.dot(edge, n))
+                    el = float(np.linalg.norm(edge))
+                    if el > 1e-6:
+                        edge /= el
+                        tip_dir = _cross(n, edge)
+                        tl = float(np.linalg.norm(tip_dir))
+                        if tl > 1e-6:
+                            tip_dir /= tl
+                            ra_full = ra_full + tip_dir * 0.03
+                            support_off = 0.03
+
+        if face_support:
+            # Resting face: pure COM normal (no phantom floor spin)
+            w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+        elif unstable:
+            tip = min(1.0, max(support_off, 0.02) / 0.25)
+            w_n = max(w_impact, 0.75 + 0.25 * tip)
+        else:
+            w_n = w_impact
 
     ra_n, rb_n = _normal_lever_arms(ra_full, rb_full, n, w_n)
 
@@ -330,7 +356,8 @@ def resolve_contact_3d(
 
     # Gravity tipping on edges/vertices: continuous support torque about COM.
     # Discrete jn only cancels g*dt vertically; without this, balanced edges sleep.
-    if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and i_inv_a is not None:
+    # Skipped for multi-point (corners would each inject tip torque).
+    if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and i_inv_a is not None:
         from engine.component import Time
         dt = float(getattr(Time, "delta_time", 0.0) or (1.0 / 60.0))
         dt = max(1e-5, min(dt, 0.05))
@@ -345,7 +372,7 @@ def resolve_contact_3d(
         # Keep a minimum tip rate so residuals aren't stuck below noise floors
         if float(np.linalg.norm(oa)) < 0.15:
             oa = oa + i_inv_a @ tau_imp  # double once if still tiny
-    if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and i_inv_b is not None:
+    if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and i_inv_b is not None:
         from engine.component import Time
         dt = float(getattr(Time, "delta_time", 0.0) or (1.0 / 60.0))
         dt = max(1e-5, min(dt, 0.05))
@@ -357,7 +384,10 @@ def resolve_contact_3d(
         ob = ob + i_inv_b @ tau_imp
 
     # --- Friction ---
-    if face_support:
+    if multi_point:
+        ra_f, rb_f = ra_full, rb_full
+        friction_angular = True
+    elif face_support:
         # Linear friction only while settling on a face (no spin-up)
         ra_f = ra_n
         rb_f = rb_n
@@ -418,7 +448,8 @@ def resolve_contact_3d(
 
     # Face / floor settling: kill residual spin. With friction > 0, also kill
     # micro horizontal creep so bodies don't "ice skate" after landing.
-    if face_support and closing < 2.0:
+    # (Single-point only — multi-point settles after all points in the batch.)
+    if (not multi_point) and face_support and closing < 2.0:
         if inv_mass_a > 0.0:
             oa = oa * 0.25
             if float(np.linalg.norm(oa)) < 0.5:
@@ -442,6 +473,137 @@ def resolve_contact_3d(
             ob = ob * damp
 
     return va, _clamp_omega(oa), vb, _clamp_omega(ob), unstable
+
+
+def resolve_contacts_3d_multi(
+    *,
+    pos_a,
+    vel_a,
+    omega_a,
+    inv_mass_a: float,
+    i_inv_a: Optional[np.ndarray],
+    pos_b,
+    vel_b,
+    omega_b,
+    inv_mass_b: float,
+    i_inv_b: Optional[np.ndarray],
+    contact_points,
+    normal,
+    restitution: float,
+    static_friction: float,
+    dynamic_friction: float,
+    face_align_a: float = 0.0,
+    face_align_b: float = 0.0,
+    dt: Optional[float] = None,
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, bool]:
+    """Sequential-impulse solve over multiple manifold contact points.
+
+    *contact_points* is an iterable of 3D points (or (N,3) array).  Velocities
+    are chained so later points see earlier impulses.  Returns the same
+    5-tuple as :func:`resolve_contact_3d`.
+    """
+    from engine.component import Time
+
+    if dt is None:
+        dt = float(getattr(Time, "delta_time", 0.0) or (1.0 / 60.0))
+
+    pts = np.asarray(contact_points, dtype=np.float64)
+    if pts.ndim == 1:
+        pts = pts.reshape(1, 3)
+    elif pts.ndim != 2 or pts.shape[1] != 3:
+        pts = np.array([_as_np3(p) for p in contact_points], dtype=np.float64)
+    if pts.shape[0] == 0:
+        return (
+            _as_np3(vel_a), _as_np3(omega_a),
+            _as_np3(vel_b), _as_np3(omega_b),
+            False,
+        )
+    # Keep deepest / first MAX_MANIFOLD_POINTS
+    if pts.shape[0] > MAX_MANIFOLD_POINTS:
+        pts = pts[:MAX_MANIFOLD_POINTS]
+    pts = np.ascontiguousarray(pts, dtype=np.float64)
+
+    if _USE_CYTHON and _cy_resolve_multi is not None:
+        pa = np.ascontiguousarray(_as_np3(pos_a), dtype=np.float64)
+        pb = np.ascontiguousarray(_as_np3(pos_b), dtype=np.float64)
+        va = np.ascontiguousarray(_as_np3(vel_a), dtype=np.float64)
+        vb = np.ascontiguousarray(_as_np3(vel_b), dtype=np.float64)
+        oa = np.ascontiguousarray(_as_np3(omega_a), dtype=np.float64)
+        ob = np.ascontiguousarray(_as_np3(omega_b), dtype=np.float64)
+        n = np.ascontiguousarray(_as_np3(normal), dtype=np.float64)
+        ia = None if i_inv_a is None else np.ascontiguousarray(i_inv_a, dtype=np.float64)
+        ib = None if i_inv_b is None else np.ascontiguousarray(i_inv_b, dtype=np.float64)
+        return _cy_resolve_multi(
+            pa, va, oa, float(inv_mass_a), ia,
+            pb, vb, ob, float(inv_mass_b), ib,
+            pts, n,
+            float(restitution), float(static_friction), float(dynamic_friction),
+            float(face_align_a), float(face_align_b), float(dt),
+        )
+
+    va = _as_np3(vel_a)
+    oa = _as_np3(omega_a)
+    vb = _as_np3(vel_b)
+    ob = _as_np3(omega_b)
+    multi = pts.shape[0] > 1
+    any_unstable = False
+    # Inner sequential-impulse iterations over the manifold points so
+    # corner torques cancel on centered face hits.
+    n_inner = 4 if multi else 1
+    for _inner in range(n_inner):
+        for i in range(pts.shape[0]):
+            # Restitution only on the first inner pass (avoid multi-bounce)
+            e_use = restitution if _inner == 0 else 0.0
+            va, oa, vb, ob, unst = resolve_contact_3d(
+                pos_a=pos_a, vel_a=va, omega_a=oa,
+                inv_mass_a=inv_mass_a, i_inv_a=i_inv_a,
+                pos_b=pos_b, vel_b=vb, omega_b=ob,
+                inv_mass_b=inv_mass_b, i_inv_b=i_inv_b,
+                contact_point=pts[i], normal=normal,
+                restitution=e_use,
+                static_friction=static_friction,
+                dynamic_friction=dynamic_friction,
+                face_align_a=face_align_a,
+                face_align_b=face_align_b,
+                dt=dt,
+                multi_point=multi,
+            )
+            any_unstable = any_unstable or unst
+
+    # Face settle after multi-point chain: corner impulses leave residual spin
+    # even on a centered face hit. Damp aggressively when the face is aligned.
+    if multi and not any_unstable:
+        best_align = max(float(face_align_a), float(face_align_b))
+        if best_align >= FACE_ALIGN_THRESHOLD:
+            n = _as_np3(normal)
+            nlen = float(np.linalg.norm(n))
+            if nlen > 1e-12:
+                n = n / nlen
+            if inv_mass_a > 0.0:
+                oa = oa * 0.12
+                if float(np.linalg.norm(oa)) < 1.0:
+                    oa = np.zeros(3, dtype=np.float64)
+                # Kill residual only when nearly at rest (don't stop ramp slides)
+                v_n = float(np.dot(va, n))
+                v_t = va - n * v_n
+                tmag = float(np.linalg.norm(v_t))
+                if tmag < 0.08 and abs(v_n) < 0.35:
+                    va = np.zeros(3, dtype=np.float64)
+                elif abs(v_n) < 0.12 and v_n < 0.0 and tmag < 0.5:
+                    va = v_t  # drop micro into-surface residual, keep slide
+            if inv_mass_b > 0.0:
+                ob = ob * 0.12
+                if float(np.linalg.norm(ob)) < 1.0:
+                    ob = np.zeros(3, dtype=np.float64)
+                v_n = float(np.dot(vb, n))
+                v_t = vb - n * v_n
+                tmag = float(np.linalg.norm(v_t))
+                if tmag < 0.08 and abs(v_n) < 0.35:
+                    vb = np.zeros(3, dtype=np.float64)
+                elif abs(v_n) < 0.12 and v_n < 0.0 and tmag < 0.5:
+                    vb = v_t
+
+    return va, _clamp_omega(oa), vb, _clamp_omega(ob), any_unstable
 
 
 def estimate_contact_point(pos_a, pos_b, normal, depth: float = 0.0) -> np.ndarray:

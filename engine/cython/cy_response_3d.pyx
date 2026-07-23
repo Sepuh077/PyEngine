@@ -163,6 +163,7 @@ cdef void _resolve_contact_core(
     double restitution, double static_friction, double dynamic_friction,
     double face_align_a, double face_align_b,
     double dt,
+    bint multi_point,
     bint *out_unstable,
 ) noexcept nogil:
     cdef double n_len = _len3(nx, ny, nz)
@@ -226,49 +227,58 @@ cdef void _resolve_contact_core(
     if inv_mass_b > 0.0 and face_align_b > best_align:
         best_align = face_align_b
 
-    face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
-    unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
+    # Multi-point manifold contacts: use full geometric lever arms at each
+    # point so face corners share load.  Skip single-point face_support /
+    # tip heuristics (those assume one smart contact near the COM).
+    if multi_point:
+        face_support = 0
+        unstable = 0
+        w_n = 1.0
+        ground_like = fabs(ny) > 0.88
+    else:
+        face_support = face_aligned and support_off < UNSTABLE_SUPPORT_OFFSET
+        unstable = support_off >= UNSTABLE_SUPPORT_OFFSET
 
-    ground_like = fabs(ny) > 0.88
-    if ground_like and closing < 2.5:
-        if best_align >= FACE_REST_ALIGN and support_off < 0.08:
-            face_support = 1
-            unstable = 0
-        elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
-            face_support = 0
-            unstable = 1
-            if support_off < 1e-3 and inv_mass_a > 0.0:
-                edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
-                dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
-                edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
-                if _len3(edge_x, edge_y, edge_z) < 1e-6:
-                    edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+        ground_like = fabs(ny) > 0.88
+        if ground_like and closing < 2.5:
+            if best_align >= FACE_REST_ALIGN and support_off < 0.08:
+                face_support = 1
+                unstable = 0
+            elif support_off >= UNSTABLE_SUPPORT_OFFSET or best_align < FACE_REST_ALIGN:
+                face_support = 0
+                unstable = 1
+                if support_off < 1e-3 and inv_mass_a > 0.0:
+                    edge_x = 1.0; edge_y = 0.0; edge_z = 0.0
                     dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
                     edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
-                el = _len3(edge_x, edge_y, edge_z)
-                if el > 1e-6:
-                    edge_x /= el; edge_y /= el; edge_z /= el
-                    _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
-                    tl = _len3(tip_x, tip_y, tip_z)
-                    if tl > 1e-6:
-                        tip_x /= tl; tip_y /= tl; tip_z /= tl
-                        rax += tip_x * 0.03
-                        ray += tip_y * 0.03
-                        raz += tip_z * 0.03
-                        support_off = 0.03
+                    if _len3(edge_x, edge_y, edge_z) < 1e-6:
+                        edge_x = 0.0; edge_y = 0.0; edge_z = 1.0
+                        dn = _dot3(edge_x, edge_y, edge_z, nx, ny, nz)
+                        edge_x -= nx * dn; edge_y -= ny * dn; edge_z -= nz * dn
+                    el = _len3(edge_x, edge_y, edge_z)
+                    if el > 1e-6:
+                        edge_x /= el; edge_y /= el; edge_z /= el
+                        _cross3(nx, ny, nz, edge_x, edge_y, edge_z, &tip_x, &tip_y, &tip_z)
+                        tl = _len3(tip_x, tip_y, tip_z)
+                        if tl > 1e-6:
+                            tip_x /= tl; tip_y /= tl; tip_z /= tl
+                            rax += tip_x * 0.03
+                            ray += tip_y * 0.03
+                            raz += tip_z * 0.03
+                            support_off = 0.03
 
-    if face_support:
-        w_n = 0.0 if closing < 1.5 else w_impact * 0.1
-    elif unstable:
-        tip = support_off if support_off > 0.02 else 0.02
-        if tip > 0.25:
-            tip = 0.25
-        tip = tip / 0.25
-        if tip > 1.0:
-            tip = 1.0
-        w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
-    else:
-        w_n = w_impact
+        if face_support:
+            w_n = 0.0 if closing < 1.5 else w_impact * 0.1
+        elif unstable:
+            tip = support_off if support_off > 0.02 else 0.02
+            if tip > 0.25:
+                tip = 0.25
+            tip = tip / 0.25
+            if tip > 1.0:
+                tip = 1.0
+            w_n = w_impact if w_impact > (0.75 + 0.25 * tip) else (0.75 + 0.25 * tip)
+        else:
+            w_n = w_impact
 
     # lever arms
     dn = _dot3(rax, ray, raz, nx, ny, nz)
@@ -323,8 +333,8 @@ cdef void _resolve_contact_core(
                    ra_nx, ra_ny, ra_nz, rb_nx, rb_ny, rb_nz,
                    jnx, jny, jnz)
 
-    # Gravity tip torque
-    if unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
+    # Gravity tip torque (single-point only — multi-point faces share load)
+    if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_a > 0.0 and has_ia:
         if dt < 1e-5:
             dt = 1e-5
         if dt > 0.05:
@@ -344,7 +354,7 @@ cdef void _resolve_contact_core(
         if _len3(oax[0], oay[0], oaz[0]) < 0.15:
             oax[0] += ox; oay[0] += oy; oaz[0] += oz
 
-    if unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
+    if (not multi_point) and unstable and ground_like and closing < 3.0 and inv_mass_b > 0.0 and has_ib:
         if dt < 1e-5:
             dt = 1e-5
         if dt > 0.05:
@@ -363,7 +373,12 @@ cdef void _resolve_contact_core(
         obx[0] += ox; oby[0] += oy; obz[0] += oz
 
     # Friction
-    if face_support:
+    if multi_point:
+        # Full geometric arms for friction at each manifold point
+        ra_fx = rax; ra_fy = ray; ra_fz = raz
+        rb_fx = rbx; rb_fy = rby; rb_fz = rbz
+        friction_angular = 1
+    elif face_support:
         ra_fx = ra_nx; ra_fy = ra_ny; ra_fz = ra_nz
         rb_fx = rb_nx; rb_fy = rb_ny; rb_fz = rb_nz
         friction_angular = closing > 2.0
@@ -428,8 +443,8 @@ cdef void _resolve_contact_core(
                                ra_fx, ra_fy, ra_fz, rb_fx, rb_fy, rb_fz,
                                tx * jt, ty * jt, tz * jt)
 
-    # Face settle
-    if face_support and closing < 2.0:
+    # Face settle (single-point only; multi-point settles after all points)
+    if (not multi_point) and face_support and closing < 2.0:
         if inv_mass_a > 0.0:
             oax[0] *= 0.25; oay[0] *= 0.25; oaz[0] *= 0.25
             if _len3(oax[0], oay[0], oaz[0]) < 0.5:
@@ -464,10 +479,12 @@ def resolve_contact_3d_fast(
     double restitution, double static_friction, double dynamic_friction,
     double face_align_a=0.0, double face_align_b=0.0,
     double dt=0.016666666666666666,
+    bint multi_point=0,
 ):
     """
     Fast contact solve. Returns (va, oa, vb, ob, unstable) as float64 arrays / bool.
     i_inv_* may be None or a contiguous (3,3) float64 matrix.
+    multi_point: use full geometric arms (for multi-point manifold points).
     """
     cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
     cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
@@ -508,7 +525,7 @@ def resolve_contact_3d_fast(
         contact_point[0], contact_point[1], contact_point[2],
         normal[0], normal[1], normal[2],
         restitution, static_friction, dynamic_friction,
-        face_align_a, face_align_b, dt, &unstable,
+        face_align_a, face_align_b, dt, multi_point, &unstable,
     )
 
     out_va = np.empty(3, dtype=np.float64)
@@ -520,6 +537,135 @@ def resolve_contact_3d_fast(
     out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
     out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
     return out_va, out_oa, out_vb, out_ob, bool(unstable)
+
+
+def resolve_contacts_3d_multi_fast(
+    double[::1] pos_a, double[::1] vel_a, double[::1] omega_a,
+    double inv_mass_a, object i_inv_a,
+    double[::1] pos_b, double[::1] vel_b, double[::1] omega_b,
+    double inv_mass_b, object i_inv_b,
+    double[:, ::1] contact_points,
+    double[::1] normal,
+    double restitution, double static_friction, double dynamic_friction,
+    double face_align_a=0.0, double face_align_b=0.0,
+    double dt=0.016666666666666666,
+):
+    """Sequential-impulse solve over multiple manifold contact points.
+
+    *contact_points* is (N, 3) float64.  Velocities are chained across points.
+    Returns (va, oa, vb, ob, unstable) like resolve_contact_3d_fast.
+    """
+    cdef double vax = vel_a[0], vay = vel_a[1], vaz = vel_a[2]
+    cdef double oax = omega_a[0], oay = omega_a[1], oaz = omega_a[2]
+    cdef double vbx = vel_b[0], vby = vel_b[1], vbz = vel_b[2]
+    cdef double obx = omega_b[0], oby = omega_b[1], obz = omega_b[2]
+    cdef bint has_ia = 0, has_ib = 0
+    cdef bint unstable = 0, any_unstable = 0
+    cdef double[:, ::1] ia
+    cdef double[:, ::1] ib
+    cdef cnp.ndarray[cnp.float64_t, ndim=2] ia_arr
+    cdef cnp.ndarray[cnp.float64_t, ndim=2] ib_arr
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out_va, out_oa, out_vb, out_ob
+    cdef Py_ssize_t i, n
+    cdef bint multi
+    cdef double best_align, speed_a, speed_b
+
+    n = contact_points.shape[0]
+    if n <= 0:
+        out_va = np.ascontiguousarray(vel_a, dtype=np.float64)
+        out_oa = np.ascontiguousarray(omega_a, dtype=np.float64)
+        out_vb = np.ascontiguousarray(vel_b, dtype=np.float64)
+        out_ob = np.ascontiguousarray(omega_b, dtype=np.float64)
+        return out_va, out_oa, out_vb, out_ob, False
+
+    ia_arr = np.zeros((3, 3), dtype=np.float64)
+    ib_arr = np.zeros((3, 3), dtype=np.float64)
+    ia = ia_arr
+    ib = ib_arr
+
+    if i_inv_a is not None:
+        ia_arr = np.ascontiguousarray(i_inv_a, dtype=np.float64)
+        if ia_arr.shape[0] == 3 and ia_arr.shape[1] == 3:
+            ia = ia_arr
+            has_ia = 1
+    if i_inv_b is not None:
+        ib_arr = np.ascontiguousarray(i_inv_b, dtype=np.float64)
+        if ib_arr.shape[0] == 3 and ib_arr.shape[1] == 3:
+            ib = ib_arr
+            has_ib = 1
+
+    multi = 1 if n > 1 else 0
+    cdef int n_inner = 4 if multi else 1
+    cdef int inner
+    cdef double e_use
+    for inner in range(n_inner):
+        e_use = restitution if inner == 0 else 0.0
+        for i in range(n):
+            unstable = 0
+            _resolve_contact_core(
+                pos_a[0], pos_a[1], pos_a[2],
+                &vax, &vay, &vaz, &oax, &oay, &oaz,
+                inv_mass_a, has_ia, ia,
+                pos_b[0], pos_b[1], pos_b[2],
+                &vbx, &vby, &vbz, &obx, &oby, &obz,
+                inv_mass_b, has_ib, ib,
+                contact_points[i, 0], contact_points[i, 1], contact_points[i, 2],
+                normal[0], normal[1], normal[2],
+                e_use, static_friction, dynamic_friction,
+                face_align_a, face_align_b, dt, multi, &unstable,
+            )
+            if unstable:
+                any_unstable = 1
+
+    # Face settle after multi-point: kill residual corner spin / slide.
+    cdef double nnx, nny, nnz, nlen, inv_n, vn, vtx2, vty2, vtz2, tmag
+    if multi and not any_unstable:
+        best_align = face_align_a if face_align_a > face_align_b else face_align_b
+        if best_align >= FACE_ALIGN_THRESHOLD:
+            nnx = normal[0]; nny = normal[1]; nnz = normal[2]
+            nlen = _len3(nnx, nny, nnz)
+            if nlen > 1e-12:
+                inv_n = 1.0 / nlen
+                nnx *= inv_n; nny *= inv_n; nnz *= inv_n
+            if inv_mass_a > 0.0:
+                oax *= 0.12; oay *= 0.12; oaz *= 0.12
+                if _len3(oax, oay, oaz) < 1.0:
+                    oax = 0.0; oay = 0.0; oaz = 0.0
+                vn = vax * nnx + vay * nny + vaz * nnz
+                vtx2 = vax - nnx * vn
+                vty2 = vay - nny * vn
+                vtz2 = vaz - nnz * vn
+                tmag = _len3(vtx2, vty2, vtz2)
+                if tmag < 0.08 and fabs(vn) < 0.35:
+                    vax = 0.0; vay = 0.0; vaz = 0.0
+                elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+                    vax = vtx2; vay = vty2; vaz = vtz2
+            if inv_mass_b > 0.0:
+                obx *= 0.12; oby *= 0.12; obz *= 0.12
+                if _len3(obx, oby, obz) < 1.0:
+                    obx = 0.0; oby = 0.0; obz = 0.0
+                vn = vbx * nnx + vby * nny + vbz * nnz
+                vtx2 = vbx - nnx * vn
+                vty2 = vby - nny * vn
+                vtz2 = vbz - nnz * vn
+                tmag = _len3(vtx2, vty2, vtz2)
+                if tmag < 0.08 and fabs(vn) < 0.35:
+                    vbx = 0.0; vby = 0.0; vbz = 0.0
+                elif fabs(vn) < 0.12 and vn < 0.0 and tmag < 0.5:
+                    vbx = vtx2; vby = vty2; vbz = vtz2
+
+    _clamp_omega3(&oax, &oay, &oaz, MAX_ANGULAR_SPEED)
+    _clamp_omega3(&obx, &oby, &obz, MAX_ANGULAR_SPEED)
+
+    out_va = np.empty(3, dtype=np.float64)
+    out_oa = np.empty(3, dtype=np.float64)
+    out_vb = np.empty(3, dtype=np.float64)
+    out_ob = np.empty(3, dtype=np.float64)
+    out_va[0] = vax; out_va[1] = vay; out_va[2] = vaz
+    out_oa[0] = oax; out_oa[1] = oay; out_oa[2] = oaz
+    out_vb[0] = vbx; out_vb[1] = vby; out_vb[2] = vbz
+    out_ob[0] = obx; out_ob[1] = oby; out_ob[2] = obz
+    return out_va, out_oa, out_vb, out_ob, bool(any_unstable)
 
 
 def face_align_from_matrix_fast(double[:, ::1] R, double[::1] n):
