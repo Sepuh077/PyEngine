@@ -50,11 +50,13 @@ dependencies = [
 
 [project.optional-dependencies]
 editor = ["PySide6>=6.6.0"]
-# dev includes Cython so that developers who edit .pyx files can easily
-# rebuild the extensions later (pip install -e .[dev] + re-run build if needed).
-dev = ["pytest>=9.0.0", "Cython>=3.0"]
-build = ["Cython>=3.0"]  # explicit build deps for people who use --no-build-isolation
-all = ["PySide6>=6.6.0", "pytest>=9.0.0", "Cython>=3.0"]
+# dev: test + rebuild Cython in-tree (setup_cython.py / no-isolation builds).
+# setuptools is listed so `python setup_cython.py build_ext --inplace` works
+# without a separate manual install.
+dev = ["pytest>=9.0.0", "Cython>=3.0", "setuptools>=68"]
+# explicit build deps for people who use --no-build-isolation
+build = ["Cython>=3.0", "setuptools>=68", "wheel", "numpy>=1.20.0"]
+all = ["PySide6>=6.6.0", "pytest>=9.0.0", "Cython>=3.0", "setuptools>=68"]
 
 [project.scripts]
 pyengine = "engine.cli:main"
