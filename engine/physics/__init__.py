@@ -6,6 +6,7 @@ from engine.physics.world import (
     partition_contacts_into_islands,
     contact_pair_key,
 )
+from engine.physics import solver_constants
 
 __all__ = [
     "PhysicsWorld",
@@ -13,4 +14,7 @@ __all__ = [
     "get_physics_world",
     "partition_contacts_into_islands",
     "contact_pair_key",
+    "solver_constants",
 ]
+
+from engine.physics import solver_constants  # noqa: F401

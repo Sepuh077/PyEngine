@@ -17,10 +17,12 @@ build/
 *.egg
 .tox/
 .coverage
+.coverage.*
 htmlcov/
 .pytest_cache/
 .cache
 .mypy_cache/
+.ruff_cache/
 .dmypy.json
 dmypy.json
 *.swp
@@ -29,6 +31,13 @@ dmypy.json
 .DS_Store
 .idea/
 .vscode/
+
+# Cython: keep .pyx in VCS; generated .c is produced at build time.
+# (Wheels/sdists may still include .c when packaging; local trees should not.)
+engine/cython/*.c
+engine/cython/*.html
+engine/cython/*.so
+engine/cython/*.pyd
 
 # Local/dev scratch
 /assets/

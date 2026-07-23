@@ -40,8 +40,13 @@ try:
         cy_update_end_of_frame as _cy_update_end_of_frame,
     )
     _USE_CYTHON_GAMELOOP = True
-except Exception:
+except Exception as _cy_exc:
     _USE_CYTHON_GAMELOOP = False
+    try:
+        from engine.log import get_logger, log_exception
+        log_exception(get_logger("window_base"), "Cython gameloop unavailable: %s", _cy_exc)
+    except Exception:
+        pass
 
 try:
     import moderngl

@@ -28,25 +28,28 @@ try:
         raise ImportError("Cython disabled via PYENGINE_PURE_PYTHON=1")
     from engine.cython.cy_response_2d import resolve_contact_2d_fast as _cy_resolve_contact
     _USE_CYTHON = True
-except Exception:
+except Exception as _exc:
     _USE_CYTHON = False
     _cy_resolve_contact = None
+    try:
+        from engine.log import get_logger, log_exception
+        log_exception(get_logger("physics.response2d"), "Cython response2d unavailable: %s", _exc)
+    except Exception:
+        pass
 
-RESTITUTION_THRESHOLD = 1.0
-IMPACT_BLEND_START = 1.2
-IMPACT_BLEND_END = 7.0
-FACE_ALIGN_THRESHOLD = 0.82
-FACE_REST_ALIGN = 0.985
-# Edge/corner: small in-plane offset already counts as unstable support.
-UNSTABLE_SUPPORT_OFFSET = 0.06
-# Face–face / face–ground: only tip when COM projects near the *edge* of the
-# support face. 0.06 was far too tight for stacks (2–10 cm misalignment on a
-# 1 m box is still stable in real life, but was treated as an edge and spun).
-FACE_TIP_OFFSET = 0.40
-MAX_NORMAL_TANGENT_ARM = 0.35
-RESTING_TANGENTIAL_SPEED = 0.08
-MAX_ANGULAR_SPEED = 20.0
-GRAVITY = 9.81
+from engine.physics.solver_constants import (  # noqa: E402
+    RESTITUTION_THRESHOLD,
+    IMPACT_BLEND_START,
+    IMPACT_BLEND_END,
+    FACE_ALIGN_THRESHOLD,
+    FACE_REST_ALIGN,
+    UNSTABLE_SUPPORT_OFFSET,
+    FACE_TIP_OFFSET,
+    MAX_NORMAL_TANGENT_ARM,
+    RESTING_TANGENTIAL_SPEED,
+    MAX_ANGULAR_SPEED,
+    GRAVITY,
+)
 
 
 def _as_np2(v) -> np.ndarray:

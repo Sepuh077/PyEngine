@@ -81,9 +81,8 @@ class GameObject:
         # Reference to the scene this object belongs to
         self._scene: Optional['Scene'] = None
         
-        # Render layer for selective camera rendering
-        # Import here to avoid circular imports at module level
-        from engine.d3.camera import RenderLayer
+        # Render layer for selective camera rendering (neutral package — no d3 import)
+        from engine.rendering.layers import RenderLayer
         self._render_layer: RenderLayer = RenderLayer.DEFAULT
    
     @property
@@ -99,7 +98,7 @@ class GameObject:
     @render_layer.setter
     def render_layer(self, value):
         """Set the render layer for this object."""
-        from engine.d3.camera import RenderLayer
+        from engine.rendering.layers import RenderLayer
         if isinstance(value, RenderLayer):
             self._render_layer = value
         else:
@@ -580,77 +579,12 @@ class GameObject:
 
     @staticmethod
     def _component_to_prefab(component: Component, component_index: int = 0) -> Dict[str, Any]:
+        from engine.component_registry import serialize_skip_keys
+
         comp_cls = component.__class__
         module_name = comp_cls.__module__
         class_name = comp_cls.__name__
-
-        skip_keys = {
-            "game_object",
-            "_mesh",
-            "mesh",
-            "_vao",
-            "_vbo",
-            "_gl_texture",
-            "_gpu_initialized",
-            "_mesh_key",
-            "_mesh_cache",
-            "_texture_image",
-            "_started",  # Script lifecycle state - should always start fresh
-            "_awoken",   # Script lifecycle state - should always start fresh
-        }
-
-        is_object3d = module_name in {"src.engine.object3d", "engine.d3.object3d"} and class_name == "Object3D"
-        if is_object3d:
-            skip_keys = set(skip_keys)
-            skip_keys.update({
-                "_local_min",
-                "_local_max",
-                "_local_radius",
-                "_uv",
-            })
-
-        is_collider = module_name.startswith("src.physics")
-        if is_collider:
-            skip_keys = set(skip_keys)
-            skip_keys.update({
-                "_current_collisions",
-                "mesh_data",
-                "sphere",
-                "obb",
-                "aabb",
-                "cylinder",
-                "_transform_dirty",
-            })
-
-        is_particle_system = (
-            (module_name in {"src.engine.particle", "engine.d3.particle"} and class_name == "ParticleSystem")
-            or (module_name in {"engine.d2.particle"} and class_name == "ParticleSystem2D")
-        )
-        if is_particle_system:
-            skip_keys = set(skip_keys)
-            skip_keys.update({
-                "_particles",
-                "_container",
-                "_playing",
-                "_elapsed",
-                "_emit_timer",
-                "_rng",
-            })
-
-        is_transform = module_name in {"src.engine.transform", "engine.d3.transform", "engine.transform"} and class_name == "Transform"
-        if is_transform:
-            skip_keys = set(skip_keys)
-            skip_keys.update({
-                "_children",  # Rebuilt automatically when _parent is set on children
-            })
-
-        is_object2d = module_name in {"src.engine.d2.object2d", "engine.d2.object2d"} and class_name == "Object2D"
-        if is_object2d:
-            skip_keys = set(skip_keys)
-            skip_keys.update({
-                "_sprite_surface",  # live pygame Surface, not serializable; path is saved via 'sprite' InspectorField
-                "_texture_dirty",
-            })
+        skip_keys = serialize_skip_keys(module_name, class_name)
 
         # Get the game object ID for component references
         game_object_id = component.game_object._id if component.game_object else None
@@ -670,17 +604,15 @@ class GameObject:
 
     @staticmethod
     def _component_from_prefab(data: Dict[str, Any]) -> Optional[Component]:
+        from engine.component_registry import resolve_component_class
+
         module_name = data.get("module")
         class_name = data.get("class")
         state = data.get("state", {})
         if not module_name or not class_name:
             return None
 
-        module = importlib.import_module(module_name)
-        comp_cls = getattr(module, class_name, None)
-        if comp_cls is None:
-            raise ValueError(f"Component class '{class_name}' not found in {module_name}")
-
+        comp_cls = resolve_component_class(module_name, class_name)
         component: Component = comp_cls()
         
         # First pass: deserialize without resolving component refs
@@ -691,10 +623,10 @@ class GameObject:
         # Store the raw serialized state for second-pass resolution
         component._serialized_state = state
 
-        if module_name in {"src.engine.object3d", "engine.d3.object3d"} and class_name == "Object3D":
+        if class_name == "Object3D":
             GameObject._restore_object3d_geometry(component)
 
-        if module_name in {"src.engine.d2.object2d", "engine.d2.object2d"} and class_name == "Object2D":
+        if class_name == "Object2D":
             GameObject._restore_object2d_sprite(component)
 
         return component
@@ -778,9 +710,9 @@ class GameObject:
                 "name": value.name,
             }
         
-        # Handle Viewport objects
+        # Handle Viewport objects (shared rendering type)
         try:
-            from engine.d3.camera import Viewport
+            from engine.rendering.layers import Viewport
         except ImportError:
             Viewport = None
         if Viewport is not None and isinstance(value, Viewport):
@@ -963,7 +895,7 @@ class GameObject:
                 name = value.get("name", "default")
                 return ColliderGroup._registry.get(name) or ColliderGroup(name)
             if value.get("__type__") == "Viewport":
-                from engine.d3.camera import Viewport
+                from engine.rendering.layers import Viewport
                 return Viewport(
                     x=value.get("x", 0.0),
                     y=value.get("y", 0.0),

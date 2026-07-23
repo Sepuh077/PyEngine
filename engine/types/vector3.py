@@ -23,12 +23,12 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
+from engine.types.vector2 import Vector2  # module-level: avoid per-construction import
+
 if TYPE_CHECKING:
-    from engine.types.vector2 import Vector2
+    pass
 
 # Bind fast Cython implementations directly when available (avoids per-call 'if' overhead)
-
-
 
 
 class Vector3:
@@ -71,8 +71,7 @@ class Vector3:
             z: Z component (if x is a scalar)
         """
         # Check for Vector2 first (before tuple/list since Vector2 is iterable)
-        from engine.types.vector2 import Vector2 as _Vec2
-        if isinstance(x, _Vec2):
+        if isinstance(x, Vector2):
             self._x = float(x.x)
             self._y = float(x.y)
             self._z = float(z) if z is not None else 0.0
@@ -449,20 +448,74 @@ class Vector3:
     # =========================================================================
     
     def set(self, x: float, y: float, z: float) -> 'Vector3':
-        """
-        Set the components of this vector (returns new instance for immutability).
-        
-        Note: For mutable behavior, use: v = Vector3(x, y, z)
-        """
-        return Vector3(x, y, z)
-    
+        """Set components in-place. Returns self for chaining."""
+        self._x = float(x)
+        self._y = float(y)
+        self._z = float(z)
+        return self
+
+    def copy(self) -> 'Vector3':
+        """Return a new Vector3 with the same components."""
+        return Vector3(self._x, self._y, self._z)
+
     def normalize(self) -> 'Vector3':
         """Normalize this vector in-place. Returns self for chaining."""
-        return self.normalized
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_norm(self._x, self._y, self._z)
+            return self
+        mag = self.magnitude
+        if mag < 1e-10:
+            self._x = self._y = self._z = 0.0
+            return self
+        inv = 1.0 / mag
+        self._x *= inv
+        self._y *= inv
+        self._z *= inv
+        return self
+
+    def add_ip(self, other: 'Vector3Like') -> 'Vector3':
+        """Add *other* in-place. Returns self."""
+        return self.__iadd__(other)
+
+    def sub_ip(self, other: 'Vector3Like') -> 'Vector3':
+        """Subtract *other* in-place. Returns self."""
+        return self.__isub__(other)
+
+    def scale_ip(self, scalar: float) -> 'Vector3':
+        """Multiply by *scalar* in-place. Returns self."""
+        s = float(scalar)
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_mul_s(self._x, self._y, self._z, s)
+        else:
+            self._x *= s
+            self._y *= s
+            self._z *= s
+        return self
+
+    def lerp_ip(self, target: 'Vector3Like', t: float) -> 'Vector3':
+        """Lerp toward *target* in-place (t clamped 0–1). Returns self."""
+        other = self._ensure_vector3(target)
+        t = max(0.0, min(1.0, float(t)))
+        if _USE_CYTHON:
+            self._x, self._y, self._z = _cy_lerp(
+                self._x, self._y, self._z, other._x, other._y, other._z, t
+            )
+        else:
+            self._x += (other._x - self._x) * t
+            self._y += (other._y - self._y) * t
+            self._z += (other._z - self._z) * t
+        return self
     
     def clamp_magnitude(self, max_length: float) -> 'Vector3':
-        """Clamp the magnitude of this vector."""
+        """Clamp the magnitude of this vector (returns a new instance)."""
         return Vector3.clamp_magnitude(self, max_length)
+
+    def clamp_magnitude_ip(self, max_length: float) -> 'Vector3':
+        """Clamp magnitude in-place. Returns self."""
+        mag = self.magnitude
+        if mag > max_length and mag > 1e-10:
+            self.scale_ip(max_length / mag)
+        return self
     
     # =========================================================================
     # Conversion Methods
@@ -518,8 +571,7 @@ class Vector3:
         """Convert other to Vector3 if needed."""
         if isinstance(other, Vector3):
             return other
-        from engine.types.vector2 import Vector2 as _Vec2
-        if isinstance(other, _Vec2):
+        if isinstance(other, Vector2):
             return Vector3(other)
         if isinstance(other, (tuple, list)):
             return Vector3(other)
@@ -777,12 +829,16 @@ if _USE_CYTHON:
         return Vector3(nx, ny, nz)
     Vector3.normalized = property(_vec3_norm)
 
-# Override with the fully Cython cdef class if the compiled module is present.
-# This must be after the pure Python class and any rebinding.
+# Prefer the fully Cython cdef class when it exposes the current in-place API.
+# Older .so builds cannot be monkey-patched (immutable extension type); in that
+# case keep the pure-Python class which still uses cy_math kernels.
 try:
     from engine.cython import CYTHON_ENABLED as _cy_full
     if _cy_full:
         from engine.cython.cy_vector3 import Vector3 as _CVector3
-        Vector3 = _CVector3
+        # Require add_ip as a marker that the extension was rebuilt with the
+        # mutable set/normalize/in-place helpers.
+        if hasattr(_CVector3, "add_ip"):
+            Vector3 = _CVector3
 except Exception:
     pass

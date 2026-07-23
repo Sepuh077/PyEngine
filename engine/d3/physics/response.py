@@ -33,30 +33,31 @@ try:
     except ImportError:
         _cy_resolve_multi = None
     _USE_CYTHON = True
-except Exception:
+except Exception as _exc:
     _USE_CYTHON = False
     _cy_resolve_contact = None
     _cy_resolve_multi = None
     _cy_face_align = None
     _cy_obb_support = None
+    try:
+        from engine.log import get_logger, log_exception
+        log_exception(get_logger("physics.response3d"), "Cython response3d unavailable: %s", _exc)
+    except Exception:
+        pass
 
-# Max contact points solved per manifold (clip excess by depth).
-MAX_MANIFOLD_POINTS = 4
-
-RESTITUTION_THRESHOLD = 1.0
-IMPACT_BLEND_START = 1.2
-IMPACT_BLEND_END = 7.0
-# |cos| between body face normal and contact normal → face support.
-FACE_ALIGN_THRESHOLD = 0.82
-# Must be this aligned with the floor before we freeze as "face rest".
-# 0.92 ≈ 23° residual tilt (looked stuck at an angle); 0.985 ≈ 10°.
-FACE_REST_ALIGN = 0.985
-# In-plane COM offset (m) that marks edge/vertex / off-center support.
-UNSTABLE_SUPPORT_OFFSET = 0.06
-MAX_NORMAL_TANGENT_ARM = 0.35
-RESTING_TANGENTIAL_SPEED = 0.08
-MAX_ANGULAR_SPEED = 20.0
-GRAVITY = 9.81
+from engine.physics.solver_constants import (  # noqa: E402
+    MAX_MANIFOLD_POINTS,
+    RESTITUTION_THRESHOLD,
+    IMPACT_BLEND_START,
+    IMPACT_BLEND_END,
+    FACE_ALIGN_THRESHOLD,
+    FACE_REST_ALIGN,
+    UNSTABLE_SUPPORT_OFFSET,
+    MAX_NORMAL_TANGENT_ARM,
+    RESTING_TANGENTIAL_SPEED,
+    MAX_ANGULAR_SPEED,
+    GRAVITY,
+)
 
 
 def _as_np3(v) -> np.ndarray:

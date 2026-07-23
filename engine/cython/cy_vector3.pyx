@@ -375,13 +375,72 @@ cdef class Vector3:
     # =========================================================================
 
     def set(self, x, y, z):
-        return Vector3(x, y, z)
+        """Set components in-place. Returns self for chaining."""
+        self._x = float(x)
+        self._y = float(y)
+        self._z = float(z)
+        return self
+
+    def copy(self):
+        """Return a new Vector3 with the same components."""
+        cdef Vector3 v = Vector3.__new__(Vector3)
+        v._x = self._x
+        v._y = self._y
+        v._z = self._z
+        return v
 
     def normalize(self):
-        return self.normalized
+        """Normalize this vector in-place. Returns self for chaining."""
+        cdef double nx, ny, nz
+        nx, ny, nz = _cy_norm(self._x, self._y, self._z)
+        self._x = nx
+        self._y = ny
+        self._z = nz
+        return self
+
+    def add_ip(self, other):
+        """Add *other* in-place. Returns self."""
+        return self.__iadd__(other)
+
+    def sub_ip(self, other):
+        """Subtract *other* in-place. Returns self."""
+        return self.__isub__(other)
+
+    def scale_ip(self, scalar):
+        """Multiply by *scalar* in-place. Returns self."""
+        cdef double s = float(scalar)
+        cdef double rx, ry, rz
+        rx, ry, rz = _cy_mul_s(self._x, self._y, self._z, s)
+        self._x = rx
+        self._y = ry
+        self._z = rz
+        return self
+
+    def lerp_ip(self, target, t):
+        """Lerp toward *target* in-place (t clamped 0–1). Returns self."""
+        cdef double tt = float(t)
+        cdef double rx, ry, rz
+        other = self._ensure_vector3(target)
+        if tt < 0.0:
+            tt = 0.0
+        elif tt > 1.0:
+            tt = 1.0
+        rx, ry, rz = _cy_lerp(self._x, self._y, self._z, other._x, other._y, other._z, tt)
+        self._x = rx
+        self._y = ry
+        self._z = rz
+        return self
 
     def clamp_magnitude(self, max_length):
         return Vector3.clamp_magnitude(self, max_length)
+
+    def clamp_magnitude_ip(self, max_length):
+        """Clamp magnitude in-place. Returns self."""
+        cdef double mag = _cy_mag(self._x, self._y, self._z)
+        cdef double ml = float(max_length)
+        if mag > ml and mag > 1e-10:
+            return self.scale_ip(ml / mag)
+        return self
 
     # =========================================================================
     # Conversion / Special Methods

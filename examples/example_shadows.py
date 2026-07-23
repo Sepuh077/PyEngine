@@ -24,8 +24,11 @@ class ShadowScene(Scene3D):
         """Called once at startup."""
         super().setup()
         
-        # Create a ground plane (receives shadows)
-        self.ground = create_plane(width=30, height=30, position=(0, 0, 0))
+        # Darker ground so cast shadows read clearly against lit areas
+        self.ground = create_plane(
+            width=30, height=30, position=(0, 0, 0),
+            color=(0.45, 0.45, 0.48),
+        )
         self.ground.name = "Ground"
         self.add_object(self.ground)
         
@@ -49,16 +52,23 @@ class ShadowScene(Scene3D):
         
         # Configure the default directional light for shadows
         # (The light is created by super().setup())
+        #
+        # Important: the lit shader uses N·(-light.direction). For the ground
+        # (normal +Y) to receive light *and* show shadows, light.direction.y
+        # must be negative (rays traveling downward). Pitch about +X does that
+        # with this engine's transform convention. The old (-50, -30, 0) aimed
+        # the light upward, so the floor only got ambient and shadows washed out.
         self.light.cast_shadows = True
         self.light.shadow_resolution = 2048
-        self.light.shadow_distance = 50.0
-        self.light.shadow_bias = 0.002
-        # Angle the light
-        self.light.game_object.transform.rotation = (-50, -30, 0)
+        self.light.shadow_distance = 40.0
+        self.light.shadow_bias = 0.001
+        self.light.intensity = 1.2
+        self.light.ambient = 0.12  # lower ambient → darker, clearer shadows
+        self.light.game_object.transform.rotation = (50, -35, 0)
         
         # Set up camera
-        self.camera.position = (8, 8, 12)
-        self.camera.look_at((0, 0, 0))
+        self.camera.position = (10, 8, 14)
+        self.camera.look_at((0, 0.5, 0))
         
         # Movement settings
         self.rotation_speed = 20  # degrees per second
@@ -122,9 +132,11 @@ class ShadowScene(Scene3D):
             self.light.cast_shadows = not self.light.cast_shadows
             print(f"Shadows: {'ON' if self.light.cast_shadows else 'OFF'}")
         elif key == Keys.R:
-            # Reset camera
-            self.camera.position = (8, 8, 12)
-            self.camera.look_at((0, 0, 0))
+            # Reset camera + light to the demo defaults
+            self.camera.position = (10, 8, 14)
+            self.camera.look_at((0, 0.5, 0))
+            self.light.game_object.transform.rotation = (50, -35, 0)
+
         elif key == Keys.KEY_1:
             # Change shadow resolution
             self.light.shadow_resolution = 512

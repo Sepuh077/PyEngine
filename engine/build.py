@@ -99,8 +99,13 @@ class BuildSystem:
                 # Quick probe — if this works we have real native modules
                 from engine.cython import cy_math  # noqa: F401
                 using_cython = True
-        except Exception:
+        except Exception as exc:
             using_cython = False
+            try:
+                from engine.log import get_logger, log_exception
+                log_exception(get_logger("build"), "Cython status probe failed: %s", exc)
+            except Exception:
+                pass
 
         if using_cython:
             print("  ✓ Cython-accelerated modules detected (much faster physics/math/loop).")

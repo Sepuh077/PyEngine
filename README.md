@@ -104,8 +104,8 @@ python bench_cython.py
 
 ### Dependencies
 
-Declared in `pyproject.toml`: **pygame**, **numpy**, **pillow**, **trimesh**, **scipy**, **moderngl**.  
-Optional: **PySide6** (editor), **pytest** (tests).  
+Declared in `pyproject.toml`: **pygame**, **numpy**, **pillow**, **trimesh**, **moderngl**.  
+Optional: **PySide6** (editor), **pytest** / **ruff** / **pytest-cov** (`[dev]`).  
 `requirements.txt` pins useful versions for local installs.
 
 ---
@@ -410,17 +410,20 @@ Version: `from engine import __version__` (also `engine.version`).
 ```
 engine/
   version.py, log.py, window_base.py, cli.py, build.py
-  component.py, gameobject.py, transform.py, scene.py, resources.py
-  scriptable_object.py, drawing.py, audio.py
+  component.py, component_registry.py, gameobject.py, transform.py
+  scene.py, resources.py, scriptable_object.py, drawing.py, audio.py
   d2/                 # Window2D, Scene2D, sprites, 2D physics
   d3/                 # Window3D, Scene3D, Object3D, lights, particles, 3D physics
+    shaders/          # default pipeline GLSL (.vert / .frag)
+  rendering/          # shared RenderLayer, Viewport, ClearFlags
+  physics/            # PhysicsWorld + shared solver constants
   animation/          # clips + Animator
   graphics/           # materials, shaders, shadows
   ui/                 # canvas widgets
-  editor/             # PySide6 editor (split modules)
+  editor/             # PySide6 editor + mixins/ (play, inspector, prefab, …)
   input/              # Input, Keys
   types/              # Vector2/3, Color, Quaternion
-  cython/             # accelerated .pyx modules
+  cython/             # accelerated .pyx modules (generated .c gitignored)
 examples/             # demos
 tests/                # pytest suite (+ optional window tests)
 example/              # sample assets (meshes, glTF)
@@ -440,6 +443,21 @@ pyengine build --backend nuitka
 ```
 
 Uses project `pyproject.toml` `[tool.pyengine.build]` when present. Prefer testing the build on a machine without your toolchain installed.
+
+---
+
+## Development tooling
+
+```bash
+pip install -e ".[dev]"
+ruff check engine tests          # lint
+python -m pytest tests/ -q      # unit + window tests
+python -m pytest --cov=engine --cov-report=term-missing -q
+pyengine --version              # includes Cython acceleration status
+```
+
+Generated Cython ``.c`` / ``.so`` / ``.pyd`` files are gitignored; ``pip install -e .``
+compiles from ``.pyx`` when a C compiler is available.
 
 ---
 

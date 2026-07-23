@@ -41,6 +41,22 @@ class TestVector3:
         m = Vector3.lerp(a, b, 0.5)
         assert abs(m.x - 5) < 1e-5
 
+    def test_inplace_ops(self):
+        v = Vector3(1, 2, 3)
+        v.add_ip((1, 1, 1))
+        assert abs(v.x - 2) < 1e-6 and abs(v.y - 3) < 1e-6 and abs(v.z - 4) < 1e-6
+        v.scale_ip(0.5)
+        assert abs(v.x - 1) < 1e-6 and abs(v.y - 1.5) < 1e-6 and abs(v.z - 2) < 1e-6
+        v.set(3, 0, 0)
+        assert abs(v.x - 3) < 1e-6 and abs(v.y) < 1e-6 and abs(v.z) < 1e-6
+        v.normalize()
+        assert abs(v.magnitude - 1.0) < 1e-5
+        v.lerp_ip(Vector3(0, 0, 0), 0.5)
+        assert abs(v.x - 0.5) < 1e-5
+        c = v.copy()
+        c.add_ip((1, 0, 0))
+        assert abs(v.x - 0.5) < 1e-5  # original unchanged
+
 
 class TestColor:
     def test_from_rgb(self):

@@ -210,7 +210,6 @@ pygame>=2.6.0
 numpy>=1.20.0
 pillow>=11.0.0
 trimesh>=4.0.0
-scipy>=1.10.0
 moderngl>=5.6.0
 
 # Optional: Editor
@@ -238,7 +237,6 @@ dependencies = [
     "numpy>=1.20.0",
     "pillow>=11.0.0",
     "trimesh>=4.0.0",
-    "scipy>=1.10.0",
     "moderngl>=5.6.0",
 ]
 
@@ -464,8 +462,12 @@ class MainScene(Scene2D):
         if hasattr(self, 'window') and self.window:
             try:
                 self.window.set_caption(f"{{GAME_TITLE}} - {{self.window.fps:.0f}} FPS")
-            except Exception:
-                pass
+            except Exception as exc:
+                try:
+                    from engine.log import get_logger, log_exception
+                    log_exception(get_logger("cli"), "Optional CLI step failed: %s", exc)
+                except Exception:
+                    pass
     
     def on_key_press(self, key, modifiers):
         """Called when a key is pressed."""
@@ -956,8 +958,12 @@ Examples:
         """,
     )
 
-    from engine.version import __version__ as _pyengine_version
-    parser.add_argument("--version", action="version", version=f"%(prog)s {_pyengine_version}")
+    from engine.version import version_string as _pyengine_version_string
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {_pyengine_version_string()}",
+    )
 
     # Global flag for 2D mode (affects startproject)
     parser.add_argument(

@@ -3,7 +3,6 @@ pygame==2.6.1
 numpy>=1.20.0
 pillow==11.3.0
 trimesh>=4.0.0
-scipy>=1.10.0
 moderngl>=5.6.0
 
 # Build-time only (for compiling Cython extensions):
@@ -13,12 +12,10 @@ moderngl>=5.6.0
 # Cython>=3.0
 # numpy (already required at runtime too)
 
-# Optional - for massive performance boost (5-20x faster)
-# Uncomment to install:
-# numba>=0.55.0
-
 # Editor UI
 PySide6>=6.6.0
 
-# Test
+# Dev / test
 pytest==9.0.2
+pytest-cov>=5.0.0
+ruff>=0.8.0
