@@ -787,6 +787,14 @@ class Window3D(WindowBase):
     def _process_collisions(self):
         from engine.d3.physics import Collider3D, CollisionMode, CollisionRelation
         from engine.d3.physics.rigidbody import Rigidbody3D
+        from engine.d3.physics.collision import get_collision_manifold, objects_collide
+        from engine.d3.physics.batch_collision import (
+            batch_broadphase_3d,
+            batch_narrowphase_bool_3d,
+            batch_narrowphase_manifold_3d,
+        )
+        from collections import defaultdict
+
         # Loop over *all colliders* (multi-collider support; no obj level)
         all_cols = []
         for o in self._active_objects():
@@ -794,12 +802,10 @@ class Window3D(WindowBase):
         if not all_cols:
             return
 
-        from collections import defaultdict
         # Track collider pairs (per-collider _current_collisions for events)
         current_collisions = defaultdict(set)  # key: collider, value: set of other colliders
-        from engine.d3.physics.collision import get_collision_manifold, objects_collide
 
-        # Ensure all bounds are up to date and build AABB data for broadphase
+        # Ensure all bounds are up to date
         for c in all_cols:
             c.update_bounds()
 
@@ -817,179 +823,175 @@ class Window3D(WindowBase):
             rb_cache[rid] = rb
             return rb
 
-        # Broadphase: use Cython sweep-and-prune when available
-        try:
-            from engine.cython.cy_math import broadphase_aabb_pairs as _cy_broadphase
-            _bp_cython = True
-        except (ImportError, ModuleNotFoundError):
-            _bp_cython = False
+        def _is_initiator(c) -> bool:
+            """Outer-loop eligibility (matches historical 3D behaviour)."""
+            if c.collision_mode == CollisionMode.IGNORE:
+                return False
+            rb = _rb_of(c.game_object)
+            if rb is not None and rb.is_static:
+                return False
+            if rb is not None and getattr(rb, "is_sleeping", False):
+                return False
+            return True
 
-        # Build broadphase candidate set (also used by continuous sweeps)
-        bp_candidates = None
-        bp_neighbors = None  # idx -> set of other indices
-        if _bp_cython and len(all_cols) >= 4:
-            # Build AABB list for sweep-and-prune
-            aabb_data = []
-            for idx, c in enumerate(all_cols):
-                aabb = c.aabb
-                if aabb is not None:
-                    amin, amax = aabb
-                    aabb_data.append((idx,
-                        float(amin[0]), float(amin[1]), float(amin[2]),
-                        float(amax[0]), float(amax[1]), float(amax[2])))
-            if aabb_data:
-                raw_pairs = _cy_broadphase(aabb_data)
-                bp_candidates = set()
-                bp_neighbors = defaultdict(set)
-                for i, j in raw_pairs:
-                    bp_candidates.add((i, j))
-                    bp_candidates.add((j, i))
-                    bp_neighbors[i].add(j)
-                    bp_neighbors[j].add(i)
+        # =============================================================
+        # Batch broadphase (Cython SAP when available)
+        # =============================================================
+        raw_pairs = batch_broadphase_3d(all_cols)  # (M, 2) with i < j
+        bp_candidates = set()
+        bp_neighbors = defaultdict(set)
+        for k in range(len(raw_pairs)):
+            i = int(raw_pairs[k, 0])
+            j = int(raw_pairs[k, 1])
+            bp_candidates.add((i, j))
+            bp_candidates.add((j, i))
+            bp_neighbors[i].add(j)
+            bp_neighbors[j].add(i)
 
-        # Collect contacts for the multi-iteration solver (populated during
-        # inline first-pass resolution below).
         solid_contacts = []
+        # Continuous movers skip the discrete batch path for this frame after a full sweep
+        skip_discrete = set()
 
-        # Check non-statics vs all. Dynamic–dynamic pairs are processed once
-        # (idx_a < idx_b) to avoid double impulse / 2× SAT cost in stacks.
+        # =============================================================
+        # Continuous collision (per-collider sweeps) — keep special path
+        # =============================================================
         for idx_a, ca in enumerate(all_cols):
-            rb_a = _rb_of(ca.game_object)
-            if (rb_a is not None and rb_a.is_static) or ca.collision_mode == CollisionMode.IGNORE:
+            if not _is_initiator(ca):
                 continue
-            # Sleeping bodies stay frozen until something else hits them
-            if rb_a is not None and getattr(rb_a, 'is_sleeping', False):
-                continue
-            
-            perform_final_check = True
-
-            # Continuous sweep (per obj of collider)
             a = ca.game_object
-            if ca.collision_mode == CollisionMode.CONTINUOUS:
-                from engine.types import Vector3
-                delta = a.transform._local_position - a.transform._prev_position
-                speed = np.linalg.norm(delta)
-                if speed > 1e-6:
-                    steps = max(1, int(speed / 0.1))
-                    if steps > 1:
-                        # Only sweep-subdivide when the frame delta warrants multiple samples (>~0.1 units)
-                        # For smaller (slow) moves, rely on the final normal snapshot to avoid fp/type artifacts
-                        # and ensure consistent detection with NORMAL mode.
-                        a.transform._local_position = Vector3(a.transform._prev_position)
-                        a.transform._mark_dirty()
-                        step = delta / steps
-                        last_safe = Vector3(a.transform._local_position)
+            if ca.collision_mode != CollisionMode.CONTINUOUS or a is None:
+                continue
 
-                        # Continuous broadphase: SAP neighbors when available; full
-                        # list fallback so fast movers never miss distant obstacles.
-                        if bp_neighbors is not None:
-                            cont_idxs = list(bp_neighbors.get(idx_a, ()))
-                        else:
-                            cont_idxs = []
-                        if not cont_idxs:
-                            cont_idxs = [i for i in range(len(all_cols)) if i != idx_a]
-                        
-                        for _ in range(steps):
-                            a.transform._local_position = a.transform._local_position + step
-                            a.transform._mark_dirty()
-                            ca.update_bounds()
-                            hit_solid = False
-                            for idx_b in cont_idxs:
-                                cb = all_cols[idx_b]
-                                if cb is ca or cb.game_object is a:
-                                    continue
-                                # ColliderGroup: IGNORE skip; TRIGGER detect/pass; SOLID block
-                                relation = ca.group.get_relation(cb.group)
-                                if relation == CollisionRelation.IGNORE:
-                                    continue
-                                if ca.check_collision(cb):
-                                    current_collisions[ca].add(cb)
-                                    current_collisions[cb].add(ca)
-                                    # block only on SOLID (TRIGGER passes)
-                                    if relation == CollisionRelation.SOLID:
-                                        manifold = get_collision_manifold(ca, cb)
-                                        if manifold:
-                                            self._resolve_collision(a, cb.game_object, manifold,
-                                                                    col_a=ca, col_b=cb)
-                                            # Project remaining step along the wall to slide
-                                            step_np = np.array([float(step[0]), float(step[1]), float(step[2])])
-                                            dot = float(np.dot(step_np, manifold.normal))
-                                            if dot < 0:
-                                                step_np -= dot * manifold.normal
-                                                step = Vector3(step_np)
-                                        else:
-                                            # Fallback if no manifold could be generated
-                                            a.transform._local_position = Vector3(last_safe)
-                                            a.transform._mark_dirty()
-                                            rb = _rb_of(a)
-                                            if rb is not None:
-                                                from engine.types import Vector3
-                                                rb.velocity = Vector3.zero()
-                                        hit_solid = True
-                                        break
-                            if hit_solid:
-                                step_np = np.array([float(step[0]), float(step[1]), float(step[2])])
-                                if np.linalg.norm(step_np) < 1e-6:
-                                    break
-                            last_safe = Vector3(a.transform._local_position)
-                        else:
-                            perform_final_check = False
-            
-            # Normal snapshot — resolve inline (first iteration) and collect
-            # the manifold for subsequent velocity-only passes.
-            if perform_final_check:
-                for idx_b, cb in enumerate(all_cols):
+            from engine.types import Vector3
+            delta = a.transform._local_position - a.transform._prev_position
+            speed = np.linalg.norm(delta)
+            if speed <= 1e-6:
+                continue
+            steps = max(1, int(speed / 0.1))
+            if steps <= 1:
+                continue
+
+            a.transform._local_position = Vector3(a.transform._prev_position)
+            a.transform._mark_dirty()
+            step = delta / steps
+            last_safe = Vector3(a.transform._local_position)
+
+            cont_idxs = list(bp_neighbors.get(idx_a, ()))
+            if not cont_idxs:
+                cont_idxs = [i for i in range(len(all_cols)) if i != idx_a]
+
+            for _ in range(steps):
+                a.transform._local_position = a.transform._local_position + step
+                a.transform._mark_dirty()
+                ca.update_bounds()
+                hit_solid = False
+                for idx_b in cont_idxs:
+                    cb = all_cols[idx_b]
                     if cb is ca or cb.game_object is a:
                         continue
-                    # Broadphase skip: if sweep-and-prune says no overlap, skip
-                    if bp_candidates is not None and (idx_a, idx_b) not in bp_candidates:
-                        continue
-                    # Unique dynamic–dynamic pairs (avoid resolving twice).
-                    # Only skip when *both* bodies would run as outer loops
-                    # (non-static, non-sleeping).  If B is sleeping it never
-                    # becomes outer, so A must still resolve A–B — otherwise
-                    # awake objects pass through sleeping ones.
-                    rb_b = _rb_of(cb.game_object)
-                    b_immovable = (
-                        rb_b is None
-                        or bool(getattr(rb_b, "is_static", False))
-                        or bool(getattr(rb_b, "is_kinematic", False))
-                    )
-                    if not b_immovable and idx_b < idx_a:
-                        b_sleeping = bool(getattr(rb_b, "is_sleeping", False))
-                        if not b_sleeping:
-                            continue
-                    # ColliderGroup relation: IGNORE skip, TRIGGER detect/pass, SOLID block
                     relation = ca.group.get_relation(cb.group)
                     if relation == CollisionRelation.IGNORE:
                         continue
-                    if relation == CollisionRelation.SOLID:
-                        # Manifold already does the SAT; skip separate bool check
-                        manifold = get_collision_manifold(ca, cb)
-                        if manifold:
-                            current_collisions[ca].add(cb)
-                            current_collisions[cb].add(ca)
-                            # Resolve inline (first iteration — depenetration + impulse)
-                            self._resolve_collision(
-                                a, cb.game_object, manifold, col_a=ca, col_b=cb
-                            )
-                            # Remember for subsequent velocity-only iterations
-                            solid_contacts.append((a, cb.game_object, manifold, ca, cb))
-                    elif objects_collide(ca, cb):
-                        # TRIGGER: detect only, no response
+                    if ca.check_collision(cb):
                         current_collisions[ca].add(cb)
                         current_collisions[cb].add(ca)
+                        if relation == CollisionRelation.SOLID:
+                            manifold = get_collision_manifold(ca, cb)
+                            if manifold:
+                                self._resolve_collision(
+                                    a, cb.game_object, manifold, col_a=ca, col_b=cb
+                                )
+                                step_np = np.array(
+                                    [float(step[0]), float(step[1]), float(step[2])]
+                                )
+                                dot = float(np.dot(step_np, manifold.normal))
+                                if dot < 0:
+                                    step_np -= dot * manifold.normal
+                                    step = Vector3(step_np)
+                                solid_contacts.append(
+                                    (a, cb.game_object, manifold, ca, cb)
+                                )
+                            else:
+                                a.transform._local_position = Vector3(last_safe)
+                                a.transform._mark_dirty()
+                                rb = _rb_of(a)
+                                if rb is not None:
+                                    rb.velocity = Vector3.zero()
+                            hit_solid = True
+                            break
+                if hit_solid:
+                    step_np = np.array(
+                        [float(step[0]), float(step[1]), float(step[2])]
+                    )
+                    if np.linalg.norm(step_np) < 1e-6:
+                        break
+                last_safe = Vector3(a.transform._local_position)
+            else:
+                # Full continuous sweep completed without early exit → skip discrete
+                skip_discrete.add(idx_a)
+
+        # =============================================================
+        # Discrete batch narrowphase on broadphase pairs
+        # =============================================================
+        solid_pairs = []
+        trigger_pairs = []
+        for i, j in list(bp_candidates):
+            # Only process each unordered pair once (prefer i < j key)
+            if i > j:
+                continue
+            ca, cb = all_cols[i], all_cols[j]
+            if ca.game_object is not None and ca.game_object is cb.game_object:
+                continue
+
+            init_i = _is_initiator(ca) and i not in skip_discrete
+            init_j = _is_initiator(cb) and j not in skip_discrete
+            if not init_i and not init_j:
+                continue
+
+            # Prefer lower index as initiator when both can initiate (unique pairs)
+            if init_i and (not init_j or i < j):
+                ia, ib = i, j
+            elif init_j:
+                ia, ib = j, i
+            else:
+                continue
+
+            # Sleeping partner special-case: if B would not initiate (sleeping)
+            # but A is awake, A must still resolve — already handled by init_j False.
+            ca, cb = all_cols[ia], all_cols[ib]
+            relation = ca.group.get_relation(cb.group)
+            if relation == CollisionRelation.IGNORE:
+                continue
+            if relation == CollisionRelation.SOLID:
+                solid_pairs.append((ia, ib))
+            else:
+                trigger_pairs.append((ia, ib))
+
+        if solid_pairs:
+            pairs_arr = np.asarray(solid_pairs, dtype=np.int32)
+            for ia, ib, manifold in batch_narrowphase_manifold_3d(all_cols, pairs_arr):
+                if manifold is None:
+                    continue
+                ca, cb = all_cols[ia], all_cols[ib]
+                current_collisions[ca].add(cb)
+                current_collisions[cb].add(ca)
+                go_a, go_b = ca.game_object, cb.game_object
+                self._resolve_collision(go_a, go_b, manifold, col_a=ca, col_b=cb)
+                solid_contacts.append((go_a, go_b, manifold, ca, cb))
+
+        if trigger_pairs:
+            pairs_arr = np.asarray(trigger_pairs, dtype=np.int32)
+            for ia, ib, hit in batch_narrowphase_bool_3d(all_cols, pairs_arr):
+                if not hit:
+                    continue
+                ca, cb = all_cols[ia], all_cols[ib]
+                current_collisions[ca].add(cb)
+                current_collisions[cb].add(ca)
 
         # =====================================================================
         # Multi-iteration sequential-impulse solver (passes 1..N-1)
         # =====================================================================
-        # The first pass (above) resolved each contact inline with full
-        # depenetration + impulse.  Additional velocity-only passes let impulses
-        # propagate through multi-body stacks without re-running broadphase or
-        # narrow-phase — just re-solving with current velocities.
         n_iters = max(1, int(self.SOLVER_ITERATIONS)) - 1
-        # Always re-solve when we have contacts — multi-point face manifolds
-        # and single pairs both benefit from extra velocity iterations.
         if n_iters > 0 and solid_contacts:
             for _iter in range(n_iters):
                 for go_a, go_b, manifold, ca, cb in solid_contacts:

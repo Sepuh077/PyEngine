@@ -1291,10 +1291,13 @@ class Window2D(WindowBase):
     def _process_collisions(self):
         from engine.d2.physics import (
             Collider2D, CollisionMode, CollisionRelation,
-            objects_collide_2d, get_collision_manifold_2d,
         )
         from engine.d2.physics.rigidbody import Rigidbody2D
-        from engine.d2.physics.types import ColliderType2D
+        from engine.d2.physics.batch_collision import (
+            batch_broadphase_2d,
+            batch_narrowphase_bool_2d,
+            batch_narrowphase_manifold_2d,
+        )
         from collections import defaultdict
 
         all_cols: List[Collider2D] = []
@@ -1313,29 +1316,7 @@ class Window2D(WindowBase):
             c.update_bounds()
 
         # =============================================================
-        # Vectorised AABB broadphase  (N×N boolean overlap matrix)
-        # =============================================================
-        aabb_mins = np.empty((n, 2), dtype=np.float64)
-        aabb_maxs = np.empty((n, 2), dtype=np.float64)
-        valid_aabb = np.ones(n, dtype=bool)
-
-        for i, c in enumerate(all_cols):
-            if c.aabb is not None:
-                aabb_mins[i] = c.aabb[0]
-                aabb_maxs[i] = c.aabb[1]
-            else:
-                valid_aabb[i] = False
-
-        # overlap[i,j] = True iff all four AABB conditions hold
-        overlap = (
-            np.all(aabb_maxs[:, None, :] >= aabb_mins[None, :, :], axis=2)
-            & np.all(aabb_mins[:, None, :] <= aabb_maxs[None, :, :], axis=2)
-        )
-        overlap &= valid_aabb[:, None] & valid_aabb[None, :]
-        np.fill_diagonal(overlap, False)
-
-        # =============================================================
-        # Initiator mask  (matches the original outer-loop skip)
+        # Initiator mask  (static / IGNORE colliders do not start pairs)
         # =============================================================
         active = np.ones(n, dtype=bool)
         for i, c in enumerate(all_cols):
@@ -1350,104 +1331,64 @@ class Window2D(WindowBase):
                     active[i] = False
 
         # =============================================================
-        # Same-object mask  (skip pairs on the same GameObject)
+        # Batch broadphase (Cython SAP when available)
         # =============================================================
-        obj_ids = np.array(
-            [id(c.game_object) if c.game_object else 0 for c in all_cols],
-            dtype=np.int64,
-        )
-        same_obj = obj_ids[:, None] == obj_ids[None, :]
+        raw_pairs = batch_broadphase_2d(all_cols)  # (M, 2) with i < j
 
-        # =============================================================
-        # Group-relation lookup  (IGNORE=0 / TRIGGER=1 / SOLID=2)
-        # =============================================================
-        unique_groups = list({c.group for c in all_cols})
-        gid_map = {id(g): idx for idx, g in enumerate(unique_groups)}
-        ng = len(unique_groups)
+        # Order pairs so the initiator is first (dynamic → static still works
+        # when the static collider has the lower index).
+        solid_pairs: list = []
+        trigger_pairs: list = []
+        for k in range(len(raw_pairs)):
+            i = int(raw_pairs[k, 0])
+            j = int(raw_pairs[k, 1])
+            ca, cb = all_cols[i], all_cols[j]
+            if ca.game_object is not None and ca.game_object is cb.game_object:
+                continue
+            if active[i]:
+                ia, ib = i, j
+            elif active[j]:
+                ia, ib = j, i
+            else:
+                continue
+            ca, cb = all_cols[ia], all_cols[ib]
+            relation = ca.group.get_relation(cb.group)
+            if relation == CollisionRelation.IGNORE:
+                continue
+            if relation == CollisionRelation.SOLID:
+                solid_pairs.append((ia, ib))
+            else:
+                # TRIGGER (detect only)
+                trigger_pairs.append((ia, ib))
 
-        rel_lut = np.empty((ng, ng), dtype=np.int8)
-        for gi, ga in enumerate(unique_groups):
-            for gj, gb in enumerate(unique_groups):
-                rel_lut[gi, gj] = ga.get_relation(gb).value
-
-        col_gidx = np.array(
-            [gid_map[id(c.group)] for c in all_cols], dtype=np.int32,
-        )
-        pair_rel = rel_lut[col_gidx[:, None], col_gidx[None, :]]  # (N,N)
-        non_ignore = pair_rel != CollisionRelation.IGNORE.value
-
-        # =============================================================
-        # Combined candidate matrix
-        # =============================================================
-        candidates = active[:, None] & (~same_obj) & overlap & non_ignore
-
-        # =============================================================
-        # Vectorised circle-vs-circle narrowphase
-        # =============================================================
-        types = np.array([c.type.value for c in all_cols], dtype=np.int32)
-        circ_mask = types == ColliderType2D.CIRCLE.value
-        both_circ = circ_mask[:, None] & circ_mask[None, :]
-        circ_cands = candidates & both_circ
-
-        circ_idxs = np.where(circ_mask)[0]
-        nc = len(circ_idxs)
-
-        # Collect solid contacts for multi-iteration solving
         solid_contacts_2d = []
 
-        if nc > 1 and np.any(circ_cands):
-            c_centers = np.array(
-                [all_cols[k].circle[0] for k in circ_idxs], dtype=np.float64,
-            )  # (nc, 2)
-            c_radii = np.array(
-                [all_cols[k].circle[1] for k in circ_idxs], dtype=np.float64,
-            )  # (nc,)
-
-            diff = c_centers[:, None, :] - c_centers[None, :, :]  # (nc,nc,2)
-            dist_sq = np.sum(diff * diff, axis=2)                 # (nc,nc)
-            r_sum = c_radii[:, None] + c_radii[None, :]           # (nc,nc)
-            circle_hit = dist_sq <= r_sum * r_sum                 # (nc,nc)
-
-            # Intersect with the candidate mask (mapped to local indices)
-            local_cands = circ_cands[np.ix_(circ_idxs, circ_idxs)]
-            local_hits = local_cands & circle_hit
-
-            li, lj = np.nonzero(local_hits)
-            for k in range(len(li)):
-                i_g = int(circ_idxs[li[k]])
-                j_g = int(circ_idxs[lj[k]])
-                # Skip reverse pair only when the other body would also initiate
-                # (two dynamics). Keep dynamic→static when static has lower index.
-                if i_g > j_g and bool(active[j_g]):
+        # =============================================================
+        # Batch narrowphase — SOLID pairs (manifolds for response)
+        # =============================================================
+        if solid_pairs:
+            pairs_arr = np.asarray(solid_pairs, dtype=np.int32)
+            for ia, ib, manifold in batch_narrowphase_manifold_2d(all_cols, pairs_arr):
+                ca, cb = all_cols[ia], all_cols[ib]
+                if manifold is None:
                     continue
-                ca, cb = all_cols[i_g], all_cols[j_g]
                 current_collisions[ca].add(cb)
                 current_collisions[cb].add(ca)
-                if pair_rel[i_g, j_g] == CollisionRelation.SOLID.value:
-                    manifold = get_collision_manifold_2d(ca, cb)
-                    if manifold:
-                        solid_contacts_2d.append((ca.game_object, cb.game_object, manifold, ca, cb))
+                solid_contacts_2d.append(
+                    (ca.game_object, cb.game_object, manifold, ca, cb)
+                )
 
         # =============================================================
-        # Non-circle-circle pairs — per-pair narrowphase
+        # Batch narrowphase — TRIGGER pairs (bool only, no response)
         # =============================================================
-        other_cands = candidates & ~both_circ
-        ri, rj = np.nonzero(other_cands)
-        for k in range(len(ri)):
-            i, j = int(ri[k]), int(rj[k])
-            # Avoid double impulses on dynamic–dynamic pairs (both directions
-            # appear in the candidate matrix). Still allow dynamic→static when
-            # the static collider has a lower index.
-            if i > j and bool(active[j]):
-                continue
-            ca, cb = all_cols[i], all_cols[j]
-            if objects_collide_2d(ca, cb):
+        if trigger_pairs:
+            pairs_arr = np.asarray(trigger_pairs, dtype=np.int32)
+            for ia, ib, hit in batch_narrowphase_bool_2d(all_cols, pairs_arr):
+                if not hit:
+                    continue
+                ca, cb = all_cols[ia], all_cols[ib]
                 current_collisions[ca].add(cb)
                 current_collisions[cb].add(ca)
-                if pair_rel[i, j] == CollisionRelation.SOLID.value:
-                    manifold = get_collision_manifold_2d(ca, cb)
-                    if manifold:
-                        solid_contacts_2d.append((ca.game_object, cb.game_object, manifold, ca, cb))
 
         # =============================================================
         # Multi-iteration sequential-impulse solver (2D)
