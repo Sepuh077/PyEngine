@@ -112,7 +112,7 @@ class Scene2D(Scene):
         return go
 
     def remove_object(self, obj: GameObject):
-        if obj not in self.objects:
+        if obj not in self._objects_set:
             return
 
         # Unregister cameras

@@ -15,6 +15,10 @@ from eliminating thousands of empty ``comp.update()`` calls per frame on
 passive objects (background sprites, static decorations, etc.).
 """
 
+import logging as _logging
+
+_logger = _logging.getLogger("pyengine.cy_gameloop")
+
 
 def cy_update_objects(list objects, double delta_time):
     """Update all GameObjects, skipping those with no scripts, coroutines, animators, rigidbodies or particle systems.
@@ -44,7 +48,7 @@ def cy_update_objects(list objects, double delta_time):
         from engine.d3.particle import ParticleSystem as _PS
         PS = _PS
     except Exception:
-        pass
+        _logger.debug("ParticleSystem import failed in cy_update_objects", exc_info=True)
 
     n = <Py_ssize_t>len(objects)
     for i in range(n):
@@ -75,7 +79,7 @@ def cy_update_objects(list objects, double delta_time):
                 ps = obj.get_component(PS)
                 has_ps = ps is not None
             except Exception:
-                pass
+                _logger.debug("get_component(ParticleSystem) failed on %r", obj, exc_info=True)
 
         # Update objects that have opted-in update scripts, coroutines, Animators,
         # Rigidbodies or ParticleSystems. Empty Script.update is never registered.
@@ -85,6 +89,8 @@ def cy_update_objects(list objects, double delta_time):
             if ns > 0:
                 for j in range(ns):
                     script = <object>scripts[j]
+                    if not getattr(script, 'enabled', True):
+                        continue
                     # Ensure awake/start are called before first update (mirrors pure Python start_components)
                     if not getattr(script, '_awoken', False):
                         script.awake()
@@ -94,7 +100,7 @@ def cy_update_objects(list objects, double delta_time):
                         script._started = True
                     script.update()
 
-            if has_rb and rb is not None:
+            if has_rb and rb is not None and getattr(rb, 'enabled', True):
                 if not getattr(rb, '_awoken', False):
                     rb.awake()
                     rb._awoken = True
@@ -104,9 +110,9 @@ def cy_update_objects(list objects, double delta_time):
                 try:
                     rb.update()
                 except Exception:
-                    pass
+                    _logger.debug("Rigidbody.update() failed on %r", obj, exc_info=True)
 
-            if has_anim and anim is not None:
+            if has_anim and anim is not None and getattr(anim, 'enabled', True):
                 if not getattr(anim, '_awoken', False):
                     anim.awake()
                     anim._awoken = True
@@ -116,9 +122,9 @@ def cy_update_objects(list objects, double delta_time):
                 try:
                     anim.update()
                 except Exception:
-                    pass
+                    _logger.debug("Animator.update() failed on %r", obj, exc_info=True)
 
-            if has_ps and ps is not None:
+            if has_ps and ps is not None and getattr(ps, 'enabled', True):
                 if not getattr(ps, '_awoken', False):
                     ps.awake()
                     ps._awoken = True
@@ -128,7 +134,7 @@ def cy_update_objects(list objects, double delta_time):
                 try:
                     ps.update()
                 except Exception:
-                    pass
+                    _logger.debug("ParticleSystem.update() failed on %r", obj, exc_info=True)
 
         if getattr(obj, '_active_coroutines', None):
             obj._update_coroutines(delta_time)

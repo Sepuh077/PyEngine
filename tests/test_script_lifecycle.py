@@ -1,4 +1,6 @@
 """Tests for Script update / fixed_update / late_update opt-in registration."""
+import pytest
+
 from engine.component import Script, Time
 from engine.gameobject import GameObject, _script_method_overridden
 from engine.scene import Scene
@@ -208,3 +210,113 @@ def test_empty_script_never_called():
     scene.add_object(go2)
     assert go2 not in scene._updatables
     assert empty not in go2._scripts_update
+
+
+# ---------------------------------------------------------------------------
+# Component.enabled (skip update / fixed / late when False)
+# ---------------------------------------------------------------------------
+
+class CountingScript(Script):
+    def __init__(self):
+        super().__init__()
+        self.update_count = 0
+        self.fixed_count = 0
+        self.late_count = 0
+
+    def update(self):
+        self.update_count += 1
+
+    def fixed_update(self):
+        self.fixed_count += 1
+
+    def late_update(self):
+        self.late_count += 1
+
+
+def test_component_enabled_defaults_true():
+    from engine.component import Component
+    assert Component().enabled is True
+    assert CountingScript().enabled is True
+
+
+def test_disabled_script_skipped_in_update():
+    go = GameObject("obj")
+    script = CountingScript()
+    go.add_component(script)
+
+    go.update()
+    assert script.update_count == 1
+
+    script.enabled = False
+    go.update()
+    assert script.update_count == 1
+
+    script.enabled = True
+    go.update()
+    assert script.update_count == 2
+
+
+def test_disabled_script_skipped_in_fixed_and_late_update():
+    go = GameObject("obj")
+    script = CountingScript()
+    go.add_component(script)
+
+    go.fixed_update()
+    go.late_update()
+    assert script.fixed_count == 1
+    assert script.late_count == 1
+
+    script.enabled = False
+    go.fixed_update()
+    go.late_update()
+    assert script.fixed_count == 1
+    assert script.late_count == 1
+
+
+def test_disabled_script_skipped_via_window_phase_helpers():
+    """WindowBase fixed/late runners honor Component.enabled."""
+    scene = Scene()
+    go = GameObject("player")
+    script = CountingScript()
+    go.add_component(script)
+    scene.add_object(go)
+
+    win = _HeadlessWindow()
+    win._current_scene = scene
+
+    win._run_fixed_updates(scene._fixed_updatables)
+    win._run_late_updates(scene._late_updatables)
+    assert script.fixed_count == 1
+    assert script.late_count == 1
+
+    script.enabled = False
+    win._run_fixed_updates(scene._fixed_updatables)
+    win._run_late_updates(scene._late_updatables)
+    assert script.fixed_count == 1
+    assert script.late_count == 1
+
+
+def test_mixed_enabled_scripts_on_same_object():
+    go = GameObject("obj")
+    s1 = CountingScript()
+    s2 = CountingScript()
+    go.add_component(s1)
+    go.add_component(s2)
+
+    s1.enabled = False
+    go.update()
+    assert s1.update_count == 0
+    assert s2.update_count == 1
+
+
+def test_script_exception_propagates_on_pure_python_update():
+    """Pure-Python GameObject.update must not swallow user script errors."""
+
+    class Boom(Script):
+        def update(self):
+            raise RuntimeError("intentional boom")
+
+    go = GameObject("bad")
+    go.add_component(Boom())
+    with pytest.raises(RuntimeError, match="intentional boom"):
+        go.update()

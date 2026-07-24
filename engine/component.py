@@ -615,6 +615,7 @@ class Component:
         self.game_object: Optional['GameObject'] = None
         self._started = False
         self._awoken = False
+        self.enabled: bool = True
     
     def awake(self):
         """

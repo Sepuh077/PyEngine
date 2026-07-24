@@ -408,12 +408,14 @@ class GameObject:
         """Per-frame update (variable dt). Only calls overridden Script.update."""
         # Scripts that opted into update()
         for script in self._scripts_update:
+            if not script.enabled:
+                continue
             _ensure_script_started(script)
             script.update()
 
         # Behavioral non-script components (RBs skipped when fixed-step owns them)
         rb = self._rigidbody
-        if rb is not None and not Time._skip_rigidbody_frame_update:
+        if rb is not None and not Time._skip_rigidbody_frame_update and rb.enabled:
             if not getattr(rb, '_awoken', False):
                 rb.awake()
                 rb._awoken = True
@@ -423,7 +425,7 @@ class GameObject:
             rb.update()
 
         anim = self._animator
-        if anim is not None:
+        if anim is not None and anim.enabled:
             if not getattr(anim, '_awoken', False):
                 anim.awake()
                 anim._awoken = True
@@ -433,7 +435,7 @@ class GameObject:
             anim.update()
 
         ps = self._particle_system
-        if ps is not None:
+        if ps is not None and ps.enabled:
             if not getattr(ps, '_awoken', False):
                 ps.awake()
                 ps._awoken = True
@@ -448,12 +450,16 @@ class GameObject:
     def fixed_update(self):
         """Physics-step update; only scripts in ``_scripts_fixed`` are called."""
         for script in self._scripts_fixed:
+            if not script.enabled:
+                continue
             _ensure_script_started(script)
             script.fixed_update()
 
     def late_update(self):
         """Post-update phase; only scripts in ``_scripts_late`` are called."""
         for script in self._scripts_late:
+            if not script.enabled:
+                continue
             _ensure_script_started(script)
             script.late_update()
 

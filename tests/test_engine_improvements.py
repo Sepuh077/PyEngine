@@ -1,4 +1,6 @@
 """Regression tests for engine improvements (updatables, Time clamp, sleep, BVH)."""
+import logging
+
 import numpy as np
 
 from engine import __version__
@@ -8,6 +10,7 @@ from engine.scene import Scene
 from engine.d3.physics.rigidbody import Rigidbody3D
 from engine.d3.physics.raycast import MeshTriangleBVH, Ray, ray_aabb_intersection
 from engine.types import Vector3
+from engine.window_base import WindowBase
 
 
 class DummyScript(Script):
@@ -97,3 +100,47 @@ def test_mesh_bvh_builds_and_rejects_miss():
     t, pt, n = hit
     assert t > 0
     assert abs(pt[2]) < 1e-6
+
+
+# ---------------------------------------------------------------------------
+# Exception handling: log instead of silent swallow (window physics path)
+# ---------------------------------------------------------------------------
+
+class _HeadlessWindow(WindowBase):
+    def __init__(self):
+        self.objects = []
+        self._current_scene = None
+        self._running = False
+        self._setup_done = True
+        self._fps = 60
+        self._delta_time = 0.0
+        self._use_pygame_events = False
+        self._use_pygame_window = False
+
+    def _handle_events(self):
+        pass
+
+    def _render(self):
+        pass
+
+    def _process_collisions(self):
+        pass
+
+
+def test_rigidbody_update_failure_is_logged_not_silent(caplog):
+    """WindowBase._update_rigidbodies logs exceptions instead of bare pass."""
+    go = GameObject("rb_host")
+    rb = Rigidbody3D(use_gravity=False)
+    go.add_component(rb)
+
+    def boom():
+        raise RuntimeError("rb boom")
+
+    rb.update = boom  # type: ignore[method-assign]
+
+    win = _HeadlessWindow()
+    with caplog.at_level(logging.ERROR, logger="pyengine.physics"):
+        win._update_rigidbodies([go])
+
+    assert any("Rigidbody.update failed" in r.message for r in caplog.records)
+    assert any("rb boom" in (r.message + (r.exc_text or "")) for r in caplog.records)

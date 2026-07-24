@@ -328,6 +328,7 @@ class Scene3D(Scene):
             go.transform.scale = scale
             
         self.objects.append(go)
+        self._objects_set.add(go)
         
         # Set scene reference on the GameObject for components like ParticleSystem
         go._scene = self
@@ -369,14 +370,14 @@ class Scene3D(Scene):
     
     def remove_object(self, obj: GameObject):
         """Remove object from scene, including all its children recursively."""
-        if obj not in self.objects:
+        if obj not in self._objects_set:
             return
         
         # Collect all descendants (children, grandchildren, etc.) first
         descendants = []
         def collect_descendants(transform):
             for child in transform.children:  # children is a property, not a method
-                if child.game_object in self.objects:
+                if child.game_object in self._objects_set:
                     descendants.append(child.game_object)
                     collect_descendants(child)
         
@@ -384,7 +385,7 @@ class Scene3D(Scene):
         
         # Remove all descendants first (bottom-up)
         for descendant in descendants:
-            if descendant in self.objects:
+            if descendant in self._objects_set:
                 # Release GPU resources
                 desc_obj3d = descendant.get_component(Object3D)
                 if desc_obj3d:
@@ -401,7 +402,12 @@ class Scene3D(Scene):
                             self._main_camera = self._cameras[0] if self._cameras else None
                 
                 self.objects.remove(descendant)
+                self._objects_set.discard(descendant)
+                if hasattr(descendant, '_scene'):
+                    descendant._scene = None
                 self._unregister_updatable(descendant)
+                self._unregister_fixed_updatable(descendant)
+                self._unregister_late_updatable(descendant)
         
         # Now remove the main object
         obj3d = obj.get_component(Object3D)
@@ -419,11 +425,12 @@ class Scene3D(Scene):
                     self._main_camera = self._cameras[0] if self._cameras else None
 
         self.objects.remove(obj)
-        self._unregister_updatable(obj)
-        
-        # Clear scene reference
+        self._objects_set.discard(obj)
         if hasattr(obj, '_scene'):
             obj._scene = None
+        self._unregister_updatable(obj)
+        self._unregister_fixed_updatable(obj)
+        self._unregister_late_updatable(obj)
     
     def clear_objects(self):
         """Remove all objects from scene."""
@@ -437,8 +444,24 @@ class Scene3D(Scene):
             if hasattr(obj, '_scene'):
                 obj._scene = None
         self.objects.clear()
+        self._objects_set.clear()
         if hasattr(self, '_updatables'):
             self._updatables.clear()
+        if hasattr(self, '_updatables_set'):
+            self._updatables_set.clear()
+        if hasattr(self, '_fixed_updatables'):
+            self._fixed_updatables.clear()
+        if hasattr(self, '_fixed_updatables_set'):
+            self._fixed_updatables_set.clear()
+        if hasattr(self, '_late_updatables'):
+            self._late_updatables.clear()
+        if hasattr(self, '_late_updatables_set'):
+            self._late_updatables_set.clear()
+        # Drop any pending deferred work so a cleared scene stays empty
+        if hasattr(self, '_deferred_add'):
+            self._deferred_add.clear()
+        if hasattr(self, '_deferred_destroy'):
+            self._deferred_destroy.clear()
         self._cameras.clear()
         self._main_camera = None
     
@@ -537,6 +560,7 @@ class Scene3D(Scene):
             obj = GameObject._from_prefab_dict(obj_data)
             obj._scene = scene  # Set scene reference so components can find it
             scene.objects.append(obj)
+            scene._objects_set.add(obj)
             go_registry[obj._id] = obj
 
         # Second pass: Resolve component references in all objects
@@ -578,6 +602,7 @@ class Scene3D(Scene):
             light.ambient = light_data.get("ambient", light.ambient)
             light_obj.add_component(light)
             scene.objects.append(light_obj)
+            scene._objects_set.add(light_obj)
             
             # Register the light's camera if it has one
             for cam in light_obj.get_components(Camera3D):

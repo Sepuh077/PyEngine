@@ -26,17 +26,24 @@ class Scene:
     def __init__(self):
         self.window = None
         self.objects: List[GameObject] = []
+        self._objects_set: set = set()              # O(1) membership mirror
         # Updatables is a (usually much smaller) list of GameObjects that have
         # Scripts, Rigidbodies, Animators or active coroutines.  The Cython
         # game loop and other simulation code iterate only this list for very
         # large scenes full of passive objects.
         self._updatables: List[GameObject] = []
+        self._updatables_set: set = set()          # O(1) membership mirror
         # Opt-in phase lists (only objects whose scripts override the method)
         self._fixed_updatables: List[GameObject] = []
+        self._fixed_updatables_set: set = set()    # O(1) membership mirror
         self._late_updatables: List[GameObject] = []
+        self._late_updatables_set: set = set()     # O(1) membership mirror
         # Optional Cython-backed fast container (used for scans/rebuilds and
         # future direct C-level iteration).
         self._entity_container = None
+        # Deferred instantiation / destruction queues (flushed at end of frame)
+        self._deferred_add: List[Tuple[GameObject, dict]] = []
+        self._deferred_destroy: List[GameObject] = []
         self._setup_done = False
         # Lazy-init canvas to avoid import issues at module level
         self._canvas: Optional['UIManager'] = None
@@ -86,6 +93,7 @@ class Scene:
             obj.transform.scale = scale
 
         self.objects.append(obj)
+        self._objects_set.add(obj)
         obj._scene = self
         # ParticleSystem needs the scene to build its GameObject pool. If the
         # component was attached before add_object, on_attach had no scene yet.
@@ -97,25 +105,27 @@ class Scene:
         return obj
 
     def remove_object(self, obj: GameObject):
-        if obj not in self.objects:
+        if obj not in self._objects_set:
             return
         # Remove descendants first
         descendants = []
         def _collect(transform):
             for child in transform.children:
-                if child.game_object in self.objects:
+                if child.game_object in self._objects_set:
                     descendants.append(child.game_object)
                     _collect(child)
         _collect(obj.transform)
         for desc in descendants:
-            if desc in self.objects:
+            if desc in self._objects_set:
                 self.objects.remove(desc)
+                self._objects_set.discard(desc)
                 if hasattr(desc, '_scene'):
                     desc._scene = None
                 self._unregister_updatable(desc)
                 self._unregister_fixed_updatable(desc)
                 self._unregister_late_updatable(desc)
         self.objects.remove(obj)
+        self._objects_set.discard(obj)
         if hasattr(obj, '_scene'):
             obj._scene = None
         self._unregister_updatable(obj)
@@ -127,12 +137,23 @@ class Scene:
             if hasattr(obj, '_scene'):
                 obj._scene = None
         self.objects.clear()
+        self._objects_set.clear()
         if hasattr(self, '_updatables'):
             self._updatables.clear()
+        if hasattr(self, '_updatables_set'):
+            self._updatables_set.clear()
         if hasattr(self, '_fixed_updatables'):
             self._fixed_updatables.clear()
+        if hasattr(self, '_fixed_updatables_set'):
+            self._fixed_updatables_set.clear()
         if hasattr(self, '_late_updatables'):
             self._late_updatables.clear()
+        if hasattr(self, '_late_updatables_set'):
+            self._late_updatables_set.clear()
+        if hasattr(self, '_deferred_add'):
+            self._deferred_add.clear()
+        if hasattr(self, '_deferred_destroy'):
+            self._deferred_destroy.clear()
 
     # -- Fast entity/component container support ---------------------------
 
@@ -142,11 +163,17 @@ class Scene:
         This is called automatically when Scripts, Rigidbodies, Animators or
         coroutines are added.  The Cython fast path will iterate only the
         much smaller _updatables list instead of every object in the scene.
+
+        Uses a companion set for O(1) membership checks so that scenes with
+        thousands of objects don't pay linear scan costs on every registration.
         """
         if not hasattr(self, '_updatables'):
             self._updatables = []
-        if obj not in self._updatables:
+        if not hasattr(self, '_updatables_set'):
+            self._updatables_set = set(self._updatables)
+        if obj not in self._updatables_set:
             self._updatables.append(obj)
+            self._updatables_set.add(obj)
 
         # Also feed the Cython container when present (for advanced use / rebuilds)
         if self._entity_container is not None:
@@ -158,28 +185,52 @@ class Scene:
 
     def _unregister_updatable(self, obj: 'GameObject'):
         """Remove an object from the updatables fast list (called on remove)."""
-        if hasattr(self, '_updatables') and obj in self._updatables:
-            self._updatables.remove(obj)
+        if not hasattr(self, '_updatables_set'):
+            self._updatables_set = set(self._updatables) if hasattr(self, '_updatables') else set()
+        if obj in self._updatables_set:
+            self._updatables_set.discard(obj)
+            try:
+                self._updatables.remove(obj)
+            except ValueError:
+                pass
 
     def _register_fixed_updatable(self, obj: 'GameObject'):
         if not hasattr(self, '_fixed_updatables'):
             self._fixed_updatables = []
-        if obj not in self._fixed_updatables:
+        if not hasattr(self, '_fixed_updatables_set'):
+            self._fixed_updatables_set = set(self._fixed_updatables)
+        if obj not in self._fixed_updatables_set:
             self._fixed_updatables.append(obj)
+            self._fixed_updatables_set.add(obj)
 
     def _unregister_fixed_updatable(self, obj: 'GameObject'):
-        if hasattr(self, '_fixed_updatables') and obj in self._fixed_updatables:
-            self._fixed_updatables.remove(obj)
+        if not hasattr(self, '_fixed_updatables_set'):
+            self._fixed_updatables_set = set(self._fixed_updatables) if hasattr(self, '_fixed_updatables') else set()
+        if obj in self._fixed_updatables_set:
+            self._fixed_updatables_set.discard(obj)
+            try:
+                self._fixed_updatables.remove(obj)
+            except ValueError:
+                pass
 
     def _register_late_updatable(self, obj: 'GameObject'):
         if not hasattr(self, '_late_updatables'):
             self._late_updatables = []
-        if obj not in self._late_updatables:
+        if not hasattr(self, '_late_updatables_set'):
+            self._late_updatables_set = set(self._late_updatables)
+        if obj not in self._late_updatables_set:
             self._late_updatables.append(obj)
+            self._late_updatables_set.add(obj)
 
     def _unregister_late_updatable(self, obj: 'GameObject'):
-        if hasattr(self, '_late_updatables') and obj in self._late_updatables:
-            self._late_updatables.remove(obj)
+        if not hasattr(self, '_late_updatables_set'):
+            self._late_updatables_set = set(self._late_updatables) if hasattr(self, '_late_updatables') else set()
+        if obj in self._late_updatables_set:
+            self._late_updatables_set.discard(obj)
+            try:
+                self._late_updatables.remove(obj)
+            except ValueError:
+                pass
 
     def _register_updatable_if_needed(self, obj: 'GameObject'):
         """Check object state and register only if it has behavioral components."""
@@ -196,6 +247,49 @@ class Scene:
            getattr(obj, '_animator', None) is not None or \
            getattr(obj, '_particle_system', None) is not None:
             self._register_updatable(obj)
+
+    # -- Deferred instantiation / destruction (safe mid-frame) ---------------
+
+    def instantiate(self, obj: 'GameObject', **kwargs) -> 'GameObject':
+        """Queue a GameObject for addition at the end of the current frame.
+
+        This is the safe way to spawn objects during ``update`` / ``fixed_update``
+        without mutating the objects list while it is being iterated.  The
+        object is actually added when :meth:`_flush_deferred` runs (called
+        automatically by the window after all per-frame work is done).
+
+        Returns the *same* GameObject so callers can keep a reference.
+        """
+        self._deferred_add.append((obj, kwargs))
+        return obj
+
+    def destroy(self, obj: 'GameObject') -> None:
+        """Queue a GameObject for removal at the end of the current frame.
+
+        Like ``instantiate``, this avoids mutating the objects list while the
+        frame is in progress.  Actual removal happens in :meth:`_flush_deferred`.
+        """
+        self._deferred_destroy.append(obj)
+
+    def _flush_deferred(self) -> None:
+        """Process all queued instantiate / destroy requests.
+
+        Called once per frame by the window **after** all update phases and
+        end-of-frame coroutines have completed, but before rendering.
+        """
+        # Process destroys first — an object queued for both add and destroy
+        # in the same frame should end up removed.
+        if self._deferred_destroy:
+            pending = list(self._deferred_destroy)
+            self._deferred_destroy.clear()
+            for obj in pending:
+                self.remove_object(obj)
+
+        if self._deferred_add:
+            pending = list(self._deferred_add)
+            self._deferred_add.clear()
+            for obj, kwargs in pending:
+                self.add_object(obj, **kwargs)
 
     def _ensure_entity_container(self):
         """Lazily create the Cython fast entity container if acceleration is on."""
@@ -320,7 +414,11 @@ class Scene:
                 self._updatables = self._entity_container.collect_updatables(self.objects)
                 return
             except Exception:
-                pass
+                from engine.log import get_logger
+                get_logger("scene").debug(
+                    "EntityContainer.collect_updatables failed, falling back to pure-Python",
+                    exc_info=True,
+                )
 
         # Pure-Python fallback scan
         self._updatables = [
@@ -332,6 +430,7 @@ class Scene:
                getattr(obj, '_animator', None) is not None or
                getattr(obj, '_particle_system', None) is not None
         ]
+        self._updatables_set = set(self._updatables)
 
 
 class SceneManager:

@@ -754,6 +754,10 @@ class WindowBase:
                 for obj in active:
                     obj.update_end_of_frame()
 
+            # Flush deferred instantiate / destroy queued during this frame.
+            if scene is not None and hasattr(scene, '_flush_deferred'):
+                scene._flush_deferred()
+
         self._render()
         return self._running
 
@@ -766,6 +770,8 @@ class WindowBase:
             if not scripts:
                 continue
             for script in scripts:
+                if not getattr(script, 'enabled', True):
+                    continue
                 if not getattr(script, '_awoken', False):
                     script.awake()
                     script._awoken = True
@@ -783,6 +789,8 @@ class WindowBase:
             if not scripts:
                 continue
             for script in scripts:
+                if not getattr(script, 'enabled', True):
+                    continue
                 if not getattr(script, '_awoken', False):
                     script.awake()
                     script._awoken = True
@@ -796,6 +804,8 @@ class WindowBase:
         for obj in active:
             rb = getattr(obj, '_rigidbody', None)
             if rb is None:
+                continue
+            if not getattr(rb, 'enabled', True):
                 continue
             if getattr(rb, 'is_sleeping', False):
                 continue
