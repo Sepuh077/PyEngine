@@ -465,3 +465,152 @@ def ray_aabb_intersection_2d_fast(
             return None
 
     return (t_min, t_max)
+
+
+def ray_obb_intersection_2d_fast(
+    double ox, double oy, double dx, double dy,
+    double cb_x, double cb_y, double angle,
+    double hx, double hy,
+):
+    """Ray vs 2D OBB. Returns (t, hit_x, hit_y, normal_x, normal_y) or None.
+
+    The ray is transformed into OBB-local space, intersected against the
+    local AABB, then the result is rotated back to world.
+    """
+    cdef double cos_a = cos(angle)
+    cdef double sin_a = sin(angle)
+    # Transform ray to OBB local space
+    cdef double ddx = ox - cb_x
+    cdef double ddy = oy - cb_y
+    cdef double lo_x = ddx * cos_a + ddy * sin_a
+    cdef double lo_y = -ddx * sin_a + ddy * cos_a
+    cdef double ld_x = dx * cos_a + dy * sin_a
+    cdef double ld_y = -dx * sin_a + dy * cos_a
+
+    # Normalize local direction
+    cdef double ld_len = sqrt(ld_x * ld_x + ld_y * ld_y)
+    if ld_len < 1e-12:
+        return None
+    cdef double inv_len = 1.0 / ld_len
+    ld_x *= inv_len
+    ld_y *= inv_len
+
+    # Ray vs local AABB [-hx,hx] x [-hy,hy]
+    cdef double t_min = 0.0
+    cdef double t_max = 1e30
+    cdef double inv_d, t0, t1, tmp
+
+    if fabs(ld_x) < 1e-12:
+        if lo_x < -hx or lo_x > hx:
+            return None
+    else:
+        inv_d = 1.0 / ld_x
+        t0 = (-hx - lo_x) * inv_d
+        t1 = (hx - lo_x) * inv_d
+        if inv_d < 0.0:
+            tmp = t0; t0 = t1; t1 = tmp
+        if t0 > t_min: t_min = t0
+        if t1 < t_max: t_max = t1
+        if t_max < t_min:
+            return None
+
+    if fabs(ld_y) < 1e-12:
+        if lo_y < -hy or lo_y > hy:
+            return None
+    else:
+        inv_d = 1.0 / ld_y
+        t0 = (-hy - lo_y) * inv_d
+        t1 = (hy - lo_y) * inv_d
+        if inv_d < 0.0:
+            tmp = t0; t0 = t1; t1 = tmp
+        if t0 > t_min: t_min = t0
+        if t1 < t_max: t_max = t1
+        if t_max < t_min:
+            return None
+
+    cdef double t
+    if t_min > 0.0:
+        t = t_min
+    elif t_max > 0.0:
+        t = t_max
+    else:
+        return None
+
+    cdef double pl_x = lo_x + ld_x * t
+    cdef double pl_y = lo_y + ld_y * t
+
+    # Determine local normal
+    cdef double dn_x = fabs(pl_x) / (hx + 1e-10)
+    cdef double dn_y = fabs(pl_y) / (hy + 1e-10)
+    cdef double nl_x = 0.0, nl_y = 0.0
+    if dn_x > dn_y:
+        nl_x = 1.0 if pl_x >= 0.0 else -1.0
+    else:
+        nl_y = 1.0 if pl_y >= 0.0 else -1.0
+
+    # Transform back to world
+    cdef double pw_x = cb_x + pl_x * cos_a - pl_y * sin_a
+    cdef double pw_y = cb_y + pl_x * sin_a + pl_y * cos_a
+    cdef double nw_x = nl_x * cos_a - nl_y * sin_a
+    cdef double nw_y = nl_x * sin_a + nl_y * cos_a
+
+    # Convert t from local-direction scale to world-direction scale
+    cdef double world_t = t / ld_len
+
+    return (world_t, pw_x, pw_y, nw_x, nw_y)
+
+
+cpdef bint capsule_vs_circle_2d_fast(
+    double cap_cx, double cap_cy, double cap_r, double cap_hh, int cap_dir,
+    double cc_x, double cc_y, double cc_r,
+):
+    """Capsule (center, radius, half_height, direction) vs circle (center, radius)."""
+    cdef double ax, ay, bx, by
+    if cap_dir == 0:
+        ax = cap_cx; ay = cap_cy - cap_hh
+        bx = cap_cx; by = cap_cy + cap_hh
+    else:
+        ax = cap_cx - cap_hh; ay = cap_cy
+        bx = cap_cx + cap_hh; by = cap_cy
+
+    # Closest point on segment to circle center
+    cdef double abx = bx - ax, aby = by - ay
+    cdef double dot_ab = abx * abx + aby * aby
+    cdef double t, cpx, cpy, ddx, ddy, r_sum
+
+    if dot_ab < 1e-10:
+        cpx = ax; cpy = ay
+    else:
+        t = ((cc_x - ax) * abx + (cc_y - ay) * aby) / dot_ab
+        if t < 0.0: t = 0.0
+        elif t > 1.0: t = 1.0
+        cpx = ax + t * abx
+        cpy = ay + t * aby
+
+    ddx = cc_x - cpx
+    ddy = cc_y - cpy
+    r_sum = cap_r + cc_r
+    return ddx * ddx + ddy * ddy <= r_sum * r_sum
+
+
+cpdef bint capsule_vs_capsule_2d_fast(
+    double a_cx, double a_cy, double a_r, double a_hh, int a_dir,
+    double b_cx, double b_cy, double b_r, double b_hh, int b_dir,
+):
+    """Capsule vs capsule: segment-segment distance <= sum of radii."""
+    cdef double a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y
+    if a_dir == 0:
+        a1x = a_cx; a1y = a_cy - a_hh; a2x = a_cx; a2y = a_cy + a_hh
+    else:
+        a1x = a_cx - a_hh; a1y = a_cy; a2x = a_cx + a_hh; a2y = a_cy
+
+    if b_dir == 0:
+        b1x = b_cx; b1y = b_cy - b_hh; b2x = b_cx; b2y = b_cy + b_hh
+    else:
+        b1x = b_cx - b_hh; b1y = b_cy; b2x = b_cx + b_hh; b2y = b_cy
+
+    cdef double dist_sq = segment_segment_dist_sq_fast(
+        a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y
+    )
+    cdef double r_sum = a_r + b_r
+    return dist_sq <= r_sum * r_sum

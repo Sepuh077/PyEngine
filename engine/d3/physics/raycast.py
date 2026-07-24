@@ -20,6 +20,60 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
+try:
+    from engine.cython import is_module_loaded as _is_mod
+    if _is_mod("cy_mesh_bvh"):
+        from engine.cython.cy_mesh_bvh import (
+            build_bvh as _cy_build_bvh,
+            bvh_raycast as _cy_bvh_raycast,
+            bvh_sphere_test as _cy_bvh_sphere_test,
+        )
+        try:
+            from engine.cython.cy_mesh_bvh import (
+                bvh_sphere_closest as _cy_bvh_sphere_closest,
+            )
+        except ImportError:
+            # Older builds of cy_mesh_bvh may lack the closest-point kernel
+            _cy_bvh_sphere_closest = None
+        _USE_BVH_CYTHON = True
+    else:
+        _USE_BVH_CYTHON = False
+        _cy_bvh_sphere_test = None
+        _cy_bvh_sphere_closest = None
+except (ImportError, ModuleNotFoundError):
+    _USE_BVH_CYTHON = False
+    _cy_bvh_sphere_test = None
+    _cy_bvh_sphere_closest = None
+
+
+def get_or_build_cy_mesh_bvh(collider: Collider3D, vertices, faces):
+    """Return cached Cython BVH pack for *collider*, building if needed.
+
+    Returns
+    -------
+    (verts64, faces32, nb, nc, nts, ntc, ti) or None if Cython BVH is unavailable.
+
+    The pack caches converted float64 / int32 arrays so callers never re-convert
+    vertices/faces on every query.
+    """
+    if not _USE_BVH_CYTHON:
+        return None
+    cache_key = (id(vertices), id(faces), len(faces))
+    pack = getattr(collider, "_cy_bvh_pack", None)
+    pack_key = getattr(collider, "_cy_bvh_pack_key", None)
+    if pack is not None and pack_key == cache_key:
+        return pack
+    verts64 = np.ascontiguousarray(vertices, dtype=np.float64)
+    faces32 = np.ascontiguousarray(faces, dtype=np.int32)
+    nb, nc, nts, ntc, ti = _cy_build_bvh(verts64, faces32)
+    pack = (verts64, faces32, nb, nc, nts, ntc, ti)
+    collider._cy_bvh_pack = pack
+    collider._cy_bvh_pack_key = cache_key
+    # Keep legacy attribute names for any external code that inspected them
+    collider._cy_bvh = (nb, nc, nts, ntc, ti)
+    collider._cy_bvh_key = cache_key
+    return pack
+
 @dataclass
 class Ray:
     origin: np.ndarray
@@ -405,7 +459,20 @@ def raycast_mesh(ray: Ray, collider: Collider3D) -> Optional[RaycastHit]:
 
     # BVH-accelerated triangle tests (linear scan for tiny meshes)
     best_hit = None
-    if len(faces) >= MeshTriangleBVH.LEAF_SIZE:
+
+    # Prefer Cython BVH when available
+    if _USE_BVH_CYTHON and len(faces) >= MeshTriangleBVH.LEAF_SIZE:
+        pack = get_or_build_cy_mesh_bvh(collider, vertices, faces)
+        if pack is not None:
+            verts64, faces32, nb, nc, nts, ntc, ti = pack
+            result = _cy_bvh_raycast(
+                np.ascontiguousarray(local_origin, dtype=np.float64),
+                np.ascontiguousarray(local_dir, dtype=np.float64),
+                verts64, faces32, nb, nc, nts, ntc, ti,
+            )
+            if result is not None:
+                best_hit = result
+    elif len(faces) >= MeshTriangleBVH.LEAF_SIZE:
         bvh = _get_or_build_mesh_bvh(collider)
         if bvh is not None:
             best_hit = bvh.raycast(local_ray)

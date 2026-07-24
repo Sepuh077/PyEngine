@@ -13,6 +13,7 @@ try:
     from engine.cython.cy_collision_2d import (
         ray_circle_intersection_fast as _cy_ray_circ,
         ray_aabb_intersection_2d_fast as _cy_ray_aabb2d,
+        ray_obb_intersection_2d_fast as _cy_ray_obb2d,
     )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
@@ -126,6 +127,18 @@ def ray_obb_intersection_2d(
     """
     Ray vs 2D OBB.  Returns (t, hit_point, normal) or None.
     """
+    if _USE_CYTHON:
+        result = _cy_ray_obb2d(
+            float(ray.origin[0]), float(ray.origin[1]),
+            float(ray.direction[0]), float(ray.direction[1]),
+            float(center[0]), float(center[1]), float(angle),
+            float(half_ext[0]), float(half_ext[1]),
+        )
+        if result is None:
+            return None
+        t, px, py, nx, ny = result
+        return t, np.array([px, py], dtype=np.float64), np.array([nx, ny], dtype=np.float64)
+
     cos_a = math.cos(angle)
     sin_a = math.sin(angle)
 

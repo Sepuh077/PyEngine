@@ -148,6 +148,79 @@ cpdef bint obb_vs_obb_bool_fast(
     return True
 
 
+cpdef bint cylinder_vs_obb_bool_fast(
+    double[::1] Cc, double rc, double hc,
+    double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,
+):
+    """SAT cylinder (Y-aligned) vs OBB boolean test.
+
+    The cylinder axis is world-Y = [0,1,0].
+    Tests:
+      - 3 OBB axes
+      - 1 cylinder axis (world-Y)
+      - 3 cross products  (cyl_axis x OBB_axis_i)
+    """
+    cdef double tx = Cc[0] - Cb[0]
+    cdef double ty = Cc[1] - Cb[1]
+    cdef double tz = Cc[2] - Cb[2]
+    cdef double proj_t, ra, rb
+    cdef double ax_x, ax_y, ax_z
+    cdef double dot_cyl, h_proj, r_proj, d_sq
+    cdef int i, j
+
+    # 1. OBB Axes (3)
+    for i in range(3):
+        ax_x = Ab[0, i]; ax_y = Ab[1, i]; ax_z = Ab[2, i]
+        proj_t = fabs(tx * ax_x + ty * ax_y + tz * ax_z)
+        rb = Eb[i]
+
+        # Cylinder projected onto OBB axis
+        dot_cyl = fabs(ax_y)  # dot([0,1,0], axis)
+        h_proj = dot_cyl * hc
+        d_sq = 1.0 - dot_cyl * dot_cyl
+        if d_sq < 0.0: d_sq = 0.0
+        r_proj = rc * sqrt(d_sq)
+        ra = h_proj + r_proj
+
+        if (ra + rb) - proj_t < 0:
+            return False
+
+    # 2. Cylinder axis = [0,1,0]
+    proj_t = fabs(ty)
+    ra = hc  # cylinder projects hc on its own axis
+    rb = 0.0
+    for i in range(3):
+        rb += fabs(Ab[1, i]) * Eb[i]
+    if (ra + rb) - proj_t < 0:
+        return False
+
+    # 3. Cross products: cyl_axis [0,1,0] x Ab[:,i]
+    for i in range(3):
+        # cross([0,1,0], Ab[:,i]) = [Ab[2,i], 0, -Ab[0,i]]
+        ax_x = Ab[2, i]
+        ax_y = 0.0
+        ax_z = -Ab[0, i]
+        d_sq = ax_x * ax_x + ax_z * ax_z
+        if d_sq < 1e-6:
+            continue
+        d_sq = 1.0 / sqrt(d_sq)
+        ax_x *= d_sq; ax_z *= d_sq
+
+        proj_t = fabs(tx * ax_x + tz * ax_z)
+
+        # Cylinder on this axis: dot_cyl = |dot(axis, [0,1,0])| = |ax_y| = 0
+        ra = rc  # pure radial projection (axis perp to cylinder axis)
+
+        rb = 0.0
+        for j in range(3):
+            rb += fabs(ax_x * Ab[0, j] + ax_z * Ab[2, j]) * Eb[j]
+
+        if (ra + rb) - proj_t < 0:
+            return False
+
+    return True
+
+
 cpdef bint sphere_vs_obb_bool_fast(
     double[::1] cs, double rs,
     double[::1] Cb, double[:, ::1] Ab, double[::1] Eb,

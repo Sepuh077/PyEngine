@@ -13,10 +13,22 @@ try:
         cylinder_vs_sphere_bool_fast as _cy_cyl_sph,
         obb_vs_obb_bool_fast as _cy_obb_obb,
         sphere_vs_obb_bool_fast as _cy_sph_obb,
+        cylinder_vs_obb_bool_fast as _cy_cyl_obb,
     )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
+
+try:
+    from engine.d3.physics.raycast import (
+        get_or_build_cy_mesh_bvh as _get_cy_bvh,
+        _USE_BVH_CYTHON as _USE_MESH_BVH,
+        _cy_bvh_sphere_test,
+    )
+except (ImportError, ModuleNotFoundError):
+    _USE_MESH_BVH = False
+    _get_cy_bvh = None
+    _cy_bvh_sphere_test = None
 
 
 # =========================================================================
@@ -164,7 +176,15 @@ def cylinder_vs_obb_bool(cyl: Collider3D, obb: Collider3D) -> bool:
     # SAT with early exit
     Cc, rc, hc = cyl.get_world_cylinder()
     Cb, Ab, Eb = obb.get_world_obb()
-    
+
+    if _USE_CYTHON:
+        return _cy_cyl_obb(
+            np.ascontiguousarray(Cc, dtype=np.float64), rc, hc,
+            np.ascontiguousarray(Cb, dtype=np.float64),
+            np.ascontiguousarray(Ab, dtype=np.float64),
+            np.ascontiguousarray(Eb, dtype=np.float64),
+        )
+
     cyl_axis = np.array([0, 1, 0], dtype=np.float32)
     t = Cc - Cb
 
@@ -226,7 +246,18 @@ def sphere_vs_mesh_bool(sph: Collider3D, mesh: Collider3D) -> bool:
     scale_sq = np.dot(model_mat[:3, 0], model_mat[:3, 0])
     scale = np.sqrt(scale_sq)
     rs_local = rs_world / scale
-    
+
+    # Cython BVH fast path (cached verts/faces + tree on the mesh collider)
+    if _USE_MESH_BVH and _get_cy_bvh is not None and _cy_bvh_sphere_test is not None and len(faces) >= 8:
+        pack = _get_cy_bvh(mesh, vertices, faces)
+        if pack is not None:
+            verts64, faces32, nb, nc, nts, ntc, ti = pack
+            return _cy_bvh_sphere_test(
+                float(cs_local[0]), float(cs_local[1]), float(cs_local[2]),
+                float(rs_local),
+                verts64, faces32, nb, nc, nts, ntc, ti,
+            )
+
     min_dist_sq = rs_local * rs_local
     
     for face in faces:
@@ -237,8 +268,6 @@ def sphere_vs_mesh_bool(sph: Collider3D, mesh: Collider3D) -> bool:
         diff = cs_local - pt
         dist_sq = np.dot(diff, diff)
         if dist_sq < min_dist_sq:
-            # Optimization: If any triangle is close enough, collision is True
-            # (assuming min_dist_sq starts at rs_local^2, so dist < radius)
             return True
             
     return False

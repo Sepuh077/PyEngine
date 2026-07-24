@@ -8,6 +8,21 @@ from engine.d3.physics.group import ColliderGroup
 if TYPE_CHECKING:
     from engine.gameobject import GameObject
 
+# Optional Cython bounds kernels (hot path for every dirty collider each step)
+try:
+    from engine.cython import is_module_loaded as _is_mod
+    if _is_mod("cy_collider_bounds"):
+        from engine.cython.cy_collider_bounds import (
+            compute_box_bounds as _cy_box_bounds,
+            compute_sphere_bounds as _cy_sphere_bounds,
+            compute_cylinder_bounds as _cy_cylinder_bounds,
+        )
+        _USE_BOUNDS_CYTHON = True
+    else:
+        _USE_BOUNDS_CYTHON = False
+except (ImportError, ModuleNotFoundError):
+    _USE_BOUNDS_CYTHON = False
+
 
 class Collider3D(Component):
     """Base collider. Subclasses for types (Box, Sphere, Capsule). Contains Object3D ref.
@@ -209,6 +224,39 @@ class Collider3D(Component):
     def OnCollisionStay(self, other):
         pass
 
+    def _prepare_bounds_arrays(self):
+        """World transform + local mesh AABB as float64 arrays, or None.
+
+        Shared by Cython bounds kernels.  Sets ``_transform_dirty`` False and
+        clears ``_aabb64`` / ``_sphere64`` caches when returning a valid pack.
+        Caller is responsible for writing shape-specific fields.
+        """
+        if not self._transform_dirty or not self.game_object:
+            return None
+        from engine.d3.object3d import Object3D
+
+        obj = self.game_object
+        obj3d = obj.get_component(Object3D)
+        if not obj3d or obj3d.mesh is None:
+            self._transform_dirty = False
+            return None
+
+        obj.transform._compute_world_transform()
+        position = np.ascontiguousarray(
+            obj.transform._world_position.to_numpy(), dtype=np.float64
+        )
+        R = np.ascontiguousarray(
+            obj.transform._world_quaternion.to_rotation_matrix(), dtype=np.float64
+        )
+        scale = np.ascontiguousarray(
+            obj.transform._world_scale.to_numpy(), dtype=np.float64
+        )
+        lmin = np.ascontiguousarray(obj3d._local_min, dtype=np.float64)
+        lmax = np.ascontiguousarray(obj3d._local_max, dtype=np.float64)
+        center_vec = self.center if isinstance(self.center, Vector3) else Vector3(self.center)
+        center_offset = np.ascontiguousarray(center_vec.to_numpy(), dtype=np.float64)
+        return position, R, scale, lmin, lmax, center_offset, obj3d
+
 
 class BoxCollider3D(Collider3D):
     """Box/OBB collider (replaces old CUBE). Only size/center."""
@@ -225,6 +273,23 @@ class BoxCollider3D(Collider3D):
 
     # Override: only Box/OBB (no radius/cylinder)
     def update_bounds(self):
+        if _USE_BOUNDS_CYTHON:
+            pack = self._prepare_bounds_arrays()
+            if pack is None:
+                return
+            position, R, scale, lmin, lmax, center_offset, _obj3d = pack
+            size_vec = self.size if isinstance(self.size, Vector3) else Vector3(self.size)
+            size_mul = np.ascontiguousarray(size_vec.to_numpy(), dtype=np.float64)
+            center, axes, extents, amin, amax = _cy_box_bounds(
+                position, R, scale, lmin, lmax, center_offset, size_mul
+            )
+            self.obb = (center, axes, extents)
+            self.aabb = (amin, amax)
+            self._transform_dirty = False
+            self._aabb64 = None
+            self._sphere64 = None
+            return
+
         shared = self._compute_shared()
         if shared is None:
             return
@@ -255,6 +320,22 @@ class SphereCollider3D(Collider3D):
 
     # Override: only Sphere (no size/height)
     def update_bounds(self):
+        if _USE_BOUNDS_CYTHON:
+            pack = self._prepare_bounds_arrays()
+            if pack is None:
+                return
+            position, R, scale, lmin, lmax, center_offset, obj3d = pack
+            center, radius, amin, amax = _cy_sphere_bounds(
+                position, R, scale, lmin, lmax, center_offset,
+                float(obj3d._local_radius), float(self.radius),
+            )
+            self.sphere = (center, float(radius))
+            self.aabb = (amin, amax)
+            self._transform_dirty = False
+            self._aabb64 = None
+            self._sphere64 = None
+            return
+
         shared = self._compute_shared()
         if shared is None:
             return
@@ -289,6 +370,22 @@ class CapsuleCollider3D(Collider3D):
 
     # Override: only Cylinder (no size)
     def update_bounds(self):
+        if _USE_BOUNDS_CYTHON:
+            pack = self._prepare_bounds_arrays()
+            if pack is None:
+                return
+            position, R, scale, lmin, lmax, center_offset, _obj3d = pack
+            center, cyl_r, half_h, amin, amax = _cy_cylinder_bounds(
+                position, R, scale, lmin, lmax, center_offset,
+                float(self.radius), float(self.height),
+            )
+            self.cylinder = (center, float(cyl_r), float(half_h))
+            self.aabb = (amin, amax)
+            self._transform_dirty = False
+            self._aabb64 = None
+            self._sphere64 = None
+            return
+
         shared = self._compute_shared()
         if shared is None:
             return

@@ -43,6 +43,17 @@ try:
 except Exception:
     _cy_obb_support = None
 
+try:
+    from engine.d3.physics.raycast import (
+        get_or_build_cy_mesh_bvh as _get_cy_bvh,
+        _USE_BVH_CYTHON as _USE_MESH_BVH,
+        _cy_bvh_sphere_closest,
+    )
+except (ImportError, ModuleNotFoundError):
+    _USE_MESH_BVH = False
+    _get_cy_bvh = None
+    _cy_bvh_sphere_closest = None
+
 
 @dataclass
 class CollisionManifold:
@@ -806,19 +817,42 @@ def sphere_vs_mesh_manifold(sph: Collider3D, mesh: Collider3D) -> Optional[Colli
     
     min_dist_sq = rs_local * rs_local
     closest_pt_local = None
-    
-    # Ideally use BVH here.
-    for face in faces:
-        v0 = vertices[face[0]]
-        v1 = vertices[face[1]]
-        v2 = vertices[face[2]]
-        pt = closest_point_on_triangle(cs_local, v0, v1, v2)
-        diff = cs_local - pt
-        dist_sq = np.dot(diff, diff)
-        if dist_sq < min_dist_sq:
-            min_dist_sq = dist_sq
-            closest_pt_local = pt
-            
+
+    # Cython BVH closest-point path (shared cache with bool/raycast)
+    if (
+        _USE_MESH_BVH
+        and _get_cy_bvh is not None
+        and _cy_bvh_sphere_closest is not None
+        and len(faces) >= 8
+    ):
+        pack = _get_cy_bvh(mesh, vertices, faces)
+        if pack is not None:
+            verts64, faces32, nb, nc, nts, ntc, ti = pack
+            result = _cy_bvh_sphere_closest(
+                float(cs_local[0]), float(cs_local[1]), float(cs_local[2]),
+                float(rs_local),
+                verts64, faces32, nb, nc, nts, ntc, ti,
+            )
+            if result is not None:
+                closest_pt_local = np.array(
+                    [result[0], result[1], result[2]], dtype=np.float64
+                )
+            # If result is None, no triangle within radius — fall through to None
+            # without the pure-Python face loop.
+            if closest_pt_local is None:
+                return None
+    else:
+        for face in faces:
+            v0 = vertices[face[0]]
+            v1 = vertices[face[1]]
+            v2 = vertices[face[2]]
+            pt = closest_point_on_triangle(cs_local, v0, v1, v2)
+            diff = cs_local - pt
+            dist_sq = np.dot(diff, diff)
+            if dist_sq < min_dist_sq:
+                min_dist_sq = dist_sq
+                closest_pt_local = pt
+
     if closest_pt_local is None:
         return None
         

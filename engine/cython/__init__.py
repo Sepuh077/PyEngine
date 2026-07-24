@@ -56,6 +56,8 @@ _OPTIONAL_MODULES = (
     "cy_response_3d",
     "cy_response_2d",
     "cy_batch_collision",
+    "cy_mesh_bvh",
+    "cy_collider_bounds",
 )
 
 

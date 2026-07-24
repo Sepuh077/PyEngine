@@ -16,6 +16,8 @@ try:
         circle_vs_obb_2d_fast as _cy_co2d,
         closest_point_on_segment_fast as _cy_seg,
         segment_segment_dist_sq_fast as _cy_seg_seg,
+        capsule_vs_circle_2d_fast as _cy_cap_circ,
+        capsule_vs_capsule_2d_fast as _cy_cap_cap,
     )
     _USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
@@ -172,6 +174,13 @@ def _capsule_segment(capsule):
 
 def capsule_vs_circle(capsule, circle) -> bool:
     """capsule = (center_np, radius, half_height, direction), circle = (center_np, radius)."""
+    if _USE_CYTHON:
+        cap_center, cap_r, cap_hh, cap_dir = capsule
+        cc, rc = circle
+        return _cy_cap_circ(
+            float(cap_center[0]), float(cap_center[1]), float(cap_r), float(cap_hh), int(cap_dir),
+            float(cc[0]), float(cc[1]), float(rc),
+        )
     seg_a, seg_b = _capsule_segment(capsule)
     cc, rc = circle
     cp = closest_point_on_segment(cc, seg_a, seg_b)
@@ -296,6 +305,11 @@ def _segment_segment_dist_sq(a1, a2, b1, b2):
 
 def capsule_vs_capsule(cap_a, cap_b) -> bool:
     """Two capsules: closest distance between their internal segments <= sum of radii."""
+    if _USE_CYTHON:
+        return _cy_cap_cap(
+            float(cap_a[0][0]), float(cap_a[0][1]), float(cap_a[1]), float(cap_a[2]), int(cap_a[3]),
+            float(cap_b[0][0]), float(cap_b[0][1]), float(cap_b[1]), float(cap_b[2]), int(cap_b[3]),
+        )
     a1, a2 = _capsule_segment(cap_a)
     b1, b2 = _capsule_segment(cap_b)
     dist_sq = _segment_segment_dist_sq(a1, a2, b1, b2)
