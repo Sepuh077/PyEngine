@@ -131,9 +131,11 @@ class CollisionGroupsScene(Scene3D):
         self.camera.position = (0, 15, 20)
         self.camera.look_at((0, 0, 0))
         
-        # Light
+        # Light (slightly softer shadows reduce edge acne on cubes)
         self.light.direction = (0.5, -0.8, -0.5)
-        self.light.ambient = 0.4
+        self.light.ambient = 0.45
+        self.light.shadow_bias = 0.003
+        self.light.normal_bias = 0.025
         
         # UI state
         self.show_colliders = True
@@ -153,8 +155,9 @@ class CollisionGroupsScene(Scene3D):
         if Input.get_key(Keys.S) or Input.get_key(Keys.DOWN):
             dz += speed
         
-        self.player.get_component(Rigidbody3D).velocity[0] = dx
-        self.player.get_component(Rigidbody3D).velocity[2] = dz
+        rb = self.player.get_component(Rigidbody3D)
+        # Assign full velocity (wakes sleeping body); keep vertical from gravity
+        rb.velocity = (dx, rb.velocity.y, dz)
         
         # Count active collisions for display (from collider)
         pcoll = self.player.get_component(Collider3D)

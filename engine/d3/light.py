@@ -49,20 +49,20 @@ class DirectionalLight3D(Light3D):
     
     # Shadow properties
     cast_shadows = InspectorField(bool, default=True, tooltip="Enable shadow casting")
-    shadow_resolution = InspectorField(int, default=1024, tooltip="Shadow map resolution")
+    shadow_resolution = InspectorField(int, default=2048, tooltip="Shadow map resolution")
     shadow_distance = InspectorField(float, default=50.0, min_value=1.0, max_value=500.0, step=1.0, decimals=1, tooltip="Maximum shadow distance")
-    shadow_bias = InspectorField(float, default=0.001, min_value=0.0, max_value=0.1, step=0.0001, decimals=4, tooltip="Shadow depth bias to prevent acne")
-    normal_bias = InspectorField(float, default=0.002, min_value=0.0, max_value=0.1, step=0.0001, decimals=4, tooltip="Normal bias to reduce acne while minimizing peter-panning for realistic shadows")
+    shadow_bias = InspectorField(float, default=0.0025, min_value=0.0, max_value=0.1, step=0.0001, decimals=4, tooltip="Shadow depth bias to prevent acne")
+    normal_bias = InspectorField(float, default=0.02, min_value=0.0, max_value=0.2, step=0.001, decimals=4, tooltip="Extra bias on grazing angles (reduces silhouette acne)")
 
     def __init__(self, 
                  color: ColorType = (1.0, 1.0, 1.0),
                  intensity: float = 1.0,
                  ambient: float = 0.2,
                  cast_shadows: bool = True,
-                 shadow_resolution: int = 4096,
+                 shadow_resolution: int = 2048,
                  shadow_distance: float = 50.0,
-                 shadow_bias: float = 0.001,
-                 normal_bias: float = 0.002):
+                 shadow_bias: float = 0.0025,
+                 normal_bias: float = 0.02):
         """
         Initialize directional light.
         

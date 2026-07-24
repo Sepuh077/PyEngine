@@ -3,6 +3,7 @@ Window3D - Main application window for 3D rendering.
 Extends WindowBase for shared windowing/input/overlay/timing logic.
 """
 import time
+import math
 import pygame
 import numpy as np
 from collections import defaultdict
@@ -15,7 +16,7 @@ import moderngl
 from engine.window_base import WindowBase
 from engine.gameobject import GameObject
 from engine.d3.object3d import Object3D
-from engine.graphics import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial
+from engine.graphics import UnlitMaterial, LitMaterial, SpecularMaterial, EmissiveMaterial, TransparentMaterial, PBRMaterial
 from engine.graphics.shader_material import ShaderMaterial
 from engine.d3.camera import Camera3D
 from engine.d3.light import DirectionalLight3D, PointLight3D
@@ -138,10 +139,23 @@ class Window3D(WindowBase):
         self.enable_instancing = True
         self.instancing_min = 2
         self.instancing_auto = True
-        self.instancing_auto_min_objects = 64
+        self.instancing_auto_min_objects = 8
         self.enable_culling = True
         self.culling_auto = True
-        self.culling_auto_min_objects = 64
+        self.culling_auto_min_objects = 16
+
+        # Fog / post flags (post GPU path optional; shaders support output_hdr)
+        self.fog_enabled = False
+        self.fog_color = (0.55, 0.65, 0.78)
+        self.fog_density = 0.015
+        self.fog_start = 20.0
+        self.fog_end = 120.0
+        self.fog_mode = 0
+        self.post_process_enabled = False  # keep off until HDR path is wired; avoids depth issues
+        self.bloom_enabled = False
+        self.ssao_enabled = False
+        self.fxaa_enabled = True
+        self.exposure = 1.0
 
         # Shadow system
         self.shadows_enabled = True
@@ -1401,9 +1415,13 @@ class Window3D(WindowBase):
             # Set uniforms
             self._program['mvp'].write(mvp.astype(np.float32).tobytes())
             self._program['model'].write(np.eye(4, dtype=np.float32).tobytes())
+            if 'normal_matrix' in self._program:
+                self._program['normal_matrix'].write(np.eye(3, dtype=np.float32).tobytes())
             self._program['use_texture'].value = True
             self._program['material_type'].value = 0  # Unlit
             self._program['base_color'].value = (1.0, 1.0, 1.0, 1.0)
+            if 'output_hdr' in self._program:
+                self._program['output_hdr'].value = False
             
             # Bind texture
             skybox._gl_texture.use(location=0)
@@ -1506,9 +1524,13 @@ class Window3D(WindowBase):
 
             self._program["mvp"].write(mvp.astype(np.float32).tobytes())
             self._program["model"].write(np.eye(4, dtype=np.float32).tobytes())
+            if "normal_matrix" in self._program:
+                self._program["normal_matrix"].write(np.eye(3, dtype=np.float32).tobytes())
             self._program["use_texture"].value = False
             self._program["material_type"].value = 0  # Unlit
             self._program["base_color"].value = (1.0, 1.0, 1.0, 1.0)
+            if "output_hdr" in self._program:
+                self._program["output_hdr"].value = False
 
             self._begin_skybox_pass()
             try:
@@ -1679,8 +1701,17 @@ class Window3D(WindowBase):
         view = camera.get_view_matrix()
         proj = camera.get_projection_matrix(self.aspect)
 
-        self._ctx.line_width = line_width
-        self._collider_program['color'].value = tuple(color)
+        # Wireframes after scene draw must ignore depth (and work if depth is stale).
+        self._ctx.disable(moderngl.DEPTH_TEST)
+        self._ctx.depth_mask = False
+        try:
+            self._ctx.line_width = max(float(line_width), 1.0)
+        except Exception:
+            pass
+        c = np.asarray(color[:3], dtype=np.float32)
+        if float(np.max(c)) > 1.0:
+            c = c / 255.0
+        self._collider_program['color'].value = (float(c[0]), float(c[1]), float(c[2]))
 
         for coll in obj.get_components(Collider3D):
             if not coll:
@@ -1778,6 +1809,9 @@ class Window3D(WindowBase):
             self._collider_program['mvp'].write(mvp.astype(np.float32).tobytes())
             vao.render(moderngl.LINES)
 
+        self._ctx.depth_mask = True
+        self._ctx.enable(moderngl.DEPTH_TEST)
+
     # =========================================================================
     # Shadow Rendering
     # =========================================================================
@@ -1854,54 +1888,62 @@ class Window3D(WindowBase):
     
     def _calculate_light_space_matrix(self, light: 'DirectionalLight3D', camera: Camera3D) -> np.ndarray:
         """
-        Calculate the light space matrix for shadow rendering.
-        
-        Uses fixed world center for stable shadows (no swimming with camera).
-        Good quality at all resolutions when using reasonable shadow_distance.
+        Light-space matrix for directional shadows.
+
+        Centers the volume near the camera for density, then snaps the light-space
+        XY origin to the shadow-map texel grid so shadows do not swim with camera motion.
         """
-        # Get light direction (normalized, pointing FROM light)
         light_dir = np.array(light.direction, dtype=np.float32)
         light_dir = light_dir / (np.linalg.norm(light_dir) + 1e-6)
-        
-        # Fixed world center for stable shadows (independent of camera)
-        shadow_dist = light.shadow_distance
-        scene_center = np.array([0.0, 0.0, 0.0])
-        
-        # Position the light above the scene
-        light_pos = scene_center - light_dir * shadow_dist
-        
-        # Calculate view matrix (choose up not collinear with light dir)
-        world_up = np.array([0.0, 1.0, 0.0])
-        if abs(light_dir[1]) > abs(light_dir[0]) and abs(light_dir[1]) > abs(light_dir[2]):
-            world_up = np.array([1.0, 0.0, 0.0])
-        elif abs(light_dir[0]) > abs(light_dir[2]):
-            world_up = np.array([0.0, 0.0, 1.0])
-        
+        shadow_dist = float(light.shadow_distance)
+
+        try:
+            cam_pos = np.asarray(camera.position, dtype=np.float32).reshape(3)
+            cam_fwd = np.asarray(camera.forward, dtype=np.float32).reshape(3)
+            cam_fwd = cam_fwd / (np.linalg.norm(cam_fwd) + 1e-6)
+            scene_center = cam_pos + cam_fwd * min(shadow_dist * 0.35, 25.0)
+        except Exception:
+            scene_center = np.zeros(3, dtype=np.float32)
+
+        world_up = np.array([0.0, 1.0, 0.0], dtype=np.float32)
+        if abs(float(light_dir[1])) > 0.9:
+            world_up = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+
         forward = -light_dir
         right = np.cross(forward, world_up)
         right = right / (np.linalg.norm(right) + 1e-6)
         up = np.cross(right, forward)
-        
+
+        resolution = max(int(getattr(light, "shadow_resolution", 2048)), 64)
+        ortho_size = shadow_dist * 0.75
+        texel = (2.0 * ortho_size) / float(resolution)
+
+        # Snap center in light-space XY (not world axes)
+        cx = float(np.dot(scene_center, right))
+        cy = float(np.dot(scene_center, up))
+        cz = float(np.dot(scene_center, forward))
+        cx = math.floor(cx / texel + 0.5) * texel
+        cy = math.floor(cy / texel + 0.5) * texel
+        scene_center = right * cx + up * cy + forward * cz
+
+        light_pos = scene_center - light_dir * shadow_dist
+
         view = np.eye(4, dtype=np.float32)
         view[0, :3] = right
         view[1, :3] = up
         view[2, :3] = forward
-        view[0, 3] = -np.dot(right, light_pos)
-        view[1, 3] = -np.dot(up, light_pos)
-        view[2, 3] = -np.dot(forward, light_pos)
-        
-        # Orthographic projection (generous size to cover scene)
-        ortho_size = shadow_dist * 0.8
+        view[0, 3] = -float(np.dot(right, light_pos))
+        view[1, 3] = -float(np.dot(up, light_pos))
+        view[2, 3] = -float(np.dot(forward, light_pos))
+
         near = 0.1
-        far = shadow_dist * 2.0
-        
+        far = shadow_dist * 2.5
         proj = np.array([
             [1.0 / ortho_size, 0, 0, 0],
             [0, 1.0 / ortho_size, 0, 0],
             [0, 0, -2.0 / (far - near), -(far + near) / (far - near)],
-            [0, 0, 0, 1]
+            [0, 0, 0, 1],
         ], dtype=np.float32)
-        
         return (proj @ view).T
     
     def _render_shadow_pass(self, light: 'DirectionalLight3D', camera: Camera3D, objects: List[GameObject]):
@@ -2214,6 +2256,35 @@ class Window3D(WindowBase):
 
         for program in (self._program, self._instanced_program):
             program['view_pos'].value = tuple(camera.position)
+            # Defaults required by improved forward shader
+            if 'normal_matrix' in program:
+                program['normal_matrix'].write(np.eye(3, dtype=np.float32).tobytes())
+            if 'metallic' in program:
+                program['metallic'].value = 0.0
+            if 'roughness' in program:
+                program['roughness'].value = 0.5
+            if 'ao' in program:
+                program['ao'].value = 1.0
+            if 'use_normal_map' in program:
+                program['use_normal_map'].value = False
+            if 'use_mra_map' in program:
+                program['use_mra_map'].value = False
+            if 'normal_scale' in program:
+                program['normal_scale'].value = 1.0
+            if 'output_hdr' in program:
+                program['output_hdr'].value = False
+            if 'fog_enabled' in program:
+                program['fog_enabled'].value = bool(getattr(self, 'fog_enabled', False))
+            if 'fog_color' in program:
+                program['fog_color'].value = tuple(getattr(self, 'fog_color', (0.55, 0.65, 0.78))[:3])
+            if 'fog_density' in program:
+                program['fog_density'].value = float(getattr(self, 'fog_density', 0.015))
+            if 'fog_start' in program:
+                program['fog_start'].value = float(getattr(self, 'fog_start', 20.0))
+            if 'fog_end' in program:
+                program['fog_end'].value = float(getattr(self, 'fog_end', 120.0))
+            if 'fog_mode' in program:
+                program['fog_mode'].value = int(getattr(self, 'fog_mode', 0))
             if light:
                 # Multiply by intensity so the intensity property actually works
                 l_col = (
@@ -2288,6 +2359,7 @@ class Window3D(WindowBase):
                 light_positions = [[0.0, 0.0, 0.0]] * 4
                 light_dirs = [[0.0, 0.0, 0.0]] * 4
                 light_biases = [0.0] * 4
+                light_normal_biases = [0.0] * 4
                 light_fars = [0.0] * 4
                 lsm_data = []
                 
@@ -2301,6 +2373,7 @@ class Window3D(WindowBase):
                         d = sl.direction
                         light_dirs[i] = [float(d.x), float(d.y), float(d.z)]
                         light_biases[i] = float(sl.shadow_bias)
+                        light_normal_biases[i] = float(getattr(sl, 'normal_bias', 0.02))
                         light_fars[i] = float(sl.shadow_distance)
                         # Light space matrix
                         lsm = self._light_space_matrices.get(id(sl), np.eye(4, dtype=np.float32))
@@ -2310,6 +2383,7 @@ class Window3D(WindowBase):
                         pos = sl.position
                         light_positions[i] = [float(pos.x), float(pos.y), float(pos.z)]
                         light_biases[i] = float(sl.shadow_bias)
+                        light_normal_biases[i] = float(getattr(sl, 'normal_bias', 0.02))
                         light_fars[i] = float(sl.shadow_far)
                 
                 # Set individual uniforms
@@ -2328,6 +2402,9 @@ class Window3D(WindowBase):
                         program[dir_name].value = tuple(light_dirs[i])
                     if bias_name in program:
                         program[bias_name].value = light_biases[i]
+                    nb_name = f'shadow_normal_bias{i}'
+                    if nb_name in program:
+                        program[nb_name].value = light_normal_biases[i]
                     if far_name in program:
                         program[far_name].value = light_fars[i]
                 
@@ -2439,6 +2516,18 @@ class Window3D(WindowBase):
         opaque_objects = []
         transparent_objects = []
 
+        do_cull = bool(getattr(self, 'enable_culling', True))
+        n_objs = len(objects)
+        if getattr(self, 'culling_auto', True) and n_objs < getattr(self, 'culling_auto_min_objects', 16):
+            do_cull = False
+        frustum_planes = None
+        if do_cull:
+            try:
+                frustum_planes = camera.extract_frustum_planes(view, projection)
+            except Exception:
+                frustum_planes = None
+                do_cull = False
+
         for obj in objects:
             obj3d = obj.get_component(Object3D)
             if not obj3d or not obj3d._visible:
@@ -2448,6 +2537,14 @@ class Window3D(WindowBase):
             if hasattr(camera, 'render_mask') and hasattr(obj, 'render_layer'):
                 if not (camera.render_mask & obj.render_layer):
                     continue  # Object not visible to this camera
+
+            if do_cull and frustum_planes is not None:
+                try:
+                    center, radius = obj3d.get_world_bounding_sphere()
+                    if not camera.sphere_in_frustum(center, radius, frustum_planes):
+                        continue
+                except Exception:
+                    pass
             
             self._ensure_mesh(obj3d)
             
@@ -2532,6 +2629,13 @@ class Window3D(WindowBase):
                 # ── Standard material path ─────────────────────────
                 self._program['mvp'].write(mvp.astype(np.float32).tobytes())
                 self._program['model'].write(model.astype(np.float32).tobytes())
+                if 'normal_matrix' in self._program:
+                    m3 = np.array(model[:3, :3], dtype=np.float32)
+                    try:
+                        nmat = np.linalg.inv(m3).T
+                    except np.linalg.LinAlgError:
+                        nmat = m3
+                    self._program['normal_matrix'].write(nmat.astype(np.float32).tobytes())
 
                 use_texture = False
                 if getattr(obj3d, "_uses_texture", False):
@@ -2551,8 +2655,6 @@ class Window3D(WindowBase):
                 # Material uniforms
                 if isinstance(mat, UnlitMaterial):
                     self._program['material_type'].value = 0
-                elif isinstance(mat, LitMaterial):
-                    self._program['material_type'].value = 1
                 elif isinstance(mat, SpecularMaterial):
                     self._program['material_type'].value = 2
                     self._program['specular_color'].value = tuple(mat.specular_vec3)
@@ -2560,13 +2662,30 @@ class Window3D(WindowBase):
                 elif isinstance(mat, EmissiveMaterial):
                     self._program['material_type'].value = 3
                     self._program['emissive_intensity'].value = float(mat.intensity)
-                elif isinstance(mat, TransparentMaterial):
-                    self._program['material_type'].value = 1 # Transparent uses Lit logic but with alpha
+                elif isinstance(mat, PBRMaterial):
+                    self._program['material_type'].value = 4
+                elif isinstance(mat, (LitMaterial, TransparentMaterial)):
+                    self._program['material_type'].value = 1
                 else:
-                    self._program['material_type'].value = 1 # Default to Lit
+                    self._program['material_type'].value = 1
 
                 rgba = tuple(mat.color_vec4)
                 self._program['base_color'].value = rgba
+
+                if 'metallic' in self._program:
+                    self._program['metallic'].value = float(getattr(mat, 'metallic', 0.0))
+                if 'roughness' in self._program:
+                    self._program['roughness'].value = float(getattr(mat, 'roughness', 0.5))
+                if 'ao' in self._program:
+                    self._program['ao'].value = float(getattr(mat, 'ao', 1.0))
+                if 'use_normal_map' in self._program:
+                    self._program['use_normal_map'].value = False
+                if 'use_mra_map' in self._program:
+                    self._program['use_mra_map'].value = False
+                if 'output_hdr' in self._program:
+                    self._program['output_hdr'].value = False
+                if 'fog_enabled' in self._program:
+                    self._program['fog_enabled'].value = bool(getattr(self, 'fog_enabled', False))
 
                 # Per-object receive_shadows support for realistic per-mesh control
                 if 'receive_shadows' in self._program:

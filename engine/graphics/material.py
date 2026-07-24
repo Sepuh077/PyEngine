@@ -93,6 +93,8 @@ class Material:
             mat = SkyboxMaterial()
         elif class_name == "LitMaterial":
             mat = LitMaterial()
+        elif class_name == "PBRMaterial":
+            mat = PBRMaterial()
         elif class_name == "UnlitMaterial":
             mat = UnlitMaterial()
         elif class_name == "SpecularMaterial":
@@ -134,18 +136,47 @@ class UnlitMaterial(Material):
 
 
 class LitMaterial(Material):
-    """Lambert material with diffuse lighting."""
-    def __init__(self, color: ColorType = Color.WHITE, alpha: float = 1.0):
+    """
+    Physically-inspired lit material (GGX PBR-lite in the default pipeline).
+
+    Optional maps:
+      - normal_map: path or numpy image for tangent-space normals
+      - mra_map: packed metallic (R), roughness (G), AO (B)
+    """
+    def __init__(
+        self,
+        color: ColorType = Color.WHITE,
+        alpha: float = 1.0,
+        metallic: float = 0.0,
+        roughness: float = 0.5,
+        ao: float = 1.0,
+        normal_map: Optional[str] = None,
+        mra_map: Optional[str] = None,
+        normal_scale: float = 1.0,
+    ):
         super().__init__(color, alpha)
+        self.metallic = float(metallic)
+        self.roughness = float(roughness)
+        self.ao = float(ao)
+        self.normal_map = normal_map
+        self.mra_map = mra_map
+        self.normal_scale = float(normal_scale)
+        # GPU caches (set by renderer)
+        self._gl_normal_map = None
+        self._gl_mra_map = None
 
 
 class SpecularMaterial(Material):
-    """Phong / Blinn-Phong material for metal and plastic."""
+    """Blinn-Phong material for metal and plastic (classic specular highlight)."""
     def __init__(self, color: ColorType = Color.WHITE, alpha: float = 1.0, 
-                 specular_color: ColorType = Color.WHITE, shininess: float = 32.0):
+                 specular_color: ColorType = Color.WHITE, shininess: float = 32.0,
+                 normal_map: Optional[str] = None, normal_scale: float = 1.0):
         super().__init__(color, alpha)
         self.specular_color = specular_color
         self.shininess = shininess
+        self.normal_map = normal_map
+        self.normal_scale = float(normal_scale)
+        self._gl_normal_map = None
 
     @property
     def specular_vec3(self) -> np.ndarray:
@@ -153,6 +184,29 @@ class SpecularMaterial(Material):
         if c.max() > 1.0:
             c /= 255.0
         return c[:3]
+
+
+class PBRMaterial(LitMaterial):
+    """
+    Explicit PBR material (same shader path as LitMaterial with metallic/roughness).
+
+    Prefer this name when authoring metal/roughness assets.
+    """
+    def __init__(
+        self,
+        color: ColorType = Color.WHITE,
+        alpha: float = 1.0,
+        metallic: float = 0.0,
+        roughness: float = 0.5,
+        ao: float = 1.0,
+        normal_map: Optional[str] = None,
+        mra_map: Optional[str] = None,
+        normal_scale: float = 1.0,
+    ):
+        super().__init__(
+            color=color, alpha=alpha, metallic=metallic, roughness=roughness,
+            ao=ao, normal_map=normal_map, mra_map=mra_map, normal_scale=normal_scale,
+        )
 
 
 class EmissiveMaterial(Material):
@@ -163,9 +217,18 @@ class EmissiveMaterial(Material):
 
 
 class TransparentMaterial(Material):
-    """Material with explicit alpha transparency."""
-    def __init__(self, color: ColorType = Color.WHITE, alpha: float = 0.5):
+    """Material with explicit alpha transparency (lit with alpha blend)."""
+    def __init__(
+        self,
+        color: ColorType = Color.WHITE,
+        alpha: float = 0.5,
+        metallic: float = 0.0,
+        roughness: float = 0.5,
+    ):
         super().__init__(color, alpha)
+        self.metallic = float(metallic)
+        self.roughness = float(roughness)
+        self.ao = 1.0
 
 
 class SkyboxMaterial(Material):

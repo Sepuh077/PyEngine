@@ -808,7 +808,21 @@ class WindowBase:
             if not getattr(rb, 'enabled', True):
                 continue
             if getattr(rb, 'is_sleeping', False):
-                continue
+                # In-place component writes (rb.velocity[0] = x) bypass the
+                # velocity setter and do not call wake(). Detect external
+                # motion intent and wake so the body integrates again.
+                vel = getattr(rb, '_velocity', None)
+                if vel is not None:
+                    try:
+                        speed2 = float(vel.x) ** 2 + float(vel.y) ** 2 + float(vel.z) ** 2
+                    except Exception:
+                        speed2 = 0.0
+                    if speed2 > 1e-10:
+                        rb.wake()
+                    else:
+                        continue
+                else:
+                    continue
             try:
                 rb.update()
             except Exception:

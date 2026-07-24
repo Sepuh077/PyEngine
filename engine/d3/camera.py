@@ -402,7 +402,80 @@ class Camera3D(Component):
         """Get the projection matrix for rendering."""
         return self._perspective_matrix(self.fov, aspect, self.near, self.far)
 
-    # ... (Keep other methods like frustum culling, but update them to use transform) ...
+    # ------------------------------------------------------------------
+    # Frustum culling
+    # ------------------------------------------------------------------
+
+    def extract_frustum_planes(self, view: np.ndarray, projection: np.ndarray) -> np.ndarray:
+        """
+        Extract 6 frustum planes from view * projection (engine row-vector convention).
+
+        Returns (6, 4) array of plane equations ax+by+cz+d = 0, normals pointing inward.
+        Order: left, right, bottom, top, near, far.
+        """
+        # Engine multiplies as row-vector: p' = p @ view @ projection
+        # Clip matrix in column-vector GLSL is (view @ proj).T; for plane extraction
+        # from row-vector MVP we use M = view @ projection and extract from columns of M.T
+        # equivalently from rows of the column-vector clip matrix.
+        m = (view @ projection).astype(np.float32)  # row-vector world→clip
+        # Column-vector clip matrix
+        c = m.T
+        planes = np.empty((6, 4), dtype=np.float32)
+        # left, right, bottom, top, near, far
+        planes[0] = c[3] + c[0]
+        planes[1] = c[3] - c[0]
+        planes[2] = c[3] + c[1]
+        planes[3] = c[3] - c[1]
+        planes[4] = c[3] + c[2]
+        planes[5] = c[3] - c[2]
+        # Normalize
+        norms = np.linalg.norm(planes[:, :3], axis=1, keepdims=True)
+        planes /= np.maximum(norms, 1e-8)
+        self._frustum_planes = planes
+        return planes
+
+    def sphere_in_frustum(
+        self,
+        center,
+        radius: float,
+        planes: Optional[np.ndarray] = None,
+    ) -> bool:
+        """
+        Return True if a sphere (world-space center + radius) intersects the frustum.
+
+        Args:
+            center: (3,) world position
+            radius: bounding sphere radius (world units, already scaled)
+            planes: optional (6,4) planes; uses last extract_frustum_planes result if None
+        """
+        pl = planes if planes is not None else getattr(self, "_frustum_planes", None)
+        if pl is None:
+            return True
+        c = np.asarray(center, dtype=np.float32).reshape(3)
+        r = float(radius)
+        # Distance from plane: ax+by+cz+d; positive = inside for inward normals
+        for i in range(6):
+            dist = pl[i, 0] * c[0] + pl[i, 1] * c[1] + pl[i, 2] * c[2] + pl[i, 3]
+            if dist < -r:
+                return False
+        return True
+
+    def update_frustum_cache(self, aspect: float) -> None:
+        """Cache tan half-fov values for cheap tests (optional helpers)."""
+        if (
+            self._frustum_cache.get("aspect") == aspect
+            and self._frustum_cache.get("fov") == self.fov
+        ):
+            return
+        half = math.radians(self.fov * 0.5)
+        tan_y = math.tan(half)
+        tan_x = tan_y * aspect
+        self._frustum_cache = {
+            "aspect": aspect,
+            "fov": self.fov,
+            "tan_x": tan_x,
+            "tan_y": tan_y,
+        }
 
     @staticmethod
     def _perspective_matrix(fov: float, aspect: float, near: float, far: float) -> np.ndarray:

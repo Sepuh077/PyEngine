@@ -461,11 +461,15 @@ compiles from ``.pyx`` when a C compiler is available.
 
 ---
 
-## Performance notes
+## Performance & graphics notes
 
 - Prefer GPU path (ModernGL) over software drawing for many objects.
 - Cython speeds up math, transforms, collision, game loop, particles when built.
-- Large static scenes: `static` batches / instancing helpers on `Window3D` (`enable_instancing`, `build_static_batches`, profiler caption via `show_profiler`).
+- **Instancing + frustum culling** are on by default for larger scenes (`enable_instancing`, `enable_culling`, auto thresholds). Call `build_static_batches()` after placing static rigidbodies.
+- **Shadows:** default directional map is 2048²; point lights cull casters by range. Soft 5×5 PCF + normal bias.
+- **Materials:** `LitMaterial` / `PBRMaterial` use GGX lighting with optional `normal_map`, `mra_map` (metal/rough/AO), `metallic`, `roughness`. `SpecularMaterial` is Blinn-Phong.
+- **Post-process** (default on): HDR target → optional SSAO/bloom → ACES tonemap + gamma + FXAA. Toggles: `post_process_enabled`, `bloom_enabled`, `ssao_enabled`, `fxaa_enabled`, `exposure`, `fog_enabled`.
+- Profiler: `show_profiler = True` shows culled/instanced/static counts.
 - Scripts: only override the lifecycle methods you need.
 
 ---

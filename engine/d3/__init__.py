@@ -39,6 +39,7 @@ from engine.graphics.material import (
     EmissiveMaterial,
     TransparentMaterial,
     SkyboxMaterial,
+    PBRMaterial,
     MATERIAL_FILE_EXT,
 )
 from engine.d3.particle import (  # particle system (3D)
@@ -153,6 +154,7 @@ __all__ = [
     'EmissiveMaterial',
     'TransparentMaterial',
     'SkyboxMaterial',
+    'PBRMaterial',
     'MATERIAL_FILE_EXT',
     'ParticleSystem',
     'ParticleBurst',

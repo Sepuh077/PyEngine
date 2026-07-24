@@ -32,6 +32,11 @@ SHADOW_VERTEX_SHADER_INSTANCED = load_shader("shadow_instanced.vert")
 SHADOW_FRAGMENT_SHADER = load_shader("shadow.frag")
 PARTICLE_VERTEX_SHADER = load_shader("particle.vert")
 PARTICLE_FRAGMENT_SHADER = load_shader("particle.frag")
+FULLSCREEN_VERTEX_SHADER = load_shader("fullscreen.vert")
+BLOOM_EXTRACT_FRAGMENT_SHADER = load_shader("bloom_extract.frag")
+BLOOM_BLUR_FRAGMENT_SHADER = load_shader("bloom_blur.frag")
+SSAO_FRAGMENT_SHADER = load_shader("ssao.frag")
+TONEMAP_FRAGMENT_SHADER = load_shader("tonemap.frag")
 
 __all__ = [
     "load_shader",
@@ -45,4 +50,9 @@ __all__ = [
     "SHADOW_FRAGMENT_SHADER",
     "PARTICLE_VERTEX_SHADER",
     "PARTICLE_FRAGMENT_SHADER",
+    "FULLSCREEN_VERTEX_SHADER",
+    "BLOOM_EXTRACT_FRAGMENT_SHADER",
+    "BLOOM_BLUR_FRAGMENT_SHADER",
+    "SSAO_FRAGMENT_SHADER",
+    "TONEMAP_FRAGMENT_SHADER",
 ]

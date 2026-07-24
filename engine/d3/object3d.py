@@ -336,7 +336,22 @@ class Object3D(Component):
     
     def get_model_matrix(self) -> np.ndarray:
         return self.game_object.transform.get_model_matrix()
-    
+
+    def get_world_bounding_sphere(self) -> Tuple[np.ndarray, float]:
+        """
+        World-space bounding sphere (center, radius) for frustum culling.
+
+        Uses local mesh radius scaled by max axis scale + world position.
+        """
+        go = self.game_object
+        if go is None or go.transform is None:
+            return np.zeros(3, dtype=np.float32), 1.0
+        pos = np.asarray(go.transform.world_position, dtype=np.float32).reshape(3)
+        scale = np.asarray(go.transform.world_scale, dtype=np.float32).reshape(3)
+        max_s = float(np.max(np.abs(scale))) if scale.size else 1.0
+        r = float(self._local_radius) if self._local_radius is not None else 1.0
+        return pos, r * max_s * 1.05  # small pad for non-uniform scale / rotation
+
     # GPU helper for moderngl rendering
     def _get_flattened_geometry(self):
         if self.mesh is None:
