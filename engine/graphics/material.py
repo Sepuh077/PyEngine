@@ -248,9 +248,9 @@ class SkyboxMaterial(Material):
     @classmethod
     def create_gradient(
         cls,
-        top_color: ColorType = (0.4, 0.6, 1.0),      # Sky blue
-        middle_color: ColorType = (1.0, 1.0, 1.0),    # White horizon
-        bottom_color: ColorType = (0.4, 0.25, 0.1),  # Brown ground
+        top_color: ColorType = (0.35, 0.55, 0.95),     # Sky blue
+        middle_color: ColorType = (0.85, 0.90, 0.98),  # Soft horizon
+        bottom_color: ColorType = (0.45, 0.35, 0.25),  # Ground tint
         alpha: float = 1.0
     ) -> "SkyboxMaterial":
         """
@@ -282,6 +282,16 @@ class SkyboxMaterial(Material):
         }
         mat.alpha = alpha
         return mat
+
+    @classmethod
+    def create_default(cls) -> "SkyboxMaterial":
+        """Default procedural sky used for new 3D cameras (Unity-like gradient).
+
+        Prefer this over a solid clear color so scenes look like an outdoor
+        environment out of the box. Replace with a textured skybox or set
+        ``camera.skybox = None`` + ``ClearFlags.SOLID_CLEAR`` for solid color.
+        """
+        return cls.create_gradient()
     
     def get_gradient_colors(self) -> Optional[dict]:
         """Get gradient colors if this is a gradient skybox."""

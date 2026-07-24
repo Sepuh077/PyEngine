@@ -72,7 +72,9 @@ class GameObject:
         # fast paths inside the Cython update loop and physics.
         self._rigidbody = None   # Rigidbody2D or Rigidbody3D
         self._animator = None
-        self._particle_system = None  # ParticleSystem for simulation updates
+        self._particle_system = None  # ParticleSystem / ParticleSystem2D
+        self._object2d = None    # Object2D renderable
+        self._object3d = None    # Object3D renderable
 
         # Coroutines state
         self._active_coroutines: List[Dict[str, Any]] = []
@@ -193,6 +195,10 @@ class GameObject:
         elif cls_name in ("ParticleSystem", "ParticleSystem2D"):
             self._particle_system = component
             self._refresh_updatable_registration()
+        elif cls_name == "Object2D":
+            self._object2d = component
+        elif cls_name == "Object3D":
+            self._object3d = component
 
         component.on_attach()
         return component
@@ -303,6 +309,10 @@ class GameObject:
             self._animator = None
         if self._particle_system is component:
             self._particle_system = None
+        if self._object2d is component:
+            self._object2d = None
+        if self._object3d is component:
+            self._object3d = None
 
         component.game_object = None
         self._refresh_updatable_registration()

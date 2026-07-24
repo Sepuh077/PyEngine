@@ -41,8 +41,8 @@ class Camera3D(Component):
     # Inspector fields for editor support
     skybox = InspectorField(
         "SkyboxMaterial",  # String type name - resolved by editor
-        default=None,
-        tooltip="Skybox material for environment background (equirectangular or cubemap)"
+        default=None,  # Instance default is assigned in __init__ (gradient sky)
+        tooltip="Skybox material for environment background (gradient, equirectangular, or cubemap)"
     )
     fov = InspectorField(
         float,
@@ -176,6 +176,13 @@ class Camera3D(Component):
         self.viewport_height = vp.height
         
         self._is_main = is_main
+
+        # Unity-like default: procedural gradient skybox (not a solid clear).
+        # Override with a textured SkyboxMaterial, or set skybox=None and
+        # clear_flags=ClearFlags.SOLID_CLEAR for a flat background color.
+        if self.skybox is None:
+            from engine.graphics.material import SkyboxMaterial
+            self.skybox = SkyboxMaterial.create_default()
         
         # Frustum cache
         self._frustum_cache = {

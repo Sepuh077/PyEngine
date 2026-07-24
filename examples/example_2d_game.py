@@ -25,19 +25,24 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from engine.d2 import Window2D, Scene2D, Object2D, create_rect, create_circle
+from engine.d2 import (
+    Window2D,
+    Scene2D,
+    Object2D,
+    create_rect,
+    ParticleSystem2D,
+    ParticleBurst2D,
+)
 from engine.gameobject import GameObject
 from engine.component import Script, Time
 from engine.input import Input, Keys, MouseButtons
-from engine.types import Color, Vector3
+from engine.types import Color
 from engine.types.vector2 import Vector2
 from engine.d2.physics import (
     CircleCollider2D,
-    BoxCollider2D,
     Rigidbody2D,
-    CollisionMode,
     ColliderGroup,
-    CollisionRelation
+    CollisionRelation,
 )
 
 # ---------------------------------------------------------------------------
@@ -66,14 +71,16 @@ class PlayerScript(Script):
     """Player movement, shooting, and health management."""
 
     def start(self):
-        self.health = 100000.0
-        self.max_health = 100000.0
+        self.health = 100.0
+        self.max_health = 100.0
         self.score = 0
         self.wave = 1
         self.shoot_cooldown = 0.0
         self.shoot_interval = 0.1   # seconds between shots
         self.invincible_timer = 0.0  # brief invincibility after hit
         self.game_over = False
+        # Cache visual once — avoid get_component every frame
+        self._visual = self.get_component(Object2D) or getattr(self.game_object, "_object2d", None)
 
     def update(self):
         if self.game_over:
@@ -118,17 +125,13 @@ class PlayerScript(Script):
             self._shoot()
             self.shoot_cooldown = self.shoot_interval
 
-        # Invincibility timer
-        if self.invincible_timer > 0:
-            self.invincible_timer -= dt
-            # Blink effect
-            obj2d = self.get_component(Object2D)
-            if obj2d:
-                obj2d.alpha = 0.4 if int(Time.time * 15) % 2 == 0 else 1.0
-        else:
-            obj2d = self.get_component(Object2D)
-            if obj2d:
-                obj2d.alpha = 1.0
+        # Invincibility blink (cached Object2D)
+        if self._visual is not None:
+            if self.invincible_timer > 0:
+                self.invincible_timer -= dt
+                self._visual.alpha = 0.4 if int(Time.time * 15) % 2 == 0 else 1.0
+            else:
+                self._visual.alpha = 1.0
 
     def _shoot(self):
         """Spawn a bullet toward the mouse cursor."""
@@ -159,14 +162,13 @@ class PlayerScript(Script):
         bullet_go.add_component(rb)
 
         col = CircleCollider2D()
-        # col.collision_mode = CollisionMode.CONTINUOUS
         bullet_go.add_component(col)
 
         bullet_script = BulletScript()
         bullet_go.add_component(bullet_script)
         bullet_go.tag = "Bullet"
 
-        scene = self.game_object._scene
+        # Instant add is fine for bullets; deferred works too via scene.instantiate
         scene.add_object(bullet_go)
         bullet_go.start_components()
 
@@ -208,7 +210,8 @@ class BulletScript(Script):
         self.is_destroyed = True
         scene = self.game_object._scene
         if scene:
-            scene.remove_object(self.game_object)
+            # Deferred destroy is safe if called mid-physics/update
+            scene.destroy(self.game_object)
 
 
 class EnemyScript(Script):
@@ -218,26 +221,41 @@ class EnemyScript(Script):
         self.speed = ENEMY_BASE_SPEED + random.uniform(-1, 1)
         self.health = 1
         self.score_value = 10
+        self._player = None
+        self._player_script = None
+        self._is_destroyed = False
 
-    def update(self):
+    def _resolve_player(self):
+        if self._player is not None and self._player.scene is not None:
+            return True
         scene = self.game_object._scene
         if scene is None:
+            return False
+        # Prefer scene-level cached ref if present
+        player = getattr(scene, "player", None)
+        if player is None:
+            players = scene.get_objects_by_tag("Player")
+            player = players[0] if players else None
+        if player is None:
+            return False
+        self._player = player
+        self._player_script = player.get_component(PlayerScript)
+        return True
+
+    def update(self):
+        if self._is_destroyed or not self._resolve_player():
             return
 
-        # Find the player
-        players = scene.get_objects_by_tag("Player")
-        if not players:
-            return
-
-        target = players[0].transform.position
+        target = self._player.transform.position
         pos = self.transform.position
         dx = target.x - pos.x
         dy = target.y - pos.y
         mag = math.hypot(dx, dy)
         if mag < 0.1:
             return
-        dx /= mag
-        dy /= mag
+        inv = 1.0 / mag
+        dx *= inv
+        dy *= inv
 
         speed = self.speed * Time.delta_time
         self.transform.move(dx * speed, dy * speed, 0)
@@ -245,20 +263,29 @@ class EnemyScript(Script):
         # Slow rotation for visual interest
         self.transform.rotate(0, 0, 90 * Time.delta_time)
 
-    def on_collision_enter(self, other: GameObject):
-        if other.game_object and other.game_object.tag == "Bullet" and not other.get_component(BulletScript).is_destroyed:
-            self.health -= 1
-            other.get_component(BulletScript).destroy()
-            if self.health <= 0:
-                scene = self.game_object._scene
-                if scene:
-                    # Award score to player
-                    players = scene.get_objects_by_tag("Player")
-                    if players:
-                        ps = players[0].get_component(PlayerScript)
-                        if ps:
-                            ps.score += self.score_value
-                    scene.remove_object(self.game_object)
+    def on_collision_enter(self, other):
+        if self._is_destroyed or other.game_object is None:
+            return
+        if other.game_object.tag != "Bullet":
+            return
+        bullet = other.get_component(BulletScript)
+        if bullet is None or bullet.is_destroyed:
+            return
+        self.health -= 1
+        bullet.destroy()
+        if self.health <= 0:
+            self._is_destroyed = True
+            scene = self.game_object._scene
+            if scene is None:
+                return
+            if self._player_script is None:
+                self._resolve_player()
+            if self._player_script is not None:
+                self._player_script.score += self.score_value
+            # Keep a live enemy counter if the scene maintains one
+            if hasattr(scene, "enemy_count"):
+                scene.enemy_count = max(0, scene.enemy_count - 1)
+            scene.destroy(self.game_object)
 
 
 # ---------------------------------------------------------------------------
@@ -268,33 +295,24 @@ class EnemyScript(Script):
 class GameScene(Scene2D):
 
     def setup(self):
-        # -- Background stars (purely visual, lowest sorting order) --
-        self.stars = []
-        self.star_pulse = []   # (base_brightness, speed, phase) per star
         self.player_group = ColliderGroup("Player")
         self.enemy_group = ColliderGroup("Enemy")
         self.enemy_group.add_group(self.enemy_group, CollisionRelation.IGNORE)
-        for _ in range(STAR_COUNT):
-            sx = random.uniform(-WORLD_HW, WORLD_HW)
-            sy = random.uniform(-WORLD_HH, WORLD_HH)
-            brightness = random.uniform(0.3, 0.9)
-            size = random.uniform(0.03, 0.08)
-            star = create_rect(size, size, color=(brightness, brightness, min(1.0, brightness * 1.1)))
-            star.transform.position = (sx, sy, 0)
-            star.get_component(Object2D).sorting_order = -10
-            self.add_object(star)
-            self.stars.append(star)
-            self.star_pulse.append((
-                brightness,
-                random.uniform(1.0, 4.0),   # pulse speed (Hz)
-                random.uniform(0, 2 * math.pi),  # phase offset
-            ))
+        self.enemy_count = 0
+
+        # -- Background stars as lightweight particles (NOT GameObjects) --
+        # 1000 GameObjects × get_component + color write + full sprite batch
+        # is the main reason this demo drops to ~25 FPS. ParticleSystem2D stores
+        # plain data and draws one instanced batch — same look, ~10× cheaper.
+        self._setup_starfield()
 
         # -- Player --
         player_go = create_rect(PLAYER_SIZE, PLAYER_SIZE * 1.2, color=(0.2, 0.8, 1.0))
         player_go.tag = "Player"
         player_go.transform.position = (0, 0, 0)
-        player_go.get_component(Object2D).sorting_order = 5
+        obj2d = player_go._object2d or player_go.get_component(Object2D)
+        if obj2d:
+            obj2d.sorting_order = 5
         col = CircleCollider2D()
         col.group = self.player_group
         player_go.add_component(col)
@@ -312,17 +330,80 @@ class GameScene(Scene2D):
         self.wave_enemy_count = 5
         self.wave_timer = 0.0
 
+    def _setup_starfield(self):
+        """Create a static twinkling starfield with one ParticleSystem2D host."""
+        host = GameObject("Starfield")
+        # No continuous emission — we place particles once and only twinkle alpha.
+        self.star_ps = ParticleSystem2D(
+            position=(0.0, 0.0),
+            play_on_awake=False,
+            particle_life=1e9,       # effectively immortal
+            speed=0.0,
+            size=0.05,
+            color=(0.8, 0.8, 0.9),
+            max_particles=STAR_COUNT,
+            burst=ParticleBurst2D(interval=1e9, count=0),
+            gravity_scale=0.0,
+            is_local=False,          # positions are already world-space
+            particle_shape_type="rect",
+            sorting_order=-10,       # behind player/enemies (Object2D default 0+)
+        )
+        host.add_component(self.star_ps)
+        self.add_object(host)
+
+        # Force pool build and place every star by hand
+        self.star_ps._build_pool()
+        self.star_particles = self.star_ps._particles
+        self.star_base = [0.0] * STAR_COUNT
+        self.star_speed = [0.0] * STAR_COUNT
+        self.star_phase = [0.0] * STAR_COUNT
+
+        for i in range(STAR_COUNT):
+            p = self.star_particles[i]
+            p.active = True
+            p.age = 0.0
+            p.life = 1e9
+            p.vx = 0.0
+            p.vy = 0.0
+            p.px = random.uniform(-WORLD_HW, WORLD_HW)
+            p.py = random.uniform(-WORLD_HH, WORLD_HH)
+            p.size = random.uniform(0.03, 0.08)
+            base = random.uniform(0.3, 0.9)
+            p.r = base
+            p.g = base
+            p.b = min(1.0, base * 1.1)
+            p.a = 1.0
+            self.star_base[i] = base
+            self.star_speed[i] = random.uniform(1.0, 4.0)
+            self.star_phase[i] = random.uniform(0.0, 2.0 * math.pi)
+
+        # Twinkle lives in on_update; disable the component so the game loop
+        # does not re-simulate 1000 particles every frame (they are static).
+        self.star_ps._playing = False
+        self.star_ps.enabled = False
+        # Twinkle budget: update a rotating slice each frame (all still drawn)
+        self._star_twinkle_cursor = 0
+        self._star_twinkle_per_frame = max(64, STAR_COUNT // 4)
+
     def on_update(self):
-        # Pulse stars (always, even during game over)
+        # Twinkle a slice of stars by writing particle alpha/rgb directly.
+        # Much cheaper than 1000 Object2D color descriptor writes.
         t = Time.time
-        for i, star in enumerate(self.stars):
-            base, speed, phase = self.star_pulse[i]
-            glow = 0.3 + 0.7 * (0.5 + 0.5 * math.sin(t * speed + phase))
-            obj2d = star.get_component(Object2D)
-            if obj2d:
-                obj2d.alpha = glow
-                b = base * glow
-                obj2d.color = (b, b, min(1.0, b * 1.1))
+        n = STAR_COUNT
+        start = self._star_twinkle_cursor
+        count = self._star_twinkle_per_frame
+        particles = self.star_particles
+        for k in range(count):
+            i = (start + k) % n
+            p = particles[i]
+            base = self.star_base[i]
+            glow = 0.3 + 0.7 * (0.5 + 0.5 * math.sin(t * self.star_speed[i] + self.star_phase[i]))
+            b = base * glow
+            p.a = glow
+            p.r = b
+            p.g = b
+            p.b = min(1.0, b * 1.1)
+        self._star_twinkle_cursor = (start + count) % n
 
         if self.player_script.game_over:
             return
@@ -338,12 +419,11 @@ class GameScene(Scene2D):
             self.spawn_interval = max(0.3, self.spawn_interval * 0.85)
             self.wave_enemy_count = min(MAX_ENEMIES, self.wave_enemy_count + 3)
 
-        # Spawn enemies
+        # Spawn enemies (use maintained counter — O(1), not scan-all-objects)
         if self.spawn_timer >= self.spawn_interval:
             self.spawn_timer = 0.0
-            enemy_count = len([o for o in self.objects if o.tag == "Enemy"])
-            if enemy_count < self.wave_enemy_count:
-                for _ in range(10):
+            if self.enemy_count < self.wave_enemy_count:
+                for _ in range(min(10, self.wave_enemy_count - self.enemy_count)):
                     self._spawn_enemy()
 
     def _spawn_enemy(self):
@@ -371,7 +451,9 @@ class GameScene(Scene2D):
         enemy_go = create_rect(size, size, color=(r, g, 0.1))
         enemy_go.tag = "Enemy"
         enemy_go.transform.position = (x, y, 0)
-        enemy_go.get_component(Object2D).sorting_order = 3
+        obj2d = enemy_go._object2d or enemy_go.get_component(Object2D)
+        if obj2d:
+            obj2d.sorting_order = 3
         col = CircleCollider2D()
         col.group = self.enemy_group
         enemy_go.add_component(col)
@@ -386,6 +468,7 @@ class GameScene(Scene2D):
 
         self.add_object(enemy_go)
         enemy_go.start_components()
+        self.enemy_count += 1
 
     def on_draw(self):
         """Draw HUD elements on the screen overlay."""
@@ -411,9 +494,8 @@ class GameScene(Scene2D):
         # -- Wave --
         self.draw_text(f"Wave {ps.wave}", SCREEN_W - 120, 20, Color.CYAN, font_size=22)
 
-        # -- Enemy count --
-        enemy_count = len([o for o in self.objects if o.tag == "Enemy"])
-        self.draw_text(f"Enemies: {enemy_count}", SCREEN_W - 160, 50,
+        # -- Enemy count (O(1) counter) --
+        self.draw_text(f"Enemies: {self.enemy_count}", SCREEN_W - 160, 50,
                        Color.LIGHT_GRAY, font_size=16)
 
         # -- FPS --
@@ -437,8 +519,6 @@ class GameScene(Scene2D):
             self.draw_text("Press R to Restart | ESC to Quit",
                            SCREEN_W // 2, SCREEN_H // 2 + 60,
                            Color.LIGHT_GRAY, font_size=18, anchor_x='center', anchor_y='center')
-        # for obj in self.objects:
-        #     self.window.draw_collider(obj, Color.BLACK, 3)
 
     def on_key_press(self, key, modifiers):
         if key == Keys.ESCAPE:
@@ -453,6 +533,7 @@ class GameScene(Scene2D):
                      if o.tag in ("Enemy", "Bullet")]
         for obj in to_remove:
             self.remove_object(obj)
+        self.enemy_count = 0
 
         # Reset player
         self.player.transform.position = (0, 0, 0)

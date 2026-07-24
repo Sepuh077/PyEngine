@@ -1299,8 +1299,43 @@ class Window3D(WindowBase):
         light_obj.transform.rotation = (-45, 30, 0)
         self.add_object(light_obj)
     
+    @staticmethod
+    def _skybox_view_matrix(view) -> np.ndarray:
+        """Return a *camera-centered* view matrix (rotation only).
+
+        Engine matrices use the row-vector convention with translation in the
+        **bottom row** (``M[3, :3]``). Zeroing that keeps the skybox locked to
+        the camera so it behaves as an infinite background regardless of
+        camera position.
+        """
+        v = np.array(view, dtype=np.float32, copy=True)
+        # Bottom-row translation (row-vector / engine convention)
+        v[3, 0] = 0.0
+        v[3, 1] = 0.0
+        v[3, 2] = 0.0
+        v[3, 3] = 1.0
+        # Also clear any accidental column-vector translation
+        v[0, 3] = 0.0
+        v[1, 3] = 0.0
+        v[2, 3] = 0.0
+        return v
+
+    def _begin_skybox_pass(self):
+        """Depth-off pass so the sky always fills the background (never occludes)."""
+        self._ctx.disable(moderngl.DEPTH_TEST)
+        self._ctx.depth_mask = False
+        self._ctx.front_face = "cw"  # draw inside of unit/centered sphere
+
+    def _end_skybox_pass(self):
+        self._ctx.front_face = "ccw"
+        self._ctx.depth_mask = True
+        self._ctx.enable(moderngl.DEPTH_TEST)
+
     def _render_skybox(self, camera, view, projection):
-        """Render skybox background using camera's skybox material."""
+        """Render skybox background using camera's skybox material.
+
+        The skybox is always centered on the camera (infinite distance feel).
+        """
         skybox = getattr(camera, 'skybox', None)
         if not skybox:
             return
@@ -1311,7 +1346,7 @@ class Window3D(WindowBase):
             gradient_colors = skybox.get_gradient_colors()
         
         if gradient_colors:
-            self._render_gradient_skybox(gradient_colors)
+            self._render_gradient_skybox(gradient_colors, view, projection)
         elif skybox.has_texture:
             self._render_texture_skybox(skybox, view, projection)
         else:
@@ -1350,19 +1385,16 @@ class Window3D(WindowBase):
                     self._ctx.clear(1.0, 1.0, 1.0)
                     return
             
-            # Create equirectangular sphere (cached with proper UVs)
-            if not hasattr(self, '_skybox_eq_sphere'):
-                self._skybox_eq_sphere = self._create_equirect_skybox_vao(radius=100.0)
+            # Unit-scale sphere is fine: view is camera-centered (infinite sky)
+            if not hasattr(self, '_skybox_eq_sphere') or self._skybox_eq_sphere is None:
+                self._skybox_eq_sphere = self._create_equirect_skybox_vao(radius=1.0)
             
             if not self._skybox_eq_sphere:
                 self._ctx.clear(0.5, 0.6, 1.0)
                 return
             
-            # Rotation-only view (remove translation from column-major matrix)
-            view_no_trans = view.copy()
-            view_no_trans[:3, 3] = 0  # Translation is in the 4th column (first 3 rows)
-            
-            mvp = view_no_trans @ projection
+            view_rot = self._skybox_view_matrix(view)
+            mvp = view_rot @ np.asarray(projection, dtype=np.float32)
             
             # Set uniforms
             self._program['mvp'].write(mvp.astype(np.float32).tobytes())
@@ -1375,15 +1407,11 @@ class Window3D(WindowBase):
             skybox._gl_texture.use(location=0)
             self._program['tex'].value = 0
             
-            # Disable depth, render inside of sphere
-            self._ctx.depth_mask = False
-            self._ctx.front_face = 'cw'  # Inside view
-            
-            self._skybox_eq_sphere.render(moderngl.TRIANGLES)
-            
-            # Restore
-            self._ctx.front_face = 'ccw'
-            self._ctx.depth_mask = True
+            self._begin_skybox_pass()
+            try:
+                self._skybox_eq_sphere.render(moderngl.TRIANGLES)
+            finally:
+                self._end_skybox_pass()
             
         except Exception:
             self._ctx.clear(0.5, 0.6, 1.0)
@@ -1436,21 +1464,129 @@ class Window3D(WindowBase):
             ibo
         )
     
-    def _render_gradient_skybox(self, gradient_colors):
-        """Render a Unity-like gradient skybox."""
+    def _render_gradient_skybox(self, gradient_colors, view, projection):
+        """Render a Unity-like vertical gradient skybox (sphere with vertex colors).
+
+        Top / middle / bottom colors blend by elevation so looking around
+        the scene feels like a real sky + ground horizon, not a flat clear.
+        """
         try:
             def normalize_color(c):
                 if c is None:
                     return (0.5, 0.6, 1.0)
-                c = np.array(c, dtype=np.float32)
-                if c.max() > 1.0:
-                    c /= 255.0
-                return tuple(c[:3])
-            
-            top = normalize_color(gradient_colors.get('top'))
-            self._ctx.clear(*top)
+                arr = np.asarray(c, dtype=np.float32).reshape(-1)
+                if arr.size < 3:
+                    return (0.5, 0.6, 1.0)
+                if float(arr[:3].max()) > 1.0:
+                    arr = arr / 255.0
+                return (float(arr[0]), float(arr[1]), float(arr[2]))
+
+            top = normalize_color(gradient_colors.get("top"))
+            mid = normalize_color(gradient_colors.get("middle"))
+            bot = normalize_color(gradient_colors.get("bottom"))
+            key = (top, mid, bot)
+
+            cache = getattr(self, "_gradient_skybox_cache", None)
+            if cache is None or cache[0] != key:
+                # Radius is irrelevant for appearance once the view is
+                # camera-centered; keep it small so it always fits the frustum.
+                vao = self._create_gradient_skybox_vao(top, mid, bot, radius=1.0)
+                self._gradient_skybox_cache = (key, vao)
+            else:
+                vao = cache[1]
+
+            if vao is None:
+                self._ctx.clear(*top)
+                return
+
+            view_rot = self._skybox_view_matrix(view)
+            mvp = view_rot @ np.asarray(projection, dtype=np.float32)
+
+            self._program["mvp"].write(mvp.astype(np.float32).tobytes())
+            self._program["model"].write(np.eye(4, dtype=np.float32).tobytes())
+            self._program["use_texture"].value = False
+            self._program["material_type"].value = 0  # Unlit
+            self._program["base_color"].value = (1.0, 1.0, 1.0, 1.0)
+
+            self._begin_skybox_pass()
+            try:
+                vao.render(moderngl.TRIANGLES)
+            finally:
+                self._end_skybox_pass()
         except Exception:
-            self._ctx.clear(0.5, 0.6, 1.0)
+            try:
+                top = gradient_colors.get("top", (0.35, 0.55, 0.95))
+                c = np.asarray(top, dtype=np.float32).reshape(-1)
+                if float(c[:3].max()) > 1.0:
+                    c = c / 255.0
+                self._ctx.clear(float(c[0]), float(c[1]), float(c[2]))
+            except Exception:
+                self._ctx.clear(0.35, 0.55, 0.95)
+
+    def _create_gradient_skybox_vao(
+        self,
+        top_color,
+        mid_color,
+        bot_color,
+        radius: float = 50.0,
+        segs: int = 32,
+        rings: int = 16,
+    ):
+        """Unit sphere with per-vertex colors blended by elevation (Unity-style sky)."""
+        def lerp3(a, b, t):
+            return (
+                a[0] + (b[0] - a[0]) * t,
+                a[1] + (b[1] - a[1]) * t,
+                a[2] + (b[2] - a[2]) * t,
+            )
+
+        full_verts = []
+        idxs = []
+
+        for ring in range(rings + 1):
+            # phi: +PI/2 (top) → -PI/2 (bottom)
+            phi = np.pi * (0.5 - ring / rings)
+            y = np.sin(phi) * radius
+            r = np.cos(phi) * radius
+            # Elevation in [0, 1] top→bottom for color blend
+            elev = ring / rings  # 0 = top, 1 = bottom
+            if elev < 0.5:
+                t = elev * 2.0
+                col = lerp3(top_color, mid_color, t)
+            else:
+                t = (elev - 0.5) * 2.0
+                col = lerp3(mid_color, bot_color, t)
+
+            for seg in range(segs + 1):
+                theta = 2 * np.pi * seg / segs
+                x = np.cos(theta) * r
+                z = np.sin(theta) * r
+                length = float(np.sqrt(x * x + y * y + z * z)) or 1.0
+                nx, ny, nz = -x / length, -y / length, -z / length
+                u = seg / segs
+                v = ring / rings
+                full_verts.extend([
+                    x, y, z,
+                    nx, ny, nz,
+                    col[0], col[1], col[2], 1.0,
+                    u, v,
+                ])
+
+        for ring in range(rings):
+            for seg in range(segs):
+                i0 = ring * (segs + 1) + seg
+                i1 = i0 + 1
+                i2 = (ring + 1) * (segs + 1) + seg
+                i3 = i2 + 1
+                idxs.extend([i0, i2, i1, i1, i2, i3])
+
+        vbo = self._ctx.buffer(np.array(full_verts, dtype=np.float32).tobytes())
+        ibo = self._ctx.buffer(np.array(idxs, dtype=np.int32).tobytes())
+        return self._ctx.vertex_array(
+            self._program,
+            [(vbo, "3f 3f 4f 2f", "in_position", "in_normal", "in_color", "in_uv")],
+            ibo,
+        )
 
     # =========================================================================
     # Collider debug drawing

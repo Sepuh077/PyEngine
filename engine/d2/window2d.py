@@ -458,10 +458,13 @@ class Window2D(WindowBase):
         self._sprite_program_instanced['projection'].write(proj_bytes)
         self._sprite_program_instanced['view'].write(view_bytes)
 
-        # Gather and sort visible Object2D by (layer_id, sorting_order)
+        # Gather and sort visible Object2D by (layer_id, sorting_order).
+        # Prefer the cached _object2d slot (set by GameObject.add_component).
         renderables: List[Object2D] = []
         for obj in self._active_objects():
-            obj2d = obj.get_component(Object2D)
+            obj2d = getattr(obj, "_object2d", None)
+            if obj2d is None:
+                obj2d = obj.get_component(Object2D)
             if obj2d and obj2d.visible:
                 renderables.append(obj2d)
         renderables.sort(key=lambda o: o.sort_key)
@@ -469,10 +472,11 @@ class Window2D(WindowBase):
         # Disable depth test for 2D (sorting_order determines order)
         self._ctx.disable(moderngl.DEPTH_TEST)
 
+        # ParticleSystem2D.sorting_order < 0 → behind Object2D (backgrounds / starfields).
+        # sorting_order >= 0 → after Object2D (default VFX on top of sprites).
+        self._render_particles_2d(behind_sprites=True)
         self._render_batched(renderables)
-
-        # Render lightweight 2D particles (instanced, no GameObjects)
-        self._render_particles_2d()
+        self._render_particles_2d(behind_sprites=False)
 
         self._ctx.enable(moderngl.DEPTH_TEST)
 
@@ -626,19 +630,34 @@ class Window2D(WindowBase):
             self._sprite_program_instanced['use_texture'].value = use_tex
             self._inst_vao.render(moderngl.TRIANGLES, instances=count)
 
-    def _render_particles_2d(self):
-        """Render all ParticleSystem2D instances as instanced quads.
+    def _render_particles_2d(self, behind_sprites: bool = False):
+        """Render ParticleSystem2D instances as instanced quads.
 
         Iterates active objects to find ParticleSystem2D components and
         draws their lightweight particles using the instanced sprite
         pipeline — no GameObject or Object2D is created per particle.
+
+        Args:
+            behind_sprites: If True, only systems with ``sorting_order < 0``
+                (background). If False, only systems with ``sorting_order >= 0``
+                (foreground VFX, the historical default).
         """
         from engine.d2.particle import ParticleSystem2D
 
         for obj in self._active_objects():
-            ps = obj.get_component(ParticleSystem2D)
+            ps = getattr(obj, "_particle_system", None)
+            if ps is None or not isinstance(ps, ParticleSystem2D):
+                ps = obj.get_component(ParticleSystem2D)
             if ps is None:
                 continue
+
+            order = int(getattr(ps, "sorting_order", 0) or 0)
+            if behind_sprites:
+                if order >= 0:
+                    continue
+            else:
+                if order < 0:
+                    continue
 
             render_data = ps.get_render_data()  # (N, 7): px, py, size, r, g, b, a
             if len(render_data) == 0:
@@ -647,23 +666,18 @@ class Window2D(WindowBase):
             num = len(render_data)
             is_circle = 1.0 if ps.particle_shape_type == "circle" else 0.0
 
-            # Build instanced data: model(16) + rgba(4) + flags(1) = 21 floats
+            # Vectorized instance buffer: model(16) + rgba(4) + flags(1)
+            # Avoid a Python per-particle loop when drawing thousands of stars.
             inst = np.zeros((num, 21), dtype=np.float32)
-            for i in range(num):
-                px, py, sz, r, g, b, a = render_data[i]
-                # Model matrix columns (scale + translate, no rotation)
-                # Y is flipped for 2D (same convention as _build_instance_data)
-                inst[i, 0] = sz      # col0.x
-                inst[i, 5] = -sz     # col1.y (negated for 2D)
-                inst[i, 10] = 1.0    # col2.z
-                inst[i, 12] = px     # col3.x (tx)
-                inst[i, 13] = py     # col3.y (ty)
-                inst[i, 15] = 1.0    # col3.w
-                inst[i, 16] = r
-                inst[i, 17] = g
-                inst[i, 18] = b
-                inst[i, 19] = a
-                inst[i, 20] = is_circle
+            sz = render_data[:, 2]
+            inst[:, 0] = sz          # col0.x  (scale x)
+            inst[:, 5] = -sz         # col1.y  (scale y, flipped for 2D)
+            inst[:, 10] = 1.0        # col2.z
+            inst[:, 12] = render_data[:, 0]  # tx
+            inst[:, 13] = render_data[:, 1]  # ty
+            inst[:, 15] = 1.0        # col3.w
+            inst[:, 16:20] = render_data[:, 3:7]  # rgba
+            inst[:, 20] = is_circle
 
             # Resize GPU buffer if needed
             if self._inst_capacity < num:
@@ -688,44 +702,63 @@ class Window2D(WindowBase):
         """Return a flat float32 array (21 floats) for one sprite instance.
 
         Layout: model(16) + rgba(4) + flags(1)
+
+        Reads raw transform fields (``_local_position`` / ``_local_scale`` /
+        ``_local_rotation``) to avoid ``_Vector3Proxy`` allocation cost on the
+        hot path when rendering hundreds of sprites.
         """
         go = obj2d.game_object
         if not go:
             return np.zeros(self._inst_floats_per, dtype=np.float32)
 
-        pos = go.transform.position
-        wx, wy = float(pos.x), float(pos.y)
-
-        t_scale = go.transform.scale_xyz
-        if hasattr(t_scale, 'x'):
-            sx_f, sy_f = float(t_scale.x), float(t_scale.y)
-        elif isinstance(t_scale, (tuple, list)):
-            sx_f = float(t_scale[0])
-            sy_f = float(t_scale[1]) if len(t_scale) > 1 else sx_f
+        tr = go.transform
+        # Prefer raw fields — no proxy, no Vector3 copy
+        lp = getattr(tr, "_local_position", None)
+        if lp is not None and hasattr(lp, "_x"):
+            wx, wy = float(lp._x), float(lp._y)
         else:
-            sx_f = sy_f = float(t_scale)
+            pos = tr.position
+            wx, wy = float(pos.x), float(pos.y)
+
+        ls = getattr(tr, "_local_scale", None)
+        if ls is not None and hasattr(ls, "_x"):
+            sx_f, sy_f = float(ls._x), float(ls._y)
+        else:
+            t_scale = tr.scale_xyz
+            if hasattr(t_scale, "x"):
+                sx_f, sy_f = float(t_scale.x), float(t_scale.y)
+            elif isinstance(t_scale, (tuple, list)):
+                sx_f = float(t_scale[0])
+                sy_f = float(t_scale[1]) if len(t_scale) > 1 else sx_f
+            else:
+                sx_f = sy_f = float(t_scale)
 
         size = obj2d.size
         w = size.x * sx_f
         h = size.y * sy_f
 
-        rot = go.transform.rotation
-        if hasattr(rot, '__getitem__'):
-            rot_z = float(rot[2]) if len(rot) > 2 else 0.0
+        # Cached euler is radians in _local_rotation[2]
+        lr = getattr(tr, "_local_rotation", None)
+        if lr is not None and len(lr) > 2:
+            rad = float(lr[2])
         else:
-            rot_z = float(rot)
-        rad = math.radians(rot_z)
+            rot = tr.rotation
+            if hasattr(rot, "__getitem__"):
+                rot_z = float(rot[2]) if len(rot) > 2 else 0.0
+            else:
+                rot_z = float(rot)
+            rad = math.radians(rot_z)
         c_r, s_r = math.cos(rad), math.sin(rad)
 
-        flip_x = getattr(obj2d, 'flip_x', False)
-        flip_y = getattr(obj2d, 'flip_y', False)
+        flip_x = getattr(obj2d, "flip_x", False)
+        flip_y = getattr(obj2d, "flip_y", False)
 
         sx = w * (-1 if flip_x else 1)
         sy = h * (-1 if flip_y else 1) * (-1)
 
         # model matrix  (T * R * S) — column-major flat
         col = obj2d._color
-        flags = 1.0 if getattr(obj2d, '_shape', None) == 'circle' else 0.0
+        flags = 1.0 if getattr(obj2d, "_shape", None) == "circle" else 0.0
 
         return np.array([
             sx * c_r,  sx * s_r, 0, 0,      # column 0

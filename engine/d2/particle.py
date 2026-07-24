@@ -206,6 +206,11 @@ class ParticleSystem2D(Component):
     max_particles = InspectorField(int, default=100, min_value=1, max_value=5000, tooltip="Max particles")
     gravity_scale = InspectorField(float, default=0.0, min_value=-10.0, max_value=10.0, tooltip="Gravity multiplier")
     particle_shape_type = InspectorField(str, default="circle", tooltip="Visual shape: 'circle' or 'rect'")
+    sorting_order = InspectorField(
+        int,
+        default=0,
+        tooltip="Draw order vs Object2D (lower = behind). Values < 0 draw before sprites; >= 0 after.",
+    )
 
     def __init__(
         self,
@@ -226,6 +231,7 @@ class ParticleSystem2D(Component):
         shape: Optional[ParticleShape2D] = None,
         is_local: bool = True,
         particle_shape_type: str = "circle",
+        sorting_order: int = 0,
     ):
         super().__init__()
         self._position = (float(position[0]), float(position[1]))
@@ -245,6 +251,7 @@ class ParticleSystem2D(Component):
         self.gravity_scale = float(gravity_scale)
         self.shape = shape or CircleShape2D()
         self.particle_shape_type = particle_shape_type
+        self.sorting_order = int(sorting_order)
 
         self._particles: List[Particle2D] = []
         self._playing = False
@@ -497,19 +504,33 @@ class ParticleSystem2D(Component):
         The position returned is the final world position, accounting for
         local-space offset from the owning GameObject.
         """
-        active = [p for p in self._particles if p.active]
-        if not active:
+        particles = self._particles
+        if not particles:
             return np.empty((0, 7), dtype=np.float32)
 
-        # Compute world offset from the host GameObject
+        # Single pass count + fill (avoids intermediate Python list of N refs)
+        n_active = 0
+        for p in particles:
+            if p.active:
+                n_active += 1
+        if n_active == 0:
+            return np.empty((0, 7), dtype=np.float32)
+
         ox, oy = 0.0, 0.0
         if self.is_local and self.game_object is not None:
-            pos = self.game_object.transform.position
-            ox = float(pos.x)
-            oy = float(pos.y)
+            tr = self.game_object.transform
+            lp = getattr(tr, "_local_position", None)
+            if lp is not None and hasattr(lp, "_x"):
+                ox, oy = float(lp._x), float(lp._y)
+            else:
+                pos = tr.position
+                ox, oy = float(pos.x), float(pos.y)
 
-        data = np.empty((len(active), 7), dtype=np.float32)
-        for i, p in enumerate(active):
+        data = np.empty((n_active, 7), dtype=np.float32)
+        i = 0
+        for p in particles:
+            if not p.active:
+                continue
             data[i, 0] = p.px + ox
             data[i, 1] = p.py + oy
             data[i, 2] = p.size
@@ -517,4 +538,5 @@ class ParticleSystem2D(Component):
             data[i, 4] = p.g
             data[i, 5] = p.b
             data[i, 6] = p.a
+            i += 1
         return data

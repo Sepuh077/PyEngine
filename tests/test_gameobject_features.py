@@ -253,6 +253,27 @@ class TestSkyboxMaterial:
         paths = skybox.get_texture_paths()
         assert len(paths) == 6
         assert paths[0] == "right.png"  # Right is first in OpenGL convention
+
+    def test_default_gradient_skybox(self):
+        """create_default / create_gradient produce a procedural gradient sky."""
+        sky = SkyboxMaterial.create_default()
+        assert sky.is_gradient
+        colors = sky.get_gradient_colors()
+        assert colors is not None
+        assert "top" in colors and "middle" in colors and "bottom" in colors
+
+    def test_camera_defaults_to_skybox(self):
+        """New Camera3D instances get a Unity-like gradient skybox by default."""
+        from engine.rendering.layers import ClearFlags
+        camera = Camera3D()
+        assert camera.skybox is not None
+        assert getattr(camera.skybox, "is_gradient", False)
+        assert ClearFlags.SKYBOX in camera.clear_flags
+
+    def test_scene3d_main_camera_has_default_skybox(self):
+        scene = Scene3D()
+        assert scene.main_camera.skybox is not None
+        assert scene.main_camera.skybox.is_gradient
     
     def test_camera_skybox_assignment(self):
         """Test assigning SkyboxMaterial to camera."""
@@ -265,6 +286,25 @@ class TestSkyboxMaterial:
         
         assert camera.skybox is not None
         assert camera.skybox.texture_path == "sky.hdr"
+
+    def test_skybox_view_matrix_strips_translation(self):
+        """Skybox view must be camera-centered so the sky stays infinite."""
+        from engine.d3.window import Window3D
+        import numpy as np
+
+        # Row-vector view matrix with translation in the bottom row
+        view = np.eye(4, dtype=np.float32)
+        view[3, 0] = 100.0
+        view[3, 1] = -50.0
+        view[3, 2] = 25.0
+
+        sky_view = Window3D._skybox_view_matrix(view)
+        assert abs(float(sky_view[3, 0])) < 1e-6
+        assert abs(float(sky_view[3, 1])) < 1e-6
+        assert abs(float(sky_view[3, 2])) < 1e-6
+        assert abs(float(sky_view[3, 3]) - 1.0) < 1e-6
+        # Rotation block preserved
+        assert abs(float(sky_view[0, 0]) - 1.0) < 1e-6
 
 
 class TestTagIntegration:
