@@ -55,6 +55,7 @@ _OPTIONAL_MODULES = (
     "cy_particles",
     "cy_response_3d",
     "cy_response_2d",
+    "cy_batch_collision",
 )
 
 
