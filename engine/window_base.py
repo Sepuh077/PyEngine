@@ -800,7 +800,28 @@ class WindowBase:
                 script.late_update()
 
     def _update_rigidbodies(self, active) -> None:
-        """Integrate all non-sleeping rigidbodies for the current Time.delta_time."""
+        """Integrate all non-sleeping rigidbodies for the current Time.delta_time.
+
+        Rigidbody3D bodies are integrated via ``batch_integrate_rigidbodies``
+        (Cython when available). Rigidbody2D and unknown types still use
+        per-body ``rb.update()``.
+        """
+        from engine.component import Time
+
+        batch_rbs = []
+        batch_gos = []
+        Rigidbody3D = None
+        batch_integrate = None
+        try:
+            from engine.d3.physics.rigidbody import (
+                Rigidbody3D as _RB3,
+                batch_integrate_rigidbodies as _batch_rb,
+            )
+            Rigidbody3D = _RB3
+            batch_integrate = _batch_rb
+        except Exception:
+            pass
+
         for obj in active:
             rb = getattr(obj, '_rigidbody', None)
             if rb is None:
@@ -823,6 +844,12 @@ class WindowBase:
                         continue
                 else:
                     continue
+
+            if Rigidbody3D is not None and isinstance(rb, Rigidbody3D):
+                batch_rbs.append(rb)
+                batch_gos.append(obj)
+                continue
+
             try:
                 rb.update()
             except Exception:
@@ -830,6 +857,22 @@ class WindowBase:
                 get_logger("physics").exception(
                     "Rigidbody.update failed on %r", obj
                 )
+
+        if batch_rbs and batch_integrate is not None:
+            try:
+                batch_integrate(batch_rbs, batch_gos, float(Time.delta_time))
+            except Exception:
+                from engine.log import get_logger
+                get_logger("physics").exception(
+                    "batch_integrate_rigidbodies failed; falling back to per-body"
+                )
+                for rb in batch_rbs:
+                    try:
+                        rb.update()
+                    except Exception:
+                        get_logger("physics").exception(
+                            "Rigidbody.update failed on %r", rb
+                        )
 
     def run(self, fps: int = 60):
         self._fps = fps

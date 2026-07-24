@@ -15,6 +15,17 @@ try:
 except (ImportError, ModuleNotFoundError):
     _USE_CYTHON = False
 
+try:
+    from engine.cython import CYTHON_ENABLED as _CE2
+    if not _CE2:
+        raise ImportError("Cython disabled")
+    from engine.cython.cy_batch_collision import (
+        batch_rigidbody_integrate_3d as _cy_batch_rb,
+    )
+    _BATCH_RB_CYTHON = True
+except Exception:
+    _BATCH_RB_CYTHON = False
+
 
 class Rigidbody3D(Component):
     """Physics body for velocity, forces etc. Similar to Unity Rigidbody."""
@@ -194,8 +205,15 @@ class Rigidbody3D(Component):
         # When the window runs fixed-step physics, frame-phase updates skip RBs
         if Time._skip_rigidbody_frame_update:
             return
-        if self.is_static or self.is_kinematic or self._is_sleeping:
+        if self.is_static or self.is_kinematic:
             return
+        # In-place velocity writes (rb.velocity[i] = x) bypass the setter and
+        # do not call wake(). Treat non-zero linear speed as a wake request.
+        if self._is_sleeping:
+            v = self._velocity
+            if (v._x * v._x + v._y * v._y + v._z * v._z) <= 1e-10:
+                return
+            self.wake()
 
         delta_time = Time.delta_time
         has_go = self.game_object is not None
@@ -418,3 +436,114 @@ class Rigidbody3D(Component):
         # Keep reference to current R matrix object for fast identity checks
         self._world_inertia_cache = (R, I_world_inv)
         return I_world_inv
+
+
+def batch_integrate_rigidbodies(rigidbodies, game_objects, delta_time: float):
+    """Integrate a batch of rigidbodies in one Cython call.
+
+    Replaces the Python ``for rb in bodies: rb.update()`` loop with a
+    single Cython dispatch that processes all bodies in a tight C loop.
+
+    Parameters
+    ----------
+    rigidbodies : list of Rigidbody3D – the bodies to integrate.
+    game_objects : list of GameObject – matching game objects (same order).
+    delta_time : float – physics step delta time.
+
+    Falls back to per-body ``rb.update()`` when Cython is not available.
+    """
+    n = len(rigidbodies)
+    if n == 0:
+        return
+
+    # Fallback to Python loop when Cython batch integration is unavailable.
+    # rb.update() itself wakes sleeping bodies that have non-zero velocity.
+    if not _BATCH_RB_CYTHON:
+        for rb in rigidbodies:
+            rb.update()
+        return
+
+    from engine.physics.world import get_physics_world
+
+    # Determine gravity from the first rigidbody's scene
+    world = get_physics_world(rigidbodies[0] if rigidbodies else None)
+    gx = world.gravity_x
+    gy = world.gravity_y
+    gz = world.gravity_z
+
+    # Allocate contiguous buffers once; pass them directly to Cython so
+    # in-place velocity writes are visible when we read back (do NOT wrap
+    # again with ascontiguousarray, which may copy non-contig views).
+    vels = np.empty((n, 3), dtype=np.float64)
+    avels = np.empty((n, 3), dtype=np.float64)
+    drags = np.empty(n, dtype=np.float64)
+    adrags = np.empty(n, dtype=np.float64)
+    use_grav = np.empty(n, dtype=np.uint8)
+    is_active = np.empty(n, dtype=np.uint8)
+    q_w = np.empty(n, dtype=np.float64)
+    q_x = np.empty(n, dtype=np.float64)
+    q_y = np.empty(n, dtype=np.float64)
+    q_z = np.empty(n, dtype=np.float64)
+
+    for i, rb in enumerate(rigidbodies):
+        # Wake bodies that received in-place velocity mutations while sleeping
+        if rb._is_sleeping and not rb.is_static and not rb.is_kinematic:
+            v = rb._velocity
+            if (v._x * v._x + v._y * v._y + v._z * v._z) > 1e-10:
+                rb.wake()
+
+        # When the window runs fixed-step physics, frame-phase updates skip RBs
+        if Time._skip_rigidbody_frame_update:
+            is_active[i] = 0
+        elif rb.is_static or rb.is_kinematic or rb._is_sleeping:
+            is_active[i] = 0
+        else:
+            is_active[i] = 1
+
+        vels[i, 0] = rb._velocity._x
+        vels[i, 1] = rb._velocity._y
+        vels[i, 2] = rb._velocity._z
+        avels[i, 0] = rb._angular_velocity._x
+        avels[i, 1] = rb._angular_velocity._y
+        avels[i, 2] = rb._angular_velocity._z
+        drags[i] = float(rb.drag)
+        adrags[i] = float(rb.angular_drag)
+        use_grav[i] = 1 if rb.use_gravity else 0
+
+        go = game_objects[i]
+        if go is not None:
+            cq = go.transform._local_quaternion
+            q_w[i] = cq._w; q_x[i] = cq._x
+            q_y[i] = cq._y; q_z[i] = cq._z
+        else:
+            q_w[i] = 1.0; q_x[i] = 0.0; q_y[i] = 0.0; q_z[i] = 0.0
+
+    move, nqw, nqx, nqy, nqz, need_ang = _cy_batch_rb(
+        vels, avels, drags, adrags, use_grav, is_active,
+        q_w, q_x, q_y, q_z,
+        delta_time,
+        gx, gy, gz,
+    )
+
+    for i, rb in enumerate(rigidbodies):
+        if is_active[i] == 0:
+            continue
+
+        rb._velocity = Vector3(float(vels[i, 0]), float(vels[i, 1]), float(vels[i, 2]))
+        rb._angular_velocity = Vector3(
+            float(avels[i, 0]), float(avels[i, 1]), float(avels[i, 2])
+        )
+
+        go = game_objects[i]
+        if go is not None:
+            mx, my, mz = float(move[i, 0]), float(move[i, 1]), float(move[i, 2])
+            if mx != 0.0 or my != 0.0 or mz != 0.0:
+                go.transform.move(mx, my, mz)
+
+            if need_ang[i]:
+                go.transform.set_rotation_quaternion(
+                    Quaternion(float(nqw[i]), float(nqx[i]), float(nqy[i]), float(nqz[i]))
+                )
+
+        rb._clamp_angular_velocity()
+        rb._update_sleep(delta_time)

@@ -803,11 +803,13 @@ class Window3D(WindowBase):
         from engine.d3.physics.rigidbody import Rigidbody3D
         from engine.d3.physics.collision import get_collision_manifold, objects_collide
         from engine.d3.physics.batch_collision import (
-            batch_broadphase_3d,
+            batch_collision_pack_e2e,
+            batch_continuous_sweep,
             batch_narrowphase_bool_3d,
             batch_narrowphase_manifold_3d,
         )
         from collections import defaultdict
+        from engine.types import Vector3
 
         # Loop over *all colliders* (multi-collider support; no obj level)
         all_cols = []
@@ -849,9 +851,9 @@ class Window3D(WindowBase):
             return True
 
         # =============================================================
-        # Batch broadphase (Cython SAP when available)
+        # Batch broadphase (Cython pack e2e: SAP + pair types)
         # =============================================================
-        raw_pairs = batch_broadphase_3d(all_cols)  # (M, 2) with i < j
+        raw_pairs, _pair_types = batch_collision_pack_e2e(all_cols)  # (M, 2) i < j
         bp_candidates = set()
         bp_neighbors = defaultdict(set)
         for k in range(len(raw_pairs)):
@@ -867,8 +869,36 @@ class Window3D(WindowBase):
         skip_discrete = set()
 
         # =============================================================
-        # Continuous collision (per-collider sweeps) — keep special path
+        # Continuous collision — batch swept AABBs + step counts (Cython)
+        # then per-substep narrowphase for continuous movers
         # =============================================================
+        n_cols = len(all_cols)
+        prev_pos = np.zeros((n_cols, 3), dtype=np.float64)
+        curr_pos = np.zeros((n_cols, 3), dtype=np.float64)
+        has_any_continuous = False
+        for i, c in enumerate(all_cols):
+            go = c.game_object
+            if go is None:
+                continue
+            pp = go.transform._prev_position
+            cp = go.transform._local_position
+            prev_pos[i, 0] = float(pp.x); prev_pos[i, 1] = float(pp.y); prev_pos[i, 2] = float(pp.z)
+            curr_pos[i, 0] = float(cp.x); curr_pos[i, 1] = float(cp.y); curr_pos[i, 2] = float(cp.z)
+            if c.collision_mode == CollisionMode.CONTINUOUS:
+                has_any_continuous = True
+
+        cont_neighbors = defaultdict(set)
+        step_counts = np.ones(n_cols, dtype=np.int32)
+        if has_any_continuous:
+            _sw_mins, _sw_maxs, cont_pairs, step_counts = batch_continuous_sweep(
+                all_cols, prev_pos, curr_pos, step_size=0.1
+            )
+            for k in range(len(cont_pairs)):
+                i = int(cont_pairs[k, 0])
+                j = int(cont_pairs[k, 1])
+                cont_neighbors[i].add(j)
+                cont_neighbors[j].add(i)
+
         for idx_a, ca in enumerate(all_cols):
             if not _is_initiator(ca):
                 continue
@@ -876,12 +906,14 @@ class Window3D(WindowBase):
             if ca.collision_mode != CollisionMode.CONTINUOUS or a is None:
                 continue
 
-            from engine.types import Vector3
             delta = a.transform._local_position - a.transform._prev_position
             speed = np.linalg.norm(delta)
             if speed <= 1e-6:
                 continue
-            steps = max(1, int(speed / 0.1))
+            steps = max(1, int(step_counts[idx_a]))
+            if steps <= 1:
+                # Fall back to speed-based steps if sweep reported 1
+                steps = max(1, int(speed / 0.1))
             if steps <= 1:
                 continue
 
@@ -890,9 +922,12 @@ class Window3D(WindowBase):
             step = delta / steps
             last_safe = Vector3(a.transform._local_position)
 
-            cont_idxs = list(bp_neighbors.get(idx_a, ()))
+            # Prefer continuous-sweep neighbors; fall back to discrete broadphase
+            cont_idxs = list(cont_neighbors.get(idx_a, ()))
             if not cont_idxs:
-                cont_idxs = [i for i in range(len(all_cols)) if i != idx_a]
+                cont_idxs = list(bp_neighbors.get(idx_a, ()))
+            if not cont_idxs:
+                cont_idxs = [i for i in range(n_cols) if i != idx_a]
 
             for _ in range(steps):
                 a.transform._local_position = a.transform._local_position + step
@@ -2511,7 +2546,7 @@ class Window3D(WindowBase):
                         self._instanced_program[fname].value = units[f]
 
         # ------------------------------------------------------------
-        # Visibility + culling + Sorting
+        # Visibility + batch frustum culling + Sorting
         # ------------------------------------------------------------
         opaque_objects = []
         transparent_objects = []
@@ -2528,33 +2563,51 @@ class Window3D(WindowBase):
                 frustum_planes = None
                 do_cull = False
 
+        # Collect visible candidates first, then batch-cull spheres
+        candidates = []  # (obj, obj3d)
         for obj in objects:
             obj3d = obj.get_component(Object3D)
             if not obj3d or not obj3d._visible:
                 continue
-            
-            # Check render layer mask
             if hasattr(camera, 'render_mask') and hasattr(obj, 'render_layer'):
                 if not (camera.render_mask & obj.render_layer):
-                    continue  # Object not visible to this camera
+                    continue
+            candidates.append((obj, obj3d))
 
-            if do_cull and frustum_planes is not None:
-                try:
-                    center, radius = obj3d.get_world_bounding_sphere()
-                    if not camera.sphere_in_frustum(center, radius, frustum_planes):
-                        continue
-                except Exception:
-                    pass
-            
+        visible_mask = None
+        if do_cull and frustum_planes is not None and candidates:
+            try:
+                from engine.d3.physics.batch_collision import batch_frustum_cull_spheres
+                n_c = len(candidates)
+                centers = np.empty((n_c, 3), dtype=np.float64)
+                radii = np.empty(n_c, dtype=np.float64)
+                for i, (obj, obj3d) in enumerate(candidates):
+                    try:
+                        center, radius = obj3d.get_world_bounding_sphere()
+                        centers[i, 0] = float(center[0])
+                        centers[i, 1] = float(center[1])
+                        centers[i, 2] = float(center[2])
+                        radii[i] = float(radius)
+                    except Exception:
+                        centers[i] = 0.0
+                        radii[i] = 1e10  # fail open: treat as visible
+                visible_mask = batch_frustum_cull_spheres(centers, radii, frustum_planes)
+            except Exception:
+                visible_mask = None
+
+        for i, (obj, obj3d) in enumerate(candidates):
+            if visible_mask is not None and not bool(visible_mask[i]):
+                continue
+
             self._ensure_mesh(obj3d)
-            
+
             # Transparency check
             is_transparent = False
             if isinstance(obj3d.material, TransparentMaterial) or obj3d.material.alpha < 0.99:
                 is_transparent = True
             elif len(obj3d.material.color_vec4) == 4 and obj3d.material.color_vec4[3] < 0.99:
                 is_transparent = True
-            
+
             if is_transparent:
                 transparent_objects.append((obj, obj3d))
             else:

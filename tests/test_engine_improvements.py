@@ -128,7 +128,13 @@ class _HeadlessWindow(WindowBase):
 
 
 def test_rigidbody_update_failure_is_logged_not_silent(caplog):
-    """WindowBase._update_rigidbodies logs exceptions instead of bare pass."""
+    """WindowBase._update_rigidbodies logs exceptions instead of bare pass.
+
+    Forces the per-body fallback path (batch Cython disabled) so a mocked
+    ``rb.update`` is exercised.
+    """
+    import engine.d3.physics.rigidbody as rb_mod
+
     go = GameObject("rb_host")
     rb = Rigidbody3D(use_gravity=False)
     go.add_component(rb)
@@ -139,8 +145,13 @@ def test_rigidbody_update_failure_is_logged_not_silent(caplog):
     rb.update = boom  # type: ignore[method-assign]
 
     win = _HeadlessWindow()
-    with caplog.at_level(logging.ERROR, logger="pyengine.physics"):
-        win._update_rigidbodies([go])
+    prev = rb_mod._BATCH_RB_CYTHON
+    rb_mod._BATCH_RB_CYTHON = False
+    try:
+        with caplog.at_level(logging.ERROR, logger="pyengine.physics"):
+            win._update_rigidbodies([go])
+    finally:
+        rb_mod._BATCH_RB_CYTHON = prev
 
     assert any("Rigidbody.update failed" in r.message for r in caplog.records)
     assert any("rb boom" in (r.message + (r.exc_text or "")) for r in caplog.records)

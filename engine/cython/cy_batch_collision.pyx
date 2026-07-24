@@ -9,6 +9,12 @@ to the interpreter.
 
 Provides batch broadphase (sweep-and-prune) and batch narrowphase (bool +
 manifold) for both 2D and 3D collision primitives.
+
+Also provides:
+- batch_frustum_cull_3d: batch sphere-in-frustum visibility test
+- batch_rigidbody_integrate_3d: batch rigidbody integration (velocity/angular)
+- batch_collision_pack_3d: end-to-end AABB extraction + broadphase + pair grouping
+- batch_continuous_sweep_3d: batch CCD sweep for continuous collision mode
 """
 
 from libc.math cimport sqrt, fabs, cos, sin
@@ -798,3 +804,347 @@ def batch_circle_obb_manifold_2d(
         con_arr[k, 1] = circle_centers[k, 1] - wn_y * (rs - 0.5 * depth)
 
     return (hit_arr.view(np.bool_), norm_arr, dep_arr, con_arr)
+
+
+# =========================================================================
+# 3D Batch Frustum Culling
+# =========================================================================
+
+def batch_frustum_cull_3d(
+    double[:, ::1] centers,       # (N, 3) sphere centres
+    double[::1]    radii,         # (N,)   sphere radii
+    float[:, ::1]  planes,        # (6, 4) frustum planes (ax+by+cz+d)
+):
+    """Test N bounding spheres against 6 frustum planes.
+
+    Parameters
+    ----------
+    centers : (N, 3) float64 C-contiguous - world-space sphere centres.
+    radii   : (N,)   float64             - bounding sphere radii.
+    planes  : (6, 4) float32 C-contiguous - frustum planes (normals inward).
+
+    Returns
+    -------
+    ndarray bool (N,) - True if sphere is inside (or intersects) the frustum.
+    """
+    cdef int n = centers.shape[0]
+    cdef cnp.ndarray[cnp.uint8_t, ndim=1] out = np.ones(n, dtype=np.uint8)
+    cdef int i, p
+    cdef double cx, cy, cz, r, dist
+
+    for i in range(n):
+        cx = centers[i, 0]
+        cy = centers[i, 1]
+        cz = centers[i, 2]
+        r  = radii[i]
+        for p in range(6):
+            dist = planes[p, 0] * cx + planes[p, 1] * cy + planes[p, 2] * cz + planes[p, 3]
+            if dist < -r:
+                out[i] = 0
+                break
+
+    return out.view(np.bool_)
+
+
+# =========================================================================
+# 3D Batch Rigidbody Integration
+# =========================================================================
+
+def batch_rigidbody_integrate_3d(
+    double[:, ::1] velocities,       # (N, 3) linear velocities  (in/out)
+    double[:, ::1] angular_vels,     # (N, 3) angular velocities (in/out)
+    double[::1]    drags,            # (N,)   drag coefficients
+    double[::1]    angular_drags,    # (N,)   angular drag coefficients
+    cnp.uint8_t[::1] use_gravity,    # (N,)   bool: apply gravity?
+    cnp.uint8_t[::1] is_active,      # (N,)   bool: skip if not active
+    double[::1]    qw,               # (N,)   quaternion w
+    double[::1]    qx,               # (N,)   quaternion x
+    double[::1]    qy,               # (N,)   quaternion y
+    double[::1]    qz,               # (N,)   quaternion z
+    double dt,
+    double gx, double gy, double gz, # gravity vector
+):
+    """Integrate N rigidbodies in a single C loop.
+
+    Parameters
+    ----------
+    velocities   : (N, 3) - linear velocity (read/write in-place).
+    angular_vels : (N, 3) - angular velocity (read/write in-place).
+    drags, angular_drags : (N,) - per-body drag.
+    use_gravity  : (N,) uint8 - whether to apply gravity.
+    is_active    : (N,) uint8 - 0 = skip (static/kinematic/sleeping).
+    qw, qx, qy, qz : (N,) - current orientation quaternion.
+    dt : float - delta time.
+    gx, gy, gz : gravity acceleration.
+
+    Returns
+    -------
+    (move, new_qw, new_qx, new_qy, new_qz, need_angular) - all (N, ...) arrays.
+        move         : (N, 3) float64 - positional displacement this step.
+        new_qw..qz   : (N,) float64  - updated quaternion.
+        need_angular : (N,) bool      - whether angular update is needed.
+    """
+    cdef int n = velocities.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=2] move_arr = np.zeros((n, 3), dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out_qw = np.empty(n, dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out_qx = np.empty(n, dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out_qy = np.empty(n, dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] out_qz = np.empty(n, dtype=np.float64)
+    cdef cnp.ndarray[cnp.uint8_t, ndim=1] need_ang = np.zeros(n, dtype=np.uint8)
+
+    cdef int i
+    cdef double vx, vy, vz, avx, avy, avz
+    cdef double drag_factor, ang_drag_factor
+    cdef double ang_speed, axis_x, axis_y, axis_z, inv_s
+    cdef double angle, half_a, s_half, c_half
+    cdef double dqw, dqx, dqy, dqz
+    cdef double nqw, nqx, nqy, nqz, nqmag, nqinv
+
+    for i in range(n):
+        if is_active[i] == 0:
+            out_qw[i] = qw[i]; out_qx[i] = qx[i]
+            out_qy[i] = qy[i]; out_qz[i] = qz[i]
+            continue
+
+        vx = velocities[i, 0]; vy = velocities[i, 1]; vz = velocities[i, 2]
+        avx = angular_vels[i, 0]; avy = angular_vels[i, 1]; avz = angular_vels[i, 2]
+
+        # Linear drag
+        if drags[i] > 0.0:
+            drag_factor = 1.0 - drags[i] * dt
+            if drag_factor < 0.0:
+                drag_factor = 0.0
+            vx = vx * drag_factor
+            vz = vz * drag_factor
+            if use_gravity[i] == 0:
+                vy = vy * drag_factor
+
+        # Gravity
+        if use_gravity[i] != 0:
+            vx = vx + gx * dt
+            vy = vy + gy * dt
+            vz = vz + gz * dt
+
+        # Position integration
+        if vx != 0.0 or vy != 0.0 or vz != 0.0:
+            move_arr[i, 0] = vx * dt
+            move_arr[i, 1] = vy * dt
+            move_arr[i, 2] = vz * dt
+
+        # Angular drag
+        if angular_drags[i] > 0.0:
+            ang_drag_factor = 1.0 - angular_drags[i] * dt
+            if ang_drag_factor < 0.0:
+                ang_drag_factor = 0.0
+            avx = avx * ang_drag_factor
+            avy = avy * ang_drag_factor
+            avz = avz * ang_drag_factor
+
+        # Angular integration via quaternion
+        nqw = qw[i]; nqx = qx[i]; nqy = qy[i]; nqz = qz[i]
+        ang_speed = sqrt(avx * avx + avy * avy + avz * avz)
+        if ang_speed > 1e-9:
+            need_ang[i] = 1
+            inv_s = 1.0 / ang_speed
+            axis_x = avx * inv_s; axis_y = avy * inv_s; axis_z = avz * inv_s
+            angle = ang_speed * dt
+            half_a = angle * 0.5
+            s_half = sin(half_a); c_half = cos(half_a)
+            dqw = c_half
+            dqx = axis_x * s_half; dqy = axis_y * s_half; dqz = axis_z * s_half
+            # delta_q * current_q
+            nqw = dqw * qw[i] - dqx * qx[i] - dqy * qy[i] - dqz * qz[i]
+            nqx = dqw * qx[i] + dqx * qw[i] + dqy * qz[i] - dqz * qy[i]
+            nqy = dqw * qy[i] - dqx * qz[i] + dqy * qw[i] + dqz * qx[i]
+            nqz = dqw * qz[i] + dqx * qy[i] - dqy * qx[i] + dqz * qw[i]
+            # Normalize
+            nqmag = sqrt(nqw * nqw + nqx * nqx + nqy * nqy + nqz * nqz)
+            if nqmag > 1e-10:
+                nqinv = 1.0 / nqmag
+                nqw = nqw * nqinv; nqx = nqx * nqinv
+                nqy = nqy * nqinv; nqz = nqz * nqinv
+
+        # Write back updated velocities
+        velocities[i, 0] = vx; velocities[i, 1] = vy; velocities[i, 2] = vz
+        angular_vels[i, 0] = avx; angular_vels[i, 1] = avy; angular_vels[i, 2] = avz
+        out_qw[i] = nqw; out_qx[i] = nqx; out_qy[i] = nqy; out_qz[i] = nqz
+
+    return (move_arr, out_qw, out_qx, out_qy, out_qz, need_ang.view(np.bool_))
+
+
+# =========================================================================
+# 3D End-to-End Batch Collision Packing
+# =========================================================================
+
+def batch_collision_pack_3d(
+    double[:, ::1] aabb_mins,        # (N, 3) AABB min corners
+    double[:, ::1] aabb_maxs,        # (N, 3) AABB max corners
+    int[::1]       col_types,        # (N,)   ColliderType per collider
+    cnp.uint8_t[::1] valid,          # (N,)   1=has AABB, 0=skip
+):
+    """End-to-end collision packing: broadphase + pair type grouping in C.
+
+    Parameters
+    ----------
+    aabb_mins, aabb_maxs : (N, 3) - AABB bounds.
+    col_types : (N,) int32 - ColliderType enum values per collider.
+    valid     : (N,) uint8 - whether the collider has a valid AABB.
+
+    Returns
+    -------
+    (pairs, pair_types) :
+        pairs      : (M, 2) int32 - overlapping pair indices (i < j).
+        pair_types : (M, 2) int32 - (type_a, type_b) for each pair.
+    """
+    cdef int n = aabb_mins.shape[0]
+    if n < 2:
+        return (np.empty((0, 2), dtype=np.int32),
+                np.empty((0, 2), dtype=np.int32))
+
+    # Build sorted index by min-x (only valid entries)
+    cdef list valid_idx_list = []
+    cdef int idx
+    for idx in range(n):
+        if valid[idx] != 0:
+            valid_idx_list.append(idx)
+
+    cdef int nv = len(valid_idx_list)
+    if nv < 2:
+        return (np.empty((0, 2), dtype=np.int32),
+                np.empty((0, 2), dtype=np.int32))
+
+    # Sort by min-x
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] order = np.array(valid_idx_list, dtype=np.int32)
+    cdef cnp.ndarray[cnp.float64_t, ndim=1] min_x_vals = np.empty(nv, dtype=np.float64)
+    cdef int k
+    for k in range(nv):
+        min_x_vals[k] = aabb_mins[order[k], 0]
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] sort_idx = np.argsort(min_x_vals).astype(np.int32)
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] sorted_order = order[sort_idx]
+
+    cdef list pairs = []
+    cdef list ptypes = []
+    cdef int ii, jj, i, j
+    cdef double ai_max_x
+
+    for ii in range(nv):
+        i = sorted_order[ii]
+        ai_max_x = aabb_maxs[i, 0]
+        for jj in range(ii + 1, nv):
+            j = sorted_order[jj]
+            if aabb_mins[j, 0] > ai_max_x:
+                break
+            # Full 3-axis overlap
+            if (aabb_maxs[i, 1] >= aabb_mins[j, 1] and
+                aabb_mins[i, 1] <= aabb_maxs[j, 1] and
+                aabb_maxs[i, 2] >= aabb_mins[j, 2] and
+                aabb_mins[i, 2] <= aabb_maxs[j, 2]):
+                if i < j:
+                    pairs.append((i, j))
+                    ptypes.append((col_types[i], col_types[j]))
+                else:
+                    pairs.append((j, i))
+                    ptypes.append((col_types[j], col_types[i]))
+
+    if not pairs:
+        return (np.empty((0, 2), dtype=np.int32),
+                np.empty((0, 2), dtype=np.int32))
+
+    return (np.array(pairs, dtype=np.int32),
+            np.array(ptypes, dtype=np.int32))
+
+
+# =========================================================================
+# 3D Batch Continuous Collision Detection (CCD sweep)
+# =========================================================================
+
+def batch_continuous_sweep_3d(
+    double[:, ::1] prev_positions,   # (N, 3) previous frame positions
+    double[:, ::1] curr_positions,   # (N, 3) current frame positions
+    double[:, ::1] aabb_half_ext,    # (N, 3) AABB half-extents (constant during sweep)
+    cnp.uint8_t[::1] is_continuous,  # (N,) 1 = CONTINUOUS mode
+    double step_size,                # sweep step size (e.g. 0.1)
+):
+    """Compute swept AABBs for continuous movers and find potential pairs.
+
+    For each collider marked ``is_continuous``, subdivides the motion from
+    ``prev_positions`` to ``curr_positions`` into steps of ``step_size``.
+
+    Returns
+    -------
+    (swept_mins, swept_maxs, cont_pairs, step_counts) :
+        swept_mins/maxs : (N, 3) float64 - expanded AABBs enclosing full sweep.
+        cont_pairs      : (M, 2) int32   - pairs where at least one is continuous
+                          and their swept AABBs overlap.
+        step_counts     : (N,) int32     - number of substeps for each body.
+    """
+    cdef int n = prev_positions.shape[0]
+    cdef cnp.ndarray[cnp.float64_t, ndim=2] sw_mins = np.empty((n, 3), dtype=np.float64)
+    cdef cnp.ndarray[cnp.float64_t, ndim=2] sw_maxs = np.empty((n, 3), dtype=np.float64)
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] step_counts = np.ones(n, dtype=np.int32)
+
+    cdef int i, j_dim
+    cdef double dx, dy, dz, speed, mn, mx, pv, cv
+
+    for i in range(n):
+        if is_continuous[i] == 0:
+            # Non-continuous: AABB from current position + half extents
+            for j_dim in range(3):
+                sw_mins[i, j_dim] = curr_positions[i, j_dim] - aabb_half_ext[i, j_dim]
+                sw_maxs[i, j_dim] = curr_positions[i, j_dim] + aabb_half_ext[i, j_dim]
+        else:
+            # Continuous: expand AABB to cover the full motion path
+            dx = curr_positions[i, 0] - prev_positions[i, 0]
+            dy = curr_positions[i, 1] - prev_positions[i, 1]
+            dz = curr_positions[i, 2] - prev_positions[i, 2]
+            speed = sqrt(dx * dx + dy * dy + dz * dz)
+
+            if speed > 1e-6 and step_size > 1e-6:
+                step_counts[i] = max(1, <int>(speed / step_size))
+            else:
+                step_counts[i] = 1
+
+            # Swept AABB: union of AABB at prev and curr positions
+            for j_dim in range(3):
+                pv = prev_positions[i, j_dim]
+                cv = curr_positions[i, j_dim]
+                mn = pv - aabb_half_ext[i, j_dim]
+                mx = pv + aabb_half_ext[i, j_dim]
+                if cv - aabb_half_ext[i, j_dim] < mn:
+                    mn = cv - aabb_half_ext[i, j_dim]
+                if cv + aabb_half_ext[i, j_dim] > mx:
+                    mx = cv + aabb_half_ext[i, j_dim]
+                sw_mins[i, j_dim] = mn
+                sw_maxs[i, j_dim] = mx
+
+    # Find overlapping pairs where at least one is continuous (sweep-and-prune on X)
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] order = np.argsort(
+        np.asarray(sw_mins)[:, 0]
+    ).astype(np.int32)
+
+    cdef list pairs = []
+    cdef int ii, jj, oi, oj
+
+    for ii in range(n):
+        oi = order[ii]
+        for jj in range(ii + 1, n):
+            oj = order[jj]
+            if sw_mins[oj, 0] > sw_maxs[oi, 0]:
+                break
+            # At least one must be continuous
+            if is_continuous[oi] == 0 and is_continuous[oj] == 0:
+                continue
+            # Full 3-axis overlap
+            if (sw_maxs[oi, 1] >= sw_mins[oj, 1] and
+                sw_mins[oi, 1] <= sw_maxs[oj, 1] and
+                sw_maxs[oi, 2] >= sw_mins[oj, 2] and
+                sw_mins[oi, 2] <= sw_maxs[oj, 2]):
+                if oi < oj:
+                    pairs.append((oi, oj))
+                else:
+                    pairs.append((oj, oi))
+
+    if not pairs:
+        return (sw_mins, sw_maxs, np.empty((0, 2), dtype=np.int32), step_counts)
+
+    return (sw_mins, sw_maxs, np.array(pairs, dtype=np.int32), step_counts)

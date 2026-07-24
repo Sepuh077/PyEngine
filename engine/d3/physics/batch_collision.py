@@ -46,6 +46,9 @@ try:
         batch_obb_obb_bool_3d as _cy_oo_bool,
         batch_obb_obb_manifold_3d as _cy_oo_man,
         batch_sphere_obb_bool_3d as _cy_so_bool,
+        batch_collision_pack_3d as _cy_pack3d,
+        batch_frustum_cull_3d as _cy_frustum_cull,
+        batch_continuous_sweep_3d as _cy_cont_sweep,
     )
     _BATCH_CYTHON = True
 except Exception:
@@ -313,3 +316,248 @@ def _batch_manifold_group_3d(colliders, ta, tb, items, results):
     from engine.d3.physics.collision_manifold import get_collision_manifold
     for k_idx, ia, ib in items:
         results[k_idx] = get_collision_manifold(colliders[ia], colliders[ib])
+
+
+# ---------------------------------------------------------------------------
+# End-to-end batch collision packing (AABB + broadphase + type grouping)
+# ---------------------------------------------------------------------------
+
+def batch_collision_pack_e2e(
+    colliders: Sequence[Collider3D],
+) -> tuple:
+    """End-to-end collision packing: extract AABBs, broadphase, and group pair types.
+
+    Moves the AABB extraction, numpy array construction, and pair-type
+    grouping into a single Cython call when available, avoiding repeated
+    Python ↔ C boundary crossings.
+
+    Returns
+    -------
+    (pairs, pair_types) :
+        pairs      : (M, 2) int32 – overlapping pair indices (i < j).
+        pair_types : (M, 2) int32 – (type_a, type_b) for each pair.
+    """
+    n = len(colliders)
+    if n < 2:
+        return (np.empty((0, 2), dtype=np.int32),
+                np.empty((0, 2), dtype=np.int32))
+
+    mins = np.empty((n, 3), dtype=np.float64)
+    maxs = np.empty((n, 3), dtype=np.float64)
+    types = np.empty(n, dtype=np.int32)
+    valid = np.ones(n, dtype=np.uint8)
+
+    for i, c in enumerate(colliders):
+        if c.aabb is None:
+            valid[i] = 0
+            mins[i] = 0.0
+            maxs[i] = 0.0
+        else:
+            mins[i] = c.aabb[0]
+            maxs[i] = c.aabb[1]
+        types[i] = _ctype(c)
+
+    if _BATCH_CYTHON:
+        return _cy_pack3d(
+            np.ascontiguousarray(mins, dtype=np.float64),
+            np.ascontiguousarray(maxs, dtype=np.float64),
+            np.ascontiguousarray(types, dtype=np.int32),
+            np.ascontiguousarray(valid, dtype=np.uint8),
+        )
+
+    # Pure-Python fallback: broadphase then manually build pair types
+    pairs_arr = batch_broadphase_3d(colliders)
+    if len(pairs_arr) == 0:
+        return (np.empty((0, 2), dtype=np.int32),
+                np.empty((0, 2), dtype=np.int32))
+
+    pair_types = np.empty((len(pairs_arr), 2), dtype=np.int32)
+    for k in range(len(pairs_arr)):
+        ia, ib = int(pairs_arr[k, 0]), int(pairs_arr[k, 1])
+        pair_types[k, 0] = types[ia]
+        pair_types[k, 1] = types[ib]
+
+    return (pairs_arr, pair_types)
+
+
+# ---------------------------------------------------------------------------
+# Batch frustum culling
+# ---------------------------------------------------------------------------
+
+def batch_frustum_cull_spheres(
+    centers: np.ndarray,
+    radii: np.ndarray,
+    planes: np.ndarray,
+) -> np.ndarray:
+    """Batch frustum cull for packed sphere centers/radii.
+
+    Parameters
+    ----------
+    centers : (N, 3) float – world-space sphere centres.
+    radii   : (N,) float – sphere radii.
+    planes  : (6, 4) float – frustum planes (inward normals).
+
+    Returns
+    -------
+    ndarray bool (N,) – True if sphere is inside / intersects the frustum.
+    """
+    n = int(len(radii)) if radii is not None else 0
+    if n == 0:
+        return np.empty(0, dtype=bool)
+
+    centers_c = np.ascontiguousarray(centers, dtype=np.float64)
+    radii_c = np.ascontiguousarray(radii, dtype=np.float64)
+    planes_c = np.ascontiguousarray(planes, dtype=np.float32)
+
+    if _BATCH_CYTHON:
+        return _cy_frustum_cull(centers_c, radii_c, planes_c)
+
+    result = np.ones(n, dtype=bool)
+    for i in range(n):
+        cx, cy, cz = centers_c[i]
+        r = float(radii_c[i])
+        for p in range(6):
+            dist = (
+                planes_c[p, 0] * cx
+                + planes_c[p, 1] * cy
+                + planes_c[p, 2] * cz
+                + planes_c[p, 3]
+            )
+            if dist < -r:
+                result[i] = False
+                break
+    return result
+
+
+def batch_frustum_cull(
+    colliders: Sequence[Collider3D],
+    planes: np.ndarray,
+) -> np.ndarray:
+    """Batch frustum cull: test all collider bounding spheres against frustum planes.
+
+    Parameters
+    ----------
+    colliders : sequence of Collider3D (must have sphere or aabb set).
+    planes    : (6, 4) float32 frustum planes (normals pointing inward).
+
+    Returns
+    -------
+    ndarray bool (N,) – True if the collider is visible (inside frustum).
+    """
+    n = len(colliders)
+    if n == 0:
+        return np.empty(0, dtype=bool)
+
+    centers = np.empty((n, 3), dtype=np.float64)
+    radii = np.empty(n, dtype=np.float64)
+
+    for i, c in enumerate(colliders):
+        if c.sphere is not None:
+            centers[i] = c.sphere[0]
+            radii[i] = float(c.sphere[1])
+        elif c.aabb is not None:
+            amin, amax = c.aabb
+            centers[i] = (np.asarray(amin) + np.asarray(amax)) * 0.5
+            half = (np.asarray(amax) - np.asarray(amin)) * 0.5
+            radii[i] = float(np.linalg.norm(half))
+        else:
+            # No bounds: always visible
+            centers[i] = 0.0
+            radii[i] = 1e10
+
+    return batch_frustum_cull_spheres(centers, radii, planes)
+
+
+# ---------------------------------------------------------------------------
+# Batch continuous collision sweep
+# ---------------------------------------------------------------------------
+
+def batch_continuous_sweep(
+    colliders: Sequence[Collider3D],
+    prev_positions: np.ndarray,
+    curr_positions: np.ndarray,
+    step_size: float = 0.1,
+) -> tuple:
+    """Compute swept AABBs and find broadphase pairs for continuous movers.
+
+    Parameters
+    ----------
+    colliders : sequence of Collider3D.
+    prev_positions : (N, 3) previous frame world positions.
+    curr_positions : (N, 3) current frame world positions.
+    step_size : float – sweep substep size.
+
+    Returns
+    -------
+    (swept_mins, swept_maxs, cont_pairs, step_counts) :
+        swept_mins/maxs : (N, 3) – expanded AABBs.
+        cont_pairs      : (M, 2) int32 – continuous candidate pairs.
+        step_counts     : (N,) int32 – substeps per continuous body.
+    """
+    from engine.d3.physics.types import CollisionMode
+
+    n = len(colliders)
+    if n == 0:
+        return (np.empty((0, 3), dtype=np.float64),
+                np.empty((0, 3), dtype=np.float64),
+                np.empty((0, 2), dtype=np.int32),
+                np.empty(0, dtype=np.int32))
+
+    is_cont = np.zeros(n, dtype=np.uint8)
+    half_ext = np.zeros((n, 3), dtype=np.float64)
+
+    for i, c in enumerate(colliders):
+        if c.collision_mode == CollisionMode.CONTINUOUS:
+            is_cont[i] = 1
+        if c.aabb is not None:
+            amin, amax = c.aabb
+            half_ext[i] = (np.asarray(amax, dtype=np.float64) -
+                           np.asarray(amin, dtype=np.float64)) * 0.5
+
+    if _BATCH_CYTHON:
+        return _cy_cont_sweep(
+            np.ascontiguousarray(prev_positions, dtype=np.float64),
+            np.ascontiguousarray(curr_positions, dtype=np.float64),
+            np.ascontiguousarray(half_ext, dtype=np.float64),
+            np.ascontiguousarray(is_cont, dtype=np.uint8),
+            float(step_size),
+        )
+
+    # Pure-Python fallback
+    sw_mins = np.empty((n, 3), dtype=np.float64)
+    sw_maxs = np.empty((n, 3), dtype=np.float64)
+    step_counts = np.ones(n, dtype=np.int32)
+
+    for i in range(n):
+        if is_cont[i] == 0:
+            sw_mins[i] = curr_positions[i] - half_ext[i]
+            sw_maxs[i] = curr_positions[i] + half_ext[i]
+        else:
+            delta = curr_positions[i] - prev_positions[i]
+            speed = float(np.linalg.norm(delta))
+            if speed > 1e-6:
+                step_counts[i] = max(1, int(speed / step_size))
+            # Union of AABB at prev and curr
+            for j in range(3):
+                mn = min(prev_positions[i, j], curr_positions[i, j]) - half_ext[i, j]
+                mx = max(prev_positions[i, j], curr_positions[i, j]) + half_ext[i, j]
+                sw_mins[i, j] = mn
+                sw_maxs[i, j] = mx
+
+    # Find pairs with at least one continuous (set avoids O(n²) list scans)
+    pair_set = set()
+    for i in range(n):
+        if is_cont[i] == 0:
+            continue
+        for j in range(n):
+            if i == j:
+                continue
+            if (sw_maxs[i, 0] >= sw_mins[j, 0] and sw_mins[i, 0] <= sw_maxs[j, 0] and
+                sw_maxs[i, 1] >= sw_mins[j, 1] and sw_mins[i, 1] <= sw_maxs[j, 1] and
+                sw_maxs[i, 2] >= sw_mins[j, 2] and sw_mins[i, 2] <= sw_maxs[j, 2]):
+                pair_set.add((min(i, j), max(i, j)))
+
+    if not pair_set:
+        return (sw_mins, sw_maxs, np.empty((0, 2), dtype=np.int32), step_counts)
+
+    return (sw_mins, sw_maxs, np.array(list(pair_set), dtype=np.int32), step_counts)
